@@ -377,7 +377,7 @@ QString KommanderWidget::evalStringFunction(const QString& function, const QStri
     case String::isNumber:
     {
       bool ok;
-      args[0].toInt(&ok);
+      args[0].toDouble(&ok);
       return QString::number(ok);
     }
     case String::args:
