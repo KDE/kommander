@@ -553,15 +553,15 @@ void MainWindow::setupWindowActions()
 void MainWindow::setupSettingsActions()
 {    
   KPopupMenu *settings = new KPopupMenu(this, "Settings");
-  KAction* a = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
+  KAction* a = KStdAction::keyBindings(this, SLOT(editShortcuts()), actionCollection());
+  a->setToolTip(i18n("Opens a dialog to change shortcuts"));
+  a->plug(settings);
+
+  a = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
   a->setToolTip(i18n("Opens a dialog to change preferences"));
   a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
   a->plug(settings);
-  
-  a = KStdAction::keyBindings(this, SLOT(editShortcuts()), actionCollection());
-  a->setToolTip(i18n("Opens a dialog to change shortcuts"));
-  a->plug(settings);
-  
+
   menuBar()->insertItem( i18n("&Settings"), settings);
 } 
 
