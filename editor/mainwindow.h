@@ -1,52 +1,31 @@
 /**********************************************************************
-** Copyright (C) 2000 Trolltech AS.  All rights reserved.
-**
-** This file is part of Qt Designer.
-**
-** This file may be distributed and/or modified under the terms of the
-** GNU General Public License version 2 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** See http://www.trolltech.com/gpl/ for GPL licensing information.
-**
-** Contact info@trolltech.com if any conditions of this licensing are
-** not clear to you.
-**
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+
+ This file may be distributed and/or modified under the terms of the
+ GNU General Public License version 2 as published by the Free Software
+ Foundation and appearing in the file LICENSE.GPL included in the
+ packaging of this file.
+
+ This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+ See http://www.trolltech.com/gpl/ for GPL licensing information.
+
+ Modified for Kommander:
+  (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+  (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+
 **********************************************************************/
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include "metadatabase.h"
-#ifndef KOMMANDER
-//#include "actioninterface.h" // for GCC 2.7.* compatibility
-//#include "editorinterface.h"
-//#include "templatewizardiface.h"
-//#include "eventinterface.h"
-//#include "languageinterface.h"
-//#include "filterinterface.h"
-//#include "programinterface.h"
-//#include "interpreterinterface.h"
-//#include "preferenceinterface.h"
-//#include "sourcetemplateiface.h"
-//#include "sourceeditor.h"
-#endif
 
-#if defined(HAVE_KDE)
 #include <kmainwindow.h>
-#else
-#include <qmainwindow.h>
-#endif
 
 #include <qmap.h>
 #include <qguardedptr.h>
-#ifndef KOMMANDER
-//#include <private/qpluginmanager_p.h>
-#endif
 #include <qobjectlist.h>
 
 class PropertyEditor;
@@ -60,9 +39,6 @@ class HierarchyView;
 class QCloseEvent;
 class Workspace;
 class ActionEditor;
-#ifndef KOMMANDER
-//class OutputWindow;
-#endif
 class QTimer;
 class FindDialog;
 class ReplaceDialog;
@@ -70,9 +46,7 @@ class GotoLineDialog;
 class SourceFile;
 class FormFile;
 class QWidget;
-#ifndef Q_OS_WIN32
 class AssistProc;
-#endif
 
 #if defined(Q_FULL_TEMPLATE_INSTANTIATION)
 #include <qtoolbar.h>
@@ -81,15 +55,10 @@ class QToolBar;
 #endif
 class Preferences;
 
-#if defined(HAVE_KDE)
-#define QMainWindow KMainWindow
-#endif
 
-class MainWindow : public QMainWindow
+class MainWindow : public KMainWindow
 {
     Q_OBJECT
-
-#undef QMainWindow
 
 public:
     MainWindow( bool asClient );
@@ -106,9 +75,6 @@ public:
     FormWindow *formWindow();
 
     bool unregisterClient( FormWindow *w );
-#ifndef KOMMANDER
-//    void editorClosed( SourceEditor *e );
-#endif
     QWidget *isAFormWindowChild( QObject *o ) const;
     QWidget *isAToolBarChild( QObject *o ) const;
 
@@ -138,29 +104,11 @@ public:
 
     QString templatePath() const { return templPath; }
 
-#ifndef KOMMANDER
-//    void editFunction( const QString &func, const QString &l = QString::null, bool rereadSource = FALSE );
-#endif
-
     bool isPreviewing() const { return previewing; }
 
     FormWindow *activeForm() const { return lastActiveFormWindow; }
 
-#ifndef KOMMANDER
-//    TemplateWizardInterface* templateWizardInterface( const QString& className );
-//    QStringList sourceTemplates() const;
-//    SourceTemplateInterface* sourceTemplateInterface( const QString& templ );
-//    QUnknownInterface* designerInterface() const { return desInterface; }
-//    OutputWindow *outputWindow() const { return oWindow; }
-#endif
-#ifndef KOMMANDER
-//    void addPreferencesTab( QWidget *tab, const QString &title, QObject *receiver, const char *init_slot, const char *accept_slot );
-#endif
     void setModified( bool b, QWidget *window );
-#ifndef KOMMANDER
-//    void slotsChanged();
-//    void updateFunctionList();
-#endif
     void updateWorkspace();
 
     void formNameChanged( FormWindow *fw );
@@ -168,24 +116,11 @@ public:
     int currentLayoutDefaultSpacing() const;
     int currentLayoutDefaultMargin() const;
 
-#ifndef KOMMANDER
-//    void saveAllBreakPoints();
-//    void resetBreakPoints();
-
-//   SourceFile *sourceFile();
-#endif
 
 public slots:
     void showProperties( QObject *w );
     void updateProperties( QObject *w );
     void showDialogHelp();
-#ifndef KOMMANDER
-//    void showDebugStep( QObject *o, int line );
-//    void showStackFrame( QObject *o, int line );
-//    void showErrorMessage( QObject *o, int line, const QString &errorMessage );
-//    void finishedRun();
-//    void breakPointsChanged();
-#endif
 
 signals:
 	void addedFormFile(FormFile *);
@@ -197,9 +132,6 @@ signals:
     void formModified( bool );
     void formWindowsChanged();
     void formWindowChanged();
-#ifndef KOMMANDER
-//    void editorChanged();
-#endif
 
 protected:
     bool eventFilter( QObject *o, QEvent *e );
@@ -240,27 +172,9 @@ public slots:
     void editConnections();
     void editScriptObjects();
 
-#ifndef KOMMANDER
-//    SourceEditor *editSource();
-//    SourceEditor *editSource( SourceFile *f );
-//    SourceEditor *openSourceEdior();
-//    void editPixmapCollection();
-//    void editDatabaseConnections();
-#endif
     void editFormSettings();
     void editPreferences();
 
-#ifndef KOMMANDER
-//    void searchFind();
-//    void searchIncremetalFindMenu();
-//    void searchIncremetalFind();
-//    void searchIncremetalFindNext();
-//    void searchReplace();
-//    void searchGotoLine();
-#endif
-
-    void previewForm();
-    void previewForm( const QString& );
     void runForm();
 
     void toolsCustomWidget();
@@ -269,8 +183,7 @@ public slots:
     void helpManual();
     void helpAbout();
     void helpAboutQt();
-    void helpRegister();
-
+    
 private slots:
     void activeWindowChanged( QWidget *w );
     void updateUndoRedo( bool, bool, const QString &, const QString & );
@@ -293,13 +206,10 @@ private:
     void setupMDI();
     void setupMenuBar();
     void setupEditActions();
-#ifndef KOMMANDER
-//    void setupSearchActions();
-#endif
     void setupToolActions();
     void setupLayoutActions();
     void setupFileActions();
-    void setupPreviewActions();
+    void setupRunActions();
     void setupHelpActions();
     void setupRMBMenus();
 
@@ -307,16 +217,7 @@ private:
     void setupHierarchyView();
     void setupWorkspace();
     void setupActionEditor();
-#ifndef KOMMANDER
-//    void setupOutputWindow();
-#endif
-
-#ifndef KOMMANDER
-//    void setupActionManager();
-#endif
     void setupPlugins();
-
-    void enableAll( bool enable );
 
     QWidget* previewFormInternal( QStyle* style = 0, QPalette* pal = 0 );
 
@@ -335,32 +236,11 @@ private:
     void checkTempFiles();
 
     void addRecentlyOpened( const QString &fn, QStringList &lst );
-#ifndef KOMMANDER
-//    enum LineMode { Error, Step, StackFrame };
-//    void showSourceLine( QObject *o, int line, LineMode lm );
-#endif
     QWidget *findRealForm( QWidget *w );
 
     QString whatsThisFrom( const QString &key );
 
 private slots:
-#ifndef KOMMANDER
-//    void doSlotsChanged();
-#endif
-
-#ifndef KOMMANDER
-private:
-//    struct Tab
-//    {
-//	QWidget *w;
-//	QString title;
-//	QObject *receiver;
-//	const char *init_slot, *accept_slot;
-//#if defined(Q_FULL_TEMPLATE_INSTANTIATION)
-//	bool operator==( const Tab& ) const { return FALSE; }
-//#endif
-//    };
-#endif
 
 private:
     PropertyEditor *propertyEditor;
@@ -368,11 +248,7 @@ private:
     Workspace *wspace;
     QWidget *lastPressWidget;
     QWorkspace *qworkspace;
-#if defined(HAVE_KDE)
     KMenuBar *menubar;
-#else
-    QMenuBar *menubar;
-#endif
     FormWindow *lastActiveFormWindow;
     bool breakLayout, layoutChilds, layoutSelected;
     QPoint grd;
@@ -402,10 +278,6 @@ private:
     QAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
     QAction *actionWindowNext, *actionWindowPrevious;
     QAction *actionEditFormSettings, *actionEditAccels;
-#ifndef KOMMANDER
-//    QAction *actionSearchFind, *actionSearchIncremetal, *actionSearchReplace, *actionSearchGotoLine;
-#endif
-
     QAction *actionEditScriptObjects;
 
     QPopupMenu *rmbWidgets;
@@ -420,72 +292,22 @@ private:
     bool client;
     QString templPath;
     ActionEditor *actionEditor;
-#ifndef KOMMANDER
-	/* We don't need QCom/Interface functionality for Kommander. Scrap these interfaces */
-//    QPluginManager<ActionInterface> *actionPluginManager;
-//    QPluginManager<EditorInterface> *editorPluginManager;
-//    QPluginManager<TemplateWizardInterface> *templateWizardPluginManager;
-//    QPluginManager<ProgramInterface> *programPluginManager;
-//    QPluginManager<InterpreterInterface> *interpreterPluginManager;
-//    QPluginManager<PreferenceInterface> *preferencePluginManager;
-//    QPluginManager<SourceTemplateInterface> *sourceTemplatePluginManager;
-//    QPtrList<SourceEditor> sourceEditors;
-#endif
     bool previewing;
-#ifndef KOMMANDER
-//    QUnknownInterface *desInterface; // scrap all interfaces:
-//    OutputWindow *oWindow;
-#endif
 
     QStringList recentlyFiles;
 
-#ifndef KOMMANDER
-	// preference tabs now static
-//    QValueList<Tab> preferenceTabs;
-#endif
     bool databaseAutoEdit;
     QTimer *updateSlotsTimer;
-#ifndef KOMMANDER
-//    QLineEdit *incrementalSearch;
-//    QGuardedPtr<FindDialog> findDialog;
-//    QGuardedPtr<ReplaceDialog> replaceDialog;
-//    QGuardedPtr<GotoLineDialog> gotoLineDialog;
-#endif
     bool inDebugMode;
     QObjectList debuggingForms;
     QString lastOpenFilter;
     QGuardedPtr<QWidget> previewedForm;
     QString menuHelpFile;
-#ifndef Q_OS_WIN32
     AssistProc *assistant;
-#endif
 
 public:
     QString lastSaveFilter;
 
 };
-
-#ifndef KOMMANDER
-//class SenderObject : public QObject
-//{
-//    Q_OBJECT
-//
-//public:
-//    SenderObject( QUnknownInterface *i ) : iface( i ) { iface->addRef(); }
-//    ~SenderObject() { iface->release(); }
-//
-//public slots:
-//    void emitInitSignal() { emit initSignal( iface ); }
-//    void emitAcceptSignal() { emit acceptSignal( iface ); }
-//
-//signals:
-//    void initSignal( QUnknownInterface * );
-//    void acceptSignal( QUnknownInterface * );
-//
-//private:
-//    QUnknownInterface *iface;
-//
-//};
-#endif
 
 #endif

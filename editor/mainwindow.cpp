@@ -1,26 +1,22 @@
- /**********************************************************************
-** Copyright (C) 2000 Trolltech AS.  All rights reserved.
-**
-** This file is part of Qt Designer.
-**
-** This file may be distributed and/or modified under the terms of the
-** GNU General Public License version 2 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** See http://www.trolltech.com/gpl/ for GPL licensing information.
-**
-** Contact info@trolltech.com if any conditions of this licensing are
-** not clear to you.
-**
+/**********************************************************************
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+
+ This file may be distributed and/or modified under the terms of the
+ GNU General Public License version 2 as published by the Free Software
+ Foundation and appearing in the file LICENSE.GPL included in the
+ packaging of this file.
+
+ This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+ See http://www.trolltech.com/gpl/ for GPL licensing information.
+
+ Modified for Kommander:
+  (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+  (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+
 **********************************************************************/
 
-#ifndef KOMMANDER
-#include "designerappiface.h"
-#endif
 #include "designerapp.h"
 
 #include "mainwindow.h"
@@ -40,21 +36,12 @@
 #include "about.h"
 #include "multilineeditorimpl.h"
 #include "wizardeditorimpl.h"
-#ifndef KOMMANDER
-#include "outputwindow.h"
-#endif
 #include <klineeditdlg.h>
-#if defined(HAVE_KDE)
 #include <ktoolbar.h>
-#else
-#include <qtoolbar.h>
-#endif
-#ifdef HAVE_KDE
 #include <kstatusbar.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <qmessagebox.h>
-#endif
 #include <qfeatures.h>
 #include <qmetaobject.h>
 #include <qaction.h>
@@ -81,34 +68,18 @@
 #include <qwidget.h>
 #include "actioneditorimpl.h"
 #include "actiondnd.h"
-#ifndef KOMMANDER
-#include "project.h"
-#endif
-#ifndef KOMMANDER
-#include "projectsettingsimpl.h"
-#endif
-#ifndef KOMMANDER
-#include "qwidgetfactory.h"
-#else
 #include <kommanderfactory.h>
-#endif
 #include "formfile.h"
 
 
 #include <qvbox.h>
 #include <kprocess.h>
 #include <qsettings.h>
-#ifndef KOMMANDER
-#include "pixmapcollection.h"
-#include "sourcefile.h"
-#endif
 #include "qcompletionedit.h"
 #include <qaccel.h>
 #include <qtooltip.h>
 #include <stdlib.h>
-#ifndef Q_OS_WIN32
 #include "assistproc.h"
-#endif
 
 #include <kommanderwidget.h>
 #include "assoctexteditorimpl.h"
@@ -129,13 +100,7 @@ MainWindow *MainWindow::self = 0;
 
 QString assistantPath()
 {
-#ifdef Q_OS_MACX
-    return QDir::cleanDirPath(QString(getenv("QTDIR")) + QDir::separator() +
-                              "bin" + QDir::separator() +
-                              "assistant.app/Contents/MacOS/assistant");
-#else
-    return "assistant";
-#endif
+  return "assistant";
 }
 
 
@@ -151,74 +116,31 @@ static QString textNoAccel( const QString& text)
 
 
 MainWindow::MainWindow( bool asClient )
-#if defined(HAVE_KDE)
     : KMainWindow( 0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader ),
-#else
-    : QMainWindow( 0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader ),
-#endif
       grd( 10, 10 ), sGrid( TRUE ), snGrid( TRUE ), restoreConfig( TRUE ), splashScreen( TRUE ),
-#ifndef KOMMANDER
-      docPath( "$QTDIR/doc/html" ), fileFilter( i18n("Qt User-Interface Files (*.ui)" ) ), client( asClient ),
-#else
       docPath( "$QTDIR/doc/html" ), fileFilter( i18n("Kommander Files (*.kmdr)" ) ), client( asClient ),
-#endif
       previewing( FALSE ), databaseAutoEdit( FALSE )
 {
     init_colors();
 
-#ifndef KOMMANDER
-    desInterface = new DesignerInterfaceImpl( this );
-    desInterface->addRef();
-#endif
     inDebugMode = TRUE; //debugging kommander
-
-#ifndef KOMMANDER
-	// slots timer for checking for new slots in code.. not needed
-    updateSlotsTimer = new QTimer( this );
-    connect( updateSlotsTimer, SIGNAL( timeout() ),
-	     this, SLOT( doSlotsChanged() ) );
-#endif
 
     set_splash_status( i18n("Creating plugin factories...") );
 
-#ifndef KOMMANDER
-    setupPluginManagers();
-#else
     setupPlugins();
-#endif
 
     qApp->setMainWidget( this );
-#ifndef KOMMANDER
-    QWidgetFactory::addWidgetFactory( new CustomWidgetFactory );
-#endif
     self = this;
-#ifndef KOMMANDER
-    setIcon( PixmapChooser::loadPixmap( "logo" ) );
-#endif
 
     actionGroupTools = 0;
     prefDia = 0;
     windowMenu = 0;
     hierarchyView = 0;
     actionEditor = 0;
-#ifndef KOMMANDER
-    currentProject = 0;
-    oWindow = 0;
-#endif
     wspace = 0;
 
     statusBar()->clear();
-#ifndef KOMMANDER
-#if defined(QT_NON_COMMERCIAL)
-    statusBar()->addWidget( new QLabel(i18n("Ready - This is the non-commercial version of Qt - "
-        "For commercial evaluations, use the help menu to register with Trolltech."), statusBar()), 1 );
-#else
-    statusBar()->addWidget( new QLabel(i18n("Ready"), statusBar()), 1 );
-#endif
-#else
     statusBar()->addWidget(new QLabel(i18n("Welcome to the Kommander Editor"), statusBar()), 1);
-#endif
-
 
     set_splash_status( i18n("Setting up GUI...") );
     setupMDI();
@@ -226,46 +148,20 @@ MainWindow::MainWindow( bool asClient )
 
     setupFileActions();
     setupEditActions();
-#ifndef KOMMANDER
-    setupProjectActions();
-#endif
-#ifndef KOMMANDER
-    setupSearchActions();
-#endif
-#if defined(HAVE_KDE)
     layoutToolBar = new KToolBar( this, "Layout" );
     ( (KToolBar*)layoutToolBar )->setFullSize( FALSE );
-#else
-    layoutToolBar = new QToolBar( this, "Layout" );
-    layoutToolBar->setCloseMode( QDockWindow::Undocked );
-#endif
     addToolBar( layoutToolBar, i18n("Layout" ) );
     setupToolActions();
     setupLayoutActions();
-    setupPreviewActions();
-#ifndef KOMMANDER
-    setupOutputWindow();
-#endif
-#ifndef KOMMANDER
-    setupActionManager();
-#endif
-    setupWindowActions();
-
     setupWorkspace();
     setupHierarchyView();
     setupPropertyEditor();
     setupActionEditor();
-
+    setupRunActions();
+    setupWindowActions();
     setupHelpActions();
-
+    
     setupRMBMenus();
-
-#ifndef KOMMANDER
-    connect( this, SIGNAL( projectChanged() ), this, SLOT( emitProjectSignals() ) );
-#endif
-#ifndef KOMMANDER
-    connect( this, SIGNAL( hasActiveWindow(bool) ), this, SLOT( emitProjectSignals() ) );
-#endif
 
     emit hasActiveForm( FALSE );
     emit hasActiveWindow( FALSE );
@@ -291,11 +187,7 @@ MainWindow::MainWindow( bool asClient )
     // hack to make WidgetFactory happy (so it knows QWidget and QDialog for resetting properties)
     QWidget *w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QWidget" ), this, 0, FALSE );
     delete w;
-#ifndef KOMMANDER
-    w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QDialog" ), this, 0, FALSE );
-#else
     w = WidgetFactory::create( WidgetDatabase::idFromClassName( "Dialog" ), this, 0, FALSE );
-#endif
 
     delete w;
     w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QLabel" ), this, 0, FALSE );
@@ -308,9 +200,7 @@ MainWindow::MainWindow( bool asClient )
     setAppropriate( (QDockWindow*)actionEditor->parentWidget(), FALSE );
     actionEditor->parentWidget()->hide();
 
-#ifndef Q_OS_WIN32
     assistant = new AssistProc( this, "Internal Assistant", assistantPath() );
-#endif
 
     statusBar()->setSizeGripEnabled( TRUE );
     set_splash_status( i18n("Initialization Done.") );
@@ -318,48 +208,7 @@ MainWindow::MainWindow( bool asClient )
 
 MainWindow::~MainWindow()
 {
-#ifndef KOMMANDER
-return;
-    QValueList<Tab>::Iterator tit;
-    for ( tit = preferenceTabs.begin(); tit != preferenceTabs.end(); ++tit ) {
-        Tab t = *tit;
-        delete t.w;
-    }
-    for ( tit = projectTabs.begin(); tit != projectTabs.end(); ++tit ) {
-        Tab t = *tit;
-        delete t.w;
-    }
-
-    QMap< QAction*, Project* >::Iterator it = projects.begin();
-    while ( it != projects.end() ) {
-        Project *p = *it;
-        ++it;
-        delete p;
-    }
-    delete projects.getFirst();
-    projects.clear();
-
-    delete oWindow;
-    oWindow = 0;
-
-#endif
-#ifndef KOMMANDER
-    desInterface->release();
-    desInterface = 0;
-
-    delete actionPluginManager;
-    delete preferencePluginManager;
-    delete templateWizardPluginManager;
-
-    delete interpreterPluginManager;
-    delete programPluginManager;
-    delete projectSettingsPluginManager;
-  //  delete templateWizardPluginManager;
-    delete editorPluginManager;
-    delete sourceTemplatePluginManager;
-#endif
-
-    MetaDataBase::clearDataBase();
+  MetaDataBase::clearDataBase();
 }
 
 void MainWindow::setupMDI()
@@ -414,20 +263,6 @@ void MainWindow::setupPropertyEditor()
     dw->show();
 }
 
-#ifndef KOMMANDER
-void MainWindow::setupOutputWindow()
-{
-    QDockWindow *dw = new QDockWindow;
-    dw->setResizeEnabled( TRUE );
-    dw->setCloseMode( QDockWindow::Always );
-    addToolBar( dw, Qt::DockBottom );
-    oWindow = new OutputWindow( dw );
-    dw->setWidget( oWindow );
-    dw->setFixedExtentHeight( 200 );
-    dw->setCaption( i18n("Output Window" ) );
-    dw->hide();
-}
-#endif
 
 void MainWindow::setupHierarchyView()
 {
@@ -467,10 +302,6 @@ void MainWindow::setupWorkspace()
     wspace = new Workspace( vbox, this );
     wspace->setBufferEdit( edit );
 
-#ifndef KOMMANDER
-    currentProject = projects.getFirst();
-    wspace->setCurrentProject( currentProject );
-#endif
     addToolBar( dw, Qt::DockLeft );
     dw->setWidget( vbox );
 
@@ -511,11 +342,7 @@ void MainWindow::setupRMBMenus()
     actionEditCopy->addTo( rmbWidgets );
     actionEditPaste->addTo( rmbWidgets );
     actionEditDelete->addTo( rmbWidgets );
-#if 0
-    rmbWidgets->insertSeparator();
-    actionEditLower->addTo( rmbWidgets );
-    actionEditRaise->addTo( rmbWidgets );
-#endif
+
     rmbWidgets->insertSeparator();
     actionEditAdjustSize->addTo( rmbWidgets );
     actionEditHLayout->addTo( rmbWidgets );
@@ -526,10 +353,6 @@ void MainWindow::setupRMBMenus()
     actionEditBreakLayout->addTo( rmbWidgets );
     rmbWidgets->insertSeparator();
     actionEditConnections->addTo( rmbWidgets );
-#ifndef KOMMANDER
-    actionEditSource->addTo( rmbWidgets );
-#endif
-
     rmbFormWindow = new QPopupMenu( this );
     actionEditPaste->addTo( rmbFormWindow );
     actionEditSelectAll->addTo( rmbFormWindow );
@@ -544,9 +367,6 @@ void MainWindow::setupRMBMenus()
     actionEditScriptObjects->addTo(rmbFormWindow);
     actionEditSlots->addTo( rmbFormWindow );
     actionEditConnections->addTo( rmbFormWindow );
-#ifndef KOMMANDER
-    actionEditSource->addTo( rmbFormWindow );
-#endif
     rmbFormWindow->insertSeparator();
     actionEditFormSettings->addTo( rmbFormWindow );
 }
@@ -566,277 +386,6 @@ int MainWindow::currentTool() const
     return QString::fromLatin1(actionCurrentTool->name()).toInt();
 }
 
-#ifndef KOMMANDER
-QObjectList *MainWindow::runProject()
-{
-    static QWidget *invisibleGroupLeader = 0;
-    if ( !invisibleGroupLeader ) {
-        invisibleGroupLeader = new QWidget( 0, "designer_invisible_group_leader", WGroupLeader );
-        invisibleGroupLeader->hide();
-    }
-
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        e->save();
-        e->saveBreakPoints();
-    }
-    fileSaveProject();
-
-    if ( currentTool() == ORDER_TOOL )
-        resetTool();
-    if ( !currentProject )
-        return 0;
-    //oWindow->parentWidget()->show();
-    oWindow->clearErrorMessages();
-    oWindow->clearDebug();
-    oWindow->showDebugTab();
-    QApplication::setOverrideCursor( WaitCursor );
-
-    delete qwf_functions;
-    qwf_functions = 0;
-    delete qwf_forms;
-    qwf_forms = 0;
-    delete qwf_language;
-    qwf_language = new QString( currentProject->language() );
-    qwf_execute_code = FALSE;
-
-    previewing = TRUE;
-
-
-    for ( QPtrListIterator<FormFile> it = currentProject->formFiles(); it.current(); ++it ) {
-#ifndef KOMMANDER
-            QWidget *w = QWidgetFactory::create( currentProject->makeAbsolute( (*it)->fileName() ), 0, invisibleGroupLeader );
-#else
-            QWidget *w = KommanderFactory::create( currentProject->makeAbsolute( (*it)->fileName() ), 0, invisibleGroupLeader );
-#endif
-
-        if ( w ) {
-            w->hide();
-            if ( programPluginManager ) {
-                QString lang = currentProject->language();
-                ProgramInterface *piface = 0;
-                programPluginManager->queryInterface( lang, &piface);
-                if ( piface ) {
-                    QStringList error;
-                    QValueList<int> line;
-                    if ( qwf_functions ) {
-                        QMap<QWidget*, QString>::Iterator it = qwf_functions->find( w );
-                        if ( it == qwf_functions->end() )
-                            continue;
-                        if ( !piface->check( *it, error, line ) && !error.isEmpty() && !error[ 0 ].isEmpty() ) {
-                            showSourceLine( it.key(), line[ 0 ] - 1, Error );
-                            oWindow->setErrorMessages( error, line );
-                            piface->release();
-                            QApplication::restoreOverrideCursor();
-                            return 0;
-                        }
-                    }
-                    for ( QPtrListIterator<SourceFile> sources = currentProject->sourceFiles();
-                          sources.current(); ++sources ) {
-                        SourceFile* f = sources.current();
-                        QStringList error;
-                        QValueList<int> line;
-                        if ( !piface->check( f->text(), error, line ) && !error.isEmpty() && !error[ 0 ].isEmpty() ) {
-                            showSourceLine( f, line[ 0 ] - 1, Error );
-                            oWindow->setErrorMessages( error, line );
-                            piface->release();
-                            QApplication::restoreOverrideCursor();
-                            return 0;
-                        }
-                    }
-                    piface->release();
-                }
-            }
-        }
-    }
-
-    delete qwf_functions;
-    qwf_functions = 0;
-    delete qwf_forms;
-    qwf_forms = 0;
-    delete qwf_language;
-    qwf_language = new QString( currentProject->language() );
-    qwf_execute_code = TRUE;
-    qwf_stays_on_top = TRUE;
-
-    InterpreterInterface *iiface = 0;
-    if ( interpreterPluginManager ) {
-        QString lang = currentProject->language();
-        iiface = 0;
-        interpreterPluginManager->queryInterface( lang, &iiface );
-        if ( iiface ) {
-            iiface->onShowDebugStep( this, SLOT( showDebugStep( QObject *, int ) ) );
-            iiface->onShowStackFrame( this, SLOT( showStackFrame( QObject *, int ) ) );
-            iiface->onShowError( this, SLOT( showErrorMessage( QObject *, int, const QString & ) ) );
-            iiface->onFinish( this, SLOT( finishedRun() ) );
-        }
-
-        LanguageInterface *liface = MetaDataBase::languageInterface( lang );
-        if ( iiface )
-            iiface->init();
-        if ( liface && liface->supports( LanguageInterface::AdditionalFiles ) ) {
-            for ( QPtrListIterator<SourceFile> sources = currentProject->sourceFiles();
-                  sources.current(); ++sources ) {
-                SourceFile* f = sources.current();
-                iiface->exec( f, f->text() );
-            }
-        }
-    }
-
-    QObjectList *l = new QObjectList;
-    if ( iiface ) {
-        bool hasForms = FALSE;
-        for ( QPtrListIterator<FormFile> forms = currentProject->formFiles();
-              forms.current(); ++forms ) {
-            FormFile* f = forms.current();
-            hasForms = TRUE;
-            if ( !f->formWindow() )
-                continue;
-            FormWindow* fw = f->formWindow();
-            QValueList<int> bps = MetaDataBase::breakPoints( fw );
-            if ( !bps.isEmpty() )
-                iiface->setBreakPoints( fw, bps );
-        }
-
-        for ( QPtrListIterator<SourceFile> sources = currentProject->sourceFiles();
-              sources.current(); ++sources ) {
-            SourceFile* f = sources.current();
-            QValueList<int> bps = MetaDataBase::breakPoints( f );
-            if ( !bps.isEmpty() )
-                iiface->setBreakPoints( f, bps );
-        }
-
-        if ( hasForms )
-            iiface->exec( 0, "main" );
-
-        for ( QPtrListIterator<FormFile> it2 = currentProject->formFiles(); it2.current(); ++it2 ) {
-#ifndef KOMMANDER
-                QWidget *w = QWidgetFactory::create( (*it2)->absFileName(), 0, invisibleGroupLeader );
-#else
-                QWidget *w = KommanderFactory::create( (*it2)->absFileName(), 0, invisibleGroupLeader );
-#endif
-            if ( w ) {
-                l->append( w );
-                w->hide();
-            }
-        }
-
-        for ( QObject *o = l->first(); o; o = l->next() ) {
-            QWidget *fw = findRealForm( (QWidget*)o );
-            if ( !fw )
-                continue;
-            QValueList<int> bps = MetaDataBase::breakPoints( fw );
-            if ( !bps.isEmpty() )
-                iiface->setBreakPoints( o, bps );
-        }
-
-        iiface->release();
-    }
-
-    QApplication::restoreOverrideCursor();
-    inDebugMode = TRUE;
-
-    debuggingForms = *l;
-
-    enableAll( FALSE );
-
-    qwf_stays_on_top = FALSE;
-
-    for ( SourceEditor *e2 = sourceEditors.first(); e2; e2 = sourceEditors.next() ) {
-        if ( e2->project() == currentProject )
-            e2->editorInterface()->setMode( EditorInterface::Debugging );
-    }
-    return l;
-}
-#endif
-
-QWidget* MainWindow::previewFormInternal( QStyle* style, QPalette* palet )
-{
-    qwf_execute_code = FALSE;
-#ifndef KOMMANDER
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() )
-	e->save();
-#endif
-    if ( currentTool() == ORDER_TOOL )
-        resetTool();
-
-    FormWindow *fw = formWindow();
-    if ( !fw )
-        return 0;
-
-#ifndef KOMMANDER
-    QStringList databases;
-    QPtrDictIterator<QWidget> wit( *fw->widgets() );
-    while ( wit.current() ) {
-        QStringList lst = MetaDataBase::fakeProperty( wit.current(), "database" ).toStringList();
-        if ( !lst.isEmpty() )
-            databases << lst [ 0 ];
-        ++wit;
-    }
-
-    if ( fw->project() ) {
-        QStringList::Iterator it;
-        for ( it = databases.begin(); it != databases.end(); ++it )
-            fw->project()->openDatabase( *it, FALSE );
-    }
-#endif
-    QApplication::setOverrideCursor( WaitCursor );
-
-    QCString s;
-    QBuffer buffer( s );
-    buffer.open( IO_WriteOnly );
-    Resource resource( this );
-    resource.setWidget( fw );
-    QValueList<Resource::Image> images;
-    resource.save( &buffer );
-
-    buffer.close();
-    buffer.open( IO_ReadOnly );
-
-#ifndef KOMMANDER
-    QWidget *w = QWidgetFactory::create( &buffer );
-#else
-#if 0
-    QWidget *w = EWidgetFactory::create( &buffer );
-#else
-    QWidget *w = KommanderFactory::create( &buffer );
-#endif
-#endif
-    if ( w ) {
-        previewedForm = w;
-        if ( palet ) {
-            if ( style )
-                style->polish( *palet );
-            w->setPalette( *palet );
-        }
-
-        if ( style )
-            w->setStyle( style );
-
-        QObjectList *l = w->queryList( "QWidget" );
-        for ( QObject *o = l->first(); o; o = l->next() ) {
-            if ( style )
-                ( (QWidget*)o )->setStyle( style );
-        }
-        delete l;
-
-        w->move( fw->mapToGlobal( QPoint(0,0) ) );
-        ((MainWindow*)w )->setWFlags( WDestructiveClose );
-        previewing = TRUE;
-        w->show();
-        previewing = FALSE;
-        QApplication::restoreOverrideCursor();
-        return w;
-    }
-    QApplication::restoreOverrideCursor();
-    return 0;
-}
-
-void MainWindow::previewForm()
-{
-    QWidget* w = previewFormInternal();
-    if ( w )
-        w->show();
-}
 
 void MainWindow::runForm()
 {
@@ -851,94 +400,6 @@ void MainWindow::runForm()
 }
 
 
-void MainWindow::previewForm( const QString & style )
-{
-    QStyle* st = QStyleFactory::create( style );
-    QWidget* w = 0;
-    if ( style == "Motif" ) {
-        QPalette p( QColor( 192, 192, 192 ) );
-        w = previewFormInternal( st, &p );
-    } else if ( style == "Windows" ) {
-        QPalette p( QColor( 212, 208, 200 ) );
-        w = previewFormInternal( st, &p );
-    } else if ( style == "Platinum" ) {
-        QPalette p( QColor( 220, 220, 220 ) );
-        w = previewFormInternal( st, &p );
-    } else if ( style == "CDE" ) {
-        QPalette p( QColor( 75, 123, 130 ) );
-        p.setColor( QPalette::Active, QColorGroup::Base, QColor( 55, 77, 78 ) );
-        p.setColor( QPalette::Inactive, QColorGroup::Base, QColor( 55, 77, 78 ) );
-        p.setColor( QPalette::Disabled, QColorGroup::Base, QColor( 55, 77, 78 ) );
-        p.setColor( QPalette::Active, QColorGroup::Highlight, Qt::white );
-        p.setColor( QPalette::Active, QColorGroup::HighlightedText, QColor( 55, 77, 78 ) );
-        p.setColor( QPalette::Inactive, QColorGroup::Highlight, Qt::white );
-        p.setColor( QPalette::Inactive, QColorGroup::HighlightedText, QColor( 55, 77, 78 ) );
-        p.setColor( QPalette::Disabled, QColorGroup::Highlight, Qt::white );
-        p.setColor( QPalette::Disabled, QColorGroup::HighlightedText, QColor( 55, 77, 78 ) );
-        p.setColor( QPalette::Active, QColorGroup::Foreground, Qt::white );
-        p.setColor( QPalette::Active, QColorGroup::Text, Qt::white );
-        p.setColor( QPalette::Active, QColorGroup::ButtonText, Qt::white );
-        p.setColor( QPalette::Inactive, QColorGroup::Foreground, Qt::white );
-        p.setColor( QPalette::Inactive, QColorGroup::Text, Qt::white );
-        p.setColor( QPalette::Inactive, QColorGroup::ButtonText, Qt::white );
-        p.setColor( QPalette::Disabled, QColorGroup::Foreground, Qt::lightGray );
-        p.setColor( QPalette::Disabled, QColorGroup::Text, Qt::lightGray );
-        p.setColor( QPalette::Disabled, QColorGroup::ButtonText, Qt::lightGray );
-
-        w = previewFormInternal( st, &p );
-    } else if ( style == "SGI" ) {
-        QPalette p( QColor( 220, 220, 220 ) );
-        w = previewFormInternal( st, &p );
-    } else if ( style == "MotifPlus" ) {
-        QColor gtkfg(0x00, 0x00, 0x00);
-        QColor gtkdf(0x75, 0x75, 0x75);
-        QColor gtksf(0xff, 0xff, 0xff);
-        QColor gtkbs(0xff, 0xff, 0xff);
-        QColor gtkbg(0xd6, 0xd6, 0xd6);
-        QColor gtksl(0x00, 0x00, 0x9c);
-        QColorGroup active(gtkfg,            // foreground
-                           gtkbg,            // button
-                           gtkbg.light(),    // light
-                           gtkbg.dark(142),  // dark
-                           gtkbg.dark(110),  // mid
-                           gtkfg,            // text
-                           gtkfg,            // bright text
-                           gtkbs,            // base
-                           gtkbg),           // background
-            disabled(gtkdf,            // foreground
-                     gtkbg,            // button
-                     gtkbg.light(), // light
-                     gtkbg.dark(156),  // dark
-                     gtkbg.dark(110),  // mid
-                     gtkdf,            // text
-                     gtkdf,            // bright text
-                     gtkbs,            // base
-                     gtkbg);           // background
-
-        QPalette pal(active, disabled, active);
-
-        pal.setColor(QPalette::Active, QColorGroup::Highlight,
-                     gtksl);
-        pal.setColor(QPalette::Active, QColorGroup::HighlightedText,
-                     gtksf);
-        pal.setColor(QPalette::Inactive, QColorGroup::Highlight,
-                     gtksl);
-        pal.setColor(QPalette::Inactive, QColorGroup::HighlightedText,
-                     gtksf);
-        pal.setColor(QPalette::Disabled, QColorGroup::Highlight,
-                     gtksl);
-        pal.setColor(QPalette::Disabled, QColorGroup::HighlightedText,
-                     gtkdf);
-        w = previewFormInternal( st, &pal );
-    } else {
-        w = previewFormInternal( st );
-    }
-
-    if ( !w )
-        return;
-    w->insertChild( st );
-    w->show();
-}
 
 void MainWindow::helpContents()
 {
@@ -969,12 +430,8 @@ void MainWindow::helpContents()
                 propertyDocumentation[ s.mid( from + 1, to - from - 1 ) ] = s.mid( to + 2 ) + "-prop";
             }
             f.close();
-        } else {
-#if 0
-            QMessageBox::critical( this, i18n("Error" ), i18n("Could not find the Qt documentation index file.\n"
-                                            "Please set the correct documentation path in the preferences dialog." ) );
-#endif
-        }
+        } 
+        
     }
 
     if ( propertyEditor->widget() && !showClassDocu ) {
@@ -1014,30 +471,14 @@ void MainWindow::helpContents()
         source = QString( WidgetFactory::classNameOf( propertyEditor->widget() ) ).lower() + ".html#details";
     }
 
-#ifdef Q_OS_WIN32
-    if ( !source.isEmpty() ) {
-        QStringList lst;
-        lst << assistantPath() << QString( "d:" + source );
-        QProcess proc( lst );
-        proc.start();
-    }
-#else
     if ( !source.isEmpty() )
         if ( assistant ) assistant->sendRequest( source+'\n' );
-#endif
 }
 
 void MainWindow::helpManual()
 {
-#ifdef Q_OS_WIN32
-    QStringList lst;
-    lst << assistantPath() << "d:designer-manual.html";
-    QProcess proc( lst );
-    proc.start();
-#else
     if ( assistant )
         assistant->sendRequest( "designer-manual.html\n" );
-#endif
 }
 
 void MainWindow::helpAbout()
@@ -1051,55 +492,6 @@ void MainWindow::helpAboutQt()
     QMessageBox::aboutQt( this, "Qt Designer" );
 }
 
-#if defined(_WS_WIN_)
-#include <qt_windows.h>
-#include <qprocess.h>
-#endif
-
-void MainWindow::helpRegister()
-{
-#if defined(_WS_WIN_)
-    HKEY key;
-    HKEY subkey;
-    long res;
-    DWORD type;
-    DWORD size = 255;
-    QString command;
-    QString sub( "htmlfile\\shell" );
-#if defined(UNICODE)
-    if ( QApplication::winVersion() & Qt::WV_NT_based ) {
-        unsigned char data[256];
-        res = RegOpenKeyExW( HKEY_CLASSES_ROOT, NULL, 0, KEY_READ, &key );
-        res = RegOpenKeyExW( key, (TCHAR*)qt_winTchar( sub, TRUE ), 0, KEY_READ, &subkey );
-        res = RegQueryValueExW( subkey, NULL, NULL, &type, data, &size );
-        command = qt_winQString( data ) + "\\command";
-        size = 255;
-        res = RegOpenKeyExW( subkey, (TCHAR*)qt_winTchar( command, TRUE ), 0, KEY_READ, &subkey );
-        res = RegQueryValueExW( subkey, NULL, NULL, &type, data, &size );
-        command = qt_winQString( data );
-    } else
-#endif
-    {
-        unsigned char data[256];
-        res = RegOpenKeyExA( HKEY_CLASSES_ROOT, NULL, 0, KEY_READ, &key );
-        res = RegOpenKeyExA( key, sub.local8Bit(), 0, KEY_READ, &subkey );
-        res = RegQueryValueExA( subkey, NULL, NULL, &type, data, &size );
-        command = QString::fromLocal8Bit( (const char*) data ) + "\\command";
-        size = 255;
-        res = RegOpenKeyExA( subkey, command.local8Bit(), 0, KEY_READ, &subkey );
-        res = RegQueryValueExA( subkey, NULL, NULL, &type, data, &size );
-        command = QString::fromLocal8Bit( (const char*) data );
-    }
-
-    res = RegCloseKey( subkey );
-    res = RegCloseKey( key );
-
-    QProcess process( command + " www.trolltech.com/products/download/eval/evaluation.html" );
-    if ( !process.start() )
-        QMessageBox::information( this, "Register Qt", "Launching your web browser failed.\n"
-        "To register Qt, point your browser to www.trolltech.com/products/download/eval/evaluation.html" );
-#endif
-}
 
 void MainWindow::showProperties( QObject *o )
 {
@@ -1316,15 +708,6 @@ bool MainWindow::eventFilter( QObject *o, QEvent *e )
         }
         break;
     case QEvent::Close:
-#ifndef KOMMANDER
-        if ( o->isWidgetType() && (QWidget*)o == (QWidget*)previewedForm ) {
-            if ( lastActiveFormWindow && lastActiveFormWindow->project() ) {
-                QStringList lst =
-                    MetaDataBase::fakeProperty( lastActiveFormWindow, "database" ).toStringList();
-                lastActiveFormWindow->project()->closeDatabase( lst[ 0 ] );
-            }
-        }
-#endif
         break;
     case QEvent::DragEnter:
         if ( o == qWorkspace() || o == workspace() || o == workspace()->viewport() ) {
@@ -1360,35 +743,6 @@ bool MainWindow::eventFilter( QObject *o, QEvent *e )
     case QEvent::FocusIn:
 	if ( !o->inherits( "FormWindow" ) && isAFormWindowChild( o ) )
 	    return TRUE;
-#ifndef KOMMANDER
-	if ( o->inherits( "Editor" ) || o->inherits( "FormWindow" ) ) {
-	    // QCustomEvent( 9999 ) is used by QListView to end in-place
-	    // editing. In the case that one edits e.g. a class variable in
-	    // the form definition view and clicks on another form in the
-	    // designer, the in-place editor receives a focus out event. This
-	    // event posts a QCustomEvent( 9999 ) to QListView to end in-place
-	    // editing, which triggers a FormDefinitionView::save(). To make
-	    // sure that we save() before the new active formwindow is set,
-	    // post queued custom events of that type now.
-	    if ( hierarchyView->formDefinitionView()->isRenaming() )
-		QApplication::sendPostedEvents( hierarchyView->formDefinitionView()->
-						child( 0, "QLineEdit" ) , 9999 );
-	}
-	if ( o->inherits( "Editor" ) ) {
-	    QWidget *w = (QWidget*)o;
-	    while ( w ) {
-		if ( w->inherits( "SourceEditor" ) )
-		    break;
-		w = w->parentWidget( TRUE );
-	    }
-	    if ( w && w->inherits( "SourceEditor" ) )
-		( (SourceEditor*)w )->checkTimeStamp();
-	} else if ( o->inherits( "FormWindow" ) ) {
-	    FormWindow *fw = (FormWindow*)o;
-	    if ( fw->formFile() && fw->formFile()->editor() )
-		fw->formFile()->editor()->checkTimeStamp();
-	}
-#endif
         break;
     case QEvent::FocusOut:
         if ( !o->inherits( "FormWindow" ) && isAFormWindowChild( o ) )
@@ -1439,14 +793,6 @@ FormWindow *MainWindow::formWindow()
     return 0;
 }
 
-#ifndef KOMMANDER
-void MainWindow::emitProjectSignals()
-{
-    emit hasNonDummyProject( !currentProject->isDummy() );
-    emit hasActiveWindowOrProject( !!qworkspace->activeWindow() || !currentProject->isDummy() );
-}
-#endif
-
 void MainWindow::insertFormWindow( FormWindow *fw )
 {
     if ( fw )
@@ -1473,15 +819,6 @@ void MainWindow::insertFormWindow( FormWindow *fw )
     connect( fw, SIGNAL( undoRedoChanged( bool, bool, const QString &, const QString & ) ),
              this, SLOT( updateUndoRedo( bool, bool, const QString &, const QString & ) ) );
 
-#ifndef KOMMANDER
-    if ( !mblockNewForms ) {
-    } else {
-        fw->setProject( currentProject );
-    }
-#endif
-#ifndef KOMMANDER
-    fw->setProject(currentProject);
-#endif
     fw->show();
     fw->currentToolChanged();
     if ( fw->caption().isEmpty() && qstrlen( fw->name() )  )
@@ -1492,40 +829,8 @@ void MainWindow::insertFormWindow( FormWindow *fw )
                                           idFromClassName( WidgetFactory::classNameOf( fw->mainContainer() ) ) );
     activeWindowChanged( fw );
     emit formWindowsChanged();
-#ifndef KOMMANDER
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        if ( e->project() == fw->project() )
-            e->resetContext();
-    }
-#endif
 }
 
-#ifndef KOMMANDER
-void MainWindow::createNewProject( const QString &lang )
-{
-#ifndef KOMMANDER
-    Project *pro = new Project( "", "", projectSettingsPluginManager );
-    pro->setLanguage( lang );
-
-
-    if ( !openProjectSettings( pro ) ) {
-        delete pro;
-        return;
-    }
-
-    if ( !pro->isValid() ) {
-        QMessageBox::information( this, i18n("New Project"), i18n("Cannot create an invalid project." ) );
-        delete pro;
-        return;
-    }
-    QAction *a = new QAction( pro->makeRelative( pro->fileName() ),
-                              pro->makeRelative( pro->fileName() ), 0, actionGroupProjects, 0, TRUE );
-    projects.insert( a, pro );
-    addRecentlyOpened( pro->makeAbsolute( pro->fileName() ), recentlyProjects );
-    projectSelected( a );
-#endif
-}
-#endif
 
 
 bool MainWindow::unregisterClient( FormWindow *w )
@@ -1535,14 +840,6 @@ bool MainWindow::unregisterClient( FormWindow *w )
     if ( w == lastActiveFormWindow )
         lastActiveFormWindow = 0;
 
-#ifndef KOMMANDER
-    QPtrList<SourceEditor> waitingForDelete;
-    waitingForDelete.setAutoDelete( TRUE );
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        if ( e->object() == w )
-            waitingForDelete.append( e );
-    }
-#endif
     if ( actionEditor->form() == w ) {
         actionEditor->setFormWindow( 0 );
         actionEditor->parentWidget()->hide();
@@ -1573,16 +870,6 @@ void MainWindow::activeWindowChanged( QWidget *w )
             actionEditor->parentWidget()->hide();
 
         actionEditor->setFormWindow( lastActiveFormWindow );
-#ifndef KOMMANDER
-        if ( wspace && fw->project() && fw->project() != currentProject ) {
-            for ( QMap<QAction*, Project *>::Iterator it = projects.begin(); it != projects.end(); ++it ) {
-                if ( *it == fw->project() ) {
-                    projectSelected( it.key() );
-                    break;
-                }
-            }
-        }
-#endif
         emit formWindowChanged();
 
     } else if ( w == propertyEditor ) {
@@ -1603,50 +890,6 @@ void MainWindow::activeWindowChanged( QWidget *w )
     }
 
     selectionChanged();
-
-#ifndef KOMMANDER
-    if ( w && w->inherits( "SourceEditor" ) ) {
-        SourceEditor *se = (SourceEditor*)w;
-        if ( se->formWindow() &&
-             lastActiveFormWindow != se->formWindow() ) {
-            activeWindowChanged( se->formWindow() );
-        }
-        actionSearchFind->setEnabled( TRUE );
-        actionSearchIncremetal->setEnabled( TRUE );
-        actionSearchReplace->setEnabled( TRUE );
-        actionSearchGotoLine->setEnabled( TRUE );
-        incrementalSearch->setEnabled( TRUE );
-
-        actionEditUndo->setEnabled( TRUE );
-        actionEditRedo->setEnabled( TRUE );
-        actionEditCut->setEnabled( TRUE );
-        actionEditCopy->setEnabled( TRUE );
-        actionEditPaste->setEnabled( TRUE );
-        actionEditSelectAll->setEnabled( TRUE );
-        actionEditUndo->setMenuText( i18n("&Undo" ) );
-        actionEditUndo->setToolTip( textNoAccel( actionEditUndo->menuText()) );
-        actionEditRedo->setMenuText( i18n("&Redo" ) );
-        actionEditRedo->setToolTip( textNoAccel( actionEditRedo->menuText()) );
-        if ( hierarchyView->sourceEditor() != w )
-            hierarchyView->showClasses( se );
-        actionEditor->setFormWindow( 0 );
-        if ( wspace && se->project() && se->project() != currentProject ) {
-            for ( QMap<QAction*, Project *>::Iterator it = projects.begin(); it != projects.end(); ++it ) {
-                if ( *it == se->project() ) {
-                    projectSelected( it.key() );
-                    break;
-                }
-            }
-        }
-        workspace()->activeEditorChanged( se );
-    } else {
-        actionSearchFind->setEnabled( FALSE );
-        actionSearchIncremetal->setEnabled( FALSE );
-        actionSearchReplace->setEnabled( FALSE );
-        actionSearchGotoLine->setEnabled( FALSE );
-        incrementalSearch->setEnabled( FALSE );
-    }
-#endif
 
     if ( currentTool() == ORDER_TOOL && w != old )
         emit currentToolChanged();
@@ -1936,53 +1179,6 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 
 void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands, FormWindow *fw )
 {
-    /*
-    if(id == commands["assoc"])
-    {
-         KommanderWidget *atw = dynamic_cast<KommanderWidget *>(fw->mainContainer());
-         if(!atw)
-             return;
-
-         AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), atw, this, "AssocTextEditor", TRUE);
-         QString caption = i18n("Edit Kommander Text for Widget \'%1\'").arg(fw->mainContainer()->name());
-         editor->setCaption(caption);
-
-         if(editor->exec())
-         {
-	     if( atw->associatedText() != editor->associatedText() )
-	     {
-		QString text = QString("Set the \'text association\' of \'%1\'")
-						    .arg(fw->mainContainer()->name());
-
-		 SetPropertyCommand *cmd  = new SetPropertyCommand(text,
-					formWindow(), fw, propertyEditor,
-					"associations", atw->associatedText(),
-					editor->associatedText(), QString::null,
-					QString::null, FALSE);
-
-		 cmd->execute();
-		 formWindow()->commandHistory()->addCommand(cmd);
-
-		 MetaDataBase::setPropertyChanged( fw, "associations", TRUE );
-	     }
-	     if( atw->populationText() != editor->populationText() )
-	     {
-		QString text = QString("Set the \'population text\' of \'%1\'").arg(fw->name());
-
-             SetPropertyCommand *cmd  = new SetPropertyCommand(text,
-                                    formWindow(), fw, propertyEditor,
-                                    "populationText", atw->populationText(),
-                                    editor->populationText(), QString::null,
-                                    QString::null, FALSE);
-
-		 cmd->execute();
-		 formWindow()->commandHistory()->addCommand(cmd);
-
-		 MetaDataBase::setPropertyChanged( fw, "populationText", TRUE );
-	     }
-         }
-         delete editor;
-    }*/
   
     if(id == commands["assoc"])
     {
@@ -2186,9 +1382,6 @@ void MainWindow::writeConfig()
     QSettings config;
 
     // No search path for unix, only needs application name
-#ifndef KOMMANDER
-    config.insertSearchPath( QSettings::Windows, "/Trolltech" );
-#endif
 
     QString keybase = DesignerApplication::settingsKey();
     config.writeEntry( keybase + "RestoreWorkspace", restoreConfig );
@@ -2197,12 +1390,6 @@ void MainWindow::writeConfig()
     config.writeEntry( keybase + "FileFilter", fileFilter );
     config.writeEntry( keybase + "TemplatePath", templPath );
     config.writeEntry( keybase + "RecentlyOpenedFiles", recentlyFiles, ',' );
-#ifndef KOMMANDER
-    config.writeEntry( keybase + "RecentlyOpenedProjects", recentlyProjects, ',' );
-#endif
-#ifndef KOMMANDER
-    config.writeEntry( keybase + "DatabaseAutoEdit", databaseAutoEdit );
-#endif
 
     config.writeEntry( keybase + "Grid/Snap", snGrid );
     config.writeEntry( keybase + "Grid/Show", sGrid );
@@ -2301,10 +1488,6 @@ void MainWindow::readConfig()
     if ( restoreConfig ) {
         splashScreen = config.readBoolEntry( keybase + "SplashScreen", TRUE );
         recentlyFiles = config.readListEntry( keybase + "RecentlyOpenedFiles", ',' );
-#ifndef KOMMANDER
-        recentlyProjects = config.readListEntry( keybase + "RecentlyOpenedProjects", ',' );
-#endif
-
         backPix = config.readBoolEntry( keybase + "Background/UsePixmap", TRUE );
         if ( backPix ) {
             QPixmap pix;
@@ -2396,16 +1579,9 @@ void MainWindow::readConfig()
     if ( !restoreConfig )
         return;
 
-#ifndef Q_WS_MAC
-    /* I'm sorry to make this not happen on the Mac, but it seems to hang somewhere deep
-       in QLayout, it gets into a very large loop - and seems it has to do with clever
-       things the designer does ###Sam */
-    QApplication::sendPostedEvents();
-#endif
     QString fn = QDir::homeDirPath() + "/.designerrc" + "tb2";
     QFile f( fn );
     if ( f.open( IO_ReadOnly ) ) {
-/*###        tbSettingsRead = TRUE;*/
         QTextStream ts( &f );
         ts >> *this;
         f.close();
@@ -2582,48 +1758,13 @@ void MainWindow::closeEvent( QCloseEvent *e )
 	QWidget *w = wit.current();
 	++wit;
 	if ( w->inherits( "FormWindow" ) ) {
-#ifndef KOMMANDER
-	    if ( ( (FormWindow*)w )->formFile()->editor() )
-		windows.removeRef( ( (FormWindow*)w )->formFile()->editor() );
-#endif
 	    if ( !( (FormWindow*)w )->formFile()->close() ) {
 		e->ignore();
 		return;
 	    }
 	}
-#ifndef KOMMANDER
-	else if ( w->inherits( "SourceEditor" ) ) {
-	    if ( !( (SourceEditor*)w )->close() ) {
-		e->ignore();
-		return;
-	    }
-	}
-#endif
     }
 
-#ifndef KOMMANDER
-    QMapConstIterator<QAction*, Project*> it = projects.begin();
-    while( it != projects.end() ) {
-        Project *pro = it.data();
-        ++it;
-        if ( pro->isModified() ) {
-            switch ( QMessageBox::warning( this, i18n("Save Project Settings" ),
-                                           i18n("Save changes to '%1'?" ).arg( pro->fileName() ),
-                                           i18n("&Yes" ), i18n("&No" ), i18n("&Cancel" ), 0, 2 ) ) {
-            case 0: // save
-                pro->save();
-                break;
-            case 1: // don't save
-                break;
-            case 2: // cancel
-                e->ignore();
-                return;
-            default:
-                break;
-            }
-        }
-    }
-#endif
 
     writeConfig();
     hide();
@@ -2702,11 +1843,6 @@ bool MainWindow::openEditor( QWidget *w, FormWindow * )
         }
         return TRUE;
     }
-
-#ifndef KOMMANDER
-    if ( !WidgetFactory::isPassiveInteractor( w ) )
-        editSource();
-#endif
 
     return TRUE;
 }
@@ -2818,61 +1954,17 @@ void MainWindow::windowsMenuActivated( int id )
         w->setFocus();
 }
 
-#ifndef KOMMANDER
-void MainWindow::projectSelected( QAction *a )
-{
-#ifndef KOMMANDER
-    a->setOn( TRUE );
-    if ( currentProject )
-        currentProject->setActive( FALSE );
-    Project *p = *projects.find( a );
-    p->setActive( TRUE );
-    if ( currentProject == p )
-        return;
-    currentProject = p;
-    if ( wspace )
-        wspace->setCurrentProject( currentProject );
-#endif
-    currentProject = projects.getFirst();
-}
-#endif
 
-#ifndef KOMMANDER
-void MainWindow::openProject( const QString &fn )
-{
-    for ( QMap<QAction*, Project*>::Iterator it = projects.begin(); it != projects.end(); ++it ) {
-        if ( (*it)->fileName() == fn ) {
-            projectSelected( it.key() );
-            return;
-        }
-    }
-    QApplication::setOverrideCursor( waitCursor );
-    Project *pro = new Project( fn, "", projectSettingsPluginManager );
-    pro->setModified( FALSE );
-    QAction *a = new QAction( pro->projectName(), pro->projectName(), 0, actionGroupProjects, 0, TRUE );
-    projects.insert( a, pro );
-    projectSelected( a );
-    QApplication::restoreOverrideCursor();
-}
-#endif
 
 void MainWindow::checkTempFiles()
 {
     QString s = QDir::homeDirPath() + "/.designer";
     QString baseName = s+ "/saved-form-";
-#ifndef KOMMANDER
-    if ( !QFile::exists( baseName + "1.ui" ) )
-#else
     if ( !QFile::exists( baseName + "1.kmdr" ) )
-#endif
         return;
     DesignerApplication::closeSplash();
     QDir d( s );
-#ifndef KOMMANDER
-    d.setNameFilter( "*.ui" );
-#else
     d.setNameFilter( "*.kmdr" );
-#endif
     QStringList lst = d.entryList();
     QApplication::restoreOverrideCursor();
     bool load = QMessageBox::information( this, i18n("Restoring the Last Session" ),
@@ -2910,10 +2002,6 @@ void MainWindow::showDialogHelp()
         link += "dialog-image-collection";
     else if ( w->inherits( "DatabaseConnectionBase" ) )
         link += "dialog-edit-database-connections";
-#ifndef KOMMANDER
-    else if ( w->inherits( "ProjectSettingsBase" ) )
-        link += "dialog-project-settings";
-#endif
     else if ( w->inherits( "FindDialog" ) )
         link += "dialog-find-text";
     else if ( w->inherits( "ReplaceDialog" ) )
@@ -2941,124 +2029,11 @@ void MainWindow::showDialogHelp()
         return;
     }
 
-#ifdef Q_OS_WIN32
-    QStringList lst;
-    lst << assistantPath() << (QString( "d:" ) + link);
-    QProcess proc( lst );
-    proc.start();
-#else
     if ( assistant )
         assistant->sendRequest( link+'\n');
-#endif
 }
 
-#ifndef KOMMANDER
-void MainWindow::setupActionManager()
-{
-#ifndef KOMMANDER
-    actionPluginManager = new QPluginManager<ActionInterface>( IID_Action, QApplication::libraryPaths(), "/designer" );
-#else
-    actionPluginManager = new QPluginManager<ActionInterface>( IID_Action, QApplication::libraryPaths(), "" );
-#endif
 
-
-    QStringList lst = actionPluginManager->featureList();
-    for ( QStringList::Iterator ait = lst.begin(); ait != lst.end(); ++ait ) {
-        ActionInterface *iface = 0;
-        actionPluginManager->queryInterface( *ait, &iface );
-        if ( !iface )
-            continue;
-
-        iface->connectTo( desInterface );
-        QAction *a = iface->create( *ait, this );
-        if ( !a )
-            continue;
-
-        QString grp = iface->group( *ait );
-        if ( grp.isEmpty() )
-            grp = "3rd party actions";
-        QPopupMenu *menu = 0;
-        QToolBar *tb = 0;
-
-        if ( !( menu = (QPopupMenu*)child( grp.latin1(), "QPopupMenu" ) ) ) {
-            menu = new QPopupMenu( this, grp.latin1() );
-	    QString i18ngrp = grp;
-	    if (!grp.isEmpty())
-	      i18ngrp = i18n(grp.utf8());
-            menuBar()->insertItem( i18ngrp, menu );
-        }
-        if ( !( tb = (QToolBar*)child( grp.latin1(), "QToolBar" ) ) ) {
-#if defined(HAVE_KDE)
-            KToolBar *tb = new KToolBar( this );
-            tb->setFullSize( FALSE );
-#else
-            tb = new QToolBar( this, grp.latin1() );
-            tb->setCloseMode( QDockWindow::Undocked );
-#endif
-            addToolBar( tb, grp );
-        }
-
-        if ( iface->location( *ait, ActionInterface::Menu ) )
-            a->addTo( menu );
-        if ( iface->location( *ait, ActionInterface::Toolbar ) )
-            a->addTo( tb );
-
-        iface->release();
-    }
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::editFunction( const QString &func, const QString &l, bool rereadSource )
-{
-    if ( !formWindow() )
-        return;
-    if ( !formWindow()->formFile()->hasFormCode() )
-        formWindow()->formFile()->createFormCode();
-    SourceEditor *editor = 0;
-    QString lang = l;
-    if ( lang.isEmpty() )
-        lang = MetaDataBase::languageOfSlot( formWindow(), func.latin1() );
-    if ( !MetaDataBase::hasEditor( lang ) )
-        return;
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        if ( e->language() == lang && e->object() == formWindow() ) {
-            editor = e;
-            break;
-        }
-    }
-    if ( !editor ) {
-        EditorInterface *eIface = 0;
-        editorPluginManager->queryInterface( lang, &eIface );
-        if ( !eIface )
-            return;
-        LanguageInterface *lIface = MetaDataBase::languageInterface( lang );
-        if ( !lIface )
-            return;
-        editor = new SourceEditor( qWorkspace(), eIface, lIface );
-        eIface->release();
-        lIface->release();
-
-        editor->setLanguage( lang );
-        sourceEditors.append( editor );
-    }
-    if ( editor->object() != formWindow() )
-	editor->setObject( formWindow(), formWindow()->project() );
-#ifndef KOMMANDER
-        editor->setObject( formWindow(), formWindow()->project() );
-#else
-//        editor->setObject( formWindow(), formWindow()->project() );
-    ;
-#endif // FIXME
-
-    else if ( rereadSource )
-        editor->refresh( FALSE );
-    editor->show();
-    editor->setFocus();
-    editor->setFunction( func );
-    emit editorChanged();
-}
-#endif
 
 void MainWindow::setupRecentlyFilesMenu()
 {
@@ -3070,102 +2045,6 @@ void MainWindow::setupRecentlyFilesMenu()
     }
 }
 
-#ifndef KOMMANDER
-void MainWindow::setupRecentlyProjectsMenu()
-{
-    recentlyProjectsMenu->clear();
-    int id = 0;
-    for ( QStringList::Iterator it = recentlyProjects.begin(); it != recentlyProjects.end(); ++it ) {
-        recentlyProjectsMenu->insertItem( *it, id );
-        id++;
-    }
-}
-#endif
-
-#ifndef KOMMANDER
-QPtrList<DesignerProject> MainWindow::projectList() const
-{
-    QPtrList<DesignerProject> list;
-    QMapConstIterator<QAction*, Project*> it = projects.begin();
-
-    while( it != projects.end() ) {
-        Project *p = it.data();
-        ++it;
-        list.append( p->iFace() );
-    }
-
-    list.append(projects.getFirst()->iFace());
-    return list;
-}
-#endif
-
-#ifndef KOMMANDER
-QStringList MainWindow::projectNames() const
-{
-    QStringList res;
-    for ( QMap<QAction*, Project* >::ConstIterator it = projects.begin(); it != projects.end(); ++it )
-	res << (*it)->projectName();
-        res << (*it)->projectName();
-    res.append(projects.getFirst()->projectName());
-    return res;
-}
-#endif
-
-#ifndef KOMMANDER
-QStringList MainWindow::projectFileNames() const
-{
-    QStringList res;
-    for ( QMap<QAction*, Project* >::ConstIterator it = projects.begin(); it != projects.end(); ++it )
-	res << (*it)->makeRelative( (*it)->fileName() );
-        res << (*it)->makeRelative( (*it)->fileName() );
-    res << projects.getFirst()->fileName();
-    return res;
-}
-#endif
-
-#ifndef KOMMANDER
-Project *MainWindow::findProject( const QString &projectName ) const
-{
-    for ( QMap<QAction*, Project* >::ConstIterator it = projects.begin(); it != projects.end(); ++it ) {
-        if ( (*it)->projectName() == projectName )
-            return *it;
-    }
-    const QString projName = projects.getFirst()->projectName();
-
-    if(projName == projectName)
-            return projects.getFirst();
-    return 0;
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::setCurrentProject( Project *pro )
-{
-    for ( QMap<QAction*, Project* >::ConstIterator it = projects.begin(); it != projects.end(); ++it ) {
-        if ( *it == pro ) {
-            projectSelected( it.key() );
-            return;
-        }
-    }
-    projectSelected(0);
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::setCurrentProjectByFilename( const QString& proFilename )
-{
-#ifndef KOMMANDER
-    for ( QMap<QAction*, Project* >::ConstIterator it = projects.begin(); it != projects.end(); ++it ) {
-        if ( (*it)->makeRelative( (*it)->fileName() ) == proFilename ) {
-            projectSelected( it.key() );
-            return;
-        }
-    }
-#endif
-    projectSelected(0);
-}
-#endif
-
 void MainWindow::recentlyFilesMenuActivated( int id )
 {
     if ( id != -1 ) {
@@ -3176,33 +2055,12 @@ void MainWindow::recentlyFilesMenuActivated( int id )
             recentlyFiles.remove( recentlyFiles.at( id ) );
             return;
         }
-#ifndef KOMMANDER
-        fileOpen( "", "", *recentlyFiles.at( id ) );
-#else
         fileOpen("", *recentlyFiles.at(id));
-#endif
         QString fn( *recentlyFiles.at( id ) );
         addRecentlyOpened( fn, recentlyFiles );
     }
 }
 
-#ifndef KOMMANDER
-void MainWindow::recentlyProjectsMenuActivated( int id )
-{
-    if ( id != -1 ) {
-        if ( !QFile::exists( *recentlyProjects.at( id ) ) ) {
-            QMessageBox::warning( this, i18n("Open Project" ),
-                                  i18n("Could not open '%1'. File does not exist." ).
-                                  arg( *recentlyProjects.at( id ) ) );
-            recentlyProjects.remove( recentlyProjects.at( id ) );
-            return;
-        }
-        openProject( *recentlyProjects.at( id ) );
-        QString fn( *recentlyProjects.at( id ) );
-        addRecentlyOpened( fn, recentlyProjects );
-    }
-}
-#endif
 
 void MainWindow::addRecentlyOpened( const QString &fn, QStringList &lst )
 {
@@ -3216,45 +2074,13 @@ void MainWindow::addRecentlyOpened( const QString &fn, QStringList &lst )
     lst << f;
 }
 
-#ifndef KOMMANDER
-TemplateWizardInterface * MainWindow::templateWizardInterface( const QString& className )
-{
-    TemplateWizardInterface* iface = 0;
-    templateWizardPluginManager->queryInterface( className, & iface );
-    return iface;
-}
-#endif
 
 void MainWindow::setupPlugins()
 {
     KommanderFactory::loadPlugins();
 }
 
-#ifndef KOMMANDER
-void MainWindow::addPreferencesTab( QWidget *tab, const QString &title, QObject *receiver, const char *init_slot, const char *accept_slot )
-{
-    Tab t;
-    t.w = tab;
-    t.title = title;
-    t.receiver = receiver;
-    t.init_slot = init_slot;
-    t.accept_slot = accept_slot;
-    preferenceTabs << t;
-}
-#endif
 
-#ifndef KOMMANDER
-void MainWindow::addProjectTab( QWidget *tab, const QString &title, QObject *receiver, const char *init_slot, const char *accept_slot )
-{
-    Tab t;
-    t.w = tab;
-    t.title = title;
-    t.receiver = receiver;
-    t.init_slot = init_slot;
-    t.accept_slot = accept_slot;
-    projectTabs << t;
-}
-#endif
 
 void MainWindow::setModified( bool b, QWidget *window )
 {
@@ -3264,257 +2090,19 @@ void MainWindow::setModified( bool b, QWidget *window )
 	    ( (FormWindow*)w )->modificationChanged( b );
 	    return;
 	}
-#ifndef KOMMANDER
-	else if ( w->inherits( "SourceEditor" ) ) {
-	    FormWindow *fw = ( (SourceEditor*)w )->formWindow();
-	    if ( fw ) {
-		//fw->commandHistory()->setModified( b );
-		//fw->modificationChanged( b );
-		fw->formFile()->setModified( b, FormFile::WFormCode );
-		wspace->update( fw->formFile() );
-	    } else {
-		wspace->update();
-	    }
-	    return;
-	}
-#endif
 	w = w->parentWidget( TRUE );
         if ( w->inherits( "FormWindow" ) ) {
             ( (FormWindow*)w )->modificationChanged( b );
             return;
         }
-#ifndef KOMMANDER
-	else if ( w->inherits( "SourceEditor" ) ) {
-            FormWindow *fw = ( (SourceEditor*)w )->formWindow();
-            if ( fw ) {
-                //fw->commandHistory()->setModified( b );
-                //fw->modificationChanged( b );
-                fw->formFile()->setModified( b, FormFile::WFormCode );
-                wspace->update( fw->formFile() );
-            } else {
-                wspace->update();
-            }
-            return;
-        }
-#endif
         w = w->parentWidget( TRUE );
     }
 }
 
-#ifndef KOMMANDER
-void MainWindow::editorClosed( SourceEditor *e )
-{
-    sourceEditors.take( sourceEditors.findRef( e ) );
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::slotsChanged()
-{
-    updateSlotsTimer->start( 0, TRUE );
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::doSlotsChanged()
-{
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() )
-	e->refresh( FALSE );
-	hierarchyView->formDefinitionView()->refresh();
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::updateFunctionList()
-{
-    if ( !qWorkspace()->activeWindow() || !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
-        return;
-    ( (SourceEditor*)qWorkspace()->activeWindow() )->save();
-	hierarchyView->formDefinitionView()->refresh();
-}
-#endif
 
 void MainWindow::updateWorkspace()
 {
-#ifndef KOMMANDER
-    wspace->setCurrentProject( currentProject );
-#endif
 }
-
-
-#ifndef KOMMANDER
-void MainWindow::showDebugStep( QObject *o, int line )
-{
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() )
-        e->clearStep();
-    if ( !o || line == -1 )
-        return;
-    showSourceLine( o, line, Step );
-}
-
-void MainWindow::showStackFrame( QObject *o, int line )
-{
-    if ( !o || line == -1 )
-        return;
-    showSourceLine( o, line, StackFrame );
-}
-
-void MainWindow::showErrorMessage( QObject *o, int errorLine, const QString &errorMessage )
-{
-    errorLine--; // ######
-    QValueList<int> l;
-    l << errorLine;
-    QStringList l2;
-    l2 << errorMessage;
-    oWindow->setErrorMessages( l2, l, TRUE );
-    showSourceLine( o, errorLine, Error );
-}
-
-void MainWindow::finishedRun()
-{
-    inDebugMode = FALSE;
-    previewing = FALSE;
-    debuggingForms.clear();
-    enableAll( TRUE );
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        if ( e->project() == currentProject )
-            e->editorInterface()->setMode( EditorInterface::Editing );
-        e->clearStackFrame();
-    }
-}
-
-void MainWindow::enableAll( bool enable )
-{
-    menuBar()->setEnabled( enable );
-    QObjectList *l = queryList( "QDockWindow" );
-    for ( QObject *o = l->first(); o; o = l->next() ) {
-        if ( o == wspace->parentWidget() || o == oWindow->parentWidget() || o == hierarchyView->parentWidget() )
-            continue;
-        ( (QWidget*)o )->setEnabled( enable );
-    }
-    delete l;
-}
-
-void MainWindow::showSourceLine( QObject *o, int line, LineMode lm )
-{
-    QWidgetList windows = qworkspace->windowList();
-    for ( QWidget *w = windows.first(); w; w = windows.next() ) {
-        FormWindow *fw = 0;
-        SourceEditor *se = 0;
-        SourceFile *sf = 0;
-        if ( w->inherits( "FormWindow" ) ) {
-            fw = (FormWindow*)fw;
-        } else if ( w->inherits( "SourceEditor" ) ) {
-            se = (SourceEditor*)w;
-            if ( !se->object() )
-                continue;
-            if ( se->formWindow() )
-                fw = se->formWindow();
-            else
-                sf = se->sourceFile();
-        }
-
-        if ( fw ) {
-            if ( fw->project() != currentProject )
-                continue;
-            if ( QString( fw->name() ) == QString( o->name() ) ) {
-                if ( se ) {
-                    switch ( lm ) {
-                    case Error:
-                        se->editorInterface()->setError( line );
-                        break;
-                    case Step:
-                        se->editorInterface()->setStep( line );
-                        break;
-                    case StackFrame:
-                        se->editorInterface()->setStackFrame( line );
-                        break;
-                    }
-                    return;
-                } else {
-                    fw->setFocus();
-                    lastActiveFormWindow = fw;
-                    qApp->processEvents();
-                    se = editSource();
-                    if ( se ) {
-                        switch ( lm ) {
-                        case Error:
-                            se->editorInterface()->setError( line );
-                            break;
-                        case Step:
-                            se->editorInterface()->setStep( line );
-                            break;
-                        case StackFrame:
-                            se->editorInterface()->setStackFrame( line );
-                            break;
-                        }
-                        return;
-                    }
-                }
-            }
-        } else if ( se ) {
-            if ( o != sf )
-                continue;
-            switch ( lm ) {
-            case Error:
-                se->editorInterface()->setError( line );
-                break;
-            case Step:
-                se->editorInterface()->setStep( line );
-                break;
-            case StackFrame:
-                se->editorInterface()->setStackFrame( line );
-                break;
-            }
-            return;
-        }
-    }
-
-    if ( o->inherits( "SourceFile" ) ) {
-        for ( QPtrListIterator<SourceFile> sources = currentProject->sourceFiles();
-              sources.current(); ++sources ) {
-            SourceFile* f = sources.current();
-            if ( f == o ) {
-                SourceEditor *se = editSource( f );
-                if ( se ) {
-                    switch ( lm ) {
-                    case Error:
-                        se->editorInterface()->setError( line );
-                        break;
-                    case Step:
-                        se->editorInterface()->setStep( line );
-                        break;
-                    case StackFrame:
-                        se->editorInterface()->setStackFrame( line );
-                        break;
-                    }
-                }
-                return;
-            }
-        }
-    }
-
-    mblockNewForms = TRUE;
-    openFormWindow( currentProject->makeAbsolute( *qwf_forms->find( (QWidget*)o ) ) );
-    qApp->processEvents(); // give all views the chance to get the formwindow
-    SourceEditor *se = editSource();
-    if ( se ) {
-        switch ( lm ) {
-        case Error:
-            se->editorInterface()->setError( line );
-            break;
-        case Step:
-            se->editorInterface()->setStep( line );
-            break;
-        case StackFrame:
-            se->editorInterface()->setStackFrame( line );
-            break;
-        }
-    }
-    mblockNewForms = FALSE;
-}
-#endif
-
 
 QWidget *MainWindow::findRealForm( QWidget *wid )
 {
@@ -3528,57 +2116,8 @@ QWidget *MainWindow::findRealForm( QWidget *wid )
 
 void MainWindow::formNameChanged( FormWindow *fw )
 {
-#ifndef KOMMANDER
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-	if ( e->object() == fw )
-	    e->refresh( TRUE );
-	if ( e->project() == fw->project() )
-	    e->resetContext();
-    }
-#endif
 }
 
-#ifndef KOMMANDER
-void MainWindow::breakPointsChanged()
-{
-    if ( !inDebugMode )
-        return;
-    if ( !qWorkspace()->activeWindow() || !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
-        return;
-    SourceEditor *e = (SourceEditor*)qWorkspace()->activeWindow();
-    if ( !e->object() || !e->project() )
-        return;
-    if ( e->project() != currentProject )
-        return;
-
-    InterpreterInterface *iiface = 0;
-    if ( interpreterPluginManager ) {
-        QString lang = currentProject->language();
-        iiface = 0;
-        interpreterPluginManager->queryInterface( lang, &iiface );
-        if ( !iiface )
-            return;
-    }
-
-    e->saveBreakPoints();
-
-    for ( QObject *o = debuggingForms.first(); o; o = debuggingForms.next() ) {
-        if ( qstrcmp( o->name(), e->object()->name() ) == 0 ) {
-            iiface->setBreakPoints( o, MetaDataBase::breakPoints( e->object() ) );
-            break;
-        }
-    }
-
-    for ( e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        if ( e->project() == currentProject && e->sourceFile() ) {
-            QValueList<int> bps = MetaDataBase::breakPoints( e->sourceFile() );
-            iiface->setBreakPoints( e->object(), bps );
-        }
-    }
-
-    iiface->release();
-}
-#endif
 
 int MainWindow::currentLayoutDefaultSpacing() const
 {
@@ -3594,90 +2133,7 @@ int MainWindow::currentLayoutDefaultMargin() const
     return BOXLAYOUT_DEFAULT_MARGIN;
 }
 
-#ifndef KOMMANDER
-void MainWindow::saveAllBreakPoints()
-{
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        e->save();
-        e->saveBreakPoints();
-    }
-}
 
-void MainWindow::resetBreakPoints()
-{
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() )
-        e->resetBreakPoints();
-}
-
-SourceFile *MainWindow::sourceFile()
-{
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-        if ( qworkspace->activeWindow() == e ) {
-            if ( e->sourceFile() )
-                return e->sourceFile();
-        }
-    }
-    return 0;
-}
-#endif
-
-#ifndef KOMMANDER
-bool MainWindow::openProjectSettings( Project *pro )
-{
-    ProjectSettings dia( pro, this, 0, TRUE );
-    SenderObject *senderObject = new SenderObject( designerInterface() );
-    QValueList<Tab>::Iterator it;
-    for ( it = projectTabs.begin(); it != projectTabs.end(); ++it ) {
-        Tab t = *it;
-        if ( t.title != pro->language() )
-            continue;
-        dia.tabWidget->addTab( t.w, t.title );
-        if ( t.receiver ) {
-            connect( dia.buttonOk, SIGNAL( clicked() ), senderObject, SLOT( emitAcceptSignal() ) );
-            connect( senderObject, SIGNAL( acceptSignal( QUnknownInterface * ) ), t.receiver, t.accept_slot );
-            connect( senderObject, SIGNAL( initSignal( QUnknownInterface * ) ), t.receiver, t.init_slot );
-            senderObject->emitInitSignal();
-            disconnect( senderObject, SIGNAL( initSignal( QUnknownInterface * ) ), t.receiver, t.init_slot );
-        }
-    }
-
-    int res = dia.exec();
-
-    delete senderObject;
-
-    for ( it = projectTabs.begin(); it != projectTabs.end(); ++it ) {
-        Tab t = *it;
-        dia.tabWidget->removePage( t.w );
-        t.w->reparent( 0, QPoint(0,0), FALSE );
-    }
-
-    return res == QDialog::Accepted;
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::popupProjectMenu( const QPoint &pos )
-{
-
-    projectMenu->exec( pos );
-}
-#endif
-
-#ifndef KOMMANDER
-QStringList MainWindow::sourceTemplates() const
-{
-    return sourceTemplatePluginManager->featureList();
-}
-#endif
-
-#ifndef KOMMANDER
-SourceTemplateInterface* MainWindow::sourceTemplateInterface( const QString& templ )
-{
-    SourceTemplateInterface *iface = 0;
-    sourceTemplatePluginManager->queryInterface( templ, &iface);
-    return iface;
-}
-#endif
 
 QString MainWindow::whatsThisFrom( const QString &key )
 {

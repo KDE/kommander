@@ -1,21 +1,20 @@
 /**********************************************************************
-** Copyright (C) 2000-2001 Trolltech AS.  All rights reserved.
-**
-** This file is part of Qt Designer.
-**
-** This file may be distributed and/or modified under the terms of the
-*KOMMANDER* GNU General Public License version 2 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** See http://www.trolltech.com/gpl/ for GPL licensing information.
-**
-** Contact info@trolltech.com if any conditions of this licensing are
-** not clear to you.
-**
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+
+ This file may be distributed and/or modified under the terms of the
+ GNU General Public License version 2 as published by the Free Software
+ Foundation and appearing in the file LICENSE.GPL included in the
+ packaging of this file.
+
+ This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+ See http://www.trolltech.com/gpl/ for GPL licensing information.
+
+ Modified for Kommander:
+  (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+  (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+
 **********************************************************************/
 
 #include "mainwindow.h"
@@ -40,43 +39,22 @@
 #include <qmap.h>
 
 #include "defs.h"
-#ifndef KOMMANDER
-#include "project.h"
-#endif
 #include "widgetdatabase.h"
 #include "widgetfactory.h"
 #include "preferences.h"
 #include "formwindow.h"
 #include "newformimpl.h"
 #include "resource.h"
-#ifndef KOMMANDER
-#include "projectsettingsimpl.h"
-#endif
 #include "workspace.h"
 #include "createtemplate.h"
 #include "hierarchyview.h"
 #include "editslotsimpl.h"
-#ifndef KOMMANDER
-#include "finddialog.h"
-#endif
-#ifndef KOMMANDER
-#include "replacedialog.h"
-#endif
-#ifndef KOMMANDER
-#include "gotolinedialog.h"
-#endif
 #include "connectionviewerimpl.h"
 #include "formsettingsimpl.h"
-#ifndef KOMMANDER
-#include "pixmapcollectioneditor.h"
-#endif
 #include "styledbutton.h"
 #include "customwidgeteditorimpl.h"
 #include "actioneditorimpl.h"
 #include "formfile.h"
-#ifndef KOMMANDER
-#include "sourcefile.h"
-#endif
 #ifndef QT_NO_SQL
 #include "dbconnectionsimpl.h"
 #include "dbconnectionimpl.h"
@@ -84,13 +62,9 @@
 #include "command.h"
 
 #include "scriptobjecteditorimpl.h"
-
-#ifdef HAVE_KDE
 #include <kstatusbar.h>
 #include <kmenubar.h>
 #include <kfiledialog.h>
-#endif
-
 #include <klocale.h>
 #include <kstdguiitem.h>
 
@@ -215,15 +189,6 @@ void MainWindow::setupEditActions()
     connect( actionEditConnections, SIGNAL( activated() ), this, SLOT( editConnections() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditConnections, SLOT( setEnabled(bool) ) );
 
-#ifndef KOMMANDER
-    actionEditSource = new QAction( i18n("Source" ), QIconSet(),
-           i18n("&Source..." ), CTRL + Key_E, this, 0 );
-    actionEditSource->setStatusTip( i18n("Opens an editor to edit the form's source code") );
-    actionEditSource->setWhatsThis( whatsThisFrom( "Edit|Source" ) );
-    connect( actionEditSource, SIGNAL( activated() ), this, SLOT( editSource() ) );
-    connect( this, SIGNAL( hasActiveForm(bool) ), actionEditSource, SLOT( setEnabled(bool) ) );
-#endif
-
     actionEditFormSettings = new QAction( i18n("Form Settings" ), QPixmap(),
             i18n("&Form Settings..." ), 0, this, 0 );
     actionEditFormSettings->setStatusTip( i18n("Opens a dialog to change the form's settings") );
@@ -237,13 +202,8 @@ void MainWindow::setupEditActions()
     actionEditPreferences->setWhatsThis( whatsThisFrom( "Edit|Preferences" ) );
     connect( actionEditPreferences, SIGNAL( activated() ), this, SLOT( editPreferences() ) );
 
-#if defined(HAVE_KDE)
     KToolBar *tb = new KToolBar( this, "Edit" );
     tb->setFullSize( FALSE );
-#else
-    QToolBar *tb = new QToolBar( this, "Edit" );
-    tb->setCloseMode( QDockWindow::Undocked );
-#endif
     QWhatsThis::add( tb, i18n("<b>The Edit toolbar</b>%1").arg(toolbarHelp));
     addToolBar( tb, i18n("Edit" ) );
     actionEditUndo->addTo( tb );
@@ -252,11 +212,6 @@ void MainWindow::setupEditActions()
     actionEditCut->addTo( tb );
     actionEditCopy->addTo( tb );
     actionEditPaste->addTo( tb );
-#if 0
-    tb->addSeparator();
-    actionEditLower->addTo( tb );
-    actionEditRaise->addTo( tb );
-#endif
 
     QPopupMenu *menu = new QPopupMenu( this, "Edit" );
     menubar->insertItem( i18n("&Edit" ), menu );
@@ -269,11 +224,6 @@ void MainWindow::setupEditActions()
     actionEditDelete->addTo( menu );
     actionEditSelectAll->addTo( menu );
     actionEditAccels->addTo( menu );
-#if 0
-    menu->insertSeparator();
-    actionEditLower->addTo( menu );
-    actionEditRaise->addTo( menu );
-#endif
     menu->insertSeparator();
     actionEditScriptObjects->addTo(menu);
     actionEditSlots->addTo( menu );
@@ -283,60 +233,6 @@ void MainWindow::setupEditActions()
     actionEditPreferences->addTo( menu );
 }
 
-#ifndef KOMMANDER
-void MainWindow::setupSearchActions()
-{
-    actionSearchFind = new QAction( i18n("Find" ), createIconSet( "searchfind.xpm" ),
-            i18n("&Find..." ), CTRL + Key_F, this, 0 );
-    connect( actionSearchFind, SIGNAL( activated() ), this, SLOT( searchFind() ) );
-    actionSearchFind->setEnabled( FALSE );
-    actionSearchFind->setWhatsThis( whatsThisFrom( "Search|Find" ) );
-
-    actionSearchIncremetal = new QAction( i18n("Find Incremental" ), QIconSet(),
-            i18n("Find &Incremental" ), ALT + Key_I, this, 0 );
-    connect( actionSearchIncremetal, SIGNAL( activated() ), this, SLOT( searchIncremetalFindMenu() ) );
-    actionSearchIncremetal->setEnabled( FALSE );
-    actionSearchIncremetal->setWhatsThis( whatsThisFrom( "Search|Find Incremental" ) );
-
-    actionSearchReplace = new QAction( i18n("Replace" ), QIconSet(),
-            i18n("&Replace..." ), CTRL + Key_R, this, 0 );
-    connect( actionSearchReplace, SIGNAL( activated() ), this, SLOT( searchReplace() ) );
-    actionSearchReplace->setEnabled( FALSE );
-    actionSearchReplace->setWhatsThis( whatsThisFrom( "Search|Replace" ) );
-
-    actionSearchGotoLine = new QAction( i18n("Go to Line" ), QIconSet(),
-            i18n("&Go to Line..." ), ALT + Key_G, this, 0 );
-    connect( actionSearchGotoLine, SIGNAL( activated() ), this, SLOT( searchGotoLine() ) );
-    actionSearchGotoLine->setEnabled( FALSE );
-    actionSearchGotoLine->setWhatsThis( whatsThisFrom( "Search|Goto line" ) );
-
-#if defined(HAVE_KDE)
-    KToolBar *tb = new KToolBar( this, "Search" );
-    tb->setFullSize( FALSE );
-#else
-    QToolBar *tb = new QToolBar( this, "Search" );
-    tb->setCloseMode( QDockWindow::Undocked );
-#endif
-    addToolBar( tb, i18n("Search" ) );
-
-    actionSearchFind->addTo( tb );
-    incrementalSearch = new QLineEdit( tb );
-    QToolTip::add( incrementalSearch, i18n("Incremental Search (Alt+I)" ) );
-    connect( incrementalSearch, SIGNAL( textChanged( const QString & ) ),
-       this, SLOT( searchIncremetalFind() ) );
-    connect( incrementalSearch, SIGNAL( returnPressed() ),
-       this, SLOT( searchIncremetalFindNext() ) );
-    incrementalSearch->setEnabled( FALSE );
-
-    QPopupMenu *menu = new QPopupMenu( this, "Search" );
-    menubar->insertItem( i18n("&Search" ), menu );
-    actionSearchFind->addTo( menu );
-    actionSearchIncremetal->addTo( menu );
-    actionSearchReplace->addTo( menu );
-    menu->insertSeparator();
-    actionSearchGotoLine->addTo( menu );
-}
-#endif
 
 void MainWindow::setupLayoutActions()
 {
@@ -460,13 +356,8 @@ void MainWindow::setupToolActions()
     actionOrderTool->setStatusTip( i18n("Selects the tab order tool") );
     actionOrderTool->setWhatsThis( whatsThisFrom( "Tools|Tab Order" ) );
 
-#if defined(HAVE_KDE)
     KToolBar *tb = new KToolBar( this, "Tools" );
     tb->setFullSize( FALSE );
-#else
-    QToolBar *tb = new QToolBar( this, "Tools" );
-    tb->setCloseMode( QDockWindow::Undocked );
-#endif
     QWhatsThis::add( tb, i18n("<b>The Tools toolbar</b>%1" ).arg(toolbarHelp) );
 
     addToolBar( tb, i18n("Tools" ), QMainWindow::DockTop, TRUE );
@@ -496,13 +387,8 @@ void MainWindow::setupToolActions()
   if ( !WidgetDatabase::isGroupVisible( grp ) ||
        WidgetDatabase::isGroupEmpty( grp ) )
       continue;
-#if defined(HAVE_KDE)
   KToolBar *tb = new KToolBar( this, grp.latin1() );
   tb->setFullSize( FALSE );
-#else
-  QToolBar *tb = new QToolBar( this, grp.latin1() );
-  tb->setCloseMode( QDockWindow::Undocked );
-#endif
   bool plural = grp[(int)grp.length()-1] == 's';
   if ( plural ) {
       QWhatsThis::add( tb, i18n("<b>The %1</b>%2" ).arg(grp).arg(toolbarHelp).
@@ -559,13 +445,8 @@ void MainWindow::setupToolActions()
     }
 
     if ( !customWidgetToolBar ) {
-#if defined(HAVE_KDE)
   KToolBar *tb = new KToolBar( this, "Custom Widgets" );
   tb->setFullSize( FALSE );
-#else
-  QToolBar *tb = new QToolBar( this, "Custom Widgets" );
-  tb->setCloseMode( QDockWindow::Undocked );
-#endif
   QWhatsThis::add( tb, i18n("<b>The Custom Widgets toolbar</b>%1"
          "<p>Click <b>Edit Custom Widgets...</b> in the <b>Tools|Custom</b> menu to "
          "add and change custom widgets</p>" ).arg(toolbarHelp).
@@ -586,16 +467,8 @@ void MainWindow::setupToolActions()
 
 void MainWindow::setupFileActions()
 {
-#if defined(HAVE_KDE)
     KToolBar *tb = new KToolBar( this, "File" );
     tb->setFullSize( FALSE );
-#else
-    QToolBar* tb  = new QToolBar( this, "File" );
-    tb->setCloseMode( QDockWindow::Undocked );
-#endif
-#ifndef KOMMANDER
-    projectToolBar = tb;
-#endif
 
     QWhatsThis::add( tb, i18n("<b>The File toolbar</b>%1" ).arg(toolbarHelp) );
     addToolBar( tb, i18n("File" ) );
@@ -612,9 +485,6 @@ void MainWindow::setupFileActions()
     a->setStatusTip( i18n("Creates a new dialog" ) );
     a->setWhatsThis( whatsThisFrom( "File|New" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileNew() ) );
-#if 0
-  connect( a, SIGNAL( activated() ), this, SLOT( newActivated() ) );
-#endif
     a->addTo( tb );
     a->addTo( fileMenu );
 
@@ -637,11 +507,7 @@ void MainWindow::setupFileActions()
     a->setStatusTip( i18n("Closes the current dialog" ) );
     a->setWhatsThis(whatsThisFrom( "File|Close" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileClose() ) );
-#ifndef KOMMANDER
-    connect( this, SIGNAL( hasActiveWindowOrProject(bool) ), a, SLOT( setEnabled(bool) ) );
-#else
     connect( this, SIGNAL( hasActiveWindow(bool) ), a, SLOT( setEnabled(bool) ) );
-#endif
     a->addTo( fileMenu );
 
     fileMenu->insertSeparator();
@@ -654,11 +520,7 @@ void MainWindow::setupFileActions()
     a->setStatusTip( i18n("Saves the current dialog" ) );
     a->setWhatsThis(whatsThisFrom( "File|Save" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileSave() ) );
-#ifndef KOMMANDER
-    connect( this, SIGNAL( hasActiveWindowOrProject(bool) ), a, SLOT( setEnabled(bool) ) );
-#else
     connect( this, SIGNAL( hasActiveWindow(bool) ), a, SLOT( setEnabled(bool) ) );
-#endif
     a->addTo( tb );
     a->addTo( fileMenu );
 
@@ -677,46 +539,18 @@ void MainWindow::setupFileActions()
     a->setStatusTip( i18n("Saves all open dialogs" ) );
     a->setWhatsThis( whatsThisFrom( "File|Save All" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileSaveAll() ) );
-#ifndef KOMMANDER
-    connect( this, SIGNAL( hasActiveWindowOrProject(bool) ), a, SLOT( setEnabled(bool) ) );
-#else
     connect( this, SIGNAL( hasActiveWindow(bool) ), a, SLOT( setEnabled(bool) ) );
-#endif
     a->addTo( fileMenu );
 
     fileMenu->insertSeparator();
-#ifndef KOMMANDER
-    a = new QAction( this, 0 );
-    a->setText( i18n("Create Template" ) );
-    a->setMenuText( i18n("Create &Template..." ) );
-    a->setStatusTip( i18n("Creates a new template" ) );
-    a->setWhatsThis( whatsThisFrom( "File|Create Template" ) );
-    connect( a, SIGNAL( activated() ), this, SLOT( fileCreateTemplate() ) );
-    a->addTo( fileMenu );
-
-    fileMenu->insertSeparator();
-#endif
-
     recentlyFilesMenu = new QPopupMenu( this );
-#ifndef KOMMANDER
-    recentlyProjectsMenu = new QPopupMenu( this );
-#endif
 
     fileMenu->insertItem( i18n("Recently Opened Files " ), recentlyFilesMenu );
-#ifndef KOMMANDER
-    fileMenu->insertItem( i18n("Recently Opened Projects" ), recentlyProjectsMenu );
-#endif
 
     connect( recentlyFilesMenu, SIGNAL( aboutToShow() ),
        this, SLOT( setupRecentlyFilesMenu() ) );
     connect( recentlyFilesMenu, SIGNAL( activated( int ) ),
        this, SLOT( recentlyFilesMenuActivated( int ) ) );
-#ifndef KOMMANDER
-    connect( recentlyProjectsMenu, SIGNAL( activated( int ) ),
-       this, SLOT( recentlyProjectsMenuActivated( int ) ) );
-    connect( recentlyProjectsMenu, SIGNAL( aboutToShow() ),
-       this, SLOT( setupRecentlyProjectsMenu() ) );
-#endif
 
     fileMenu->insertSeparator();
 
@@ -729,83 +563,8 @@ void MainWindow::setupFileActions()
     a->addTo( fileMenu );
 }
 
-#if 0
-void MainWindow::newActivated()
-{
-  fprintf(stderr, "NEW ACTIVIATED!\n");
-}
-#endif
 
-#ifndef KOMMANDER
-void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
-{
-#ifndef KOMMANDER
-    projectMenu = new QPopupMenu( this, "Project" );
-    menubar->insertItem( i18n("Pr&oject" ), projectMenu );
-
-    QActionGroup *ag = new QActionGroup( this, 0 );
-    ag->setText( i18n("Active Project" ) );
-    ag->setMenuText( i18n("Active Project" ) );
-    ag->setExclusive( TRUE );
-    ag->setUsesDropDown( TRUE );
-    connect( ag, SIGNAL( selected( QAction * ) ), this, SLOT( projectSelected( QAction * ) ) );
-    connect( ag, SIGNAL( selected( QAction * ) ), this, SIGNAL( projectChanged() ) );
-    QAction *a = new QAction( i18n("<No Project>" ), i18n("<No Project>" ), 0, ag, 0, TRUE );
-
-    eProject = new Project( "", i18n("<No Project>" ), projectSettingsPluginManager, TRUE );
-    projects.insert( a, eProject );
-
-    a->setOn( TRUE );
-    ag->addTo( projectMenu );
-    ag->addTo( projectToolBar );
-    actionGroupProjects = ag;
-
-    projectMenu->insertSeparator();
-
-    a = new QAction( i18n("Add File" ), QPixmap(), i18n("&Add File..." ), 0, this, 0 );
-    a->setStatusTip( i18n("Adds a file to the current project") );
-    a->setWhatsThis( whatsThisFrom( "Project|Add File" ) );
-    connect( a, SIGNAL( activated() ), this, SLOT( projectInsertFile() ) );
-    a->setEnabled( FALSE );
-    connect( this, SIGNAL( hasNonDummyProject(bool) ), a, SLOT( setEnabled(bool) ) );
-    a->addTo( projectMenu );
-
-    QAction* actionEditPixmapCollection = new QAction( i18n("Image Collection..." ), QPixmap(),
-            i18n("&Image Collection..." ), 0, this, 0 );
-    actionEditPixmapCollection->setStatusTip( i18n("Opens a dialog for editing the current project's image collection") );
-    actionEditPixmapCollection->setWhatsThis( whatsThisFrom( "Project|Image Collection" ) );
-    connect( actionEditPixmapCollection, SIGNAL( activated() ), this, SLOT( editPixmapCollection() ) );
-    actionEditPixmapCollection->setEnabled( FALSE );
-    connect( this, SIGNAL( hasNonDummyProject(bool) ), actionEditPixmapCollection, SLOT( setEnabled(bool) ) );
-    actionEditPixmapCollection->addTo( projectMenu );
-
-#ifndef QT_NO_SQL
-    QAction* actionEditDatabaseConnections = new QAction( i18n("Database Connections..." ), QPixmap(),
-             i18n("&Database Connections..." ), 0, this, 0 );
-    actionEditDatabaseConnections->setStatusTip( i18n("Opens a dialog for editing the current project's database connections") );
-    actionEditDatabaseConnections->setWhatsThis( whatsThisFrom( "Project|Database Connections" ) );
-    connect( actionEditDatabaseConnections, SIGNAL( activated() ), this, SLOT( editDatabaseConnections() ) );
-    //actionEditDatabaseConnections->setEnabled( FALSE );
-    //connect( this, SIGNAL( hasNonDummyProject(bool) ), actionEditDatabaseConnections, SLOT( setEnabled(bool) ) );
-    actionEditDatabaseConnections->addTo( projectMenu );
-#endif
-
-    QAction* actionEditProjectSettings = new QAction( i18n("Project Settings..." ), QPixmap(),
-            i18n("&Project Settings..." ), 0, this, 0 );
-    actionEditProjectSettings->setStatusTip( i18n("Opens a dialog to change the project's settings") );
-    actionEditProjectSettings->setWhatsThis( whatsThisFrom( "Project|Project Settings" ) );
-    connect( actionEditProjectSettings, SIGNAL( activated() ), this, SLOT( editProjectSettings() ) );
-    actionEditProjectSettings->setEnabled( FALSE );
-    connect( this, SIGNAL( hasNonDummyProject(bool) ), actionEditProjectSettings, SLOT( setEnabled(bool) ) );
-    actionEditProjectSettings->addTo( projectMenu );
-#endif
-    eProject = new Project( "", i18n("<No Project>" ), projectSettingsPluginManager, TRUE );
-    projects.insert(0, eProject); // dummy project
-    projectSelected(0);
-}
-#endif
-
-void MainWindow::setupPreviewActions()
+void MainWindow::setupRunActions()
 {
     QAction* a = 0;
     QPopupMenu *menu = new QPopupMenu( this, "Run" );
@@ -819,47 +578,6 @@ void MainWindow::setupPreviewActions()
     connect( a, SIGNAL( activated() ), this, SLOT( runForm() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), a, SLOT( setEnabled(bool) ) );
     a->addTo( menu );
-
-    a = new QAction( i18n("Preview Form" ), createIconSet("previewform.xpm"),
-             i18n("Preview &Form" ), 0, this, 0 );
-    a->setAccel( CTRL + Key_T );
-    a->setStatusTip( i18n("Opens a preview") );
-    a->setWhatsThis( whatsThisFrom( "Run|Preview Form" ) );
-    connect( a, SIGNAL( activated() ), this, SLOT( previewForm() ) );
-    connect( this, SIGNAL( hasActiveForm(bool) ), a, SLOT( setEnabled(bool) ) );
-    a->addTo( menu );
-
-    menu->insertSeparator();
-
-    QSignalMapper *mapper = new QSignalMapper( this );
-    connect( mapper, SIGNAL(mapped(const QString&)), this, SLOT(previewForm(const QString&)) );
-    QStringList styles = QStyleFactory::keys();
-    for ( QStringList::Iterator it = styles.begin(); it != styles.end(); ++it ) {
-  QString info;
-  if ( *it == "Motif" )
-      info = i18n("The preview will use the Motif look-and-feel, which is used as the default style on most UNIX flavors." );
-  else if ( *it == "Windows" )
-      info = i18n("The preview will use the Windows look-and-feel." );
-  else if ( *it == "Platinum" )
-      info = i18n("The preview will use the Platinum look-and-feel, which is similar to the Macintosh GUI style." );
-  else if ( *it == "CDE" )
-      info = i18n("The preview will use the CDE look-and-feel, which is similar to some versions of the Common Desktop Environment." );
-  else if ( *it == "SGI" )
-      info = i18n("The preview will use the Motif look-and-feel, which is used as the default style on SGI systems." );
-  else if ( *it == "MotifPlus" )
-      info = i18n("The preview will use the advanced Motif look-and-feel used by the GIMP toolkit (GTK) on Linux." );
-
-  a = new QAction( i18n("Preview Form in %1 Style" ).arg( *it ), createIconSet("previewform.xpm"),
-           i18n("... in %1 Style" ).arg( *it ), 0, this, 0 );
-  a->setStatusTip( i18n("Opens a preview in %1 style").arg( *it ) );
-  a->setWhatsThis( i18n("<b>Open a preview in %1 style.</b>"
-      "<p>Use the preview to test the design and "
-      "signal-slot connections of the current form. %2</p>").arg( *it ).arg( info ) );
-  mapper->setMapping( a, *it );
-  connect( a, SIGNAL(activated()), mapper, SLOT(map()) );
-  connect( this, SIGNAL( hasActiveForm(bool) ), a, SLOT( setEnabled(bool) ) );
-  a->addTo( menu );
-    }
 }
 
 void MainWindow::setupWindowActions()
@@ -976,13 +694,8 @@ void MainWindow::setupHelpActions()
     actionHelpWhatsThis->setWhatsThis( whatsThisFrom( "Help|What's This?" ) );
     connect( actionHelpWhatsThis, SIGNAL( activated() ), this, SLOT( whatsThis() ) );
 
-#if defined(HAVE_KDE)
     KToolBar *tb = new KToolBar( this, "Help" );
     tb->setFullSize( FALSE );
-#else
-    QToolBar *tb = new QToolBar( this, "Help" );
-    tb->setCloseMode( QDockWindow::Undocked );
-#endif
     QWhatsThis::add( tb, i18n("<b>The Help toolbar</b>%1" ).arg(toolbarHelp) );
     addToolBar( tb, i18n("Help" ) );
     actionHelpWhatsThis->addTo( tb );
@@ -1006,228 +719,37 @@ void MainWindow::setupHelpActions()
 void MainWindow::fileNew()
 {
     statusBar()->message( i18n("Create a new dialog...") );
-#if 1
     NewForm dlg( this, QString::null);
     dlg.exec();
-#else
-    QString n = "Form" + QString::number( ++forms );
-    FormWindow *fw = 0;
-
-#ifndef KOMMANDER
-    FormFile *ff = new FormFile( FormFile::createUnnamedFileName(), TRUE, currentProject);
-#else
-    FormFile *ff = new FormFile( FormFile::createUnnamedFileName(), TRUE );
-#endif
-    fw = new FormWindow( ff, MainWindow::self, MainWindow::self->qWorkspace(), n );
-#ifndef KOMMANDER
-    fw->setProject(currentProject);
-#endif
-    MetaDataBase::addEntry( fw );
-    int id = WidgetDatabase::idFromClassName("Dialog");
-    QWidget *w = WidgetFactory::create( id, fw, n.latin1() );
-    fw->setMainContainer( w );
-
-    fw->setCaption( n );
-    fw->resize( 600, 480 );
-    MainWindow::self->insertFormWindow( fw );
-
-    TemplateWizardInterface *iface =
-  MainWindow::self->templateWizardInterface( fw->mainContainer()->className() );
-    if ( iface ) {
-  iface->setup( fw->mainContainer()->className(), fw->mainContainer(),
-          fw->iFace(), MainWindow::self->designerInterface() );
-  iface->release();
-    }
-
-    // the wizard might have changed a lot, lets update everything
-    MainWindow::self->actioneditor()->setFormWindow( fw );
-    MainWindow::self->objectHierarchy()->setFormWindow( fw, fw );
-#ifndef KOMMANDER
-  MainWindow::self->objectHierarchy()->formDefinitionView()->refresh();
-#endif
-    fw->killAccels( fw );
-#ifndef KOMMANDER
-    fw->project()->setModified( TRUE );
-#endif
-    fw->setFocus();
-#ifndef KOMMANDER
-    if ( !currentProject->isDummy() ) {
-  fw->setSavePixmapInProject( TRUE );
-  fw->setSavePixmapInline( FALSE );
-    }
-#endif
-#endif
     statusBar()->clear();
 }
 
 void MainWindow::fileClose()
 {
-#ifndef KOMMANDER
-    if ( !currentProject->isDummy() ) {
-  fileCloseProject();
-    } else {
-  QWidget *w = qworkspace->activeWindow();
-  if ( w->inherits( "FormWindow" ) )
-  {
-      ( (FormWindow*)w )->formFile()->close();
-  }
-  else if ( w->inherits( "SourceEditor" ) )
-      ( (SourceEditor*)w )->close();
-    }
-#else
   QWidget *w = qworkspace->activeWindow();
   if ( w->inherits( "FormWindow" ) )
   {
       emit removedFormFile(((FormWindow *)w)->formFile());
       ( (FormWindow*)w )->formFile()->close();
   }
-#ifndef KOMMANDER
-  else if ( w->inherits( "SourceEditor" ) )
-      ( (SourceEditor*)w )->close();
-#endif
-#endif
 }
 
 
-#ifndef KOMMANDER
-void MainWindow::fileCloseProject()
-{
-    if ( currentProject->isDummy() )
-  return;
-    Project *pro = currentProject;
-    QAction* a = 0;
-    QAction* lastValid = 0;
-    for ( QMap<QAction*, Project* >::Iterator it = projects.begin(); it != projects.end(); ++it ) {
-  if ( it.data() == pro ) {
-      a = it.key();
-      if ( lastValid )
-    break;
-  }
-  lastValid = it.key();
-    }
-    if ( a ) {
-  if ( pro->isModified() ) {
-      switch ( QMessageBox::warning( this, i18n("Save Project Settings" ),
-             i18n("Save changes to '%1'?" ).arg( pro->fileName() ),
-                                     KStdGuiItem::yes().text(), KStdGuiItem::yes().no(),
-                                     KStdGuiItem::cancel().text(), 0, 2 ) ) {
-      case 0: // save
-    pro->save();
-    break;
-      case 1: // don't save
-    break;
-      case 2: // cancel
-    return;
-      default:
-    break;
-      }
-  }
-
-  QWidgetList windows = qWorkspace()->windowList();
-  qWorkspace()->blockSignals( TRUE );
-  QWidgetListIt wit( windows );
-  while ( wit.current() ) {
-      QWidget *w = wit.current();
-      ++wit;
-      if ( w->inherits( "FormWindow" ) ) {
-    if ( ( (FormWindow*)w )->project() == pro ) {
-        if ( ( (FormWindow*)w )->formFile()->editor() )
-      windows.removeRef( ( (FormWindow*)w )->formFile()->editor() );
-        if ( !( (FormWindow*)w )->formFile()->close() )
-      return;
-    }
-      } else if ( w->inherits( "SourceEditor" ) ) {
-    if ( !( (SourceEditor*)w )->close() )
-        return;
-      }
-  }
-  hierarchyView->clear();
-  windows = qWorkspace()->windowList();
-  qWorkspace()->blockSignals( FALSE );
-  actionGroupProjects->removeChild( a );
-  projects.remove( a );
-  delete a;
-  currentProject = 0;
-  if ( lastValid ) {
-      projectSelected( lastValid );
-      statusBar()->message( i18n("Selected project '%1".arg( currentProject->projectName() ) );
-  }
-  if ( !windows.isEmpty() ) {
-      for ( QWidget *w = windows.first(); w; w = windows.next() ) {
-    if ( !w->inherits( "FormWindow" ) )
-        continue;
-    w->setFocus();
-    activeWindowChanged( w );
-    break;
-      }
-  } else {
-      emit hasActiveWindow( FALSE );
-      emit hasActiveForm( FALSE );
-      updateUndoRedo( FALSE, FALSE, QString::null, QString::null );
-  }
-    }
-}
-#endif
 
 void MainWindow::fileOpen() // as called by the menu
 {
-#ifndef KOMMANDER
-  fileOpen( "", "", "", FALSE );
-#else
   fileOpen("", "");
-#endif
 }
 
-#ifndef KOMMANDER
-void MainWindow::projectInsertFile()
-{
-    fileOpen( "", "" );
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::fileOpen( const QString &filter, const QString &extension, const QString &fn, bool inProject  )
-#else
 void MainWindow::fileOpen( const QString &filter, const QString &fn )
-#endif
-
 {
     statusBar()->message( i18n("Open a file...") );
-
-#ifndef KOMMANDER
-    QPluginManager<ImportFilterInterface> manager( IID_ImportFilter, QApplication::libraryPaths(), "/designer" );
-#endif
-
-#ifndef KOMMANDER
-    Project* project = inProject ? currentProject : eProject;
-    Project *project = project = currentProject;
-#endif
-
     QStringList additionalSources;
 
     {
   QStringList filterlist;
   if ( filter.isEmpty() ) {
-#ifndef KOMMANDER
-      if ( !inProject )
-    filterlist << i18n("Designer Files (*.ui *.pro)" );
-      filterlist << i18n("Qt User-Interface Files (*.ui)" );
-#else
       filterlist << i18n("*.kmdr|Kommander Files");
-#endif
-#ifndef KOMMANDER
-      if ( !inProject )
-    filterlist << i18n("QMAKE Project Files (*.pro)" );
-      QStringList list = manager.featureList();
-      for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
-    filterlist << *it;
-      LanguageInterface *iface = MetaDataBase::languageInterface( project->language() );
-      if ( iface && iface->supports( LanguageInterface::AdditionalFiles ) ) {
-    filterlist +=  iface->fileFilterList();
-    additionalSources += iface->fileExtensionList();
-      }
-      filterlist << i18n("All Files (*)" );
-#endif
   } else {
       filterlist << filter;
   }
@@ -1236,22 +758,7 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
 
   QStringList filenames;
   if ( fn.isEmpty() ) {
-#ifndef KOMMANDER
-      if ( !inProject ) {
-    QString f = KFileDialog::getOpenFileName( QString::null, filters, this, 0,
-                (inProject ? i18n("Add") : i18n("Open" )),
-                &lastOpenFilter );
-    filenames << f;
-      } else {
-    filenames = KFileDialog::getOpenFileNames( filters, QString::null, this, 0,
-                (inProject ? i18n("Add") : i18n("Open" )),
-                &lastOpenFilter );
-#else
     filenames = KFileDialog::getOpenFileNames(QString::null, filters, this, i18n("Open Files"));
-#endif
-#ifndef KOMMANDER
-      }
-#endif
   } else {
       filenames << fn;
   }
@@ -1260,61 +767,9 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
       if ( !filename.isEmpty() ) {
     QFileInfo fi( filename );
 
-#ifndef KOMMANDER
-    if ( fi.extension( FALSE ) == "pro" && ( extension.isEmpty() || extension.find( ";pro" ) != -1 ) ) {
-        addRecentlyOpened( filename, recentlyProjects );
-        openProject( filename );
-    } else if ( fi.extension( FALSE ) == "ui" && ( extension.isEmpty() || extension.find( ";ui" ) != -1 ) ) {
-        if ( !inProject )
-      setCurrentProject( eProject );
-        openFormWindow( filename );
-        addRecentlyOpened( filename, recentlyFiles );
-    } else if ( !extension.isEmpty() && extension.find( ";" + fi.extension( FALSE ) ) != -1 ||
-          additionalSources.find( fi.extension( FALSE ) ) != additionalSources.end() ) {
-        LanguageInterface *iface = MetaDataBase::languageInterface( project->language() );
-        if ( iface && iface->supports( LanguageInterface::AdditionalFiles ) ) {
-      SourceFile *sf = project->findSourceFile( project->makeRelative( filename ) );
-      if ( !sf )
-          sf = new SourceFile( project->makeRelative( filename ), FALSE, project );
-      editSource( sf );
-        }
-    } else if ( extension.isEmpty() ) {
-        QString filter;
-        for ( QStringList::Iterator it2 = filterlist.begin(); it2 != filterlist.end(); ++it2 ) {
-      if ( (*it2).contains( fi.extension( FALSE ), FALSE ) ) {
-          filter = *it2;
-          break;
-      }
-        }
-
-        ImportFilterInterface* iface = 0;
-        manager.queryInterface( filter, &iface );
-        if ( !iface ) {
-      statusBar()->message( i18n("No import filter is available to import '%1'").
-                arg( filename ), 3000 );
-      return;
-        }
-        statusBar()->message( i18n("Importing '%1' using import filter...").arg( filename ) );
-        QStringList list = iface->import( filter, filename );
-        iface->release();
-        if ( list.isEmpty() ) {
-      statusBar()->message( i18n("Nothing to load in '%1'").arg( filename ), 3000 );
-      return;
-        }
-        if ( !inProject )
-      setCurrentProject( eProject );
-        addRecentlyOpened( filename, recentlyFiles );
-        for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
-      openFormWindow( *it, FALSE );
-      QFile::remove( *it );
-        }
-        statusBar()->clear();
-    }
-#else
         openFormWindow( filename );
 
         addRecentlyOpened( filename, recentlyFiles );
-#endif
 
       }
   }
@@ -1339,24 +794,10 @@ FormWindow *MainWindow::openFormWindow( const QString &filename, bool validFileN
     if ( !makeNew ) {
   statusBar()->message( i18n("Reading file '%1'...").arg( filename ) );
   if ( QFile::exists( filename ) ) {
-#ifndef KOMMANDER
-      FormFile *ff2 = currentProject->findFormFile( currentProject->makeRelative( filename ) );
-      if ( ff2 && ff2->formWindow() ) {
-    ff2->formWindow()->setFocus();
-    return ff2->formWindow();
-      }
-      if ( ff2 )
-    ff = ff2;
-#endif
       QApplication::setOverrideCursor( WaitCursor );
       Resource resource( this );
       if ( !ff )
-#ifndef KOMMANDER
-    ff = new FormFile( currentProject->makeRelative( filename ), FALSE, currentProject );
-#else
     ff = new FormFile( filename , FALSE );
-
-#endif
       bool b = resource.load( ff ) && (FormWindow*)resource.widget();
       if ( !validFileName && resource.widget() )
     ( (FormWindow*)resource.widget() )->setFileName( QString::null );
@@ -1385,41 +826,12 @@ FormWindow *MainWindow::openFormWindow( const QString &filename, bool validFileN
 
 bool MainWindow::fileSave()
 {
-
-#ifndef KOMMANDER
-    if ( !currentProject->isDummy() )
-  return fileSaveProject();
-#endif
-    return fileSaveForm();
+  return fileSaveForm();
 }
 
 bool MainWindow::fileSaveForm()
 {
     FormWindow *fw = 0;
-#ifndef KOMMANDER
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-  if ( e->object() == formWindow() || e == qWorkspace()->activeWindow() ) {
-      e->save();
-  }
-    }
-#endif
-
-
-#ifndef KOMMANDER
-    QWidget *w = qWorkspace()->activeWindow();
-    if ( w ) {
-  if ( w->inherits( "SourceEditor" ) ) {
-      SourceEditor *se = (SourceEditor*)w;
-      if ( se->formWindow() )
-    fw = se->formWindow();
-      else if ( se->sourceFile() ) {
-    se->sourceFile()->save();
-    return TRUE;
-      }
-  }
-    }
-#endif
-
     if ( !fw )
   fw = formWindow();
     if ( !fw || !fw->formFile()->save() )
@@ -1427,15 +839,6 @@ bool MainWindow::fileSaveForm()
     QApplication::restoreOverrideCursor();
     return TRUE;
 }
-
-#ifndef KOMMANDER
-bool MainWindow::fileSaveProject()
-{
-    currentProject->save();
-    statusBar()->message( i18n("Project '%1' saved.").arg( currentProject->projectName() ), 3000 );
-    return TRUE;
-}
-#endif
 
 bool MainWindow::fileSaveAs()
 {
@@ -1446,22 +849,13 @@ bool MainWindow::fileSaveAs()
   return TRUE;
     if ( w->inherits( "FormWindow" ) )
   return ( (FormWindow*)w )->formFile()->saveAs();
-#ifndef KOMMANDER
-    else if ( w->inherits( "SourceEditor" ) )
-  return ( (SourceEditor*)w )->saveAs();
-#endif
     return FALSE;
 }
 
 void MainWindow::fileSaveAll()
 {
-#ifndef KOMMANDER
-    for ( QMap<QAction*, Project* >::Iterator it = projects.begin(); it != projects.end(); ++it )
-  (*it)->save();
-    projects.getFirst()->save();
-#else
     fprintf(stderr, "MainWindow::fileSaveAll");
-#endif // FIXME
+// FIXME: does nothing now
 }
 
 static bool inSaveAllTemp = FALSE;
@@ -1479,11 +873,7 @@ void MainWindow::saveAllTemp()
   if ( !w->inherits( "FormWindow" ) )
       continue;
 
-#ifndef KOMMANDER
-  QString fn = baseName + QString::number( i++ ) + ".ui";
-#else
   QString fn = baseName + QString::number( i++ ) + ".kmdr";
-#endif
   ( (FormWindow*)w )->setFileName( fn );
   ( (FormWindow*)w )->formFile()->save();
     }
@@ -1544,11 +934,7 @@ void MainWindow::createNewTemplate()
     QFile f;
     for ( QStringList::Iterator it = templRoots.begin(); it != templRoots.end(); ++it ) {
   if ( QFile::exists( (*it) + "/templates/" )) {
-#ifndef KOMMANDER
-    QString tmpfn = (*it) + "/templates/" + fn + ".ui";
-#else
     QString tmpfn = (*it) + "/templates/" + fn + ".kmdr";
-#endif
       f.setName(tmpfn);
       if(f.open(IO_WriteOnly))
     break;
@@ -1584,65 +970,30 @@ void MainWindow::createNewTemplate()
 
 void MainWindow::editUndo()
 {
-#ifndef KOMMANDER
-    if ( qWorkspace()->activeWindow() &&
-   qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
-  ( (SourceEditor*)qWorkspace()->activeWindow() )->editUndo();
-  return;
-    }
-#endif
     if ( formWindow() )
   formWindow()->undo();
 }
 
 void MainWindow::editRedo()
 {
-#ifndef KOMMANDER
-    if ( qWorkspace()->activeWindow() &&
-   qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
-  ( (SourceEditor*)qWorkspace()->activeWindow() )->editRedo();
-  return;
-    }
-#endif
     if ( formWindow() )
   formWindow()->redo();
 }
 
 void MainWindow::editCut()
 {
-#ifndef KOMMANDER
-    if ( qWorkspace()->activeWindow() &&
-   qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
-  ( (SourceEditor*)qWorkspace()->activeWindow() )->editCut();
-  return;
-    }
-#endif
     editCopy();
     editDelete();
 }
 
 void MainWindow::editCopy()
 {
-#ifndef KOMMANDER
-    if ( qWorkspace()->activeWindow() &&
-   qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
-  ( (SourceEditor*)qWorkspace()->activeWindow() )->editCopy();
-  return;
-    }
-#endif
     if ( formWindow() )
   qApp->clipboard()->setText( formWindow()->copy() );
 }
 
 void MainWindow::editPaste()
 {
-#ifndef KOMMANDER
-    if ( qWorkspace()->activeWindow() &&
-   qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
-  ( (SourceEditor*)qWorkspace()->activeWindow() )->editPaste();
-  return;
-    }
-#endif
     if ( !formWindow() )
   return;
 
@@ -1677,13 +1028,6 @@ void MainWindow::editDelete()
 
 void MainWindow::editSelectAll()
 {
-#ifndef KOMMANDER
-    if ( qWorkspace()->activeWindow() &&
-   qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
-  ( (SourceEditor*)qWorkspace()->activeWindow() )->editSelectAll();
-  return;
-    }
-#endif
     if ( formWindow() )
   formWindow()->selectAll();
 }
@@ -1866,100 +1210,6 @@ void MainWindow::editScriptObjects()
 	delete ed;
 }
 
-#ifndef KOMMANDER
-SourceEditor *MainWindow::editSource()
-{
-    if ( !formWindow() )
-  return 0;
-    return formWindow()->formFile()->showEditor();
-}
-#endif
-
-#ifndef KOMMANDER
-SourceEditor *MainWindow::openSourceEdior()
-{
-    if ( !formWindow() )
-  return 0;
-    SourceEditor *editor = 0;
-
-    QString lang = currentProject->language();
-    if ( !MetaDataBase::hasEditor( lang ) ) {
-  QMessageBox::information( this, i18n("Edit Source" ),
-          i18n("There is no plugin for editing %1 code installed" ).arg(lang) );
-  return 0;
-    }
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
-  if ( e->language() == lang && e->object() == formWindow() ) {
-      editor = e;
-      break;
-  }
-    }
-    if ( !editor ) {
-  EditorInterface *eIface = 0;
-  editorPluginManager->queryInterface( lang, &eIface );
-  if ( !eIface )
-      return 0;
-  LanguageInterface *lIface = MetaDataBase::languageInterface( lang );
-  if ( !lIface )
-      return 0;
-  QApplication::setOverrideCursor( WaitCursor );
-  editor = new SourceEditor( qWorkspace(), eIface, lIface );
-  eIface->release();
-  lIface->release();
-
-  editor->setLanguage( lang );
-  sourceEditors.append( editor );
-  QApplication::restoreOverrideCursor();
-    }
-    if ( editor->object() != formWindow() )
-  editor->setObject( formWindow(), formWindow()->project() );
-    editor->show();
-    editor->setFocus();
-    emit editorChanged();
-    return editor;
-}
-#endif
-
-#ifndef KOMMANDER
-SourceEditor *MainWindow::editSource( SourceFile *f )
-{
-    SourceEditor *editor = 0;
-    QString lang = currentProject->language();
-    if ( !MetaDataBase::hasEditor( lang ) ) {
-  QMessageBox::information( this, i18n("Edit Source" ),
-          i18n("There is no plugin for editing %1 code installed" ).arg(lang) );
-  return 0;
-    }
-    if ( f )
-  editor = f->editor();
-
-    if ( !editor ) {
-  EditorInterface *eIface = 0;
-  editorPluginManager->queryInterface( lang, &eIface );
-  if ( !eIface )
-      return 0;
-  LanguageInterface *lIface = MetaDataBase::languageInterface( lang );
-  if ( !lIface )
-      return 0;
-  QApplication::setOverrideCursor( WaitCursor );
-  editor = new SourceEditor( qWorkspace(), eIface, lIface );
-  eIface->release();
-  lIface->release();
-
-  editor->setLanguage( lang );
-  sourceEditors.append( editor );
-  QApplication::restoreOverrideCursor();
-    }
-    if ( editor->object() != f )
-  editor->setObject( f, currentProject );
-    editor->show();
-    editor->setFocus();
-    emit editorChanged();
-    Q_UNUSED(f);
-    return editor;
-}
-#endif
-
 void MainWindow::editFormSettings()
 {
     if ( !formWindow() )
@@ -1970,33 +1220,6 @@ void MainWindow::editFormSettings()
     dlg.exec();
     statusBar()->clear();
 }
-
-#ifndef KOMMANDER
-void MainWindow::editProjectSettings()
-{
-    openProjectSettings( currentProject );
-    wspace->setCurrentProject( currentProject );
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::editPixmapCollection()
-{
-    PixmapCollectionEditor dia( this, 0, TRUE );
-    dia.setProject( currentProject );
-    dia.exec();
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::editDatabaseConnections()
-{
-#ifndef QT_NO_SQL
-    DatabaseConnectionsEditor dia( currentProject, this, 0, TRUE );
-    dia.exec();
-#endif
-}
-#endif
 
 void MainWindow::editPreferences()
 {
@@ -2026,22 +1249,6 @@ void MainWindow::editPreferences()
     dia->checkAutoEdit->setChecked( !databaseAutoEdit );
     connect( dia->buttonDocPath, SIGNAL( clicked() ),
        this, SLOT( chooseDocPath() ) );
-#ifndef KOMMANDER
-/* DITCH EVERYTHING TO DO WITH THE PREFERENCE INTERFACE - WE DON'T NEED IT FOR KOMMANDER */
-    SenderObject *senderObject = new SenderObject( designerInterface() );
-    QValueList<Tab>::Iterator it;
-    for ( it = preferenceTabs.begin(); it != preferenceTabs.end(); ++it ) {
-  Tab t = *it;
-  dia->tabWidget->addTab( t.w, t.title );
-  if ( t.receiver ) {
-      connect( dia->buttonOk, SIGNAL( clicked() ), senderObject, SLOT( emitAcceptSignal() ) );
-      connect( senderObject, SIGNAL( acceptSignal( QUnknownInterface * ) ), t.receiver, t.accept_slot );
-      connect( senderObject, SIGNAL( initSignal( QUnknownInterface * ) ), t.receiver, t.init_slot );
-      senderObject->emitInitSignal();
-      disconnect( senderObject, SIGNAL( initSignal( QUnknownInterface * ) ), t.receiver, t.init_slot );
-  }
-    }
-#endif
 
     if ( dia->exec() == QDialog::Accepted ) {
   setSnapGrid( dia->checkBoxGrid->isChecked() );
@@ -2062,18 +1269,6 @@ void MainWindow::editPreferences()
   docPath = dia->editDocPath->text();
   databaseAutoEdit = !dia->checkAutoEdit->isChecked();
     }
-#ifndef KOMMANDER
-/* BYE BYE INTERFACES */
-    delete senderObject;
-    for ( it = preferenceTabs.begin(); it != preferenceTabs.end(); ++it ) {
-  Tab t = *it;
-  dia->tabWidget->removePage( t.w );
-  t.w->reparent( 0, QPoint(0,0), FALSE );
-    }
-
-    for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() )
-  e->configChanged();
-#endif
     delete dia;
     prefDia = 0;
     statusBar()->clear();
@@ -2088,92 +1283,6 @@ void MainWindow::chooseDocPath()
   prefDia->editDocPath->setText( fn );
 }
 
-#ifndef KOMMANDER
-void MainWindow::searchFind()
-{
-    if ( !qWorkspace()->activeWindow() ||
-   !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
-   return;
-
-    if ( !findDialog )
-  findDialog = new FindDialog( this, 0, FALSE );
-    findDialog->show();
-    findDialog->raise();
-    findDialog->setEditor( ( (SourceEditor*)qWorkspace()->activeWindow() )->editorInterface(),
-         ( (SourceEditor*)qWorkspace()->activeWindow() )->object() );
-    findDialog->comboFind->setFocus();
-    findDialog->comboFind->lineEdit()->selectAll();
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::searchIncremetalFindMenu()
-{
-    incrementalSearch->selectAll();
-    incrementalSearch->setFocus();
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::searchIncremetalFind()
-{
-    if ( !qWorkspace()->activeWindow() ||
-   !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
-   return;
-
-    ( (SourceEditor*)qWorkspace()->activeWindow() )->editorInterface()->find( incrementalSearch->text(),
-                       FALSE, FALSE, TRUE, FALSE );
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::searchIncremetalFindNext()
-{
-    if ( !qWorkspace()->activeWindow() ||
-   !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
-   return;
-
-    ( (SourceEditor*)qWorkspace()->activeWindow() )->editorInterface()->find( incrementalSearch->text(),
-                       FALSE, FALSE, TRUE, TRUE );
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::searchReplace()
-{
-    if ( !qWorkspace()->activeWindow() ||
-   !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
-   return;
-
-    if ( !replaceDialog )
-  replaceDialog = new ReplaceDialog( this, 0, FALSE );
-    replaceDialog->show();
-    replaceDialog->raise();
-    replaceDialog->setEditor( ( (SourceEditor*)qWorkspace()->activeWindow() )->editorInterface(),
-         ( (SourceEditor*)qWorkspace()->activeWindow() )->object() );
-    replaceDialog->comboFind->setFocus();
-    replaceDialog->comboFind->lineEdit()->selectAll();
-}
-#endif
-
-#ifndef KOMMANDER
-void MainWindow::searchGotoLine()
-{
-    if ( !qWorkspace()->activeWindow() ||
-   !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
-   return;
-
-    if ( !gotoLineDialog )
-  gotoLineDialog = new GotoLineDialog( this, 0, FALSE );
-    gotoLineDialog->show();
-    gotoLineDialog->raise();
-    gotoLineDialog->setEditor( ( (SourceEditor*)qWorkspace()->activeWindow() )->editorInterface() );
-    gotoLineDialog->spinLine->setFocus();
-    gotoLineDialog->spinLine->setMinValue( 1 );
-    gotoLineDialog->spinLine->setMaxValue( ( (SourceEditor*)qWorkspace()->activeWindow() )->numLines() );
-    gotoLineDialog->spinLine->selectAll();
-}
-#endif
 
 void MainWindow::toolsCustomWidget()
 {
