@@ -193,7 +193,7 @@ bool Parser::parse(Mode mode)
   return m_error == None;
 }
 
-int Parser::errorLine()
+int Parser::errorLine() const
 {
   if (m_error == None)
     return -1;
@@ -213,10 +213,11 @@ ParseNode Parser::parseValue(Mode mode)
     {
       QString index = parseValue(mode).toString();
       tryKeyword(RightBracket);
-      return m_arrays[p.variableName()].contains(index) ? m_arrays[p.variableName()][index] : QString::null;
+      QString arr = p.variableName();
+      return (isArray(arr) && array(arr).contains(index)) ? array(arr)[index] : QString::null;
     }
     else
-      p = m_variables[p.variableName()];
+      p = variable(p.variableName());
   }
   else if (p.isKeyword())
     setError(Value);
@@ -423,13 +424,13 @@ void Parser::parseAssignment(Mode mode)
     tryKeyword(RightBracket);
     tryKeyword(Assign);
     ParseNode p = parseValue(mode);
-    m_arrays[var][index] = p;
+    setArray(var, index, p);
   }
   else if (tryKeyword(Assign))
   {
     ParseNode p = parseExpression(mode);
     if (mode == Execute)
-      m_variables[var] = p;
+      setVariable(var, p);
   }
 }
 
@@ -496,7 +497,7 @@ void Parser::parseFor(Mode mode)
   for (int i = start; i <= end; i+=step)
   {
     m_start = block;
-    m_variables[var] = ParseNode(i);
+    setVariable(var, ParseNode(i));
     if (parseBlock(mode) == FlowBreak)
       break;
   }
@@ -509,16 +510,16 @@ void Parser::parseForeach(Mode mode)
   m_start++;
   QString var = nextVariable();
   tryKeyword(In);
-  QString array = nextVariable();
+  QString arr = nextVariable();
   tryKeyword(Do);
   int start = m_start;
-  if (m_arrays.contains(array) && m_arrays[array].count())
+  if (isArray(arr) && array(arr).count())
   {
-    QMap<QString, ParseNode>& A = m_arrays[array];
-    for (QMapIterator<QString, ParseNode> It = A.begin(); It != A.end(); ++It)
+    const QMap<QString, ParseNode> A = array(arr);
+    for (QMapConstIterator<QString, ParseNode> It = A.begin(); It != A.end(); ++It)
     {
       m_start = start;
-      m_variables[var] = It.key();
+      setVariable(var, It.key());
       Flow flow = parseBlock(mode);
       if (flow == FlowBreak)
         break;
@@ -569,7 +570,7 @@ Flow Parser::parseBlock(Mode mode)
 
 
 
-ParseNode Parser::next()
+ParseNode Parser::next() const
 {
   if (m_error != None || m_start >= m_parts.count())
     return ParseNode();
@@ -615,16 +616,15 @@ QString Parser::nextVariable()
 }
 
 
-bool Parser::isFunction()
+bool Parser::isFunction() const
 {
   return next().isVariable() && m_data->isFunction(next().variableName());
 }
 
-bool Parser::isWidget()
+bool Parser::isWidget() const
 {
   return m_widget && next().isVariable() && m_widget->isWidget(next().variableName());
 }
-
 
 void Parser::reset()
 {
@@ -642,57 +642,77 @@ void Parser::setError(Keyword err)
   } 
 }
 
-void Parser::setVariable(const QString& name, int value)
+void Parser::setVariable(const QString& name, ParseNode value)
 {
-  m_variables[name] = ParseNode(value);
+  if (isGlobal(name))
+    m_globalVariables[name] = value;
+  else
+    m_variables[name] = value;
 }
 
-void Parser::setVariable(const QString& name, double value)
+ParseNode Parser::variable(const QString& name) const
 {
-  m_variables[name] = ParseNode(value);
-}
-  
-void Parser::setVariable(const QString& name, const QString& value)
-{
-  m_variables[name] = ParseNode(value);  
-}
-  
-QString Parser::variable(const QString& name)
-{
-  return m_variables.contains(name) ? m_variables[name].toString() : QString::null;  
+  if (isGlobal(name))
+    return m_globalVariables.contains(name) ? m_globalVariables[name] : ParseNode();  
+  else
+    return m_variables.contains(name) ? m_variables[name] : ParseNode();  
 }
 
-bool Parser::isVariable(const QString& name)
+bool Parser::isGlobal(const QString& name) const
 {
-  return m_variables.contains(name);
+  return !name.isEmpty() && name[0] == '_';
+}
+
+bool Parser::isVariable(const QString& name) const
+{
+  return m_variables.contains(name) || m_globalVariables.contains(name);
 }
 
 void Parser::unsetVariable(const QString& key)
 {
-  m_variables.remove(key);
+  if (isGlobal(key))
+    m_globalVariables.remove(key);
+  else
+    m_variables.remove(key);
 }
 
 const QMap<QString, ParseNode>& Parser::array(const QString& name)
 {
-  return m_arrays[name];
+  if (isGlobal(name))
+    return m_globalArrays[name];
+  else
+    return m_arrays[name];
 }
 
-bool Parser::isArray(const QString& name)
+bool Parser::isArray(const QString& name) const
 {
-  return m_arrays.contains(name);
+  return m_arrays.contains(name) || m_globalArrays.contains(name);
 }
 
 void Parser::setArray(const QString& name, const QString& key, ParseNode value)
 {
-  m_arrays[name][key] = value;
+  if (isGlobal(name))
+    m_globalArrays[name][key] = value;
+  else
+    m_arrays[name][key] = value;
 }
   
 void Parser::unsetArray(const QString& name, const QString& key)
 {
-  if (key == QString::null)
-    m_arrays.remove(name);
-  else if (isArray(name))
-    m_arrays[name].remove(key);
+  if (isGlobal(name))
+  {
+    if (key == QString::null)
+      m_globalArrays.remove(name);
+    else if (isArray(name))
+      m_globalArrays[name].remove(key);
+  }
+  else
+  {
+    if (key == QString::null)
+      m_arrays.remove(name);
+    else if (isArray(name))
+      m_arrays[name].remove(key);
+  }
 }
 
 
@@ -701,3 +721,7 @@ KommanderWidget* Parser::currentWidget() const
 {
   return m_widget;  
 }
+  
+QMap<QString, ParseNode> Parser::m_globalVariables;
+QMap<QString, QMap<QString, ParseNode> > Parser::m_globalArrays;
+

@@ -220,7 +220,7 @@ void ParseNode::setContext(int c)
   m_context = c;
 }
   
-int ParseNode::context()
+int ParseNode::context() const
 {
   return m_context;  
 }

@@ -100,7 +100,7 @@ public:
   /* for setting some context information, f. e. for bug reporting */
   void setContext(int c);
   /* get current context */
-  int context();
+  int context() const;
   
 private:
   Parse::ValueType m_type;

@@ -41,26 +41,22 @@ public:
   // execute whole block; return true if ok
   bool parse(Parse::Mode mode = Parse::Execute);
   // return line of errorneous node
-  int errorLine();
+  int errorLine() const;
   // return error message
   QString errorMessage();
   
   // check if this is a name of standard variable
   bool isVariable(const QString& name);
   // set variable value
-  void setVariable(const QString& name, int value);
-  // set variable value
-  void setVariable(const QString& name, double value);
-  // set variable value
-  void setVariable(const QString& name, const QString& value);
+  void setVariable(const QString& name, ParseNode value);
   // unset variable
   void unsetVariable(const QString& key);
   // get variable value
-  QString variable(const QString& name);
+  ParseNode variable(const QString& name) const;
   // access associative array 
   const QMap<QString, ParseNode>& array(const QString& name);
   // check if this is a name of an array
-  bool isArray(const QString& name);
+  bool isArray(const QString& name) const;
   // set array key
   void setArray(const QString& name, const QString& key, ParseNode value);
   // unset array key or whole array
@@ -126,7 +122,7 @@ private:
   // insert next node
   void insertNode(ParseNode p, int line);
   // next item to be parsed
-  ParseNode next();
+  ParseNode next() const;
   // check if next item is keyword k, if so - go further, if no, set error
   bool tryKeyword(Parse::Keyword k, Parse::Mode mode = Parse::Execute);
   // check if next item is a variable, if so, return its name
@@ -134,10 +130,14 @@ private:
     
   // get the name of the next node treated as variable
   QString nextVariable();
+  // check whether name is a valid variable is global
+  bool isVariable(const QString& name) const;
+  // check whether variable/array name is global (preceeded with _)
+  bool isGlobal(const QString& name) const;
   // check if next item is a function
-  bool isFunction();
+  bool isFunction() const;
   // check if next item is a widget
-  bool isWidget();
+  bool isWidget() const;
    
   // reset to default state
   void reset();
@@ -160,6 +160,10 @@ private:
   QMap<QString, QMap<QString, ParseNode> > m_arrays;
   // Kommander 
   KommanderWidget* m_widget;
+  // global variables
+  static QMap<QString, ParseNode> m_globalVariables;
+  // global arrays
+  static QMap<QString, QMap<QString, ParseNode> > m_globalArrays;
 };
 
 #endif
