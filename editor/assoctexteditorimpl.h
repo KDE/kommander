@@ -22,6 +22,7 @@
 #include <qobject.h>
 #include <qmap.h>
 #include <qptrvector.h>
+#include <qpixmap.h>
 
 #include "assoctexteditor.h"
 #include <kommanderwidget.h>
@@ -83,7 +84,9 @@ private:
   QMap<QString, QString> m_atdict;
   // Current population text
   QString m_populationText;
-  
+  // Non-enmpty script pixmap
+  QPixmap scriptPixmap;
+      
   // Create list of all widgets on the same dialog as current widget 
   // Set store to true, to update m_widgetList;
   void buildWidgetList();

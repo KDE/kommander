@@ -17,6 +17,8 @@
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
+#include <kglobal.h>
+#include <kiconloader.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -42,6 +44,9 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     PropertyEditor* a_property, QWidget *a_parent, const char *a_name, bool a_modal)
     : AssocTextEditorBase(a_parent, a_name, a_modal)
 {
+  // icon for non-empty scripts
+  scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);
+  
   // signals and slots connections
   m_formWindow = a_form;
   m_propertyEditor = a_property;
@@ -57,6 +62,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     }
   buildFunctionList();
   setWidget(a_widget);
+  
   
   connect(associatedTextEdit, SIGNAL(textChanged()), SLOT(textEditChanged()));
   connect(widgetsComboBox, SIGNAL(activated(int)), SLOT(widgetChanged(int)));
@@ -102,7 +108,12 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   }
   m_populationText = a_atw->populationText();
     
-  // initial text for initial state
+  // show pixmaps for nonempty scripts
+  for (int i=0; i<stateComboBox->count(); i++)
+    if (!m_atdict[stateComboBox->text(i)].isNull())
+       stateComboBox->changeItem(scriptPixmap, stateComboBox->text(i), i);
+  
+    // initial text for initial state
   m_currentState = stateComboBox->currentText();
 
   // show current state
@@ -218,6 +229,11 @@ void AssocTextEditor::textEditChanged()
   if (m_currentState == "population")
     m_populationText = associatedTextEdit->text();
   m_atdict[m_currentState] = associatedTextEdit->text();
+  int index = stateComboBox->currentItem();
+  if (associatedTextEdit->text().isEmpty())
+    stateComboBox->changeItem(QPixmap(), stateComboBox->currentText(), index);
+  else if (stateComboBox->pixmap(index)->isNull())
+    stateComboBox->changeItem(scriptPixmap, stateComboBox->currentText(), index);
 }
 
 void AssocTextEditor::widgetChanged(int index)
