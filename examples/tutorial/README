@@ -38,4 +38,9 @@ Functions/concepts:
 - populate()
 - slots/connections
 
-
+* APPEND.KMDR
+Shows how you can append text to TextEdit, and how you can use it to display
+formatted text.
+Functions/concepts:
+- changeWidetText
+- RichTextEdit

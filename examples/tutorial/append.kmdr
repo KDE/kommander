@@ -1,0 +1,115 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>379</width>
+            <height>272</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Append date</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+        </stringlist>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="TextEdit" row="0" column="0">
+            <property name="name">
+                <cstring>TextEdit1</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@widgetText</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>Layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Insert date</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>DATE="Button pressed: &lt;i&gt;`date`&lt;/i&gt;"
+TEXT='@TextEdit1'"$DATE"
+dcop @dcopid KommanderIf changeWidgetText TextEdit1 "$TEXT"
+</string>
+                        </stringlist>
+                    </property>
+                    <property name="writeStdout">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
