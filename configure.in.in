@@ -1,4 +1,4 @@
-CPPFLAGS="$CPPFLAGS -g -DKOMMANDER -DDESIGNER -DQT_NO_SQL -DHAVE_KDE"
+CPPFLAGS="$CPPFLAGS -DKOMMANDER -DDESIGNER -DQT_NO_SQL -DHAVE_KDE"
 
 # Process user input to configure
 with_kommander = "yes"
