@@ -27,148 +27,11 @@
 // Other includes
 #include "mainwindow.h"
 #include "kommanderwidget.h"
-/*
-#if defined(Q_WS_X11)
-extern void qt_wait_for_window_manager( QWidget* );
-#endif
 
-
-
-#if defined(Q_OS_IRIX) && defined(Q_CC_GNU)
-static void signalHandler()
-#else
-static void signalHandler( int )
-#endif
-{
-  QFile f(QDir::homeDirPath() + "/.designerargs");
-  f.open(IO_ReadOnly);
-  QString args;
-  f.readLine(args, f.size());
-  QStringList lst = QStringList::split(" ", args);
-  for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it)
-  {
-    QString arg = (*it).stripWhiteSpace();
-    if (arg[0] != '-')
-    {
-      QObjectList *l = MainWindow::self->queryList("FormWindow");
-      FormWindow *fw = (FormWindow *) l->first();
-      bool haveit = FALSE;
-      while (fw)
-      {
-        haveit = haveit || fw->fileName() == arg;
-        fw = (FormWindow *) l->next();
-      }
-      if (!haveit)
-      {
-        MainWindow::self->openFormWindow(arg);
-      }
-    }
-  }
-  MainWindow::self->raise();
-  MainWindow::self->setActiveWindow();
-}
-
-
-
-#if defined(Q_OS_IRIX) && defined(Q_CC_GNU)
-static void exitHandler()
-#else
-static void exitHandler( int )
-#endif
-{
-    QDir d( QDir::homeDirPath() );
-    d.remove( ".designerpid" );
-    exit( -1 );
-}
-*/
-
-
-
-/* FROM MAIN
-
-  bool creatPid = FALSE;
-  if (a.argc() > 1)
-{
-  QString arg1 = a.argv()[1];
-  if (arg1 == "-client")
-  {
-    QFile pf(QDir::homeDirPath() + "/.designerpid");
-    if (pf.exists() && pf.open(IO_ReadOnly))
-    {
-      QString pidStr;
-      pf.readLine(pidStr, pf.size());
-      QFile f(QDir::homeDirPath() + "/.designerargs");
-      f.open(IO_WriteOnly);
-      QTextStream ts(&f);
-      for (int i = 1; i < a.argc(); ++i)
-        ts << a.argv()[i] << " ";
-      ts << endl;
-      f.close();
-      if (kill(pidStr.toInt(), SIGUSR1) == -1)
-        creatPid = TRUE;
-      else
-        return 0;
-    } else
-    {
-      creatPid = TRUE;
-    }
-  }
-}
-
-  if (creatPid)
-{
-  QFile pf(QDir::homeDirPath() + "/.designerpid");
-  pf.open(IO_WriteOnly);
-  QTextStream ts(&pf);
-  signal(SIGUSR1, signalHandler);
-  ts << getpid() << endl;
-
-  pf.close();
-  signal(SIGABRT, exitHandler);
-  signal(SIGFPE, exitHandler);
-  signal(SIGILL, exitHandler);
-  signal(SIGINT, exitHandler);
-  signal(SIGSEGV, exitHandler);
-  signal(SIGTERM, exitHandler);
-}
-
-  QLabel *splash = a.showSplash();
-
- QSettings config;
-  config.insertSearchPath(QSettings::Windows, "/Trolltech");
-
-  if (config.readBoolEntry(DesignerApplication::settingsKey() + "Geometries/MainwindowMaximized",
-          FALSE))
-{
-    int x = config.readNumEntry(DesignerApplication::settingsKey() + "Geometries/MainwindowX", 0);
-    int y = config.readNumEntry(DesignerApplication::settingsKey() + "Geometries/MainwindowY", 0);
-    mw->move(x, y);
-    mw->showMaximized();
-} else
-{
-    mw->show();
-}
-#if defined(Q_WS_X11)
-  qt_wait_for_window_manager(mw);
-#endif
-  delete splash;
-
-  QApplication::restoreOverrideCursor();
-  for (int i = 1; i < a.argc(); ++i)
-{
-    QString arg = a.argv()[i];
-    if (arg[0] != '-')
-      mw->fileOpen("", arg);
-}
-
-   
-*/
-
-
-#define VERSION "1.1dev1"
+#define VERSION "1.1dev3"
 
 static const char *description =
-  I18N_NOOP("Kommander is a graphical editor of scripted dialogs.");
+  I18N_NOOP("Kommander is a graphical editor of scripted dialogs. Based on Qt Designer, (C) 2000 Trolltech AS.");
 
 static KCmdLineOptions options[] =
 {
@@ -178,7 +41,7 @@ static KCmdLineOptions options[] =
 
 int main( int argc, char *argv[] )
 {
-  KAboutData aboutData( "kommander", I18N_NOOP("Kommander"),
+  KAboutData aboutData( "kmdr-editor", I18N_NOOP("Kommander"),
                         VERSION, description, KAboutData::License_GPL,
                         "(C) 2002-2004 Kommander authors", 0, 0, "mrudolf@kdewebdev.org");
   aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");

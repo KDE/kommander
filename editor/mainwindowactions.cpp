@@ -67,6 +67,7 @@
 #include <kpopupmenu.h>
 #include <kstatusbar.h>
 #include <kstdguiitem.h>
+#include <kurl.h>
 
 const QString toolbarHelp = "<p>Toolbars contain a number of buttons to "
 "provide quick access to often used functions.%1"
@@ -229,8 +230,8 @@ void MainWindow::setupLayoutActions()
   actionEditBreakLayout->setWhatsThis(whatsThisFrom("Layout|Break Layout"));
   
   int id = WidgetDatabase::idFromClassName("Spacer");
-  KToggleAction *a = new KToggleAction(QString::number(id).latin1(), WidgetDatabase::iconSet(id), 
-                                       KShortcut::null(), this, SLOT(toolSelected()), actionCollection(), "edit_spacer");
+  KToggleAction *a = new KToggleAction("Spacer", KShortcut::null(), this, SLOT(toolSelected()), 
+                                       actionCollection(), QString::number(id).latin1());
   a->setExclusiveGroup("tool");
   a->setText(i18n("Add ") + WidgetDatabase::className(id));
   a->setToolTip(i18n("Insert a %1").arg(WidgetDatabase::toolTip(id)));
@@ -419,10 +420,14 @@ void MainWindow::setupFileActions()
   a->plug(fileMenu);
 
   a = KStdAction::open(this, SLOT(fileOpen()), actionCollection());
-  a->setToolTip(i18n("Opens an existing dialog "));
+  a->setToolTip(i18n("Opens an existing dialog"));
   a->setWhatsThis(whatsThisFrom("File|Open"));
   a->plug(tb);
   a->plug(fileMenu);
+  
+  actionRecent = KStdAction::openRecent(this,  SLOT(fileOpenRecent(const KURL&)), actionCollection());
+  actionRecent->setToolTip(i18n("Opens recently open file"));
+  actionRecent->plug(fileMenu);
 
   fileMenu->insertSeparator();
   a = KStdAction::close(this, SLOT(fileClose()), actionCollection());
@@ -455,12 +460,6 @@ void MainWindow::setupFileActions()
   
   fileMenu->insertSeparator();
   
-  recentlyFilesMenu = new QPopupMenu(this);
-  fileMenu->insertItem(i18n("Recently Opened Files "), recentlyFilesMenu);
-  connect(recentlyFilesMenu, SIGNAL(aboutToShow()), this, SLOT(setupRecentlyFilesMenu()));
-  connect(recentlyFilesMenu, SIGNAL(activated(int)), this, SLOT(recentlyFilesMenuActivated(int)));
-  fileMenu->insertSeparator();
-
   a = KStdAction::quit(kapp, SLOT(closeAllWindows()), actionCollection());
   a->setToolTip(i18n("Quits the application and prompts to save any changed dialogs"));
   a->setWhatsThis(whatsThisFrom("File|Exit"));
@@ -635,17 +634,15 @@ void MainWindow::fileOpen(const QString & filter, const QString & fn)
     if (!filename.isEmpty())
     {
       QFileInfo fi(filename);
-
-      openFormWindow(filename);
-
-      addRecentlyOpened(filename, recentlyFiles);
+      if (openFormWindow(filename))
+        actionRecent->addURL(filename);
     }
   }
 }
 
 
 
-FormWindow *MainWindow::openFormWindow( const QString &filename, bool validFileName, FormFile *ff )
+FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileName, FormFile *ff)
 {
   if (filename.isEmpty())
     return 0;

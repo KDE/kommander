@@ -28,26 +28,28 @@
 #include <qguardedptr.h>
 #include <qobjectlist.h>
 
-class PropertyEditor;
-class QWorkspace;
-class QMenuBar;
+class ActionEditor;
+class AssistProc;
+class FindDialog;
+class FormFile;
 class FormWindow;
+class GotoLineDialog;
+class HierarchyView;
 class KAction;
-class KToggleAction;
 class KActionCollection;
 class KPopupMenu;
-class HierarchyView;
+class KRecentFilesAction;
+class KToggleAction;
+class KURL;
+class PropertyEditor;
 class QCloseEvent;
-class Workspace;
-class ActionEditor;
+class QMenuBar;
 class QTimer;
-class FindDialog;
-class ReplaceDialog;
-class GotoLineDialog;
-class SourceFile;
-class FormFile;
 class QWidget;
-class AssistProc;
+class QWorkspace;
+class ReplaceDialog;
+class SourceFile;
+class Workspace;
 
 #if defined(Q_FULL_TEMPLATE_INSTANTIATION)
 #include <qtoolbar.h>
@@ -143,6 +145,7 @@ public slots:
     void fileClose();
     void fileOpen();
     void fileOpen( const QString &filter, const QString &filename = "" );
+    void fileOpenRecent(const KURL& name);
     bool fileSave();
     bool fileSaveForm(); // not visible in menu, called from fileSave
     bool fileSaveAs();
@@ -191,12 +194,8 @@ private slots:
     void chooseDocPath();
     void windowsMenuActivated( int id );
     void setupWindowActions();
-
     void createNewTemplate();
-
-    void setupRecentlyFilesMenu();
-    void recentlyFilesMenuActivated( int id );
-
+    
 private:
     void setupMDI();
     void setupEditActions();
@@ -218,8 +217,7 @@ private:
 
     void writeConfig();
     void readConfig();
-    void readOldConfig();
-
+    
     void setupRMBProperties( QValueList<int> &ids, QMap<QString, int> &props, QWidget *w );
     void handleRMBProperties( int id, QMap<QString, int> &props, QWidget *w );
     void setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, int> &commands, QWidget *w );
@@ -230,7 +228,7 @@ private:
     void rebuildCustomWidgetGUI();
     void checkTempFiles();
 
-    void addRecentlyOpened( const QString &fn, QStringList &lst );
+    void addRecentlyOpened(const QString &fn);
     QWidget *findRealForm( QWidget *w );
 
     QString whatsThisFrom( const QString &key );
@@ -267,10 +265,11 @@ private:
     KAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
     KAction *actionWindowNext, *actionWindowPrevious;
     KAction *actionEditFormSettings, *actionEditAccels;
+    KRecentFilesAction* actionRecent;
     
     QPopupMenu *rmbWidgets;
     QPopupMenu *rmbFormWindow;
-    QPopupMenu *customWidgetMenu, *windowMenu, *fileMenu, *recentlyFilesMenu;
+    QPopupMenu *customWidgetMenu, *windowMenu, *fileMenu;
 
     QToolBar *customWidgetToolBar, *layoutToolBar;
 
@@ -281,8 +280,6 @@ private:
     QString templPath;
     ActionEditor *actionEditor;
     bool previewing;
-
-    QStringList recentlyFiles;
 
     bool databaseAutoEdit;
     QTimer *updateSlotsTimer;
