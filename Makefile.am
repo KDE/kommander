@@ -1,4 +1,4 @@
-SUBDIRS = $(TOPSUBDIRS)
+SUBDIRS = editor executor widgets
 
 COMPILE_BEFORE_editor = widgets
 COMPILE_BEFORE_executor = widgets
