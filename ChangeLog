@@ -1,8 +1,16 @@
-Thu 17 cze 2004 17:13:18 CEST
+Sat 19 cze 2004 00:47:42 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added changeWidgetText support for listboxes and combos
+	o security fix: warning when running from /tmp directory
+	o added @null special
+	o Kommander 1.0alpha5 released
+
+Thu 17 cze 2004 23:13:18 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @String.find
 	o added specials descriptions
+	o fix: crash when opening main-window dialog (created in Designer)
+	  in executor
 
-Wed 16 cze 2004 13:04:30 CEST
+Wed 16 cze 2004 13:04:30 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @Array.count
 	o added @Array.read/write
 
