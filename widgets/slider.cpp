@@ -84,7 +84,7 @@ void Slider::showEvent(QShowEvent * e)
 
 bool Slider::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::setMaximum;
 }
 
 QString Slider::handleDCOP(int function, const QStringList& args)
@@ -97,6 +97,9 @@ QString Slider::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::clear:
       setValue(minValue());
+      break;
+    case DCOP::setMaximum:
+      setMaxValue(args[0].toInt());
       break;
     default:
       break;
