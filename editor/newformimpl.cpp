@@ -297,7 +297,7 @@ NewForm::NewForm( QWidget *parent, const QString &templatePath )
     QStringList languages = MetaDataBase::languages();
     QStringList::Iterator it;
     for ( it = languages.begin(); it != languages.end(); ++it ) {
-  ProjectItem *pi = new ProjectItem( templateView, *it + " " + i18n( "Project" ) );
+  ProjectItem *pi = new ProjectItem( templateView, *it + " " + i18n("Project" ) );
   allItems.append( pi );
   pi->setLanguage( *it );
   pi->setPixmap( PixmapChooser::loadPixmap( "project.xpm" ) );
@@ -306,24 +306,24 @@ NewForm::NewForm( QWidget *parent, const QString &templatePath )
 #endif
 
     QIconViewItem *cur = 0;
-    FormItem *fi = new FormItem( templateView,i18n( "Dialog" ) );
+    FormItem *fi = new FormItem( templateView,i18n("Dialog" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::Dialog );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );
     fi->setDragEnabled( FALSE );
     cur = fi;
-    fi = new FormItem( templateView,i18n( "Wizard" ) );
+    fi = new FormItem( templateView,i18n("Wizard" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::Wizard );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );
     fi->setDragEnabled( FALSE );
 #ifndef KOMMANDER
-    fi = new FormItem( templateView, i18n( "Widget" ) );
+    fi = new FormItem( templateView, i18n("Widget" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::Widget );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );
     fi->setDragEnabled( FALSE );
-    fi = new FormItem( templateView, i18n( "Main Window" ) );
+    fi = new FormItem( templateView, i18n("Main Window" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::MainWindow );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );

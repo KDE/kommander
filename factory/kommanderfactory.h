@@ -17,12 +17,11 @@
 ** not clear to you.
 **
 **********************************************************************/
-/* Modifications by Marc Britton (c) 2002 under GNU GPL, terms as above */
+/* Modifications by Marc Britton (c) 2002-2003 under GNU GPL, terms as above */
 
-#ifndef _HAVE_EWIDGETFACTORY_H_
-#define _HAVE_EWIDGETFACTORY_H_
+#ifndef _HAVE_KOMMANDERFACTORY_H_
+#define _HAVE_KOMMANDERFACTORY_H_
 
-#ifndef QT_H
 #include <qstring.h>
 #include <qptrlist.h>
 #include <qimage.h>
@@ -30,34 +29,43 @@
 #include <qvaluelist.h>
 #include <qmap.h>
 #include <qaction.h>
-#endif // QT_H
 
 class QWidget;
 class QLayout;
 class QDomElement;
 class QListViewItem;
 class QTable;
-#ifndef KOMMANDER
-class QWidgetFactory;
-#endif
+class KommanderPlugin;
 
-class EWidgetFactory
+struct KommanderWidgetInfo
+{
+    KommanderWidgetInfo() {}
+    KommanderWidgetInfo( const QString &g, const QString &t, const QString &w = QString::null, bool c = FALSE )
+	: group( g ), toolTip( t ), whatsThis( w ), isContainer( c )
+    {
+    }
+    QString group;
+    QString toolTip;
+    QString whatsThis;
+    bool isContainer;
+};
+typedef QMap<QString, KommanderWidgetInfo> FeatureList;
+
+class KommanderFactory
 {
 public:
-    EWidgetFactory();
-    virtual ~EWidgetFactory();
+    KommanderFactory();
+    virtual ~KommanderFactory();
 
     static QWidget *create( const QString &uiFile, QObject *connector = 0, QWidget *parent = 0, const char *name = 0 );
     static QWidget *create( QIODevice *dev, QObject *connector = 0, QWidget *parent = 0, const char *name = 0 );
-#ifndef KOMMANDER
-	static void addWidgetFactory( QWidgetFactory *factory );
-#else
-	static void addWidgetFactory( EWidgetFactory *factory );
-#endif
+    static int loadPlugins( bool force = FALSE );
+    static void addPlugin( KommanderPlugin *plugin );
     static void loadImages( const QString &dir );
 
     virtual QWidget *createWidget( const QString &className, QWidget *parent, const char *name ) const;
 
+    static FeatureList featureList();
 private:
     enum LayoutType { HBox, VBox, Grid, NoLayout };
     void loadImageCollection( const QDomElement &e );
@@ -78,13 +86,7 @@ private:
     void loadActions( const QDomElement &e );
     void loadToolBars( const QDomElement &e );
     void loadMenuBar( const QDomElement &e );
-#ifndef KOMMANDER
-//    void loadFunctions( const QDomElement &e );
-#endif
     QAction *findAction( const QString &name );
-#ifndef KOMMANDER
- //   void loadExtraSource();
-#endif
     QString translate( const QString& sourceText, const QString& comment = "" );
 
 private:
@@ -142,7 +144,7 @@ private:
     QMap<QString, QString> buddies;
     QMap<QTable*, QValueList<Field> > fieldMaps;
     QPtrList<QAction> actionList;
-    QMap<QObject *, EventFunction> eventMap;
+   QMap<QObject *, EventFunction> eventMap;
     QMap<QString, QString> languageSlots;
     QMap<QString, Functions*> languageFunctions;
     QStringList variables;

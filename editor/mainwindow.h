@@ -312,8 +312,8 @@ private:
 
 #ifndef KOMMANDER
 //    void setupActionManager();
-//    void setupPluginManagers();
 #endif
+    void setupPlugins();
 
     void enableAll( bool enable );
 
@@ -420,7 +420,7 @@ private:
     QString templPath;
     ActionEditor *actionEditor;
 #ifndef KOMMANDER
-	/* We don't need QCom/Interface functionality for Kommander. Scrap these interfaces */ 
+	/* We don't need QCom/Interface functionality for Kommander. Scrap these interfaces */
 //    QPluginManager<ActionInterface> *actionPluginManager;
 //    QPluginManager<EditorInterface> *editorPluginManager;
 //    QPluginManager<TemplateWizardInterface> *templateWizardPluginManager;

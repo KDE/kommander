@@ -53,7 +53,7 @@ void MultiLineEditor::okClicked()
 
 void MultiLineEditor::applyClicked()
 {
-    PopulateMultiLineEditCommand *cmd = new PopulateMultiLineEditCommand( i18n( "Set the Text of '%1'" ).arg( mlined->name() ),
+    PopulateMultiLineEditCommand *cmd = new PopulateMultiLineEditCommand( i18n("Set the Text of '%1'" ).arg( mlined->name() ),
 									  formwindow, mlined, preview->text() );
     cmd->execute();
     formwindow->commandHistory()->addCommand( cmd );
@@ -65,7 +65,7 @@ TextEditor::TextEditor( QWidget *parent, const QString &text )
     : MultiLineEditorBase( parent, 0, TRUE )
 {
     buttonApply->hide();
-    setCaption( i18n( "Text" ) );
+    setCaption( i18n("Text" ) );
     preview->setText( text );
     preview->setFocus();
     preview->selectAll();

@@ -133,61 +133,61 @@ int forms = 0;
 void MainWindow::setupEditActions()
 {
     actionEditUndo = new QAction( i18n("Undo"), createIconSet( "undo.xpm" ),i18n("&Undo: Not Available"), CTRL + Key_Z, this, 0 );
-    actionEditUndo->setStatusTip( i18n( "Undoes the last action" ) );
+    actionEditUndo->setStatusTip( i18n("Undoes the last action" ) );
     actionEditUndo->setWhatsThis( whatsThisFrom( "Edit|Undo" ) );
     connect( actionEditUndo, SIGNAL( activated() ), this, SLOT( editUndo() ) );
     actionEditUndo->setEnabled( FALSE );
 
-    actionEditRedo = new QAction( i18n( "Redo" ), createIconSet("redo.xpm"), i18n( "&Redo: Not Available" ), CTRL + Key_Y, this, 0 );
-    actionEditRedo->setStatusTip( i18n( "Redoes the last undone operation") );
+    actionEditRedo = new QAction( i18n("Redo" ), createIconSet("redo.xpm"), i18n("&Redo: Not Available" ), CTRL + Key_Y, this, 0 );
+    actionEditRedo->setStatusTip( i18n("Redoes the last undone operation") );
     actionEditRedo->setWhatsThis( whatsThisFrom( "Edit|Redo" ) );
     connect( actionEditRedo, SIGNAL( activated() ), this, SLOT( editRedo() ) );
     actionEditRedo->setEnabled( FALSE );
 
-    actionEditCut = new QAction( i18n( "Cut" ), createIconSet("editcut.xpm"), i18n( "Cu&t" ), CTRL + Key_X, this, 0 );
-    actionEditCut->setStatusTip( i18n( "Cuts the selected widgets and puts them on the clipboard" ) );
+    actionEditCut = new QAction( i18n("Cut" ), createIconSet("editcut.xpm"), i18n("Cu&t" ), CTRL + Key_X, this, 0 );
+    actionEditCut->setStatusTip( i18n("Cuts the selected widgets and puts them on the clipboard" ) );
     actionEditCut->setWhatsThis(  whatsThisFrom( "Edit|Cut" ) );
     connect( actionEditCut, SIGNAL( activated() ), this, SLOT( editCut() ) );
     actionEditCut->setEnabled( FALSE );
 
-    actionEditCopy = new QAction( i18n( "Copy" ), createIconSet("editcopy.xpm"), i18n( "&Copy" ), CTRL + Key_C, this, 0 );
-    actionEditCopy->setStatusTip( i18n( "Copies the selected widgets to the clipboard" ) );
+    actionEditCopy = new QAction( i18n("Copy" ), createIconSet("editcopy.xpm"), i18n("&Copy" ), CTRL + Key_C, this, 0 );
+    actionEditCopy->setStatusTip( i18n("Copies the selected widgets to the clipboard" ) );
     actionEditCopy->setWhatsThis(  whatsThisFrom( "Edit|Copy" ) );
     connect( actionEditCopy, SIGNAL( activated() ), this, SLOT( editCopy() ) );
     actionEditCopy->setEnabled( FALSE );
 
-    actionEditPaste = new QAction( i18n( "Paste" ), createIconSet("editpaste.xpm"), i18n( "&Paste" ), CTRL + Key_V, this, 0 );
-    actionEditPaste->setStatusTip( i18n( "Pastes the clipboard's contents" ) );
+    actionEditPaste = new QAction( i18n("Paste" ), createIconSet("editpaste.xpm"), i18n("&Paste" ), CTRL + Key_V, this, 0 );
+    actionEditPaste->setStatusTip( i18n("Pastes the clipboard's contents" ) );
     actionEditPaste->setWhatsThis( whatsThisFrom( "Edit|Paste" ) );
     connect( actionEditPaste, SIGNAL( activated() ), this, SLOT( editPaste() ) );
     actionEditPaste->setEnabled( FALSE );
 
-    actionEditDelete = new QAction( i18n( "Delete" ), QPixmap(), i18n( "&Delete" ), Key_Delete, this, 0 );
-    actionEditDelete->setStatusTip( i18n( "Deletes the selected widgets" ) );
+    actionEditDelete = new QAction( i18n("Delete" ), QPixmap(), i18n("&Delete" ), Key_Delete, this, 0 );
+    actionEditDelete->setStatusTip( i18n("Deletes the selected widgets" ) );
     actionEditDelete->setWhatsThis( whatsThisFrom( "Edit|Delete" ) );
     connect( actionEditDelete, SIGNAL( activated() ), this, SLOT( editDelete() ) );
     actionEditDelete->setEnabled( FALSE );
 
-    actionEditSelectAll = new QAction( i18n( "Select All" ), QPixmap(), i18n( "Select &All" ), CTRL + Key_A, this, 0 );
-    actionEditSelectAll->setStatusTip( i18n( "Selects all widgets" ) );
+    actionEditSelectAll = new QAction( i18n("Select All" ), QPixmap(), i18n("Select &All" ), CTRL + Key_A, this, 0 );
+    actionEditSelectAll->setStatusTip( i18n("Selects all widgets" ) );
     actionEditSelectAll->setWhatsThis( whatsThisFrom( "Edit|Select All" ) );
     connect( actionEditSelectAll, SIGNAL( activated() ), this, SLOT( editSelectAll() ) );
     actionEditSelectAll->setEnabled( TRUE );
 
-    actionEditRaise = new QAction( i18n( "Bring to Front" ), createIconSet("editraise.xpm"), i18n( "Bring to &Front" ), 0, this, 0 );
-    actionEditRaise->setStatusTip( i18n( "Raises the selected widgets" ) );
-    actionEditRaise->setWhatsThis( i18n( "Raises the selected widgets" ) );
+    actionEditRaise = new QAction( i18n("Bring to Front" ), createIconSet("editraise.xpm"), i18n("Bring to &Front" ), 0, this, 0 );
+    actionEditRaise->setStatusTip( i18n("Raises the selected widgets" ) );
+    actionEditRaise->setWhatsThis( i18n("Raises the selected widgets" ) );
     connect( actionEditRaise, SIGNAL( activated() ), this, SLOT( editRaise() ) );
     actionEditRaise->setEnabled( FALSE );
 
-    actionEditLower = new QAction( i18n( "Send to Back" ), createIconSet("editlower.xpm"), i18n( "Send to &Back" ), 0, this, 0 );
-    actionEditLower->setStatusTip( i18n( "Lowers the selected widgets" ) );
-    actionEditLower->setWhatsThis( i18n( "Lowers the selected widgets" ) );
+    actionEditLower = new QAction( i18n("Send to Back" ), createIconSet("editlower.xpm"), i18n("Send to &Back" ), 0, this, 0 );
+    actionEditLower->setStatusTip( i18n("Lowers the selected widgets" ) );
+    actionEditLower->setWhatsThis( i18n("Lowers the selected widgets" ) );
     connect( actionEditLower, SIGNAL( activated() ), this, SLOT( editLower() ) );
     actionEditLower->setEnabled( FALSE );
 
-    actionEditAccels = new QAction( i18n( "Check Accelerators" ), QPixmap(),
-            i18n( "Chec&k Accelerators" ), ALT + Key_R, this, 0 );
+    actionEditAccels = new QAction( i18n("Check Accelerators" ), QPixmap(),
+            i18n("Chec&k Accelerators" ), ALT + Key_R, this, 0 );
     actionEditAccels->setStatusTip( i18n("Checks if the accelerators used in the form are unique") );
     actionEditAccels->setWhatsThis( whatsThisFrom( "Edit|Check Accelerator" ) );
     connect( actionEditAccels, SIGNAL( activated() ), this, SLOT( editAccels() ) );
@@ -201,38 +201,38 @@ void MainWindow::setupEditActions()
     connect(this, SIGNAL(hasActiveForm(bool)), actionEditScriptObjects, SLOT(setEnabled(bool)));
 
 
-    actionEditSlots = new QAction( i18n( "Slots" ), createIconSet("editslots.xpm"),
-           i18n( "S&lots..." ), 0, this, 0 );
+    actionEditSlots = new QAction( i18n("Slots" ), createIconSet("editslots.xpm"),
+           i18n("S&lots..." ), 0, this, 0 );
     actionEditSlots->setStatusTip( i18n("Opens a dialog for editing slots") );
     actionEditSlots->setWhatsThis( whatsThisFrom( "Edit|Slots" ) );
     connect( actionEditSlots, SIGNAL( activated() ), this, SLOT( editSlots() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditSlots, SLOT( setEnabled(bool) ) );
 
-    actionEditConnections = new QAction( i18n( "Connections" ), createIconSet("connecttool.xpm"),
-           i18n( "Co&nnections..." ), 0, this, 0 );
+    actionEditConnections = new QAction( i18n("Connections" ), createIconSet("connecttool.xpm"),
+           i18n("Co&nnections..." ), 0, this, 0 );
     actionEditConnections->setStatusTip( i18n("Opens a dialog for editing connections") );
     actionEditConnections->setWhatsThis( whatsThisFrom( "Edit|Connections" ) );
     connect( actionEditConnections, SIGNAL( activated() ), this, SLOT( editConnections() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditConnections, SLOT( setEnabled(bool) ) );
 
 #ifndef KOMMANDER
-    actionEditSource = new QAction( i18n( "Source" ), QIconSet(),
-           i18n( "&Source..." ), CTRL + Key_E, this, 0 );
+    actionEditSource = new QAction( i18n("Source" ), QIconSet(),
+           i18n("&Source..." ), CTRL + Key_E, this, 0 );
     actionEditSource->setStatusTip( i18n("Opens an editor to edit the form's source code") );
     actionEditSource->setWhatsThis( whatsThisFrom( "Edit|Source" ) );
     connect( actionEditSource, SIGNAL( activated() ), this, SLOT( editSource() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditSource, SLOT( setEnabled(bool) ) );
 #endif
 
-    actionEditFormSettings = new QAction( i18n( "Form Settings" ), QPixmap(),
-            i18n( "&Form Settings..." ), 0, this, 0 );
+    actionEditFormSettings = new QAction( i18n("Form Settings" ), QPixmap(),
+            i18n("&Form Settings..." ), 0, this, 0 );
     actionEditFormSettings->setStatusTip( i18n("Opens a dialog to change the form's settings") );
     actionEditFormSettings->setWhatsThis( whatsThisFrom( "Edit|Form Settings" ) );
     connect( actionEditFormSettings, SIGNAL( activated() ), this, SLOT( editFormSettings() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditFormSettings, SLOT( setEnabled(bool) ) );
 
-    actionEditPreferences = new QAction( i18n( "Preferences" ), QPixmap(),
-           i18n( "Preferences..." ), 0, this, 0 );
+    actionEditPreferences = new QAction( i18n("Preferences" ), QPixmap(),
+           i18n("Preferences..." ), 0, this, 0 );
     actionEditPreferences->setStatusTip( i18n("Opens a dialog to change preferences") );
     actionEditPreferences->setWhatsThis( whatsThisFrom( "Edit|Preferences" ) );
     connect( actionEditPreferences, SIGNAL( activated() ), this, SLOT( editPreferences() ) );
@@ -244,8 +244,8 @@ void MainWindow::setupEditActions()
     QToolBar *tb = new QToolBar( this, "Edit" );
     tb->setCloseMode( QDockWindow::Undocked );
 #endif
-    QWhatsThis::add( tb, i18n( "<b>The Edit toolbar</b>%1").arg(toolbarHelp));
-    addToolBar( tb, i18n( "Edit" ) );
+    QWhatsThis::add( tb, i18n("<b>The Edit toolbar</b>%1").arg(toolbarHelp));
+    addToolBar( tb, i18n("Edit" ) );
     actionEditUndo->addTo( tb );
     actionEditRedo->addTo( tb );
     tb->addSeparator();
@@ -259,7 +259,7 @@ void MainWindow::setupEditActions()
 #endif
 
     QPopupMenu *menu = new QPopupMenu( this, "Edit" );
-    menubar->insertItem( i18n( "&Edit" ), menu );
+    menubar->insertItem( i18n("&Edit" ), menu );
     actionEditUndo->addTo( menu );
     actionEditRedo->addTo( menu );
     menu->insertSeparator();
@@ -286,26 +286,26 @@ void MainWindow::setupEditActions()
 #ifndef KOMMANDER
 void MainWindow::setupSearchActions()
 {
-    actionSearchFind = new QAction( i18n( "Find" ), createIconSet( "searchfind.xpm" ),
-            i18n( "&Find..." ), CTRL + Key_F, this, 0 );
+    actionSearchFind = new QAction( i18n("Find" ), createIconSet( "searchfind.xpm" ),
+            i18n("&Find..." ), CTRL + Key_F, this, 0 );
     connect( actionSearchFind, SIGNAL( activated() ), this, SLOT( searchFind() ) );
     actionSearchFind->setEnabled( FALSE );
     actionSearchFind->setWhatsThis( whatsThisFrom( "Search|Find" ) );
 
-    actionSearchIncremetal = new QAction( i18n( "Find Incremental" ), QIconSet(),
-            i18n( "Find &Incremental" ), ALT + Key_I, this, 0 );
+    actionSearchIncremetal = new QAction( i18n("Find Incremental" ), QIconSet(),
+            i18n("Find &Incremental" ), ALT + Key_I, this, 0 );
     connect( actionSearchIncremetal, SIGNAL( activated() ), this, SLOT( searchIncremetalFindMenu() ) );
     actionSearchIncremetal->setEnabled( FALSE );
     actionSearchIncremetal->setWhatsThis( whatsThisFrom( "Search|Find Incremental" ) );
 
-    actionSearchReplace = new QAction( i18n( "Replace" ), QIconSet(),
-            i18n( "&Replace..." ), CTRL + Key_R, this, 0 );
+    actionSearchReplace = new QAction( i18n("Replace" ), QIconSet(),
+            i18n("&Replace..." ), CTRL + Key_R, this, 0 );
     connect( actionSearchReplace, SIGNAL( activated() ), this, SLOT( searchReplace() ) );
     actionSearchReplace->setEnabled( FALSE );
     actionSearchReplace->setWhatsThis( whatsThisFrom( "Search|Replace" ) );
 
-    actionSearchGotoLine = new QAction( i18n( "Goto Line" ), QIconSet(),
-            i18n( "&Goto Line..." ), ALT + Key_G, this, 0 );
+    actionSearchGotoLine = new QAction( i18n("Goto Line" ), QIconSet(),
+            i18n("&Goto Line..." ), ALT + Key_G, this, 0 );
     connect( actionSearchGotoLine, SIGNAL( activated() ), this, SLOT( searchGotoLine() ) );
     actionSearchGotoLine->setEnabled( FALSE );
     actionSearchGotoLine->setWhatsThis( whatsThisFrom( "Search|Goto line" ) );
@@ -317,11 +317,11 @@ void MainWindow::setupSearchActions()
     QToolBar *tb = new QToolBar( this, "Search" );
     tb->setCloseMode( QDockWindow::Undocked );
 #endif
-    addToolBar( tb, i18n( "Search" ) );
+    addToolBar( tb, i18n("Search" ) );
 
     actionSearchFind->addTo( tb );
     incrementalSearch = new QLineEdit( tb );
-    QToolTip::add( incrementalSearch, i18n( "Incremental Search (Alt+I)" ) );
+    QToolTip::add( incrementalSearch, i18n("Incremental Search (Alt+I)" ) );
     connect( incrementalSearch, SIGNAL( textChanged( const QString & ) ),
        this, SLOT( searchIncremetalFind() ) );
     connect( incrementalSearch, SIGNAL( returnPressed() ),
@@ -329,7 +329,7 @@ void MainWindow::setupSearchActions()
     incrementalSearch->setEnabled( FALSE );
 
     QPopupMenu *menu = new QPopupMenu( this, "Search" );
-    menubar->insertItem( i18n( "&Search" ), menu );
+    menubar->insertItem( i18n("&Search" ), menu );
     actionSearchFind->addTo( menu );
     actionSearchIncremetal->addTo( menu );
     actionSearchReplace->addTo( menu );
@@ -346,50 +346,50 @@ void MainWindow::setupLayoutActions()
   connect( actionGroupTools, SIGNAL( selected(QAction*) ), this, SLOT( toolSelected(QAction*) ) );
     }
 
-    actionEditAdjustSize = new QAction( i18n( "Adjust Size" ), createIconSet("adjustsize.xpm"),
-          i18n( "Adjust &Size" ), CTRL + Key_J, this, 0 );
+    actionEditAdjustSize = new QAction( i18n("Adjust Size" ), createIconSet("adjustsize.xpm"),
+          i18n("Adjust &Size" ), CTRL + Key_J, this, 0 );
     actionEditAdjustSize->setStatusTip(i18n("Adjusts the size of the selected widget") );
     actionEditAdjustSize->setWhatsThis( whatsThisFrom( "Layout|Adjust Size" ) );
     connect( actionEditAdjustSize, SIGNAL( activated() ), this, SLOT( editAdjustSize() ) );
     actionEditAdjustSize->setEnabled( FALSE );
 
-    actionEditHLayout = new QAction( i18n( "Lay Out Horizontally" ), createIconSet("edithlayout.xpm"),
-             i18n( "Lay Out &Horizontally" ), CTRL + Key_H, this, 0 );
+    actionEditHLayout = new QAction( i18n("Lay Out Horizontally" ), createIconSet("edithlayout.xpm"),
+             i18n("Lay Out &Horizontally" ), CTRL + Key_H, this, 0 );
     actionEditHLayout->setStatusTip(i18n("Lays out the selected widgets horizontally") );
     actionEditHLayout->setWhatsThis( whatsThisFrom( "Layout|Lay Out Horizontally" ) );
     connect( actionEditHLayout, SIGNAL( activated() ), this, SLOT( editLayoutHorizontal() ) );
     actionEditHLayout->setEnabled( FALSE );
 
-    actionEditVLayout = new QAction( i18n( "Lay Out Vertically" ), createIconSet("editvlayout.xpm"),
-             i18n( "Lay Out &Vertically" ), CTRL + Key_L, this, 0 );
+    actionEditVLayout = new QAction( i18n("Lay Out Vertically" ), createIconSet("editvlayout.xpm"),
+             i18n("Lay Out &Vertically" ), CTRL + Key_L, this, 0 );
     actionEditVLayout->setStatusTip(i18n("Lays out the selected widgets vertically") );
     actionEditVLayout->setWhatsThis(  whatsThisFrom( "Layout|Lay Out Vertically" ) );
     connect( actionEditVLayout, SIGNAL( activated() ), this, SLOT( editLayoutVertical() ) );
     actionEditVLayout->setEnabled( FALSE );
 
-    actionEditGridLayout = new QAction( i18n( "Lay Out in a Grid" ), createIconSet("editgrid.xpm"),
-          i18n( "Lay Out in a &Grid" ), CTRL + Key_G, this, 0 );
+    actionEditGridLayout = new QAction( i18n("Lay Out in a Grid" ), createIconSet("editgrid.xpm"),
+          i18n("Lay Out in a &Grid" ), CTRL + Key_G, this, 0 );
     actionEditGridLayout->setStatusTip(i18n("Lays out the selected widgets in a grid") );
     actionEditGridLayout->setWhatsThis( whatsThisFrom( "Layout|Lay Out in a Grid" ) );
     connect( actionEditGridLayout, SIGNAL( activated() ), this, SLOT( editLayoutGrid() ) );
     actionEditGridLayout->setEnabled( FALSE );
 
-    actionEditSplitHorizontal = new QAction( i18n( "Lay Out Horizontally (in Splitter)" ), createIconSet("editvlayoutsplit.xpm"),
-               i18n( "Lay Out Horizontally (in S&plitter)" ), 0, this, 0 );
+    actionEditSplitHorizontal = new QAction( i18n("Lay Out Horizontally (in Splitter)" ), createIconSet("editvlayoutsplit.xpm"),
+               i18n("Lay Out Horizontally (in S&plitter)" ), 0, this, 0 );
     actionEditSplitHorizontal->setStatusTip(i18n("Lays out the selected widgets horizontally in a splitter") );
     actionEditSplitHorizontal->setWhatsThis( whatsThisFrom( "Layout|Lay Out Horizontally (in Splitter)" ) );
     connect( actionEditSplitHorizontal, SIGNAL( activated() ), this, SLOT( editLayoutHorizontalSplit() ) );
     actionEditSplitHorizontal->setEnabled( FALSE );
 
-    actionEditSplitVertical = new QAction( i18n( "Lay Out Vertically (in Splitter)" ), createIconSet("edithlayoutsplit.xpm"),
-               i18n( "Lay Out Vertically (in Sp&litter)" ), 0, this, 0 );
+    actionEditSplitVertical = new QAction( i18n("Lay Out Vertically (in Splitter)" ), createIconSet("edithlayoutsplit.xpm"),
+               i18n("Lay Out Vertically (in Sp&litter)" ), 0, this, 0 );
     actionEditSplitVertical->setStatusTip(i18n("Lays out the selected widgets vertically in a splitter") );
     actionEditSplitVertical->setWhatsThis( whatsThisFrom( "Layout|Lay Out Vertically (in Splitter)" ) );
     connect( actionEditSplitVertical, SIGNAL( activated() ), this, SLOT( editLayoutVerticalSplit() ) );
     actionEditSplitVertical->setEnabled( FALSE );
 
-    actionEditBreakLayout = new QAction( i18n( "Break Layout" ), createIconSet("editbreaklayout.xpm"),
-           i18n( "&Break Layout" ), CTRL + Key_B, this, 0 );
+    actionEditBreakLayout = new QAction( i18n("Break Layout" ), createIconSet("editbreaklayout.xpm"),
+           i18n("&Break Layout" ), CTRL + Key_B, this, 0 );
     actionEditBreakLayout->setStatusTip(i18n("Breaks the selected layout") );
     actionEditBreakLayout->setWhatsThis( whatsThisFrom( "Layout|Break Layout" ) );
     connect( actionEditBreakLayout, SIGNAL( activated() ), this, SLOT( editBreakLayout() ) );
@@ -398,10 +398,10 @@ void MainWindow::setupLayoutActions()
     QAction* a = new QAction( actionGroupTools, QString::number( id ).latin1() );
     a->setToggleAction( TRUE );
     a->setText( WidgetDatabase::className( id ) );
-    a->setMenuText( i18n( "Add ") + WidgetDatabase::className( id ) );
+    a->setMenuText( i18n("Add ") + WidgetDatabase::className( id ) );
     a->setIconSet( WidgetDatabase::iconSet( id ) );
     a->setToolTip( WidgetDatabase::toolTip( id ) );
-    a->setStatusTip( i18n( "Insert a %1").arg(WidgetDatabase::toolTip( id )) );
+    a->setStatusTip( i18n("Insert a %1").arg(WidgetDatabase::toolTip( id )) );
     a->setWhatsThis( i18n("<b>A %1</b><p>%2</p>"
            "<p>Click to insert a single %3,"
            "or double click to keep the tool selected.")
@@ -409,7 +409,7 @@ void MainWindow::setupLayoutActions()
   .arg(WidgetDatabase::whatsThis( id ))
   .arg(WidgetDatabase::toolTip( id ) ));
 
-    QWhatsThis::add( layoutToolBar, i18n( "<b>The Layout toolbar</b>%1" ).arg(toolbarHelp) );
+    QWhatsThis::add( layoutToolBar, i18n("<b>The Layout toolbar</b>%1" ).arg(toolbarHelp) );
     actionEditAdjustSize->addTo( layoutToolBar );
     layoutToolBar->addSeparator();
     actionEditHLayout->addTo( layoutToolBar );
@@ -422,7 +422,7 @@ void MainWindow::setupLayoutActions()
     a->addTo( layoutToolBar );
 
     QPopupMenu *menu = new QPopupMenu( this, "Layout" );
-    menubar->insertItem( i18n( "&Layout" ), menu );
+    menubar->insertItem( i18n("&Layout" ), menu );
     actionEditAdjustSize->addTo( menu );
     menu->insertSeparator();
     actionEditHLayout->addTo( menu );
@@ -467,15 +467,15 @@ void MainWindow::setupToolActions()
     QToolBar *tb = new QToolBar( this, "Tools" );
     tb->setCloseMode( QDockWindow::Undocked );
 #endif
-    QWhatsThis::add( tb, i18n( "<b>The Tools toolbar</b>%1" ).arg(toolbarHelp) );
+    QWhatsThis::add( tb, i18n("<b>The Tools toolbar</b>%1" ).arg(toolbarHelp) );
 
-    addToolBar( tb, i18n( "Tools" ), QMainWindow::DockTop, TRUE );
+    addToolBar( tb, i18n("Tools" ), QMainWindow::DockTop, TRUE );
     actionPointerTool->addTo( tb );
     actionConnectTool->addTo( tb );
     actionOrderTool->addTo( tb );
 
     QPopupMenu *mmenu = new QPopupMenu( this, "Tools" );
-    menubar->insertItem( i18n( "&Tools" ), mmenu );
+    menubar->insertItem( i18n("&Tools" ), mmenu );
     actionPointerTool->addTo( mmenu );
     actionConnectTool->addTo( mmenu );
     actionOrderTool->addTo( mmenu );
@@ -505,11 +505,11 @@ void MainWindow::setupToolActions()
 #endif
   bool plural = grp[(int)grp.length()-1] == 's';
   if ( plural ) {
-      QWhatsThis::add( tb, i18n( "<b>The %1</b>%2" ).arg(grp).arg(toolbarHelp).
+      QWhatsThis::add( tb, i18n("<b>The %1</b>%2" ).arg(grp).arg(toolbarHelp).
             arg( i18n(" Click on a button to insert a single widget, "
             "or double click to insert multiple %1.") ).arg(grp));
   } else {
-      QWhatsThis::add( tb, i18n( "<b>The %1 Widgets</b>%2" ).arg(grp).arg(toolbarHelp).
+      QWhatsThis::add( tb, i18n("<b>The %1 Widgets</b>%2" ).arg(grp).arg(toolbarHelp).
             arg( i18n(" Click on a button to insert a single %1 widget, "
             "or double click to insert multiple widgets.") ).arg(grp));
   }
@@ -545,7 +545,7 @@ void MainWindow::setupToolActions()
       a->setToolTip( ttip );
       if ( !WidgetDatabase::isWhatsThisLoaded() )
     WidgetDatabase::loadWhatsThis( documentationPath() );
-      a->setStatusTip( i18n( "Insert a %1").arg(WidgetDatabase::className( i )) );
+      a->setStatusTip( i18n("Insert a %1").arg(WidgetDatabase::className( i )) );
 
       QString whats = i18n("<b>A %1</b>").arg( WidgetDatabase::className( i ) );
       if ( !WidgetDatabase::whatsThis( i ).isEmpty() )
@@ -566,7 +566,7 @@ void MainWindow::setupToolActions()
   QToolBar *tb = new QToolBar( this, "Custom Widgets" );
   tb->setCloseMode( QDockWindow::Undocked );
 #endif
-  QWhatsThis::add( tb, i18n( "<b>The Custom Widgets toolbar</b>%1"
+  QWhatsThis::add( tb, i18n("<b>The Custom Widgets toolbar</b>%1"
          "<p>Click <b>Edit Custom Widgets...</b> in the <b>Tools|Custom</b> menu to "
          "add and change custom widgets</p>" ).arg(toolbarHelp).
          arg( i18n(" Click on the buttons to insert a single widget, "
@@ -597,19 +597,19 @@ void MainWindow::setupFileActions()
     projectToolBar = tb;
 #endif
 
-    QWhatsThis::add( tb, i18n( "<b>The File toolbar</b>%1" ).arg(toolbarHelp) );
-    addToolBar( tb, i18n( "File" ) );
+    QWhatsThis::add( tb, i18n("<b>The File toolbar</b>%1" ).arg(toolbarHelp) );
+    addToolBar( tb, i18n("File" ) );
     fileMenu = new QPopupMenu( this, "File" );
-    menubar->insertItem( i18n( "&File" ), fileMenu );
+    menubar->insertItem( i18n("&File" ), fileMenu );
 
     QAction *a = 0;
 
     a = new QAction( this, 0 );
-    a->setText( i18n( "New" ) );
-    a->setMenuText( i18n( "&New..." ) );
+    a->setText( i18n("New" ) );
+    a->setMenuText( i18n("&New..." ) );
     a->setIconSet( createIconSet("filenew.xpm") );
     a->setAccel( CTRL + Key_N );
-    a->setStatusTip( i18n( "Creates a new dialog" ) );
+    a->setStatusTip( i18n("Creates a new dialog" ) );
     a->setWhatsThis( whatsThisFrom( "File|New" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileNew() ) );
 #if 0
@@ -619,11 +619,11 @@ void MainWindow::setupFileActions()
     a->addTo( fileMenu );
 
     a = new QAction( this, 0 );
-    a->setText( i18n( "Open" ) );
-    a->setMenuText( i18n( "&Open..." ) );
+    a->setText( i18n("Open" ) );
+    a->setMenuText( i18n("&Open..." ) );
     a->setIconSet( createIconSet("fileopen.xpm") );
     a->setAccel( CTRL + Key_O );
-    a->setStatusTip( i18n( "Opens an existing dialog ") );
+    a->setStatusTip( i18n("Opens an existing dialog ") );
     a->setWhatsThis( whatsThisFrom( "File|Open" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileOpen() ) );
     a->addTo( tb );
@@ -632,9 +632,9 @@ void MainWindow::setupFileActions()
     fileMenu->insertSeparator();
 
     a = new QAction( this, 0 );
-    a->setText( i18n( "Close" ) );
-    a->setMenuText( i18n( "&Close" ) );
-    a->setStatusTip( i18n( "Closes the current dialog" ) );
+    a->setText( i18n("Close" ) );
+    a->setMenuText( i18n("&Close" ) );
+    a->setStatusTip( i18n("Closes the current dialog" ) );
     a->setWhatsThis(whatsThisFrom( "File|Close" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileClose() ) );
 #ifndef KOMMANDER
@@ -647,11 +647,11 @@ void MainWindow::setupFileActions()
     fileMenu->insertSeparator();
 
     a = new QAction( this, 0 );
-    a->setText( i18n( "Save" ) );
-    a->setMenuText( i18n( "&Save" ) );
+    a->setText( i18n("Save" ) );
+    a->setMenuText( i18n("&Save" ) );
     a->setIconSet( createIconSet("filesave.xpm") );
     a->setAccel( CTRL + Key_S );
-    a->setStatusTip( i18n( "Saves the current dialog" ) );
+    a->setStatusTip( i18n("Saves the current dialog" ) );
     a->setWhatsThis(whatsThisFrom( "File|Save" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileSave() ) );
 #ifndef KOMMANDER
@@ -663,18 +663,18 @@ void MainWindow::setupFileActions()
     a->addTo( fileMenu );
 
     a = new QAction( this, 0 );
-    a->setText( i18n( "Save As" ) );
-    a->setMenuText( i18n( "Save &As..." ) );
-    a->setStatusTip( i18n( "Saves the current dialog with a new filename" ) );
+    a->setText( i18n("Save As" ) );
+    a->setMenuText( i18n("Save &As..." ) );
+    a->setStatusTip( i18n("Saves the current dialog with a new filename" ) );
     a->setWhatsThis( whatsThisFrom( "File|Save As" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileSaveAs() ) );
     connect( this, SIGNAL( hasActiveWindow(bool) ), a, SLOT( setEnabled(bool) ) );
     a->addTo( fileMenu );
 
     a = new QAction( this, 0 );
-    a->setText( i18n( "Save All" ) );
-    a->setMenuText( i18n( "Sa&ve All" ) );
-    a->setStatusTip( i18n( "Saves all open dialogs" ) );
+    a->setText( i18n("Save All" ) );
+    a->setMenuText( i18n("Sa&ve All" ) );
+    a->setStatusTip( i18n("Saves all open dialogs" ) );
     a->setWhatsThis( whatsThisFrom( "File|Save All" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileSaveAll() ) );
 #ifndef KOMMANDER
@@ -687,9 +687,9 @@ void MainWindow::setupFileActions()
     fileMenu->insertSeparator();
 #ifndef KOMMANDER
     a = new QAction( this, 0 );
-    a->setText( i18n( "Create Template" ) );
-    a->setMenuText( i18n( "Create &Template..." ) );
-    a->setStatusTip( i18n( "Creates a new template" ) );
+    a->setText( i18n("Create Template" ) );
+    a->setMenuText( i18n("Create &Template..." ) );
+    a->setStatusTip( i18n("Creates a new template" ) );
     a->setWhatsThis( whatsThisFrom( "File|Create Template" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileCreateTemplate() ) );
     a->addTo( fileMenu );
@@ -702,9 +702,9 @@ void MainWindow::setupFileActions()
     recentlyProjectsMenu = new QPopupMenu( this );
 #endif
 
-    fileMenu->insertItem( i18n( "Recently Opened Files " ), recentlyFilesMenu );
+    fileMenu->insertItem( i18n("Recently Opened Files " ), recentlyFilesMenu );
 #ifndef KOMMANDER
-    fileMenu->insertItem( i18n( "Recently Opened Projects" ), recentlyProjectsMenu );
+    fileMenu->insertItem( i18n("Recently Opened Projects" ), recentlyProjectsMenu );
 #endif
 
     connect( recentlyFilesMenu, SIGNAL( aboutToShow() ),
@@ -721,9 +721,9 @@ void MainWindow::setupFileActions()
     fileMenu->insertSeparator();
 
     a = new QAction( this, 0 );
-    a->setText( i18n( "Exit" ) );
-    a->setMenuText( i18n( "E&xit" ) );
-    a->setStatusTip( i18n( "Quits the application and prompts to save any changed dialogs" ) );
+    a->setText( i18n("Exit" ) );
+    a->setMenuText( i18n("E&xit" ) );
+    a->setStatusTip( i18n("Quits the application and prompts to save any changed dialogs" ) );
     a->setWhatsThis( whatsThisFrom( "File|Exit" ) );
     connect( a, SIGNAL( activated() ), qApp, SLOT( closeAllWindows() ) );
     a->addTo( fileMenu );
@@ -741,18 +741,18 @@ void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
 {
 #ifndef KOMMANDER
     projectMenu = new QPopupMenu( this, "Project" );
-    menubar->insertItem( i18n( "Pr&oject" ), projectMenu );
+    menubar->insertItem( i18n("Pr&oject" ), projectMenu );
 
     QActionGroup *ag = new QActionGroup( this, 0 );
-    ag->setText( i18n( "Active Project" ) );
-    ag->setMenuText( i18n( "Active Project" ) );
+    ag->setText( i18n("Active Project" ) );
+    ag->setMenuText( i18n("Active Project" ) );
     ag->setExclusive( TRUE );
     ag->setUsesDropDown( TRUE );
     connect( ag, SIGNAL( selected( QAction * ) ), this, SLOT( projectSelected( QAction * ) ) );
     connect( ag, SIGNAL( selected( QAction * ) ), this, SIGNAL( projectChanged() ) );
-    QAction *a = new QAction( i18n( "<No Project>" ), i18n( "<No Project>" ), 0, ag, 0, TRUE );
+    QAction *a = new QAction( i18n("<No Project>" ), i18n("<No Project>" ), 0, ag, 0, TRUE );
 
-    eProject = new Project( "", i18n( "<No Project>" ), projectSettingsPluginManager, TRUE );
+    eProject = new Project( "", i18n("<No Project>" ), projectSettingsPluginManager, TRUE );
     projects.insert( a, eProject );
 
     a->setOn( TRUE );
@@ -762,7 +762,7 @@ void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
 
     projectMenu->insertSeparator();
 
-    a = new QAction( i18n( "Add File" ), QPixmap(), i18n( "&Add File..." ), 0, this, 0 );
+    a = new QAction( i18n("Add File" ), QPixmap(), i18n("&Add File..." ), 0, this, 0 );
     a->setStatusTip( i18n("Adds a file to the current project") );
     a->setWhatsThis( whatsThisFrom( "Project|Add File" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( projectInsertFile() ) );
@@ -770,8 +770,8 @@ void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
     connect( this, SIGNAL( hasNonDummyProject(bool) ), a, SLOT( setEnabled(bool) ) );
     a->addTo( projectMenu );
 
-    QAction* actionEditPixmapCollection = new QAction( i18n( "Image Collection..." ), QPixmap(),
-            i18n( "&Image Collection..." ), 0, this, 0 );
+    QAction* actionEditPixmapCollection = new QAction( i18n("Image Collection..." ), QPixmap(),
+            i18n("&Image Collection..." ), 0, this, 0 );
     actionEditPixmapCollection->setStatusTip( i18n("Opens a dialog for editing the current project's image collection") );
     actionEditPixmapCollection->setWhatsThis( whatsThisFrom( "Project|Image Collection" ) );
     connect( actionEditPixmapCollection, SIGNAL( activated() ), this, SLOT( editPixmapCollection() ) );
@@ -780,8 +780,8 @@ void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
     actionEditPixmapCollection->addTo( projectMenu );
 
 #ifndef QT_NO_SQL
-    QAction* actionEditDatabaseConnections = new QAction( i18n( "Database Connections..." ), QPixmap(),
-             i18n( "&Database Connections..." ), 0, this, 0 );
+    QAction* actionEditDatabaseConnections = new QAction( i18n("Database Connections..." ), QPixmap(),
+             i18n("&Database Connections..." ), 0, this, 0 );
     actionEditDatabaseConnections->setStatusTip( i18n("Opens a dialog for editing the current project's database connections") );
     actionEditDatabaseConnections->setWhatsThis( whatsThisFrom( "Project|Database Connections" ) );
     connect( actionEditDatabaseConnections, SIGNAL( activated() ), this, SLOT( editDatabaseConnections() ) );
@@ -790,8 +790,8 @@ void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
     actionEditDatabaseConnections->addTo( projectMenu );
 #endif
 
-    QAction* actionEditProjectSettings = new QAction( i18n( "Project Settings..." ), QPixmap(),
-            i18n( "&Project Settings..." ), 0, this, 0 );
+    QAction* actionEditProjectSettings = new QAction( i18n("Project Settings..." ), QPixmap(),
+            i18n("&Project Settings..." ), 0, this, 0 );
     actionEditProjectSettings->setStatusTip( i18n("Opens a dialog to change the project's settings") );
     actionEditProjectSettings->setWhatsThis( whatsThisFrom( "Project|Project Settings" ) );
     connect( actionEditProjectSettings, SIGNAL( activated() ), this, SLOT( editProjectSettings() ) );
@@ -799,7 +799,7 @@ void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
     connect( this, SIGNAL( hasNonDummyProject(bool) ), actionEditProjectSettings, SLOT( setEnabled(bool) ) );
     actionEditProjectSettings->addTo( projectMenu );
 #endif
-    eProject = new Project( "", i18n( "<No Project>" ), projectSettingsPluginManager, TRUE );
+    eProject = new Project( "", i18n("<No Project>" ), projectSettingsPluginManager, TRUE );
     projects.insert(0, eProject); // dummy project
     projectSelected(0);
 }
@@ -809,10 +809,10 @@ void MainWindow::setupPreviewActions()
 {
     QAction* a = 0;
     QPopupMenu *menu = new QPopupMenu( this, "Preview" );
-    menubar->insertItem( i18n( "&Preview" ), menu );
+    menubar->insertItem( i18n("&Preview" ), menu );
 
-    a = new QAction( i18n( "Preview Form" ), createIconSet("previewform.xpm"),
-             i18n( "Preview &Form" ), 0, this, 0 );
+    a = new QAction( i18n("Preview Form" ), createIconSet("previewform.xpm"),
+             i18n("Preview &Form" ), 0, this, 0 );
     a->setAccel( CTRL + Key_T );
     a->setStatusTip( i18n("Opens a preview") );
     a->setWhatsThis( whatsThisFrom( "Preview|Preview Form" ) );
@@ -828,20 +828,20 @@ void MainWindow::setupPreviewActions()
     for ( QStringList::Iterator it = styles.begin(); it != styles.end(); ++it ) {
   QString info;
   if ( *it == "Motif" )
-      info = i18n( "The preview will use the Motif look and feel which is used as the default style on most UNIX systems." );
+      info = i18n("The preview will use the Motif look and feel which is used as the default style on most UNIX systems." );
   else if ( *it == "Windows" )
-      info = i18n( "The preview will use the Windows look and feel." );
+      info = i18n("The preview will use the Windows look and feel." );
   else if ( *it == "Platinum" )
-      info = i18n( "The preview will use the Platinum look and feel which is similar to the Macinosh GUI style." );
+      info = i18n("The preview will use the Platinum look and feel which is similar to the Macinosh GUI style." );
   else if ( *it == "CDE" )
-      info = i18n( "The preview will use the CDE look and feel which is similar to some versions of the Common Desktop Environment." );
+      info = i18n("The preview will use the CDE look and feel which is similar to some versions of the Common Desktop Environment." );
   else if ( *it == "SGI" )
-      info = i18n( "The preview will use the Motif look and feel which is used as the default style on SGI systems." );
+      info = i18n("The preview will use the Motif look and feel which is used as the default style on SGI systems." );
   else if ( *it == "MotifPlus" )
-      info = i18n( "The preview will use the advanced Motif look and feel used by the GIMP toolkit (GTK) on Linux." );
+      info = i18n("The preview will use the advanced Motif look and feel used by the GIMP toolkit (GTK) on Linux." );
 
-  a = new QAction( i18n( "Preview Form in %1 Style" ).arg( *it ), createIconSet("previewform.xpm"),
-           i18n( "... in %1 Style" ).arg( *it ), 0, this, 0 );
+  a = new QAction( i18n("Preview Form in %1 Style" ).arg( *it ), createIconSet("previewform.xpm"),
+           i18n("... in %1 Style" ).arg( *it ), 0, this, 0 );
   a->setStatusTip( i18n("Opens a preview in %1 style").arg( *it ) );
   a->setWhatsThis( i18n("<b>Open a preview in %1 style.</b>"
       "<p>Use the preview to test the design and "
@@ -859,39 +859,39 @@ void MainWindow::setupWindowActions()
     if ( !windowActionsSetup ) {
   windowActionsSetup = TRUE;
 
-  actionWindowTile = new QAction( i18n( "Tile" ), i18n( "&Tile" ), 0, this );
+  actionWindowTile = new QAction( i18n("Tile" ), i18n("&Tile" ), 0, this );
   actionWindowTile->setStatusTip( i18n("Tiles the windows so that they are all visible") );
   actionWindowTile->setWhatsThis( whatsThisFrom( "Window|Tile" ) );
   connect( actionWindowTile, SIGNAL( activated() ), qworkspace, SLOT( tile() ) );
-  actionWindowCascade = new QAction( i18n( "Cascade" ), i18n( "&Cascade" ), 0, this );
+  actionWindowCascade = new QAction( i18n("Cascade" ), i18n("&Cascade" ), 0, this );
   actionWindowCascade->setStatusTip( i18n("Cascades the windows so that all their title bars are visible") );
   actionWindowCascade->setWhatsThis( whatsThisFrom( "Window|Cascade" ) );
   connect( actionWindowCascade, SIGNAL( activated() ), qworkspace, SLOT( cascade() ) );
 
-  actionWindowClose = new QAction( i18n( "Close" ), i18n( "Cl&ose" ), CTRL + Key_F4, this );
-  actionWindowClose->setStatusTip( i18n( "Closes the active window") );
+  actionWindowClose = new QAction( i18n("Close" ), i18n("Cl&ose" ), CTRL + Key_F4, this );
+  actionWindowClose->setStatusTip( i18n("Closes the active window") );
   actionWindowClose->setWhatsThis( whatsThisFrom( "Window|Close" ) );
   connect( actionWindowClose, SIGNAL( activated() ), qworkspace, SLOT( closeActiveWindow() ) );
 
-  actionWindowCloseAll = new QAction( i18n( "Close All" ), i18n( "Close Al&l" ), 0, this );
-  actionWindowCloseAll->setStatusTip( i18n( "Closes all form windows") );
+  actionWindowCloseAll = new QAction( i18n("Close All" ), i18n("Close Al&l" ), 0, this );
+  actionWindowCloseAll->setStatusTip( i18n("Closes all form windows") );
   actionWindowCloseAll->setWhatsThis( whatsThisFrom( "Window|Close All" ) );
   connect( actionWindowCloseAll, SIGNAL( activated() ), qworkspace, SLOT( closeAllWindows() ) );
 
-  actionWindowNext = new QAction( i18n( "Next" ), i18n( "Ne&xt" ), CTRL + Key_F6, this );
-  actionWindowNext->setStatusTip( i18n( "Activates the next window" ) );
+  actionWindowNext = new QAction( i18n("Next" ), i18n("Ne&xt" ), CTRL + Key_F6, this );
+  actionWindowNext->setStatusTip( i18n("Activates the next window" ) );
   actionWindowNext->setWhatsThis( whatsThisFrom( "Window|Next" ) );
   connect( actionWindowNext, SIGNAL( activated() ), qworkspace, SLOT( activateNextWindow() ) );
 
-  actionWindowPrevious = new QAction( i18n( "Previous" ), i18n( "Pre&vious" ), CTRL + SHIFT + Key_F6, this );
-  actionWindowPrevious->setStatusTip( i18n( "Activates the previous window" ) );
+  actionWindowPrevious = new QAction( i18n("Previous" ), i18n("Pre&vious" ), CTRL + SHIFT + Key_F6, this );
+  actionWindowPrevious->setStatusTip( i18n("Activates the previous window" ) );
   actionWindowPrevious->setWhatsThis( whatsThisFrom( "Window|Previous" ) );
   connect( actionWindowPrevious, SIGNAL( activated() ), qworkspace, SLOT( activatePreviousWindow() ) );
     }
 
     if ( !windowMenu ) {
   windowMenu = new QPopupMenu( this, "Window" );
-  menubar->insertItem( i18n( "&Window" ), windowMenu );
+  menubar->insertItem( i18n("&Window" ), windowMenu );
   connect( windowMenu, SIGNAL( aboutToShow() ),
      this, SLOT( setupWindowActions() ) );
     } else {
@@ -907,8 +907,8 @@ void MainWindow::setupWindowActions()
     actionWindowTile->addTo( windowMenu );
     actionWindowCascade->addTo( windowMenu );
     windowMenu->insertSeparator();
-    windowMenu->insertItem( i18n( "Vie&ws" ), createDockWindowMenu( NoToolBars ) );
-    windowMenu->insertItem( i18n( "Tool&bars" ), createDockWindowMenu( OnlyToolBars ) );
+    windowMenu->insertItem( i18n("Vie&ws" ), createDockWindowMenu( NoToolBars ) );
+    windowMenu->insertItem( i18n("Tool&bars" ), createDockWindowMenu( OnlyToolBars ) );
     QWidgetList windows = qworkspace->windowList();
     if ( windows.count() && formWindow() )
   windowMenu->insertSeparator();
@@ -934,12 +934,12 @@ void MainWindow::setupWindowActions()
 
 void MainWindow::setupHelpActions()
 {
-    actionHelpContents = new QAction( i18n( "Contents" ), i18n( "&Contents" ), Key_F1, this, 0 );
+    actionHelpContents = new QAction( i18n("Contents" ), i18n("&Contents" ), Key_F1, this, 0 );
     actionHelpContents->setStatusTip( i18n("Opens the online help") );
     actionHelpContents->setWhatsThis( whatsThisFrom( "Help|Contents" ) );
     connect( actionHelpContents, SIGNAL( activated() ), this, SLOT( helpContents() ) );
 
-    actionHelpManual = new QAction( i18n( "Manual" ), i18n( "&Manual" ), CTRL + Key_M, this, 0 );
+    actionHelpManual = new QAction( i18n("Manual" ), i18n("&Manual" ), CTRL + Key_M, this, 0 );
     actionHelpManual->setStatusTip( i18n("Opens the Qt Designer manual") );
     actionHelpManual->setWhatsThis( whatsThisFrom( "Help|Manual" ) );
     connect( actionHelpManual, SIGNAL( activated() ), this, SLOT( helpManual() ) );
@@ -974,13 +974,13 @@ void MainWindow::setupHelpActions()
     QToolBar *tb = new QToolBar( this, "Help" );
     tb->setCloseMode( QDockWindow::Undocked );
 #endif
-    QWhatsThis::add( tb, i18n( "<b>The Help toolbar</b>%1" ).arg(toolbarHelp) );
-    addToolBar( tb, i18n( "Help" ) );
+    QWhatsThis::add( tb, i18n("<b>The Help toolbar</b>%1" ).arg(toolbarHelp) );
+    addToolBar( tb, i18n("Help" ) );
     actionHelpWhatsThis->addTo( tb );
 
     QPopupMenu *menu = new QPopupMenu( this, "Help" );
     menubar->insertSeparator();
-    menubar->insertItem( i18n( "&Help" ), menu );
+    menubar->insertItem( i18n("&Help" ), menu );
     actionHelpContents->addTo( menu );
     actionHelpManual->addTo( menu );
     menu->insertSeparator();
@@ -996,7 +996,7 @@ void MainWindow::setupHelpActions()
 
 void MainWindow::fileNew()
 {
-    statusBar()->message( i18n( "Create a new dialog...") );
+    statusBar()->message( i18n("Create a new dialog...") );
 #if 1
     NewForm dlg( this, QString::null);
     dlg.exec();
@@ -1098,8 +1098,8 @@ void MainWindow::fileCloseProject()
     }
     if ( a ) {
   if ( pro->isModified() ) {
-      switch ( QMessageBox::warning( this, i18n( "Save Project Settings" ),
-             i18n( "Save changes to '%1'?" ).arg( pro->fileName() ),
+      switch ( QMessageBox::warning( this, i18n("Save Project Settings" ),
+             i18n("Save changes to '%1'?" ).arg( pro->fileName() ),
                                      KStdGuiItem::yes().text(), KStdGuiItem::yes().no(),
                                      KStdGuiItem::cancel().text(), 0, 2 ) ) {
       case 0: // save
@@ -1183,7 +1183,7 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
 #endif
 
 {
-    statusBar()->message( i18n( "Open a file...") );
+    statusBar()->message( i18n("Open a file...") );
 
 #ifndef KOMMANDER
     QPluginManager<ImportFilterInterface> manager( IID_ImportFilter, QApplication::libraryPaths(), "/designer" );
@@ -1201,14 +1201,14 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
   if ( filter.isEmpty() ) {
 #ifndef KOMMANDER
       if ( !inProject )
-    filterlist << i18n( "Designer Files (*.ui *.pro)" );
-      filterlist << i18n( "Qt User-Interface Files (*.ui)" );
+    filterlist << i18n("Designer Files (*.ui *.pro)" );
+      filterlist << i18n("Qt User-Interface Files (*.ui)" );
 #else
       filterlist << i18n("*.kmdr|Kommander Files");
 #endif
 #ifndef KOMMANDER
       if ( !inProject )
-    filterlist << i18n( "QMAKE Project Files (*.pro)" );
+    filterlist << i18n("QMAKE Project Files (*.pro)" );
       QStringList list = manager.featureList();
       for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
     filterlist << *it;
@@ -1217,7 +1217,7 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
     filterlist +=  iface->fileFilterList();
     additionalSources += iface->fileExtensionList();
       }
-      filterlist << i18n( "All Files (*)" );
+      filterlist << i18n("All Files (*)" );
 #endif
   } else {
       filterlist << filter;
@@ -1281,15 +1281,15 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
         ImportFilterInterface* iface = 0;
         manager.queryInterface( filter, &iface );
         if ( !iface ) {
-      statusBar()->message( i18n( "No import filter is available to import '%1'").
+      statusBar()->message( i18n("No import filter is available to import '%1'").
                 arg( filename ), 3000 );
       return;
         }
-        statusBar()->message( i18n( "Importing '%1' using import filter ...").arg( filename ) );
+        statusBar()->message( i18n("Importing '%1' using import filter ...").arg( filename ) );
         QStringList list = iface->import( filter, filename );
         iface->release();
         if ( list.isEmpty() ) {
-      statusBar()->message( i18n( "Nothing to load in '%1'").arg( filename ), 3000 );
+      statusBar()->message( i18n("Nothing to load in '%1'").arg( filename ), 3000 );
       return;
         }
         if ( !inProject )
@@ -1328,7 +1328,7 @@ FormWindow *MainWindow::openFormWindow( const QString &filename, bool validFileN
   makeNew = ts.read().length() < 2;
     }
     if ( !makeNew ) {
-  statusBar()->message( i18n( "Reading file '%1'...").arg( filename ) );
+  statusBar()->message( i18n("Reading file '%1'...").arg( filename ) );
   if ( QFile::exists( filename ) ) {
 #ifndef KOMMANDER
       FormFile *ff2 = currentProject->findFormFile( currentProject->makeRelative( filename ) );
@@ -1354,9 +1354,9 @@ FormWindow *MainWindow::openFormWindow( const QString &filename, bool validFileN
       QApplication::restoreOverrideCursor();
       if ( b ) {
     rebuildCustomWidgetGUI();
-    statusBar()->message( i18n( "Loaded file '%1'").arg( filename ), 3000 );
+    statusBar()->message( i18n("Loaded file '%1'").arg( filename ), 3000 );
       } else {
-    statusBar()->message( i18n( "Failed to load file '%1'").arg( filename ), 5000 );
+    statusBar()->message( i18n("Failed to load file '%1'").arg( filename ), 5000 );
     QMessageBox::information( this, i18n("Load File"), i18n("Couldn't load file '%1'").arg( filename ) );
     delete ff;
       }
@@ -1423,14 +1423,14 @@ bool MainWindow::fileSaveForm()
 bool MainWindow::fileSaveProject()
 {
     currentProject->save();
-    statusBar()->message( i18n( "Project '%1' saved.").arg( currentProject->projectName() ), 3000 );
+    statusBar()->message( i18n("Project '%1' saved.").arg( currentProject->projectName() ), 3000 );
     return TRUE;
 }
 #endif
 
 bool MainWindow::fileSaveAs()
 {
-    statusBar()->message( i18n( "Enter a filename..." ) );
+    statusBar()->message( i18n("Enter a filename..." ) );
 
     QWidget *w = qworkspace->activeWindow();
     if ( !w )
@@ -1462,7 +1462,7 @@ void MainWindow::saveAllTemp()
     if ( inSaveAllTemp )
   return;
     inSaveAllTemp = TRUE;
-    statusBar()->message( i18n( "Qt Designer is crashing. Attempting to save files..." ) );
+    statusBar()->message( i18n("Qt Designer is crashing. Attempting to save files..." ) );
     QWidgetList windows = qWorkspace()->windowList();
     QString baseName = QDir::homeDirPath() + "/.designer/saved-form-";
     int i = 1;
@@ -1504,7 +1504,7 @@ void MainWindow::fileCreateTemplate()
       dia.listClass->insertItem( w->className );
     }
 
-    dia.editName->setText( i18n( "NewTemplate" ) );
+    dia.editName->setText( i18n("NewTemplate" ) );
     connect( dia.buttonCreate, SIGNAL( clicked() ),
        this, SLOT( createNewTemplate() ) );
     dia.exec();
@@ -1516,7 +1516,7 @@ void MainWindow::createNewTemplate()
     QString fn = dia->editName->text();
     QString cn = dia->listClass->currentText();
     if ( fn.isEmpty() || cn.isEmpty() ) {
-  QMessageBox::information( this, i18n( "Create Template" ), i18n( "Couldn't create the template" ) );
+  QMessageBox::information( this, i18n("Create Template" ), i18n("Couldn't create the template" ) );
   return;
     }
 
@@ -1546,7 +1546,7 @@ void MainWindow::createNewTemplate()
   }
     }
     if ( !f.isOpen() ) {
-  QMessageBox::information( this, i18n( "Create Template" ), i18n( "Couldn't create the template" ) );
+  QMessageBox::information( this, i18n("Create Template" ), i18n("Couldn't create the template" ) );
   return;
     }
     QTextStream ts( &f );
@@ -1568,7 +1568,7 @@ void MainWindow::createNewTemplate()
     ts << "</widget>" << endl;
     ts << "</UI>" << endl;
 
-    dia->editName->setText( i18n( "NewTemplate" ) );
+    dia->editName->setText( i18n("NewTemplate" ) );
 
     f.close();
 }
@@ -1652,8 +1652,8 @@ void MainWindow::editPaste()
   hierarchyView->widgetInserted( 0 );
   formWindow()->commandHistory()->setModified( TRUE );
     } else {
-  QMessageBox::information( this, i18n( "Paste Error" ),
-          i18n( "Can't paste widgets. Designer couldn't find a container\n"
+  QMessageBox::information( this, i18n("Paste Error" ),
+          i18n("Can't paste widgets. Designer couldn't find a container\n"
               "to paste into which does not contain a layout. Break the layout\n"
               "of the container you want to paste into and select this container\n"
               "and then paste again." ) );
@@ -1820,7 +1820,7 @@ void MainWindow::editSlots()
     if ( !formWindow() )
   return;
 
-    statusBar()->message( i18n( "Edit the current form's slots..." ) );
+    statusBar()->message( i18n("Edit the current form's slots..." ) );
     EditSlots dlg( this, formWindow() );
     dlg.exec();
     statusBar()->clear();
@@ -1831,7 +1831,7 @@ void MainWindow::editConnections()
     if ( !formWindow() )
   return;
 
-    statusBar()->message( i18n( "Edit the current form's connections..." ) );
+    statusBar()->message( i18n("Edit the current form's connections..." ) );
     ConnectionViewer dlg( this, formWindow() );
     dlg.exec();
     statusBar()->clear();
@@ -1875,8 +1875,8 @@ SourceEditor *MainWindow::openSourceEdior()
 
     QString lang = currentProject->language();
     if ( !MetaDataBase::hasEditor( lang ) ) {
-  QMessageBox::information( this, i18n( "Edit Source" ),
-          i18n( "There is no plugin for editing %1 code installed" ).arg(lang) );
+  QMessageBox::information( this, i18n("Edit Source" ),
+          i18n("There is no plugin for editing %1 code installed" ).arg(lang) );
   return 0;
     }
     for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
@@ -1917,8 +1917,8 @@ SourceEditor *MainWindow::editSource( SourceFile *f )
     SourceEditor *editor = 0;
     QString lang = currentProject->language();
     if ( !MetaDataBase::hasEditor( lang ) ) {
-  QMessageBox::information( this, i18n( "Edit Source" ),
-          i18n( "There is no plugin for edit %1 code installed" ).arg(lang) );
+  QMessageBox::information( this, i18n("Edit Source" ),
+          i18n("There is no plugin for edit %1 code installed" ).arg(lang) );
   return 0;
     }
     if ( f )
@@ -1956,7 +1956,7 @@ void MainWindow::editFormSettings()
     if ( !formWindow() )
   return;
 
-    statusBar()->message( i18n( "Edit the current form's settings..." ) );
+    statusBar()->message( i18n("Edit the current form's settings..." ) );
     FormSettings dlg( this, formWindow() );
     dlg.exec();
     statusBar()->clear();
@@ -1991,7 +1991,7 @@ void MainWindow::editDatabaseConnections()
 
 void MainWindow::editPreferences()
 {
-    statusBar()->message( i18n( "Edit preferences..." ) );
+    statusBar()->message( i18n("Edit preferences..." ) );
     Preferences *dia = new Preferences( this, 0, TRUE );
     prefDia = dia;
     connect( dia->helpButton, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );
@@ -2168,7 +2168,7 @@ void MainWindow::searchGotoLine()
 
 void MainWindow::toolsCustomWidget()
 {
-    statusBar()->message( i18n( "Edit custom widgets..." ) );
+    statusBar()->message( i18n("Edit custom widgets..." ) );
     CustomWidgetEditor edit( this, this );
     edit.exec();
     rebuildCustomWidgetGUI();
