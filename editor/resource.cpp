@@ -1586,6 +1586,7 @@ void Resource::createItem( const QDomElement &e, QWidget *widget, QListViewItem 
 			pixmaps << pix;
 		    }
 		}
+		    
 	    } else if ( n.tagName() == "item" ) {
 		item->setOpen( TRUE );
 		createItem( n, widget, item );

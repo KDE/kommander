@@ -104,6 +104,7 @@
 #include <listbox.h>
 #include <scriptobject.h>
 #include <richtexteditor.h>
+#include <treewidget.h>
 
 
 
@@ -1190,6 +1191,16 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 		return new ScriptObject(parent, name);
 	else if(className == "RichTextEditor")
 		return new RichTextEditor(parent, name);
+	else if(className == "TreeWidget")
+	{
+	    QListView *lv = new TreeWidget( parent, name );
+	    lv->setSorting( -1 );
+	    if ( init ) {
+		lv->addColumn( i18n( "Column 1" ) );
+		lv->setCurrentItem( new QListViewItem( lv, i18n( "New Item" ) ) );
+	    }
+	    return lv;
+	}
 #endif
 
     WidgetInterface *iface = 0;
@@ -1450,7 +1461,7 @@ bool WidgetFactory::hasSpecialEditor( int id )
     QString className = WidgetDatabase::className( id );
 
 #ifdef KOMMANDER
-    if(className == "TextEdit" || className == "ComboBox")
+    if(className == "TextEdit" || className == "ComboBox" || className == "TreeWidget")
 	    return TRUE;
 #endif
     if ( className.mid( 1 ) == "ListBox" )
@@ -1474,7 +1485,7 @@ bool WidgetFactory::hasItems( int id )
     QString className = WidgetDatabase::className( id );
 
 #ifdef KOMMANDER
-    if(className == "ComboBox" || className == "ListBox" || className == "ListView")
+    if(className == "ComboBox" || className == "ListBox" || className == "TreeWidget")
 	    return TRUE;
 #endif
     if ( className.mid( 1 ) == "ListBox" || className.mid( 1 ) == "ListView" ||
@@ -1511,6 +1522,16 @@ void WidgetFactory::editWidget( int id, QWidget *parent, QWidget *editWidget, Fo
 		e->exec();
 		delete e;
 		return;
+	}
+	if(className == "TreeWidget")
+	{
+	    if ( !editWidget->inherits( "QListView" ) )
+		return;
+	    QListView *lv = (QListView*)editWidget;
+	    ListViewEditor *e = new ListViewEditor( parent, lv, fw );
+	    e->exec();
+	    delete e;
+	    return;
 	}
 #endif
     if ( className.mid( 1 ) == "ListBox" )

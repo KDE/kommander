@@ -716,6 +716,16 @@ void WidgetDatabase::setupDataBase( int id )
     r->toolTip = "A small rich text editor";
 
  	append( r );
+
+    r = new WidgetDatabaseRecord;
+    r->name = "TreeWidget";
+	r->iconSet = "listview.xpm";
+    r->group = widgetGroup( "Kommander" );
+    r->toolTip = "A tree widget";
+
+    append( r );
+
+
 #endif
 
 #ifndef UIC

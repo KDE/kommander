@@ -117,6 +117,7 @@
 #include <listbox.h>
 #include <scriptobject.h>
 #include <richtexteditor.h>
+#include <treewidget.h>
 
 #include <stdlib.h>
 
@@ -556,6 +557,8 @@ QWidget *EWidgetFactory::createWidget( const QString &literalClassName, QWidget 
 		return new ScriptObject(parent, name);
 	else if(className == "RichTextEditor")
 		return new RichTextEditor(parent, name);
+	else if(className == "TreeWidget")
+	    return new TreeWidget(parent, name);
 
     // create widgets we know
     if ( className == "QPushButton" ) {
