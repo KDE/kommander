@@ -50,6 +50,7 @@ static const char *description =
 static KCmdLineOptions options[] =
 {
   { "!stdin", I18N_NOOP("Read dialog from standard input"), 0},
+  { "c <catalogue>", I18N_NOOP("Use given catalogue for translation"), 0},      
   { "+[file]", I18N_NOOP("Dialog to open"), 0 },
   KCmdLineLastOption
 };
@@ -65,7 +66,9 @@ int main(int argc, char *argv[])
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  if (args->count())
+  if (args->isSet("c"))
+    KLocale::setMainCatalogue(args->getOption("c"));
+  else if (args->count())
   {
     char buf[200];
     QString baseFile = args->url(0).fileName();
@@ -77,7 +80,6 @@ int main(int argc, char *argv[])
   }
   else
     KLocale::setMainCatalogue("Kommander");
-  
   KApplication app;
   
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
