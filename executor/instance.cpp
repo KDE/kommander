@@ -214,7 +214,17 @@ void Instance::changeWidgetText(const QString& widgetName, const QString& text)
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::setText, text);
   else if (child && child->inherits("QLabel"))
-    ((QLabel*)child)->setText(text);
+  {
+    QLabel* label = (QLabel*)child;
+    if (label->pixmap())
+    {
+      QPixmap pixmap;
+      if (pixmap.load(text))
+        label->setPixmap(pixmap);
+    }
+    else
+      label->setText(text);
+  }
 }
 
 QString Instance::text(const QString& widgetName)
