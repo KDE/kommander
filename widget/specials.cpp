@@ -78,10 +78,6 @@ void SpecialInformation::registerSpecials()
      i18n("Returns type(class) of widget."), 2);
   insert(DCOP::children, "children(QString widget, bool recursive)",
      i18n("Returns the list of child widgets contained in the parent widget. Set the <i>recursive</i> parameter to <i>true</i> to include widgets contained by child widgets."), 2);
-  insert(DCOP::global, "global(QString variable)",
-     i18n("Returns value of a global variable."), 1);
-  insert(DCOP::setGlobal, "setGlobal(QString variable, QString value)",
-     i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
   /* functions with missing description - to be added after string freeze */
   insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
      i18n("Sets maximum numeric value"), 2);
