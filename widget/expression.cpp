@@ -108,7 +108,7 @@ Expression::Type Expression::commonType(const QVariant v1, const QVariant v2) co
   return TypeInt;
 }
 
-static int compareDouble(const double A, const double B)
+static int expression_compareDouble(const double A, const double B)
 { 
   return A<B ? -1 : (A==B ? 0 : 1);
 }
@@ -118,7 +118,7 @@ int Expression::compare(const QVariant v1, const QVariant v2) const
 {
   switch (commonType(v1, v2))  {
     case TypeString: return v1.toString().compare(v2.toString());
-    case TypeDouble: return compareDouble(v1.toDouble(), v2.toDouble());
+    case TypeDouble: return expression_compareDouble(v1.toDouble(), v2.toDouble());
     case TypeInt:    return v1.toInt() - v2.toInt();
     default:	 return 0;
   }

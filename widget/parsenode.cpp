@@ -129,7 +129,7 @@ ValueType ParseNode::commonType(const ParseNode& p) const
   return ValueInt;
 }
 
-static int compareDouble(const double A, const double B)
+static int parsenode_compareDouble(const double A, const double B)
 { 
   return A<B ? -1 : (A==B ? 0 : 1);
 }
@@ -139,7 +139,7 @@ int ParseNode::compare(const ParseNode& p) const
   switch (commonType(p)) 
   {
     case ValueString: return toString().compare(p.toString());
-    case ValueDouble: return compareDouble(toDouble(), p.toDouble());
+    case ValueDouble: return parsenode_compareDouble(toDouble(), p.toDouble());
     case ValueInt:    return toInt() - p.toInt();
     default:          return 0;
   }
