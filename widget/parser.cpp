@@ -200,6 +200,8 @@ ParseNode Parser::parseValue(Mode mode)
   ParseNode p = next();
   if (isFunction())
     return parseFunction();
+  else if (isWidget())
+    return parseWidget(mode);
   else if (tryVariable(CheckOnly))
   {
     if (tryKeyword(LeftBracket, CheckOnly))
