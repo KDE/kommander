@@ -738,7 +738,7 @@ void FormDefinitionView::showRMBMenu( QListViewItem *i, const QPoint &pos )
 #ifndef KOMMANDER
   if ( formWindow->project()->language() == "C++" )
 #endif
-      menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n("Properties..." ), PROPS );
+      menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n("Properties" ), PROPS );
 #ifndef KOMMANDER
         if ( MetaDataBase::hasEditor( formWindow->project()->language() ) )
       menu.insertItem( i18n("Go to Implementation" ), EDIT );

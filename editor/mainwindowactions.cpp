@@ -506,7 +506,7 @@ void MainWindow::setupFileActions()
     a = new QAction( this, 0 );
     a->setText( i18n("Save As" ) );
     a->setMenuText( i18n("Save &As..." ) );
-    a->setStatusTip( i18n("Saves the current dialog with a new filename" ) );
+    a->setStatusTip( i18n("Saves the current dialog with a new file name" ) );
     a->setWhatsThis( whatsThisFrom( "File|Save As" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( fileSaveAs() ) );
     connect( this, SIGNAL( hasActiveWindow(bool) ), a, SLOT( setEnabled(bool) ) );
@@ -834,7 +834,7 @@ bool MainWindow::fileSaveForm()
 
 bool MainWindow::fileSaveAs()
 {
-    statusBar()->message( i18n("Enter a filename..." ) );
+    statusBar()->message( i18n("Enter a file name..." ) );
 
     QWidget *w = qworkspace->activeWindow();
     if ( !w )
