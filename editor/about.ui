@@ -52,7 +52,7 @@
                 <cstring>TextLabel1</cstring>
             </property>
             <property name="text">
-                <string>Version 2.0</string>
+                <string>Version 1.0alpha3</string>
             </property>
             <property name="alignment">
                 <set>AlignCenter</set>
@@ -65,7 +65,7 @@
                 <cstring>TextLabel1_2</cstring>
             </property>
             <property name="text">
-                <string>Kommander Editor Copyright (C) 2002 Marc Britton &amp; Eric Laffoon
+                <string>Kommander Editor Copyright (C) 2002-2004 Marc Britton, Eric Laffoon, Michal Rudolf
 Qt Designer Copyright (C) 2000-2002 Trolltech AS. All Rights Reserved</string>
             </property>
             <property name="alignment">
