@@ -38,23 +38,33 @@ void Expression::setString(const QString& s)
       if ((s[i] == '>' || s[i] == '<' || s[i] == '=') && 
         s[i+1] == '=')
       {
-        m_parts.append(s.mid(i, 2));
+        m_parts.append(QVariant(s.mid(i, 2)));
 	i += 2;
       }
       else if (s[i].isDigit())
       {
 	 i++;
-         while (i<len && s[i].isDigit())
-	   i++;
-	 m_parts.append(s.mid(start, i-start));
+	 bool decimal = false;
+	 while (i<len && (s[i].isDigit() || (!decimal && s[i] == QChar('.'))))
+	 {
+	   if (s[i] == '.')
+	     decimal = true;
+	   i++; 
+	 }
+	 if (decimal)
+	   m_parts.append(QVariant(s.mid(start, i-start).toDouble()));
+	 else 
+	   m_parts.append(QVariant(s.mid(start, i-start).toInt()));
       }
       else if (single.contains(s[i]))
-        m_parts.append(s[i++]);
+        m_parts.append(QVariant(QString(s[i++])));
       else if (s[i] == '\"')
       {
+        i++;
         while (i<len && s[i] != '\"')
 	  i++;
-	m_parts.append(s.mid(start, i-start));
+	m_parts.append(QVariant(s.mid(start+1, i-start-1)));
+	i++;
       }
       else if (s[i].isSpace())
         while (i<len && s[i].isSpace())
@@ -63,16 +73,16 @@ void Expression::setString(const QString& s)
       {
         while (i<len && !s[i].isSpace())
 	  i++;
-	m_parts.append(s.mid(start, i-start));
+	m_parts.append(QVariant(s.mid(start, i-start)));
       }
       start = i;
    }
 }
 
-QString Expression::next()
+QString Expression::next() const
 {
   if (m_start < m_parts.count())
-    return m_parts[m_start];
+    return m_parts[m_start].toString();
   else 
     return QString::null;
 }
@@ -84,34 +94,71 @@ bool Expression::validate()
   return !m_error;
 }
 
+Expression::Type Expression::commonType(const QVariant v1, const QVariant v2) const
+{
+  if (v1.type() == QVariant::String || v2.type() == QVariant::String)
+    return String;
+  else if (v1.type() == QVariant::Double || v2.type() == QVariant::Double)
+    return Double;
+  return Int;
+}
+
+int compareDouble(const double A, const double B)
+{ 
+  return A<B ? -1 : (A==B ? 0 : 1);
+}
+
+
+int Expression::compare(const QVariant v1, const QVariant v2) const
+{
+  switch (commonType(v1, v2))  {
+    case String: return v1.toString().compare(v2.toString());
+    case Double: return compareDouble(v1.toDouble(), v2.toDouble());
+    case Int:    return v1.toInt() - v2.toInt();
+    default:	 return 0;
+  }
+}
+
+
 void Expression::setError(int pos)
 {
   m_errorPosition = pos == -1 ? m_start : pos;
   m_error = true;
 }
 
-int Expression::parseNumber()
+QVariant Expression::parseNumber()
+{
+  if (!validate()) 
+    return -1;
+  return m_parts[m_start++];
+}
+
+QVariant Expression::parseMinus()
 {
   if (!validate()) return -1;
   bool sign = next() == "-";
   if (sign)
+  {
     m_start++;
-  bool ok;
-  int value = next().toInt(&ok);
-  if (!ok)
-    setError(m_start-1);
-  m_start++;
-  return sign ? -value : value;
+    QVariant value = parseNumber();
+    if (value.type() == QVariant::Double)
+      return -value.toDouble();
+    else
+      return -value.toInt();
+  }
+  else 
+    return parseNumber();
 }
 
 
-int Expression::parseBracket()
+
+QVariant Expression::parseBracket()
 {
   if (!validate()) return -1;
   if (next() == "(")
   {
     m_start++;
-    int value = parse();
+    QVariant value = parse();
     if (next() == ")")
       m_start++;
     else
@@ -119,113 +166,132 @@ int Expression::parseBracket()
     return value;  
   }
   else 
-    return parseNumber();
+    return parseMinus();
 }
 
 
-int Expression::parseMultiply()
+QVariant Expression::parseMultiply()
 {
   if (!validate()) return -1;
-  int value = parseBracket();
+  QVariant value = parseBracket();
   QString op = next();
   while (op == "*" || op == "/" || op == "%")
   {
     m_start++;
+    QVariant value2 = parseBracket();
+    Type mode = commonType(value, value2);
     if (op == "*")
-      value *= parseBracket();
+      if (mode == Double)
+        value = value.toDouble() * value2.toDouble();
+      else
+        value = value.toInt() * value2.toInt();
     else if (op == "/")
-      value /= parseBracket();
+      if (mode == Double)
+        value = value.toDouble() / value2.toDouble();
+      else
+        value = value.toInt() / value2.toInt();
     else 
-      value %= parseBracket();
+      if (mode == Double)
+        value = value.toDouble() / value2.toInt();
+      else
+        value = value.toInt() / value2.toInt();
     op = next();
   }
   return value;
 }
 
-int Expression::parseAdd()
+QVariant Expression::parseAdd()
 {
   if (!validate()) return -1;
-  int value = parseMultiply();
+  QVariant value = parseMultiply();
+  QString op = next();
   while (next() == "+" || next() == "-")
   {
-    bool add = (next() == "+");
     m_start++;
-    if (add)
-      value += parseMultiply();
-    else 
-      value -= parseMultiply();
+    QVariant value2 = parseBracket();
+    Type mode = commonType(value, value2);
+    if (op == "+")
+      if (mode == Double)
+        value = value.toDouble() + value2.toDouble();
+      else
+        value = value.toInt() + value2.toInt();
+    else
+      if (mode == Double)
+        value = value.toDouble() - value2.toDouble();
+      else
+        value = value.toInt() - value2.toInt();
   }
   return value;
 }
 
-int Expression::parseComparison()
+QVariant Expression::parseComparison()
 {
   if (!validate()) return -1;
-  int value = parseAdd();
+  QVariant value = parseAdd();
   QString cmp = next();
   if (cmp == "<" || cmp == "<=" || cmp == "==" || cmp == ">=" || cmp == ">")
   {
     m_start++;
+    QVariant value2 = parseAdd();
     if (cmp == "<")
-      return value < parseAdd();
+      return compare(value, value2) < 0;
     else if (cmp == "<=")
-      return value <= parseAdd();
+      return compare(value, value2) <= 0;
     else if (cmp == "==")
-      return value == parseAdd();
+      return compare(value, value2) == 0;
     else if (cmp == ">=")
-      return value >= parseAdd();
-    if (cmp == ">")
-      return value > parseAdd();
+      return compare(value, value2) >= 0;
+    else 
+      return compare(value, value2) > 0;
   }
-  else
-    return value;
+  return value;
 }
 
-int Expression::parseNot()
+QVariant Expression::parseNot()
 {
   if (next() == "!" || next() == "not")
   {
     m_start++;    
-    return !parseComparison();
+    return !parseComparison().asBool();
   }
   else 
     return parseComparison();
 }
 
-int Expression::parseAnd()
+QVariant Expression::parseAnd()
 {
   if (!validate()) return -1;
-  int value = parseNot();
+  QVariant value = parseNot();
   while (next() == "&&" || next() == "and")
   {
     m_start++;    
-    value == parseNot() && value;
+    value == parseNot().toBool() && value.toBool();
   }
   return value;
 }
 
-int Expression::parseOr()
+QVariant Expression::parseOr()
 {
   if (!validate()) return -1;
-  int value = parseAnd();
+  QVariant value = parseAnd();
   while (next() == "||" || next() == "or")
   {
     m_start++;    
-    value = parseAnd() || value;
+    value = parseAnd().toBool() || value.toBool();
   }
   return value;
 }
 
-int Expression::parse()
+QVariant Expression::parse()
 { 
   return parseOr();
 }
 
-int Expression::value(bool* valid)
+QVariant Expression::value(bool* valid)
 {
   m_start = 0;
   m_error = false;
-  int val = parse();
+  QVariant val = parse();
   if (valid)
      *valid = !m_error && m_start == m_parts.count();
   return val;

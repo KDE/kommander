@@ -18,33 +18,43 @@
 #define _HAVE_EXPRESSION_H_
 
 #include <qstring.h>
-#include <qstringlist.h>
+#include <qvaluelist.h>
+#include <qvariant.h>
 
 class Expression
 {
 public:
   Expression();
   Expression(const QString& expr);
-  int value(bool* valid = 0);
+  QVariant value(bool* valid = 0);
   void setString(const QString& s);
-private:      
-  int parseNumber();
-  int parseBracket();
-  int parseMultiply();
-  int parseAdd();
-  int parseNot();
-  int parseComparison();
-  int parseAnd();
-  int parseOr();
-  int parse();
-  bool validate();
-  QString next();
-  void setError(int pos = -1);
+private:
+  enum Type {Int, Double, String};
   
-  QStringList m_parts;
+  /* parsing function - top-down approach */
+  QVariant parseNumber();
+  QVariant parseMinus();
+  QVariant parseBracket();
+  QVariant parseMultiply();
+  QVariant parseAdd();
+  QVariant parseNot();
+  QVariant parseComparison();
+  QVariant parseAnd();
+  QVariant parseOr();
+  /* starting point of parsing */
+  QVariant parse();
+  
+  bool validate();
+  QString next() const;
+  void setError(int pos = -1);
+  int compare(const QVariant v1, const QVariant v2) const; 
+  Type commonType(const QVariant v1, const QVariant v2) const; 
+  
+  QValueList<QVariant> m_parts;
   int m_start;
   bool m_error;
   int m_errorPosition;
+
 };
 
 #endif

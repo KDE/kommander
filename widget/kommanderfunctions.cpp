@@ -90,8 +90,8 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
     {
       Expression expr(args[0]);
       bool ok;
-      int value = expr.value(&ok);
-      return ok ? QString::number(value) : QString::null;
+      QVariant value = expr.value(&ok);
+      return ok ? value.toString() : QString::null;
     }
     default:
       return QString::null;
