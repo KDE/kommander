@@ -41,7 +41,7 @@ void SpecialInformation::registerSpecials()
      i18n("Selects the item at the specified index. Indexes are zero based."));
   insertAlias(DCOP::setCurrentItem, "setCurrentTab");
   insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)", 3,
-     i18n("Sets pixmap at the given index to the specified icon. Use <i>index = -1</-> to set the pixmap for all items."));
+     i18n("Sets pixmap at the given index to the specified icon. Use <i>index = -1</i> to set the pixmap for all items."));
   insert(DCOP::item, "item(QString widget, int index)", 2,
      i18n("Returns the text of the item at the given index."));
   insert(DCOP::itemPath, "itemPath(QString widget, int index)", 2,
