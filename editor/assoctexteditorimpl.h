@@ -53,8 +53,8 @@ public slots:
   // Current widget has changed - store script and show new script
   void stateChanged(int);
   // Select widget via widget tree dialog
-  void selectWidget();
-  
+  void widgetChange();
+    
   // Functions for script editing:
   
   // Insert given text at cursor position for current widget and state
@@ -64,7 +64,7 @@ public slots:
   // Select file and insert its content at cursor position
   void insertFunction(int);
   // Insert selected function at cursor position 
-  void insertWidgetName(int);
+  void insertWidgetName();
 
 protected slots:
 
@@ -99,6 +99,8 @@ private:
   QString widgetToString(QWidget* widget, bool formatted = true);
   // Conver combo string to widget
   QWidget* widgetFromString(const QString& name);
+  // Select widget name via ChooseWidget dialog
+  QString selectWidget();
 };
 
 #endif
