@@ -11,8 +11,10 @@
 <li>KJanusWidget</li>
 <li>QTimer widget</li>
 <li>Make tree/detail widget usable</li>
-<li>Switch from using Qt widget to their KDE equivalents?</li></ul>
+<li>Switch from using Qt widget to their KDE equivalents?</li>
+<li>Status bar</li></ul>
 </body></html>
+
 
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -79,7 +81,6 @@
 <li>Hints?</li></ul>
 </body></html>
 
-
 \NewEntry 1 Examples
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Examples to be used with tutorial</span></p>
@@ -87,7 +88,6 @@
 <li>create examples for tutorial</li>
 <li>clean up examples: reomve obsolete or unclear ones, add some more instructive ones</li></ul>
 </body></html>
-
 
 \NewEntry 1 Scripts
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -99,7 +99,6 @@
 <p></p>
 <p></p>
 </body></html>
-
 
 \NewEntry 0 Language
 
@@ -116,15 +115,15 @@
 <p></p>
 </body></html>
 
-
-\NewEntry 1 New functions
+\CurrentEntry 1 New functions
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">New functions that could be useful</span></p>
 <ul type="disc"><li>add string-handling functions (lowercase, uppercase, capitalize, substring), perhaps in a way: @string(operation, string) - to avoid adding too many functions</li>
 <li>allow better handling of empty strings (see Quick Start - too many empty lines are created)</li>
 <li>@if (a, b, c)? - or is BASH enough?</li>
 <li>add @include and @includelocal commands - to include external script or local (project script); that should make code more readable</li>
-<li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-style:italic">Naming: use @execlocal for consistency?</span></li></ul>
+<li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-style:italic">Naming: use @execlocal for consistency?</span></li>
+<li>add @messageBox as an interface to KMessageBox (for both queries and messages)<br /><span style="font-style:italic">Question: use strings or int for flags and results?</span></li></ul>
 </body></html>
 
 
@@ -134,7 +133,6 @@
 <ul type="disc"><li>detect incorrect path at shebang, allow user to choose correct one and remeber that pair</li>
 <li>add option to pass shebang as argument of @execBegin, f. e. @execBegin(/usr/bin/perl)</li></ul>
 </body></html>
-
 
 \NewEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -155,15 +153,18 @@
 <li>rewrite some parts more clearly</li></ul>
 </body></html>
 
-\CurrentEntry 0 ChangeLog
+\NewEntry 0 ChangeLog
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">ChangeLog of TODO file</span></p>
+<ul type="disc"><li>Widget: status bar</li>
+<li>New functions: messageBox</li></ul>
 <p><span style="color:#0000ff">2004-04-29, 13:02</span></p>
 <ul type="disc"><li>file restructurization</li>
 <li>ChangeLog, Done, About: created</li>
 <li>New functions: Add string-handling functions</li>
 <li>Help: Examples</li>
 <li>Syntax: aliases, clear argument format</li></ul>
+<p></p>
 </body></html>
 
 
@@ -175,12 +176,10 @@
 <li>@parentPid added</li></ul>
 </body></html>
 
-
 \NewEntry 0 About this file
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p>This file should document both what should be done in Kommander and what was done.</p>
 <p>All enteries marked with a date without an author were made by Michal Rudolf</p>
 <p>When adding something important, please enter it in ChangeLog or Done and mark it with current date (in yyyy-MM-dd, hh:mm format) and your name.</p>
 </body></html>
-
 
