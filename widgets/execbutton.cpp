@@ -90,18 +90,12 @@ void ExecButton::startProcess()
 		connect(process, SIGNAL(processExited(KProcess *)), SLOT(endProcess(KProcess *)));
 		connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
 		connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
-		// FIXME : This is seriously screwed. I think the app needs to be executing for start to work. This means changing back AGAIN to modeless dialogs
-#if 1
 		if(!process->start(KProcess::NotifyOnExit, KProcess::Stdout))
 		{
 			KMessageBox::error(this, i18n("Failed to start shell process"));
 			delete process;
 			return;
 		}
-#else
-		// Screw it, don't check for errors ;)
-		process->start(KProcess::NotifyOnExit, KProcess::Stdout);
-#endif
 
 		setEnabled(false); // disabled until process ends
 	}
