@@ -194,7 +194,7 @@ void Instance::setParent(QWidget *a_parent)
 }
 
 
-void Instance::enableWidget(const QString& widgetName, bool enable)
+void Instance::setEnabled(const QString& widgetName, bool enable)
 {
   QObject* child = stringToWidget(widgetName);  
   if (child && child->inherits("QWidget"))
@@ -208,7 +208,7 @@ void Instance::setVisible(const QString& widgetName, bool visible)
     ((QWidget*)child)->setShown(visible);
 }
 
-void Instance::changeWidgetText(const QString& widgetName, const QString& text)
+void Instance::setText(const QString& widgetName, const QString& text)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
@@ -270,14 +270,14 @@ QString Instance::item(const QString &widgetName, int i)
   return QString::null;      
 }
 
-void Instance::removeListItem(const QString &widgetName, int index)
+void Instance::removeItem(const QString &widgetName, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::removeItem, QString::number(index));
 }
 
-void Instance::addListItem(const QString &widgetName, const QString &item, int index)
+void Instance::insertItem(const QString &widgetName, const QString &item, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
@@ -288,7 +288,7 @@ void Instance::addListItem(const QString &widgetName, const QString &item, int i
   }
 }
 
-void Instance::addListItems(const QString &widgetName, const QStringList &items, int index)
+void Instance::insertItems(const QString &widgetName, const QStringList &items, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
@@ -342,21 +342,14 @@ void Instance::setPixmap(const QString &widgetName, const QString& iconName, int
   }
 }
 
-void Instance::clearList(const QString &widgetName)
+void Instance::clear(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::clear);
 }
 
-void Instance::setCurrentListItem(const QString& widgetName, const QString& item)
-{
-  QObject* child = stringToWidget(widgetName);  
-  if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::setSelection, item);
-}
-
-void Instance::setCurrentTab(const QString &widgetName, int index)
+void Instance::setCurrentItem(const QString &widgetName, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
@@ -429,5 +422,51 @@ KommanderWidget* Instance::kommanderWidget(QObject* object)
 {
   return dynamic_cast<KommanderWidget*>(object);  
 }
+
+
+
   
+
+
+/*** Deprecated methods: just call appropriate method  ***/
+void Instance::changeWidgetText(const QString& widgetName, const QString& text)
+{
+  setText(widgetName, text);
+}
+
+void Instance::clearList(const QString &widgetName)
+{
+  clear(widgetName);
+}
+
+void Instance::setCurrentListItem(const QString& widgetName, const QString& item)
+{
+  setSelection(widgetName, item);
+}
+
+void Instance::setCurrentTab(const QString &widgetName, int index)
+{
+  setCurrentItem(widgetName, index);
+}
+
+void Instance::addListItems(const QString &widgetName, const QStringList &items, int index)
+{
+  insertItems(widgetName, items, index);
+}
+
+void Instance::enableWidget(const QString& widgetName, bool enable)
+{
+  setEnabled(widgetName, enable);
+}
+
+void Instance::removeListItem(const QString &widgetName, int index)
+{
+  removeItem(widgetName, index);
+}
+
+void Instance::addListItem(const QString & widgetName, const QString & item, int index)
+{
+  insertItem(widgetName, item, index);
+}
+
 #include "instance.moc"

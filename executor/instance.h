@@ -47,7 +47,7 @@ public:
   Instance(const KURL&, QWidget*);
   ~Instance();
   
-  /* add global variable; two forms are accepted:
+  /* passing global variables: two forms are accepted.
      kdmr-executor file.kmdr COUNT=45 PATH=/tmp     - this adds global variables 45 and PATH
      kmdr-executor file.kmdr 45 /tmp                - this adds global variables ARG1 and ARG2
      ARGS holds space-separated list of all second-type variables (like Bash $@)
@@ -55,26 +55,33 @@ public:
   */
   virtual void addArgument(const QString& argument);
 
-//DCOP methods. The documentation is in the dcopkommanderif.h file.
-  virtual void enableWidget(const QString& widgetName, bool enable);  
-  virtual void setVisible(const QString& widgetName, bool visible);
-  virtual void changeWidgetText(const QString& widgetName, const QString& text);      
+  //DCOP methods. The documentation is in the widgets/specials.cpp file.
+  virtual void setEnabled(const QString& widgetName, bool enable);  
+  virtual void enableWidget(const QString& widgetName, bool enable);    /* DEPRECATED */
+  virtual void setVisible(const QString& widgetName, bool enable);  
+  virtual void setText(const QString& widgetName, const QString& text); 
+  virtual void changeWidgetText(const QString& widgetName, const QString& text); /* DEPRECATED */
   virtual QString text(const QString& widgetName);
   virtual void setSelection(const QString& widgetName, const QString& text);
+  virtual void setCurrentListItem(const QString& widgetName, const QString& text); /* DEPRECATED */
   virtual QString selection(const QString& widgetName);
-  virtual int currentItem(const QString &widgetName);
-  virtual QString item(const QString &widgetName, int index);
-  virtual void removeListItem(const QString &widgetName, int index);
-  virtual void addListItem(const QString &widgetName, const QString &item, int index);
-  virtual void addListItems(const QString &widgetName, const QStringList &items, int index);
-  virtual void clearList(const QString &widgetName);
-  virtual int findItem(const QString &widgetName, const QString& item);
-  virtual int itemDepth(const QString &widgetName, int index);
-  virtual QString itemPath(const QString &widgetName, int index);
+  virtual int currentItem(const QString &widgetName);  
+  virtual QString item(const QString &widgetName, int index);  
+  virtual int itemDepth(const QString &widgetName, int index);  
+  virtual QString itemPath(const QString &widgetName, int index);  
+  virtual void removeItem(const QString &widgetName, int index);
+  virtual void removeListItem(const QString &widgetName, int index); /* DEPRECATED */
+  virtual void insertItem(const QString &widgetName, const QString &item, int index);
+  virtual void addListItem(const QString &widgetName, const QString &item, int index); /* DEPRECATED */
+  virtual void setPixmap(const QString &widgetName, const QString &iconName, int index);
+  virtual void insertItems(const QString &widgetName, const QStringList &items, int index);
+  virtual void addListItems(const QString &widgetName, const QStringList &items, int index);/*DEPRECATED*/
   virtual void addUniqueItem(const QString &widgetName, const QString &item);
-  virtual void setPixmap(const QString& widgetName, const QString& iconName, int index);
-  virtual void setCurrentListItem(const QString& widgetName, const QString &name);
-  virtual void setCurrentTab(const QString &widgetName, int index);
+  virtual int findItem(const QString &widgetName, const QString &item);
+  virtual void clear(const QString &widgetName);
+  virtual void clearList(const QString &widgetName); /* DEPRECATED */
+  virtual void setCurrentItem(const QString &widgetName, int index);
+  virtual void setCurrentTab(const QString &widgetName, int index); /* DEPRECATED */
   virtual void setChecked(const QString &widgetName, bool checked);
   virtual void setAssociatedText(const QString &widgetName, const QString &text);
   virtual QStringList associatedText(const QString &widgetName);
