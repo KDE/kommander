@@ -8,7 +8,7 @@ KDE_ICON = kmdr-executor
 appsdir = $(kde_appsdir)/Applications
 apps_DATA = kmdr-executor.desktop
 
-INCLUDES = -I$(top_srcdir)/kommander/editor -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/factory $(all_includes)
+AM_CPPFLAGS = -I$(top_srcdir)/kommander/editor -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/factory $(all_includes)
 METASOURCES = AUTO
 
 # the library search path.
