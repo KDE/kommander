@@ -15,6 +15,9 @@
  ***************************************************************************/
 
 #include <stdlib.h> 
+
+#include <qfile.h>
+#include <qtextstream.h>
  
 #include <dcopclient.h>
 #include <kapplication.h>
@@ -107,6 +110,29 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     m_arrays[args[0]].remove(args[1]);
   return QString::null;
 }
+
+QString KommanderWidget::evalFileFunction(const QString& function, const QStringList& args) const
+{
+  QFile file(args[0]);
+  if (function == "read" && file.open(IO_ReadOnly))
+  {
+    QTextStream text(&file);
+    return text.read();
+  }
+  else if (function == "write" && file.open(IO_WriteOnly))
+  {
+    QTextStream text(&file);
+    text << args[1];
+  }
+  else if (function == "append" && file.open(IO_Append))
+  {
+    QTextStream text(&file);
+    text << args[1];
+  }
+  return QString::null;
+}
+
+
 
 
 QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QString& s, int& pos) const

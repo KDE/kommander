@@ -81,4 +81,8 @@ void Instance::registerSpecials()
   SpecialInformation::insert("isEmpty", 1);
   SpecialInformation::insert("isNumber", 1);
   
+  SpecialInformation::setCurrentObject("File");
+  SpecialInformation::insert("read", 1);
+  SpecialInformation::insert("write", 2);
+  SpecialInformation::insert("append", 2);
 }

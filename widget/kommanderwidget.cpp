@@ -190,6 +190,8 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
           return QString::null;
         if (identifier == "Array")
           evalText += evalArrayFunction(function, args);
+        else if (identifier == "File")
+          evalText += evalFileFunction(function, args);
         else if (identifier == "String")
           evalText += evalStringFunction(function, args);
         else

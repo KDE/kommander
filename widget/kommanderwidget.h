@@ -56,8 +56,9 @@ public:
   virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos) const;
   virtual QString evalArrayFunction(const QString&, const QStringList&) const;
   virtual QString evalStringFunction(const QString&, const QStringList&) const;
+  virtual QString evalFileFunction(const QString&, const QStringList&) const;
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos) const;
-
+  
   // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
