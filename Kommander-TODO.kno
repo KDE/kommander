@@ -1,16 +1,20 @@
 \NewEntry 0 Widgets
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><li>Database widget (use hk_classes)</li>
 <li>Improve script widget (how?)</li>
 <li>Wizard widget locks up editor - find out why?</li>
 <li>ColorBox widget</li>
 <li>Progress bar</li>
 <li>KJanusWidget</li>
-<li>Make tree/detail widget usable</li></ul>
+<li>Make tree/detail widget usable</li>
+<li>Switch from using Qt widget to their KDE equivalents?</li></ul>
 </body></html>
+
 
 \NewEntry 0 Documentation
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Kommander tutorials, documentation etc.</span></p>
 <ul type="disc"><li>Create documentation</li>
 <li>Create Kommander function reference</li>
 <li>Create tutorials with examples</li>
@@ -18,8 +22,10 @@
 <li>Hints?</li></ul>
 </body></html>
 
+
 \NewEntry 0 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Layout of Edit Kommander Text dialog</span></p>
 <ul type="disc"><li>use better editor (KWrite?)</li>
 <li>better layout</li>
 <li>add function browser with description</li>
@@ -30,8 +36,10 @@
 <li>don't make window modal</li></ul>
 </body></html>
 
+
 \NewEntry 0 Usability
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Various GUI-related features</span></p>
 <ul type="disc"><li>clean up popup menus, remove disabled items</li>
 <li>use KDE dialogs, not Qt ones if possible</li>
 <li>some widget information on mouseover</li>
@@ -48,8 +56,10 @@
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
 
+
 \NewEntry 0 Language
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Language recognized by Kommander-Executor</span></p>
 <ul type="disc"><li>add string-handling functions (lowercase, uppercase, capitalize, substring)</li>
 <li>add @ldcop</li>
 <li>handle other values for DCOP (not only <span style="font-style:italic">string</span> and <span style="font-style:italic">int</span>)</li>
@@ -57,18 +67,27 @@
 <li>allow better handling of empty strings (see Quick Start - too many empty lines are created)</li>
 <li>@if (a, b, c)? - or is BASH enough?</li>
 <li>allow easy use of other script languages</li>
-<div></div></ul>
+<li>allow using other languages for scripts in @execBegin;<br />two versions suggested: @execBegin...#!/usr/bin/perl or @execBegin(/usr/bin/perl<br /><span style="font-weight:600">Problem: perl doesn't accept script as arguments, KProcess supports non-commandline arguments only for nonblocking processes</span></li>
+<li>add @include and @includelocal commands - to include external script or local (project script); that should make code more readable</li>
+<li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-weight:600">Naming: use @execlocal for consistency?</span></li>
+<div><br /></div></ul>
+<p></p>
+<ul type="disc"><div></div></ul>
 </body></html>
+
 
 \NewEntry 0 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Running/testing inside Editor</span></p>
 <ul type="disc"><li>add Run command to editor</li>
 <li>allow debugging</li>
 <li>add Message/Log window, catching output in editor</li></ul>
 </body></html>
 
+
 \NewEntry 0 Code
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Kommander source code</span></p>
 <ul type="disc"><li>check if repeated Q_PROPERTY with calls to parent class can be removed somehow (derive KommanderWidget from QObject? use Q_OVERRIDE?)</li>
 <li>add comments</li>
 <li>resolve warnings</li>
@@ -77,19 +96,24 @@
 <li>rewrite some parts more clearly</li></ul>
 </body></html>
 
+
 \NewEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Executing Kommander scripts</span></p>
 <ul type="disc"><li>check if messing with local DCOP functions doesn't break widgetText</li>
-<li>detect and handle missing plugin widgets</li></ul>
+<li>detect and handle missing plugin widgets</li>
+<li>optionally show all errors as message boxes, instead of writing them on stderr</li></ul>
 </body></html>
+
 
 \CurrentEntry 0 Scripts
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Kommander scripts that can be useful</span></p>
 <ul type="disc"><li>improve script for Quick Start (Quanta)</li>
 <li>create script for Quick List (Quanta)</li>
 <li>create scripts for common command-line programs to demonstrate power of Kommander (it would be nice if those could be documented somehow)</li>
-<li>create scripts for HTML templates</li>
-<li>allow using other languages for scripts (use SCRIPT tag)</li></ul>
+<li>create scripts for HTML templates</li></ul>
+<p></p>
 <p></p>
 </body></html>
 
