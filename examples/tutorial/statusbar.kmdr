@@ -80,8 +80,8 @@
             <property name="associations" stdset="0">
                 <stringlist>
                     <string>@StatusBar2.insertItem(This one was updated, 0)
-@StatusBar2.insertItem(Next item, 1)
-@StatusBar2.insertItem("Even more items", 2)</string>
+@StatusBar2.insertItem(User: @exec(whoami), 1)
+@StatusBar2.insertItem(@exec(date), 2)</string>
                 </stringlist>
             </property>
         </widget>
