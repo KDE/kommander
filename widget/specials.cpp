@@ -101,7 +101,7 @@ void SpecialInformation::registerSpecials()
          i18n("Shows/hides widget."), 2);
   insert(DCOP::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DCOP::type, "type(QString widget)",
-     i18n("Returns type(class) of widget."), 2);
+     i18n("Returns type(class) of widget."), 1);
     
   insertGroup(Group::Kommander, "Kommander", "");
   insert(Kommander::widgetText, "widgetText", 
