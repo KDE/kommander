@@ -61,6 +61,9 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
     case Kommander::setGlobal:
       setGlobal(args[0], args[1]); 
       return QString::null;
+    case Kommander::debug:
+      qDebug("%s", args[0].latin1());
+      return QString::null;
     case Kommander::readSetting:
     {
       KommanderWindow* window = dynamic_cast<KommanderWindow*>(parentDialog());

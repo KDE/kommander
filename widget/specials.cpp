@@ -120,6 +120,8 @@ void SpecialInformation::registerSpecials()
      0);
   insert(Kommander::parentPid, "parentPid", 
      i18n("Returns the pid of the parent Kommander window."), 0);
+  insert(Kommander::debug, "debug(QString text)",
+         i18n("Writes <i>text</i> on standard output."), 1);
   insert(Kommander::execBegin, "execBegin(QString shell)", 
      i18n("Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. Full path is not required for the shell which may be useful for portability. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"), 0);
   insert(Kommander::env, "env(QString variable)",
