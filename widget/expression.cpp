@@ -71,7 +71,13 @@ Expression& Expression::operator=(const QString& s)
     {
       while (i < len && !s[i].isSpace())
         i++;
-      m_parts.append(QVariant(s.mid(start, i - start)));
+      QString keyword = s.mid(start, i - start);
+      if (keyword == "true")
+        m_parts.append(QVariant(true));
+      else if (keyword == "false")
+        m_parts.append(QVariant(false));
+      else        /* will be deprecated soon */
+        m_parts.append(QVariant(keyword));
     }
     start = i;
   }
