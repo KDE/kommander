@@ -38,15 +38,26 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   states << "default";
   setStates(states);
   setDisplayStates(states);
+  setPathSeparator("/");
 }
 
 TreeWidget::~TreeWidget()
 {
 }
 
+QString TreeWidget::pathSeparator() const
+{
+  return m_pathSeparator;  
+}
+
+void TreeWidget::setPathSeparator(const QString& a_pathSep)
+{
+  m_pathSeparator = a_pathSep;
+}
+  
 void TreeWidget::addItemFromString(const QString& s)
 {
-  QStringList elements = QStringList::split("/", s);
+  QStringList elements = QStringList::split(m_pathSeparator, s);
   if (elements.count() > 1)
     setRootIsDecorated(true);
   QListViewItem* parent = 0;
@@ -144,7 +155,8 @@ QString TreeWidget::itemsText()
     if (path.isEmpty())
       items.append(itemText(it.current()));
     else 
-      items.append(QString("%1/%2").arg(path).arg(itemText(it.current())));
+      items.append(QString("%1%2%3").arg(path).arg(m_pathSeparator)
+        .arg(itemText(it.current())));
     ++it;
   }
   return items.join("\n");
@@ -161,7 +173,7 @@ QString TreeWidget::itemPath(QListViewItem* item)
     path.prepend(item->text(0));
     item = item->parent();
   } 
-  return path.join("/");
+  return path.join(m_pathSeparator);
 }
 
 QString TreeWidget::currentState() const

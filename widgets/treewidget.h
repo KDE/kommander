@@ -38,11 +38,14 @@ class TreeWidget : public KListView, public KommanderWidget
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_PROPERTY(QString pathSeparator READ pathSeparator WRITE setPathSeparator)
   
 public:
   TreeWidget(QWidget *a_parent, const char *a_name);
   ~TreeWidget();
   virtual void setCurrentItem(QListViewItem* item);  
+  QString pathSeparator() const;
+  void setPathSeparator(const QString& a_pathSep);
   
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
@@ -69,6 +72,7 @@ private:
   void addItemFromString(const QString& s);
   QListViewItem* itemFromString(QListViewItem* parent, const QString& s);
   QPtrVector<QListViewItem> m_lastPath;
+  QString m_pathSeparator;
 };
 
 #endif
