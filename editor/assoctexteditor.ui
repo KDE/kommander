@@ -98,7 +98,7 @@
                 <cstring>groupBox1</cstring>
             </property>
             <property name="title">
-                <string>Insert:</string>
+                <string>Insert</string>
             </property>
             <hbox>
                 <property name="name">
