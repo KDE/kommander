@@ -204,6 +204,11 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
         evalText += identifier;
         continue;
       }
+      else if (pWidget == this)
+      {
+        printError(i18n("Infinite loop: @%1 called inside @%2").arg(identifier).arg(identifier));
+        return QString::null;
+      }
       else
         evalText += pWidget->evalAssociatedText();
     }
