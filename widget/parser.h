@@ -54,6 +54,8 @@ public:
   void setVariable(const QString& name, const QString& value);
   // get variable value
   QString variable(const QString& name);
+  // get associated widget
+  KommanderWidget* currentWidget() const;
 
 private:
   // parsing function - top-down approach

@@ -15,8 +15,10 @@
  ***************************************************************************/
 
 #include "parserdata.h"
+#include "parser.h"
 #include "specials.h"
 #include "specialinformation.h"
+#include "myprocess.h"
 
 #include <iostream>
 
@@ -29,74 +31,74 @@
 using namespace Parse;
 
 /******************* String function ********************************/
-ParseNode stringLength(const ParameterList& params)
+ParseNode stringLength(Parser*, const ParameterList& params)
 {
   return params[0].toString().length(); 
 }
 
-ParseNode stringContains(const ParameterList& params)
+ParseNode stringContains(Parser*, const ParameterList& params)
 {
   return params[0].toString().contains(params[1].toString());
 }
 
-ParseNode stringFind(const ParameterList& params)
+ParseNode stringFind(Parser*, const ParameterList& params)
 {
   return params[0].toString().find(params[1].toString(), params.count() == 3 ? params[2].toInt() : 0);
 }
 
-ParseNode stringFindRev(const ParameterList& params)
+ParseNode stringFindRev(Parser*, const ParameterList& params)
 {
   return params[0].toString().find(params[1].toString(), 
     params.count() == 3 ? params[2].toInt() : params[0].toString().length());
 }
 
-ParseNode stringLeft(const ParameterList& params)
+ParseNode stringLeft(Parser*, const ParameterList& params)
 {
   return params[0].toString().left(params[1].toInt());
 }
 
-ParseNode stringRight(const ParameterList& params)
+ParseNode stringRight(Parser*, const ParameterList& params)
 {
   return params[0].toString().right(params[1].toInt());
 }
 
-ParseNode stringMid(const ParameterList& params)
+ParseNode stringMid(Parser*, const ParameterList& params)
 {
   return params[0].toString().mid(params[1].toInt(), params.count() == 3 ? params[2].toInt() : 0xffffffff);
 }
 
-ParseNode stringRemove(const ParameterList& params)
+ParseNode stringRemove(Parser*, const ParameterList& params)
 {
   return params[0].toString().remove(params[1].toString());
 }
 
-ParseNode stringReplace(const ParameterList& params)
+ParseNode stringReplace(Parser*, const ParameterList& params)
 {
   return params[0].toString().replace(params[1].toString(), params[2].toString());
 }
 
-ParseNode stringLower(const ParameterList& params)
+ParseNode stringLower(Parser*, const ParameterList& params)
 {
   return params[0].toString().lower();
 }
     
-ParseNode stringUpper(const ParameterList& params)
+ParseNode stringUpper(Parser*, const ParameterList& params)
 {
   return params[0].toString().upper();
 }
   
-ParseNode stringIsEmpty(const ParameterList& params)
+ParseNode stringIsEmpty(Parser*, const ParameterList& params)
 {
   return params[0].toString().isEmpty();
 }
     
-ParseNode stringSection(const ParameterList& params)
+ParseNode stringSection(Parser*, const ParameterList& params)
 {
   return params[0].toString().section(params[1].toString(), params[2].toInt(), 
     params.count() == 4 ? params[3].toInt() : params[2].toInt());
 }
   
-ParseNode stringArgs(const ParameterList& params)
+ParseNode stringArgs(Parser*, const ParameterList& params)
 {
   if (params.count() == 2)
     return params[0].toString().arg(params[1].toString());
@@ -106,25 +108,25 @@ ParseNode stringArgs(const ParameterList& params)
     return params[0].toString().arg(params[1].toString()).arg(params[2].toString()).arg(params[3].toString());
 }
 
-ParseNode stringIsNumber(const ParameterList& params)    
+ParseNode stringIsNumber(Parser*, const ParameterList& params)    
 {
   bool ok;
   params[0].toString().toDouble(&ok);
   return ok;
 }
   
-ParseNode stringToInt(const ParameterList& params)
+ParseNode stringToInt(Parser*, const ParameterList& params)
 {
   return params[0].toString().toInt();
 }
 
-ParseNode stringToDouble(const ParameterList& params)
+ParseNode stringToDouble(Parser*, const ParameterList& params)
 {
   return params[0].toString().toDouble();
 }
 
 /******************* Debug function ********************************/
-ParseNode debug(const ParameterList& params)
+ParseNode debug(Parser*, const ParameterList& params)
 {
   for (uint i=0; i<params.count(); i++)
     std::cerr << params[i].toString();
@@ -134,7 +136,7 @@ ParseNode debug(const ParameterList& params)
 
 
 /******************* File function ********************************/
-ParseNode fileRead(const ParameterList& params)
+ParseNode fileRead(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
   if (!file.open(IO_ReadOnly))
@@ -143,7 +145,7 @@ ParseNode fileRead(const ParameterList& params)
   return text.read();
 }
 
-ParseNode fileWrite(const ParameterList& params)
+ParseNode fileWrite(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
   if (!file.open(IO_WriteOnly))
@@ -154,7 +156,7 @@ ParseNode fileWrite(const ParameterList& params)
   return 1;
 }
 
-ParseNode fileAppend(const ParameterList& params)
+ParseNode fileAppend(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
   if (!file.open(IO_WriteOnly | IO_Append))
@@ -168,7 +170,7 @@ ParseNode fileAppend(const ParameterList& params)
 
 
 /******************* DCOP function ********************************/
-ParseNode localDCOPQuery(const ParameterList& params)
+ParseNode localDCOPQuery(Parser*, const ParameterList& params)
 {
   QCString appId = kapp->dcopClient()->appId();
   QCString object = "KommanderIf";
@@ -242,6 +244,19 @@ ParseNode localDCOPQuery(const ParameterList& params)
   return ParseNode();
 }
 
+
+ParseNode execCommand(Parser* P, const ParameterList& params)
+{
+  MyProcess proc(P->currentWidget());
+  QString text;
+  qDebug("Trying %s", params[0].toString().latin1());
+  if (params.count() > 1)
+    text = proc.run(params[0].toString().local8Bit(), params[1].toString());
+  else
+    text = proc.run(params[0].toString().local8Bit());
+  return text;
+}
+
   
 void ParserData::registerStandardFunctions()
 {
@@ -266,5 +281,6 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_write", Function(&fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&fileAppend, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("dcop", Function(&localDCOPQuery, ValueString, ValueString, 1, 100));
+  registerFunction("exec", Function(&execCommand, ValueString, ValueString, ValueString, 1, 2));
 }
 

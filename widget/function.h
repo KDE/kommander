@@ -20,9 +20,11 @@
 #include "parsenode.h"
 #include <qvaluevector.h>
 
+class Parser;
+
 typedef QValueVector<ParseNode> ParameterList;
 typedef QValueVector<Parse::ValueType> TypeList;
-typedef ParseNode(*FunctionPointer)(const ParameterList&);
+typedef ParseNode(*FunctionPointer)(Parser*, const ParameterList&);
 
 class Function
 {
@@ -54,7 +56,7 @@ class Function
     /* check whether given list is appropriate for this function */
     bool isValid(const ParameterList& params) const;
     /* execute */
-    ParseNode execute(const ParameterList& params) const;
+    ParseNode execute(Parser* P, const ParameterList& params) const;
   
 private:
     FunctionPointer m_function;

@@ -111,10 +111,10 @@ bool Function::isValid(const ParameterList& params) const
   return params.count() >= minArgs() && params.count() <= maxArgs();
 }
 
-ParseNode Function::execute(const ParameterList& params) const
+ParseNode Function::execute(Parser* P, const ParameterList& params) const
 {
   if (m_function)
-    return m_function(params);
+    return m_function(P, params);
   else   
     return ParseNode();
 }

@@ -373,8 +373,10 @@ ParseNode Parser::parseFunction(Mode mode)
     } while (tryKeyword(Comma, CheckOnly));
     tryKeyword(RightParenthesis);
   }
+  if (!f.isValid(params))
+    setError(IncorrectParams);
   else if (mode == Execute)
-    return f.execute(params);
+    return f.execute(this, params);
   return ParseNode();
 }
 
@@ -400,7 +402,7 @@ ParseNode Parser::parseWidget(Mode mode)
     tryKeyword(RightParenthesis);
   }
   if (mode == Execute)
-    return f.execute(params);
+    return f.execute(this, params);
   return ParseNode();
 }
 
@@ -653,4 +655,7 @@ QString Parser::variable(const QString& name)
   return m_variables.contains(name) ? m_variables[name].toString() : QString::null;  
 }
 
-
+KommanderWidget* Parser::currentWidget() const
+{
+  return m_widget;  
+}
