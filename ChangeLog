@@ -1,3 +1,11 @@
+pon 07 cze 2004 14:45:53 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o add assotiative arrays: @setArrayValue(), @array and
+	  @arrayValue() specials
+
+Sun 06 cze 2004 23:13:34 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fix compilation problems on Debian and Slackware
+	o @@ is now interpreted as @
+
 Sat 05 cze 2004 10:12:05 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @env(variable) special to get environment variable value
 	o added @dialog(dialog, params) that would call child dialog, setting
