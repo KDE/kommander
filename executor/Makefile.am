@@ -5,7 +5,7 @@ kmdr_executor_LDADD   = $(top_builddir)/kommander/widget/libkommanderwidget.la $
 
 KDE_ICON = kmdr-executor
 
-appsdir = $(kde_appsdir)/Applications
+appsdir = $(kde_appsdir)/.hidden
 apps_DATA = kmdr-executor.desktop
 
 AM_CPPFLAGS = -I$(top_srcdir)/kommander/editor -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/factory $(all_includes)
