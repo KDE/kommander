@@ -21,6 +21,7 @@
 #include "myprocess.h"
 
 #include <iostream>
+#include <stdlib.h> 
 
 #include <qfile.h>
 #include <qtextstream.h>
@@ -138,6 +139,14 @@ static ParseNode f_debug(Parser*, const ParameterList& params)
   std::cerr << "\n";
   return ParseNode();
 }
+
+static ParseNode f_echo(Parser*, const ParameterList& params)
+{
+  for (uint i=0; i<params.count(); i++)
+    std::cout << params[i].toString();
+  return ParseNode();
+}
+
 
 
 /******************* File function ********************************/
@@ -267,7 +276,10 @@ static ParseNode f_i18n(Parser*, const ParameterList& params)
   return KGlobal::locale()->translate(params[0].toString()); 
 }
 
-
+static ParseNode f_env(Parser*, const ParameterList& params)
+{
+  return QString(getenv(params[0].toString().latin1())); 
+}
 
 /******************* Array functions ********************************/
 static ParseNode f_arrayClear(Parser* P, const ParameterList& params)
@@ -440,12 +452,14 @@ void ParserData::registerStandardFunctions()
   registerFunction("str_toint", Function(&f_stringToInt, ValueString, ValueInt, 1));
   registerFunction("str_todouble", Function(&f_stringToDouble, ValueString, ValueDouble, 1));
   registerFunction("debug", Function(&f_debug, ValueNone, ValueString, 1, 100));
+  registerFunction("echo", Function(&f_echo, ValueNone, ValueString, 1, 100));
   registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));
   registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, 1, 100));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
+  registerFunction("env", Function(&f_env, ValueString, ValueString));
   registerFunction("array_clear", Function(&f_arrayClear, ValueNone, ValueString));
   registerFunction("array_count", Function(&f_arrayCount, ValueInt, ValueString));
   registerFunction("array_keys", Function(&f_arrayKeys, ValueString, ValueString));
