@@ -459,7 +459,7 @@ QString KommanderWidget::parseQuotes(const QString& s) const
 {
   if (s[0] == s[s.length()-1] && (s[0] == '\'' || s[0] == '\"'))
   {
-    QChar buf[s.length()];
+    QMemArray<QChar> buf(s.length());
     int start = 0;
     int end = s.length() - 1;
     for (int i=1; i<end; i++)
