@@ -81,12 +81,12 @@ int main(int argc, char *argv[])
 	  QString dlgFileName;
 	  for(int i = 0;i < args->count();++i)
 	  {
-		KURL url = args->url(i);
-		if(url.isLocalFile())                 // FIXME : Pointless repitition
-		{
-		  Instance *instance = new Instance(url.path(), 0);
-		  instance->run();
-		}
+            KURL url = args->url(i);
+            if(url.isLocalFile())                 // FIXME : Pointless repitition
+            {
+              Instance *instance = new Instance(url.path(), 0);
+              instance->run();
+            }
 	  }
   }
   return 0;

@@ -164,6 +164,8 @@ void Instance::setParent(QWidget *a_parent)
 
 void Instance::enableWidget(const QString& widgetName, bool enable)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList("QWidget", widgetName);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -175,6 +177,8 @@ void Instance::enableWidget(const QString& widgetName, bool enable)
 
 void Instance::changeWidgetText(const QString& widgetName, const QString& text)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -197,6 +201,8 @@ void Instance::changeWidgetText(const QString& widgetName, const QString& text)
 
 void Instance::removeListItem(const QString &widgetName, int index)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -211,6 +217,8 @@ void Instance::removeListItem(const QString &widgetName, int index)
 
 void Instance::addListItem(const QString &widgetName, const QString &item, int index)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -225,6 +233,8 @@ void Instance::addListItem(const QString &widgetName, const QString &item, int i
 
 void Instance::addListItems(const QString &widgetName, const QStringList &items, int index)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -239,6 +249,8 @@ void Instance::addListItems(const QString &widgetName, const QStringList &items,
 
 void Instance::clearList(const QString &widgetName)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -251,22 +263,40 @@ void Instance::clearList(const QString &widgetName)
   delete children;
 }
 
-void Instance::setCurrentListItem(const QString& widgetName, int index)
+void Instance::setCurrentListItem(const QString& widgetName, const QString& name)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
   {
     if (child->inherits("QListBox"))
-      ((QListBox*)child)->setCurrentItem(index);
+    {
+      QListBox *box = (QListBox*)child;
+      for (uint i = 0; i < box->count(); i++)
+        if (box->text(i) == name)
+        {
+          box->setCurrentItem(i);
+        }
+    }
     else if (child->inherits("QComboBox"))
-      ((QComboBox*)child)->setCurrentItem(index);
+    {
+      QComboBox *box = (QComboBox*)child;
+      for (int i = 0; i < box->count(); i++)
+        if (box->text(i) == name)
+        {
+          box->setCurrentItem(i);
+        }
+    }
   }
   delete children;
 }
 
 void Instance::setCurrentTab(const QString &widgetName, int index)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList("QTabWidget", widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -278,6 +308,8 @@ void Instance::setCurrentTab(const QString &widgetName, int index)
 
 void Instance::setChecked(const QString &widgetName, bool checked)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   for (child = children->first(); child; child = children->next())
@@ -292,6 +324,8 @@ void Instance::setChecked(const QString &widgetName, bool checked)
 
 void Instance::setAssociatedText(const QString &widgetName, const QString &text)
 {
+  if (!m_instance)
+    return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   AssocTextWidget *assoctextwidget;
@@ -308,6 +342,8 @@ void Instance::setAssociatedText(const QString &widgetName, const QString &text)
 
 QStringList Instance::associatedText(const QString &widgetName)
 {
+  if (!m_instance)
+    return QStringList();
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
   AssocTextWidget *assoctextwidget;

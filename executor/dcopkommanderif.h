@@ -57,11 +57,12 @@ class DCOPKommanderIf : virtual public DCOPObject
       QComboBox
 */        
   virtual void clearList(const QString &widgetName) = 0;
-/** Sets the cuurent item to the item at position index. Works for:  
+/** Sets the cuurent item to the item with name if exists. Otherwise doesn't do
+anything. Works for:  
       QListBox
       QComboBox
 */        
-  virtual void setCurrentListItem(const QString& widgetName, int index) = 0;
+  virtual void setCurrentListItem(const QString& widgetName, const QString &name) = 0;
 /** Sets the current tab to the index position. Works for:
       QTabWidget
 */        

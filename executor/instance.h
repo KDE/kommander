@@ -54,7 +54,7 @@ public:
   virtual void addListItem(const QString &widgetName, const QString &item, int index);
   virtual void addListItems(const QString &widgetName, const QStringList &items, int index);
   virtual void clearList(const QString &widgetName);
-  virtual void setCurrentListItem(const QString& widgetName, int index);
+  virtual void setCurrentListItem(const QString& widgetName, const QString &name);
   virtual void setCurrentTab(const QString &widgetName, int index);
   virtual void setChecked(const QString &widgetName, bool checked);
   virtual void setAssociatedText(const QString &widgetName, const QString &text);
