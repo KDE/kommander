@@ -307,7 +307,7 @@ QVariant Expression::value(const QString& s, bool* valid)
 bool Expression::isTrue(const QString& s, bool* valid)
 {
   QVariant v = value(s, valid);
-  return (v.type() == QVariant::String && v != QString::null) || 
+  return (v.type() == QVariant::String && !v.toString().isNull()) || 
       (v.type() != QVariant::String && v.toInt() != 0);
 }
 

@@ -1,6 +1,9 @@
+Wed 03 Nov 2004 14:28:39 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
+	o fix some problems detected by kdetestsscripts
+
 Tue 02 Nov 2004 07:53:20 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o Signals and slots: disallow unmatched (signal, slot) connections.
-	  Avoid duplicates in signals combo.
+	  Avoid duplicates in senders combo.
 
 Mon 01 Nov 2004 23:29:19 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o Signals and slots improved: slots that don't have any acceptable 

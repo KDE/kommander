@@ -744,7 +744,7 @@ void CustomWidgetEditor::loadDescription()
     QString errMsg;
     int errLine;
     if ( !doc.setContent( &f, &errMsg, &errLine ) ) {
-	qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
+	// qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
 	return;
     }
 

@@ -88,7 +88,7 @@ public:
   static void setDefaultGroup(int gname);
   static void registerSpecials();
   static QStringList groups();
-  static QStringList functions(QString group);
+  static QStringList functions(const QString& group);
 protected:
   static QMap<int, QMap<int, SpecialFunction> > m_specials;
   static QMap<QString, int> m_groups;

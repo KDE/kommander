@@ -1009,7 +1009,7 @@ void AddConnectionCommand::execute()
 #ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
     {
-	qDebug("AddConnectionCommand::execute(): Would have called EventList::setup()");
+	// qDebug("AddConnectionCommand::execute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
     }
 #endif
@@ -1022,7 +1022,7 @@ void AddConnectionCommand::unexecute()
 #ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
     {
-	qDebug("AddConnectionCommand::unexecute(): Would have called EventList::setup()");
+	// qDebug("AddConnectionCommand::unexecute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
     }
 #endif
@@ -1043,7 +1043,7 @@ void RemoveConnectionCommand::execute()
 #ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
     {
-        qDebug("RemoveConnectionCommand::execute(): Would have called EventList::setup()");
+        // qDebug("RemoveConnectionCommand::execute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
     }
 #endif
@@ -1056,7 +1056,7 @@ void RemoveConnectionCommand::unexecute()
 #ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
     {
-        qDebug("RemoveConnectionCommand::unexecute(): Would have called EventList::setup()");
+        // qDebug("RemoveConnectionCommand::unexecute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
     }
 #endif
@@ -1069,7 +1069,7 @@ AddSlotCommand::AddSlotCommand( const QString &name, FormWindow *fw, const QCStr
 				const QString& spec, const QString &a, const QString &l, const QString &rt )
     : Command( name, fw ), slot( s ), specifier( spec ), access( a ), language( l ), returnType( rt )
 {
-	qDebug("AddSlotCommand::AddSlotCommand()");
+	// qDebug("AddSlotCommand::AddSlotCommand()");
 }
 
 void AddSlotCommand::execute()
@@ -1098,7 +1098,7 @@ RemoveSlotCommand::RemoveSlotCommand( const QString &name, FormWindow *fw, const
 				      const QString& spec, const QString &a, const QString &l, const QString &rt )
     : Command( name, fw ), slot( s ), specifier( spec ), access( a ), language( l ), returnType( rt )
 {
-	qDebug("RemoveSlotCommand::RemoveSlotCommand()");
+	// qDebug("RemoveSlotCommand::RemoveSlotCommand()");
 }
 
 void RemoveSlotCommand::execute()

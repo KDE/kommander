@@ -178,7 +178,7 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
     QString errMsg;
     int errLine;
     if ( !doc.setContent( dev, &errMsg, &errLine ) ) {
-	qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
+	// qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
 	return FALSE;
     }
 
@@ -547,7 +547,7 @@ void Resource::paste( const QString &cb, QWidget *parent )
     QString errMsg;
     int errLine;
     if ( !doc.setContent( &buf, &errMsg, &errLine ) ) {
-	qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
+	// qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
     }
 
     QDomElement firstWidget = doc.firstChild().toElement().firstChild().toElement();
@@ -1416,7 +1416,7 @@ QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout*
 	} else if ( n.tagName() == "column" || n.tagName() =="row" ) {
 	    createColumn( n, w );
 	} else if ( n.tagName() == "event" ) {
-	qDebug("Resource : Tag == event");
+	// qDebug("Resource : Tag == event");
 #ifndef KOMMANDER
 	    MetaDataBase::setEventFunctions( obj, formwindow, MainWindow::self->currProject()->language(),
 					     n.attribute( "name" ), QStringList::split( ',', n.attribute( "functions" ) ), FALSE );
@@ -2463,7 +2463,7 @@ void Resource::loadChildAction( QObject *parent, const QDomElement &e )
 	    if ( n2.tagName() == "property" ) {
 		setObjectProperty( a, n2.attribute( "name" ), n2.firstChild().toElement() );
 	    } else if ( n2.tagName() == "event" ) {
-	    	qDebug("Resource::loadChildAction : Tag == Event");
+	    	// qDebug("Resource::loadChildAction : Tag == Event");
 #ifndef KOMMANDER
 		MetaDataBase::setEventFunctions( a, formwindow, MainWindow::self->currProject()->language(),
 						 n2.attribute( "name" ),
@@ -2485,7 +2485,7 @@ void Resource::loadChildAction( QObject *parent, const QDomElement &e )
 			n2.tagName() == "actiongroup" ) {
 		loadChildAction( a, n2 );
 	    } else if ( n2.tagName() == "event" ) {
-	    	qDebug("Resource::loadChildAction : Tag == Event");
+	    	// qDebug("Resource::loadChildAction : Tag == Event");
 #ifndef KOMMANDER
 		MetaDataBase::setEventFunctions( a, formwindow, MainWindow::self->currProject()->language(),
 						 n2.attribute( "name" ),

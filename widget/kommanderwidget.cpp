@@ -324,9 +324,9 @@ QString KommanderWidget::localDCOPQuery(const QString function, const QString& a
   pArgs.append(function);
   pArgs.append(arg1);
   pArgs.append(arg2);
-  if (arg3 != QString::null)
+  if (!arg3.isNull())
     pArgs.append(arg3);
-  if (arg4 != QString::null)
+  if (!arg4.isNull())
     pArgs.append(arg4);
   return DCOPQuery(pArgs);
 }

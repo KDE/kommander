@@ -194,7 +194,7 @@ QStringList SpecialInformation::groups()
   return m_groups.keys();
 }
 
-QStringList SpecialInformation::functions(QString g)
+QStringList SpecialInformation::functions(const QString& g)
 {
   int gid = group(g);
   if (gid == -1)
