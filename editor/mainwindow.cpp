@@ -128,8 +128,6 @@ MainWindow::MainWindow( bool asClient )
 
     inDebugMode = TRUE; //debugging kommander
 
-    set_splash_status( i18n("Creating plugin factories...") );
-
     setupPlugins();
 
     qApp->setMainWidget( this );
@@ -145,7 +143,6 @@ MainWindow::MainWindow( bool asClient )
     statusBar()->clear();
     statusBar()->addWidget(new QLabel(i18n("Welcome to the Kommander Editor"), statusBar()), 1);
 
-    set_splash_status( i18n("Setting up GUI...") );
     setupMDI();
     setupMenuBar();
 
@@ -184,7 +181,6 @@ MainWindow::MainWindow( bool asClient )
     breakLayout = FALSE;
     backPix = TRUE;
 
-    set_splash_status( i18n("Loading User Settings...") );
     readConfig();
 
     // hack to make WidgetFactory happy (so it knows QWidget and QDialog for resetting properties)
@@ -206,7 +202,6 @@ MainWindow::MainWindow( bool asClient )
     assistant = new AssistProc( this, "Internal Assistant", assistantPath() );
 
     statusBar()->setSizeGripEnabled( TRUE );
-    set_splash_status( i18n("Initialization Done.") );
     
     SpecialInformation::registerSpecials();
 }
