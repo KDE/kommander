@@ -2,11 +2,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=executor -caption "%c" %i %m  
-Icon=executor.png
+Exec=kmdr-executor %F
+Icon=kmdr-executor
 DocPath=executor/index.html
-Comment=
-Comment[de]=
+Comment=Executor for Kommander dialogs
 Terminal=0
-Name=Executor
-Name[de]=Executor
+Name=Kommander Executor
+MimeType=text/kmdr
