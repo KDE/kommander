@@ -18,13 +18,11 @@
     <property name="associations" stdset="0">
         <stringlist>
             <string></string>
-            <string>echo Initialization `date` &gt;&gt; test
-dcop @dcopid KommanderIf changeWidgetText OpenLabel "Opened: `date`"
+            <string>dcop @dcopid KommanderIf changeWidgetText OpenLabel "Opened: `date`"
 CLOSE="@readSetting("CloseLabel", "Previously closed: never")"
 dcop @dcopid KommanderIf changeWidgetText CloseLabel "$CLOSE"
    </string>
-            <string>echo Destroy `date` &gt;&gt; test
-@writeSetting("CloseLabel", "Previously closed: @exec("date")")</string>
+            <string>@writeSetting("CloseLabel", "Previously closed: @exec("date")")</string>
         </stringlist>
     </property>
     <grid>
