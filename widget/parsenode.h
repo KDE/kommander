@@ -23,7 +23,7 @@ namespace Parse
 {
   enum Keyword {For, To, Step, End, While, Do, Foreach, In, If, Then, Else, Elseif, Endif, Switch, Case, 
     Break, Continue, Exit, Dot, Semicolon, Comma, Assign, Less, LessEqual, Greater, GreaterEqual, Equal, NotEqual, 
-    Not, And, Or, LeftParenthesis, RightParenthesis, LeftBracket, RightBracket,
+    Not, And, Or, False, True, LeftParenthesis, RightParenthesis, LeftBracket, RightBracket,
     Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod,
     Variable, None, Value, Invalid, IncorrectParams, UndefinedVariable};
 

@@ -84,6 +84,8 @@ ParserData::ParserData()
   m_keywords["&&"] =  And;
   m_keywords["or"] =  Or;
   m_keywords["||"] =  Or;
+  m_keywords["false"] = False;
+  m_keywords["true"] = True;
   m_keywords["("] =  LeftParenthesis;
   m_keywords[")"] =  RightParenthesis;
   m_keywords["["] =  LeftBracket;

@@ -234,6 +234,10 @@ ParseNode Parser::parseValue(Mode mode)
     else
       p = variable(p.variableName());
   }
+  else if (tryKeyword(False, CheckOnly))
+    return ParseNode(0);
+  else if (tryKeyword(True, CheckOnly))
+    return ParseNode(1);
   else if (p.isKeyword())
     setError(Value);
   else // single value
