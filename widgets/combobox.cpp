@@ -1,8 +1,8 @@
 /***************************************************************************
-                         Combobox - Combobox widget 
+                         combobox.cpp - Combobox widget 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,6 +13,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
