@@ -14,10 +14,13 @@
  ***************************************************************************/
 
 // KDE includes
-#include <klocale.h>
 #include <kaboutdata.h>
-#include <kcmdlineargs.h>
 #include <kapplication.h>
+#include <kcmdlineargs.h>
+#include <kconfig.h>
+#include <kiconloader.h>
+#include <klocale.h>
+#include <ksplashscreen.h>
 
 // Other includes
 #include "mainwindow.h"
@@ -37,7 +40,7 @@ static KCmdLineOptions options[] =
 
 int main( int argc, char *argv[] )
 {
-  KAboutData aboutData( "Kommander", I18N_NOOP("Kommander"),
+  KAboutData aboutData( "kmdr-editor", I18N_NOOP("Kommander"),
                         KOMMANDER_VERSION, description, KAboutData::License_GPL,
                         "(C) 2002-2004 Kommander authors", text);
   aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
@@ -52,10 +55,25 @@ int main( int argc, char *argv[] )
 
   KLocale::setMainCatalogue("kommander");
   KApplication a(true, true);
+  
+  KConfig *config = kapp->config();
+  config->setGroup("General");
+  bool splashScreen = config->readBoolEntry("SplashScreen", true);
+  KSplashScreen* splash;
+  if (splashScreen) {
+     splash = new KSplashScreen(UserIcon("kommandersplash"));
+    splash->show();
+  }
+  
   MainWindow *mw = new MainWindow(false);
   a.setMainWidget(mw);
   mw->setCaption(i18n("Kommander Dialog Editor"));
   mw->show();
+  
+  if (splashScreen) {
+    splash->finish(mw);
+    delete splash;
+  }
 
   return a.exec();
 }
