@@ -93,3 +93,4 @@ void TextEditor::okClicked()
 void TextEditor::applyClicked()
 {
 }
+#include "multilineeditorimpl.moc"

@@ -222,3 +222,4 @@ void AssocTextEdit::insert(const QString &a_text, bool a_indent, bool a_checkNew
     QTextEdit::insert(escapedText, a_indent, a_checkNewLine, a_removeSelected);
 }
 #endif
+#include "assoctexteditorimpl.moc"

@@ -752,3 +752,4 @@ void Workspace::updateColors()
 	b = !b;
     }
 }
+#include "workspace.moc"

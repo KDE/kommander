@@ -635,3 +635,4 @@ QPalette PaletteEditorAdvanced::getPalette( bool *ok, const QPalette &init,
     delete dlg;
     return result;
 }
+#include "paletteeditoradvancedimpl.moc"

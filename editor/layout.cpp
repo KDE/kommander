@@ -953,3 +953,4 @@ void QDesignerGridLayout::addMultiCellWidget( QWidget *w, int fromRow, int toRow
     items.insert( w, Item(fromRow, fromCol, toRow - fromRow + 1, toCol - fromCol +1) );
     QGridLayout::addMultiCellWidget( w, fromRow, toRow, fromCol, toCol, align_ );
 }
+#include "layout.moc"

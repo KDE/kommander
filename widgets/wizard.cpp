@@ -105,3 +105,4 @@ void Wizard::setHelpActionText(QString a_helpActionText)
 	m_helpActionText = a_helpActionText;
 }
 
+#include "wizard.moc"

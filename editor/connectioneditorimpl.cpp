@@ -436,3 +436,4 @@ void ConnectionEditor::fillConnectionsList()
 
     connectionsChanged();
 }
+#include "connectioneditorimpl.moc"

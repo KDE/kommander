@@ -57,3 +57,4 @@ bool PreviewWidget::eventFilter(QObject *, QEvent *e)
     }
     return FALSE;
 }
+#include "previewwidgetimpl.moc"

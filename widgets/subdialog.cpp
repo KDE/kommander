@@ -96,3 +96,4 @@ void SubDialog::slotFinished()
 			emit widgetTextChanged(atw->evalAssociatedText());
 	}
 }
+#include "subdialog.moc"

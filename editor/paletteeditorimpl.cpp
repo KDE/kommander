@@ -296,3 +296,4 @@ QPalette PaletteEditor::getPalette( bool *ok, const QPalette &init, BackgroundMo
     delete dlg;
     return result;
 }
+#include "paletteeditorimpl.moc"

@@ -143,3 +143,4 @@ void Instance::setParent(QWidget *a_parent)
 {
   m_parent = a_parent;
 }
+#include "instance.moc"

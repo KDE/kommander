@@ -3689,3 +3689,4 @@ EventList *PropertyEditor::eventList() const
 {
     return eList;
 }
+#include "propertyeditor.moc"

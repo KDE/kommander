@@ -100,3 +100,4 @@ void GroupBox::removeChild(QObject *a_child)
 	m_childList.remove(a_child);
 	QObject::removeChild(a_child);
 }
+#include "groupbox.moc"

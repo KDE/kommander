@@ -1099,3 +1099,4 @@ QPixmap PixmapChooser::loadPixmap( const QString &name, Size size )
     return QPixmap();
 #endif
 }
+#include "pixmapchooser.moc"

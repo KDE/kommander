@@ -103,3 +103,4 @@ void OutputWindow::showDebugTab()
 {
     showPage( debugView );
 }
+#include "outputwindow.moc"

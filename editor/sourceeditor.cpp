@@ -297,3 +297,4 @@ FormWindow *SourceEditor::formWindow() const
 	return 0;
     return (FormWindow*)(QObject*)obj;
 }
+#include "sourceeditor.moc"

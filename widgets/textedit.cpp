@@ -56,3 +56,4 @@ void TextEdit::setTextChanged()
 {
 	emit widgetTextChanged(text());
 }
+#include "textedit.moc"

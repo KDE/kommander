@@ -128,3 +128,4 @@ void CloseButton::setWriteStdout(bool a_enable)
 {
 	m_writeStdout = a_enable;
 }
+#include "closebutton.moc"

@@ -182,3 +182,4 @@ void QCompletionEdit::clear()
     QLineEdit::clear();
     compList.clear();
 }
+#include "qcompletionedit.moc"

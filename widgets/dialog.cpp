@@ -59,3 +59,4 @@ void Dialog::exec()
 
 	emit finished();
 }
+#include "dialog.moc"

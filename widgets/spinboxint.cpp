@@ -52,3 +52,4 @@ QString SpinBoxInt::widgetText() const
 {
 	return text();
 }
+#include "spinboxint.moc"

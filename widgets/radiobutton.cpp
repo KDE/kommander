@@ -53,3 +53,4 @@ QString RadioButton::widgetText() const
 {
 	return QString::null;
 }
+#include "radiobutton.moc"

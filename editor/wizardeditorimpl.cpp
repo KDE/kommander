@@ -215,3 +215,4 @@ void WizardEditor::updateButtons()
     if ( listBox->count() < 2 )
 	buttonRemove->setEnabled( FALSE );
 }
+#include "wizardeditorimpl.moc"

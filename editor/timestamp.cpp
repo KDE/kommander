@@ -78,3 +78,4 @@ void TimeStamp::autoCheckTimeStamp()
     if ( !isUpToDate() )
 	emit timeStampChanged();
 }
+#include "timestamp.moc"

@@ -124,3 +124,4 @@ void ExecButton::setWriteStdout(bool a_enable)
 {
 	m_writeStdout = a_enable;
 }
+#include "execbutton.moc"

@@ -1214,3 +1214,4 @@ HierarchyView::ClassBrowser::ClassBrowser( QListView *l, ClassBrowserInterface *
 HierarchyView::ClassBrowser::~ClassBrowser()
 {
 }
+#include "hierarchyview.moc"

@@ -287,3 +287,4 @@ void StyledButton::dropEvent( QDropEvent *e )
     }
 }
 #endif // QT_NO_DRAGANDDROP
+#include "styledbutton.moc"

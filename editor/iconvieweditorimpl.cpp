@@ -153,3 +153,4 @@ void IconViewEditor::deletePixmap()
     itemPixmap->setText( "" );
     itemDeletePixmap->setEnabled( FALSE );
 }
+#include "iconvieweditorimpl.moc"

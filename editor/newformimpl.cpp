@@ -445,3 +445,4 @@ void NewForm::itemChanged( QIconViewItem *item )
     projectCombo->setEnabled( item->rtti() != NewItem::ProjectType );
 #endif
 }
+#include "newformimpl.moc"

@@ -580,3 +580,4 @@ void ListViewEditor::initTabPage( const QString &page )
 	}
     }
 }
+#include "listvieweditorimpl.moc"

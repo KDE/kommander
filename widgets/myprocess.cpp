@@ -41,3 +41,4 @@ void MyProcess::receivedStdout(KProcess *, char *a_buffer, int a_len)
 	m_output += output;
 	delete buffer;
 }
+#include "myprocess.moc"

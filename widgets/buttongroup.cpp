@@ -62,3 +62,4 @@ QString ButtonGroup::widgetText() const
 	}
 	return text;
 }
+#include "buttongroup.moc"

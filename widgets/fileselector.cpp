@@ -136,3 +136,4 @@ void FileSelector::makeSelection()
 	if(!text.isEmpty())
 		setWidgetText(text);
 }
+#include "fileselector.moc"

@@ -1741,3 +1741,4 @@ void AddToolBarCommand::unexecute()
 {
     toolBar->hide();
 }
+#include "command.moc"

@@ -459,3 +459,4 @@ void TableEditor::restoreFieldMap()
     for ( QMap<QListBoxItem*, QString>::Iterator it = tmpFieldMap.begin(); it != tmpFieldMap.end(); ++it )
 	fieldMap.insert( listColumns->index( it.key() ), *it );
 }
+#include "tableeditorimpl.moc"

@@ -60,3 +60,4 @@ void FileChooser::chooseFile()
     }
 }
 
+#include "filechooser.moc"

@@ -2641,3 +2641,4 @@ void FormWindow::setFormFile( FormFile *f )
     if ( ff )
 	connect( this, SIGNAL( modificationChanged(bool, const QString&) ), ff, SLOT( formWindowChangedSomehow() ) );
 }
+#include "formwindow.moc"

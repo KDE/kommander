@@ -49,3 +49,4 @@ void PreviewWorkspace::paintEvent( QPaintEvent* )
 		"The moose in the noose\nate the goose who was loose." );
 }
 
+#include "previewframe.moc"

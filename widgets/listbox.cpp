@@ -85,3 +85,4 @@ void ListBox::setActivated(int a_item)
 	}
 	emit widgetTextChanged(strings.join("\n"));
 }
+#include "listbox.moc"

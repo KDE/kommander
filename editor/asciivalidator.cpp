@@ -74,3 +74,4 @@ QValidator::State AsciiValidator::validate( QString &s, int & ) const
     }
     return QValidator::Acceptable;
 }
+#include "asciivalidator.moc"

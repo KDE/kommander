@@ -114,3 +114,4 @@ void FormSettings::okClicked()
     accept();
 }
 
+#include "formsettingsimpl.moc"

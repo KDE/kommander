@@ -3679,3 +3679,4 @@ QString MainWindow::whatsThisFrom( const QString &key )
     end = menuHelpFile.find( '\n', i ) - 1;
     return menuHelpFile.mid( start, end - start + 1 );
 }
+#include "mainwindow.moc"

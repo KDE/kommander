@@ -52,3 +52,4 @@ QString TabWidget::widgetText() const
 {
 	return caption();
 }
+#include "tabwidget.moc"

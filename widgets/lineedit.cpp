@@ -51,3 +51,4 @@ void LineEdit::setWidgetText(const QString &a_text)
 {
 	setText(a_text);
 }
+#include "lineedit.moc"

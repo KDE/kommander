@@ -71,3 +71,4 @@ void AssistProc::processErrOutput()
 {
     qWarning( QString("Assistant [err]: %1").arg(QString(readStderr())) );
 }
+#include "assistproc.moc"

@@ -61,3 +61,4 @@ QString CheckBox::widgetText() const
 {
 	return QString::null;
 }
+#include "checkbox.moc"

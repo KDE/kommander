@@ -823,3 +823,4 @@ bool FormFile::checkFileName( bool allowBreak )
     return TRUE;
 }
 #endif
+#include "formfile.moc"

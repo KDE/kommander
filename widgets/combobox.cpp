@@ -91,3 +91,4 @@ void ComboBox::setActivated(int a_index)
 	QString currentText = text(a_index);
 	emit widgetTextChanged(currentText);
 }
+#include "combobox.moc"

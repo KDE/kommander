@@ -1,3 +1,6 @@
+#ifndef PALETTEEDITORADVANCEDIMPL_H
+#define PALETTEEDITORADVANCEDIMPL_H
+
 /**********************************************************************
 ** Copyright (C) 2000 Trolltech AS.  All rights reserved.
 **
@@ -83,3 +86,5 @@ private:
 
     int selectedPalette;
 };
+
+#endif

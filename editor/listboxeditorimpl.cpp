@@ -211,3 +211,4 @@ void ListBoxEditor::deletePixmap()
     preview->changeItem( i->text(), preview->currentItem() );
     itemDeletePixmap->setEnabled( FALSE );
 }
+#include "listboxeditorimpl.moc"

@@ -1,3 +1,6 @@
+#ifndef PALETTEEDITORIMPL_H
+#define PALETTEEDITORIMPL_H
+
 /**********************************************************************
 ** Copyright (C) 2000 Trolltech AS.  All rights reserved.
 **
@@ -63,3 +66,5 @@ private:
     FormWindow *formWindow;
     BackgroundMode backgroundMode;
 };
+
+#endif

@@ -256,3 +256,4 @@ void ActionEditor::connectionsClicked()
     ConnectionEditor editor( formWindow->mainWindow(), currentAction, formWindow, formWindow );
     editor.exec();
 }
+#include "actioneditorimpl.moc"

@@ -143,3 +143,4 @@ void ConnectionViewer::disconnectConnection()
     if ( connectionListView->currentItem() )
 	connectionListView->setSelected( connectionListView->currentItem(), TRUE );
 }
+#include "connectionviewerimpl.moc"

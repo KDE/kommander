@@ -104,3 +104,4 @@ void OrderIndicator::mousePressEvent( QMouseEvent *e )
 {
     QApplication::sendEvent( widget, e );
 }
+#include "orderindicator.moc"

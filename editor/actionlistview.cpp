@@ -106,3 +106,4 @@ void ActionListView::rmbMenu( QListViewItem *i, const QPoint &p )
     else if ( res == 4 )
 	emit deleteAction();
 }
+#include "actionlistview.moc"

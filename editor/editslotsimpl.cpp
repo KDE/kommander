@@ -356,3 +356,4 @@ void EditSlots::setCurrentSlot( const QString &slot )
     }
 
 }
+#include "editslotsimpl.moc"

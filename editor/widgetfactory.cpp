@@ -1841,3 +1841,4 @@ QWidget *CustomWidgetFactory::createWidget( const QString &className, QWidget *p
 	return 0;
     return WidgetFactory::createCustomWidget( parent, name, w );
 }
+#include "widgetfactory.moc"

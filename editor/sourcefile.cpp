@@ -319,3 +319,4 @@ bool SourceFile::checkFileName( bool allowBreak )
 #endif
     return TRUE;
 }
+#include "sourcefile.moc"

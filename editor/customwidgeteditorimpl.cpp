@@ -822,3 +822,4 @@ void CustomWidgetEditor::widgetIsContainer( bool b )
     if ( r )
 	r->isContainer = b;
 }
+#include "customwidgeteditorimpl.moc"
