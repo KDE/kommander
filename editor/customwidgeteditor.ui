@@ -297,10 +297,10 @@
                                     <string>...</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
-                                    <string>Choose headerfile</string>
+                                    <string>Choose header file</string>
                                 </property>
                                 <property name="whatsThis" stdset="0">
-                                    <string>Look for the header file using a filedialog.</string>
+                                    <string>Look for the header file using a file dialog.</string>
                                 </property>
                             </widget>
                             <widget class="QComboBox">
@@ -342,7 +342,7 @@
                             <cstring>Label11</cstring>
                         </property>
                         <property name="text">
-                            <string>Heade&amp;rfile:</string>
+                            <string>Heade&amp;r file:</string>
                         </property>
                         <property name="buddy" stdset="0">
                             <cstring>editHeader</cstring>

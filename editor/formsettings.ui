@@ -89,7 +89,7 @@
                         <cstring>radioProjectImageFile</cstring>
                     </property>
                     <property name="text">
-                        <string>Project &amp;imagefile</string>
+                        <string>Project &amp;image file</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Use the Project's Image file for pixmaps</string>
@@ -107,7 +107,7 @@
                         <bool>false</bool>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Specify Pixmap-Loader function (only the function's name, no parentheses!)</string>
+                        <string>Specify Pixmap-Loader function (only the function's name, no parentheses.)</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;b&gt;Specify Pixmap-Loader function&lt;/b&gt;&lt;p&gt;Specify the function which should be used for loading a pixmap in the generated code. &lt;em&gt;Only enter the function's name, with no parentheses.&lt;/em&gt;</string>

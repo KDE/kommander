@@ -526,7 +526,7 @@ void WidgetDatabase::setupDataBase( int id )
   r->iconSet = "closebutton.png";
   r->name = "CloseButton";
   r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A button that closes the dialog it's in");
+  r->toolTip = i18n("A button that closes the dialog it is in");
   append(r);
 
   r = new WidgetDatabaseRecord;
