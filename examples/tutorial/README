@@ -23,6 +23,12 @@ Functions/concepts:
 - @widgetText
 
 * SETTINGS.KMDR
+Shows how to use connections/slots to handle events. Both population and
+standard slots are used.
+- slots/connections
+- populate()
+
+* SETTINGS.KMDR
 Shows how to use @readSetting and @writeSetting functions to write/restore
 widget content. Also, shows how to use populate() slot to initialize widget
 content.
@@ -31,4 +37,5 @@ Functions/concepts:
 - @writeSetting
 - populate()
 - slots/connections
+
 
