@@ -144,8 +144,17 @@ bool Instance::run(QFile *a_file)
   }
   KommanderWidget::setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
     
-  if (m_uiFileName.directory().startsWith(locateLocal("tmp", "") + "/") ||
-      m_uiFileName.directory().startsWith("/tmp/") || m_uiFileName.directory().startsWith("/var/tmp/"))
+  QStringList tmpDirs = KGlobal::dirs()->resourceDirs("tmp");
+  tmpDirs += KGlobal::dirs()->resourceDirs("cache");
+  tmpDirs.append("/tmp/");
+  tmpDirs.append("/var/tmp/");
+  
+  bool inTemp = false;
+  for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
+  if (m_uiFileName.directory().startsWith(*I))
+      inTemp = true;
+        
+  if (inTemp)
   {
      if (KMessageBox::warningYesNo(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
          " This may mean that it was run from a KMail attachment or from a webpage. "
