@@ -44,7 +44,7 @@ void AssocTextEditor::build(AssocTextWidget *a_atw)
 	QStringList at = a_atw->associatedText();
 	m_states = a_atw->states();
 
-	stateComboBox->insertStringList(m_states);
+	stateComboBox->insertStringList(a_atw->displayStates());
 	QStringList::iterator s_it = m_states.begin();
 	QStringList::iterator at_it = at.begin();
 	for(;s_it != m_states.end();++s_it)// fill dict with text for each state

@@ -19,6 +19,7 @@ ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
 	QStringList states;
 	states << "default";
 	setStates(states);
+	setDisplayStates(states);
 }
 
 ButtonGroup::~ButtonGroup()

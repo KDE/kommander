@@ -16,10 +16,15 @@ CheckBox::CheckBox(QWidget *a_parent, const char *a_name)
 	: QCheckBox(a_parent, a_name), AssocTextWidget(this)
 {
 	QStringList states;
-	states << "checked";
 	states << "unchecked";
 	states << "semichecked";
+	states << "checked";
 	setStates(states);
+	QStringList displayStates;
+	displayStates << "checked";
+	displayStates << "semichecked";
+	displayStates << "unchecked";
+	setDisplayStates(displayStates);
 }
 
 CheckBox::~CheckBox()

@@ -17,6 +17,7 @@ ListBox::ListBox(QWidget *a_parent, const char *a_name)
 	QStringList states;
 	states << "default";
 	setStates(states);
+	setDisplayStates(states);
 
 	connect(this, SIGNAL(highlighted(int)), this, SLOT(setActivatedText(int)));
 

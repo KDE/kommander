@@ -46,9 +46,19 @@ QStringList AssocTextWidget::states() const
 	return m_states;
 }
 
+QStringList AssocTextWidget::displayStates() const
+{
+	return m_displayStates;
+}
+
 void AssocTextWidget::setStates(QStringList a_states)
 {
 	m_states = a_states;
+}
+
+void AssocTextWidget::setDisplayStates(QStringList a_displayStates)
+{
+	m_displayStates = a_displayStates;
 }
 
 QString AssocTextWidget::evalAssociatedText() const // expands and returns associated text as a string

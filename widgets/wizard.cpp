@@ -19,6 +19,7 @@ Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 	QStringList states;
 	states << "default";
 	setStates(states);
+	setDisplayStates(states);
 
 	connect(this, SIGNAL(helpClicked()), SLOT(runHelp()));
 }

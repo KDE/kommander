@@ -19,6 +19,7 @@ GroupBox::GroupBox(QWidget *a_parent, const char *a_name)
 	QStringList states;
 	states << "default";
 	setStates(states);
+	setDisplayStates(states);
 }
 
 GroupBox::~GroupBox()

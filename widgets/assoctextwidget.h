@@ -17,6 +17,7 @@ public:
 	virtual ~AssocTextWidget();
 
 	virtual QStringList states() const;
+	virtual QStringList displayStates() const;
 	virtual QString currentState() const = 0;
 
 	virtual bool isAssociatedTextWidget() const = 0;
@@ -29,12 +30,14 @@ public:
 //	virtual void setWidgetText(QString) = 0;
 protected:
 	virtual void setStates(QStringList);
+	virtual void setDisplayStates(QStringList);
 	QString dcopQuery(QString) const;
 	QString execCommand(QString) const;
 	void printError(QString, QString) const;
 
 	QObject *m_thisObject;
 	QStringList m_states;
+	QStringList m_displayStates;
 	QStringList m_associatedText;
 };
 

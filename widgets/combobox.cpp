@@ -17,6 +17,7 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
 	QStringList states;
 	states << "default";
 	setStates(states);
+	setDisplayStates(states);
 
 	connect(this, SIGNAL(activated(int)), this, SLOT(setActivatedText(int)));
 }

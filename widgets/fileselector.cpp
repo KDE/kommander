@@ -20,6 +20,7 @@ FileSelector::FileSelector(QWidget *a_parent, const char *a_name)
 	QStringList states;
 	states << "default";
 	setStates(states);
+	setDisplayStates(states);
 
 	m_lineEdit = new QLineEdit(this);
 	m_selectButton = new QPushButton("...", this);

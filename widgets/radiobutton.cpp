@@ -15,9 +15,13 @@ RadioButton::RadioButton(QWidget *a_parent, const char *a_name)
 	: QRadioButton(a_parent, a_name), AssocTextWidget(this)
 {
 	QStringList states;
-	states << "checked";
 	states << "unchecked";
+	states << "checked";
 	setStates(states);
+	QStringList displayStates;
+	displayStates << "checked";
+	displayStates << "unchecked";
+	setDisplayStates(displayStates);
 }
 
 RadioButton::~RadioButton()
