@@ -23,15 +23,18 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include "kommanderwidget.h"
 #include "dialog.h"
+#include "myprocess.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 	: QDialog(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
-	setStates(states);
+	states << "initialization";
+	states << "destroy";
+  setStates(states);
 	setDisplayStates(states);
 }
 
@@ -41,39 +44,60 @@ Dialog::~Dialog()
 
 QString Dialog::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 bool Dialog::isKommanderWidget() const
 {
-	return TRUE;
+  return true;
 }
 
 QStringList Dialog::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void Dialog::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void Dialog::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText( a_text );
 }
 
 QString Dialog::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void Dialog::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+  QString txt = KommanderWidget::evalAssociatedText( populationText() );
+  setWidgetText( txt );
 }
+
+void Dialog::initialize()
+{    
+  const QStringList assoc = associatedText();
+  if (assoc.count() > 1 && !assoc[1].isEmpty()) 
+  {
+    MyProcess proc(this);
+    proc.run( KommanderWidget::evalAssociatedText(assoc[1]) );
+  }
+}
+
+void Dialog::destroy()
+{    
+  const QStringList assoc = associatedText();
+  if (assoc.count() > 2 && !assoc[2].isEmpty()) 
+  {
+    MyProcess proc(this);
+    proc.run( KommanderWidget::evalAssociatedText(assoc[2]) );
+  }
+}
+
 
 void Dialog::setWidgetText(const QString& a_text)
 {
@@ -83,7 +107,7 @@ void Dialog::setWidgetText(const QString& a_text)
 
 QString Dialog::widgetText() const
 {
-	return caption();
+  return caption();
 }
 
 void Dialog::setSelectedWidgetText(const QString &)
@@ -92,20 +116,34 @@ void Dialog::setSelectedWidgetText(const QString &)
 
 QString Dialog::selectedWidgetText() const
 {
-    return QString::null;
+  return QString::null;
 }
 
 void Dialog::exec()
 {
-	QDialog::exec();
+  QDialog::exec();
+  emit finished();
+}
 
-	emit finished();
+void Dialog::show()
+{
+  QDialog::show();
+  initialize();
+}
+
+void Dialog::done(int r)
+{
+  destroy();
+  QDialog::done(r);  
 }
 
 void Dialog::showEvent( QShowEvent *e )
 {
-    QDialog::showEvent( e );
-    emit widgetOpened();
+  QDialog::showEvent( e );
+  emit widgetOpened();
 }
+
+
+
 
 #include "dialog.moc"

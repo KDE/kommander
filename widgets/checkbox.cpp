@@ -49,18 +49,18 @@ CheckBox::~CheckBox()
 
 QString CheckBox::currentState() const
 {
-	if(state() == QButton::Off)
-		return "unchecked";
-	else if(state() == QButton::NoChange)
-		return "semichecked";
-	else if(state() == QButton::On)
-		return "checked";
-	return QString::null;
+  if(state() == QButton::Off)
+    return "unchecked";
+  else if(state() == QButton::NoChange)
+    return "semichecked";
+  else if(state() == QButton::On)
+    return "checked";
+  return QString::null;
 }
 
 bool CheckBox::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList CheckBox::associatedText() const

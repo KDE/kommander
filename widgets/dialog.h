@@ -27,36 +27,43 @@
 class QShowEvent;
 class Dialog : public QDialog, public KommanderWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
-	Dialog(QWidget *, const char *, bool=TRUE, int=0);
-	~Dialog();
+  Dialog(QWidget *, const char *, bool=TRUE, int=0);
+  ~Dialog();
 
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
+  virtual QString widgetText() const;
+  virtual QString selectedWidgetText() const;
 
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(const QStringList&);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
 
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
+  virtual void show();
 public slots:
-	virtual void setWidgetText(const QString&);
-	virtual void setSelectedWidgetText(const QString &a_text);
-	virtual void exec();
-	virtual void populate();
+  virtual void setWidgetText(const QString&);
+  virtual void setSelectedWidgetText(const QString &a_text);
+  virtual void exec();
+  virtual void populate();
+  virtual void done(int r);
+protected slots:
+  virtual void initialize();
+  virtual void destroy();
+  
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString&);
-	void finished();
+  void widgetOpened();
+  void widgetTextChanged(const QString&);
+  void finished();
 protected:
-    void showEvent( QShowEvent *e );
+  void showEvent( QShowEvent *e );
+  
 private:
 };
 
