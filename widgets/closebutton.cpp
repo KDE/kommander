@@ -37,7 +37,7 @@ CloseButton::CloseButton(QWidget *a_parent, const char *a_name)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
-	setWriteStdout(false);
+	setWriteStdout(true);
 
 	connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 
