@@ -102,10 +102,11 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
     case DCOP::setChecked:
       setCheckable(true);
       setChecked(args[0] != "false");
-      return QString::null;
+      break;
     default:
-      return QString::null;
+      break;
   }
+  return QString::null;
 }
 
 

@@ -103,8 +103,8 @@ QString GroupBox::handleDCOP(int function, const QStringList& args)
     {
       QString text;
       for (QObjectListIt it(m_childList); it.current(); ++it)
-        if (it.current()->inherits("KommanderWidget"))
-          text += ((KommanderWidget*)it.current())->evalAssociatedText();
+        if (dynamic_cast<KommanderWidget*>(it.current()))
+          text += (dynamic_cast<KommanderWidget*>(it.current()))->evalAssociatedText();
       return text;
     }
     case DCOP::setText:

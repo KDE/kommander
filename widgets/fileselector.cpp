@@ -190,6 +190,9 @@ QString FileSelector::handleDCOP(int function, const QStringList& args)
         m_lineEdit->setSelection(f, args[0].length());
       break;
     }
+    case DCOP::clear:
+      setWidgetText(QString::null);
+      break;
     default:
       break;
   }
