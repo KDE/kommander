@@ -1,16 +1,19 @@
 Thu 17 cze 2004 17:13:18 CEST
 	o added @String.find
+	o added specials descriptions
 
 Wed 16 cze 2004 13:04:30 CEST
 	o added @Array.count
 	o added @Array.read/write
 
 Tue 15 cze 2004 23:24:52 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
-	o added file read/write/append functions (@File)
+	o added file functions (@File: read, write, append)
 	o added warning for empty @Widget text
 
 Mon 15 cze 2004 18:32:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
-	o added some string-handling functions
+	o added string-handling functions (@String: left, right,
+	  contains, left, right, mid, compare, isEmpty, isNumber,
+	  remove, replace, lower, upper)
 
 Mon 14 cze 2004 10:23:12 CEST - Eric Laffoon <eric@kdewebdev.org>
 	o fix: parentPid bug
