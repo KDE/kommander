@@ -78,7 +78,7 @@ anything. Works for:
   virtual QStringList associatedText(const QString &widgetName) = 0;
   /** Returns the value of global variable */ 
   virtual QString global(const QString& variableName) = 0;
-  /** Returns the value of global variable */ 
+  /** Sets the value of global variable */ 
   virtual void setGlobal(const QString& variableName, const QString& value) = 0;
 };
 
