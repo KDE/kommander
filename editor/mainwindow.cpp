@@ -504,7 +504,7 @@ void MainWindow::helpAboutQt()
 
 void MainWindow::helpReportBug()
 {
-    KAboutData aboutData("Kommander", I18N_NOOP("Kommander Editor"), KOMMANDER_VERSION);
+    KAboutData aboutData("kommander", I18N_NOOP("Kommander Editor"), KOMMANDER_VERSION);
     KBugReport dlg(this, true, &aboutData);
     dlg.exec();
 }
