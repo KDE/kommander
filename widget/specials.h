@@ -22,7 +22,7 @@ namespace Special
 {
   namespace Group
   {
-    enum {DCOP, Kommander, String, Array, File};
+    enum {DCOP, Kommander, String, Array, File, Input, Message};
   }
   
   namespace DCOP
@@ -38,7 +38,7 @@ namespace Special
   namespace Kommander
   {   
     enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
-    env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
+    echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
     switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment};
   }
  
@@ -57,7 +57,16 @@ namespace Special
   {
     enum {read, write, append};
   }
-
+  
+  namespace Input
+  {
+    enum {color, text, value, openfile, openfiles, savefile, directory};
+  }
+  
+  namespace Message
+  {
+    enum {info, error, question, warning};
+  }
   
 }
    

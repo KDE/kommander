@@ -121,6 +121,8 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::parentPid, "parentPid", 
      i18n("Returns the pid of the parent Kommander window."), 0);
   insert(Kommander::debug, "debug(QString text)",
+         i18n("Writes <i>text</i> on stderr."), 1);
+  insert(Kommander::echo, "echo(QString text)",
          i18n("Writes <i>text</i> on standard output."), 1);
   insert(Kommander::execBegin, "execBegin(QString shell)", 
      i18n("Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. Full path is not required for the shell which may be useful for portability. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"), 0);
@@ -212,7 +214,6 @@ void SpecialInformation::registerSpecials()
   insert(String::args, "args(QString string, QString arg1, QString arg2, QString arg3)", 
     i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
   
-  
   insertGroup(Group::File, "File");
   insert(File::read, "read(QString)", 
     i18n("Returns content of given file."), 1);
@@ -220,4 +221,30 @@ void SpecialInformation::registerSpecials()
     i18n("Writes given string to a file."), 2);
   insert(File::append, "append(QString file, QString string)", 
     i18n("Appends given string to the end of a file."), 2);
+  
+  insertGroup(Group::File, "Input");
+  insert(Input::color, "color", i18n("Shows color dialog. Returns color in #RRGGBB format."));
+  insert(Input::text, "text(QString caption, QString label, QString default)", 
+         i18n("Shows text selection dialog. Returns entered text."), 0);
+  insert(Input::value, "value(QString caption, QString label, int value)", 
+         i18n("Shows value selection dialog. Returns entered value."), 0);
+  insert(Input::openfile, "openfile(QString startdir, QString filter, QString caption)", 
+         i18n("Shows existing file selection dialog. Returns selected file."), 0);
+  insert(Input::savefile, "savefile(QString startdir, QString filter, QString caption)", 
+         i18n("Shows save file selection dialog. Returns selected file."), 0);
+  insert(Input::directory, "directory(QString startdir, QString filter, QString caption)", 
+         i18n("Shows directory selection dialog. Returns selected directory."), 0);
+  insert(Input::openfiles, "openfiles(QString startdir, QString filter, QString caption)", 
+         i18n("Shows multiple files selection dialog. Returns EOL-separated list of selected files."), 0);
+  
+  insertGroup(Group::File, "Message");
+  insert(Message::info, "info(QString text, QString caption)", 
+         i18n("Shows an information dialog."));
+  insert(Message::error, "error(QString text, QString caption)", 
+         i18n("Shows an error dialog."));
+  insert(Message::warning, "warning(QString text, QString caption, QString button1, QString button2, QString button3)",
+         i18n("Shows a warning dialog with up to three buttons. Returns number of selected button."));
+  insert(Message::question, "question(QString text, QString caption, QString button1, QString button2, QString button3)",
+         i18n("Shows a question dialog with up to three buttons. Returns number of selected button."));
+  
 }
