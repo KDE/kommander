@@ -12,8 +12,9 @@
     </keywords>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
+    <description></description>
     <ignoreparts/>
+    <secondaryLanguages/>
   </general>
   <kdevfileview>
     <groups>
@@ -40,16 +41,23 @@
       <userdocDir>/home/andris/cvs-developement/head/quanta/kommander/html/</userdocDir>
       <apidocDir>/home/andris/cvs-developement/head/quanta/kommander/html/</apidocDir>
     </projectdoc>
+    <ignoreqt_xml/>
+    <ignoredoxygen/>
+    <ignorekdocs/>
+    <ignoredevhelp/>
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
-      <programargs>/home/andris/tableclass.kmdr</programargs>
-      <gdbpath/>
+      <dbgshell></dbgshell>
+      <programargs>/home/andris/test.kmdr</programargs>
+      <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
     </general>
     <display>
       <staticmembers>false</staticmembers>
@@ -73,7 +81,7 @@
       <abortonerror>true</abortonerror>
       <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin></makebin>
     </make>
     <general>
       <useconfiguration>default</useconfiguration>
@@ -81,26 +89,29 @@
     <configurations>
       <default>
         <configargs>--with-kommander --enable-debug=full</configargs>
-        <builddir>/home/andris/build/quanta/kommander</builddir>
-        <topsourcedir>/home/andris/cvs-developement/head/quanta</topsourcedir>
-        <cppflags/>
-        <ldflags/>
-        <ccompiler>GccOptions</ccompiler>
-        <cxxcompiler>GppOptions</cxxcompiler>
-        <f77compiler>G77Options</f77compiler>
-        <ccompilerbinary/>
-        <cxxcompilerbinary/>
-        <f77compilerbinary/>
-        <cflags/>
-        <cxxflags/>
-        <f77flags/>
+        <builddir>/home/andris/development/build/kde-head/quanta-be/kommander</builddir>
+        <topsourcedir>/home/andris/development/quanta/quanta-be</topsourcedir>
+        <cppflags></cppflags>
+        <ldflags></ldflags>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevpgf77options</f77compiler>
+        <ccompilerbinary></ccompilerbinary>
+        <cxxcompilerbinary></cxxcompilerbinary>
+        <f77compilerbinary></f77compilerbinary>
+        <cflags></cflags>
+        <cxxflags></cxxflags>
+        <f77flags></f77flags>
       </default>
     </configurations>
     <run>
       <mainprogram>executor/.libs/kmdr-executor</mainprogram>
-      <programargs>/home/andris/tableclass.kmdr</programargs>
+      <programargs>/home/andris/test.kmdr</programargs>
       <terminal>false</terminal>
       <envvars/>
+      <directoryradio>build</directoryradio>
+      <customdirectory>/</customdirectory>
+      <autocompile>true</autocompile>
     </run>
   </kdevautoproject>
   <cppsupportpart>
@@ -128,4 +139,18 @@
     <logoptions/>
     <rshoptions/>
   </kdevcvs>
+  <kdevcppsupport>
+    <codecompletion>
+      <includeGlobalFunctions>true</includeGlobalFunctions>
+      <includeTypes>true</includeTypes>
+      <includeEnums>true</includeEnums>
+      <includeTypedefs>false</includeTypedefs>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
+      <automaticArgumentsHint>true</automaticArgumentsHint>
+      <automaticHeaderCompletion>true</automaticHeaderCompletion>
+      <codeCompletionDelay>250</codeCompletionDelay>
+      <argumentsHintDelay>400</argumentsHintDelay>
+      <headerCompletionDelay>250</headerCompletionDelay>
+    </codecompletion>
+  </kdevcppsupport>
 </kdevelop>

@@ -552,8 +552,8 @@ bool SetPropertyCommand::checkProperty()
 	QString s = newValue.toString();
 	if ( !formWindow()->unify( widget, s, FALSE ) ) {
 	    QMessageBox::information( formWindow()->mainWindow(),
-				      i18n( "Set 'name' Property" ),
-				      i18n( "The name of a widget must be unique.\n"
+				      i18n("Set 'name' Property" ),
+				      i18n("The name of a widget must be unique.\n"
                             "'%1' is already used in form '%2',\n"
                             "so the name has been reverted to '%3'." ).
 				      arg( newValue.toString() ).
@@ -564,8 +564,8 @@ bool SetPropertyCommand::checkProperty()
 	}
 	if ( s.isEmpty() ) {
 	    QMessageBox::information( formWindow()->mainWindow(),
-				      i18n( "Set 'name' Property" ),
-				      i18n( "The name of a widget must not be null.\n"
+				      i18n("Set 'name' Property" ),
+				      i18n("The name of a widget must not be null.\n"
                             "The name has been reverted to '%1'." ).
 				      arg( oldValue.toString() ));
 	    setProperty( oldValue, oldCurrentItemText, FALSE );

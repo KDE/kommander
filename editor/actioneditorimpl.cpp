@@ -40,14 +40,14 @@
 ActionEditor::ActionEditor( QWidget* parent,  const char* name, WFlags fl )
     : ActionEditorBase( parent, name, fl ), currentAction( 0 ), formWindow( 0 )
 {
-    listActions->addColumn( i18n( "Actions" ) );
+    listActions->addColumn( i18n("Actions" ) );
     setEnabled( FALSE );
     buttonConnect->setEnabled( FALSE );
 
     QPopupMenu *popup = new QPopupMenu( this );
-    popup->insertItem( i18n( "New &Action" ), this, SLOT( newAction() ) );
-    popup->insertItem( i18n( "New Action &Group" ), this, SLOT( newActionGroup() ) );
-    popup->insertItem( i18n( "New &Dropdown Action Group" ), this, SLOT( newDropDownActionGroup() ) );
+    popup->insertItem( i18n("New &Action" ), this, SLOT( newAction() ) );
+    popup->insertItem( i18n("New Action &Group" ), this, SLOT( newActionGroup() ) );
+    popup->insertItem( i18n("New &Dropdown Action Group" ), this, SLOT( newDropDownActionGroup() ) );
     buttonNewAction->setPopup( popup );
     buttonNewAction->setPopupDelay( 0 );
 

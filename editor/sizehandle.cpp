@@ -227,7 +227,7 @@ void SizeHandle::mouseReleaseEvent( QMouseEvent *e )
 
     formWindow->sizePreview()->hide();
     if ( geom != widget->geometry() )
-	formWindow->commandHistory()->addCommand( new ResizeCommand( i18n( "Resize" ),
+	formWindow->commandHistory()->addCommand( new ResizeCommand( i18n("Resize" ),
 								     formWindow,
 								     widget, origGeom,
 								     widget->geometry() ) );

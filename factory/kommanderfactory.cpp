@@ -1447,6 +1447,9 @@ void KommanderFactory::loadImages( const QString &dir )
 
 QString KommanderFactory::translate( const QString& sourceText, const QString& comment )
 {
+  if (!sourceText.isEmpty())
     return qApp->translate( toplevel->name(), sourceText.utf8(),
 			    comment.utf8(), QApplication::UnicodeUTF8 );
+  else
+    return sourceText;                            
 }
