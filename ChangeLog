@@ -1,3 +1,7 @@
+Thu 22 lip 2004 22:17:49 CEST
+	o ExecButton now has three modes: no blocking, block only ExecButton,
+	  block whole GUI
+
 Tue 20 Jul 2004 19:51:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o bug fixed: @dcop with more than 4 arguments
 	o bug fixed: in @forEach, @var_count has incorrect value

@@ -25,7 +25,7 @@
 
 class KommanderWidget;
 
-class MyProcess : QObject
+class MyProcess : public QObject
 {
   Q_OBJECT
 public:
@@ -33,6 +33,10 @@ public:
   // Run given command, using a_shell as a shell (this can be overriden by shebang in the first line)
   // Process is run in blocking mode.
   QString run(const QString& a_command, const QString& a_shell = "/bin/sh");
+  void setBlocking(bool blocking);
+  bool isBlocking();
+signals:
+  void processExited(MyProcess*);
 private slots:
   void slotReceivedStdout(KProcess*, char*, int);
   void slotProcessExited(KProcess*);
@@ -41,6 +45,7 @@ protected:
   QString m_output;
   QCString m_input;
   bool m_loopStarted;
+  bool m_blocking;
 };
 
 #endif

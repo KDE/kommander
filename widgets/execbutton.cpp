@@ -17,7 +17,6 @@
 /* KDE INCLUDES */
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -29,6 +28,7 @@
 #include <kommanderwidget.h>
 #include <specials.h>
 #include "execbutton.h"
+#include <myprocess.h>
 #include <cstdio>
 
 ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
@@ -39,6 +39,7 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   setStates(states);
   setDisplayStates(states);
   setWriteStdout(true);
+  setBlockGUI(Button);
   bufferStdin = 0;
   connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 }
@@ -91,78 +92,18 @@ void ExecButton::setWidgetText(const QString& a_text)
 
 void ExecButton::startProcess()
 {
-//FIXME Move this functionality to MyProcess (adding a flag to mark non-blocking mode)  
-
   QString at = evalAssociatedText().stripWhiteSpace();
-  QString shellName = "/bin/sh";
-
-  if (at.isEmpty())
-    return;
-
-  // Look for shell
-  if (at.startsWith("#!"))
-  {
-    int eol = at.find("\n");
-    if (eol == -1)
-      eol = at.length();
-    shellName = at.mid(2, eol - 1).stripWhiteSpace();
-    at = at.mid(eol + 1);
-  }
-
-  KProcess *process = new KProcess();
-  *process << shellName;
-  connect(process, SIGNAL(processExited(KProcess*)), SLOT(endProcess(KProcess*)));
-  connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), 
-    SLOT(appendOutput(KProcess*, char*, int)));
-  connect(process, SIGNAL(receivedStderr(KProcess*, char*, int)), 
-    SLOT(appendOutput(KProcess*, char*, int)));
-
-  if (!process->start(KProcess::NotifyOnExit, KProcess::All))
-  {
-    KMessageBox::error(this,
-        i18n("<qt>Failed to start shell process<br><b>%1</b></qt>").arg(shellName));
-    delete process;
-    return;
-  } else
-  {
-    int len = at.local8Bit().length();
-    bufferStdin = new char[len + 1];
-    strcpy(bufferStdin, at.local8Bit());
-    process->writeStdin(bufferStdin, len);
-    process->closeStdin();
-  }
-  setEnabled(false);            // disabled until process ends
+  
+  if (blockGUI() != None)
+    setEnabled(false);            
+  MyProcess* process = new MyProcess(this);
+  process->setBlocking(blockGUI() == GUI);
+  connect(process, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
+  m_output = process->run(at);
+  if (blockGUI() == GUI)
+    setEnabled(true);            
 }
 
-void ExecButton::appendOutput(KProcess *, char *a_buffer, int a_len)
-{
-  char *buffer = new char[a_len + 1];
-  buffer[a_len] = 0;
-  for (int i = 0; i < a_len; ++i)
-    buffer[i] = a_buffer[i];
-
-  QString bufferString(buffer);
-  m_output += bufferString;
-  if (writeStdout())
-  {
-    fputs(buffer, stdout);
-    fflush(stdout);
-  }
-  delete buffer;
-}
-
-void ExecButton::endProcess(KProcess * a_process)
-{
-  emit widgetTextChanged(m_output);
-  m_output = "";
-
-  setEnabled(true);
-
-  delete[]bufferStdin;
-  bufferStdin = 0;
-
-  delete a_process;
-}
 
 bool ExecButton::writeStdout() const
 {
@@ -172,6 +113,23 @@ bool ExecButton::writeStdout() const
 void ExecButton::setWriteStdout(bool a_enable)
 {
   m_writeStdout = a_enable;
+}
+
+void ExecButton::setBlockGUI(Blocking a_enable)
+{
+  m_blockGUI = a_enable;
+}
+
+ExecButton::Blocking ExecButton::blockGUI() const
+{
+  return m_blockGUI;
+}
+
+void ExecButton::processExited(MyProcess* p)
+{
+  if (blockGUI() != None)
+    setEnabled(true);
+  delete p;
 }
 
 void ExecButton::showEvent(QShowEvent* e)

@@ -26,12 +26,22 @@
 #include "kommanderwidget.h"
 
 MyProcess::MyProcess(const KommanderWidget *a_atw)
-  : m_atw(a_atw), m_loopStarted(false)
+  : m_atw(a_atw), m_loopStarted(false), m_blocking(true)
 {
 }
 
 void qt_enter_modal(QWidget *widget);
 void qt_leave_modal(QWidget *widget);
+
+void MyProcess::setBlocking(bool blocking)
+{
+  m_blocking = blocking;
+}
+
+bool MyProcess::isBlocking()
+{
+  return m_blocking;
+}
 
 QString MyProcess::run(const QString& a_command, const QString& a_shell)
 {
@@ -68,14 +78,18 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   process->writeStdin(m_input, m_input.length());
   process->closeStdin();
 
-  // Enter loop, waiting for process to exit  
-  QWidget dummy(0, 0, WType_Dialog | WShowModal);
-  dummy.setFocusPolicy(QWidget::NoFocus);
-  m_loopStarted = true;
-  qt_enter_modal(&dummy);
-  qApp->enter_loop();
-  qt_leave_modal(&dummy);
-  
+  if (!m_blocking)
+    return QString::null;
+  else 
+  {
+    QWidget dummy(0, 0, WType_Dialog | WShowModal);
+    dummy.setFocusPolicy(QWidget::NoFocus);
+    m_loopStarted = true;
+    qt_enter_modal(&dummy);
+    qApp->enter_loop();
+    qt_leave_modal(&dummy);
+  }
+
   if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
     return m_output.left(m_output.length()-1);
   else
@@ -95,6 +109,8 @@ void MyProcess::slotProcessExited(KProcess* process)
     m_loopStarted = false;
   }
   delete process;
+  if (!m_blocking)
+    emit processExited(this);
 }
 
 #include "myprocess.moc"

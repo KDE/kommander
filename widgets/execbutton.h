@@ -35,11 +35,13 @@ class ExecButton : public KPushButton, public KommanderWidget
 {
   Q_OBJECT
 
+  Q_ENUMS(Blocking)
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   Q_PROPERTY(bool writeStdout READ writeStdout WRITE setWriteStdout)
-	
+  Q_PROPERTY(Blocking blockGUI READ blockGUI WRITE setBlockGUI)
+
 public:
   ExecButton(QWidget *a_parent, const char *a_name);
   ~ExecButton();
@@ -55,6 +57,10 @@ public:
   // Handle stdout setting
   virtual void setWriteStdout(bool);
   bool writeStdout() const;
+  // Handle blocking
+  enum Blocking { None, Button, GUI };
+  virtual void setBlockGUI(Blocking a_enable);
+  Blocking blockGUI() const;
   
   virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
@@ -63,18 +69,19 @@ public slots:
   
   // Execute script from associastedText
   virtual void startProcess();
-  // Append output from proces to output string
-  virtual void appendOutput(KProcess *, char *, int);
-  // End process, cleanup data
-  virtual void endProcess(KProcess *);
+  // Process has ended
+  virtual void processExited(MyProcess* p);
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
+  
 protected:
   // Text sent to process
   char* bufferStdin;
   // Whether output from process should be put in real stdout
   bool m_writeStdout;
+  // Whether pressing execubtton should block GUI until process ends
+  Blocking m_blockGUI;
   // Output from process
   QString m_output;
   void showEvent( QShowEvent *e );
