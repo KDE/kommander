@@ -240,6 +240,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       return itemsText();
     case DCOP::setText:
       clear();       /* break omitted: setText is equivalent to clear and insertItems */
+      m_lastPath.clear();
     case DCOP::insertItems:
     {
       QStringList items(QStringList::split("\n", args[0]));
