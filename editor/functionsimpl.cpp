@@ -46,8 +46,11 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
   connect(clearButton, SIGNAL(clicked()), insertedText, SLOT(clear()));
   
   // build widget name list
+  QStringList widgets;
   for (QDictIterator<QWidget> It(m_widgetList); It.current(); ++It)
-    widgetComboBox->insertItem(It.currentKey());
+    widgets.append(It.currentKey());
+  widgets.sort();
+  widgetComboBox->insertStringList(widgets);
   
   m_DCOP = -1;    // Select DCOP functions by default
   for (int i=0; i<groupComboBox->count(); i++)
