@@ -73,8 +73,7 @@
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>@LineEdit1.setText(@TreeWidget1.item(@TreeWidget1.currentItem))
-@TreeWidget1.removeItem(@TreeWidget1.currentItem)</string>
+                            <string>@TreeWidget1.removeItem(@TreeWidget1.currentItem)</string>
                         </stringlist>
                     </property>
                 </widget>
