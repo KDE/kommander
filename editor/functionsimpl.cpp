@@ -42,7 +42,14 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, char* a_name, bool a_modal)
   connect(functionListBox, SIGNAL(highlighted(int)), SLOT(functionChanged(int)));
   connect(copyButton, SIGNAL(clicked()), SLOT(copyText()));
   connect(clearButton, SIGNAL(clicked()), insertedText, SLOT(clear()));
-  groupComboBox->setCurrentItem(0);
+  int indexDCOP = 0;    // Select DCOP functions by default
+  for (int i=0; i<groupComboBox->count(); i++)
+     if (groupComboBox->text(i) == "DCOP")
+     {
+       indexDCOP = i; 
+       break;
+     }
+  groupComboBox->setCurrentItem(indexDCOP);
   groupChanged(groupComboBox->currentItem());
 }
 
