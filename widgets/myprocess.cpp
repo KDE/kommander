@@ -76,7 +76,10 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   qApp->enter_loop();
   qt_leave_modal(&dummy);
   
-  return m_output;
+  if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
+    return m_output.left(m_output.length()-1);
+  else
+    return m_output;
 }
 
 void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
