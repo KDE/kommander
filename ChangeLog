@@ -1,3 +1,8 @@
+Sat 28 Aug 2004 19:20:06 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fixed a crash in TreeWidget setText function
+	o added support for multiselection in ListBox (via selection
+	  function)
+
 Tue 24 Aug 2004 11:00:16 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o Function Browser: don't show unnecessary 'widget' parameter
 	o Function Browser: make widget functions default
