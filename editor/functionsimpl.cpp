@@ -15,6 +15,8 @@
 
 /* KDE INCLUDES */
 #include <kcombobox.h>
+#include <kglobal.h>
+#include <kiconloader.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kpushbutton.h>
@@ -28,6 +30,9 @@
 FunctionsDialog::FunctionsDialog(QWidget* a_parent, char* a_name, bool a_modal)
    : FunctionsDialogBase(a_parent, a_name, a_modal)
 {
+  clearButton->setPixmap(KGlobal::iconLoader()->loadIcon("locationbar_erase", KIcon::Toolbar));
+  copyButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow", KIcon::Toolbar));
+  
   groupComboBox->insertStringList(SpecialInformation::groups());
   connect(groupComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));
   connect(functionComboBox, SIGNAL(activated(int)), SLOT(functionChanged(int)));
