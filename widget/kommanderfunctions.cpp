@@ -37,7 +37,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
   else if (function == "dcop")
     return dcopQuery(args);
   else if (function == "parentPid")
-    return global("_PARENTPID").isEmpty() ? QString().setNum(getppid()) : global("PARENTPID");
+    return global("_PARENTPID").isEmpty() ? QString().setNum(getppid()) : global("_PARENTPID");
   else if (function == "env")
     return QString(getenv(args[0].latin1())); 
   else if (function == "global")
