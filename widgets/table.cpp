@@ -82,7 +82,7 @@ bool Table::isFunctionSupported(int f)
   return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
       f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText ||
       f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
-      f == DCOP::setRowCaption;
+      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText;
 }
 
 QString Table::handleDCOP(int function, const QStringList& args)
@@ -126,6 +126,46 @@ QString Table::handleDCOP(int function, const QStringList& args)
     case DCOP::setRowCaption:
       verticalHeader()->setLabel(args[0].toInt(), args[1]);
       break;
+    case DCOP::text:
+    {
+      QString row;
+      QString rows;
+      for (int r = 0; r < numRows(); r++)
+      {
+        row = "";
+        for (int c = 0; c < numCols(); c++)
+        {
+          if (c)
+            row += "\t";
+          row += text(r,c);
+        }
+        if (r) 
+          rows += "\n";
+        rows += row;
+      }
+      return rows;
+    }
+    case DCOP::setText:
+    {
+      int r = 0, c = 0;
+      setNumCols(0);
+      setNumRows(0);
+      QStringList rows;
+      QStringList row;
+      rows = QStringList::split("\n", args[0]);
+      setNumRows(rows.count());
+      for (QStringList::Iterator it = rows.begin(); it != rows.end(); ++it, ++r) 
+      {
+        
+        row = QStringList::split("\t", *it);
+        if (!r)
+          setNumCols(row.count());
+        c = 0;
+        for (QStringList::Iterator itr = row.begin(); itr != row.end(); ++itr, ++c)
+          setText(r, c, *itr);
+      }
+      break;
+    }
   }  
   return QString::null;
 }
