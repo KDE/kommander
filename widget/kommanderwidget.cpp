@@ -324,7 +324,7 @@ QString KommanderWidget::localDcopQuery(const QString function, const QStringLis
   pArgs.append(kapp->dcopClient()->appId());
   pArgs.append("KommanderIf");
   pArgs.append(function);
-  for (int i=0; i<args.count(); i++)
+  for (uint i=0; i<args.count(); i++)
     pArgs.append(args[i]);
   return dcopQuery(pArgs);
 }
@@ -381,16 +381,22 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
   if (start == s.length() || s[start] != '(')
     return QString::null;
   bool quoteSingle = false, quoteDouble = false;
+  int brackets = 1;
   for (uint end = start+1; end < s.length(); end++) 
   {
     if (!quoteDouble && s[end] == '\'' && s[end-1] != '\\')
       quoteSingle = not quoteSingle;
     else if (!quoteSingle && s[end] == '\"' && s[end-1] != '\\')
       quoteDouble = not quoteDouble;
+    else if (!quoteDouble && !quoteSingle && s[end] == '(') 
+      brackets++;
     else if (!quoteDouble && !quoteSingle && s[end] == ')') 
     {
-      from = end + 1;
-      return s.mid(start+1, end-start-1);
+      brackets--;
+      if (!brackets) {
+        from = end + 1;
+        return s.mid(start+1, end-start-1);
+      }
     }
   }
   ok = false;
@@ -401,14 +407,18 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok) const
 {
   QStringList argList;
   bool quoteDouble = false, quoteSingle = false;
-  uint i, start = 0;
+  uint i, start = 0, brackets=0;
   for (i = 0; i < s.length(); i++) 
   {
     if (!quoteDouble && s[i] == '\'' && s[i-1] != '\\')
       quoteSingle = not quoteSingle;
     else if (!quoteSingle && s[i] == '\"' && s[i-1] != '\\')
       quoteDouble = not quoteDouble;
-    else if (!quoteDouble && !quoteSingle && s[i] == ',')
+    else if (!quoteSingle && !quoteDouble && s[i] == '(')
+      brackets++;
+    else if (!quoteSingle && !quoteDouble && s[i] == ')')
+      brackets--;
+    else if (!quoteDouble && !quoteSingle && !brackets && s[i] == ',')
     {
       QString arg = s.mid(start, i - start).stripWhiteSpace();
       if (!arg.isEmpty())
