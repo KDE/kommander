@@ -40,7 +40,7 @@ public slots:
   void receivedStderr(KProcess *proc, char *buffer, int buflen);
 private:
   static const int m_listCount = 2;
-  static QString MessageLog::m_listNames[m_listCount];
+  static QString m_listNames[m_listCount];
   KListBox* m_lists[m_listCount];
   bool m_seenEOL[m_listCount];
 };
