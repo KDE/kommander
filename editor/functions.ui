@@ -62,7 +62,7 @@
                 </size>
             </property>
             <property name="title">
-                <string>&amp;Parameters:</string>
+                <string>&amp;Parameters</string>
             </property>
             <vbox>
                 <property name="name">
