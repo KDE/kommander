@@ -122,7 +122,7 @@ void ExecButton::startProcess()
     at = at.mid(eol+1);
   } 
    
-  KProcess *process = new KProcess(this);
+  KProcess *process = new KProcess();
   *process << shellName;
   connect(process, SIGNAL(processExited(KProcess *)), SLOT(endProcess(KProcess *)));
   connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
