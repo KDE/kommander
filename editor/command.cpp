@@ -903,7 +903,7 @@ void AddWizardPageCommand::execute()
 	index = wizard->pageCount();
     wizard->insertPage( page, pageLabel, index );
     if ( show )
-	( (QDesignerWizard*)wizard )->setCurrentPage( ( (QDesignerWizard*)wizard )->pageNum( page ) );
+      ( (QDesignerWizard*)wizard )->setCurrentPage( ( (QDesignerWizard*)wizard )->pageNum( page ) );
     formWindow()->emitUpdateProperties( formWindow()->currentWidget() );
     formWindow()->mainWindow()->objectHierarchy()->pagesChanged( wizard );
 }
@@ -939,7 +939,7 @@ void DeleteWizardPageCommand::unexecute()
 {
     wizard->insertPage( page, pageLabel, index );
     if ( show )
-	( (QDesignerWizard*)wizard )->setCurrentPage( ( (QDesignerWizard*)wizard )->pageNum( page ) );
+      ( (QDesignerWizard*)wizard )->setCurrentPage( ( (QDesignerWizard*)wizard )->pageNum( page ) );
     formWindow()->emitUpdateProperties( formWindow()->currentWidget() );
     formWindow()->mainWindow()->objectHierarchy()->pagesChanged( wizard );
 }

@@ -262,7 +262,7 @@ void HierarchyList::objectClicked( QListViewItem *i )
       if ( w->parent()->parent()->inherits( "QTabWidget" ) )
     ( (QTabWidget*)w->parent()->parent() )->showPage( w );
       else
-    ( (QDesignerWizard*)w->parent()->parent() )->setCurrentPage( ( (QDesignerWizard*)w->parent()->parent() )->pageNum( w ) );
+        ( (QDesignerWizard*)w->parent()->parent() )->setCurrentPage( ( (QDesignerWizard*)w->parent()->parent() )->pageNum( w ) );
       w = (QWidget*)w->parent()->parent();
       formWindow->emitUpdateProperties( formWindow->currentWidget() );
   } else {
@@ -433,7 +433,7 @@ void HierarchyList::insertObject( QObject *o, QListViewItem *parent )
     if ( it.current()->parent()->inherits( "QTabWidget" ) )
         tw = (QDesignerTabWidget*)it.current()->parent();
     if ( it.current()->parent()->inherits( "QWizard" ) )
-        dw = (QDesignerWizard*)it.current()->parent();
+      dw = (QDesignerWizard*)it.current()->parent();
     QWidgetStack *stack = (QWidgetStack*)obj;
     for ( obj = l2->last(); obj; obj = l2->prev() ) {
         if ( qstrcmp( obj->className(), "QWidgetStackPrivate::Invisible" ) == 0 ||

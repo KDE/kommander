@@ -200,41 +200,6 @@ private:
 
 };
 
-class EditorWizard : public Wizard
-{
-    Q_OBJECT
-    Q_PROPERTY( int currentPage READ currentPageNum WRITE setCurrentPage STORED false DESIGNABLE true )
-    Q_PROPERTY( QString pageTitle READ pageTitle WRITE setPageTitle STORED false DESIGNABLE true )
-    Q_PROPERTY( QCString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
-public:
-    EditorWizard( QWidget *parent, const char *name ) : Wizard( parent, name ) {}
-
-    int currentPageNum() const;
-    void setCurrentPage( int i );
-    QString pageTitle() const;
-    void setPageTitle( const QString& title );
-    QCString pageName() const;
-    void setPageName( const QCString& name );
-    int pageNum( QWidget *page );
-    void addPage( QWidget *p, const QString & );
-    void removePage( QWidget *p );
-    void insertPage( QWidget *p, const QString &t, int index );
-    bool isPageRemoved( QWidget *p ) { return (removedPages.find( p ) != 0); }
-
-    void reject() {}
-
-private:
-    struct Page
-    {
-	Page( QWidget *a, const QString &b ) : p( a ), t( b ) {}
-	Page() : p( 0 ), t( QString::null ) {}
-	QWidget *p;
-	QString t;
-    };
-    QPtrDict<QWidget> removedPages;
-
-};
-
 class QLayoutWidget : public QWidget
 {
     Q_OBJECT

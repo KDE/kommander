@@ -1064,7 +1064,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
             cmd->execute();
         } else if ( id == commands[ "remove" ] ) {
             if ( wiz->currentPage() ) {
-                QDesignerWizard *dw = (QDesignerWizard*)wiz;
+              QDesignerWizard *dw = (QDesignerWizard*)wiz;
                 DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n("Delete Page %1 of %2" ).
                                                                             arg( dw->pageTitle() ).arg( wiz->name() ),
                                                                             formWindow(), wiz, wiz->indexOf( wiz->currentPage() ) );

@@ -579,84 +579,6 @@ bool EditorTabWidget::eventFilter( QObject *o, QEvent *e )
     return FALSE;
 }
 
-int EditorWizard::currentPageNum() const
-{
-    for ( int i = 0; i < pageCount(); ++i ) {
-	if ( page( i ) == currentPage() )
-	    return i;
-    }
-    return 0;
-}
-
-void EditorWizard::setCurrentPage( int i )
-{
-    if ( i < currentPageNum() ) {
-	while ( i < currentPageNum() ) {
-	    if ( currentPageNum() == 0 )
-		break;
-	    back();
-	}
-
-    } else {
-	while ( i > currentPageNum() ) {
-	    if ( currentPageNum() == pageCount() - 1 )
-		break;
-	    next();
-	}
-    }
-}
-
-QString EditorWizard::pageTitle() const
-{
-    return title( currentPage() );
-}
-
-void EditorWizard::setPageTitle( const QString& title )
-{
-    setTitle( currentPage(), title );
-}
-
-void EditorWizard::setPageName( const QCString& name )
-{
-    if ( QWizard::currentPage() )
-	QWizard::currentPage()->setName( name );
-}
-
-QCString EditorWizard::pageName() const
-{
-    if ( !QWizard::currentPage() )
-	return 0;
-    return QWizard::currentPage()->name();
-}
-
-int EditorWizard::pageNum( QWidget *p )
-{
-    for ( int i = 0; i < pageCount(); ++i ) {
-	if ( page( i ) == p )
-	    return i;
-    }
-    return -1;
-}
-
-void EditorWizard::addPage( QWidget *p, const QString &t )
-{
-    QWizard::addPage( p, t );
-    if ( removedPages.find( p ) )
-	removedPages.remove( p );
-}
-
-void EditorWizard::removePage( QWidget *p )
-{
-    QWizard::removePage( p );
-    removedPages.insert( p, p );
-}
-
-void EditorWizard::insertPage( QWidget *p, const QString &t, int index )
-{
-    QWizard::insertPage( p, t, index );
-    if ( removedPages.find( p ) )
-	removedPages.remove( p );
-}
 
 /*!  Creates a widget of the type which is registered as \a id as
   child of \a parent. The \a name is optional. If \a init is TRUE, the
@@ -666,31 +588,34 @@ void EditorWizard::insertPage( QWidget *p, const QString &t, int index )
 
 QWidget *WidgetFactory::create( int id, QWidget *parent, const char *name, bool init, const QRect *r, Qt::Orientation orient )
 {
-    QString n = WidgetDatabase::className( id );
-    if ( n.isEmpty() )
-	return 0;
+  QString n = WidgetDatabase::className(id);
+  qDebug("Trying to create '%s'", n.latin1());
+  if (n.isEmpty())
+    return 0;
 
-    if ( !defaultProperties ) {
-	defaultProperties = new QMap< int, QMap< QString, QVariant> >();
-	changedProperties = new QMap< int, QStringList >();
-    }
+  if (!defaultProperties)
+  {
+    defaultProperties = new QMap < int, QMap < QString, QVariant > >();
+    changedProperties = new QMap < int, QStringList > ();
+  }
 
-    QWidget *w = 0;
-    QString str = WidgetDatabase::createWidgetName( id );
-    const char *s = str.latin1();
-    w = createWidget( n, parent, name ? name : s, init, r, orient );
-    if ( !w && WidgetDatabase::isCustomWidget( id ) )
-	w = createCustomWidget( parent, name ? name : s, MetaDataBase::customWidget( id ) );
-    if ( !w )
-	return 0;
-    MetaDataBase::addEntry( w );
+  QWidget *w = 0;
+  QString str = WidgetDatabase::createWidgetName(id);
+  const char *s = str.latin1();
+  w = createWidget(n, parent, name ? name : s, init, r, orient);
+  qDebug("Trying to create '%s', widget (id=%d) - %s", s, id, w ? "successful" : "failure");
+  if (!w && WidgetDatabase::isCustomWidget(id))
+    w = createCustomWidget(parent, name ? name : s, MetaDataBase::customWidget(id));
+  if (!w)
+    return 0;
+  MetaDataBase::addEntry(w);
 
-    if ( !defaultProperties->contains( id ) )
-	saveDefaultProperties( w, id );
-    if ( !changedProperties->contains( id ) )
-	saveChangedProperties( w, id );
+  if (!defaultProperties->contains(id))
+    saveDefaultProperties(w, id);
+  if (!changedProperties->contains(id))
+    saveChangedProperties(w, id);
 
-    return w;
+  return w;
 }
 
 /*!  Creates a layout on the widget \a widget of the type \a type
@@ -852,377 +777,403 @@ void WidgetFactory::deleteLayout( QWidget *widget )
 */
 
 QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent, const char *name, bool init,
-				      const QRect *r, Qt::Orientation orient )
+  const QRect *r, Qt::Orientation orient )
 {
-    if ( className == "QPushButton" ) {
-	QPushButton *b = 0;
-	if ( init ) {
-	    b = new QDesignerPushButton( parent, name );
-	    b->setText( QString::fromLatin1( name ) );
-	} else {
-	    b = new QDesignerPushButton( parent, name );
-	}
-	QWidget *w = find_formwindow( b );
-	b->setAutoDefault( w && ( (FormWindow*)w )->mainContainer()->inherits( "QDialog" ) );
-	return b;
-    } else if ( className == "QToolButton" ) {
-	if ( init ) {
-	    QDesignerToolButton *tb = new QDesignerToolButton( parent, name );
-	    tb->setText( "..." );
-	    return tb;
-	}
-	return new QDesignerToolButton( parent, name );
-    } else if ( className == "QCheckBox" ) {
-	if ( init ) {
-	    QDesignerCheckBox *cb = new QDesignerCheckBox( parent, name );
-	    cb->setText( QString::fromLatin1( name ) );
-	    return cb;
-	}
-	return new QDesignerCheckBox( parent, name );
-    } else if ( className == "QRadioButton" ) {
-	if ( init ) {
-	    QDesignerRadioButton *rb = new QDesignerRadioButton( parent, name );
-	    rb->setText( QString::fromLatin1( name ) );
-	    return rb;
-	}
-	return new QDesignerRadioButton( parent, name );
-    } else if ( className == "QGroupBox" ) {
-	if ( init )
-	    return new QGroupBox( QString::fromLatin1( name ), parent, name );
-	return new QGroupBox( parent, name );
-    } else if ( className == "QButtonGroup" ) {
-	if ( init )
-	    return new QButtonGroup( QString::fromLatin1( name ), parent, name );
-	return new QButtonGroup( parent, name );
-    } else if ( className == "QIconView" ) {
+  if (className == "QPushButton")
+  {
+    QPushButton *b = 0;
+    if (init)
+    {
+      b = new QDesignerPushButton(parent, name);
+      b->setText(QString::fromLatin1(name));
+    } else
+    {
+      b = new QDesignerPushButton(parent, name);
+    }
+    QWidget *w = find_formwindow(b);
+    b->setAutoDefault(w && ((FormWindow *) w)->mainContainer()->inherits("QDialog"));
+    return b;
+  } else if (className == "QToolButton")
+  {
+    if (init)
+    {
+      QDesignerToolButton *tb = new QDesignerToolButton(parent, name);
+      tb->setText("...");
+      return tb;
+    }
+    return new QDesignerToolButton(parent, name);
+  } else if (className == "QCheckBox")
+  {
+    if (init)
+    {
+      QDesignerCheckBox *cb = new QDesignerCheckBox(parent, name);
+      cb->setText(QString::fromLatin1(name));
+      return cb;
+    }
+    return new QDesignerCheckBox(parent, name);
+  } else if (className == "QRadioButton")
+  {
+    if (init)
+    {
+      QDesignerRadioButton *rb = new QDesignerRadioButton(parent, name);
+      rb->setText(QString::fromLatin1(name));
+      return rb;
+    }
+    return new QDesignerRadioButton(parent, name);
+  } else if (className == "QGroupBox")
+  {
+    if (init)
+      return new QGroupBox(QString::fromLatin1(name), parent, name);
+    return new QGroupBox(parent, name);
+  } else if (className == "QButtonGroup")
+  {
+    if (init)
+      return new QButtonGroup(QString::fromLatin1(name), parent, name);
+    return new QButtonGroup(parent, name);
+  } else if (className == "QIconView")
+  {
 #if !defined(QT_NO_ICONVIEW)
-	QIconView* iv = new QIconView( parent, name );
-	if ( init )
-	    (void) new QIconViewItem( iv, i18n("New Item" ) );
-	return iv;
+    QIconView *iv = new QIconView(parent, name);
+    if (init)
+      (void) new QIconViewItem(iv, i18n("New Item"));
+    return iv;
 #else
-	return 0;
+    return 0;
 #endif
-    } else if ( className == "QTable" ) {
+  } else if (className == "QTable")
+  {
 #if !defined(QT_NO_TABLE)
-	if ( init )
-	    return new QTable( 3, 3, parent, name );
-	return new QTable( parent, name );
+    if (init)
+      return new QTable(3, 3, parent, name);
+    return new QTable(parent, name);
 #else
-	return 0;
+    return 0;
 #endif
 #ifndef QT_NO_SQL
-    } else if ( className == "QDataTable" ) {
-	return new QDataTable( parent, name );
+  } else if (className == "QDataTable")
+  {
+    return new QDataTable(parent, name);
 #endif //QT_NO_SQL
-    } else if ( className == "QDateEdit" ) {
-	return new QDateEdit( parent, name );
-    } else if ( className == "QTimeEdit" ) {
-	return new QTimeEdit( parent, name );
-    } else if ( className == "QDateTimeEdit" ) {
-	return new QDateTimeEdit( parent, name );
+  } else if (className == "QDateEdit")
+  {
+    return new QDateEdit(parent, name);
+  } else if (className == "QTimeEdit")
+  {
+    return new QTimeEdit(parent, name);
+  } else if (className == "QDateTimeEdit")
+  {
+    return new QDateTimeEdit(parent, name);
+  } else if (className == "QListBox")
+  {
+    QListBox *lb = new QListBox(parent, name);
+    if (init)
+    {
+      lb->insertItem(i18n("New Item"));
+      lb->setCurrentItem(0);
     }
-    else if ( className == "QListBox" ) {
-	QListBox* lb = new QListBox( parent, name );
-	if ( init ) {
-	    lb->insertItem( i18n("New Item" ) );
-	    lb->setCurrentItem( 0 );
-	}
-	return lb;
-    } else if ( className == "QListView" ) {
-	QListView *lv = new QListView( parent, name );
-	lv->setSorting( -1 );
-	if ( init ) {
-	    lv->addColumn( i18n("Column 1" ) );
-	    lv->setCurrentItem( new QListViewItem( lv, i18n("New Item" ) ) );
-	}
-	return lv;
-    } else if ( className == "QLineEdit" )
-	return new QLineEdit( parent, name );
-    else if ( className == "QSpinBox" )
-	return new QSpinBox( parent, name );
-    else if ( className == "QSplitter" )
-	return new QSplitter( parent, name );
-    else if ( className == "QMultiLineEdit" )
-	return new QMultiLineEdit( parent, name );
-    else if ( className == "QTextEdit" )
-	return new QTextEdit( parent, name );
-    else if ( className == "QLabel") {
-        QDesignerLabel *l = new QDesignerLabel( parent, name );
-        if ( init ) {
-            l->setText( QString::fromLatin1( name ) );
-            MetaDataBase::addEntry( l );
-            MetaDataBase::setPropertyChanged( l, "text", TRUE );
-        }
-	      return l;
-    }   
-  else if ( className == "QLayoutWidget" )
-	return new QLayoutWidget( parent, name );
-    else if ( className == "QTabWidget" ) {
-	QTabWidget *tw = new QDesignerTabWidget( parent, name );
-	if ( init ) {
-	    FormWindow *fw = find_formwindow( parent );
-	    QWidget *w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-	    tw->addTab( w, i18n("Tab 1") );
-	    MetaDataBase::addEntry( w );
-	    w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-	    tw->addTab( w, i18n("Tab 2") );
-	    MetaDataBase::addEntry( tw );
-	    MetaDataBase::addEntry( w );
-	}
-	return tw;
-    } else if ( className == "QComboBox" ) {
-	return new QComboBox( FALSE, parent, name );
-    } else if ( className == "QWidget" ) {
-	if ( parent &&
-	     ( parent->inherits( "FormWindow" ) || parent->inherits( "QWizard" ) || parent->inherits( "QTabWidget" ) || parent->inherits( "QMainWindow" ) ) ) {
-	    FormWindow *fw = find_formwindow( parent );
-	    if ( fw ) {
-		QDesignerWidget *dw = new QDesignerWidget( fw, parent, name );
-		MetaDataBase::addEntry( dw );
-		return dw;
-	    }
-	}
-	return new QWidget( parent, name );
+    return lb;
+  } else if (className == "QListView")
+  {
+    QListView *lv = new QListView(parent, name);
+    lv->setSorting(-1);
+    if (init)
+    {
+      lv->addColumn(i18n("Column 1"));
+      lv->setCurrentItem(new QListViewItem(lv, i18n("New Item")));
     }
-    else if ( className == "QDialog" ) {
-	QDialog *dia = 0;
-	if ( parent && parent->inherits( "FormWindow" ) )
-	    dia = new QDesignerDialog( (FormWindow*)parent, parent, name );
-	else
-	    dia = new QDialog( parent, name );
-#if defined(QT_NON_COMMERCIAL)
-	if ( parent && !parent->inherits("MainWindow") )
-#else
-	if ( parent )
-#endif
-	    dia->reparent( parent, QPoint( 0, 0 ), TRUE );
-	return dia;
-    } else if ( className == "QWizard" ) {
-	QWizard *wiz = new QDesignerWizard( parent, name );
-#if defined(QT_NON_COMMERCIAL)
-	if ( parent && !parent->inherits("MainWindow") )
-#else
-	if ( parent )
-#endif
-	    wiz->reparent( parent, QPoint( 0, 0 ), TRUE );
-	if ( init && parent && parent->inherits( "FormWindow" ) ) {
-	    QDesignerWidget *dw = new QDesignerWidget( (FormWindow*)parent, wiz, "page" );
-	    MetaDataBase::addEntry( dw );
-	    wiz->addPage( dw, i18n("Page" ) );
-	    QTimer::singleShot( 0, wiz, SLOT( next() ) );
-	}
-	return wiz;
-    } else if ( className == "Spacer" ) {
-	Spacer *s = new Spacer( parent, name );
-	MetaDataBase::addEntry( s );
-	MetaDataBase::setPropertyChanged( s, "orientation", TRUE );
-	MetaDataBase::setPropertyChanged( s, "sizeType", TRUE );
-	if ( !r )
-	    return s;
-	if ( !r->isValid() || r->width() < 2 && r->height() < 2 )
-	    s->setOrientation( orient );
-	else if ( r->width() < r->height() )
-	    s->setOrientation( Qt::Vertical );
-	else
-	    s->setOrientation( Qt::Horizontal );
-	return s;
-    } else if ( className == "QLCDNumber" )
-	return new QLCDNumber( parent, name );
-    else if ( className == "QProgressBar" )
-	return new QProgressBar( parent, name );
-    else if ( className == "QTextView" )
-	return new QTextView( parent, name );
-    else if ( className == "QTextBrowser" )
-	return new QTextBrowser( parent, name );
-    else if ( className == "QDial" )
-	return new QDial( parent, name );
-    else if ( className == "QSlider" ) {
-	QSlider *s = new QSlider( parent, name );
-	if ( !r )
-	    return s;
-	if ( !r->isValid() || r->width() < 2 && r->height() < 2 )
-	    s->setOrientation( orient );
-	else if ( r->width() > r->height() )
-	    s->setOrientation( Qt::Horizontal );
-	MetaDataBase::addEntry( s );
-	MetaDataBase::setPropertyChanged( s, "orientation", TRUE );
-	return s;
-    } else if ( className == "QScrollBar" ) {
-	QScrollBar *s = new QScrollBar( parent, name );
-	if ( !r )
-	    return s;
-	if ( !r->isValid() || r->width() < 2 && r->height() < 2 )
-	    s->setOrientation( orient );
-	else if ( r->width() > r->height() )
-	    s->setOrientation( Qt::Horizontal );
-	MetaDataBase::addEntry( s );
-	MetaDataBase::setPropertyChanged( s, "orientation", TRUE );
-	return s;
-    } else if ( className == "QFrame" ) {
-	if ( !init )
-	    return new QFrame( parent, name );
-	QFrame *f = new QFrame( parent, name );
-	f->setFrameStyle( QFrame::StyledPanel | QFrame::Raised );
-	return f;
-    } else if ( className == "Line" ) {
-	Line *l = new Line( parent, name );
-	MetaDataBase::addEntry( l );
-	MetaDataBase::setPropertyChanged( l, "orientation", TRUE );
-	MetaDataBase::setPropertyChanged( l, "frameShadow", TRUE );
-	MetaDataBase::setPropertyChanged( l, "frameShape", TRUE );
-	if ( !r )
-	    return l;
-	if ( !r->isValid() || r->width() < 2 && r->height() < 2 )
-	    l->setOrientation( orient );
-	else if ( r->width() < r->height() )
-	    l->setOrientation( Qt::Vertical );
-	return l;
-    } else if ( className == "QMainWindow" ) {
-	QMainWindow *mw = new QMainWindow( parent, name, 0 );
-	mw->setDockEnabled( Qt::DockMinimized, FALSE );
-	QDesignerWidget *dw = new QDesignerWidget( (FormWindow*)parent, mw, "central widget" );
-	mw->setDockMenuEnabled( FALSE );
-	MetaDataBase::addEntry( dw );
-	mw->setCentralWidget( dw );
-	(void)mw->statusBar();
-	dw->show();
-	return mw;
+    return lv;
+  } else if (className == "QLineEdit")
+    return new QLineEdit(parent, name);
+  else if (className == "QSpinBox")
+    return new QSpinBox(parent, name);
+  else if (className == "QSplitter")
+    return new QSplitter(parent, name);
+  else if (className == "QMultiLineEdit")
+    return new QMultiLineEdit(parent, name);
+  else if (className == "QTextEdit")
+    return new QTextEdit(parent, name);
+  else if (className == "QLabel")
+  {
+    QDesignerLabel *l = new QDesignerLabel(parent, name);
+    if (init)
+    {
+      l->setText(QString::fromLatin1(name));
+      MetaDataBase::addEntry(l);
+      MetaDataBase::setPropertyChanged(l, "text", TRUE);
     }
-#ifndef QT_NO_SQL
-    else if ( className == "QDataBrowser" ) {
-	QWidget *w = new QDesignerDataBrowser( parent, name );
-	if ( parent )
-	    w->reparent( parent, QPoint( 0, 0 ), TRUE );
-	return w;
-    } else if ( className == "QDataView" ) {
-	QWidget *w = new QDesignerDataView( parent, name );
-	if ( parent )
-	    w->reparent( parent, QPoint( 0, 0 ), TRUE );
-	return w;
+    return l;
+  } else if (className == "QLayoutWidget")
+    return new QLayoutWidget(parent, name);
+  else if (className == "QTabWidget")
+  {
+    QTabWidget *tw = new QDesignerTabWidget(parent, name);
+    if (init)
+    {
+      FormWindow *fw = find_formwindow(parent);
+      QWidget *w = fw ? new QDesignerWidget(fw, tw, "tab") : new QWidget(tw, "tab");
+      tw->addTab(w, i18n("Tab 1"));
+      MetaDataBase::addEntry(w);
+      w = fw ? new QDesignerWidget(fw, tw, "tab") : new QWidget(tw, "tab");
+      tw->addTab(w, i18n("Tab 2"));
+      MetaDataBase::addEntry(tw);
+      MetaDataBase::addEntry(w);
     }
-#endif
-#ifdef KOMMANDER
-
-	if(className == "LineEdit")
-		return new LineEdit(parent, name);
-	else if(className == "ListView")
-	{
-		QListView *lv = new QListView( parent, name );
-		lv->setSorting( -1 );
-		if ( init )
-		{
-			lv->addColumn( i18n("Column 1" ) );
-			lv->setCurrentItem( new QListViewItem( lv, i18n("New Item" ) ) );
-		}
-		return lv;
-	}
-	else if(className == "Dialog")
-	{
-		QDialog *dia = 0;
-		if(parent && parent->inherits("FormWindow"))
-			dia = new EditorDialog((FormWindow*)parent, parent, name);
-		else
-			dia = new Dialog(parent, name, FALSE);
-
-		if(parent)
-			dia->reparent(parent, QPoint(0, 0), TRUE);
-		return dia;
-	}
-	else if(className == "Wizard")
-	{
-		QWizard *wiz = new EditorWizard( parent, name );
-		if ( parent )
-			wiz->reparent( parent, QPoint( 0, 0 ), TRUE );
-		if ( init && parent && parent->inherits( "FormWindow" ) ) {
-			QDesignerWidget *dw = new QDesignerWidget( (FormWindow*)parent, wiz, "page" );
-			MetaDataBase::addEntry( dw );
-			wiz->addPage( dw, i18n("Page" ) );
-			QTimer::singleShot( 0, wiz, SLOT( next() ) );
-		}
-		return wiz;
-	}
-	else if(className == "TabWidget")
-	{
-		QTabWidget *tw = new EditorTabWidget( parent, name );
-		if ( init )
-		{
-			FormWindow *fw = find_formwindow( parent );
-			QWidget *w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-			tw->addTab( w, i18n("Tab 1") );
-			MetaDataBase::addEntry( w );
-			w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-			tw->addTab( w, i18n("Tab 2") );
-			MetaDataBase::addEntry( tw );
-			MetaDataBase::addEntry( w );
-		}
-		return tw;
-	}
-	else if(className == "ExecButton")
-		return new ExecButton(parent, name);
-	else if(className == "CloseButton")
-		return new CloseButton(parent, name);
-	else if(className == "SubDialog")
-		return new SubDialog(parent, name);
-	else if(className == "FileSelector")
-		return new FileSelector(parent, name);
-	else if(className == "TextEdit")
-		return new TextEdit(parent, name);
-	else if(className == "RadioButton")
-		return new RadioButton(parent, name);
-	else if(className == "ButtonGroup")
-		return new ButtonGroup(parent, name);
-	else if(className == "GroupBox")
-		return new GroupBox(parent, name);
-	else if(className == "CheckBox")
-		return new CheckBox(parent, name);
-	else if(className == "ComboBox")
-		return new ComboBox(parent, name);
-	else if(className == "SpinBoxInt")
-		return new SpinBoxInt(parent, name);
-	else if(className == "ListBox")
-		return new ListBox(parent, name);
-	else if(className == "ScriptObject")
-		return new ScriptObject(parent, name);
-	else if(className == "RichTextEditor")
-		return new RichTextEditor(parent, name);
-	else if(className == "TreeWidget")
-	{
-	    QListView *lv = new TreeWidget( parent, name );
-	    lv->setSorting( -1 );
-	    if ( init ) {
-		lv->addColumn( i18n("Column 1" ) );
-		lv->setCurrentItem( new QListViewItem( lv, i18n("New Item" ) ) );
-	    }
-	    return lv;
-	}
-  else if ( className == "Slider" ) {
-    Slider *s = new Slider( parent, name );
+    return tw;
+  } else if (className == "QComboBox")
+  {
+    return new QComboBox(FALSE, parent, name);
+  } else if (className == "QWidget")
+  {
+    if (parent &&
+        (parent->inherits("FormWindow") || parent->inherits("QWizard")
+            || parent->inherits("QTabWidget") || parent->inherits("QMainWindow")))
+    {
+      FormWindow *fw = find_formwindow(parent);
+      if (fw)
+      {
+        QDesignerWidget *dw = new QDesignerWidget(fw, parent, name);
+        MetaDataBase::addEntry(dw);
+        return dw;
+      }
+    }
+    return new QWidget(parent, name);
+  } else if (className == "QDialog")
+  {
+    QDialog *dia = 0;
+    if (parent && parent->inherits("FormWindow"))
+      dia = new QDesignerDialog((FormWindow *) parent, parent, name);
+    else
+      dia = new QDialog(parent, name);
+    if (parent && !parent->inherits("MainWindow"))
+      dia->reparent(parent, QPoint(0, 0), TRUE);
+    return dia;
+  } else if (className == "QWizard")
+  {
+    QWizard *wiz = new QDesignerWizard(parent, name);
+    if (parent && !parent->inherits("MainWindow"))
+      wiz->reparent(parent, QPoint(0, 0), TRUE);
+    if (init && parent && parent->inherits("FormWindow"))
+    {
+      QDesignerWidget *dw = new QDesignerWidget((FormWindow *) parent, wiz, "page");
+      MetaDataBase::addEntry(dw);
+      wiz->addPage(dw, i18n("Page"));
+      QTimer::singleShot(0, wiz, SLOT(next()));
+    }
+    return wiz;
+  } else if (className == "Spacer")
+  {
+    Spacer *s = new Spacer(parent, name);
+    MetaDataBase::addEntry(s);
+    MetaDataBase::setPropertyChanged(s, "orientation", TRUE);
+    MetaDataBase::setPropertyChanged(s, "sizeType", TRUE);
+    if (!r)
+      return s;
+    if (!r->isValid() || r->width() < 2 && r->height() < 2)
+      s->setOrientation(orient);
+    else if (r->width() < r->height())
+      s->setOrientation(Qt::Vertical);
+    else
+      s->setOrientation(Qt::Horizontal);
+    return s;
+  } else if (className == "QLCDNumber")
+    return new QLCDNumber(parent, name);
+  else if (className == "QProgressBar")
+    return new QProgressBar(parent, name);
+  else if (className == "QTextView")
+    return new QTextView(parent, name);
+  else if (className == "QTextBrowser")
+    return new QTextBrowser(parent, name);
+  else if (className == "QDial")
+    return new QDial(parent, name);
+  else if (className == "QSlider")
+  {
+    QSlider *s = new QSlider(parent, name);
     if (!r)
       return s;
     if (!r->isValid() || r->width() < 2 && r->height() < 2)
       s->setOrientation(orient);
     else if (r->width() > r->height())
-      s->setOrientation( Qt::Horizontal);
+      s->setOrientation(Qt::Horizontal);
+    MetaDataBase::addEntry(s);
+    MetaDataBase::setPropertyChanged(s, "orientation", TRUE);
+    return s;
+  } else if (className == "QScrollBar")
+  {
+    QScrollBar *s = new QScrollBar(parent, name);
+    if (!r)
+      return s;
+    if (!r->isValid() || r->width() < 2 && r->height() < 2)
+      s->setOrientation(orient);
+    else if (r->width() > r->height())
+      s->setOrientation(Qt::Horizontal);
+    MetaDataBase::addEntry(s);
+    MetaDataBase::setPropertyChanged(s, "orientation", TRUE);
+    return s;
+  } else if (className == "QFrame")
+  {
+    if (!init)
+      return new QFrame(parent, name);
+    QFrame *f = new QFrame(parent, name);
+    f->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+    return f;
+  } else if (className == "Line")
+  {
+    Line *l = new Line(parent, name);
+    MetaDataBase::addEntry(l);
+    MetaDataBase::setPropertyChanged(l, "orientation", TRUE);
+    MetaDataBase::setPropertyChanged(l, "frameShadow", TRUE);
+    MetaDataBase::setPropertyChanged(l, "frameShape", TRUE);
+    if (!r)
+      return l;
+    if (!r->isValid() || r->width() < 2 && r->height() < 2)
+      l->setOrientation(orient);
+    else if (r->width() < r->height())
+      l->setOrientation(Qt::Vertical);
+    return l;
+  } else if (className == "QMainWindow")
+  {
+    QMainWindow *mw = new QMainWindow(parent, name, 0);
+    mw->setDockEnabled(Qt::DockMinimized, FALSE);
+    QDesignerWidget *dw = new QDesignerWidget((FormWindow *) parent, mw, "central widget");
+    mw->setDockMenuEnabled(FALSE);
+    MetaDataBase::addEntry(dw);
+    mw->setCentralWidget(dw);
+    (void) mw->statusBar();
+    dw->show();
+    return mw;
+  }
+#ifndef QT_NO_SQL
+  else if (className == "QDataBrowser")
+  {
+    QWidget *w = new QDesignerDataBrowser(parent, name);
+    if (parent)
+      w->reparent(parent, QPoint(0, 0), TRUE);
+    return w;
+  } else if (className == "QDataView")
+  {
+    QWidget *w = new QDesignerDataView(parent, name);
+    if (parent)
+      w->reparent(parent, QPoint(0, 0), TRUE);
+    return w;
+  }
+#endif
+#ifdef KOMMANDER
+
+  if (className == "LineEdit")
+    return new LineEdit(parent, name);
+  else if (className == "ListView")
+  {
+    QListView *lv = new QListView(parent, name);
+    lv->setSorting(-1);
+    if (init)
+    {
+      lv->addColumn(i18n("Column 1"));
+      lv->setCurrentItem(new QListViewItem(lv, i18n("New Item")));
+    }
+    return lv;
+  } 
+  else if (className == "Dialog")
+  {
+    QDialog *dia = 0;
+    if (parent && parent->inherits("FormWindow"))
+      dia = new EditorDialog((FormWindow *) parent, parent, name);
+    else
+      dia = new Dialog(parent, name, FALSE);
+
+    if (parent)
+      dia->reparent(parent, QPoint(0, 0), TRUE);
+    return dia;
+  } 
+  else if (className == "Wizard")
+  {
+    qDebug("Creating Wizard...");
+    QWizard *wiz;
+    if (parent && parent->inherits("FormWindow"))
+      wiz = new QDesignerWizard(parent, name);
+    else
+      wiz = new Wizard(parent, name);
+    if (parent)
+      wiz->reparent(parent, QPoint(0, 0), TRUE);
+    if (init && parent && parent->inherits("FormWindow"))
+    {
+      QDesignerWidget *dw = new QDesignerWidget((FormWindow *) parent, wiz, "page");
+      MetaDataBase::addEntry(dw);
+      wiz->addPage(dw, i18n("Page 1"));
+      wiz->addPage(dw, i18n("Page 2"));
+      QTimer::singleShot(0, wiz, SLOT(next()));
+    }
+    return wiz;
+  } 
+  else if (className == "TabWidget")
+  {
+    QTabWidget *tw = new EditorTabWidget(parent, name);
+    if (init)
+    {
+      FormWindow *fw = find_formwindow(parent);
+      QWidget *w = fw ? new QDesignerWidget(fw, tw, "tab") : new QWidget(tw, "tab");
+      tw->addTab(w, i18n("Tab 1"));
+      MetaDataBase::addEntry(w);
+      w = fw ? new QDesignerWidget(fw, tw, "tab") : new QWidget(tw, "tab");
+      tw->addTab(w, i18n("Tab 2"));
+      MetaDataBase::addEntry(tw);
+      MetaDataBase::addEntry(w);
+    }
+    return tw;
+  } else if (className == "ExecButton")
+    return new ExecButton(parent, name);
+  else if (className == "CloseButton")
+    return new CloseButton(parent, name);
+  else if (className == "SubDialog")
+    return new SubDialog(parent, name);
+  else if (className == "FileSelector")
+    return new FileSelector(parent, name);
+  else if (className == "TextEdit")
+    return new TextEdit(parent, name);
+  else if (className == "RadioButton")
+    return new RadioButton(parent, name);
+  else if (className == "ButtonGroup")
+    return new ButtonGroup(parent, name);
+  else if (className == "GroupBox")
+    return new GroupBox(parent, name);
+  else if (className == "CheckBox")
+    return new CheckBox(parent, name);
+  else if (className == "ComboBox")
+    return new ComboBox(parent, name);
+  else if (className == "SpinBoxInt")
+    return new SpinBoxInt(parent, name);
+  else if (className == "ListBox")
+    return new ListBox(parent, name);
+  else if (className == "ScriptObject")
+    return new ScriptObject(parent, name);
+  else if (className == "RichTextEditor")
+    return new RichTextEditor(parent, name);
+  else if (className == "TreeWidget")
+  {
+    QListView *lv = new TreeWidget(parent, name);
+    lv->setSorting(-1);
+    if (init)
+    {
+      lv->addColumn(i18n("Column 1"));
+      lv->setCurrentItem(new QListViewItem(lv, i18n("New Item")));
+    }
+    return lv;
+  } else if (className == "Slider")
+  {
+    Slider *s = new Slider(parent, name);
+    if (!r)
+      return s;
+    if (!r->isValid() || r->width() < 2 && r->height() < 2)
+      s->setOrientation(orient);
+    else if (r->width() > r->height())
+      s->setOrientation(Qt::Horizontal);
     MetaDataBase::addEntry(s);
     MetaDataBase::setPropertyChanged(s, "orientation", TRUE);
     return s;
   }
 #endif
 
-#ifndef KOMMANDER
-    WidgetInterface *iface = 0;
-    widgetManager()->queryInterface( className, &iface );
-    if ( !iface )
-	return 0;
-
-    QWidget *w = iface->create( className, parent, name );
-    iface->release();
-    return w;
-#else
-    QWidget *w = KommanderFactory::createWidget( className, parent, name );
-    return w;
-#endif
+  QWidget *w = KommanderFactory::createWidget(className, parent, name);
+  return w;
 }
 
 
@@ -1381,49 +1332,45 @@ bool WidgetFactory::isPassiveInteractor( QObject* o )
  */
 const char* WidgetFactory::classNameOf( QObject* o )
 {
-    if ( o->inherits( "QDesignerTabWidget" ) )
-	return "QTabWidget";
+  if (o->inherits("QDesignerTabWidget"))
+    return "QTabWidget";
 #ifdef KOMMANDER
-	else if(o->inherits("EditorTabWidget"))
-		return "TabWidget";
+  else if (o->inherits("EditorTabWidget"))
+    return "TabWidget";
 #endif
-    else if ( o->inherits( "QDesignerDialog" ) )
-	return "QDialog";
-    else if ( o->inherits( "QDesignerWidget" ) )
-	return "QWidget";
-    else if ( o->inherits( "CustomWidget" ) )
-	return ( (CustomWidget*)o )->realClassName().latin1();
-    else if ( o->inherits( "QDesignerLabel" ) )
-	return "QLabel";
-    else if ( o->inherits( "QDesignerWizard" ) )
-	return "QWizard";
-#ifdef KOMMANDER
-	else if(o->inherits("EditorWizard"))
-		return "Wizard";
-#endif
-    else if ( o->inherits( "QDesignerPushButton" ) )
-	return "QPushButton";
-    else if ( o->inherits( "QDesignerToolButton" ) )
-	return "QToolButton";
-    else if ( o->inherits( "QDesignerRadioButton" ) )
-	return "QRadioButton";
-    else if ( o->inherits( "QDesignerCheckBox" ) )
-	return "QCheckBox";
-    else if ( o->inherits( "QDesignerMenuBar" ) )
-	return "QMenuBar";
-    else if ( o->inherits( "QDesignerToolBar" ) )
-	return "QToolBar";
+  else if (o->inherits("QDesignerDialog"))
+    return "QDialog";
+  else if (o->inherits("QDesignerWidget"))
+    return "QWidget";
+  else if (o->inherits("CustomWidget"))
+    return ((CustomWidget *) o)->realClassName().latin1();
+  else if (o->inherits("QDesignerLabel"))
+    return "QLabel";
+  else if (o->inherits("QDesignerWizard"))
+    return "QWizard";
+  else if (o->inherits("EditorWizard"))
+    return "Wizard";
+  else if (o->inherits("QDesignerPushButton"))
+    return "QPushButton";
+  else if (o->inherits("QDesignerToolButton"))
+    return "QToolButton";
+  else if (o->inherits("QDesignerRadioButton"))
+    return "QRadioButton";
+  else if (o->inherits("QDesignerCheckBox"))
+    return "QCheckBox";
+  else if (o->inherits("QDesignerMenuBar"))
+    return "QMenuBar";
+  else if (o->inherits("QDesignerToolBar"))
+    return "QToolBar";
 #ifndef QT_NO_SQL
-    else if ( o->inherits( "QDesignerDataBrowser" ) )
-	return "QDataBrowser";
-    else if ( o->inherits( "QDesignerDataView" ) )
-	return "QDataView";
+  else if (o->inherits("QDesignerDataBrowser"))
+    return "QDataBrowser";
+  else if (o->inherits("QDesignerDataView"))
+    return "QDataView";
 #endif
-#ifdef KOMMANDER
-    else if(o->inherits("EditorDialog"))
-	return "Dialog";
-#endif
-    return o->className();
+  else if (o->inherits("EditorDialog"))
+    return "Dialog";
+  return o->className();
 }
 
 /*!  As some properties are set by default when creating a widget this
@@ -1496,10 +1443,8 @@ bool WidgetFactory::hasItems( int id )
 {
   QString className = WidgetDatabase::className(id);
 
-#ifdef KOMMANDER
   if (className == "ComboBox" || className == "ListBox" || className == "TreeWidget")
     return TRUE;
-#endif
   if (className.mid(1) == "ListBox" || className.mid(1) == "ListView" ||
       className.mid(1) == "IconView" || className.mid(1) == "ComboBox" ||
       className.contains("Table"))
@@ -1883,17 +1828,4 @@ void CustomWidget::paintEvent( QPaintEvent *e )
 }
 
 
-#ifndef KOMMANDER
-CustomWidgetFactory::CustomWidgetFactory()
-{
-}
-
-QWidget *CustomWidgetFactory::createWidget( const QString &className, QWidget *parent, const char *name ) const
-{
-    MetaDataBase::CustomWidget *w = MetaDataBase::customWidget( WidgetDatabase::idFromClassName( className ) );
-    if ( !w )
-	return 0;
-    return WidgetFactory::createCustomWidget( parent, name, w );
-}
-#endif
 #include "widgetfactory.moc"

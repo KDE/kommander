@@ -453,12 +453,26 @@ void WidgetDatabase::setupDataBase( int id )
   append(r);
 
   r = new WidgetDatabaseRecord;
+  r->name = "Wizard";
+  r->group = widgetGroup("Forms");
+  r->isContainer = TRUE;
+  r->isForm = TRUE;
+  append(r);
+  
+  r = new WidgetDatabaseRecord;
   r->name = "EditorDialog";
   r->group = widgetGroup("Temp");
   r->isContainer = TRUE;
   r->isForm = TRUE;
   append(r);
 
+  r = new WidgetDatabaseRecord;
+  r->name = "EditorWizard";
+  r->group = widgetGroup("Temp");
+  r->isContainer = TRUE;
+  r->isForm = TRUE;
+  append(r);
+  
   r = new WidgetDatabaseRecord;
   r->name = "EditorTabWidget";
   r->group = widgetGroup("Temp");
