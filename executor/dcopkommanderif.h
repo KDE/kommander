@@ -64,6 +64,12 @@ virtual void setMaximum(const QString &widgetName, int value) = 0;
 virtual void execute(const QString &widgetName) = 0;   
 virtual void cancel(const QString &widgetName) = 0;   
 virtual int count(const QString &widgetName) = 0;
+virtual int currentColumn(const QString &widgetName) = 0;
+virtual int currentRow(const QString &widgetName) = 0;
+virtual void insertRow(const QString &widgetName, int row, int count) = 0;
+virtual void insertColumn(const QString &widgetName, int column, int count) = 0;
+virtual void setCellText(const QString &widgetName, int row, int column, const QString& text) = 0;
+virtual QString cellText(const QString &widgetName, int row, int column) = 0;
 };
 
 #endif

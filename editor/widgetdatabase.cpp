@@ -527,6 +527,13 @@ void WidgetDatabase::setupDataBase( int id )
   append(r);
 
   r = new WidgetDatabaseRecord;
+  r->name = "Table";
+  r->iconSet = "table.xmp";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = i18n("A table widget");
+  append(r);
+
+  r = new WidgetDatabaseRecord;
   r->iconSet = "pushbutton.xpm";
   r->name = "ExecButton";
   r->group = widgetGroup("Kommander");

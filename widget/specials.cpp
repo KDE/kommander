@@ -28,6 +28,8 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::associatedText, "associatedText(QString widget)",
          i18n("Returns scripts associated with widget. This is an advanced feature that would not be commonly used."), 1);
   insert(DCOP::cancel, "cancel(QString widget)", i18n("Stops execution of the script associated with the widget."), 1);
+  insert(DCOP::cellText, "cellText(QString widget, int row, int column)",
+         i18n("Returns text of a cell in a table."), 3);
   insert(DCOP::checked, "checked(QString widget)",
          i18n("Returns 1 for checked boxes, 0 for unchecked."), 1);
   insert(DCOP::children, "children(QString widget, bool recursive)",
@@ -37,15 +39,25 @@ void SpecialInformation::registerSpecials()
   insertAlias(DCOP::clear, "clearList");
   insert(DCOP::count, "count(QString widget)",
          i18n("Returns number of items in a widget such as combobox or listbox."), 1);
+  insert(DCOP::currentColumn, "currentColumn(QString widget)", 
+         i18n("Returns index of current column."), 1);
   insert(DCOP::currentItem, "currentItem(QString widget)", 
          i18n("Returns index of current item."), 1);
+  insert(DCOP::currentRow, "currentRow(QString widget)", 
+         i18n("Returns index of current row."), 1);
   insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1);
+  insert(DCOP::findItem, "findItem(QString widget, QString item)",
+         i18n("Returns the index of an item with the given text."), 2);
+  insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
+         i18n("Inserts new column at <i>column</i> position."), 2);
   insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)",
          i18n("Inserts item at <i>index</i> position."), 3);
   insertAlias(DCOP::insertItem, "addListItem");
   insert(DCOP::insertItems, "insertItems(QString widget, QStringList items, int index)",
          i18n("Inserts multiple items (EOL-separated) at <i>index</i> position."), 3);
   insertAlias(DCOP::insertItems, "addListItems");
+  insert(DCOP::insertRow, "insertRow(QString widget, int row, int count)",
+         i18n("Inserts new row (or <i>count</i> rows) at <i>row</i> position."), 2);
   insert(DCOP::item, "item(QString widget, int index)",
          i18n("Returns the text of the item at the given index."), 2);
   insert(DCOP::itemDepth, "itemDepth(QString widget, int index)",
@@ -55,13 +67,15 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::removeItem, "removeItem(QString widget, int index)",
          i18n("Removes the item with the given index."), 2);
   insertAlias(DCOP::removeItem, "removeListItem");
+  insert(DCOP::selection, "selection(QString widget)", 
+         i18n("Returns selected text or text of current item."), 1);
   insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)",
          i18n("Sets scripts associated with widget. This is an advanced feature that would not be commonly used."), 2);
   insert(DCOP::setEnabled, "setEnabled(QString widget, bool enabled)", 
      i18n("Enables or disables widget."), 2);
   insertAlias(DCOP::setEnabled, "enableWidget");
-  insert(DCOP::selection, "selection(QString widget)", 
-         i18n("Returns selected text or text of current item."), 1);
+  insert(DCOP::setCellText, "setCellText(QString widget, int row, int col, QString text)",
+         i18n("Sets text of a cell in a table."), 4);
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)",
          i18n("Sets/unsets checkbox."), 2);
   insert(DCOP::setCurrentItem, "setCurrentItem(QString widget, int index)",
@@ -80,8 +94,6 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::setVisible, "setVisible(QString widget, bool visible)", 
          i18n("Shows/hides widget."), 2);
   insert(DCOP::text, "text(QString widget)", i18n("Returns content of widget."), 1);
-  insert(DCOP::findItem, "findItem(QString widget, QString item)",
-     i18n("Returns the index of an item with the given text."), 2);
   insert(DCOP::type, "type(QString widget)",
      i18n("Returns type(class) of widget."), 2);
     

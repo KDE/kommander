@@ -23,6 +23,7 @@
 #include "statusbar.h"
 #include "subdialog.h"
 #include "tabwidget.h"
+#include "table.h"
 #include "textbrowser.h"
 #include "textedit.h"
 #include "textedit.h"
@@ -67,6 +68,7 @@ KomStdPlugin::KomStdPlugin()
   addWidget("StatusBar", group, "");
   addWidget("TextBrowser", group, "");
   addWidget("Slider", group, "");
+  addWidget("Table", group, "");
 }
 
 QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *name )
@@ -92,6 +94,7 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
   else if (key == "SpinBoxInt") return new SpinBoxInt(parent, name);
   else if (key == "StatusBar") return new StatusBar(parent, name);
   else if (key == "SubDialog") return new SubDialog(parent, name);
+  else if (key == "Table") return new Table(parent, name);
   else if (key == "TabWidget") return new TabWidget(parent, name);
   else if (key == "TextBrowser") return new TextBrowser(parent, name);
   else if (key == "TextEdit") return new TextEdit(parent, name);

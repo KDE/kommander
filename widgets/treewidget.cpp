@@ -104,8 +104,10 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
     item = new QListViewItem(parent);
   else
     item = new QListViewItem(this);
-  for (int i=0; i<cols; i++)
-    item->setText(i, elements[i]);
+  
+  int i = 0;
+  for (QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) 
+    item->setText(i++, *it);
   return item;
 }
 
@@ -252,7 +254,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::insertItems:
     {
       QStringList items(QStringList::split("\n", args[0]));
-      for (QStringList::Iterator it = items.begin(); it != items.end(); ++it) 
+      for (QStringList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) 
         addItemFromString(*it);
       break;
     }

@@ -21,7 +21,6 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
-#include <qevent.h>
 
 /* OTHER INCLUDES */
 #include <specials.h>

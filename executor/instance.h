@@ -94,6 +94,12 @@ public:
   virtual void execute(const QString &widgetName);
   virtual void cancel(const QString &widgetName);
   virtual int count(const QString &widgetName);
+  virtual int currentColumn(const QString &widgetName);
+  virtual int currentRow(const QString &widgetName);
+  virtual void insertRow(const QString &widgetName, int row, int count);
+  virtual void insertColumn(const QString &widgetName, int column, int count);
+  virtual void setCellText(const QString &widgetName, int row, int column, const QString& text);
+  virtual QString cellText(const QString &widgetName, int row, int column);
    
 public slots:
   /** Builds the instance then executes it */

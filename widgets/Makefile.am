@@ -14,11 +14,11 @@ libkommanderwidgets_la_LIBADD  = $(LIB_KIO) \
 
 # which sources should be compiled for widgets
 libkommanderwidgets_la_SOURCES = buttongroup.cpp subdialog.cpp checkbox.cpp \
-		closebutton.cpp combobox.cpp listbox.cpp wizard.cpp dialog.cpp tabwidget.cpp \
-		execbutton.cpp fileselector.cpp groupbox.cpp	lineedit.cpp radiobutton.cpp \
-		spinboxint.cpp textedit.cpp scriptobject.cpp richtexteditor.cpp treewidget.cpp \
-		plugin.cpp statusbar.cpp progressbar.cpp textbrowser.cpp slider.cpp label.cpp \
-		pixmaplabel.cpp konsole.cpp timer.cpp
+			closebutton.cpp combobox.cpp listbox.cpp wizard.cpp dialog.cpp tabwidget.cpp \
+			execbutton.cpp fileselector.cpp groupbox.cpp	lineedit.cpp radiobutton.cpp \
+			spinboxint.cpp textedit.cpp scriptobject.cpp richtexteditor.cpp treewidget.cpp \
+			plugin.cpp statusbar.cpp progressbar.cpp textbrowser.cpp slider.cpp label.cpp \
+			pixmaplabel.cpp konsole.cpp timer.cpp table.cpp
 
 # these are the headers for your project that won't be installed
 noinst_HEADERS = buttongroup.h  checkbox.h  subdialog.h  closebutton.h  combobox.h listbox.h wizard.h dialog.h	   execbutton.h   fileselector.h  groupbox.h	 lineedit.h radiobutton.h	   spinboxint.h   textedit.h tabwidget.h scriptobject.h richtexteditor.h treewidget.h statusbar.h textbrowser.h label.h pixmaplabel.h
