@@ -1,8 +1,8 @@
 /***************************************************************************
                           lineedit.cpp - Lineedit widget 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,6 +13,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 /* QT INCLUDES */
 #include <qlayout.h>
 #include <qevent.h>
@@ -23,24 +24,24 @@
 LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
 	: KLineEdit(a_parent, a_name), KommanderWidget((QObject *)this)
 {
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
-
-	connect(this, SIGNAL(textChanged(const QString &)), this, SIGNAL(widgetTextChanged(const QString &)));
+  connect(this, SIGNAL(textChanged(const QString &)), this,
+      SIGNAL(widgetTextChanged(const QString &)));
 }
 
-void LineEdit::showEvent( QShowEvent *e )
+void LineEdit::showEvent(QShowEvent *e)
 {
-    QLineEdit::showEvent( e );
-    emit widgetOpened();
+  QLineEdit::showEvent(e);
+  emit widgetOpened();
 }
 
 QString LineEdit::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 LineEdit::~LineEdit()
@@ -49,55 +50,55 @@ LineEdit::~LineEdit()
 
 bool LineEdit::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList LineEdit::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void LineEdit::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void LineEdit::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString LineEdit::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void LineEdit::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+  QString txt = KommanderWidget::evalAssociatedText(populationText());
+  setWidgetText(txt);
 }
 
 QString LineEdit::widgetText() const
 {
-	return text();
+  return text();
 }
 
 void LineEdit::setSelectedWidgetText(const QString& a_text)
 {
-    int f = text().find( a_text );
-    if( f != -1 )
-	setSelection( f, a_text.length() );
+  int f = text().find(a_text);
+  if (f != -1)
+    setSelection(f, a_text.length());
 }
 
 QString LineEdit::selectedWidgetText() const
 {
-    return selectedText();
+  return selectedText();
 }
 
 void LineEdit::setWidgetText(const QString& a_text)
 {
-	setText(a_text);
-	emit widgetTextChanged(a_text);
+  setText(a_text);
+  emit widgetTextChanged(a_text);
 }
 #include "lineedit.moc"
