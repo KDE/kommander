@@ -289,31 +289,6 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
   return QString::null;
 }
 
-QString KommanderWidget::evalFileFunction(const QString& function, const QStringList& args) const
-{
-  int fname = SpecialInformation::function(Group::File, function);
-  QFile file(args[0]);
-  
-  if (fname == File::read && file.open(IO_ReadOnly))
-  {
-    QTextStream text(&file);
-    return text.read();
-  }
-  else if (fname == File::write && file.open(IO_WriteOnly))
-  {
-    QTextStream text(&file);
-    text << args[1];
-  }
-  else if (fname == File::append && file.open(IO_WriteOnly | IO_Append))
-  {
-    QTextStream text(&file);
-    text << args[1];
-  }
-  return QString::null;
-}
-
-
-
 
 QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QString& s, int& pos)
 {

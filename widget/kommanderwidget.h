@@ -62,8 +62,6 @@ public:
   virtual QString evalArrayFunction(const QString&, const QStringList&) const;
   // Evaluate given string function using given args.
   virtual QString evalStringFunction(const QString&, const QStringList&) const;
-  // Evaluate given file function using given args.
-  virtual QString evalFileFunction(const QString&, const QStringList&) const;
   // Parse and evaluate given execBegin..execEnd block.
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos);
   // Parse and evaluate given forEach..end block.
