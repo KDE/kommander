@@ -102,6 +102,7 @@ void ExecButton::appendOutput(KProcess *, char *a_buffer, int a_len)
 	if(writeStdout())
 	{
 		printf(buffer);
+		fflush(stdout);
 	}
 	delete buffer;
 }

@@ -1,3 +1,8 @@
+Sun 04 May 2003 07:38:42 PM EEST - Andras Mantia <amantia@freemail.hu>
+	o do not add the .kmdr extension to files ending with .kmdr
+	o remove some warning/error messages polluting the output
+	o flush the stdout buffer after writing to it
+
 Sat Sep 28 23:18:08 EST 2002 - Marc Britton <consume@optushome.com.au>
 	o Cleaned up and reworked file overview window
 	o Removed 'Source File' tab from hierarchy view
