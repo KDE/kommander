@@ -1,7 +1,7 @@
 Those example illustrate various Kommander features.
 
-In the future they would be used togother with Kommander tutorials. 
-For now, only short information is available
+In the future they would be used together with Kommander tutorials. 
+For now, only brief information is available
 
 
 * GLOBALS.KMDR
@@ -22,7 +22,7 @@ Functions/concepts:
 - @selectedWidgetText
 - @widgetText
 
-* SETTINGS.KMDR
+* SLOTS.KMDR
 Shows how to use connections/slots to handle events. Both population and
 standard slots are used.
 - slots/connections
