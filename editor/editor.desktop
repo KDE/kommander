@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=Editor
-Name[es]=
-Name[ven]=
-Name[xx]=xx
-Exec=editor %i %m -caption "%c"
-Type=Application
-Terminal=0

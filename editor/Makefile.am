@@ -28,5 +28,5 @@ messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kmdr-editor.pot
 
 # this is where the desktop file will go 
-#desktopdir   = $(kde_appsdir)/Utilities
-#desktop_DATA = kmdr-editor.desktop
+desktopdir   = $(kde_appsdir)/Editors
+desktop_DATA = kmdr-editor.desktop

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Kommander Editor
+Exec=kmdr-editor
+Icon=kmdr-editor
+Type=Application
+Comment=Dynamic Dialog Editor
+MimeType=text/kmdr
