@@ -252,8 +252,8 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::insertItems:
     {
       QStringList items(QStringList::split("\n", args[0]));
-      for (uint i=0; i<items.count(); i++)
-        addItemFromString(items[i]);
+      for (QStringList::Iterator it = items.begin(); it != items.end(); ++it) 
+        addItemFromString(*it);
       break;
     }
     case DCOP::selection:
