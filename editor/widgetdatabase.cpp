@@ -617,6 +617,13 @@ void WidgetDatabase::setupDataBase( int id )
   r->toolTip = "A status bar";
   append(r);
   
+  r = new WidgetDatabaseRecord;
+  r->name = "ProgressBar";
+  r->iconSet = "progress.png";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = "A progress bar";
+  append(r);
+  
 #ifndef UIC
   setupPlugins();
 #endif

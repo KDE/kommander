@@ -22,6 +22,7 @@
 #include <richtexteditor.h>
 #include <treewidget.h>
 #include <statusbar.h>
+#include <progressbar.h>
 
 class KomStdPlugin : public KommanderPlugin
 {
@@ -97,6 +98,8 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
     return new TreeWidget(parent, name);
   else if (key == "StatusBar")
     return new StatusBar(parent, name);
+  else if (key == "ProgressBar")
+    return new ProgressBar(parent, name);
   return 0;
 }
 
