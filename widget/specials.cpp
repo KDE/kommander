@@ -22,7 +22,7 @@
 
 void SpecialInformation::registerSpecials()
 {
-  insertGroup(Group::DCOP, "DCOP");
+  insertGroup(Group::DCOP, "DCOP", "");
   insert(DCOP::addUniqueItem, "addUniqueItem(QString widget, QString item)",
          i18n("Inserts the item if it will not create a duplicate."), 2);
   insert(DCOP::associatedText, "associatedText(QString widget)",
@@ -106,7 +106,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::type, "type(QString widget)",
      i18n("Returns type(class) of widget."), 2);
     
-  insertGroup(Group::Kommander, "Kommander");
+  insertGroup(Group::Kommander, "Kommander", "");
   insert(Kommander::widgetText, "widgetText", 
     i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
   insert(Kommander::selectedWidgetText, "selectedWidgetText", 
@@ -157,7 +157,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::comment, "#",
      i18n("Adds a comment to EOL that Kommander will not parse"), 0);
      
-  insertGroup(Group::Array, "Array");
+  insertGroup(Group::Array, "Array", "array");
   insert(Array::values, "values(QString array)", 
     i18n("Returns an EOL-separated list of all values in the array."), 1);
   insert(Array::keys,"keys(QString array)", 
@@ -179,7 +179,7 @@ void SpecialInformation::registerSpecials()
     i18n("Returns all elements in the array in <pre>key\\tvalue\\n</pre> format."), 1);
   
   
-  insertGroup(Group::String, "String");
+  insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 
     i18n("Returns number of chars in the string."), 1);
   insert(String::contains, "contains(QString string, QString substring)", 
@@ -214,7 +214,7 @@ void SpecialInformation::registerSpecials()
   insert(String::args, "args(QString string, QString arg1, QString arg2, QString arg3)", 
     i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
   
-  insertGroup(Group::File, "File");
+  insertGroup(Group::File, "File", "file");
   insert(File::read, "read(QString)", 
     i18n("Returns content of given file."), 1);
   insert(File::write, "write(QString file, QString string)", 
@@ -222,7 +222,7 @@ void SpecialInformation::registerSpecials()
   insert(File::append, "append(QString file, QString string)", 
     i18n("Appends given string to the end of a file."), 2);
   
-  insertGroup(Group::File, "Input");
+  insertGroup(Group::File, "Input", "input");
   insert(Input::color, "color", i18n("Shows color dialog. Returns color in #RRGGBB format."));
   insert(Input::text, "text(QString caption, QString label, QString default)", 
          i18n("Shows text selection dialog. Returns entered text."), 0);
@@ -237,7 +237,7 @@ void SpecialInformation::registerSpecials()
   insert(Input::openfiles, "openfiles(QString startdir, QString filter, QString caption)", 
          i18n("Shows multiple files selection dialog. Returns EOL-separated list of selected files."), 0);
   
-  insertGroup(Group::File, "Message");
+  insertGroup(Group::File, "Message", "message");
   insert(Message::info, "info(QString text, QString caption)", 
          i18n("Shows an information dialog."));
   insert(Message::error, "error(QString text, QString caption)", 

@@ -84,14 +84,16 @@ public:
   static bool insert(int id, const QString& function, const QString description = QString::null,
     int minArgs = -1, int maxArgs = -1);
   static bool insertAlias(int id, const QString& alias);
-  static void insertGroup(int id, const QString& name);
+  static void insertGroup(int id, const QString& name, const QString& parserName);
   static void setDefaultGroup(int gname);
   static void registerSpecials();
+  static QString parserGroupName(const QString&);
   static QStringList groups();
   static QStringList functions(const QString& group);
 protected:
   static QMap<int, QMap<int, SpecialFunction> > m_specials;
   static QMap<QString, int> m_groups;
+  static QMap<QString, QString> m_parserGroups;
   static QMap<int, QMap<QString, int> > m_functions;
   static QMap<int, QMap<QString, int> > m_aliases;
   static int m_defaultGroup;

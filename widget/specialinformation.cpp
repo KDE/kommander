@@ -183,10 +183,11 @@ void SpecialInformation::setDefaultGroup(int gname)
   m_defaultGroup = gname;
 }
 
-void SpecialInformation::insertGroup(int id, const QString& name)
+void SpecialInformation::insertGroup(int id, const QString& name, const QString& parserName)
 {
   if (group(name) == -1) {
     m_groups[name] = id;
+    m_parserGroups[name] = parserName;
     m_defaultGroup = id;
   }
 }
@@ -207,6 +208,7 @@ QStringList SpecialInformation::functions(const QString& g)
 
 QMap<int, QMap<int, SpecialFunction> > SpecialInformation::m_specials;
 QMap<QString, int> SpecialInformation::m_groups;
+QMap<QString, QString> SpecialInformation::m_parserGroups;
 QMap<int, QMap<QString, int> > SpecialInformation::m_functions;
 QMap<int, QMap<QString, int> > SpecialInformation::m_aliases;
 int SpecialInformation::m_defaultGroup;
