@@ -16,6 +16,8 @@
 /* KDE INCLUDES */
 #include <kcombobox.h>
 #include <klineedit.h>
+#include <klocale.h>
+#include <kpushbutton.h>
 #include <ktextbrowser.h>
 
 /* OTHER INCLUDES */ 
@@ -29,6 +31,8 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, char* a_name, bool a_modal)
   groupComboBox->insertStringList(SpecialInformation::groups());
   connect(groupComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));
   connect(functionComboBox, SIGNAL(activated(int)), SLOT(functionChanged(int)));
+  connect(copyButton, SIGNAL(clicked()), SLOT(copyText()));
+  connect(clearButton, SIGNAL(clicked()), insertedText, SLOT(clear()));
   groupComboBox->setCurrentItem(0);
   groupChanged(groupComboBox->currentItem());
 }
@@ -42,15 +46,15 @@ QString FunctionsDialog::functionText() const
   return insertedText->text();
 }
 
-void FunctionsDialog::setFunctionText()
+QString FunctionsDialog::currentFunctionText()
 {
   if (groupComboBox->currentText() == "Kommander")
-     insertedText->setText(QString("%1()").arg(functionComboBox->currentText()));
+    return QString("%1()").arg(functionComboBox->currentText());
   else if (groupComboBox->currentText() == "DCOP")
-    insertedText->setText(QString("@Widget.%1()").arg(functionComboBox->currentText()));
+    return QString("@Widget.%1()").arg(functionComboBox->currentText());
   else 
-    insertedText->setText(QString("%1.%2()").arg(groupComboBox->currentText())
-      .arg(functionComboBox->currentText()));
+    return QString("@%1.%2()").arg(groupComboBox->currentText())
+      .arg(functionComboBox->currentText());
 }
 
 void FunctionsDialog::groupChanged(int index)
@@ -61,16 +65,31 @@ void FunctionsDialog::groupChanged(int index)
   functionChanged(functionComboBox->currentItem());
 }
 
-void FunctionsDialog::functionChanged(int index)
+void FunctionsDialog::functionChanged(int)
 {
   SpecialFunction function = SpecialInformation::functionObject(groupComboBox->currentText(),
       functionComboBox->currentText());
+  QString defArgs;
+  if (function.minArg() < function.maxArg()) 
+     if (!function.minArg())
+        defArgs = i18n("<p>Parameters are not obligatory.");
+     else    
+        defArgs = i18n("<p>Only first argument is obligatory.", 
+           "<p>Only first %1 arguments are obligatory.", 
+           function.minArg()).arg(function.minArg());
   
   descriptionText->clear();
   descriptionText->setText(QString("<qt><h1>%1</h1>"
     "<p><b>Description:</b> %2"
-    "<p><b>Syntax:</b> <i>%3</i></qt>").arg(function.name()).arg(function.description()).
-    arg(function.longPrototype()));
-   setFunctionText(); 
+    "<p><b>Syntax:</b> <i>%3</i>%4</qt>").arg(function.name()).arg(function.description()).
+    arg(function.longPrototype()).arg(defArgs));
+}
+
+void FunctionsDialog::copyText()
+{
+  QString text = currentFunctionText();
+  int cursorPos = insertedText->cursorPosition();
+  insertedText->insert(text);
+  insertedText->setCursorPosition(cursorPos + text.find('(') + 1);
 }
 

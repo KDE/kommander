@@ -28,10 +28,11 @@ public:
   FunctionsDialog(QWidget*, char* = 0, bool = true);
   ~FunctionsDialog();
   QString functionText() const;
-  void setFunctionText();
+  QString currentFunctionText();
 public slots:
   void groupChanged(int);
   void functionChanged(int);
+  void copyText();
 };  
 
 

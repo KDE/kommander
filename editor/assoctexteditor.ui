@@ -98,49 +98,18 @@
                 <cstring>groupBox1</cstring>
             </property>
             <property name="title">
-                <string>Insert</string>
+                <string>Insert:</string>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>filePushButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;File...</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+F</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Fixed</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
                 <widget class="KPushButton">
                     <property name="name">
                         <cstring>functionButton</cstring>
                     </property>
                     <property name="text">
-                        <string>F&amp;unction...</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+U</string>
+                        <string>&amp;Function...</string>
                     </property>
                 </widget>
                 <spacer>
@@ -196,6 +165,31 @@
                             <width>150</width>
                             <height>0</height>
                         </size>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Fixed</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>filePushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Fi&amp;le...</string>
                     </property>
                 </widget>
             </hbox>

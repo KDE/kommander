@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>535</width>
-            <height>371</height>
+            <width>539</width>
+            <height>378</height>
         </rect>
     </property>
     <property name="caption">
@@ -47,7 +47,7 @@
                         </size>
                     </property>
                 </spacer>
-                <widget class="QPushButton">
+                <widget class="KPushButton">
                     <property name="name">
                         <cstring>buttonOk</cstring>
                     </property>
@@ -64,7 +64,7 @@
                         <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QPushButton">
+                <widget class="KPushButton">
                     <property name="name">
                         <cstring>buttonCancel</cstring>
                     </property>
@@ -99,7 +99,7 @@
         </widget>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout7</cstring>
+                <cstring>layout6</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -118,7 +118,10 @@
                                 <cstring>textLabel1</cstring>
                             </property>
                             <property name="text">
-                                <string>Group:</string>
+                                <string>&amp;Group:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>groupComboBox</cstring>
                             </property>
                         </widget>
                         <widget class="KComboBox">
@@ -147,7 +150,10 @@
                                 <cstring>textLabel2</cstring>
                             </property>
                             <property name="text">
-                                <string>Function:</string>
+                                <string>&amp;Function:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>functionComboBox</cstring>
                             </property>
                         </widget>
                         <widget class="QComboBox">
@@ -176,26 +182,65 @@
                     <property name="sizeHint">
                         <size>
                             <width>20</width>
-                            <height>40</height>
+                            <height>140</height>
                         </size>
                     </property>
                 </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>copyButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>image0</pixmap>
+                    </property>
+                </widget>
             </vbox>
+        </widget>
+        <widget class="KTextBrowser" row="0" column="1">
+            <property name="name">
+                <cstring>descriptionText</cstring>
+            </property>
         </widget>
         <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>layout8</cstring>
+                <cstring>layout12</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>clearButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>image1</pixmap>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
                 <widget class="QLabel">
                     <property name="name">
                         <cstring>textLabel4</cstring>
                     </property>
                     <property name="text">
-                        <string>Inserted text:</string>
+                        <string>Inserted &amp;text:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>insertedText</cstring>
                     </property>
                 </widget>
                 <widget class="KLineEdit">
@@ -205,15 +250,18 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="KTextBrowser" row="0" column="1">
-            <property name="name">
-                <cstring>descriptionText</cstring>
-            </property>
-        </widget>
     </grid>
 </widget>
 <customwidgets>
 </customwidgets>
+<images>
+    <image name="image0">
+        <data format="PNG" length="1307">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000004e249444154789c7d95cb8f54c71587bfaa7bebf6fbc134031910ed314f29c0003d42161bcb8ae507360bdbb1bcf0228a8488c22e59c4fe0312894d36368abc18291252a444082b96220b145b4a64cb181b3c68cccb1e07ccf09a999e999ee9db7dfbdeee7bab2a8b060f0d89cfae54a7bef3ab737ed211fc48d48e4e29b0c36046b0360b16b021d6cc29e3d7c738d99b9898f89f6fc58f400f006f80dd8ba08a5039004cb783d5b7812961925335fbe7cf00fd6881c7c0b5a3535b40fc0647bd99cf65cb3f595b94eb2b6976ac6d91519aeb8d3c37eb86c58505d36886a149c2cf946dff61ccfef573207950c07d04fa0488e378c5837b376778697f81dd9b2cebca0e8e5c03f49bb1dc4ab831b74e9e9e8c729f5e5a7ebe178a4d97cdeb6fefb2a74e03c980e2fb4a8fe78bc5175edc5f92876a1e43050721047162b831dba51d6ad60f2936563c84100491e6ecb50e7ffb77c3d69756bef374e3f06ede3f0b988714dbdfe1150e3e572bf1f23e857205add000102786bd5b73acc9bbdc988df03b1a210460d9bf2d439c0c89131f9bed9d96fe159629a0edf4d57e754038a9637bb614d3076b0a29a1171ba2d8d08d0de5bccb868a07c09a82cbad7a97a86b88624b2fb10ce52541cfe5d6423cbaa0374dade7daf76eedd71714d6be91cfa58bb52d1eda189a811d18682eed0c9c9b8126d1ab39da58768c68bebe9e2a3496f2afd5e3d1732e300cec2d164bb29c4ef003f998f5d6e407668cdfd1c489416bcb9d86e6d25c193fccd2222f0d2b3b7d51adbac0084256d7160461cf10f60c9d9e248a052965c979864e590f2a6e2744b1a11148a6eee6b8e3a7fb17ae0bc219c1f1aa12c82253b9ac8a59090c8bbea554c8f0fc788975435956028893c1d64ccf3b7c7133cb819f96f9eda12c1bfa4eec0f54a632020a3ffcdb8f14f34d492aa5f8e5b305f66df678f3e93ca31b4b4c2fa407c0d79b150e3f57e4995d1e4f6d7378f71720c4aa770546ba60434cb7331f6408749a7a24f87cda70607bbfe62b4f65b87677b0e76f1d82dae8eaf9d4977d3058d051246cd295583387d5b79b1d43b39be69e9fe2f77f877f5ded3f520e8c5507c10fa0610ffef8217c700194845eaf0b56d7a509e6a4327e1d98a2db30cab1788e052c7ffaa7e6dc77e651830cc4894f0c1f7dad518ec67335a2b7645ca2e9b29d99755e1a4feb39f60416fb6a29e7662a79435ec57832e6caed1eeb8b828d95411f7763cbc9b3119f5e8dc8ab989c8ae94501ade58576269e796fa37379ca999c9ce4504ddeb9c7d893c226e3d56197622a21e7257822e1dbbb5d360c390c9756bdfc8f2f7dce7f1b9055093995e08a98dbb34b7483e533bbc5072780fa836ced98ce3bad96d83a738f67c636e7a5a75641a7cf3711c0868ae2fc74c0d5990ec54c7f56bd3861fa56dbb4fde6571573ed2f48e681d001989c9ce4e59a5a5ab2d50bcdd0dde97792d14256315470f1944408f8cfbd2e17af77985f49508e4039b0d88cb974a3c9dc827f6138b978ac2a27cf038b80fea179e3e3e3761ddf3496ece8c566e864179af168ab9378693711b98c8b2b255280b59aa5e580cb373be69b5badf6ca8a7fa6a2afbc771f5a07e2898989c737c89123472490bbc4cf7f96c8fc6b06b5534a3152c838198056a823a34ddd259a4eebf98f76c88fcf02f3c00aff6f83dc0f03b477f3fe997a3c7ace17d52a8e57156d0a0223cb36e94a13cc95edcc6cc9596c002d2004ccc37befbfd9ff4e6a6567acaf0000000049454e44ae426082</data>
+    </image>
+    <image name="image1">
+        <data format="PNG" length="345">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000012049444154789ced94316e843010459fa31517a0217b088a3d013252e4337003cec369e8e85182a0e008bb140b07a0719a80c0d80429a1889491466266ece7d1c71ea1b5e60c7b3985fa0f5eda65190821de80e7c1bd1f66627511b4d6b30337401ff4571b78f28b5904a8aa8a611818c71100cff356df00711cdf812bf0b031ac1ae7798e9412a514755dd3b62d755da394424a49599664590670b775ee94224912bd345b9ca6a94ed37425cb922596820b216ec07b1445f47d4fd3349b46c230c4f7fd55ae280a80abd67a96c50a0e820080aeeb30ea4c35d3bed68a29b6febcaeeb66994cd98410b62d9bb5ce076276ea022c0e5c9df8edcb9bd6ef756a42c121850b64e65c50f8c1acd883c2b6e3c7d1c1bf0705e3bafda6fdbd797c1af8139f0bc0827c9ff9f70000000049454e44ae426082</data>
+    </image>
+</images>
 <connections>
     <connection>
         <sender>buttonOk</sender>
@@ -228,10 +276,20 @@
         <slot>reject()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>groupComboBox</tabstop>
+    <tabstop>functionComboBox</tabstop>
+    <tabstop>copyButton</tabstop>
+    <tabstop>clearButton</tabstop>
+    <tabstop>insertedText</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+    <tabstop>descriptionText</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>ktextbrowser.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

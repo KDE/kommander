@@ -1,3 +1,14 @@
+Tue 13 Jul 2004 13:33:00 CEST
+	o function browser: support for nested functions
+	o function browser: properly prefix function groups with @
+	o function browser: add information about obligatory and optional
+	  parameters.
+	o function browser: add clear button
+	o Kommander Text Editor: change buttons order
+
+Tue 13 Jul 2004 01:10:34 CEST
+	o added function browser for editor
+
 Sat 10 Jul 2004 15:51:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o forEach(variable, list) function for internal loops
 	o for(variable, start, end, [step]) function for internal loops
