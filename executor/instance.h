@@ -89,6 +89,8 @@ public slots:
   bool build(QFile*);
   /** Registers all known DCOP functions */
   void registerDCOP();
+  /** Registers all known specials */
+  void registerSpecials();
 protected:
   /* Dialog Instance */
   QDialog *m_instance;

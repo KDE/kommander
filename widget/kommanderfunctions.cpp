@@ -14,8 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <cstdlib>
-  
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kconfig.h>
@@ -158,5 +156,33 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
 
 QString KommanderWidget::evalStringFunction(const QString& function, const QStringList& args) const
 {
+  if (function == "length")
+    return QString::number(args[0].length());
+  else if (function == "contains")
+    return QString::number(args[0].contains(args[1]));
+  else if (function == "left")
+    return args[0].left(args[1].toInt());
+  else if (function == "right")
+    return args[0].right(args[1].toInt());
+  else if (function == "mid")
+    return args[0].mid(args[1].toInt(), args[2].toInt());
+  else if (function == "remove")
+    return QString(args[0]).remove(args[1]);
+  else if (function == "replace")
+    return QString(args[0]).replace(args[1], args[2]);
+  else if (function == "lower")
+    return args[0].lower();
+  else if (function == "upper")
+    return args[0].upper();
+  else if (function == "compare")
+    return QString::number(args[0].compare(args[1]));
+  else if (function == "isEmpty")
+    return QString::number(args[0].isEmpty());
+  else if (function == "isNumber")
+  {
+    bool ok;
+    args[0].toInt(&ok);
+    return QString::number(ok);
+  }
   return QString::null;
 }

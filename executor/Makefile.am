@@ -1,6 +1,6 @@
 bin_PROGRAMS = kmdr-executor
 
-kmdr_executor_SOURCES =  instance.cpp main.cpp dcopkommanderif.skel
+kmdr_executor_SOURCES = instance.cpp main.cpp dcopkommanderif.skel register.cpp
 kmdr_executor_LDADD   = $(top_builddir)/kommander/widget/libkommanderwidget.la $(top_builddir)/kommander/widgets/libkommanderwidgets.la $(top_builddir)/kommander/factory/libkommanderfactory.la  $(LIB_KIO)
 
 KDE_ICON = kmdr-executor

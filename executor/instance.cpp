@@ -1,5 +1,5 @@
 /***************************************************************************
-                          instance.cpp  -  description
+                          instance.cpp  -  running instance of a dialog
                              -------------------
     begin                : Tue Aug 13 2002
     copyright            : (C) 2002 by Marc Britton <consume@optushome.com.au>
@@ -48,14 +48,13 @@
 #include <kommanderwidget.h>
 #include <kommanderfactory.h>
 #include <fileselector.h>
-#include <dcopinformation.h>
-#include <specialinformation.h>
 
 Instance::Instance()
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0),
   m_cmdArguments(0)
 {
   registerDCOP();
+  registerSpecials();
 }
 
 Instance::Instance(const KURL& a_uiFileName, QWidget *a_parent)
@@ -63,6 +62,7 @@ Instance::Instance(const KURL& a_uiFileName, QWidget *a_parent)
   m_parent(a_parent), m_cmdArguments(0)
 {
   registerDCOP();
+  registerSpecials();
 }
 
 void Instance::addArgument(const QString& argument)
@@ -431,50 +431,6 @@ QObjectList* Instance::stringToWidget(const QString& name)
   if (!m_instance)
     return 0;
   return m_instance->queryList(0, name, false);
-}
-
-void Instance::registerDCOP()
-{
-  DCOPInformation::insert("enableWidget(QString,bool)");
-  DCOPInformation::insert("changeWidgetText(QString,QString)");
-  DCOPInformation::insert("currentItem(QString)");
-  DCOPInformation::insert("item(QString,int)");
-  DCOPInformation::insert("removeListItem(QString,int)");
-  DCOPInformation::insert("addListItem(QString,QString,int)");
-  DCOPInformation::insert("addListItems(QString,QStringList,int)");
-  DCOPInformation::insert("addUniqueItem(QString,QString)");
-  DCOPInformation::insert("findItem(QString,QString)");
-  DCOPInformation::insert("clearList(QString)");
-  DCOPInformation::insert("setCurrentListItem(QString,QString)");
-  DCOPInformation::insert("setCurrentTab(QString,int)");
-  DCOPInformation::insert("setChecked(QString, bool)");
-  DCOPInformation::insert("setAssociatedText(QString,QString)");
-  DCOPInformation::insert("associatedText(QString)");
-  DCOPInformation::insert("global(QString)");
-  DCOPInformation::insert("setGlobal(QString,QString)");
-  
-  SpecialInformation::insert("widgetText");
-  SpecialInformation::insert("selectedWidgetText");
-  SpecialInformation::insert("pid");
-  SpecialInformation::insert("dcopid");
-  SpecialInformation::insert("parentPid");
-  SpecialInformation::insert("execBegin", 0, 1);
-  SpecialInformation::insert("env", 1);
-  SpecialInformation::insert("exec", 1);
-  SpecialInformation::insert("global", 1);
-  SpecialInformation::insert("dialog", 1, 2);
-  SpecialInformation::insert("readSetting", 2);  
-  SpecialInformation::insert("setGlobal", 2);
-  SpecialInformation::insert("writeSetting", 2);
-  SpecialInformation::insert("dcop", 4, 10);
-  
-  SpecialInformation::setCurrentObject("Array");
-  SpecialInformation::insert("values", 1);
-  SpecialInformation::insert("keys", 1);
-  SpecialInformation::insert("clear", 1);
-  SpecialInformation::insert("value", 2);
-  SpecialInformation::insert("remove", 2);
-  SpecialInformation::insert("setValue", 3);
 }
 
   
