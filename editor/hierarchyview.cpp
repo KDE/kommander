@@ -741,7 +741,7 @@ void FormDefinitionView::showRMBMenu( QListViewItem *i, const QPoint &pos )
       menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n("Properties..." ), PROPS );
 #ifndef KOMMANDER
         if ( MetaDataBase::hasEditor( formWindow->project()->language() ) )
-      menu.insertItem( i18n("Goto Implementation" ), EDIT );
+      menu.insertItem( i18n("Go to Implementation" ), EDIT );
 #endif
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n("Delete" ), REMOVE );

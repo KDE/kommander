@@ -304,8 +304,8 @@ void MainWindow::setupSearchActions()
     actionSearchReplace->setEnabled( FALSE );
     actionSearchReplace->setWhatsThis( whatsThisFrom( "Search|Replace" ) );
 
-    actionSearchGotoLine = new QAction( i18n("Goto Line" ), QIconSet(),
-            i18n("&Goto Line..." ), ALT + Key_G, this, 0 );
+    actionSearchGotoLine = new QAction( i18n("Go to Line" ), QIconSet(),
+            i18n("&Go to Line..." ), ALT + Key_G, this, 0 );
     connect( actionSearchGotoLine, SIGNAL( activated() ), this, SLOT( searchGotoLine() ) );
     actionSearchGotoLine->setEnabled( FALSE );
     actionSearchGotoLine->setWhatsThis( whatsThisFrom( "Search|Goto line" ) );
@@ -1285,7 +1285,7 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
                 arg( filename ), 3000 );
       return;
         }
-        statusBar()->message( i18n("Importing '%1' using import filter ...").arg( filename ) );
+        statusBar()->message( i18n("Importing '%1' using import filter...").arg( filename ) );
         QStringList list = iface->import( filter, filename );
         iface->release();
         if ( list.isEmpty() ) {
@@ -1918,7 +1918,7 @@ SourceEditor *MainWindow::editSource( SourceFile *f )
     QString lang = currentProject->language();
     if ( !MetaDataBase::hasEditor( lang ) ) {
   QMessageBox::information( this, i18n("Edit Source" ),
-          i18n("There is no plugin for edit %1 code installed" ).arg(lang) );
+          i18n("There is no plugin for editing %1 code installed" ).arg(lang) );
   return 0;
     }
     if ( f )

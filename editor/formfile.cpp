@@ -349,7 +349,7 @@ bool FormFile::saveAs()
 #else
       i18n("*.kmdr|Kommander Files" ), MainWindow::self,
 #endif
-                 i18n("Save Form '%1' As ...").arg( formWindow()->name() ));
+                 i18n("Save Form '%1' As...").arg( formWindow()->name() ));
 
   if ( fn.isEmpty() )
       return FALSE;
@@ -882,7 +882,7 @@ bool FormFile::checkFileName( bool allowBreak )
           i18n("Kommander Files (*nameui)" ) + ";;" +
 #endif
                  i18n("All Files (*)" ), MainWindow::self, 0,
-                 i18n("Save Form '%1' As ...").
+                 i18n("Save Form '%1' As...").
                  arg( formWindow()->name() ),
                  &MainWindow::self->lastSaveFilter );
       if ( allowBreak && fn.isEmpty() )

@@ -118,7 +118,7 @@ void ExecButton::startProcess()
 		connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
 		if(!process->start(KProcess::NotifyOnExit, KProcess::Stdout))
 		{
-			KMessageBox::error(this, i18n("Failed to start shell process"));
+			KMessageBox::error(this, i18n("Failed to start shell process."));
 			delete process;
 			return;
 		}

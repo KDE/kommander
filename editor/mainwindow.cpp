@@ -497,7 +497,7 @@ void MainWindow::setupActionEditor()
                                       "a form, and to connect actions to slots. Actions and action "
                                       "groups can be dragged into menus and into toolbars, and may "
                                       "feature keyboard shortcuts and tooltips. If actions have pixmaps "
-                                      "these are displayed on toolbar buttons and besides their names in "
+                                      "these are displayed on toolbar buttons and beside their names in "
                                       "menus.</p>" ) );
     dw->hide();
     setAppropriate( dw, FALSE );
@@ -1444,7 +1444,7 @@ void MainWindow::insertFormWindow( FormWindow *fw )
                                "<p>Changes in the <b>Property Editor</b> are visible at design time, "
                                "and you can preview the form in different styles.</p>"
                                "<p>You can change the grid resolution, or turn the grid off in the "
-                               "<b>Preferences</b> dialog in the <b>Edit</b> menu."
+                               "<b>Preferences</b> dialog from the <b>Edit</b> menu."
                                "<p>You can have several forms open, and all open forms are listed "
                                "in the <b>Form List</b>.") );
 
@@ -1837,7 +1837,7 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
             text = KLineEditDlg::getText( i18n("Text"), i18n("New text:" ), w->property("text").toString(), &ok, this );
         }
         if ( ok ) {
-            QString pn( i18n("Set the 'text' of '%2'" ).arg( w->name() ) );
+            QString pn( i18n("Set the 'text' of '%1'" ).arg( w->name() ) );
             SetPropertyCommand *cmd = new SetPropertyCommand( pn, formWindow(), w, propertyEditor,
                                                               "text", w->property( "text" ),
                                                               text, QString::null, QString::null );
@@ -1849,7 +1849,7 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
         bool ok = FALSE;
         QString title = KLineEditDlg::getText( i18n("Title"), i18n("New title:" ), w->property("title").toString(), &ok, this );
         if ( ok ) {
-            QString pn( i18n("Set the 'title' of '%2'" ).arg( w->name() ) );
+            QString pn( i18n("Set the 'title' of '%1'" ).arg( w->name() ) );
             SetPropertyCommand *cmd = new SetPropertyCommand( pn, formWindow(), w, propertyEditor,
                                                               "title", w->property( "title" ),
                                                               title, QString::null, QString::null );
@@ -1861,7 +1861,7 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
         bool ok = FALSE;
         QString text = KLineEditDlg::getText( i18n("Page Title"), i18n("New page title:" ), w->property("pageTitle").toString(), &ok, this );
         if ( ok ) {
-            QString pn( i18n("Set the 'pageTitle' of '%2'" ).arg( w->name() ) );
+            QString pn( i18n("Set the 'pageTitle' of '%1'" ).arg( w->name() ) );
             SetPropertyCommand *cmd = new SetPropertyCommand( pn, formWindow(), w, propertyEditor,
                                                               "pageTitle", w->property( "pageTitle" ),
                                                               text, QString::null, QString::null );
@@ -1873,7 +1873,7 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
         QPixmap oldPix = w->property( "pixmap" ).toPixmap();
         QPixmap pix = qChoosePixmap( this, formWindow(), oldPix );
         if ( !pix.isNull() ) {
-            QString pn( i18n("Set the 'pixmap' of '%2'" ).arg( w->name() ) );
+            QString pn( i18n("Set the 'pixmap' of '%1'" ).arg( w->name() ) );
             SetPropertyCommand *cmd = new SetPropertyCommand( pn, formWindow(), w, propertyEditor,
                                                               "pixmap", w->property( "pixmap" ),
                                                               pix, QString::null, QString::null );
