@@ -403,6 +403,8 @@ void MainWindow::runForm()
 
 void MainWindow::helpContents()
 {
+
+
     QWidget *focusWidget = qApp->focusWidget();
     bool showClassDocu = TRUE;
     while ( focusWidget ) {
@@ -477,8 +479,10 @@ void MainWindow::helpContents()
 
 void MainWindow::helpManual()
 {
-    if ( assistant )
+    kapp->invokeHelp(QString::null, "kommander", "0");    
+/*    if ( assistant )
         assistant->sendRequest( "designer-manual.html\n" );
+*/	
 }
 
 void MainWindow::helpAbout()

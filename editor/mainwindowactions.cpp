@@ -67,6 +67,7 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kstdguiitem.h>
+#include <kiconloader.h>
 
 static const char * whatsthis_image[] = {
     "16 16 3 1",
@@ -666,9 +667,10 @@ void MainWindow::setupHelpActions()
     actionHelpContents->setWhatsThis( whatsThisFrom( "Help|Contents" ) );
     connect( actionHelpContents, SIGNAL( activated() ), this, SLOT( helpContents() ) );
 
-    actionHelpManual = new QAction( i18n("Manual" ), i18n("&Manual" ), CTRL + Key_M, this, 0 );
-    actionHelpManual->setStatusTip( i18n("Opens the Qt Designer manual") );
-    actionHelpManual->setWhatsThis( whatsThisFrom( "Help|Manual" ) );
+    actionHelpManual = new QAction( i18n("Manual" ), i18n("Kommander &Handbook" ), 0, this, 0 );
+    actionHelpManual->setStatusTip( i18n("Opens the Kommander Handbook") );
+    actionHelpManual->setWhatsThis( whatsThisFrom( "Help|Kommander Handbook" ) );
+    actionHelpManual->setIconSet(SmallIconSet("contents"));
     connect( actionHelpManual, SIGNAL( activated() ), this, SLOT( helpManual() ) );
 
     actionHelpAbout = new QAction( i18n("About"), QPixmap(), i18n("&About"), 0, this, 0 );
@@ -703,8 +705,8 @@ void MainWindow::setupHelpActions()
     QPopupMenu *menu = new QPopupMenu( this, "Help" );
     menubar->insertSeparator();
     menubar->insertItem( i18n("&Help" ), menu );
-    actionHelpContents->addTo( menu );
     actionHelpManual->addTo( menu );
+    actionHelpContents->addTo( menu );
     menu->insertSeparator();
     actionHelpAbout->addTo( menu );
     actionHelpAboutQt->addTo( menu );
