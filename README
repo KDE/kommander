@@ -1,4 +1,70 @@
-Kommander v0.99
-Marc Britton <consume@optushome.com.au>
+Kommander v1.0Alpha series
+Eric Laffoon <sequitur@kde.org>
 ----------------------------------------------------------------------
-Kommander is a functional dialog creation tool. In English, it lets you make dialogs that do useful stuff pretty easily.
+Kommander is a visual dialog building tool which may be expanded to create
+full mainwindow applications. The primary objective is to create as much 
+functionality as possible without using any scripting language. This is
+provided by the following features:
+* Specials - these are prefaced with an "@" like @widgetText. The offer 
+special features like the value of a widget, functions, aliases, global 
+variables and such.
+* DCOP integration - this allows Kommander dialogs to control and be 
+controled in interactions with other KDE applicatins. It is a very powerful 
+feature!
+* Signals and Slots - this is a little less intuitive to a new user. It is 
+under review for how we process things in the first major release. These
+offer a limited event model for when a button is pushed or a widget is 
+changed. Combined with "Population Text" it is rather powerful.
+
+The central key feature of Kommander dialogs is that you can bind text 
+(Kommander Text) to a widget. So if you have @widget1 and @widget2 and 
+they are line edits you can set Kommander to show their contents by 
+entering @widgetText in their Kommander Text area. Then enter hello in 
+@widget1 and world in @widget2. A button can have the string
+My first @widget1 @widget2 program in Kommander
+If you run this dialog from a console it will output
+My first hello world program in Kommander
+
+Hopefully you begin to see a small glimmering of the potential. Kommander
+enables a much faster design model for simple applications because if allows
+you to stop thinking so much about language and revert to the more basic and 
+natural conceptual model. In computers language is a means to define concepts
+and as such it is a layer between concept and implementation that can impede
+progress with minutia. Kommander seeks to minimize that layer. 
+
+Kommander also seeks to build on standards. It is built on the Qt Designer
+framework and creates *.ui files which it renames to *.kmdr. It can easily
+import any KDE widget and this can be done without having to rebuild 
+Kommander, by using plugins.
+
+Kommander's other significant factor is how it addresses the requirements of
+language. Computer languages can be wonderful things but they tend to have
+their own dogmas and zealots often seeking to provide an advance to GUI 
+design in an integrated development environment. Ironically the accpetance
+of such IDEs is limited by the number of people willing to adopt a new new 
+language to gain access to a desired feature. It is really not reasonable to 
+expect people to need to change over to a dozen languages to access various
+feature sets. By being language neutral and allowing a Kommander dialog to be
+extended by using any scripting language Kommander positions it's self in a 
+unique position for wide spread adoption. Multiple script languages can be
+used in a single dialog and applications can be taken over by people using 
+a different language than the original developer and gradually converting
+and extending it. New widgets and featurs can be instantly leveraged by all
+available languages. 
+
+We hope that Kommander begins to get the developer support and recognition 
+required to achieve the potential it offers. Our end goal is to make Kommander 
+useful for novice users to extend and merge their applications. At the same 
+time it should become a good prototyping tool. Also it opens the door to the 
+promise of open source in a new way. We know that people can extend our GPL'd
+prgrams, but the fact remains very few have the skills. With Kommander those
+numbers see a huge multiplier! Some applications may be most logical as a
+Kommander application. We already use it in areas we want to allow 
+extensibility in Quanta Plus.
+
+We hope you enjoy Kommander. Please help us with bug reports and example 
+dialogs, as well as any requests you may have. You can join our user list
+for help developing Kommander applications at 
+http://mail.kdewebdev.org/mailman/listinfo/kommander 
+
+Best Regards from the Kommander development team!
