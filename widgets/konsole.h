@@ -63,7 +63,7 @@ class Konsole : public KTextEdit, public KommanderWidget
     virtual void processReceivedStdout(MyProcess*, char* a_buffer, int a_len);
     virtual void processExited(MyProcess* p);
   signals:
-    void widgetTextChanged(const QString&);
+    void finished();
   protected:
     // Whether last line of output was ended with EOL
     bool mSeenEOL;

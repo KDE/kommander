@@ -109,7 +109,7 @@ void Konsole::processReceivedStdout(MyProcess*, char* buffer, int buflen)
     pBuf = "\n" + pBuf;
   mSeenEOL = pBuf[pBuf.length()-1] == '\n';
   if (mSeenEOL)
-    pBuf = pBuf.left(pBuf.length()-2);
+    pBuf = pBuf.left(pBuf.length()-1);
   insert(pBuf);
 }
 
@@ -118,6 +118,7 @@ void Konsole::processExited(MyProcess*)
   unsetCursor();
   delete mProcess;
   mProcess = 0;
+  emit finished();
 }
 
 bool Konsole::isFunctionSupported(int f)
