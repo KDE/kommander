@@ -14,24 +14,25 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
-#include <kapplication.h>
 #include <dcopclient.h>
-#include <kprocess.h>
+#include <kapplication.h>
 #include <kconfig.h>
-#include <klocale.h>
 #include <kdebug.h>
+#include <klocale.h>
+#include <kprocess.h>
 
 /* QT INCLUDES */
-#include <qvariant.h>
-#include <qregexp.h>
-#include <qstringlist.h>
+#include <qapplication.h>
 #include <qcstring.h>
 #include <qdatastream.h>
-#include <qvaluelist.h>
-#include <qstring.h>
-#include <qapplication.h>
 #include <qobject.h>
 #include <qobjectlist.h>
+#include <qregexp.h>
+#include <qstring.h>
+#include <qstringlist.h>
+#include <qvaluelist.h>
+#include <qvariant.h>
+
 
 /* UNIX INCLUDES */
 #include <unistd.h>
@@ -40,9 +41,13 @@
 #include "myprocess.h"
 #include "kommanderwidget.h"
 
+
+
+
 KommanderWidget::KommanderWidget(QObject *a_thisObject)
 {
   m_thisObject = a_thisObject;
+  registerFunctions();
 }
 
 KommanderWidget::~KommanderWidget()
@@ -105,271 +110,153 @@ QString KommanderWidget::evalAssociatedText() const // expands and returns assoc
 QString KommanderWidget::evalAssociatedText(const QString& a_text) const
 {
   QString evalText;
-  QString baseText = a_text;
-  int pos = 0, baseTextLength = baseText.length();
-  while (pos < baseTextLength)  //expand identifiers
+  
+  int pos = 0, baseTextLength = a_text.length();
+  while (pos < baseTextLength)
   {
-    while (baseText[pos] != ESCCHAR && pos < baseTextLength)
-      evalText += baseText[pos++];
-    if (pos < baseTextLength)
-    {
-      QString identifier;
-
-      for (++pos; pos < baseTextLength && (baseText[pos].isLetterOrNumber() 
-         || baseText[pos] == '_'); ++pos)
-        identifier += baseText[pos];
-
-      if (identifier.isEmpty())
+    int ident = a_text.find(ESCCHAR, pos);
+    if (ident == -1) {
+      evalText += a_text.mid(pos);
+      break;
+    }
+    evalText += a_text.mid(pos, ident - pos);
+    pos = ident+1;
+      
+    QString identifier = parseIdentifier(a_text, pos);
+    if (identifier.isNull()) {
+      evalText += ESCCHAR;    // single @
+      continue;
+    }
+    
+    if (m_functions.contains(identifier)) {    // @function
+      bool ok = true;
+      QString arg = parseBrackets(a_text, pos, ok);
+      if (!ok)
       {
-        evalText += ESCCHAR;
-        ++pos;
-      } else
+        printError(i18n("Unmatched parenthesis after \'%1\'").arg(identifier));
+        return QString::null;
+      }
+      const QStringList args = parseArgs(arg, ok);
+      if (!ok)
       {
-        if (identifier == "widgetText")
-          evalText += widgetText();
-        else if (identifier == "dcopid")
-          evalText += kapp->dcopClient()->appId();
-        else if (identifier == "pid")
-          evalText += QString().setNum(getpid());
-        else if (identifier == "parentPid")
-          evalText += QString().setNum(getppid());
-        else if (identifier == "selectedWidgetText")
-          evalText += selectedWidgetText();
-        else                    // see if this is an identifier
+        printError(i18n("Unmatched quotes in argument of \'%1\'").arg(identifier));
+        return QString::null;
+      }
+      if (args.count() < m_functions[identifier].first)
+      {
+        printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3)")
+          .arg(identifier).arg(args.count()).arg(m_functions[identifier].first));
+        return QString::null;
+      }
+      if (args.count() > m_functions[identifier].second)
+      {
+        printError(i18n("Too many arguments for \'%1\' (%2 instead of %3)")
+          .arg(identifier).arg(args.count()).arg(m_functions[identifier].second));
+        return QString::null;
+      }
+      if (identifier == "widgetText")
+        evalText += widgetText();
+      else if (identifier == "selectedWidgetText")
+        evalText += selectedWidgetText();
+      else if (identifier == "dcopid")
+        evalText += kapp->dcopClient()->appId();
+      else if (identifier == "pid")
+        evalText += QString().setNum(getpid());
+      else if (identifier == "parentPid")
+        evalText += QString().setNum(getppid());
+      else if (identifier == "exec")
+        evalText += execCommand(args[0]);
+      else if (identifier == "dcop")
+        evalText += dcopQuery(args);
+      else if (identifier == "readSetting") 
+      {
+        KConfig cfg("kommanderrc", true);
+        cfg.setGroup(QString(parentDialog()->name()));
+        evalText += cfg.readEntry(args[0], args[1]);
+      }
+      else if (identifier == "writeSetting") 
+      {
+        KConfig cfg("kommanderrc", false);
+        cfg.setGroup(QString(parentDialog()->name()));
+        cfg.writeEntry(args[0], args[1]);
+      }
+      else if (identifier == "execBegin")
+      {
+        int f = a_text.find("@execEnd", pos);  
+        if (f == -1)
         {
-          QObject *superParent = m_thisObject;
-          while (superParent->parent())
-          {
-            superParent = superParent->parent();
-            if (superParent->inherits("Dialog"))
-              break;
-          }
-
-          //qDebug("superParent is %s", superParent->name()); 
-          QObject *childObj = superParent->child(identifier.latin1());
-          KommanderWidget *childTextObj = dynamic_cast < KommanderWidget * >(childObj);
-          if (childTextObj)
-          {
-            evalText += childTextObj->evalAssociatedText();
-          } else if (identifier == "dcop" || identifier == "exec" ||
-                     identifier == "readSetting"
-                     || identifier == "writeSetting")
-          {
-            while (baseText[pos].isSpace() && pos < baseTextLength)
-              ++pos;
-
-            if (baseText[pos++] != '(')
-            {
-              printError(i18n("Expected \'(\' after \'%1\'").arg(identifier));
-              return QString::null;
-            }
-
-            int braceCount = 1;
-            int startpos = pos;
-            bool inQuotes = false;
-            while (pos < baseTextLength && braceCount)
-            {
-              if ((baseText[pos] == ')' || baseText[pos] == '('))
-              {
-                if (!inQuotes)  // this brace counts
-                {
-                  if (baseText[pos] == '(')
-                    ++braceCount;
-                  else if (baseText[pos] == ')')
-                    --braceCount;
-                }
-              } else if (baseText[pos] == '\"')
-              {
-                if (pos <= 0 || baseText[pos - 1] != '\\')
-                  inQuotes = !inQuotes;
-              }
-              ++pos;
-            }
-            if (braceCount)
-            {
-              printError(i18n("Unmatched parenthesis after \'%1\'").arg(identifier));
-              return QString::null;
-            }
-            if (inQuotes)
-            {
-              printError(i18n("Unmatched quotes in argument of \'%1\'").arg(identifier));
-              return QString::null;
-            }
-            QString arg = evalAssociatedText(baseText.mid(startpos, pos - startpos - 1));
-            if (identifier == "dcop")
-              evalText += dcopQuery(arg);
-            else if (identifier == "exec")
-            {
-              bool ok;
-              QStringList args = parseArgs(arg, ok);
-              if (!ok || args.count() != 1)
-              {
-                printError(i18n("Error parsing arguments to @exec"));
-                return QString::null;
-              }
-              evalText += execCommand(args[0]);
-            } else
-            {
-              KConfig cfg("kommanderrc", identifier == "readSetting");
-              cfg.setGroup(QString(superParent->name()));
-              bool ok;
-              QStringList args = parseArgs(arg, ok);
-              if (!ok || (args.count() != 2 && (args.count() != 1 && identifier == "readSetting")))
-              {
-                printError(i18n("Error parsing arguments to @%1").arg(identifier));
-                return QString::null;
-              }
-              if (identifier == "readSetting")
-                evalText +=
-                  cfg.readEntry(args[0],
-                                (args.count() > 1 ? args[1] : QString::null));
-              else
-                cfg.writeEntry(args[0], args[1]);
-            }
-          } else if (identifier == "execBegin")
-          {
-            // execute everything until execEnd
-            int f = baseText.find("@execEnd");
-            QString execBlock;
-            if (f == -1)
-            {
-              printError(i18n("Unterminated @execBegin ... @execEnd block"));
-              execBlock = baseText.mid(pos);
-            } else
-            {
-              execBlock = baseText.mid(pos, f - pos);
-            }
-            //qDebug("execBlock is %s", execBlock.latin1());
-            pos += execBlock.length();
-            if (f != -1)
-              //terminated properly so add on the terminator length
-              pos += QString("@execEnd").length();
-            execBlock = evalAssociatedText(execBlock);
-            //qDebug("execBlock is %s", execBlock.latin1());
-            evalText += execCommand(execBlock);
-          } else
-          {
-            int termIndex = baseText.find(identifier, pos);
-            if (termIndex == -1)
-            {
-              printError(i18n("Unterminated text block \'%1\'").arg(identifier));
-              return QString::null;
-            }
-
-            evalText += baseText.mid(pos, termIndex - pos - 1);
-            pos = termIndex + identifier.length();
-          }
-
+          printError(i18n("Unterminated @execBegin ... @execEnd block"));
+          return QString::null;
+        } 
+        else
+        {
+          QString shell = args.count() ? args[0] : QString::null;
+          evalText += execCommand(evalAssociatedText(a_text.mid(pos, f - pos)), shell);
+          pos = f + QString("@execEnd").length();
         }
       }
     }
+    else                    // see if this is a widget
+    {
+      KommanderWidget* pWidget = parseWidget(identifier);
+      if (!pWidget) {
+        evalText += QChar(ESCCHAR);
+        evalText += identifier;
+        continue;
+      }
+      else
+        evalText += pWidget->evalAssociatedText();
+    }
   }
+          
   return evalText;
 }
 
 
-QStringList KommanderWidget::parseArgs( const QString &args, bool &ok ) const
+QString KommanderWidget::dcopQuery(const QStringList& a_query) const
 {
-    QString argStr = args.stripWhiteSpace();
-    QStringList argv;
-    ok = TRUE;
-    bool inQuotes = FALSE;
-    QString realArg;
-    bool wasInQuotes = FALSE;//have we been inside quotes for thsi argument?
-    for( int i = 0 ; i < (int)argStr.length() ; ++i )
-    {
-	if( argStr[i] == '\"' && (i == 0 || argStr[i-1] != '\\' ) )
-	{
-	    inQuotes = !inQuotes;
-	    if( inQuotes )
-		wasInQuotes = TRUE;
-	}
-	else if( !inQuotes && argStr[i] == ',' )
-	{
-	    if( realArg.isEmpty() && !wasInQuotes )
-	    {
-		ok = FALSE;
-		break;
-	    }
-	    argv += realArg;
-	    realArg = QString::null;
-	    wasInQuotes = FALSE;
-	}
-	else if( !inQuotes && !argStr[i].isSpace() )
-	{
-	    ok = FALSE;
-	    break;
-	}
-	else if( inQuotes )
-	{
-	    realArg += argStr[i];
-	}
-    }
-
-    //realArg should not be empty when haven't been in quotes
-    if( inQuotes || (realArg.isEmpty() && !wasInQuotes) )
-	ok = FALSE;
-    argv += realArg;
-    /*
-    for( int i = 0 ; i < argv.count() ; ++i )
-	qDebug("arg[%d] = %s", i, argv[i].latin1());
-	*/
-    return argv;
-}
-
-QString KommanderWidget::dcopQuery(const QString& a_query) const
-{
-  int argc = 0;
-  bool ok;
-  QStringList argv = parseArgs(a_query, ok);
-  argc = argv.count();
-  if( !ok || argc != 4)
-  {
-    printError(i18n("Error in arguments to DCOP query; Unmatched quotes or too few arguments"));
+  if (a_query.count() != 4)
     return QString::null;
-  }
-  QCString appId = argv[0].latin1(), object = argv[1].latin1(), 
-     function = argv[2].latin1(), data = argv[3].latin1();
-
-  QString evalText;
+  QCString appId = a_query[0].latin1(), object = a_query[1].latin1(), 
+     function = a_query[2].latin1(), data = a_query[3].local8Bit();
   QCString replyType;
+  
   QByteArray byteData, byteReply;
   QDataStream byteDataStream(byteData, IO_ReadWrite);
   byteDataStream << data;
 
   DCOPClient *cl = KApplication::dcopClient();
-  if(!cl || !cl->call(appId, object, function, byteData, replyType, byteReply))
+  if (!cl || !cl->call(appId, object, function, byteData, replyType, byteReply))
   {
     printError(i18n("Tried to perform DCOP query, but failed"));
     return QString::null;
   }
 
   QDataStream byteReplyStream(byteReply, IO_ReadOnly);
-  if(replyType == "QString")
+  if (replyType == "QString")
   {
     QString text;
     byteReplyStream >> text;
-    evalText += text;
+    return text;
   }
   else if(replyType == "int")
   {
     int i;
     byteReplyStream >> i;
-    QVariant var(i);
-    evalText += var.toString();
+    return QString::number(i);
   }
   else if(replyType != "void")
   {
     printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
   }
 
-  return evalText;
+  return QString::null;
 }
 
-QString KommanderWidget::execCommand(const QString& a_command) const
+QString KommanderWidget::execCommand(const QString& a_command, const QString& a_shell) const
 {
     MyProcess proc(this);
-    QString text = proc.run(a_command);
+    QString text = proc.run(a_command.local8Bit(), a_shell.latin1());
 //FIXME check if exec was successful
     return text;
 }
@@ -379,3 +266,134 @@ void KommanderWidget::printError(const QString& a_error, const QString& a_classN
   kdError() << i18n("In widget %1:\n\t%2\n").arg( a_className.isNull() ? 
     QString(m_thisObject->name()) : a_className ).arg(a_error);
 }
+
+
+
+
+
+
+QString KommanderWidget::parseIdentifier(const QString& s, int& from) const
+{
+  uint start = from;
+  while (start < s.length() && s[start].isSpace())
+    start++;
+  uint end = start; 
+  while (end < s.length() && (s[end].isLetterOrNumber() || s[end] == '_'))
+    end++;
+  from = end;
+  return s.mid(start, end-start);
+}
+
+QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) const
+{
+  ok = true;
+  uint start = from;
+  while (start < s.length() && s[start].isSpace())
+    start++;
+  if (start == s.length() || s[start] != '(')
+    return QString::null;
+  bool quoteSingle = false, quoteDouble = false;
+  for (uint end = start+1; end < s.length(); end++) 
+  {
+    if (!quoteDouble && s[end] == '\'' && s[end-1] != '\\')
+      quoteSingle = not quoteSingle;
+    else if (!quoteSingle && s[end] == '\"' && s[end-1] != '\\')
+      quoteDouble = not quoteDouble;
+    else if (!quoteDouble && !quoteSingle && s[end] == ')') 
+    {
+      from = end + 1;
+      return s.mid(start+1, end-start-1);
+    }
+  }
+  ok = false;
+  return QString::null;
+}
+
+QStringList KommanderWidget::parseArgs(const QString& s, bool &ok) const
+{
+  QStringList argList;
+  bool quoteDouble = false, quoteSingle = false;
+  uint i, start = 0;
+  for (i = 0; i < s.length(); i++) 
+  {
+    if (!quoteDouble && s[i] == '\'' && s[i-1] != '\\')
+      quoteSingle = not quoteSingle;
+    else if (!quoteSingle && s[i] == '\"' && s[i-1] != '\\')
+      quoteDouble = not quoteDouble;
+    else if (!quoteDouble && !quoteSingle && s[i] == ',')
+    {
+      QString arg = s.mid(start, i - start).stripWhiteSpace();
+      if (!arg.isEmpty())
+        argList.append(evalAssociatedText(parseQuotes(arg)));
+      start = i+1;
+    }
+  }
+  if (!quoteDouble && !quoteSingle) 
+  {
+    QString arg = s.mid(start, s.length() - start + 1).stripWhiteSpace();
+    if (!arg.isEmpty())
+      argList.append(evalAssociatedText(parseQuotes(arg)));
+  }
+  ok = !quoteDouble && !quoteSingle;
+  
+  return argList;
+}
+
+QString KommanderWidget::parseQuotes(const QString& s) const
+{
+  if (s[0] == s[s.length()-1] && (s[0] == '\'' || s[0] == '\"'))
+    return s.mid(1, s.length()-2);
+  else return s;
+}
+
+
+KommanderWidget* KommanderWidget::parseWidget(const QString& name) const
+{
+  QObject *childObj = parentDialog()->child(name.latin1());
+  return dynamic_cast <KommanderWidget *>(childObj);
+}
+
+QObject* KommanderWidget::parentDialog() const
+{
+  QObject *superParent = m_thisObject;
+  while (superParent->parent())
+  {
+    superParent = superParent->parent();
+    if (superParent->inherits("Dialog"))
+      break;
+  }
+  return superParent;
+}
+
+void KommanderWidget::registerFunctions()
+{
+  if (m_functions.count())
+    return;
+  
+  /* functions without arguments */
+  registerFunction("widgetText");
+  registerFunction("selectedWidgetText");
+  registerFunction("pid");
+  registerFunction("dcopid");
+  registerFunction("parentPid");
+  registerFunction("execBegin", 0, 1);
+  /* functions with one argument */
+  registerFunction("exec", 1);
+  /* functions with two arguments */
+  registerFunction("readSetting", 2);  
+  registerFunction("writeSetting", 2);
+  /* functions with four arguments */
+  registerFunction("dcop", 4);
+}
+
+void KommanderWidget::registerFunction(const QString& name, uint minarg, uint maxarg)
+{
+  if (maxarg < minarg)
+    maxarg = minarg;
+  m_functions.insert(name, QPair<uint, uint>(minarg, maxarg));
+}
+
+
+
+QMap<QString, QPair<uint, uint> > KommanderWidget::m_functions;
+

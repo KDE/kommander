@@ -36,10 +36,12 @@ void qt_leave_modal(QWidget *widget);
 QString MyProcess::run(const QString& a_command, const QString& a_shell)
 {
   QString at = a_command.stripWhiteSpace();
-  QString shellName = a_shell;
-  
   if (at.isEmpty())
     return QString::null;
+  
+  QString shellName = a_shell;
+  if (shellName.isEmpty())
+    shellName = "/bin/sh";
   
   // Look for shell
   if (at.startsWith("#!")) {
@@ -52,7 +54,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   m_input = at.local8Bit();
   
   KProcess* process = new KProcess;
-  (*process) << shellName;
+  (*process) << shellName.latin1();
   
   connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), 
       SLOT(slotReceivedStdout(KProcess*, char*, int)));
@@ -79,7 +81,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
 
 void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
 {
-  m_output += QString::fromLatin1(a_buffer, a_len);
+  m_output += QString::fromLocal8Bit(a_buffer, a_len);
 }
 
 void MyProcess::slotProcessExited(KProcess* process)

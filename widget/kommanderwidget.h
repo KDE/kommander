@@ -20,9 +20,12 @@
 #include <kprocess.h>
 
 /* QT INCLUDES */
+#include <qmap.h>
+#include <qobject.h>
+#include <qpair.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qobject.h>
+
 
 class KommanderWidget
 {
@@ -64,20 +67,41 @@ public:
 protected:
   virtual void setStates(const QStringList& a_states);
   virtual void setDisplayStates(const QStringList& a_displayStates);
-  QStringList parseArgs( const QString &args, bool &ok ) const;
+  
   // Execute DCOP query and return its result or null on failure
   // Only QString and int are now handled
-  QString dcopQuery(const QString&) const;
+  QString dcopQuery(const QStringList&) const;
   // Execute given command, return its result
-  QString execCommand(const QString& a_command) const;
+  QString execCommand(const QString& a_command, const QString& a_shell = QString::null) const;
   // Display error message a_error; display current class name if no other is given
   void printError(const QString& a_error, const QString& a_classname = QString::null) const;
+  
+  // Auxiliary functions for parser
+  // Return identifier: the longest string of letters and numbers starting from i
+  QString parseBrackets(const QString& s, int& from, bool& ok) const;
+  // Find matching brackets starting from current position
+  QString parseIdentifier(const QString& s, int& from) const;
+  // Parse arguments for given function. Returns list of arguments without quotations
+  QStringList parseArgs(const QString& s, bool &ok ) const;
+  // Remove quotes from given identifier
+  QString parseQuotes(const QString& s) const;
+  // Parse given identifier as widget name
+  KommanderWidget* parseWidget(const QString& name) const;
+  // Return parent dialog of this widget
+  QObject* parentDialog() const;
+  // Register all known functions with number of arguments
+  void registerFunctions();
+  // Register single function
+  void registerFunction(const QString& name, uint minarg = 0, uint maxarg = 0);
 
   QObject *m_thisObject;
   QStringList m_states;
   QStringList m_displayStates;
   QStringList m_associatedText;
   QString m_populationText;
+  
+  // List of functions with minimal and maximal arguments count
+  static QMap<QString, QPair<uint, uint> > m_functions;
 };
 
 
