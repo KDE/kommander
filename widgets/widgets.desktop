@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Widgets
+Name[br]=Widgetoù
 Name[ca]=Objectes gràfics
 Name[cs]=Widgety
 Name[cy]=Celfigion
@@ -26,7 +27,6 @@ Name[ta]=சின்னப் படங்கள்
 Name[tg]=Васеъкуниҳо
 Name[tr]=Bileşenler
 Name[uk]=Віджети
-Name[xx]=xxWidgetsxx
 Name[zh_CN]=部件
 Exec=widgets %i %m -caption "%c"
 Type=Application
