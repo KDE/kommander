@@ -22,14 +22,7 @@ ExecButton::ExecButton(QWidget *a_parent, const char *a_name)
 	setStates(states);
 	setWriteStdout(false);
 
-	QObject *parent = this;
-	while(parent->parent() != 0)
-	{
-		parent = parent->parent();
-		if(parent->inherits("QDialog"))
-			break;
-	}
-	connect(this, SIGNAL(clicked()), parent, SLOT(reject()));
+	connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 }
 
 ExecButton::~ExecButton()

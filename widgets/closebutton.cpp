@@ -20,6 +20,7 @@ CloseButton::CloseButton(QWidget *a_parent, const char *a_name)
 	QStringList states;
 	states << "default";
 	setStates(states);
+	setWriteStdout(false);
 
 	connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 
@@ -81,7 +82,7 @@ void CloseButton::startProcess()
 		connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
 		connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
 
-		if(!process->start(KProcess::NotifyOnExit, KProcess::Stdout))
+		if(!process->start(KProcess::Block, KProcess::Stdout))
 		{
 			KMessageBox::error(this, i18n("Failed to start shell process"));
 			endProcess(process);
