@@ -9,696 +9,360 @@
             <x>0</x>
             <y>0</y>
             <width>578</width>
-            <height>569</height>
+            <height>611</height>
         </rect>
     </property>
     <property name="caption">
         <string>Tidy by Kommander</string>
     </property>
-    <widget class="CloseButton">
+    <grid>
         <property name="name">
-            <cstring>CloseButton1</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>290</x>
-                <y>540</y>
-                <width>110</width>
-                <height>21</height>
-            </rect>
+        <property name="margin">
+            <number>11</number>
         </property>
-        <property name="text">
-            <string>Eject! Eject! Eject!</string>
+        <property name="spacing">
+            <number>6</number>
         </property>
-    </widget>
-    <widget class="ExecButton">
-        <property name="name">
-            <cstring>ExecButton1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>150</x>
-                <y>540</y>
-                <width>110</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Process</string>
-        </property>
-        <property name="associations" stdset="0">
-            <stringlist>
-                <string>tidyargs="@GtidyPath @CharEncoding"
-
-[ 1 -eq @GmodF ] &amp;&amp; tidyargs="$tidyargs -m"
-[ 1 -eq @GoutputEN ] &amp;&amp; tidyargs="$tidyargs -o @GoutF"
-[ 1 -eq @GerrorEN ] &amp;&amp; tidyargs="$tidyargs -f @GerrorF"
-[ 1 -eq @GconfigEN ] &amp;&amp; tidyargs="$tidyargs -config @GconfigF"
-[ 1 -eq @GinputEN ] &amp;&amp; tidyargs="$tidyargs @GinF"
-[ 1 -eq @ParseIndent ] &amp;&amp; tidyargs="$tidyargs -i"
-[ 68 -lt @ParseWrap ] &amp;&amp; tidyargs="$tidyargs -wrap @ParseWrap"
-[ 1 -eq @ParseUpper ] &amp;&amp; tidyargs="$tidyargs -u"
-[ 1 -eq @ParseClean ] &amp;&amp; tidyargs="$tidyargs -c"
-[ 1 -eq @ParseBare ] &amp;&amp; tidyargs="$tidyargs -b"
-[ 1 -eq @ParseNumeric ] &amp;&amp; tidyargs="$tidyargs -n"
-[ 1 -eq @ParseErrors ] &amp;&amp; tidyargs="$tidyargs -e"
-[ 1 -eq @ParseQuiet ] &amp;&amp; tidyargs="$tidyargs -q"
-[ 1 -eq @ParseOmit ] &amp;&amp; tidyargs="$tidyargs -omit"
-[ 1 -eq @ParseXML ] &amp;&amp; tidyargs="$tidyargs -xml"
-[ 1 -eq @ParseAsHTML ] &amp;&amp; tidyargs="$tidyargs -asxml"
-[ 1 -eq @ParseAsXHTML ] &amp;&amp; tidyargs="$tidyargs -asxhtml"
-[ 1 -eq @ParseAsHTML ] &amp;&amp; tidyargs="$tidyargs -ashtml"
-[ 0 -lt @ParseAccess ] &amp;&amp; tidyargs="$tidyargs -access @ParseAccess"
-
-if [ @GUseDCOP -eq 1 ]; then
-	dcopid=`dcop quanta*`
-	ifstr="EditInterface#"`dcop $dcopid WindowManagerIf currentEditorIfNum`
-	dcop $dcopid $ifstr text | $tidyargs
-else
-	$tidyargs
-fi
-</string>
-            </stringlist>
-        </property>
-        <property name="writeStdout">
-            <bool>true</bool>
-        </property>
-    </widget>
-    <widget class="TabWidget">
-        <property name="name">
-            <cstring>TabWidget1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>0</y>
-                <width>550</width>
-                <height>530</height>
-            </rect>
-        </property>
-        <widget class="QWidget">
+        <widget class="TabWidget" row="0" column="0" rowspan="1" colspan="4">
             <property name="name">
-                <cstring>tab</cstring>
+                <cstring>TabWidget1</cstring>
             </property>
-            <attribute name="title">
-                <string>General Options</string>
-            </attribute>
-            <widget class="GroupBox">
+            <widget class="QWidget">
                 <property name="name">
-                    <cstring>GroupBox1</cstring>
+                    <cstring>tab</cstring>
                 </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>20</y>
-                        <width>340</width>
-                        <height>110</height>
-                    </rect>
-                </property>
-                <property name="title">
-                    <string>Non Tidy Option</string>
-                </property>
-                <widget class="QLabel">
+                <attribute name="title">
+                    <string>General Options</string>
+                </attribute>
+                <widget class="GroupBox">
                     <property name="name">
-                        <cstring>TextLabel4</cstring>
+                        <cstring>GroupBox1</cstring>
                     </property>
                     <property name="geometry">
                         <rect>
-                            <x>10</x>
-                            <y>50</y>
-                            <width>310</width>
+                            <x>11</x>
+                            <y>11</y>
+                            <width>437</width>
+                            <height>110</height>
+                        </rect>
+                    </property>
+                    <property name="title">
+                        <string>Non Tidy Option</string>
+                    </property>
+                    <widget class="QLabel">
+                        <property name="name">
+                            <cstring>TextLabel4</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>10</x>
+                                <y>50</y>
+                                <width>310</width>
+                                <height>40</height>
+                            </rect>
+                        </property>
+                        <property name="font">
+                            <font>
+                                <bold>1</bold>
+                                <italic>1</italic>
+                            </font>
+                        </property>
+                        <property name="text">
+                            <string>Note:  This will not work well if you have multiple
+instances of Quanta running.</string>
+                        </property>
+                    </widget>
+                    <widget class="CheckBox">
+                        <property name="name">
+                            <cstring>GUseDCOP</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>10</x>
+                                <y>20</y>
+                                <width>320</width>
+                                <height>21</height>
+                            </rect>
+                        </property>
+                        <property name="text">
+                            <string>Use DCOP to send active page from Quanta+ to tidy</string>
+                        </property>
+                        <property name="associations" stdset="0">
+                            <stringlist>
+                                <string></string>
+                                <string></string>
+                                <string>1</string>
+                            </stringlist>
+                        </property>
+                    </widget>
+                </widget>
+                <widget class="FileSelector">
+                    <property name="name">
+                        <cstring>GconfigF</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>377</y>
+                            <width>437</width>
+                            <height>32</height>
+                        </rect>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>127</y>
+                            <width>437</width>
                             <height>40</height>
                         </rect>
                     </property>
-                    <property name="font">
-                        <font>
-                            <bold>1</bold>
-                            <italic>1</italic>
-                        </font>
-                    </property>
                     <property name="text">
-                        <string>Note:  This will not work well if you have multiple
-instances of Quanta running.</string>
+                        <string>Path to tidy (required):</string>
+                    </property>
+                </widget>
+                <widget class="FileSelector">
+                    <property name="name">
+                        <cstring>GoutF</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>309</y>
+                            <width>437</width>
+                            <height>32</height>
+                        </rect>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
                     </property>
                 </widget>
                 <widget class="CheckBox">
                     <property name="name">
-                        <cstring>GUseDCOP</cstring>
+                        <cstring>GinputEN</cstring>
                     </property>
                     <property name="geometry">
                         <rect>
-                            <x>10</x>
-                            <y>20</y>
-                            <width>320</width>
-                            <height>21</height>
+                            <x>11</x>
+                            <y>211</y>
+                            <width>437</width>
+                            <height>24</height>
                         </rect>
                     </property>
                     <property name="text">
-                        <string>Use DCOP to send active page from Quanta+ to tidy</string>
+                        <string>Input from file instead of stdin:</string>
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string></string>
+                            <string>0</string>
                             <string></string>
                             <string>1</string>
                         </stringlist>
                     </property>
                 </widget>
-            </widget>
-            <widget class="FileSelector">
-                <property name="name">
-                    <cstring>GconfigF</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>346</y>
-                        <width>340</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>140</y>
-                        <width>340</width>
-                        <height>16</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Path to tidy (required):</string>
-                </property>
-            </widget>
-            <widget class="FileSelector">
-                <property name="name">
-                    <cstring>GoutF</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>279</y>
-                        <width>340</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="CheckBox">
-                <property name="name">
-                    <cstring>GinputEN</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>193</y>
-                        <width>340</width>
-                        <height>19</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Input from file instead of stdin:</string>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>0</string>
-                        <string></string>
-                        <string>1</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="CheckBox">
-                <property name="name">
-                    <cstring>GerrorEN</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>379</y>
-                        <width>340</width>
-                        <height>19</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Write errors to file instead of stderr:</string>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>0</string>
-                        <string></string>
-                        <string>1</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="CheckBox">
-                <property name="name">
-                    <cstring>GconfigEN</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>320</y>
-                        <width>340</width>
-                        <height>19</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Use configuration from file:</string>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>0</string>
-                        <string></string>
-                        <string>1</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="CheckBox">
-                <property name="name">
-                    <cstring>GoutputEN</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>251</y>
-                        <width>340</width>
-                        <height>19</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Output to file instead of stdout:</string>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>0</string>
-                        <string></string>
-                        <string>1</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="FileSelector">
-                <property name="name">
-                    <cstring>GinF</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>218</y>
-                        <width>340</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="FileSelector">
-                <property name="name">
-                    <cstring>GerrorF</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>404</y>
-                        <width>340</width>
-                        <height>27</height>
-                    </rect>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="CheckBox">
-                <property name="name">
-                    <cstring>GmodF</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>441</y>
-                        <width>340</width>
-                        <height>19</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Modify original input files</string>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>0</string>
-                        <string></string>
-                        <string>1</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="FileSelector">
-                <property name="name">
-                    <cstring>GtidyPath</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>160</y>
-                        <width>340</width>
-                        <height>30</height>
-                    </rect>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="ExecButton">
-                <property name="name">
-                    <cstring>ExecButton2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>379</x>
-                        <y>164</y>
-                        <width>81</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>/usr/bin</string>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>echo "/usr/bin/tidy"</string>
-                    </stringlist>
-                </property>
-            </widget>
-        </widget>
-        <widget class="QWidget">
-            <property name="name">
-                <cstring>tab</cstring>
-            </property>
-            <attribute name="title">
-                <string>Processing Directives</string>
-            </attribute>
-            <widget class="QLayoutWidget">
-                <property name="name">
-                    <cstring>Layout1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>10</y>
-                        <width>356</width>
-                        <height>348</height>
-                    </rect>
-                </property>
-                <grid>
+                <widget class="CheckBox">
                     <property name="name">
-                        <cstring>unnamed</cstring>
+                        <cstring>GerrorEN</cstring>
                     </property>
-                    <property name="margin">
-                        <number>0</number>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>415</y>
+                            <width>437</width>
+                            <height>24</height>
+                        </rect>
                     </property>
-                    <property name="spacing">
-                        <number>6</number>
+                    <property name="text">
+                        <string>Write errors to file instead of stderr:</string>
                     </property>
-                    <widget class="CheckBox" row="13" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>ParseAsHTML</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Force XHTML to well formed HTML</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="12" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>ParseAsXHTML</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Convert HTML to well formed XHTML</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="4" column="0">
-                        <property name="name">
-                            <cstring>ParseClean</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Replace FONT, NOBR and CENTER tags by CSS</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string>0</string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="3" column="0">
-                        <property name="name">
-                            <cstring>ParseUpper</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Force tags to upper case</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string>0</string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="10" column="0">
-                        <property name="name">
-                            <cstring>ParseXML</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Specify the input is well formed XML</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="9" column="0">
-                        <property name="name">
-                            <cstring>ParseOmit</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Omit optional end tags</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>TextLabel1_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Do extra accessibility checks &lt;level&gt;:</string>
-                        </property>
-                    </widget>
-                    <widget class="SpinBoxInt" row="1" column="1">
-                        <property name="name">
-                            <cstring>ParseWrap</cstring>
-                        </property>
-                        <property name="maxValue">
-                            <number>500</number>
-                        </property>
-                        <property name="minValue">
-                            <number>68</number>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string>@widgetText</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="6" column="0">
-                        <property name="name">
-                            <cstring>ParseNumeric</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Output numeric rather than named entities</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="7" column="0">
-                        <property name="name">
-                            <cstring>ParseErrors</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Only show errors</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="SpinBoxInt" row="0" column="1">
-                        <property name="name">
-                            <cstring>ParseAccess</cstring>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string>@widgetText</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="1" column="0">
-                        <property name="name">
-                            <cstring>TextLabel2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Wrap text at column:</string>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="11" column="0">
-                        <property name="name">
-                            <cstring>ParseAsXML</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Convert HTML to well formed XML</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="2" column="0">
-                        <property name="name">
-                            <cstring>ParseIndent</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Indent element content</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string>0</string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="5" column="0">
-                        <property name="name">
-                            <cstring>ParseBare</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Strip out smart quotes and em dashes, etc.</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string>0</string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="CheckBox" row="8" column="0">
-                        <property name="name">
-                            <cstring>ParseQuiet</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Suppress nonessential output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                                <string>1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                </grid>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>0</string>
+                            <string></string>
+                            <string>1</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="CheckBox">
+                    <property name="name">
+                        <cstring>GconfigEN</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>347</y>
+                            <width>437</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Use configuration from file:</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>0</string>
+                            <string></string>
+                            <string>1</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="CheckBox">
+                    <property name="name">
+                        <cstring>GoutputEN</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>279</y>
+                            <width>437</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Output to file instead of stdout:</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>0</string>
+                            <string></string>
+                            <string>1</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="FileSelector">
+                    <property name="name">
+                        <cstring>GinF</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>241</y>
+                            <width>437</width>
+                            <height>32</height>
+                        </rect>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="FileSelector">
+                    <property name="name">
+                        <cstring>GerrorF</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>445</y>
+                            <width>437</width>
+                            <height>32</height>
+                        </rect>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="CheckBox">
+                    <property name="name">
+                        <cstring>GmodF</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>483</y>
+                            <width>437</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Modify original input files</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>0</string>
+                            <string></string>
+                            <string>1</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="FileSelector">
+                    <property name="name">
+                        <cstring>GtidyPath</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>173</y>
+                            <width>437</width>
+                            <height>32</height>
+                        </rect>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton2</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>454</x>
+                            <y>173</y>
+                            <width>89</width>
+                            <height>32</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>/usr/bin</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>echo "/usr/bin/tidy"</string>
+                        </stringlist>
+                    </property>
+                </widget>
             </widget>
-        </widget>
-        <widget class="QWidget">
-            <property name="name">
-                <cstring>tab</cstring>
-            </property>
-            <attribute name="title">
-                <string>Character Encodings</string>
-            </attribute>
-            <widget class="ButtonGroup">
+            <widget class="QWidget">
                 <property name="name">
-                    <cstring>CharEncoding</cstring>
+                    <cstring>tab</cstring>
                 </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>10</y>
-                        <width>497</width>
-                        <height>417</height>
-                    </rect>
-                </property>
-                <property name="title">
-                    <string></string>
-                </property>
+                <attribute name="title">
+                    <string>Processing Directives</string>
+                </attribute>
                 <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
@@ -709,278 +373,555 @@ instances of Quanta running.</string>
                     <property name="spacing">
                         <number>6</number>
                     </property>
-                    <widget class="RadioButton" row="9" column="0" rowspan="1" colspan="2">
+                    <widget class="QLayoutWidget" row="0" column="0">
                         <property name="name">
-                            <cstring>CEibm858</cstring>
+                            <cstring>Layout1</cstring>
                         </property>
-                        <property name="text">
-                            <string>(ibm858) use IBM-858 (CP850+Euro) for input, US-ASCII for output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -ibm858</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="1" column="0">
-                        <property name="name">
-                            <cstring>CEraw</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(raw) output values above 127 without conversion to entities</string>
-                        </property>
-                        <property name="checked">
-                            <bool>false</bool>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -raw</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="10" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEutf16Le</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(utf16le) use UTF-16LE for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -utf16le</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="4" column="0">
-                        <property name="name">
-                            <cstring>CElatin1</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(latin1) use ISO-8859-1 for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -latin1</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="8" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEwin1252</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(win1252) use Windows-1252 for input, US-ASCII for output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -win1252</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="LineEdit" row="15" column="1">
-                        <property name="name">
-                            <cstring>CE</cstring>
-                        </property>
-                        <property name="maxLength">
-                            <number>2</number>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="14" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEshiftjis</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(shiftjis) use Shift_JIS for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -shiftjis</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="11" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEutf16be</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(utf16be) use UTF-16BE for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -utf16be</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="2" column="0">
-                        <property name="name">
-                            <cstring>CEascii</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(ascii) use US-ASCII for output, ISO-8859-1 for input</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -ascii</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="15" column="0">
-                        <property name="name">
-                            <cstring>CElangcode</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Set the two-letter language code &lt;lang&gt; (for future use):</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -language @CE</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="12" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEutf16</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(utf16) use UTF-16 for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -utf16</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="13" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEbig5</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(big5) use Big5 for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -big5</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="6" column="0">
-                        <property name="name">
-                            <cstring>CEutf8</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(utf8) use UTF-8 for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -utf8</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="3" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CElatin0</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(latin0) use US-ASCII for output, ISO-8859-1 for input</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -latin0</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="7" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEmac</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(mac) use MacRoman for input, US-ASCII for output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -mac</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="5" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>CEiso2022</cstring>
-                        </property>
-                        <property name="text">
-                            <string>(iso2022) use ISO-2022 for both input and output</string>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string> -iso2022</string>
-                            </stringlist>
-                        </property>
-                    </widget>
-                    <widget class="RadioButton" row="0" column="0">
-                        <property name="name">
-                            <cstring>RadioButton16</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Bah, encoding, schmencoding</string>
-                        </property>
-                        <property name="checked">
-                            <bool>true</bool>
-                        </property>
-                        <property name="associations" stdset="0">
-                            <stringlist>
-                                <string></string>
-                                <string></string>
-                            </stringlist>
-                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <property name="margin">
+                                <number>0</number>
+                            </property>
+                            <property name="spacing">
+                                <number>6</number>
+                            </property>
+                            <widget class="CheckBox" row="13" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>ParseAsHTML</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Force XHTML to well formed HTML</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="12" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>ParseAsXHTML</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Convert HTML to well formed XHTML</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="4" column="0">
+                                <property name="name">
+                                    <cstring>ParseClean</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Replace FONT, NOBR and CENTER tags by CSS</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string>0</string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="3" column="0">
+                                <property name="name">
+                                    <cstring>ParseUpper</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Force tags to upper case</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string>0</string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="10" column="0">
+                                <property name="name">
+                                    <cstring>ParseXML</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Specify the input is well formed XML</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="9" column="0">
+                                <property name="name">
+                                    <cstring>ParseOmit</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Omit optional end tags</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel1_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Do extra accessibility checks &lt;level&gt;:</string>
+                                </property>
+                            </widget>
+                            <widget class="SpinBoxInt" row="1" column="1">
+                                <property name="name">
+                                    <cstring>ParseWrap</cstring>
+                                </property>
+                                <property name="maxValue">
+                                    <number>500</number>
+                                </property>
+                                <property name="minValue">
+                                    <number>68</number>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string>@widgetText</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="6" column="0">
+                                <property name="name">
+                                    <cstring>ParseNumeric</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Output numeric rather than named entities</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="7" column="0">
+                                <property name="name">
+                                    <cstring>ParseErrors</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Only show errors</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="SpinBoxInt" row="0" column="1">
+                                <property name="name">
+                                    <cstring>ParseAccess</cstring>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string>@widgetText</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>TextLabel2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Wrap text at column:</string>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="11" column="0">
+                                <property name="name">
+                                    <cstring>ParseAsXML</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Convert HTML to well formed XML</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="2" column="0">
+                                <property name="name">
+                                    <cstring>ParseIndent</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Indent element content</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string>0</string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="5" column="0">
+                                <property name="name">
+                                    <cstring>ParseBare</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Strip out smart quotes and em dashes, etc.</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string>0</string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="CheckBox" row="8" column="0">
+                                <property name="name">
+                                    <cstring>ParseQuiet</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Suppress nonessential output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                        <string>1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
                 </grid>
             </widget>
-        </widget>
-        <widget class="QWidget">
-            <property name="name">
-                <cstring>tab</cstring>
-            </property>
-            <attribute name="title">
-                <string>About Tidy</string>
-            </attribute>
-            <widget class="TextEdit">
+            <widget class="QWidget">
                 <property name="name">
-                    <cstring>TextEdit1</cstring>
+                    <cstring>tab</cstring>
                 </property>
-                <property name="enabled">
-                    <bool>true</bool>
+                <attribute name="title">
+                    <string>Character Encodings</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>11</number>
+                    </property>
+                    <property name="spacing">
+                        <number>6</number>
+                    </property>
+                    <widget class="ButtonGroup" row="0" column="0">
+                        <property name="name">
+                            <cstring>CharEncoding</cstring>
+                        </property>
+                        <property name="title">
+                            <string></string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <property name="margin">
+                                <number>11</number>
+                            </property>
+                            <property name="spacing">
+                                <number>6</number>
+                            </property>
+                            <widget class="RadioButton" row="9" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEibm858</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(ibm858) use IBM-858 (CP850+Euro) for input, US-ASCII for output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -ibm858</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="1" column="0">
+                                <property name="name">
+                                    <cstring>CEraw</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(raw) output values above 127 without conversion to entities</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -raw</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="10" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEutf16Le</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(utf16le) use UTF-16LE for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -utf16le</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="4" column="0">
+                                <property name="name">
+                                    <cstring>CElatin1</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(latin1) use ISO-8859-1 for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -latin1</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="8" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEwin1252</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(win1252) use Windows-1252 for input, US-ASCII for output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -win1252</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="LineEdit" row="15" column="1">
+                                <property name="name">
+                                    <cstring>CE</cstring>
+                                </property>
+                                <property name="maxLength">
+                                    <number>2</number>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="14" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEshiftjis</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(shiftjis) use Shift_JIS for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -shiftjis</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="11" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEutf16be</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(utf16be) use UTF-16BE for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -utf16be</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="2" column="0">
+                                <property name="name">
+                                    <cstring>CEascii</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(ascii) use US-ASCII for output, ISO-8859-1 for input</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -ascii</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="15" column="0">
+                                <property name="name">
+                                    <cstring>CElangcode</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Set the two-letter language code &lt;lang&gt; (for future use):</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -language @CE</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="12" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEutf16</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(utf16) use UTF-16 for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -utf16</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="13" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEbig5</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(big5) use Big5 for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -big5</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="6" column="0">
+                                <property name="name">
+                                    <cstring>CEutf8</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(utf8) use UTF-8 for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -utf8</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="3" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CElatin0</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(latin0) use US-ASCII for output, ISO-8859-1 for input</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -latin0</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="7" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEmac</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(mac) use MacRoman for input, US-ASCII for output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -mac</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="5" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>CEiso2022</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>(iso2022) use ISO-2022 for both input and output</string>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string> -iso2022</string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                            <widget class="RadioButton" row="0" column="0">
+                                <property name="name">
+                                    <cstring>RadioButton16</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Bah, encoding, schmencoding</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="associations" stdset="0">
+                                    <stringlist>
+                                        <string></string>
+                                        <string></string>
+                                    </stringlist>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
                 </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>10</y>
-                        <width>530</width>
-                        <height>480</height>
-                    </rect>
-                </property>
-                <property name="paletteBackgroundColor">
-                    <color>
-                        <red>255</red>
-                        <green>255</green>
-                        <blue>255</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>HTML Tidy Configuration Settings
+                <attribute name="title">
+                    <string>About Tidy</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>11</number>
+                    </property>
+                    <property name="spacing">
+                        <number>6</number>
+                    </property>
+                    <widget class="TextEdit" row="0" column="0">
+                        <property name="name">
+                            <cstring>TextEdit1</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="paletteBackgroundColor">
+                            <color>
+                                <red>238</red>
+                                <green>238</green>
+                                <blue>230</blue>
+                            </color>
+                        </property>
+                        <property name="text">
+                            <string>HTML Tidy Configuration Settings
 
 Within a file, use the form:
 
@@ -1079,13 +1020,102 @@ new-empty-tags			Tag names  	tagX, tagY, ...
 new-pre-tags			Tag names	tagX, tagY, ...
 accessibility-check		Integer   	0, 1, 2, ...
 </string>
-                </property>
-                <property name="readOnly">
-                    <bool>true</bool>
-                </property>
+                        </property>
+                        <property name="readOnly">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </grid>
             </widget>
         </widget>
-    </widget>
+        <widget class="ExecButton" row="1" column="1">
+            <property name="name">
+                <cstring>ExecButton1</cstring>
+            </property>
+            <property name="text">
+                <string>Process</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>tidyargs="@GtidyPath @CharEncoding"
+
+[ 1 -eq @GmodF ] &amp;&amp; tidyargs="$tidyargs -m"
+[ 1 -eq @GoutputEN ] &amp;&amp; tidyargs="$tidyargs -o @GoutF"
+[ 1 -eq @GerrorEN ] &amp;&amp; tidyargs="$tidyargs -f @GerrorF"
+[ 1 -eq @GconfigEN ] &amp;&amp; tidyargs="$tidyargs -config @GconfigF"
+[ 1 -eq @GinputEN ] &amp;&amp; tidyargs="$tidyargs @GinF"
+[ 1 -eq @ParseIndent ] &amp;&amp; tidyargs="$tidyargs -i"
+[ 68 -lt @ParseWrap ] &amp;&amp; tidyargs="$tidyargs -wrap @ParseWrap"
+[ 1 -eq @ParseUpper ] &amp;&amp; tidyargs="$tidyargs -u"
+[ 1 -eq @ParseClean ] &amp;&amp; tidyargs="$tidyargs -c"
+[ 1 -eq @ParseBare ] &amp;&amp; tidyargs="$tidyargs -b"
+[ 1 -eq @ParseNumeric ] &amp;&amp; tidyargs="$tidyargs -n"
+[ 1 -eq @ParseErrors ] &amp;&amp; tidyargs="$tidyargs -e"
+[ 1 -eq @ParseQuiet ] &amp;&amp; tidyargs="$tidyargs -q"
+[ 1 -eq @ParseOmit ] &amp;&amp; tidyargs="$tidyargs -omit"
+[ 1 -eq @ParseXML ] &amp;&amp; tidyargs="$tidyargs -xml"
+[ 1 -eq @ParseAsHTML ] &amp;&amp; tidyargs="$tidyargs -asxml"
+[ 1 -eq @ParseAsXHTML ] &amp;&amp; tidyargs="$tidyargs -asxhtml"
+[ 1 -eq @ParseAsHTML ] &amp;&amp; tidyargs="$tidyargs -ashtml"
+[ 0 -lt @ParseAccess ] &amp;&amp; tidyargs="$tidyargs -access @ParseAccess"
+
+if [ @GUseDCOP -eq 1 ]; then
+	dcopid=`dcop quanta*`
+	ifstr="EditInterface#"`dcop $dcopid WindowManagerIf currentEditorIfNum`
+	dcop $dcopid $ifstr text | $tidyargs
+else
+	$tidyargs
+fi
+</string>
+                </stringlist>
+            </property>
+            <property name="writeStdout">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="CloseButton" row="1" column="2">
+            <property name="name">
+                <cstring>CloseButton1</cstring>
+            </property>
+            <property name="text">
+                <string>Eject! Eject! Eject!</string>
+            </property>
+        </widget>
+        <spacer row="1" column="0">
+            <property name="name">
+                <cstring>Spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>131</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="1" column="3">
+            <property name="name">
+                <cstring>Spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>121</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
 </widget>
 <connections>
     <connection>
