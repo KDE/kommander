@@ -167,6 +167,31 @@ void FileSelector::makeSelection()
     setWidgetText(text);
 }
 
+QString FileSelector::caption() const
+{
+  return m_selectButton->text();
+}
+
+void FileSelector::setCaption(const QString& a_text)
+{
+  m_selectButton->setText(a_text);
+}
+
+bool FileSelector::showEditor() const
+{
+  return m_lineEdit->isVisible();
+}
+
+void FileSelector::setShowEditor(bool a_visible)
+{
+  if (a_visible)
+    m_lineEdit->show();
+  else
+    m_lineEdit->hide();
+}
+
+
+
 void FileSelector::showEvent(QShowEvent * e)
 {
   QWidget::showEvent(e);

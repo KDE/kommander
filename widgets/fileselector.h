@@ -39,13 +39,14 @@ class FileSelector : public QWidget, public KommanderWidget
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-
-  Q_PROPERTY(SelectionType selectionType READ selectionType WRITE setSelectionType)
-  Q_ENUMS(SelectionType)
-
-  Q_PROPERTY(bool selectionOpenMultiple READ selectionOpenMultiple WRITE setSelectionOpenMultiple)
+  Q_PROPERTY(bool showEditor READ showEditor WRITE setShowEditor)
+  Q_PROPERTY(QString buttonCaption READ caption WRITE setCaption)
   Q_PROPERTY(QString selectionFilter READ selectionFilter WRITE setSelectionFilter)
   Q_PROPERTY(QString selectionCaption READ selectionCaption WRITE setSelectionCaption)
+  Q_PROPERTY(SelectionType selectionType READ selectionType WRITE setSelectionType)
+  Q_ENUMS(SelectionType)
+  Q_PROPERTY(bool selectionOpenMultiple READ selectionOpenMultiple WRITE setSelectionOpenMultiple)
+  
 public:
   FileSelector(QWidget *a_parent, const char *a_name);
   ~FileSelector();
@@ -66,6 +67,10 @@ public:
   void setSelectionFilter(const QString&); 
   QString selectionCaption() const;
   void setSelectionCaption(const QString&);
+  QString caption() const;
+  void setCaption(const QString&);
+  bool showEditor() const;
+  void setShowEditor(bool);
 
   virtual QString handleDCOP(int function, const QStringList& args);
   virtual bool isFunctionSupported(int function);
