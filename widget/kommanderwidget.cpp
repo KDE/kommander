@@ -344,17 +344,6 @@ void KommanderWidget::printError(const QString& a_error, const QString& a_classN
   }
 }
 
-QString KommanderWidget::parentPid() const
-{
-  QString parentPid = global("_PARENTPID"); 
-  if (!parentPid.isEmpty())
-    return parentPid;
-  else
-    return QString().setNum(getppid());
-} 
-
-
-
 
 
 QString KommanderWidget::parseIdentifier(const QString& s, int& from) const
