@@ -1,9 +1,13 @@
+Fri 23 lip 2004 15:54:26 CEST
+	o add hourclass cursor when invoking ExecButton script with blocked GUI
+
 Thu 22 Jul 2004 22:17:49 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o ExecButton now has three modes: no blocking, block only ExecButton,
 	  block whole GUI
 
 Wed 22 Jul 2004 24:10:59 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o optimized Tree Widget
+	o fix some missing i18n strings
 
 Tue 20 Jul 2004 19:51:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o bug fixed: @dcop with more than 4 arguments

@@ -15,14 +15,16 @@
  ***************************************************************************/
 
 /* KDE INCLUDES */
+#include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
 /* QT INCLUDES */
-#include <qstring.h>
-#include <qwidget.h>
-#include <qstringlist.h>
+#include <qcursor.h>
 #include <qevent.h>
+#include <qstring.h>
+#include <qstringlist.h>
+#include <qwidget.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -94,14 +96,19 @@ void ExecButton::startProcess()
 {
   QString at = evalAssociatedText().stripWhiteSpace();
   
-  if (blockGUI() != None)
-    setEnabled(false);            
+  if (m_blockGUI != None)
+    setEnabled(false);
+  if (m_blockGUI == GUI)
+    KApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
   MyProcess* process = new MyProcess(this);
-  process->setBlocking(blockGUI() == GUI);
+  process->setBlocking(m_blockGUI == GUI);
   connect(process, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
   m_output = process->run(at);
-  if (blockGUI() == GUI)
-    setEnabled(true);            
+  if (m_blockGUI == GUI)
+  {
+    setEnabled(true);
+    KApplication::restoreOverrideCursor();
+  }
 }
 
 
