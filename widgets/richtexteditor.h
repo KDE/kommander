@@ -52,6 +52,7 @@ public:
   virtual void setPopulationText(const QString&);
   
   virtual QString handleDCOP(int function, const QStringList& args);
+  virtual bool isFunctionSupported(int function);
 public slots:
   void setTextChanged();
   void setWidgetText(const QString &);

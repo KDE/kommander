@@ -130,6 +130,11 @@ void Dialog::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+bool Dialog::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText;
+}
+
 QString Dialog::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

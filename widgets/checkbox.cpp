@@ -100,6 +100,11 @@ void CheckBox::showEvent(QShowEvent* e)
   emit widgetOpened();
 }
 
+bool CheckBox::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::checked or f == DCOP::setChecked;
+}
+
 QString CheckBox::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

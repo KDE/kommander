@@ -82,6 +82,10 @@ void Slider::showEvent(QShowEvent * e)
   emit widgetOpened();
 }
 
+bool Slider::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear;
+}
 
 QString Slider::handleDCOP(int function, const QStringList& args)
 {

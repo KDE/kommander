@@ -82,6 +82,11 @@ void StatusBar::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+bool StatusBar::isFunctionSupported(int f)
+{
+  return f == DCOP::setText or f == DCOP::insertItem or f == DCOP::removeItem or f == DCOP::clear;
+}
+
 QString StatusBar::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

@@ -80,14 +80,19 @@ void ProgressBar::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+bool ProgressBar::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear or f == DCOP::setMaximum;
+}
+
 QString ProgressBar::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
+    case DCOP::text:
+      return QString::number(value());
     case DCOP::setText:
       setProgress(args[0].toUInt());
       break;
-    case DCOP::text:
-      return QString::number(value());
     case DCOP::clear:
       setProgress(0);
       break;

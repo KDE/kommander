@@ -91,6 +91,15 @@ void ListBox::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+bool ListBox::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::selection or f == DCOP::setSelection or
+    f == DCOP::insertItems or f == DCOP::insertItem or f == DCOP::removeItem or f == DCOP::clear or 
+    f == DCOP::currentItem or f == DCOP::setCurrentItem or f == DCOP::item or f == DCOP::addUniqueItem or
+      f == DCOP::findItem or f == DCOP::setPixmap or f == DCOP::text;
+}
+
+
 QString ListBox::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

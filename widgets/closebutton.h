@@ -51,6 +51,7 @@ public:
   bool writeStdout() const;
   
   virtual QString handleDCOP(int function, const QStringList& args);
+  virtual bool isFunctionSupported(int function);
 public slots:
   virtual void setWriteStdout(bool);
   virtual void setWidgetText(const QString &);

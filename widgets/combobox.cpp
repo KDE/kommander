@@ -95,6 +95,14 @@ void ComboBox::showEvent(QShowEvent *e)
     emit widgetOpened();
 }
 
+bool ComboBox::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::selection or f == DCOP::setSelection or 
+      f == DCOP::currentItem or f == DCOP::setCurrentItem or f == DCOP::item or 
+      f == DCOP::removeItem or f == DCOP::insertItem or f == DCOP::insertItems or
+      f == DCOP::clear;
+}
+
 QString ComboBox::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

@@ -93,6 +93,12 @@ void LineEdit::setWidgetText(const QString& a_text)
   emit widgetTextChanged(a_text);
 }
 
+bool LineEdit::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::selection or f == DCOP::setSelection or
+    f == DCOP::clear;
+}
+
 QString LineEdit::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

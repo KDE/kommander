@@ -173,6 +173,12 @@ void FileSelector::showEvent(QShowEvent * e)
   emit widgetOpened();
 }
 
+bool FileSelector::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::selection or f == DCOP::setSelection or
+      f == DCOP::clear;
+}
+
 QString FileSelector::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

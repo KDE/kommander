@@ -291,8 +291,7 @@ void AssocTextEditor::insertWidgetName(int index)
 
 void AssocTextEditor::insertFunction()
 {
-  FunctionsDialog pDialog(this, 0);
-  pDialog.setWidgetList(buildWidgetList());
+  FunctionsDialog pDialog(this, m_widgetList, 0);
   if (pDialog.exec())
     insertAssociatedText(pDialog.functionText());
 }

@@ -97,6 +97,11 @@ void ScriptObject::execute()
    process.run(evalAssociatedText()); 
 }
 
+bool ScriptObject::isFunctionSupported(int f)
+{
+  return f == DCOP::setText or f == DCOP::clear;
+}
+
 QString ScriptObject::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

@@ -161,6 +161,11 @@ void CloseButton::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+bool CloseButton::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText;
+}
+
 QString CloseButton::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

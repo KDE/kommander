@@ -88,6 +88,13 @@ void ButtonGroup::showEvent(QShowEvent* e)
   emit widgetOpened();
 }
 
+
+bool ButtonGroup::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::checked or f == DCOP::setChecked;
+}
+    
+
 QString ButtonGroup::handleDCOP(int function, const QStringList& args) 
 {
   switch (function) {

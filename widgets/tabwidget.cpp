@@ -80,6 +80,11 @@ void TabWidget::showEvent(QShowEvent* e)
   emit widgetOpened();
 }
 
+bool TabWidget::isFunctionSupported(int f)
+{
+  return f == DCOP::currentItem or f == DCOP::setCurrentItem;
+}
+
 QString TabWidget::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

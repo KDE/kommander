@@ -29,27 +29,34 @@
 
 /* OTHER INCLUDES */ 
 #include "functionsimpl.h"
-
+#include "kommanderwidget.h"
  
-FunctionsDialog::FunctionsDialog(QWidget* a_parent, char* a_name, bool a_modal)
-   : FunctionsDialogBase(a_parent, a_name, a_modal)
+FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widgetList, char* a_name, 
+  bool a_modal)
+  : FunctionsDialogBase(a_parent, a_name, a_modal), m_widgetList(a_widgetList)
 {
   clearButton->setPixmap(KGlobal::iconLoader()->loadIcon("locationbar_erase", KIcon::Toolbar));
   copyButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow", KIcon::Toolbar));
   
   groupComboBox->insertStringList(SpecialInformation::groups());
   connect(groupComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));
+  connect(widgetComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));
   connect(functionListBox, SIGNAL(highlighted(int)), SLOT(functionChanged(int)));
   connect(copyButton, SIGNAL(clicked()), SLOT(copyText()));
   connect(clearButton, SIGNAL(clicked()), insertedText, SLOT(clear()));
-  int indexDCOP = 0;    // Select DCOP functions by default
+  
+  // build widget name list
+  for (QDictIterator<QWidget> It(m_widgetList); It.current(); ++It)
+    widgetComboBox->insertItem(It.currentKey());
+  
+  m_DCOP = -1;    // Select DCOP functions by default
   for (int i=0; i<groupComboBox->count(); i++)
      if (groupComboBox->text(i) == "DCOP")
      {
-       indexDCOP = i; 
+       m_DCOP = i; 
        break;
      }
-  groupComboBox->setCurrentItem(indexDCOP);
+  groupComboBox->setCurrentItem(m_DCOP);
   groupChanged(groupComboBox->currentItem());
 }
 
@@ -76,8 +83,20 @@ QString FunctionsDialog::currentFunctionText()
 
 void FunctionsDialog::groupChanged(int index)
 {
+  index = groupComboBox->currentItem();
   functionListBox->clear();
-  functionListBox->insertStringList(SpecialInformation::functions(groupComboBox->text(index)));
+  if (index == m_DCOP) 
+  {
+    QStringList pFunctions = SpecialInformation::functions(groupComboBox->text(index));
+    KommanderWidget* a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
+    int pGroup = SpecialInformation::group(groupComboBox->text(index));
+    if (a_atw) 
+      for (uint i=0; i<pFunctions.count(); i++)
+        if (a_atw->isFunctionSupported(SpecialInformation::function(pGroup, pFunctions[i])))
+          functionListBox->insertItem(pFunctions[i]);
+  }
+  else
+    functionListBox->insertStringList(SpecialInformation::functions(groupComboBox->text(index)));
   functionListBox->setCurrentItem(0);
   functionChanged(functionListBox->currentItem());
 }
@@ -147,13 +166,6 @@ QString FunctionsDialog::params()
     if (edits[i]->isShown())
       pars.append(edits[i]->text());
   return pars.join(", ");
-}
-
-void FunctionsDialog::setWidgetList(const QStringList& list)
-{
-  widgetComboBox->clear();
-  widgetComboBox->insertStringList(list);
-  widgetComboBox->setCurrentItem(0);
 }
 
 

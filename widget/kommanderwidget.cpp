@@ -605,6 +605,10 @@ QString KommanderWidget::handleDCOP(const int, const QStringList&)
   return QString::null;
 }
 
+bool KommanderWidget::isFunctionSupported(int function)
+{
+  return true;  
+}
 
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;

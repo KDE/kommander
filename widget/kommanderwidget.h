@@ -84,6 +84,9 @@ public:
   
   // Handles all widget-specific DCOP calls 
   virtual QString handleDCOP(int function, const QStringList& args = QStringList());
+  // Checks if appropriate function is supported by widget. By default all functions
+  // are reported as supported: use this to allow recognizing incorrect function calls.
+  virtual bool isFunctionSupported(int function);
   
   // Recognizes editor vs executor mode
   static bool inEditor;

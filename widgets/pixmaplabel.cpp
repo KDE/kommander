@@ -94,6 +94,11 @@ void PixmapLabel::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+bool PixmapLabel::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear;
+}
+
 QString PixmapLabel::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

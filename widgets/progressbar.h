@@ -50,6 +50,7 @@ public:
   virtual void setPopulationText(const QString&);
 
   virtual QString handleDCOP(int function, const QStringList& args);
+  virtual bool isFunctionSupported(int function);
 public slots:
   virtual void populate();
 signals:

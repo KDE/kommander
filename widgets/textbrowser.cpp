@@ -82,6 +82,10 @@ void TextBrowser::showEvent(QShowEvent * e)
   emit widgetOpened();
 }
 
+bool TextBrowser::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::selection or f == DCOP::clear;
+}
 
 QString TextBrowser::handleDCOP(int function, const QStringList& args)
 {

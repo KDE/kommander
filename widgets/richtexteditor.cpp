@@ -212,6 +212,11 @@ void RichTextEditor::showEvent( QShowEvent *e )
     emit widgetOpened();
 }
 
+bool RichTextEditor::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear or f == DCOP::selection;
+}
+
 QString RichTextEditor::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

@@ -86,17 +86,22 @@ void Label::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+bool Label::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear;
+}
+
 QString Label::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
+    case DCOP::text:
+      return text();
     case DCOP::setText:
       setWidgetText(args[0]);
       break;
     case DCOP::clear:
       setWidgetText("");
       break;
-    case DCOP::text:
-      return text();
   }
   return QString::null;
 }

@@ -145,6 +145,11 @@ void ExecButton::showEvent(QShowEvent* e)
   emit widgetOpened();
 }
 
+bool ExecButton::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText;
+}
+
 QString ExecButton::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

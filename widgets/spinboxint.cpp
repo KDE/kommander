@@ -87,6 +87,11 @@ void SpinBoxInt::showEvent( QShowEvent *e )
   emit widgetOpened();
 }
 
+bool SpinBoxInt::isFunctionSupported(int f)
+{
+  return f == DCOP::text or f == DCOP::setText or f == DCOP::setMaximum;
+}
+
 QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
