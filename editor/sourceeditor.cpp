@@ -57,12 +57,12 @@ SourceEditor::~SourceEditor()
     saveBreakPoints();
     editor = 0;
     if ( formWindow() ) {
-	formWindow()->formFile()->setCodeEdited( FALSE );
-	formWindow()->formFile()->setEditor( 0 );
+  formWindow()->formFile()->setCodeEdited( FALSE );
+  formWindow()->formFile()->setEditor( 0 );
     } else if ( sourceFile() ) {
-	sourceFile()->setEditor( 0 );
-	if ( MainWindow::self->objectHierarchy()->sourceEditor() == this )
-	    MainWindow::self->objectHierarchy()->setFormWindow( 0, 0 );
+  sourceFile()->setEditor( 0 );
+  if ( MainWindow::self->objectHierarchy()->sourceEditor() == this )
+      MainWindow::self->objectHierarchy()->setFormWindow( 0, 0 );
     }
     iFace->release();
     lIface->release();
@@ -72,50 +72,52 @@ SourceEditor::~SourceEditor()
 void SourceEditor::setObject( QObject *o, Project *p )
 {
     if ( sourceFile() )
-	sourceFile()->setEditor( 0 );
+  sourceFile()->setEditor( 0 );
     if ( formWindow() ) {
-	formWindow()->formFile()->setCodeEdited( FALSE );
-	formWindow()->formFile()->setEditor( 0 );
+  formWindow()->formFile()->setCodeEdited( FALSE );
+  formWindow()->formFile()->setEditor( 0 );
     }
     if ( o && o->inherits( "FormWindow" ) )
-	( (FormWindow*)o )->formFile()->setCodeEdited( TRUE );
+  ( (FormWindow*)o )->formFile()->setCodeEdited( TRUE );
     save();
     bool changed = FALSE;
     if ( &(*obj) != o ) {
-	saveBreakPoints();
-	changed = TRUE;
+  saveBreakPoints();
+  changed = TRUE;
     }
     obj = o;
 #ifndef KOMMANDER
     pro = p;
+#else
+    Q_UNUSED(p);
 #endif
     setCaption( tr( "Edit %1" ).arg( ( formWindow() ? QString( obj->name() ) : QString( sourceFile()->fileName() ) ) ) );
     if ( sourceFile() )
-	sourceFile()->setEditor( this );
+  sourceFile()->setEditor( this );
     else if ( formWindow() )
-	formWindow()->formFile()->setEditor( this );
+  formWindow()->formFile()->setEditor( this );
     iFace->setText( sourceOfObject( obj, lang, iFace, lIface ) );
 #ifndef KOMMANDER
     if ( pro && formWindow() )
-	iFace->setContext( pro->formList(), formWindow()->mainContainer() );
+  iFace->setContext( pro->formList(), formWindow()->mainContainer() );
     else
-	iFace->setContext( pro->formList(), 0 );
+  iFace->setContext( pro->formList(), 0 );
 #endif
     if ( changed || sourceFile() )
-	iFace->setBreakPoints( MetaDataBase::breakPoints( o ) );
+  iFace->setBreakPoints( MetaDataBase::breakPoints( o ) );
     MainWindow::self->objectHierarchy()->showClasses( this );
 }
 
 QString SourceEditor::sourceOfObject( QObject *o, const QString &,
-				      EditorInterface *, LanguageInterface * )
+              EditorInterface *, LanguageInterface * )
 {
     QString txt;
     if ( !o )
-	return txt;
+  return txt;
     if ( o->inherits( "FormWindow" ) )
-	txt = ( (FormWindow*)o )->formFile()->code();
+  txt = ( (FormWindow*)o )->formFile()->code();
     else if ( o->inherits( "SourceFile" ) )
-	txt = ( (SourceFile*)o )->text();
+  txt = ( (SourceFile*)o )->text();
     return txt;
 }
 
@@ -133,24 +135,24 @@ void SourceEditor::closeEvent( QCloseEvent *e )
 {
     e->accept();
     if ( !obj )
-	return;
+  return;
     if ( formWindow() ) {
-	save();
-	formWindow()->formFile()->cm = formWindow()->formFile()->isModified();
+  save();
+  formWindow()->formFile()->cm = formWindow()->formFile()->isModified();
     } else {
-	if ( !sourceFile()->closeEvent() )
-	    e->ignore();
+  if ( !sourceFile()->closeEvent() )
+      e->ignore();
     }
 }
 
 void SourceEditor::save()
 {
     if ( !obj )
-	return;
+  return;
     if ( formWindow() )
-	formWindow()->formFile()->syncCode();
+  formWindow()->formFile()->syncCode();
     else if ( sourceFile() )
-	sourceFile()->setText( iFace->text() );
+  sourceFile()->setText( iFace->text() );
 }
 
 QString SourceEditor::language() const
@@ -206,7 +208,7 @@ void SourceEditor::setModified( bool b )
 void SourceEditor::refresh( bool allowSave )
 {
     if ( allowSave )
-	save();
+  save();
     iFace->setText( sourceOfObject( obj, lang, iFace, lIface ) );
 }
 
@@ -214,18 +216,18 @@ void SourceEditor::resetContext()
 {
 #ifndef KOMMANDER
     if ( pro && formWindow() )
-	iFace->setContext( pro->formList(), formWindow()->mainContainer() );
+  iFace->setContext( pro->formList(), formWindow()->mainContainer() );
     else if ( pro && sourceFile() )
-	iFace->setContext( pro->formList(), 0 );
+  iFace->setContext( pro->formList(), 0 );
 #endif
 }
 
 void SourceEditor::setFocus()
 {
     if ( formWindow() )
-	formWindow()->formFile()->setCodeEdited( TRUE );
+  formWindow()->formFile()->setCodeEdited( TRUE );
     if ( editor )
-	editor->setFocus();
+  editor->setFocus();
 }
 
 int SourceEditor::numLines() const
@@ -236,7 +238,7 @@ int SourceEditor::numLines() const
 void SourceEditor::saveBreakPoints()
 {
     if ( !obj )
-	return;
+  return;
     QValueList<int> l;
     iFace->breakPoints( l );
     MetaDataBase::setBreakPoints( obj, l );
@@ -270,31 +272,31 @@ bool SourceEditor::isModified() const
 void SourceEditor::checkTimeStamp()
 {
     if ( formWindow() )
-	formWindow()->formFile()->checkTimeStamp();
+  formWindow()->formFile()->checkTimeStamp();
     else if ( sourceFile() )
-	sourceFile()->checkTimeStamp();
+  sourceFile()->checkTimeStamp();
 }
 
 bool SourceEditor::saveAs()
 {
     if ( formWindow() )
-	return formWindow()->formFile()->saveAs();
+  return formWindow()->formFile()->saveAs();
     else if ( sourceFile() )
-	return sourceFile()->saveAs();
+  return sourceFile()->saveAs();
     return FALSE;
 }
 
 SourceFile *SourceEditor::sourceFile() const
 {
     if ( !obj || !obj->inherits( "SourceFile" ) )
-	return 0;
+  return 0;
     return (SourceFile*)(QObject*)obj;
 }
 
 FormWindow *SourceEditor::formWindow() const
 {
     if ( !obj || !obj->inherits( "FormWindow" ) )
-	return 0;
+  return 0;
     return (FormWindow*)(QObject*)obj;
 }
 #include "sourceeditor.moc"

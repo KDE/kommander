@@ -47,7 +47,7 @@ SourceFile::SourceFile( const QString &fn, bool temp )
 #endif
     MetaDataBase::addEntry( this );
     if ( !temp )
-	checkFileName( FALSE );
+  checkFileName( FALSE );
 }
 
 SourceFile::~SourceFile()
@@ -68,38 +68,38 @@ void SourceFile::setText( const QString &s )
 bool SourceFile::save()
 {
     if ( fileNameTemp )
-	return saveAs();
+  return saveAs();
     if ( !isModified() )
-	return TRUE;
+  return TRUE;
     if ( ed )
-	ed->save();
+  ed->save();
 
 #ifndef KOMMANDER
     if ( QFile::exists( pro->makeAbsolute( filename ) ) ) {
-	QString fn( pro->makeAbsolute( filename ) );
+  QString fn( pro->makeAbsolute( filename ) );
 #else
     if ( QFile::exists( filename  ) ) {
-	QString fn( filename );
+  QString fn( filename );
 #endif
 
 #if defined(Q_OS_WIN32)
-	fn += ".bak";
+  fn += ".bak";
 #else
-	fn += "~";
+  fn += "~";
 #endif
 #ifndef KOMMANDER
-	QFile f(pro->makeRelative(filename));
+  QFile f(pro->makeRelative(filename));
 #else
-	QFile f( filename );
+  QFile f( filename );
 #endif
-	if ( f.open( IO_ReadOnly ) ) {
-	    QFile f2( fn );
-	    if ( f2.open( IO_WriteOnly | IO_Translate ) ) {
-		QCString data( f.size() );
-		f.readBlock( data.data(), f.size() );
-		f2.writeBlock( data );
-	    }
-	}
+  if ( f.open( IO_ReadOnly ) ) {
+      QFile f2( fn );
+      if ( f2.open( IO_WriteOnly | IO_Translate ) ) {
+    QCString data( f.size() );
+    f.readBlock( data.data(), f.size() );
+    f2.writeBlock( data );
+      }
+  }
     }
 
 #ifndef KOMMANDER
@@ -108,7 +108,7 @@ bool SourceFile::save()
     QFile f(filename);
 #endif
     if ( !f.open( IO_WriteOnly | IO_Translate ) )
-	return saveAs();
+  return saveAs();
 
     QTextStream ts( &f );
     ts << txt;
@@ -120,13 +120,13 @@ bool SourceFile::save()
 bool SourceFile::saveAs()
 {
 #ifndef KOMMANDER
-	LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
+  LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
 #else
-	LanguageInterface *iface = MetaDataBase::languageInterface( "C++" );
+  LanguageInterface *iface = MetaDataBase::languageInterface( "C++" );
 #endif
     QString filter;
     if ( iface )
-	filter = iface->fileFilterList().join(";;");
+  filter = iface->fileFilterList().join(";;");
 
     QString old = filename;
 #ifndef KOMMANDER
@@ -135,7 +135,7 @@ bool SourceFile::saveAs()
     QString fn = QFileDialog::getSaveFileName( filename , filter );
 #endif
     if ( fn.isEmpty() )
-	return FALSE;
+  return FALSE;
     fileNameTemp = FALSE;
 #ifndef KOMMANDER
     filename = pro->makeRelative( fn );
@@ -143,8 +143,8 @@ bool SourceFile::saveAs()
     filename = fn ;
 #endif
     if ( !checkFileName( TRUE ) ) {
-	filename = old;
-	return FALSE;
+  filename = old;
+  return FALSE;
     }
 #ifndef KOMMANDER
     pro->setModified( TRUE );
@@ -155,7 +155,7 @@ bool SourceFile::saveAs()
     timeStamp.setFileName( filename );
 #endif
     if ( ed )
-	ed->setCaption( tr( "Edit %1" ).arg( filename ) );
+  ed->setCaption( tr( "Edit %1" ).arg( filename ) );
     setModified( TRUE );
     return save();
 }
@@ -163,12 +163,12 @@ bool SourceFile::saveAs()
 bool SourceFile::load()
 {
 #ifndef KOMMANDER
-	QFile f( pro->makeAbsolute( filename ) );
+  QFile f( pro->makeAbsolute( filename ) );
 #else
-	QFile f( filename );
+  QFile f( filename );
 #endif
     if ( !f.open( IO_ReadOnly ) )
-	return FALSE;
+  return FALSE;
     QTextStream ts( &f );
     txt = ts.read();
     timeStamp.update();
@@ -178,7 +178,7 @@ bool SourceFile::load()
 DesignerSourceFile *SourceFile::iFace()
 {
     if ( !iface )
-	iface = new DesignerSourceFileImpl( this );
+  iface = new DesignerSourceFileImpl( this );
     return iface;
 }
 
@@ -190,7 +190,7 @@ void SourceFile::setEditor( SourceEditor *e )
 bool SourceFile::isModified() const
 {
     if ( !ed )
-	return FALSE;
+  return FALSE;
     return ed->isModified();
 }
 
@@ -198,16 +198,16 @@ static QMap<QString, int> *extensionCounter;
 QString SourceFile::createUnnamedFileName( const QString &extension )
 {
     if ( !extensionCounter )
-	extensionCounter = new QMap<QString, int>;
+  extensionCounter = new QMap<QString, int>;
     int count = -1;
     QMap<QString, int>::Iterator it;
     if ( ( it = extensionCounter->find( extension ) ) != extensionCounter->end() ) {
-	count = *it;
-	++count;
-	extensionCounter->replace( extension, count );
+  count = *it;
+  ++count;
+  extensionCounter->replace( extension, count );
     } else {
-	count = 1;
-	extensionCounter->insert( extension, count );
+  count = 1;
+  extensionCounter->insert( extension, count );
     }
 
     return "unnamed" + QString::number( count ) + "." + extension;
@@ -216,7 +216,7 @@ QString SourceFile::createUnnamedFileName( const QString &extension )
 void SourceFile::setModified( bool m )
 {
     if ( !ed )
-	return;
+  return;
     ed->setModified( m );
 }
 
@@ -224,42 +224,42 @@ bool SourceFile::closeEvent()
 {
     if ( !isModified() && fileNameTemp ) {
 #ifndef KOMMANDER
-	    pro->removeSourceFile( this );
+      pro->removeSourceFile( this );
 #else
-	    ;
+      ;
 #endif
-	return TRUE;
+  return TRUE;
     }
 
     if ( !isModified() )
-	return TRUE;
+  return TRUE;
 
     if ( ed )
-	ed->save();
+  ed->save();
 
     switch ( QMessageBox::warning( MainWindow::self, tr( "Save Code" ),
-				   tr( "Save changes to '%1'?" ).arg( filename ),
-				   tr( "&Yes" ), tr( "&No" ), tr( "&Cancel" ), 0, 2 ) ) {
+           tr( "Save changes to '%1'?" ).arg( filename ),
+           tr( "&Yes" ), tr( "&No" ), tr( "&Cancel" ), 0, 2 ) ) {
     case 0: // save
-	if ( !save() )
-	    return FALSE;
-	break;
+  if ( !save() )
+      return FALSE;
+  break;
     case 1: // don't save
-	load();
-	if ( ed )
-	    ed->editorInterface()->setText( txt );
-	if ( fileNameTemp )
+  load();
+  if ( ed )
+      ed->editorInterface()->setText( txt );
+  if ( fileNameTemp )
 #ifndef KOMMANDER
-		pro->removeSourceFile( this );
+    pro->removeSourceFile( this );
 #else
-	;
+  ;
 #endif
-	MainWindow::self->workspace()->update();
-	break;
+  MainWindow::self->workspace()->update();
+  break;
     case 2: // cancel
-	return FALSE;
+  return FALSE;
     default:
-	break;
+  break;
     }
     setModified( FALSE );
     return TRUE;
@@ -268,7 +268,7 @@ bool SourceFile::closeEvent()
 bool SourceFile::close()
 {
     if ( !ed )
-	return TRUE;
+  return TRUE;
     return ed->close();
 }
 
@@ -282,15 +282,15 @@ Project *SourceFile::project() const
 void SourceFile::checkTimeStamp()
 {
     if ( timeStamp.isUpToDate() )
-	return;
+  return;
     timeStamp.update();
     if ( QMessageBox::information( MainWindow::self, tr( "Qt Designer" ),
-				   tr( "File '%1' has been changed outside Qt Designer.\n"
-				       "Do you want to reload it?" ).arg( filename ),
-				   tr( "&Yes" ), tr( "&No" ) ) == 0 ) {
-	load();
-	if ( ed )
-	    ed->editorInterface()->setText( txt );
+           tr( "File '%1' has been changed outside Qt Designer.\n"
+               "Do you want to reload it?" ).arg( filename ),
+           tr( "&Yes" ), tr( "&No" ) ) == 0 ) {
+  load();
+  if ( ed )
+      ed->editorInterface()->setText( txt );
     }
 }
 
@@ -299,23 +299,25 @@ bool SourceFile::checkFileName( bool allowBreak )
 #ifndef KOMMANDER
     SourceFile *sf = pro->findSourceFile( filename, this );
     if ( sf )
-	QMessageBox::warning( MainWindow::self, tr( "Invalid Filename" ),
-			      tr( "The project already contains a source file with \n"
-				  "filename '%1'. Please choose a new filename." ).arg( filename ) );
+  QMessageBox::warning( MainWindow::self, tr( "Invalid Filename" ),
+            tr( "The project already contains a source file with \n"
+          "filename '%1'. Please choose a new filename." ).arg( filename ) );
     while ( sf ) {
-	LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
-	QString filter;
-	if ( iface )
-	    filter = iface->fileFilterList().join(";;");
-	QString fn;
-	while ( fn.isEmpty() ) {
-	    fn = QFileDialog::getSaveFileName( pro->makeAbsolute( filename ), filter );
-	    if ( allowBreak && fn.isEmpty() )
-		return FALSE;
-	}
-	filename = pro->makeRelative( fn );
-	sf = pro->findSourceFile( filename, this );
+  LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
+  QString filter;
+  if ( iface )
+      filter = iface->fileFilterList().join(";;");
+  QString fn;
+  while ( fn.isEmpty() ) {
+      fn = QFileDialog::getSaveFileName( pro->makeAbsolute( filename ), filter );
+      if ( allowBreak && fn.isEmpty() )
+    return FALSE;
+  }
+  filename = pro->makeRelative( fn );
+  sf = pro->findSourceFile( filename, this );
     }
+#else
+    Q_UNUSED(allowBreak);
 #endif
     return TRUE;
 }
