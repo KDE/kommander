@@ -43,7 +43,7 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
 TreeWidget::~TreeWidget()
 {
 }
-
+/*
 void TreeWidget::addItemFromString(const QString& s)
 {
   QStringList elements = QStringList::split("/", s);
@@ -72,6 +72,38 @@ void TreeWidget::addItemFromString(const QString& s)
         parent = itemFromString(parent, elements[i]);
       m_lastPath.insert(i, parent);
     }
+  }
+}
+*/
+void TreeWidget::addItemFromString(const QString& s)
+{
+  QStringList elements = QStringList::split("/", s);
+  QListViewItem* parent = 0;
+  if (m_lastPath.size() < elements.count())
+    m_lastPath.resize(elements.count());
+  for (uint i=0; i<elements.count(); i++)
+  {
+    if (m_lastPath[i] && m_lastPath[i]->text(0) == elements[i])
+    {
+      parent = m_lastPath[i];
+      continue;
+    }
+    else 
+    {
+      QListViewItem* item = (i>0) ? parent->firstChild() : firstChild();
+      while (item)
+      {
+        if (item->text(0) == elements[i])
+          break;
+        item = item->nextSibling(); 
+      }
+      if (item)
+        parent = item;
+      else 
+        parent = itemFromString(parent, elements[i]);
+      m_lastPath.insert(i, parent); 
+    }
+    
   }
 }
 
