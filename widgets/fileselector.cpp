@@ -190,8 +190,6 @@ void FileSelector::setShowEditor(bool a_visible)
     m_lineEdit->hide();
 }
 
-
-
 void FileSelector::showEvent(QShowEvent * e)
 {
   QWidget::showEvent(e);

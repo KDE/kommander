@@ -180,6 +180,7 @@ QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, 
   if (f == -1)
   {
     pos = s.length()+1;
+    printError(i18n("Unterminated @if ... @endif block."));
     return QString::null;
   }
   else
@@ -199,7 +200,7 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
 //FIXME: better detection of block boundaries; add error message
   if (f == -1)
   {
-    pos = s.length()+1;
+    printError(i18n("Unterminated @switch ... @end block."));
     return QString::null;
   }
   else
