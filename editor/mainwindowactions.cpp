@@ -420,10 +420,10 @@ void MainWindow::setupToolActions()
          "add and change custom widgets</p>" ).arg(toolbarHelp).
          arg( i18n(" Click on the buttons to insert a single widget, "
          "or double click to insert multiple widgets.") ));
-  addToolBar( tb, "Custom" );
+  addToolBar( tb, i18n("Custom") );
   customWidgetToolBar = tb;
   QPopupMenu *menu = new QPopupMenu( this, "Custom Widgets" );
-  mmenu->insertItem( "Custom", menu );
+  mmenu->insertItem( i18n("Custom"), menu );
   customWidgetMenu = menu;
   customWidgetToolBar->hide();
   actionToolsCustomWidget->addTo( customWidgetMenu );
