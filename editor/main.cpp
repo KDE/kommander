@@ -59,7 +59,7 @@ int main( int argc, char *argv[] )
   KConfig *config = kapp->config();
   config->setGroup("General");
   bool splashScreen = config->readBoolEntry("SplashScreen", true);
-  KSplashScreen* splash;
+  KSplashScreen* splash = 0;
   if (splashScreen) {
      splash = new KSplashScreen(UserIcon("kommandersplash"));
     splash->show();
