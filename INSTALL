@@ -1,3 +1,8 @@
+2002-10-12 - Preview building instructions
+To build Kommander you need to created a link to the admin directory 
+in the kommander directory. Then treat Kommander as a base direactory
+and run make -f Makefile.cvs and do your configure and amake.
+
 Basic Installation
 ==================
 
