@@ -18,21 +18,19 @@
 #ifndef INSTANCE_H
 #define INSTANCE_H
 
-/* KDE INCLUDES */
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qobject.h>
 #include <qmap.h>
 
 /* OTHER INCLUDES */
-
 #include "dcopkommanderif.h"
 
 /* FORWARD DECLARATIONS */
 class QWidget;
-class KommanderWidget;
 class QDialog;
 class QFile;
+class KommanderWidget;
 
 /**
   *@author Marc Britton
@@ -64,10 +62,10 @@ public:
   virtual void setGlobal(const QString& variableName, const QString& value);
    
 public slots:
-  /** Builds the instance then runs*/
-  bool run(QFile * =0);
+  /** Builds the instance then executes it */
+  bool run(QFile* = 0);
   /** Sets the instance's parent */
-  void setParent(QWidget *);
+  void setParent(QWidget*);
   /** Sets the UI file name */
   void setUIFileName(QString);
   /** Returns whether the instance is built */
@@ -75,7 +73,7 @@ public slots:
   /** Builds the instance */
   bool build();
   /** Builds the instance from an input file */
-  bool build(QFile *);
+  bool build(QFile*);
 protected:
   /* Dialog Instance */
   QDialog *m_instance;
@@ -85,8 +83,10 @@ protected:
   QString m_uiFileName;
   /** The parent widget */
   QWidget *m_parent;
-  //* Global variables */
+  /* Global variables */
   QMap<QString, QString> m_globals;
+  /* Get object by name */
+  QObjectList* stringToWidget(const QString& name);
 };
 
 #endif
