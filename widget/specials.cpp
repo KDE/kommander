@@ -139,7 +139,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::i18n, "i18n(QString variable)",
      i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."), 1);
   insert(Kommander::ifBlock, "if(QString expression)",
-     i18n("Executes block if expression is true (non-zero number of non-empty string.) <p>Close with <b>@endif</b></p>"), 1);
+     i18n("Executes block if expression is true (non-zero number or non-empty string.) <p>Close with <b>@endif</b></p>"), 1);
   insert(Kommander::dialog, "dialog(QString file, QString args)",
      i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"), 1);
   insert(Kommander::readSetting, "readSetting(QString key, QString default)",
