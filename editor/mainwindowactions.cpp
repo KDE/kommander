@@ -674,8 +674,13 @@ bool MainWindow::fileSaveAs()
 
 void MainWindow::fileSaveAll()
 {
-  fprintf(stderr, "MainWindow::fileSaveAll");
-// FIXME: does nothing now
+  QWidgetList windows = qworkspace->windowList(QWorkspace::StackingOrder);
+  for (int i = 0; i < (int)windows.count(); ++i) 
+  {
+    FormWindow* fw = dynamic_cast<FormWindow*>(windows.at(i));
+    if (fw)
+      fw->formFile()->save();
+  }
 }
 
 static bool inSaveAllTemp = false;
