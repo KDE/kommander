@@ -123,8 +123,8 @@ public slots:
     void showDialogHelp();
 
 signals:
-	void addedFormFile(FormFile *);
-	void removedFormFile(FormFile *);
+    void addedFormFile(FormFile *);
+    void removedFormFile(FormFile *);
     void currentToolChanged();
     void hasActiveForm( bool );
     void hasActiveWindow( bool );
@@ -182,7 +182,9 @@ public slots:
     void helpContents();
     void helpManual();
     void helpAbout();
+    void helpAboutKDE();
     void helpAboutQt();
+    void helpReportBug();
     
 private slots:
     void activeWindowChanged( QWidget *w );
@@ -269,8 +271,9 @@ private:
     QActionGroup *actionGroupTools;
     QAction* actionPointerTool, *actionConnectTool, *actionOrderTool;
     QAction* actionCurrentTool;
-    QAction *actionHelpContents, *actionHelpAbout, *actionHelpAboutQt, *actionHelpWhatsThis;
+    QAction *actionHelpContents, *actionHelpAbout, *actionHelpAboutKDE, *actionHelpAboutQt, *actionHelpWhatsThis;
     QAction *actionHelpManual;
+    QAction *actionHelpReportBug;
 #if defined(QT_NON_COMMERCIAL)
     QAction *actionHelpRegister;
 #endif

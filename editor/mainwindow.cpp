@@ -84,7 +84,9 @@
 #include <kommanderwidget.h>
 #include "assoctexteditorimpl.h"
 #include <dialog.h>
-
+#include <kaboutdata.h>
+#include <kaboutkde.h>
+#include <kbugreport.h>
 #include <klocale.h>
 
 static bool mblockNewForms = FALSE;
@@ -491,9 +493,22 @@ void MainWindow::helpAbout()
     dlg.exec();
 }
 
+void MainWindow::helpAboutKDE()
+{
+    KAboutKDE dlg( this, 0, TRUE );
+    dlg.exec();
+}
+
 void MainWindow::helpAboutQt()
 {
-    QMessageBox::aboutQt( this, "Qt Designer" );
+    QMessageBox::aboutQt( this, i18n("Kommander Editor"));
+}
+
+void MainWindow::helpReportBug()
+{
+    KAboutData aboutData("Kommander", I18N_NOOP("Kommander Editor"), "1.0Alpha5");
+    KBugReport dlg(this, true, &aboutData);
+    dlg.exec();
 }
 
 

@@ -69,28 +69,6 @@
 #include <kstdguiitem.h>
 #include <kiconloader.h>
 
-static const char * whatsthis_image[] = {
-    "16 16 3 1",
-    "  c None",
-    "o  c #000000",
-    "a  c #000080",
-    "o        aaaaa  ",
-    "oo      aaa aaa ",
-    "ooo    aaa   aaa",
-    "oooo   aa     aa",
-    "ooooo  aa     aa",
-    "oooooo  a    aaa",
-    "ooooooo     aaa ",
-    "oooooooo   aaa  ",
-    "ooooooooo aaa   ",
-    "ooooo     aaa   ",
-    "oo ooo          ",
-    "o  ooo    aaa   ",
-    "    ooo   aaa   ",
-    "    ooo         ",
-    "     ooo        ",
-    "     ooo        "};
-
 const QString toolbarHelp = "<p>Toolbars contain a number of buttons to "
 "provide quick access to often used functions.%1"
 "<br>Click on the toolbar handle to hide the toolbar, "
@@ -667,16 +645,26 @@ void MainWindow::setupHelpActions()
     actionHelpContents->setWhatsThis( whatsThisFrom( "Help|Contents" ) );
     connect( actionHelpContents, SIGNAL( activated() ), this, SLOT( helpContents() ) );
 
-    actionHelpManual = new QAction( i18n("Manual" ), i18n("Kommander &Handbook" ), 0, this, 0 );
+    actionHelpManual = new QAction( i18n("Kommander Handbook" ), i18n("Kommander &Handbook" ), 0, this, 0 );
     actionHelpManual->setStatusTip( i18n("Opens the Kommander Handbook") );
     actionHelpManual->setWhatsThis( whatsThisFrom( "Help|Kommander Handbook" ) );
     actionHelpManual->setIconSet(SmallIconSet("contents"));
     connect( actionHelpManual, SIGNAL( activated() ), this, SLOT( helpManual() ) );
 
-    actionHelpAbout = new QAction( i18n("About"), QPixmap(), i18n("&About"), 0, this, 0 );
-    actionHelpAbout->setStatusTip( i18n("Displays information about Qt Designer") );
-    actionHelpAbout->setWhatsThis( whatsThisFrom( "Help|About" ) );
+    actionHelpReportBug = new QAction( i18n("Report Bug..."), QPixmap(), i18n("&Report Bug..."), 0, this, 0 );
+    actionHelpReportBug->setStatusTip( i18n("Report bug or wish for Kommander") );
+    actionHelpReportBug->setWhatsThis( whatsThisFrom( "Help|Report bug or wish" ) );
+    connect( actionHelpReportBug, SIGNAL( activated() ), this, SLOT( helpReportBug() ) );
+
+    actionHelpAbout = new QAction( i18n("About Kommander"), SmallIcon("kommander"), i18n("&About Kommander"), 0, this, 0 );
+    actionHelpAbout->setStatusTip( i18n("Displays information about Kommander") );
+    actionHelpAbout->setWhatsThis( whatsThisFrom( "Help|About Kommander" ) );
     connect( actionHelpAbout, SIGNAL( activated() ), this, SLOT( helpAbout() ) );
+
+    actionHelpAboutKDE = new QAction( i18n("About KDE"), SmallIcon("about_kde"), i18n("About &KDE"), 0, this, 0 );
+    actionHelpAboutKDE->setStatusTip( i18n("Displays information about KDE") );
+    actionHelpAboutKDE->setWhatsThis( whatsThisFrom( "Help|About KDE" ) );
+    connect( actionHelpAboutKDE, SIGNAL( activated() ), this, SLOT( helpAboutKDE() ) );
 
     actionHelpAboutQt = new QAction( i18n("About Qt"), QPixmap(), i18n("About &Qt"), 0, this, 0 );
     actionHelpAboutQt->setStatusTip( i18n("Displays information about the Qt Toolkit") );
@@ -690,7 +678,7 @@ void MainWindow::setupHelpActions()
     connect( actionHelpRegister, SIGNAL( activated() ), this, SLOT( helpRegister() ) );
 #endif
 
-    actionHelpWhatsThis = new QAction( i18n("What's This?"), QIconSet( whatsthis_image, whatsthis_image ),
+    actionHelpWhatsThis = new QAction( i18n("What's This?"), SmallIconSet("contexthelp"),
                i18n("What's This?"), SHIFT + Key_F1, this, 0 );
     actionHelpWhatsThis->setStatusTip( i18n("\"What's This?\" context sensitive help") );
     actionHelpWhatsThis->setWhatsThis( whatsThisFrom( "Help|What's This?" ) );
@@ -707,15 +695,17 @@ void MainWindow::setupHelpActions()
     menubar->insertItem( i18n("&Help" ), menu );
     actionHelpManual->addTo( menu );
     actionHelpContents->addTo( menu );
+    actionHelpWhatsThis->addTo( menu );
+    menu->insertSeparator();
+    actionHelpReportBug->addTo( menu );
     menu->insertSeparator();
     actionHelpAbout->addTo( menu );
+    actionHelpAboutKDE->addTo( menu );
     actionHelpAboutQt->addTo( menu );
 #if defined(QT_NON_COMMERCIAL)
     actionHelpRegister->addTo( menu );
 #endif
 
-    menu->insertSeparator();
-    actionHelpWhatsThis->addTo( menu );
 }
 
 void MainWindow::fileNew()
