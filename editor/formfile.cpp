@@ -111,8 +111,11 @@ bool FormFile::save(bool withMsgBox)
   resource.setWidget(formWindow());
   if (!resource.save(filename, false))
   {
-    MainWindow::self->statusBar()->message(i18n("Failed to save file '%1'.").arg(filename), 5000);
-    return saveAs();
+    if (KMessageBox::questionYesNo(MainWindow::self, i18n("Failed to save file '%1'.\n"
+        "Do you want to use another file name?").arg(filename)) == KMessageBox::Yes)
+      return saveAs();
+    else 
+      return false;
   }
   MainWindow::self->statusBar()->message(i18n("'%1' saved.").arg(filename), 3000);
   setModified(false);
