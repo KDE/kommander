@@ -44,7 +44,25 @@
 &lt;b&gt;Lowercase:&lt;/b&gt; @String.lower("@LineEdit1")&lt;br&gt;
 &lt;b&gt;Is a number?:&lt;/b&gt; @String.isNumber("@LineEdit1")&lt;br&gt;
 &lt;b&gt;Is empty?&lt;/b&gt; @String.isEmpty("@LineEdit1")&lt;br&gt;
-&lt;b&gt;Compare with "Kommander":&lt;/b&gt; @String.compare("@LineEdit1", "Kommander")</string>
+&lt;b&gt;Compare with "Kommander":&lt;/b&gt; @String.compare("@LineEdit1", "Kommander")
+&lt;br&gt;&lt;b&gt;Match with "Kommander":&lt;/b&gt;
+@execBegin
+if [ @String.compare("@LineEdit1", "Kommander") -lt 0 ];then
+	echo "Less than Kommander&lt;br&gt;"
+elif [ @String.compare("@LineEdit1", "Kommander") -gt 0 ];then
+	echo "Greater than Kommander &lt;br&gt;"
+elif [ @String.compare("@LineEdit1", "Kommander") -eq 0 ];then
+	echo "Equals Kommander &lt;br&gt;"
+fi
+@execEnd
+&lt;b&gt;Case insensitive match with "Kommander":&lt;/b&gt;
+@execBegin
+if [ @String.compare(@String.lower("@LineEdit1"), "kommander") -eq 0 ];then
+	echo "Match found&lt;br&gt;"
+else
+	echo "Match failed&lt;br&gt;"
+fi
+@execEnd</string>
             </property>
             <property name="associations" stdset="0">
                 <stringlist>
@@ -126,6 +144,11 @@
                     </property>
                     <property name="text">
                         <string>&amp;Test</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string></string>
+                        </stringlist>
                     </property>
                 </widget>
                 <spacer>
