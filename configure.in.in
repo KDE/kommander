@@ -1,2 +1,16 @@
-#MIN_CONFIG
 CPPFLAGS="$CPPFLAGS -g -DKOMMANDER -DDESIGNER -DQT_NO_SQL -DHAVE_KDE"
+
+# Process user input to configure
+with_kommander = "yes"
+AC_ARG_WITH(kommander,
+[  --with-kommander     build Kommander (default=yes)],
+[if test "$withval" = "no" ; then
+  with_kommander="no"
+fi])dnl
+    
+    
+
+if test "$with_kommander" = "no"; then
+  DO_NOT_COMPILE="$DO_NOT_COMPILE kommander"
+fi
+  
