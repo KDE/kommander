@@ -247,7 +247,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::itemDepth:
     {
       QListViewItem* item = indexToItem(args[0].toInt());
-      return (item) ? QString::number(item->depth()) : "-1";
+      return (item) ? QString::number(item->depth()) : QString::number(-1);
     }
     case DCOP::setPixmap:
     {
