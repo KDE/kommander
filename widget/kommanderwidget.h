@@ -74,8 +74,13 @@ protected:
   // Only QString and int are now handled
   QString dcopQuery(const QStringList& args) const;
   QString localDcopQuery(const QString function, const QStringList& args) const;
+  QString localDcopQuery(const QString function, const QString& arg1, 
+     const QString& arg2, const QString& arg3 = QString::null,
+     const QString& arg4 = QString::null) const;
   // Execute given command, return its result
   QString execCommand(const QString& a_command, const QString& a_shell = QString::null) const;
+  // Find and run dialog (with optional parameters)
+  QString runDialog(const QString& a_dialog, const QString& a_params = QString::null) const;
   // Get parent pid
   QString parentPid() const;
   // Display error message a_error; display current class name if no other is given

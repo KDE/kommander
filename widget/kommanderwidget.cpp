@@ -25,6 +25,7 @@
 #include <qapplication.h>
 #include <qcstring.h>
 #include <qdatastream.h>
+#include <qfileinfo.h>
 #include <qobject.h>
 #include <qobjectlist.h>
 #include <qregexp.h>
@@ -199,8 +200,10 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
       }
       else if (identifier == "dialog")
       {
-        evalText += execCommand(QString("kmdr-executor %1 _PARENTPID=%2 _PARENTDCOPID=kmdr-executor-%3")
-           .arg(args[0]).arg(getpid()).arg(getpid())); 
+        if (args.count() > 1)
+          evalText += runDialog(args[0], args[1]); 
+        else
+          evalText += runDialog(args[0]); 
       }
       else if (identifier == "setGlobal")
       {
@@ -329,14 +332,47 @@ QString KommanderWidget::localDcopQuery(const QString function, const QStringLis
   return dcopQuery(pArgs);
 }
   
+QString KommanderWidget::localDcopQuery(const QString function, const QString& arg1, 
+     const QString& arg2, const QString& arg3, const QString& arg4) const
+{
+  QStringList pArgs;
+  pArgs.append(kapp->dcopClient()->appId());
+  pArgs.append("KommanderIf");
+  pArgs.append(function);
+  pArgs.append(arg1);
+  pArgs.append(arg2);
+  if (arg3 != QString::null)
+    pArgs.append(arg3);
+  if (arg4 != QString::null)
+    pArgs.append(arg4);
+  return dcopQuery(pArgs);
+}
+
 
 QString KommanderWidget::execCommand(const QString& a_command, const QString& a_shell) const
 {
-    MyProcess proc(this);
-    QString text = proc.run(a_command.local8Bit(), a_shell.latin1());
+  MyProcess proc(this);
+  QString text = proc.run(a_command.local8Bit(), a_shell.latin1());
 //FIXME check if exec was successful
-    return text;
+  return text;
 }
+
+QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_params) const
+{
+  QString pFileName = a_dialog;
+  QFileInfo pDialogFile(pFileName);
+  if (!pDialogFile.exists()) 
+  {
+    pFileName = localDcopQuery("global(QString)", "_KDDIR") + QString("/") + a_dialog;
+    pDialogFile.setFile(pFileName);
+    if (!pDialogFile.exists())
+      return QString::null;
+  }
+  QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
+    .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
+  return execCommand(cmd);
+}
+
 
 void KommanderWidget::printError(const QString& a_error, const QString& a_className) const
 {
@@ -344,12 +380,9 @@ void KommanderWidget::printError(const QString& a_error, const QString& a_classN
     QString(m_thisObject->name()) : a_className ).arg(a_error);
 }
 
-// Get parent pid
 QString KommanderWidget::parentPid() const
 {
-  QStringList simpleArg;
-  simpleArg.append("_PARENTPID");
-  QString parentPid = localDcopQuery("global(QString)", simpleArg); 
+  QString parentPid = localDcopQuery("global(QString)", "_PARENTPID"); 
   if (!parentPid.isEmpty())
     return parentPid;
   else
@@ -479,7 +512,7 @@ void KommanderWidget::registerFunctions()
   registerFunction("exec", 1);
   registerFunction("global", 1);
   registerFunction("env", 1);
-  registerFunction("dialog", 1);
+  registerFunction("dialog", 1, 2);
   /* functions with two arguments */
   registerFunction("readSetting", 2);  
   registerFunction("writeSetting", 2);
