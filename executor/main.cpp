@@ -22,7 +22,7 @@
 #include <kurl.h>
 #include <qapplication.h>
 #include <qobject.h>
-#include <kapp.h>
+#include <kapplication.h>
 
 /* QT INCLUDES */
 #include <qptrlist.h>

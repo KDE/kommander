@@ -23,13 +23,11 @@
 #include <widgetdatabase.h>
 #include "metadatabase.h"
 #include "mainwindow.h"
-#include "formwindow.h"
 #include "pixmapchooser.h"
 #include "layout.h"
 #include "listboxeditorimpl.h"
 #include "listvieweditorimpl.h"
 #include "iconvieweditorimpl.h"
-#include "formwindow.h"
 #include "multilineeditorimpl.h"
 #include "widgetinterface.h"
 #ifndef QT_NO_TABLE
@@ -54,7 +52,6 @@
 #include <qtextedit.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qwidgetstack.h>
 #include <qcombobox.h>
 #include <qtabbar.h>
 #include <qlistbox.h>
@@ -68,7 +65,6 @@
 #include <qtextbrowser.h>
 #include <qframe.h>
 #include <qmetaobject.h>
-#include <qwidgetstack.h>
 #include <qwizard.h>
 #include <qvaluelist.h>
 #include <qtimer.h>

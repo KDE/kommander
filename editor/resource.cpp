@@ -49,13 +49,11 @@
 #include <qobjectlist.h>
 #include <qmetaobject.h>
 #include <qworkspace.h>
-#include <qtabwidget.h>
 #include <qapplication.h>
 #include <qbuffer.h>
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
-#include <qtabwidget.h>
 #include <qlistbox.h>
 #include <qcombobox.h>
 #include <qwidgetstack.h>

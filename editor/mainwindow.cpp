@@ -26,7 +26,6 @@
 #include "globaldefs.h"
 #include "formwindow.h"
 #include "widgetdatabase.h"
-#include "widgetfactory.h"
 #include "propertyeditor.h"
 #include "metadatabase.h"
 #include "resource.h"
@@ -58,7 +57,6 @@
 #include <qclipboard.h>
 #include <qmessagebox.h>
 #include <qbuffer.h>
-#include <qdir.h>
 #include <qstyle.h>
 #include <qlabel.h>
 #include <qstatusbar.h>
@@ -66,7 +64,6 @@
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qwizard.h>
-#include <qdir.h>
 #include <qtimer.h>
 #include <qlistbox.h>
 #include <stdlib.h>
@@ -87,7 +84,6 @@
 #include "ewidgetfactory.h"
 #endif
 #include "formfile.h"
-#include "widgetfactory.h"
 
 
 #include <qvbox.h>

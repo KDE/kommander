@@ -86,16 +86,12 @@
 #include <qdial.h>
 #include <qslider.h>
 #include <qframe.h>
-#include <qwidgetstack.h>
 #include <qtextedit.h>
 #include <qscrollbar.h>
 #include <qmainwindow.h>
 #include <qsplitter.h>
 #include <qaction.h>
-#include <qpopupmenu.h>
 #include <qmenubar.h>
-#include <qpopupmenu.h>
-#include <qwidgetstack.h>
 #include <qdatetimeedit.h>
 
 /* KOMMANDER INCLUDES */

@@ -44,11 +44,9 @@
 #include <qlabel.h>
 #include <qobjectlist.h>
 #include <qtimer.h>
-#include <qapplication.h>
 #include <qlayout.h>
 #include <qspinbox.h>
 #include <qstatusbar.h>
-#include <qapplication.h>
 #include <qpalette.h>
 #include <qmessagebox.h>
 #include <qpopupmenu.h>

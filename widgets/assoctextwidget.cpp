@@ -5,7 +5,6 @@
 
 /* QT INCLUDES */
 #include <qvariant.h>
-#include <qregexp.h>
 #include <qstringlist.h>
 #include <qcstring.h>
 #include <qdatastream.h>
@@ -14,7 +13,6 @@
 #include <qapplication.h>
 #include <qobject.h>
 #include <qobjectlist.h>
-#include <qregexp.h>
 
 /* OTHER INCLUDES */
 #include "myprocess.h"
