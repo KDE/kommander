@@ -31,25 +31,25 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::text, "text(QString widget)", 1,
      i18n("Return content of widget."));
   insert(DCOP::selection, "selection(QString widget)", 1,
-     i18n("Return selected part of widget."));
+     i18n("Return selected text or text of current item."));
   insert(DCOP::setSelection, "setSelection(QString widget, QString text)", 2,
-     i18n("Set selected part of widget."));
+     i18n("select given text or select item containing given text."));
   insertAlias(DCOP::setSelection, "setCurrentListItem");
   insert(DCOP::currentItem, "currentItem(QString widget)", 1,
-     i18n("Return index of current item in widget."));
+     i18n("Return index of current item."));
   insert(DCOP::setCurrentItem, "setCurrentItem(QString widget, int index)", 2,
-     i18n("Sets index of current item in widget."));
+     i18n("Selects the item at the specified index. Indexes are zero based."));
   insertAlias(DCOP::setCurrentItem, "setCurrentTab");
   insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)", 3,
-     i18n("Set pixmap for given icon. Use <i>index = -1</-> to set pixmap for all items."));
+     i18n("Set pixmap at the given index to the specified icon. Use <i>index = -1</-> to set the pixmap for all items."));
   insert(DCOP::item, "item(QString widget, int index)", 2,
-     i18n("Return item with given index."));
+     i18n("Return the text of the item at the given index."));
   insert(DCOP::itemPath, "itemPath(QString widget, int index)", 2,
-     i18n("Return slash-separated path to given item in tree widget."));
+     i18n("Return the slash-separated path to the given item in the tree."));
   insert(DCOP::itemDepth, "itemDepth(QString widget, int index)", 2,
-     i18n("Return depth of current item in tree widget. Root items have depth 0."));
+     i18n("Return the depth of the current item in the tree. Root items have depth 0."));
   insert(DCOP::removeItem, "removeItem(QString widget, int index)", 2,
-     i18n("Remove item with given index."));
+     i18n("Remove the item with the given index."));
   insertAlias(DCOP::removeItem, "removeListItem");
   insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)", 3,
      i18n("Insert item at <i>index</i> position."));
@@ -58,46 +58,46 @@ void SpecialInformation::registerSpecials()
      i18n("Insert multiple items (EOL-separated) at <i>index</i> position."));
   insertAlias(DCOP::insertItems, "addListItems");
   insert(DCOP::addUniqueItem, "addUniqueItem(QString widget, QString item)", 2,
-     i18n("Insert item if it doesn't already exists."));
+     i18n("Insert the item if it will not create a duplicate."));
   insert(DCOP::findItem, "findItem(QString widget, QString item)", 2,
-     i18n("Return index of item with given text."));
+     i18n("Return the index of an item with the given text."));
   insert(DCOP::clear, "clear(QString widget)", 1,
-     i18n("Remove content of widget."));
+     i18n("Remove all content from the widget."));
   insertAlias(DCOP::clear, "clearList");
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)", 2,
      i18n("Set/unset checkbox."));
   insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)", 2,
-     i18n("Set scripts associated with widget. You probably don't need to use this."));
+     i18n("Set scripts associated with widget. This is an advanced feature that would not be commonly used."));
   insert(DCOP::associatedText, "associatedText(QString widget)", 1,
-     i18n("Return scripts associated with widget. You probably don't need to use this."));
+     i18n("Return scripts associated with widget. This is an advanced feature that would not be commonly used."));
   insert(DCOP::type, "type(QString widget)", 2,
      i18n("Return type(class) of widget."));
   insert(DCOP::children, "children(QString parent, bool recursive)", 2,
-     i18n("Return list (optionally recursive) of widgets contained in widget."));
+     i18n("Return the list of child widgets contained in the parent widget. Set the <i>recursive</i> parameter to <i>true</i> to include widgets contained by child widgets."));
   insert(DCOP::global, "global(QString variable)", 1,
      i18n("Return value of a global variable."));
   insert(DCOP::setGlobal, "setGlobal(QString variable, QString value)", 2,
-     i18n("Set value of a global variable."));
+     i18n("Set the value of a global variable. Global variables exist for the life of the Kommander window."));
   
   insertGroup(Group::Kommander, "Kommander");
   insert(Kommander::widgetText, "widgetText", 0,
      i18n("Return current widget's content."));
   insert(Kommander::selectedWidgetText, "selectedWidgetText", 0,
-     i18n("Return selected part of current widget's content."));
+     i18n("Return selected text or text of current item."));
   insert(Kommander::null, "null", 0,
-     i18n("Do nothing. Used when script is expected and empty text is not enough."));
+     i18n("Do nothing. This is useful if you request the @widgetText value from another widget for a CheckBox that returns nothing in it's unchecked state. The @null prevents an error indicating it is empty."));
   insert(Kommander::pid, "pid", 0,
-     i18n("Return pid of current process."));
+     i18n("Return the pid (process ID) of the current process."));
   insert(Kommander::dcopid, "dcopid", 0,
-     i18n("Return DCOP identifier of current process."));
+     i18n("Return DCOP identifier of current process. This is shorthand for <i>kmdr-executor-<@pid></i>."));
   insert(Kommander::parentPid, "parentPid", 0,
-     i18n("Return pid of a parent dialog."));
+     i18n("Return the pid of the parent Kommander window."));
   insert(Kommander::execBegin, "execBegin(QString shell)", 0,
-     i18n("Execute block. Bash is used if no shell is given."));
+     i18n("Execute a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"));
   insert(Kommander::env, "env(QString variable)", 1,
-     i18n("Return value of environmental (shell) variable."));
+     i18n("Return value of an environment (shell) variable. Do not use <i>$</i> in the name. For example, <i>@env(PATH)</i>."));
   insert(Kommander::exec, "exec(QString command)", 1,
-     i18n("Execute external command."));
+     i18n("Execute an external command."));
   insert(Kommander::forEachBlock, "forEach(QString variable, QString items)", 2,
      i18n("Execute loop: values from <i>items</i> list (passed as EOL-separated string) are assigned "
         "to the variable."));
