@@ -610,7 +610,7 @@ void Resource::paste( const QString &cb, QWidget *parent )
 
 void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream &ts, int indent )
 {
-    if ( obj && obj->isWidgetType() && ( (QWidget*)obj )->isHidden() )
+    if ( obj && obj->isWidgetType() && ( (QWidget*)obj )->isHidden() && !(obj->isA("ScriptObject")) )
 	return;
     QString closeTag;
     if ( obj->isWidgetType() ) {

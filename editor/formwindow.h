@@ -25,8 +25,10 @@
 #include "metadatabase.h"
 #include "sizehandle.h"
 #include "actiondnd.h"
+#include <scriptobject.h>
 
 #include <qwidget.h>
+#include <qmap.h>
 #include <qptrdict.h>
 #include <qpixmap.h>
 #include <qwidgetlist.h>
@@ -162,6 +164,8 @@ public:
     bool isCentralWidget( QObject *w ) const;
     QWidget *mainContainer() const { return mContainer; }
     void setMainContainer( QWidget *w );
+
+    QMap<QString, QString> scriptObjects() const;
 
     void paintGrid( QWidget *w, QPaintEvent *e );
 

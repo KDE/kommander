@@ -57,4 +57,10 @@ QString ScriptObject::widgetText() const
 	return m_script;
 }
 
+void ScriptObject::show()
+{
+	return; // widget is never shown
+}
+
+
 #include "scriptobject.moc"

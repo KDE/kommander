@@ -699,6 +699,15 @@ void WidgetDatabase::setupDataBase( int id )
 //    r->isContainer = FALSE;
 
     append( r );
+
+    r = new WidgetDatabaseRecord;
+    r->iconSet = "";
+    r->name = "ScriptObject";
+//    r->group = widgetGroup( "Kommander" );
+ //   r->toolTip = "";
+//    r->isContainer = FALSE;
+
+    append( r );
 #endif
 
 #ifndef UIC

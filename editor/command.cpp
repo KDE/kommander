@@ -17,6 +17,7 @@
 ** not clear to you.
 **
 **********************************************************************/
+#include <scriptobject.h>
 #include "command.h"
 #include "formwindow.h"
 #include "widgetfactory.h"
@@ -30,6 +31,7 @@
 #include "actiondnd.h"
 #include "formfile.h"
 
+#include <qmap.h>
 #include <qfeatures.h>
 #include <qwidget.h>
 #include <qmetaobject.h>
@@ -45,6 +47,7 @@
 #include <qtable.h>
 #endif
 #include <qaction.h>
+
 
 CommandHistory::CommandHistory( int s )
     : current( -1 ), steps( s ), savedAt( -1 )
@@ -215,6 +218,63 @@ void Command::merge( Command * )
 bool Command::canMerge( Command * )
 {
     return FALSE;
+}
+
+// ------------------------------------------------------------
+
+ScriptObjectCommand::ScriptObjectCommand(const QString &a_name, FormWindow *a_fw, QMap<QString, QString> a_oldObjects, QMap<QString, QString> a_newObjects)
+: Command(a_name, a_fw), m_oldObjects(a_oldObjects), m_newObjects(a_newObjects)
+{
+}
+
+ScriptObjectCommand::~ScriptObjectCommand()
+{
+}
+
+void ScriptObjectCommand::execute()
+{
+	removeScriptObjects();
+	addScriptObjects(m_newObjects);
+}
+
+void ScriptObjectCommand::unexecute()
+{
+	removeScriptObjects();
+	addScriptObjects(m_oldObjects);
+}
+
+void ScriptObjectCommand::addScriptObjects(QMap<QString, QString> a_objects)
+{
+	QMap<QString, QString>::Iterator it; 
+	for(it = a_objects.begin();it != a_objects.end();++it)
+	{
+		ScriptObject *obj;
+		obj = (ScriptObject *)WidgetFactory::create(WidgetDatabase::idFromClassName("ScriptObject"), formWindow()->mainContainer(), it.key(), FALSE);
+		obj->setWidgetText(it.data());
+
+		formWindow()->insertWidget(obj, FALSE);
+
+		MetaDataBase::setPropertyChanged(obj, "script", TRUE);
+	}
+
+}
+
+void ScriptObjectCommand::removeScriptObjects()
+{
+	QObjectList *ol = formWindow()->mainContainer()->queryList();
+
+	if(ol)
+	{
+		QObject *obj = ol->first();
+		for(;obj;obj = ol->next())
+		{
+			if(obj->isA("ScriptObject"))
+			{
+				delete obj; // delete this script object
+			}
+		}
+		delete ol;
+	}
 }
 
 // ------------------------------------------------------------

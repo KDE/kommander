@@ -1469,7 +1469,7 @@ bool WidgetFactory::hasItems( int id )
     QString className = WidgetDatabase::className( id );
 
 #ifdef KOMMANDER
-    if(className == "ComboBox")
+    if(className == "ComboBox" || className == "ListBox" || className == "ListView")
 	    return TRUE;
 #endif
     if ( className.mid( 1 ) == "ListBox" || className.mid( 1 ) == "ListView" ||

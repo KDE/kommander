@@ -8,149 +8,233 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>757</width>
-            <height>462</height>
+            <width>709</width>
+            <height>548</height>
         </rect>
     </property>
     <property name="caption">
         <string>Edit Script Objects</string>
     </property>
-    <hbox>
+    <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout13</cstring>
+                <cstring>layout5</cstring>
             </property>
-            <vbox>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout12</cstring>
+                        <cstring>layout13</cstring>
                     </property>
-                    <hbox>
+                    <vbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QListBox">
-                            <property name="name">
-                                <cstring>scriptObjectsList</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>1</hsizetype>
-                                    <vsizetype>5</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                                <size>
-                                    <width>147</width>
-                                    <height>0</height>
-                                </size>
-                            </property>
-                        </widget>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout11</cstring>
+                                <cstring>layout12</cstring>
                             </property>
-                            <vbox>
+                            <hbox>
                                 <property name="name">
                                     <cstring>unnamed</cstring>
                                 </property>
-                                <widget class="QPushButton">
+                                <widget class="QListBox">
                                     <property name="name">
-                                        <cstring>createPushButton</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Create</string>
-                                    </property>
-                                </widget>
-                                <widget class="QPushButton">
-                                    <property name="name">
-                                        <cstring>removePushButton</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Remove</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>textLabel1</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Object Name:</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLineEdit">
-                                    <property name="name">
-                                        <cstring>objectNameLineEdit</cstring>
+                                        <cstring>scriptObjectsList</cstring>
                                     </property>
                                     <property name="sizePolicy">
                                         <sizepolicy>
                                             <hsizetype>1</hsizetype>
-                                            <vsizetype>0</vsizetype>
+                                            <vsizetype>5</vsizetype>
                                             <horstretch>0</horstretch>
                                             <verstretch>0</verstretch>
                                         </sizepolicy>
                                     </property>
                                     <property name="minimumSize">
                                         <size>
-                                            <width>140</width>
+                                            <width>147</width>
                                             <height>0</height>
                                         </size>
                                     </property>
                                 </widget>
-                                <spacer>
+                                <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>spacer1</cstring>
+                                        <cstring>layout11</cstring>
                                     </property>
-                                    <property name="orientation">
-                                        <enum>Vertical</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>20</width>
-                                            <height>230</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                            </vbox>
+                                    <vbox>
+                                        <property name="name">
+                                            <cstring>unnamed</cstring>
+                                        </property>
+                                        <widget class="QPushButton">
+                                            <property name="name">
+                                                <cstring>createPushButton</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Create</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QPushButton">
+                                            <property name="name">
+                                                <cstring>removePushButton</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Remove</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>textLabel1</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Object Name:</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLineEdit">
+                                            <property name="name">
+                                                <cstring>objectName</cstring>
+                                            </property>
+                                            <property name="sizePolicy">
+                                                <sizepolicy>
+                                                    <hsizetype>1</hsizetype>
+                                                    <vsizetype>0</vsizetype>
+                                                    <horstretch>0</horstretch>
+                                                    <verstretch>0</verstretch>
+                                                </sizepolicy>
+                                            </property>
+                                            <property name="minimumSize">
+                                                <size>
+                                                    <width>140</width>
+                                                    <height>0</height>
+                                                </size>
+                                            </property>
+                                        </widget>
+                                        <spacer>
+                                            <property name="name">
+                                                <cstring>spacer1</cstring>
+                                            </property>
+                                            <property name="orientation">
+                                                <enum>Vertical</enum>
+                                            </property>
+                                            <property name="sizeType">
+                                                <enum>Expanding</enum>
+                                            </property>
+                                            <property name="sizeHint">
+                                                <size>
+                                                    <width>20</width>
+                                                    <height>230</height>
+                                                </size>
+                                            </property>
+                                        </spacer>
+                                    </vbox>
+                                </widget>
+                            </hbox>
                         </widget>
-                    </hbox>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>101</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </vbox>
                 </widget>
+                <widget class="QTextEdit">
+                    <property name="name">
+                        <cstring>scriptContent</cstring>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout6</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
                 <spacer>
                     <property name="name">
-                        <cstring>spacer2</cstring>
+                        <cstring>spacer3</cstring>
                     </property>
                     <property name="orientation">
-                        <enum>Vertical</enum>
+                        <enum>Horizontal</enum>
                     </property>
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>20</width>
-                            <height>101</height>
+                            <width>230</width>
+                            <height>20</height>
                         </size>
                     </property>
                 </spacer>
-            </vbox>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>okButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>OK</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>cancelButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Cancel</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
         </widget>
-        <widget class="QTextEdit">
-            <property name="name">
-                <cstring>scriptContent</cstring>
-            </property>
-        </widget>
-    </hbox>
+    </vbox>
 </widget>
+<connections>
+    <connection>
+        <sender>okButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ScriptObjectEditorBase</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>cancelButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ScriptObjectEditorBase</receiver>
+        <slot>reject()</slot>
+    </connection>
+</connections>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

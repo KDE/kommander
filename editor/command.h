@@ -56,6 +56,7 @@ public:
     virtual ~Command();
 
     enum Type {
+    	EditScriptObjects,
 	Resize,
 	Insert,
 	Move,
@@ -116,6 +117,7 @@ private:
 
 };
 
+
 class CommandHistory : public QObject
 {
     Q_OBJECT
@@ -147,6 +149,22 @@ private:
     int savedAt;
     Command *compressedCommand;
 
+};
+
+class ScriptObjectCommand : public Command
+{
+public:
+	ScriptObjectCommand(const QString &, FormWindow *, QMap<QString, QString>, QMap<QString, QString>);
+	~ScriptObjectCommand();
+
+	void execute();
+	void unexecute();
+	Type type() const { return EditScriptObjects; }
+private:
+	void removeScriptObjects();
+	void addScriptObjects(QMap<QString, QString>);
+
+	QMap<QString, QString> m_oldObjects, m_newObjects;	
 };
 
 class ResizeCommand : public Command

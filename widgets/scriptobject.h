@@ -15,6 +15,7 @@ class ScriptObject : public QWidget, public AssocTextWidget
 
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget);
+	Q_PROPERTY(QString script READ widgetText WRITE setWidgetText DESIGNABLE false);
 public:
 	ScriptObject(QWidget *a_parent, const char *a_name);
 	~ScriptObject();
@@ -28,6 +29,7 @@ public:
 
 public slots:
 	virtual void setWidgetText(const QString &);
+	virtual void show();
 signals:
 	void widgetOpened();
 	void widgetTextChanged(const QString &);

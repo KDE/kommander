@@ -37,9 +37,11 @@
 #define NO_STATIC_COLORS
 #include "globaldefs.h"
 #include "formfile.h"
+#include <scriptobject.h>
 
 #include <stdlib.h>
 
+#include <qmap.h>
 #include <qevent.h>
 #include <qpainter.h>
 #include <qpen.h>
@@ -2510,6 +2512,28 @@ void FormWindow::setMainContainer( QWidget *w )
 	}
     }
 #endif
+}
+
+QMap<QString, QString> FormWindow::scriptObjects() const
+{
+	QMap<QString, QString> objects;
+
+	// get all children of main container with class name ScriptObject
+	const QObjectList *ol = mainContainer()->children();
+	if(ol)
+	{
+		QObjectListIt it(*ol);
+		while(it.current())
+		{
+			if(QString(it.current()->className()) == "ScriptObject")
+			{
+				ScriptObject *sObj = (ScriptObject *)it.current();
+				objects[QString(sObj->name())] = sObj->widgetText();
+			}
+			++it;
+		}
+	}
+	return objects;
 }
 
 bool FormWindow::savePixmapInline() const

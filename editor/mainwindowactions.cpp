@@ -37,6 +37,7 @@
 #include <qclipboard.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
+#include <qmap.h>
 
 #include "defs.h"
 #ifndef KOMMANDER
@@ -80,6 +81,7 @@
 #include "dbconnectionsimpl.h"
 #include "dbconnectionimpl.h"
 #endif
+#include "command.h"
 
 #include "scriptobjecteditorimpl.h"
 
@@ -527,6 +529,7 @@ void MainWindow::setupToolActions()
       QAction* a = new QAction( actionGroupTools, QString::number( i ).latin1() );
       a->setToggleAction( TRUE );
       QString atext = WidgetDatabase::className( i );
+      if(atext == "ScriptObject") continue; // don't put a script object in the tool bar
       if ( atext[0] == 'Q' )
     atext = atext.mid(1);
       while ( atext.length() && atext[0] >= 'a' && atext[0] <= 'z' )
@@ -990,7 +993,6 @@ void MainWindow::setupHelpActions()
 
 void MainWindow::fileNew()
 {
-	qDebug(sender()->name());
     statusBar()->message( tr( "Create a new dialog...") );
 #if 1
     NewForm dlg( this, QString::null);
@@ -1198,11 +1200,7 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
     filterlist << tr( "Designer Files (*.ui *.pro)" );
       filterlist << tr( "Qt User-Interface Files (*.ui)" );
 #else
-#ifndef KOMMANDER
-      filterlist << tr("*.ui|Qt User-Interface Files");
-#else
       filterlist << tr("*.kmdr|Kommander Files");
-#endif
 #endif
 #ifndef KOMMANDER
       if ( !inProject )
@@ -1837,8 +1835,21 @@ void MainWindow::editConnections()
 
 void MainWindow::editScriptObjects()
 {
-	ScriptObjectEditor *ed = new ScriptObjectEditor(this);
-	ed->exec();
+	if(!formWindow())
+		return;
+
+	QMap<QString, QString> oldObjects;
+	oldObjects = formWindow()->scriptObjects();
+
+	ScriptObjectEditor *ed = new ScriptObjectEditor(oldObjects, this);
+	if(ed->exec() == QDialog::Accepted)
+	{
+		Command *cmd = new ScriptObjectCommand("Modify Script Objects", formWindow(), oldObjects, ed->scriptObjects());
+		cmd->execute();
+		formWindow()->commandHistory()->addCommand(cmd);
+	}
+
+
 	delete ed;
 }
 
