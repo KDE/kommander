@@ -1,12 +1,23 @@
-pon 07 cze 2004 14:45:53 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
-	o add assotiative arrays: @setArrayValue(), @array and
-	  @arrayValue() specials
+Sat 12 Jun 2004 00:49:07 CEST
+	o added more array functions: @Array.values(), @Array.clear()
+	  and @Array.remove()
+	o rebuild parser to made it more flexible
+	o fix: FileSelector now opens file dialog in current directory
 
-Sun 06 cze 2004 23:13:34 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Thu 10 Jun 2004 00:49:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added DCOP information database that translates function
+	  name to function prototype
+	o enhanced parser to handle @<widget>.<DCOP function> syntax
+
+Mon 07 Jun 2004 14:45:53 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added assotiative arrays: @Array.value(), @Array.keys() and
+	  @Array.setValue() specials
+
+Sun 06 Jun 2004 23:13:34 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o fix compilation problems on Debian and Slackware
 	o @@ is now interpreted as @
 
-Sat 05 cze 2004 10:12:05 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Sat 05 Jun 2004 10:12:05 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @env(variable) special to get environment variable value
 	o added @dialog(dialog, params) that would call child dialog, setting
 	  _PARENTPID and _PARENTDCOPID variables for it
@@ -18,27 +29,27 @@ Sat 05 cze 2004 10:12:05 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o parser fixes (improved handling of nested specials)
 	o Kommander 1.0alpha3 released
 
-Fri 04 cze 2004 00:40:59 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Fri 04 Jun 2004 00:40:59 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o fixed: don't execute Initialization/Executor in Editor
 	o changed DCOP id of Editor to kmdr-editor
 	o version numbers unified
 
-Thu 02 cze 2004 15:08:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Thu 02 Jun 2004 15:08:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o KDE widgets are now used for lists, buttons and combos
 	o added file completion to FileSelector
 
-Fri 28 maj 2004 22:40:10 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Fri 28 May 2004 22:40:10 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o support for Kommander comments (in @# <comment> format)
 	o added two new specials: global(var) and setGlobal(var, value)
 	o removed obsolete Preview menu commands
 	o Kommander 1.0alpha2 released
 
-Wed 26 maj 2004 23:22:46 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Wed 26 May 2004 23:22:46 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o changeWidgetText for FileSelector class is now handled
 	o added currentItem(QString) DCOP call for lists and combos
 	o added item(QString,int) DCOP call for lists and combos
 
-Wed 26 maj 2004 01:10:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Wed 26 May 2004 01:10:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o parser of specials() rewritten
 	o added optional shebang argument for execBegin()
 	o handling of non-string @dcop() arguments fixed
@@ -76,4 +87,4 @@ Sat Sep 28 23:18:08 EST 2002 - Marc Britton <consume@optushome.com.au>
 	o Now searches for templates in custom directory (default $KDEDIR/templates) 
 
 Sun Sep 15 15:31:48 EST 2002 - Marc Britton <consume@optushome.com.au>
-    o Initial Creation
+        o Initial Creation
