@@ -335,7 +335,7 @@ void DomTool::fixDocument( QDomDocument& doc )
     QDomElement e;
     QDomNode n;
     QDomNodeList nl;
-    int i = 0;
+    uint i = 0;
 
     e = doc.firstChild().toElement();
     if ( e.tagName() != "UI" )
@@ -347,7 +347,8 @@ void DomTool::fixDocument( QDomDocument& doc )
 
     e.setAttribute("stdsetdef", 1 );
     nl = doc.elementsByTagName( "property" );
-    for ( i = 0; i <  (int) nl.length(); i++ ) {
+    uint nllen = nl.length();
+    for ( i = 0; i < nllen; i++ ) {
 	e = nl.item(i).toElement();
 	QString name;
 	QDomElement n2 = e.firstChild().toElement();
@@ -369,7 +370,8 @@ void DomTool::fixDocument( QDomDocument& doc )
     }
 
     nl = doc.elementsByTagName( "attribute" );
-    for ( i = 0; i <  (int) nl.length(); i++ ) {
+    nllen = nl.length();
+    for ( i = 0; i < nllen; i++ ) {
 	e = nl.item(i).toElement();
 	QString name;
 	QDomElement n2 = e.firstChild().toElement();
@@ -381,7 +383,8 @@ void DomTool::fixDocument( QDomDocument& doc )
     }
 
     nl = doc.elementsByTagName( "image" );
-    for ( i = 0; i <  (int) nl.length(); i++ ) {
+    nllen = nl.length();
+    for ( i = 0; i < nllen; i++ ) {
 	e = nl.item(i).toElement();
 	QString name;
 	QDomElement n2 = e.firstChild().toElement();
@@ -393,7 +396,8 @@ void DomTool::fixDocument( QDomDocument& doc )
     }
 
     nl = doc.elementsByTagName( "widget" );
-    for ( i = 0; i <  (int) nl.length(); i++ ) {
+    nllen = nl.length();
+    for ( i = 0; i < nllen; i++ ) {
 	e = nl.item(i).toElement();
 	QString name;
 	QDomElement n2 = e.firstChild().toElement();
