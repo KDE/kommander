@@ -5,11 +5,11 @@
 <title>&DCOP; Functions</title>
 <authorgroup>
 <author>
-<personname>
 <firstname></firstname>
 <surname></surname>
-</personname>
+<affiliation><address>
 <email></email>
+</address></affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -24,7 +24,7 @@
 </para>
 <para>
 dcop kmdr-executor-@pid KommanderIf changeWidgetText myWidget <quote>new text</quote>
-</para>  
+</para>
 <para>
 This assumes you are inside a &kommander; file and have access to the special @pid which contains the process ID.  In fact it is simpler to replace <quote>kmdr-executor-@pid</quote> with @dcopid.  However, you can use this syntax (obviously without the specials) from the command line or any external script to alter the &kommander; window.
 </para>

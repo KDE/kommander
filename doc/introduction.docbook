@@ -5,11 +5,11 @@
 <title>Introduction</title>
 <authorgroup>
 <author>
-<personname>
 <firstname>Eric</firstname>
 <surname>Laffoon</surname>
-</personname>
-<email>sequitur@kde.org</email>
+<affiliation>
+<address><email>sequitur@kde.org</email></address>
+</affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->

@@ -1,7 +1,7 @@
 <?xml version="1.0"  encoding="UTF-8" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kommander "<application>Kommander</application>">
-  <!ENTITY kappname "&kommander;">  
+  <!ENTITY kappname "&kommander;">
   <!ENTITY package "kdewebdev">
   <!ENTITY basics SYSTEM "basics.docbook">
   <!ENTITY commands SYSTEM "commands.docbook">
@@ -34,25 +34,25 @@
 
 <authorgroup>
 <author>
-<personname>
 <firstname>Marc</firstname>
 <surname>Britton</surname>
-</personname>
-<email>consume@optushome.com.au</email>
+<affiliation>
+<address><email>consume@optushome.com.au</email></address>
+</affiliation>
 </author>
 <author>
-<personname>
 <firstname>Tamara</firstname>
 <surname>King</surname>
-</personname>
-<email>tik@acm.org</email>
+<affiliation>
+<address><email>tik@acm.org</email></address>
+</affiliation>
 </author>
 <author>
-<personname>
 <firstname>Eric</firstname>
 <surname>Laffoon</surname>
-</personname>
-<email>sequitur@kde.org</email>
+<affiliation>
+<address><email>sequitur@kde.org</email></address>
+</affiliation>
 </author>
 </authorgroup>
 

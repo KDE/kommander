@@ -1,21 +1,21 @@
 <?xml version="1.0"  encoding="UTF-8" ?>
 
 <sect1 id="editor">
-<sectioninfo>
+<sect1info>
 <title>The Editor</title>
 <authorgroup>
 <author>
-<personname>
 <firstname>Tamara</firstname>
 <surname>King</surname>
-</personname>
+<affiliation><address>
 <email>tik@acm.org</email>
+</address></affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 </authorgroup>
-</sectioninfo>
+</sect1info>
 
 <title>The Editor</title>
 
@@ -23,10 +23,10 @@
 The editor is based on &designer;, a tool for designing and implementing user interfaces created by <ulink url="http://www.trolltech.com">Trolltech</ulink>.  We have modified &designer; in the following ways:
 </para>
 <itemizedlist>
-<listitem>Its interface is much simpler</listitem>
-<listitem>Built in our own widgets</listitem>
-<listitem>Added the ability to setup &kommander; Text</listitem>
-<listitem>Various other superficial changes</listitem>
+<listitem><para>Its interface is much simpler</para></listitem>
+<listitem><para>Built in our own widgets</para></listitem>
+<listitem><para>Added the ability to setup &kommander; Text</para></listitem>
+<listitem><para>Various other superficial changes</para></listitem>
 </itemizedlist>
 <para>
 For those of you already familiar with using &designer;, using the &kmdr-editor; will be trivial.

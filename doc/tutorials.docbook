@@ -5,11 +5,11 @@
 <title>Tutorials</title>
 <authorgroup>
 <author>
-<personname>
 <firstname></firstname>
 <surname></surname>
-</personname>
+<affiliation><address>
 <email></email>
+</address></affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -35,7 +35,6 @@
 </sect1>
 
 <sect1 id="tutorlal-slots">
-<para></para>
 <title>Slots</title>
 <para>Shows how to us connections/slot to handle events.  Both population and standard slots are used.</para>
 </sect1>

@@ -5,11 +5,11 @@
 <glossaryinfo>
 <authorgroup>
 <author>
-<personname>
 <firstname>Tamara</firstname>
 <surname>King</surname>
-</personname>
+<affiliation><address>
 <email>tik@acm.org</email>
+</address></affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->

@@ -5,11 +5,11 @@
 <title>Widgets</title>
 <authorgroup>
 <author>
-<personname>
 <firstname></firstname>
 <surname></surname>
-</personname>
+<affiliation><address>
 <email></email>
+</address></affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -38,7 +38,7 @@ ButtonGroup
 </term>
 <listitem>
 <para>
-A container to organize buttons into a group.  An optional title can be set using the title property.  The frame can be adjusted with the lineWidth property.  The button group can be set to exclusive by setting the exclusive property to true.  This means when one toggle button is clicked all other toggle buttons will be set to off with the exception of radio buttons that are always mutual exclusive even if the group is non-exclusive.  Radio buttons can be set to non-exclusive using the radioButtonExclusive property.  (I am not so sure that this property actually works.)  
+A container to organize buttons into a group.  An optional title can be set using the title property.  The frame can be adjusted with the lineWidth property.  The button group can be set to exclusive by setting the exclusive property to true.  This means when one toggle button is clicked all other toggle buttons will be set to off with the exception of radio buttons that are always mutual exclusive even if the group is non-exclusive.  Radio buttons can be set to non-exclusive using the radioButtonExclusive property.  (I am not so sure that this property actually works.)
 </para>
 <para>ButtonGroup has one state, default.</para>
 <para>
@@ -59,7 +59,7 @@ CheckBox
 A button that can be checked on and off.  It can also be semi-checked if the tristate property is set to true.  The label associated with the CheckBox is set in the text property.  Setting the checked property will have the CheckBox initially checked.
 </para>
 <para>
-A CheckBox has 3 states, checked, semichecked, and unchecked.  
+A CheckBox has 3 states, checked, semichecked, and unchecked.
 </para>
 <para>
 The widget text for a CheckBox is the value from the text property.
@@ -76,7 +76,7 @@ CloseButton
 </term>
 <listitem>
 <para>
-A button that when clicked, executes its text association and then closes the dialog.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true.  
+A button that when clicked, executes its text association and then closes the dialog.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true.
 </para>
 <para>
 CloseButton has one state, default.
@@ -116,7 +116,7 @@ ExecButton
 </term>
 <listitem>
 <para>
-A button that when clicked executes its text association.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true. 
+A button that when clicked executes its text association.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true.
 </para>
 <para>
 ExecButton has one state, default.
@@ -315,7 +315,7 @@ SubDialog has one state, default.
 <para>
 The widget text for SubDialog is the text association of the dialog it executes.
 </para>
-<note>This was meant to contain the dialog, which is deprectaed with the new project concept.  Should we leave it with <function>@dialog()</function> in its &kommander; text or get rid of it?  As it is it is not right.</note>
+<note><para>This was meant to contain the dialog, which is deprectaed with the new project concept.  Should we leave it with <function>@dialog()</function> in its &kommander; text or get rid of it?  As it is it is not right.</para></note>
 </listitem>
 </varlistentry>
 

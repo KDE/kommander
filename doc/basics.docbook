@@ -5,18 +5,18 @@
 <title>&kommander; Basics</title>
 <authorgroup>
 <author>
-<personname>
 <firstname>Tamara</firstname>
 <surname>King</surname>
-</personname>
+<affiliation><address>
 <email>tik@acm.org</email>
+</address></affiliation>
 </author>
 <author>
-<personname>
 <firstname>Eric</firstname>
 <surname>Laffoon</surname>
-</personname>
+<affiliation><address>
 <email>sequitur@kde.org</email>
+</address></affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -32,7 +32,7 @@ your application. -->
 
 <sect1 id="concepts">
 <title>Concepts</title>
-</sect1>
+
 
 <para>
 &kommander; was originally designed around a simple concept that has proven somewhat revolutionairy among visual design tools. Typically these tools allow you to create dialogs and possibly mainwindow interfaces.  Of course a mainwindow interface is the main program window which typically has menus, toolbars, statusbar and the application area. Dialogs are child windows which typically don't have menus and are so named because their purpose is to <quote>have a dialog</quote> or exchange information between you and the main application. The elements on a dialog are called <quote>widgets</quote> and you hook your program into these widgets. &kommander; is different because it is inherently nonprogrammatic here. It uses the concept of associating text with the widgets on the dialog. Initially this was called <quote>Associated Text</quote> but now it is called <quote>&kommander; Text</quote>. Widgets on &kommander; dialogs can include the content of other widgets by reference and a widget can reference its own content by use of a <quote>Special</quote> that looks like this, @widgetText. Specials are commands with special meaning in &kommander;. So if you created a dialog with two LineEditwidgets and named the first <quote>FirstName</quote> and the second <quote>LastName</quote> you could create a button and set its &kommander; Text to <quote>My name is @FirstName @LastName</quote>. You would need to set @widgetText in the first and last name widgets. Remember?  We need to tell &kommander; to reference the text in them.  You could run this from a <application>Konsole</application> and it would output the string for you. So it would reference the first name like so:  @FirstName -> get the widget named FirstName(@FirstName) -> @widgetText -> get the contents of the LineEdit widget.  So in this case @FirstName returns <quote>Eric</quote>:  @FirstName -> @widgetText -> <quote>Eric</quote>.
@@ -48,9 +48,9 @@ So what can &kommander; do? Here is the list distilled to the base operations.
 </para>
 
 <orderedlist>
-<listitem>Pass strings to the calling program via stdout.</listitem>
-<listitem>Call executable programs.</listitem>
-<listitem>Use &DCOP; to interact with &kde; programs</listitem>
+<listitem><para>Pass strings to the calling program via stdout.</para></listitem>
+<listitem><para>Call executable programs.</para></listitem>
+<listitem><para>Use &DCOP; to interact with &kde; programs</para></listitem>
 </orderedlist>
 
 <para>
@@ -72,6 +72,7 @@ Is that all the core concepts in &kommander;? No, but it should help you to make
 <para>
 That should give you the base concepts to begin using &kommander;. We try to keep the number of Specials low and we use &DCOP; a lot. The idea is that we want to keep the power of &kommander; as consistent and streamlined as possible. You will find that you can incorporate any scripting language into &kommander; where ever you need to and even multiple scripting languages in a dialog. The rest of the information in this document assumes you are familiar with the concepts and terms presented here. The examples and tutorials are also very useful to understanding what can be done with &kommander;.
 </para>
+</sect1>
 
 &editor;
 
@@ -95,7 +96,7 @@ C++ developers can easily use the KmdrDialogInstance class in their C++ programs
 <sect1 id="create-dialog">
 <title>Creating a Dialog</title>
 
-
+<para></para>
 </sect1>
 
 </chapter>
