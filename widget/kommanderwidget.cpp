@@ -171,12 +171,12 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
         evalText += kapp->dcopClient()->appId();
       else if (identifier == "pid")
         evalText += QString().setNum(getpid());
-      else if (identifier == "parentPid")
-        evalText += QString().setNum(getppid());
       else if (identifier == "exec")
         evalText += execCommand(args[0]);
       else if (identifier == "dcop")
         evalText += dcopQuery(args);
+      else if (identifier == "parentPid")
+        evalText += parentPid();
       else if (identifier == "readSetting") 
       {
         KConfig cfg("kommanderrc", true);
@@ -196,6 +196,11 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
       else if (identifier == "global")
       {
         evalText += localDcopQuery("global(QString)", args); 
+      }
+      else if (identifier == "dialog")
+      {
+        evalText += execCommand(QString("kmdr-executor %1 _PARENTPID=%2 _PARENTDCOPID=kmdr-executor-%3")
+           .arg(args[0]).arg(getpid()).arg(getpid())); 
       }
       else if (identifier == "setGlobal")
       {
@@ -339,6 +344,17 @@ void KommanderWidget::printError(const QString& a_error, const QString& a_classN
     QString(m_thisObject->name()) : a_className ).arg(a_error);
 }
 
+// Get parent pid
+QString KommanderWidget::parentPid() const
+{
+  QStringList simpleArg;
+  simpleArg.append("_PARENTPID");
+  QString parentPid = localDcopQuery("global(QString)", simpleArg); 
+  if (!parentPid.isEmpty())
+    return parentPid;
+  else
+    return QString().setNum(getppid());
+} 
 
 
 
@@ -453,6 +469,7 @@ void KommanderWidget::registerFunctions()
   registerFunction("exec", 1);
   registerFunction("global", 1);
   registerFunction("env", 1);
+  registerFunction("dialog", 1);
   /* functions with two arguments */
   registerFunction("readSetting", 2);  
   registerFunction("writeSetting", 2);
@@ -467,7 +484,6 @@ void KommanderWidget::registerFunction(const QString& name, uint minarg, uint ma
     maxarg = minarg;
   m_functions.insert(name, QPair<uint, uint>(minarg, maxarg));
 }
-
 
 
 QMap<QString, QPair<uint, uint> > KommanderWidget::m_functions;

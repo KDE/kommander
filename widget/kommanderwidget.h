@@ -76,6 +76,8 @@ protected:
   QString localDcopQuery(const QString function, const QStringList& args) const;
   // Execute given command, return its result
   QString execCommand(const QString& a_command, const QString& a_shell = QString::null) const;
+  // Get parent pid
+  QString parentPid() const;
   // Display error message a_error; display current class name if no other is given
   void printError(const QString& a_error, const QString& a_classname = QString::null) const;
   
