@@ -952,7 +952,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     QWizard *wiz = new QDesignerWizard(parent, name);
     if (parent && !parent->inherits("MainWindow"))
     {
-      wiz->reparent(parent, QPoint(0, 0), false);
+      wiz->reparent(parent, QPoint(0, 0), true);
     }
     if (init && parent && parent->inherits("FormWindow"))
     {
