@@ -292,7 +292,7 @@ QString KommanderWidget::evalFileFunction(const QString& function, const QString
     QTextStream text(&file);
     text << args[1];
   }
-  else if (fname == File::append && file.open(IO_Append))
+  else if (fname == File::append && file.open(IO_WriteOnly | IO_Append))
   {
     QTextStream text(&file);
     text << args[1];
