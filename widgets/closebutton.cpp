@@ -1,5 +1,5 @@
 /***************************************************************************
-                          closebutton.cpp - Button that when clicked, closes the dialog it's in 
+                          closebutton.cpp - Button that when clicked, closes the dialog it's in
                              -------------------
     copyright            : (C) 2002 by Marc Britton
     email                : consume@optusnet.com.au
@@ -132,9 +132,7 @@ void CloseButton::endProcess(KProcess *a_process)
 {
 	emit widgetTextChanged(m_output);
 	m_output = "";
-
-	if(a_process)
-		delete a_process;
+        delete a_process;
 
 }
 
