@@ -1,10 +1,21 @@
-Thu Apr 27 2004 16:38:36 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Wed 26 maj 2004 23:22:46 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o handle changeWidgetText for FileSelector class
+	o add currentItem(QString) DCOP call for lists and combos
+	o add item(QString,int) DCOP call for lists and combos
 
+Wed 26 maj 2004 01:10:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o parser of specials() rewritten
+	o add optional shebang argument for execBegin()
+	o handling of non-string @dcop() arguments fixed
+	o handling of multiple @dcop() arguments fixed
+	o Makefile.am dependencies for executor cleaned
+	o Kommander 1.0alpha1 released
+
+Thu Apr 27 2004 16:38:36 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @parentPid evaluated to parent process pid
 	o install Kommander Editor and Executor desktop files
 
 Thu Apr 20 2004 16:38:36 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
-
 	o added @pid evaluated to current process pid
 	o added @dcopid evaluated to current process DCOP id
 	o rebuilt Kommander Text editor
