@@ -151,8 +151,12 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
       }
       return localDcopQuery(prototype, args);
   }
-  else
-    return pWidget->evalAssociatedText();
+  else if (!pWidget->hasAssociatedText())
+  {
+    printError(i18n("Script for @%1 is empty.").arg(identifier));
+    return QString::null;
+  }
+  return pWidget->evalAssociatedText();
 }
 
 

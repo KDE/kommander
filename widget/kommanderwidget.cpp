@@ -70,6 +70,15 @@ QStringList KommanderWidget::associatedText() const
   return m_associatedText;
 }
 
+bool KommanderWidget::hasAssociatedText()
+{
+  int index = (states().findIndex( currentState()));
+  if (index == -1 || m_associatedText[index].isEmpty())
+    return false;
+  return true;
+}
+
+
 void KommanderWidget::setPopulationText(const QString& a_txt)
 {
   m_populationText = a_txt;
@@ -330,17 +339,16 @@ QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_par
 }
 
 
-void KommanderWidget::printError(const QString& a_error, const QString& a_className) const
+void KommanderWidget::printError(const QString& a_error) const
 {
   if (showErrors) 
   {
-    KMessageBox::error(0, i18n("<qt>Error in script for widget <b>%1:</b><p><i>%2</i></qt>")
-       .arg(a_className.isNull() ? QString(m_thisObject->name()) : a_className).arg(a_error)); 
+    KMessageBox::error(0, i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>")
+       .arg(QString(m_thisObject->name())).arg(a_error)); 
   }
   else 
   {
-    kdError() << i18n("In widget %1:\n\t%2\n").arg( a_className.isNull() ? 
-       QString(m_thisObject->name()) : a_className ).arg(a_error);
+    kdError() << i18n("Error in widget %1:\n  %2\n").arg(m_thisObject->name()).arg(a_error);
   }
 }
 

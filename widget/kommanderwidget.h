@@ -47,6 +47,7 @@ public:
   // Associated script
   virtual void setAssociatedText(const QStringList& a_associations);
   virtual QStringList associatedText() const;
+  virtual bool hasAssociatedText();
   
   // Execute given script, expanding all @macros.
   virtual QString evalAssociatedText() const;
@@ -96,7 +97,7 @@ protected:
   // Find and run dialog (with optional parameters)
   QString runDialog(const QString& a_dialog, const QString& a_params = QString::null) const;
   // Display error message a_error; display current class name if no other is given
-  void printError(const QString& a_error, const QString& a_classname = QString::null) const;
+  void printError(const QString& a_error) const;
   
   // Auxiliary functions for parser
   // Return identifier: the longest string of letters and numbers starting from i
