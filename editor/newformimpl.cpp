@@ -377,7 +377,7 @@ NewForm::NewForm( QWidget *parent, const QString &templatePath )
   LanguageInterface *iface = MetaDataBase::languageInterface( *it );
   if ( iface ) {
       QMap<QString, QString> extensionMap;
-      iface->preferedExtensions( extensionMap );
+      iface->preferredExtensions( extensionMap );
       for ( QMap<QString, QString>::Iterator eit = extensionMap.begin();
       eit != extensionMap.end(); ++eit ) {
     SourceFileItem * si = new SourceFileItem( templateView, *eit );
