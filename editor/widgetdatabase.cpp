@@ -624,7 +624,7 @@ void WidgetDatabase::setupDataBase( int id )
 	r->iconSet = "lineedit.xpm";
     //r->includeFile = "fileselector.h";
     r->group = widgetGroup( "Kommander" );
-    r->toolTip = "A widget made up of a line edit and push button, for selecting files and directories";
+    r->toolTip = "A widget made up of a line edit and push button, for selecting files and folders";
 //    r->isContainer = FALSE;
 
     append( r );
