@@ -15,6 +15,13 @@
     <property name="caption">
         <string>String functions</string>
     </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string></string>
+            <string></string>
+        </stringlist>
+    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -33,7 +40,10 @@
                 <bool>true</bool>
             </property>
             <property name="populationText">
-                <string>&lt;h2&gt;Kommander string functions&lt;/h2&gt;
+                <string>@Array.setValue(Bool, 1, yes)
+@Array.setValue(Bool, 0, no)
+
+&lt;h2&gt;Kommander string functions&lt;/h2&gt;
 &lt;b&gt;Length:&lt;/b&gt; @String.length("@LineEdit1")&lt;br&gt;
 &lt;b&gt;First 5 chars:&lt;/b&gt; @String.left("@LineEdit1", 5)&lt;br&gt;
 &lt;b&gt;Last 5 chars:&lt;/b&gt; @String.right("@LineEdit1", 5)&lt;br&gt;
@@ -42,10 +52,11 @@
 &lt;b&gt;Replace spaces with *&lt;/b&gt;: @String.replace("@LineEdit1", " ", *)&lt;br&gt;
 &lt;b&gt;Uppercase:&lt;/b&gt; @String.upper("@LineEdit1")&lt;br&gt;
 &lt;b&gt;Lowercase:&lt;/b&gt; @String.lower("@LineEdit1")&lt;br&gt;
-&lt;b&gt;Is a number?:&lt;/b&gt; @String.isNumber("@LineEdit1")&lt;br&gt;
-&lt;b&gt;Is empty?&lt;/b&gt; @String.isEmpty("@LineEdit1")&lt;br&gt;
-&lt;b&gt;Compare with "Kommander":&lt;/b&gt; @String.compare("@LineEdit1", "Kommander")
-&lt;br&gt;&lt;b&gt;Match with "Kommander":&lt;/b&gt;
+&lt;b&gt;Is a number?:&lt;/b&gt; @Array.value(Bool, @String.isNumber("@LineEdit1"))&lt;br&gt;
+&lt;b&gt;Is empty?&lt;/b&gt; @Array.value(Bool, @String.isEmpty("@LineEdit1"))&lt;br&gt;
+&lt;b&gt;Contains "Kommander"?:&lt;/b&gt; @String.contains("@LineEdit1", "Kommander")&lt;br&gt;
+&lt;b&gt;Position of "Kommander":&lt;/b&gt; @String.find("@LineEdit1", "Kommander")&lt;br&gt;
+&lt;b&gt;Compare with "Kommander":&lt;/b&gt;
 @execBegin
 if [ @String.compare("@LineEdit1", "Kommander") -lt 0 ];then
 	echo "Less than Kommander&lt;br&gt;"
@@ -99,6 +110,9 @@ fi
                     <property name="name">
                         <cstring>LineEdit1</cstring>
                     </property>
+                    <property name="text">
+                        <string>I love Kommander!</string>
+                    </property>
                     <property name="associations" stdset="0">
                         <stringlist>
                             <string>@widgetText</string>
@@ -144,6 +158,9 @@ fi
                     </property>
                     <property name="text">
                         <string>&amp;Test</string>
+                    </property>
+                    <property name="populationText">
+                        <string></string>
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
