@@ -216,7 +216,7 @@ ListView
 </term>
 <listitem>
 <para>
-This widget doesn't appear to be &kommander; enabled.  I think that TreeWidget has the same functionality?  Should this one be removed completely?
+This widget is now &kommander; enabled.  It is functionally the same as the tree widget so please reference that.
 </para>
 </listitem>
 </varlistentry>
@@ -356,10 +356,10 @@ TextLabel
 </term>
 <listitem>
 <para>
-A simple widget that contains a piece of text.  This widget lets you set a pixmap too.  OK, the editor says that they are both QLabels.  Why do we have 2 widgets that look to be the same thing, but different names?
+A simple widget that contains a piece of text.  This widget lets you set a pixmap too.  OK, the editor says that they are both QLabels.  Why do we have 2 widgets that look to be the same thing, but different names? - Scheduled to be fixed in A7.
 </para>
 <para>
-This widget isn't &kommander; enabled and doesn't have any widget text.
+As of Alpha 6 this widget is partially enabled and can be set using exteranl DCOP calls.
 </para>
 </listitem>
 </varlistentry>
@@ -373,7 +373,7 @@ TreeWidget
 </term>
 <listitem>
 <para>
-A widget that provides a list in the form of a tree structure.
+A widget that provides a list in the form of a tree structure. This widget is now fully enabled to add or remove items as of Alpha 6. You can add child items and multi-column data. The current limitation is that you cannot modify columns. To add a child node use <quote>/</quote> as a separator. To add column data use the escaped tab <quote>\t</quote> character between columns.
 </para>
 </listitem>
 </varlistentry>
