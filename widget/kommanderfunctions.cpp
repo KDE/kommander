@@ -108,6 +108,8 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     m_arrays[args[0]].clear();
   else if (function == "remove")
     m_arrays[args[0]].remove(args[1]);
+  else if (function == "count")
+    return QString::number(m_arrays[args[0]].count());
   return QString::null;
 }
 
