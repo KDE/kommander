@@ -455,7 +455,7 @@ void FormWindow::handleContextMenu(QContextMenuEvent *e, QWidget *w)
 {
   switch (currTool) {
     case POINTER_TOOL: 
-      if (!isMainContainer(w) && !qstrcmp(w->name(), "central widget")) 
+      if (!isMainContainer(w) && qstrcmp(w->name(), "central widget")) 
       { // press on a child widget
         raiseChildSelections(w); // raise selections and select widget
         selectWidget(w);
