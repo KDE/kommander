@@ -109,10 +109,43 @@ QString ListBox::widgetText() const
   //only returning selected is something difdferent to widget text
   //probably @selectedWidgetText
 #else
-  for( int i = 0 ; i < count() ; ++i )
+  for( int i = 0 ; i < (int)count() ; ++i )
       strings += item( i )->text();
 #endif
   return strings.join("\n");
+}
+
+void ListBox::setSelectedWidgetText( const QString &a_text )
+{
+    QStringList selectedItems = QStringList::split( "\n", a_text );
+    for( int i = 0 ; i < (int)count() ; ++i )
+    {
+	if( !selectedItems.count() )
+	    break;
+	QStringList::Iterator j = selectedItems.begin();
+	while( j != selectedItems.end() )
+	{
+	    //only allow an item in text to cause one selection.
+	    if( text( i ) == *j )
+	    {
+		setSelected( i, TRUE );
+		selectedItems.remove( j );
+	    }
+	    else
+	    {
+		++j;
+	    }
+	}
+    }
+}
+
+QString ListBox::selectedWidgetText() const
+{
+    QStringList selectedItems;
+    for( int i = 0 ; i < (int)count() ; ++i )
+	if( isSelected( i ) )
+	    selectedItems += text( i );
+    return selectedItems.join( "\n" );
 }
 
 void ListBox::setActivated(int /*a_item*/)

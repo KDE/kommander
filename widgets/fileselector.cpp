@@ -107,6 +107,19 @@ QString FileSelector::widgetText() const
 	return m_lineEdit->text();
 }
 
+void FileSelector::setSelectedWidgetText( const QString &a_text )
+{
+    QString curText = m_lineEdit->text();
+    int f = curText.find( a_text );
+    if( f != -1 )
+	m_lineEdit->setSelection( f, a_text.length() );
+}
+
+QString FileSelector::selectedWidgetText() const
+{
+    return m_lineEdit->selectedText();
+}
+
 FileSelector::SelectionType FileSelector::selectionType() const
 {
 	return m_selectionType;

@@ -80,6 +80,16 @@ QString TextEdit::widgetText() const
 	return text();
 }
 
+void TextEdit::setSelectedWidgetText( const QString & )
+{
+    //possible but cbf :)
+}
+
+QString TextEdit::selectedWidgetText() const
+{
+    return selectedText();
+}
+
 void TextEdit::setWidgetText(const QString &a_text)
 {
 	setText(a_text);

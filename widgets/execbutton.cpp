@@ -94,6 +94,15 @@ QString ExecButton::widgetText() const
 	return m_output;
 }
 
+void ExecButton::setSelectedWidgetText( const QString &)
+{
+}
+
+QString ExecButton::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void ExecButton::startProcess()
 {
 	QString at = evalAssociatedText();

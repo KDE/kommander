@@ -1469,7 +1469,7 @@ bool WidgetFactory::hasSpecialEditor( int id )
     QString className = WidgetDatabase::className( id );
 
 #ifdef KOMMANDER
-    if(className == "TextEdit" || className == "ComboBox" || className == "TreeWidget")
+    if(className == "TextEdit" || className == "ComboBox" || className == "ListBox" || className == "TreeWidget")
 	    return TRUE;
 #endif
     if ( className.mid( 1 ) == "ListBox" )
@@ -1541,6 +1541,15 @@ void WidgetFactory::editWidget( int id, QWidget *parent, QWidget *editWidget, Fo
 	    delete e;
 	    return;
 	}
+    if ( className == "ListBox" )
+    {
+	if ( !editWidget->inherits( "QListBox" ) )
+	    return;
+	ListBoxEditor *e = new ListBoxEditor( parent, editWidget, fw );
+	e->exec();
+	delete e;
+	return;
+    }
 #endif
     if ( className.mid( 1 ) == "ListBox" )
     {

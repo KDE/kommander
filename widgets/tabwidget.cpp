@@ -87,6 +87,15 @@ QString TabWidget::widgetText() const
 	return caption();
 }
 
+void TabWidget::setSelectedWidgetText( const QString & )
+{
+}
+
+QString TabWidget::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void TabWidget::showEvent( QShowEvent *e )
 {
     QTabWidget::showEvent( e );

@@ -88,6 +88,15 @@ QString ScriptObject::widgetText() const
 	return m_script;
 }
 
+void ScriptObject::setSelectedWidgetText( const QString &)
+{
+}
+
+QString ScriptObject::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void ScriptObject::show()
 {
 	return; // widget is never shown

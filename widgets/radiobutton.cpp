@@ -92,6 +92,15 @@ QString RadioButton::widgetText() const
 	return QString::null;
 }
 
+void RadioButton::setSelectedWidgetText( const QString &)
+{
+}
+
+QString RadioButton::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void RadioButton::showEvent( QShowEvent *e )
 {
     QRadioButton::showEvent( e );

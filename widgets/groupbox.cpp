@@ -122,6 +122,16 @@ QString GroupBox::widgetText() const
 #endif
 }
 
+void GroupBox::setSelectedWidgetText( const QString &)
+{
+}
+
+QString GroupBox::selectedWidgetText() const
+{
+    // return al lthe selectedWidgetText()s of the groupbox children?
+    return QString::null;
+}
+
 /* We need to keep track of all widgets created as a child of a groupbox, in order of creation. */
 void GroupBox::insertChild(QObject *a_child)
 {

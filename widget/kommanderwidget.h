@@ -47,6 +47,9 @@ public:
 	virtual QString widgetText() const = 0;
 	virtual void setWidgetText(const QString &) = 0;
 
+	virtual QString selectedWidgetText() const = 0;
+	virtual void setSelectedWidgetText(const QString &) = 0;
+
 	virtual void populate() = 0;
 protected:
 	virtual void setStates(QStringList);
@@ -64,8 +67,6 @@ protected:
 };
 
 
-
-#define SPECIAL_NAME "widgetText"
 #define ESCCHAR '@'
 
 #endif

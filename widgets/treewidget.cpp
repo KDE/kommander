@@ -91,6 +91,15 @@ QString TreeWidget::widgetText() const
 	return QString::null;
 }
 
+void TreeWidget::setSelectedWidgetText( const QString & )
+{
+}
+
+QString TreeWidget::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void TreeWidget::showEvent( QShowEvent *e )
 {
     QListView::showEvent( e );

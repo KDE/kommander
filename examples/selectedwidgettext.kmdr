@@ -1,0 +1,105 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>210</width>
+            <height>100</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Selected Text Demo</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="ListBox">
+            <item>
+                <property name="text">
+                    <string>gvim</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>xboard</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>kate</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>commandListBox</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@selectedWidgetText</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Run</string>
+                    </property>
+                    <property name="populationText">
+                        <string></string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@commandListBox</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>0</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                </spacer>
+            </vbox>
+        </widget>
+    </hbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

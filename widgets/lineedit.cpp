@@ -84,6 +84,18 @@ QString LineEdit::widgetText() const
 	return text();
 }
 
+void LineEdit::setSelectedWidgetText( const QString &a_text )
+{
+    int f = text().find( a_text );
+    if( f != -1 )
+	setSelection( f, a_text.length() );
+}
+
+QString LineEdit::selectedWidgetText() const
+{
+    return selectedText();
+}
+
 void LineEdit::setWidgetText(const QString &a_text)
 {
 	setText(a_text);

@@ -156,6 +156,16 @@ QString RichTextEditor::widgetText() const
 	return m_textedit->text();
 }
 
+void RichTextEditor::setSelectedWidgetText( const QString & )
+{
+    //possible but probably not worth the effort
+}
+
+QString RichTextEditor::selectedWidgetText() const
+{
+    return m_textedit->selectedText();
+}
+
 void RichTextEditor::setWidgetText(const QString &a_text)
 {
 	m_textedit->setText(a_text);

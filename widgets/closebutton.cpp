@@ -103,6 +103,15 @@ QString CloseButton::widgetText() const
 	return m_output;
 }
 
+void CloseButton::setSelectedWidgetText( const QString &)
+{
+}
+
+QString CloseButton::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void CloseButton::startProcess()
 {
 	QString at = evalAssociatedText();

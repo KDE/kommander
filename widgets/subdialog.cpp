@@ -108,6 +108,15 @@ QString SubDialog::widgetText() const
   return QString::null;
 }
 
+void SubDialog::setSelectedWidgetText( const QString & )
+{
+}
+
+QString SubDialog::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void SubDialog::showDialog()
 {
   if(m_dialog)

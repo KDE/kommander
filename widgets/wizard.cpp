@@ -92,6 +92,15 @@ QString Wizard::widgetText() const
 	return caption();
 }
 
+void Wizard::setSelectedWidgetText( const QString & )
+{
+}
+
+QString Wizard::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void Wizard::exec()
 {
 	QWizard::exec();

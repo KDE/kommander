@@ -44,6 +44,7 @@ public:
 	~SubDialog();
 
 	virtual QString widgetText() const;
+	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
@@ -56,6 +57,7 @@ public:
 public slots:
 	void setKmdrFile(QString);
 	virtual void setWidgetText(const QString &);
+		virtual void setSelectedWidgetText(const QString &a_text);
 	virtual void showDialog();
 	virtual void slotFinished();
 	virtual void populate();

@@ -86,6 +86,15 @@ QString Dialog::widgetText() const
 	return caption();
 }
 
+void Dialog::setSelectedWidgetText( const QString &)
+{
+}
+
+QString Dialog::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void Dialog::exec()
 {
 	QDialog::exec();

@@ -95,6 +95,26 @@ QString ComboBox::widgetText() const
 	return currentText();
 }
 
+void ComboBox::setSelectedWidgetText( const QString &a_text )
+{
+    for( int i = 0 ; i < count() ; ++i )
+    {
+	if( text( i ) == a_text )
+	{
+	    setCurrentItem( i );
+	    break;
+	}
+    }
+}
+
+QString ComboBox::selectedWidgetText() const
+{
+    QString t;
+    if( currentItem() != -1 )
+	t = text( currentItem() );
+    return t;
+}
+
 #if 0
 QStringList ComboBox::items() const
 {

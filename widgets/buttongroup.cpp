@@ -97,6 +97,15 @@ QString ButtonGroup::widgetText() const
 	return text;
 }
 
+void ButtonGroup::setSelectedWidgetText( const QString &)
+{
+}
+
+QString ButtonGroup::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void ButtonGroup::showEvent( QShowEvent *e )
 {
     QButtonGroup::showEvent( e );

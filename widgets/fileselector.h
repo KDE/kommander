@@ -51,6 +51,7 @@ public:
 	~FileSelector();
 
 	virtual QString widgetText() const;
+	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
@@ -72,6 +73,7 @@ public:
 	void setSelectionCaption(QString);
 public slots:
 	virtual void setWidgetText(const QString &);
+	virtual void setSelectedWidgetText(const QString &a_text);
 	virtual void makeSelection();
 	virtual void populate();
 signals:

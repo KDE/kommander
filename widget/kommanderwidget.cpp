@@ -128,8 +128,10 @@ QString KommanderWidget::evalAssociatedText(const QString &a_text) const
 	    }
 	    else
 	    {
-		if(identifier == SPECIAL_NAME)
+		if(identifier == "widgetText")
 			evalText += widgetText();
+		else if( identifier == "selectedWidgetText" )
+		    evalText += selectedWidgetText();
 		else // see if this is an identifier
 		{
 		    QObject *superParent = m_thisObject;
@@ -199,8 +201,6 @@ QString KommanderWidget::evalAssociatedText(const QString &a_text) const
 			    evalText += dcopQuery(arg);
 			else if(identifier == "exec")
 			{
-			    qWarning("executing command %s", arg.latin1());
-
 			    bool ok;
 			    QStringList args = parseArgs( arg, ok );
 			    if( !ok || args.count() != 1 )

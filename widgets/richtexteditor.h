@@ -44,6 +44,7 @@ public:
 	RichTextEditor(QWidget *, const char *);
 	virtual ~RichTextEditor();
 	QString widgetText() const;
+	virtual QString selectedWidgetText() const;
 
 	bool isKommanderWidget() const;
 	void setAssociatedText(QStringList);
@@ -56,6 +57,7 @@ public:
 public slots:
 	void setTextChanged();
 	void setWidgetText(const QString &);
+		virtual void setSelectedWidgetText(const QString &a_text);
 	void textAlign(int);
 	void textBold(bool);
 	void textUnder(bool);

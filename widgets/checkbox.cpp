@@ -91,13 +91,22 @@ void CheckBox::populate()
 
 void CheckBox::setWidgetText(const QString &a_text)
 {
-    setText( a_text );
-	emit widgetTextChanged(a_text);
+    setText(a_text);
+    emit widgetTextChanged(a_text);
 }
 
 QString CheckBox::widgetText() const
 {
-	return QString::null;
+    return text();
+}
+
+void CheckBox::setSelectedWidgetText( const QString &)
+{
+}
+
+QString CheckBox::selectedWidgetText() const
+{
+    return QString::null;
 }
 
 void CheckBox::showEvent( QShowEvent *e )

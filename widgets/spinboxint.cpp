@@ -87,6 +87,15 @@ QString SpinBoxInt::widgetText() const
 	return text();
 }
 
+void SpinBoxInt::setSelectedWidgetText( const QString & )
+{
+}
+
+QString SpinBoxInt::selectedWidgetText() const
+{
+    return QString::null;
+}
+
 void SpinBoxInt::showEvent( QShowEvent *e )
 {
     QSpinBox::showEvent( e );

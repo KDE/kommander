@@ -42,6 +42,7 @@ public:
 	~CheckBox();
 
 	virtual QString widgetText() const;
+	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
@@ -52,6 +53,7 @@ public:
 	virtual void setPopulationText(QString);
 public slots:
 	virtual void setWidgetText(const QString &);
+	virtual void setSelectedWidgetText(const QString &a_text);
 	virtual void populate();
 signals:
 	void widgetOpened();

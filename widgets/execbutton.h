@@ -43,6 +43,7 @@ public:
 	~ExecButton();
 
 	virtual QString widgetText() const;
+	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
@@ -57,6 +58,7 @@ public:
 public slots:
     virtual void populate();
 	virtual void setWidgetText(const QString &);
+		virtual void setSelectedWidgetText(const QString &a_text);
 	virtual void startProcess();
 	virtual void appendOutput(KProcess *, char *, int);
 	virtual void endProcess(KProcess *);
