@@ -23,7 +23,6 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
-#include <qlistbox.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
