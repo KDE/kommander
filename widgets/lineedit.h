@@ -17,20 +17,19 @@
 #define _HAVE_LINEEDIT_H_
 
 /* KDE INCLUDES */
-//#include <klineedit.h>
+#include <klineedit.h>
 
 /* QT INCLUDES */
 #include <qtextedit.h>
 #include <qstringlist.h>
 #include <qstring.h>
-#include <qlineedit.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 
 class QShowEvent;
 
-class LineEdit : public QLineEdit, public KommanderWidget
+class LineEdit : public KLineEdit, public KommanderWidget
 {
 	Q_OBJECT
 

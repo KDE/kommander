@@ -16,13 +16,12 @@
 /* QT INCLUDES */
 #include <qlayout.h>
 #include <qevent.h>
-#include <qlineedit.h>
 
 /* OTHER INCLUDES */
 #include "lineedit.h"
 
 LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
-	: QLineEdit(a_parent, a_name), KommanderWidget((QObject *)this)
+	: KLineEdit(a_parent, a_name), KommanderWidget((QObject *)this)
 {
 
 	QStringList states;
