@@ -956,7 +956,7 @@ void MainWindow::helpContents()
             f.close();
         } else {
 #if 0
-            QMessageBox::critical( this, i18n("Error" ), i18n("Couldn't find the Qt documentation index file!\n"
+            QMessageBox::critical( this, i18n("Error" ), i18n("Could not find the Qt documentation index file.\n"
                                             "Please set the correct documentation path in the preferences dialog." ) );
 #endif
         }
