@@ -17,6 +17,7 @@
 
  /* KDE INCLUDES */
 #include <kmessagebox.h>
+#include <klocale.h>
 
 /* QT INCLUDES */
 #include <qdialog.h>
@@ -58,19 +59,19 @@ bool Instance::build()
 
   if(m_uiFileName.isEmpty())
     return FALSE;
-    
+
   QFileInfo uiFileInfo(m_uiFileName);
   if(!uiFileInfo.exists())
   {
-    KMessageBox::sorry(0, m_uiFileName + " does not exist", "Error");
+    KMessageBox::sorry(0, i18n("%1 does not exist").arg(m_uiFileName), i18n("Error"));
     return FALSE;
   }
-  
+
   // create the main instance, must inherit QDialog
   m_instance = (QDialog *)EWidgetFactory::create(m_uiFileName);
   if(!m_instance)
   {
-    KMessageBox::sorry(0, QString("Unable to create dialog from ") + m_uiFileName);
+    KMessageBox::sorry(0, i18n("Unable to create dialog from %1").arg(m_uiFileName));
     return FALSE;
   }
 
@@ -94,7 +95,7 @@ bool Instance::build(QFile *a_file)
 	m_instance = (QDialog *)EWidgetFactory::create(a_file);
 	if(!m_instance)
 	{
-    	KMessageBox::sorry(0, QString("Unable to create dialog from input")); 
+    	KMessageBox::sorry(0, i18n("Unable to create dialog from input"));
 		return FALSE;
 	}
 
@@ -118,7 +119,7 @@ bool Instance::run(QFile *a_file)
 			return FALSE;
 	}
   }
- 
+
 #if 0
   m_instance->show();
 #else

@@ -88,6 +88,8 @@
 #include "pics/hand.xbm"
 #include "pics/no.xbm"
 
+#include <klocale.h>
+
 static QFontDatabase *fontDataBase = 0;
 QString assistantPath();
 
@@ -401,8 +403,8 @@ void PropertyItem::createResetButton()
     hbox->hide();
     QObject::connect( resetButton, SIGNAL( clicked() ),
 		      listview, SLOT( resetProperty() ) );
-    QToolTip::add( resetButton, PropertyEditor::tr( "Reset the property to its default value" ) );
-    QWhatsThis::add( resetButton, PropertyEditor::tr( "Click this button to reset the property to its default value" ) );
+    QToolTip::add( resetButton, i18n( "Reset the property to its default value" ) );
+    QWhatsThis::add( resetButton, i18n( "Click this button to reset the property to its default value" ) );
     updateResetButtonState();
 }
 
@@ -590,7 +592,7 @@ QLineEdit *PropertyTextItem::lined()
     } if ( !hasMultiLines ) {
 	lin->hide();
     } else {
-	button = new QPushButton( tr("..."), box );
+	button = new QPushButton( i18n("..."), box );
 	button->setFixedWidth( 20 );
 	connect( button, SIGNAL( clicked() ),
 		 this, SLOT( getText() ) );
@@ -1066,8 +1068,8 @@ QComboBox *PropertyBoolItem::combo()
 	return comb;
     comb = new QComboBox( FALSE, listview->viewport() );
     comb->hide();
-    comb->insertItem( tr( "False" ) );
-    comb->insertItem( tr( "True" ) );
+    comb->insertItem( i18n( "False" ) );
+    comb->insertItem( i18n( "True" ) );
     connect( comb, SIGNAL( activated( int ) ),
 	     this, SLOT( setValue() ) );
     comb->installEventFilter( listview );
@@ -1125,9 +1127,9 @@ void PropertyBoolItem::setValue( const QVariant &v )
 	    combo()->setCurrentItem( 0 );
 	combo()->blockSignals( FALSE );
     }
-    QString tmp = tr( "True" );
+    QString tmp = i18n( "True" );
     if ( !v.toBool() )
-	tmp = tr( "False" );
+	tmp = i18n( "False" );
     setText( 1, tmp );
     PropertyItem::setValue( v );
 }
@@ -1405,15 +1407,15 @@ void PropertyCoordItem::createChildren()
 {
     PropertyItem *i = this;
     if ( typ == Rect || typ == Point ) {
-	i = new PropertyIntItem( listview, i, this, tr( "x" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n( "x" ), TRUE );
 	addChild( i );
-	i = new PropertyIntItem( listview, i, this, tr( "y" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n( "y" ), TRUE );
 	addChild( i );
     }
     if ( typ == Rect || typ == Size ) {
-	i = new PropertyIntItem( listview, i, this, tr( "width" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n( "width" ), TRUE );
 	addChild( i );
-	i = new PropertyIntItem( listview, i, this, tr( "height" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n( "height" ), TRUE );
 	addChild( i );
     }
 }
@@ -1423,22 +1425,22 @@ void PropertyCoordItem::initChildren()
     PropertyItem *item = 0;
     for ( int i = 0; i < childCount(); ++i ) {
 	item = PropertyItem::child( i );
-	if ( item->name() == tr( "x" ) ) {
+	if ( item->name() == i18n( "x" ) ) {
 	    if ( typ == Rect )
 		item->setValue( val.toRect().x() );
 	    else if ( typ == Point )
 		item->setValue( val.toPoint().x() );
-	} else if ( item->name() == tr( "y" ) ) {
+	} else if ( item->name() == i18n( "y" ) ) {
 	    if ( typ == Rect )
 		item->setValue( val.toRect().y() );
 	    else if ( typ == Point )
 		item->setValue( val.toPoint().y() );
-	} else if ( item->name() == tr( "width" ) ) {
+	} else if ( item->name() == i18n( "width" ) ) {
 	    if ( typ == Rect )
 		item->setValue( val.toRect().width() );
 	    else if ( typ == Size )
 		item->setValue( val.toSize().width() );
-	} else if ( item->name() == tr( "height" ) ) {
+	} else if ( item->name() == i18n( "height" ) ) {
 	    if ( typ == Rect )
 		item->setValue( val.toRect().height() );
 	    else if ( typ == Size )
@@ -1502,27 +1504,27 @@ void PropertyCoordItem::childValueChanged( PropertyItem *child )
 {
     if ( typ == Rect ) {
 	QRect r = value().toRect();
-	if ( child->name() == tr( "x" ) )
+	if ( child->name() == i18n( "x" ) )
 	    r.setX( child->value().toInt() );
-	else if ( child->name() == tr( "y" ) )
+	else if ( child->name() == i18n( "y" ) )
 	    r.setY( child->value().toInt() );
-	else if ( child->name() == tr( "width" ) )
+	else if ( child->name() == i18n( "width" ) )
 	    r.setWidth( child->value().toInt() );
-	else if ( child->name() == tr( "height" ) )
+	else if ( child->name() == i18n( "height" ) )
 	    r.setHeight( child->value().toInt() );
 	setValue( r );
     } else if ( typ == Point ) {
 	QPoint r = value().toPoint();
-	if ( child->name() == tr( "x" ) )
+	if ( child->name() == i18n( "x" ) )
 	    r.setX( child->value().toInt() );
-	else if ( child->name() == tr( "y" ) )
+	else if ( child->name() == i18n( "y" ) )
 	    r.setY( child->value().toInt() );
 	setValue( r );
     } else if ( typ == Size ) {
 	QSize r = value().toSize();
-	if ( child->name() == tr( "width" ) )
+	if ( child->name() == i18n( "width" ) )
 	    r.setWidth( child->value().toInt() );
-	else if ( child->name() == tr( "height" ) )
+	else if ( child->name() == i18n( "height" ) )
 	    r.setHeight( child->value().toInt() );
 	setValue( r );
     }
@@ -1642,11 +1644,11 @@ PropertyColorItem::PropertyColorItem( PropertyList *l, PropertyItem *after, Prop
 void PropertyColorItem::createChildren()
 {
     PropertyItem *i = this;
-    i = new PropertyIntItem( listview, i, this, tr( "Red" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n( "Red" ), TRUE );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, tr( "Green" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n( "Green" ), TRUE );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, tr( "Blue" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n( "Blue" ), TRUE );
     addChild( i );
 }
 
@@ -1655,11 +1657,11 @@ void PropertyColorItem::initChildren()
     PropertyItem *item = 0;
     for ( int i = 0; i < childCount(); ++i ) {
 	item = PropertyItem::child( i );
-	if ( item->name() == tr( "Red" ) )
+	if ( item->name() == i18n( "Red" ) )
 	    item->setValue( val.toColor().red() );
-	else if ( item->name() == tr( "Green" ) )
+	else if ( item->name() == i18n( "Green" ) )
 	    item->setValue( val.toColor().green() );
-	else if ( item->name() == tr( "Blue" ) )
+	else if ( item->name() == i18n( "Blue" ) )
 	    item->setValue( val.toColor().blue() );
     }
 }
@@ -1705,11 +1707,11 @@ bool PropertyColorItem::hasSubItems() const
 void PropertyColorItem::childValueChanged( PropertyItem *child )
 {
     QColor c( val.toColor() );
-    if ( child->name() == tr( "Red" ) )
+    if ( child->name() == i18n( "Red" ) )
 	c.setRgb( child->value().toInt(), c.green(), c.blue() );
-    else if ( child->name() == tr( "Green" ) )
+    else if ( child->name() == i18n( "Green" ) )
 	c.setRgb( c.red(), child->value().toInt(), c.blue() );
-    else if ( child->name() == tr( "Blue" ) )
+    else if ( child->name() == i18n( "Blue" ) )
 	c.setRgb( c.red(), c.green(), child->value().toInt() );
     setValue( c );
     notifyValueChange();
@@ -1763,17 +1765,17 @@ PropertyFontItem::PropertyFontItem( PropertyList *l, PropertyItem *after, Proper
 void PropertyFontItem::createChildren()
 {
     PropertyItem *i = this;
-    i = new PropertyListItem( listview, i, this, tr( "Family" ), FALSE );
+    i = new PropertyListItem( listview, i, this, i18n( "Family" ), FALSE );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, tr( "Point Size" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n( "Point Size" ), TRUE );
     addChild( i );
-    i = new PropertyBoolItem( listview, i, this, tr( "Bold" ) );
+    i = new PropertyBoolItem( listview, i, this, i18n( "Bold" ) );
     addChild( i );
-    i = new PropertyBoolItem( listview, i, this, tr( "Italic" ) );
+    i = new PropertyBoolItem( listview, i, this, i18n( "Italic" ) );
     addChild( i );
-    i = new PropertyBoolItem( listview, i, this, tr( "Underline" ) );
+    i = new PropertyBoolItem( listview, i, this, i18n( "Underline" ) );
     addChild( i );
-    i = new PropertyBoolItem( listview, i, this, tr( "Strikeout" ) );
+    i = new PropertyBoolItem( listview, i, this, i18n( "Strikeout" ) );
     addChild( i );
 }
 
@@ -1782,18 +1784,18 @@ void PropertyFontItem::initChildren()
     PropertyItem *item = 0;
     for ( int i = 0; i < childCount(); ++i ) {
 	item = PropertyItem::child( i );
-	if ( item->name() == tr( "Family" ) ) {
+	if ( item->name() == i18n( "Family" ) ) {
 	    ( (PropertyListItem*)item )->setValue( getFontList() );
 	    ( (PropertyListItem*)item )->setCurrentItem( val.toFont().family() );
-	} else if ( item->name() == tr( "Point Size" ) )
+	} else if ( item->name() == i18n( "Point Size" ) )
 	    item->setValue( val.toFont().pointSize() );
-	else if ( item->name() == tr( "Bold" ) )
+	else if ( item->name() == i18n( "Bold" ) )
 	    item->setValue( QVariant( val.toFont().bold(), 0 ) );
-	else if ( item->name() == tr( "Italic" ) )
+	else if ( item->name() == i18n( "Italic" ) )
 	    item->setValue( QVariant( val.toFont().italic(), 0 ) );
-	else if ( item->name() == tr( "Underline" ) )
+	else if ( item->name() == i18n( "Underline" ) )
 	    item->setValue( QVariant( val.toFont().underline(), 0 ) );
-	else if ( item->name() == tr( "Strikeout" ) )
+	else if ( item->name() == i18n( "Strikeout" ) )
 	    item->setValue( QVariant( val.toFont().strikeOut(), 0 ) );
     }
 }
@@ -1847,17 +1849,17 @@ bool PropertyFontItem::hasSubItems() const
 void PropertyFontItem::childValueChanged( PropertyItem *child )
 {
     QFont f = val.toFont();
-    if ( child->name() == tr( "Family" ) )
+    if ( child->name() == i18n( "Family" ) )
 	f.setFamily( ( (PropertyListItem*)child )->currentItem() );
-    else if ( child->name() == tr( "Point Size" ) )
+    else if ( child->name() == i18n( "Point Size" ) )
 	f.setPointSize( child->value().toInt() );
-    else if ( child->name() == tr( "Bold" ) )
+    else if ( child->name() == i18n( "Bold" ) )
 	f.setBold( child->value().toBool() );
-    else if ( child->name() == tr( "Italic" ) )
+    else if ( child->name() == i18n( "Italic" ) )
 	f.setItalic( child->value().toBool() );
-    else if ( child->name() == tr( "Underline" ) )
+    else if ( child->name() == i18n( "Underline" ) )
 	f.setUnderline( child->value().toBool() );
-    else if ( child->name() == tr( "Strikeout" ) )
+    else if ( child->name() == i18n( "Strikeout" ) )
 	f.setStrikeOut( child->value().toBool() );
     setValue( f );
     notifyValueChange();
@@ -1887,12 +1889,12 @@ PropertyDatabaseItem::PropertyDatabaseItem( PropertyList *l, PropertyItem *after
 void PropertyDatabaseItem::createChildren()
 {
     PropertyItem *i = this;
-    i = new PropertyListItem( listview, i, this, tr( "Connection" ), TRUE );
+    i = new PropertyListItem( listview, i, this, i18n( "Connection" ), TRUE );
     addChild( i );
-    i = new PropertyListItem( listview, i, this, tr( "Table" ), TRUE );
+    i = new PropertyListItem( listview, i, this, i18n( "Table" ), TRUE );
     addChild( i );
     if ( withField ) {
-	i = new PropertyListItem( listview, i, this, tr( "Field" ), TRUE );
+	i = new PropertyListItem( listview, i, this, i18n( "Field" ), TRUE );
 	addChild( i );
     }
 }
@@ -1905,7 +1907,7 @@ void PropertyDatabaseItem::initChildren()
     QString conn, table;
     for ( int i = 0; i < childCount(); ++i ) {
 	item = PropertyItem::child( i );
-	if ( item->name() == tr( "Connection" ) ) {
+	if ( item->name() == i18n( "Connection" ) ) {
 		QStringList cl = listview->propertyEditor()->formWindow()->project()->databaseConnectionList();
 	    if ( !cl.isEmpty() )
 		item->setValue( cl );
@@ -1923,7 +1925,7 @@ void PropertyDatabaseItem::initChildren()
 	    else
 		item->setCurrentItem( 0 );
 	    conn = item->currentItem();
-	} else if ( item->name() == tr( "Table" ) ) {
+	} else if ( item->name() == i18n( "Table" ) ) {
 	    QStringList cl = listview->propertyEditor()->formWindow()->project()->databaseTableList( conn );
 	    if ( !cl.isEmpty() )
 		item->setValue( cl );
@@ -1946,7 +1948,7 @@ void PropertyDatabaseItem::initChildren()
 	    } else
 		item->setCurrentItem( 0 );
 	    table = item->currentItem();
-	} else if ( item->name() == tr( "Field" ) ) {
+	} else if ( item->name() == i18n( "Field" ) ) {
 	    QStringList cl = listview->propertyEditor()->formWindow()->project()->databaseFieldList( conn, table );
 	    if ( !cl.isEmpty() )
 		item->setValue( cl );
@@ -2054,15 +2056,15 @@ void PropertySizePolicyItem::createChildren()
     lst << "Fixed" << "Minimum" << "Maximum" << "Preferred" << "MinimumExpanding" << "Expanding" << "Ignored";
 
     PropertyItem *i = this;
-    i = new PropertyListItem( listview, i, this, tr( "hSizeType" ), FALSE );
+    i = new PropertyListItem( listview, i, this, i18n( "hSizeType" ), FALSE );
     i->setValue( lst );
     addChild( i );
-    i = new PropertyListItem( listview, i, this, tr( "vSizeType" ), FALSE );
+    i = new PropertyListItem( listview, i, this, i18n( "vSizeType" ), FALSE );
     i->setValue( lst );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, tr( "horizontalStretch" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n( "horizontalStretch" ), TRUE );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, tr( "verticalStretch" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n( "verticalStretch" ), TRUE );
     addChild( i );
 }
 
@@ -2072,13 +2074,13 @@ void PropertySizePolicyItem::initChildren()
     QSizePolicy sp = val.toSizePolicy();
     for ( int i = 0; i < childCount(); ++i ) {
 	item = PropertyItem::child( i );
-	if ( item->name() == tr( "hSizeType" ) )
+	if ( item->name() == i18n( "hSizeType" ) )
 	    ( (PropertyListItem*)item )->setCurrentItem( size_type_to_int( sp.horData() ) );
-	else if ( item->name() == tr( "vSizeType" ) )
+	else if ( item->name() == i18n( "vSizeType" ) )
 	    ( (PropertyListItem*)item )->setCurrentItem( size_type_to_int( sp.verData() ) );
-	else if ( item->name() == tr( "horizontalStretch" ) )
+	else if ( item->name() == i18n( "horizontalStretch" ) )
 	    ( (PropertyIntItem*)item )->setValue( sp.horStretch() );
-	else if ( item->name() == tr( "verticalStretch" ) )
+	else if ( item->name() == i18n( "verticalStretch" ) )
 	    ( (PropertyIntItem*)item )->setValue( sp.verStretch() );
     }
 }
@@ -2109,7 +2111,7 @@ void PropertySizePolicyItem::setValue( const QVariant &v )
     if ( value() == v )
 	return;
 
-    QString s = tr( "%1/%2/%2/%2" );
+    QString s = QString( "%1/%2/%2/%2" );
     s = s.arg( size_type_to_string( v.toSizePolicy().horData() ) ).
 	arg( size_type_to_string( v.toSizePolicy().verData() ) ).
 	arg( v.toSizePolicy().horStretch() ).
@@ -2122,13 +2124,13 @@ void PropertySizePolicyItem::setValue( const QVariant &v )
 void PropertySizePolicyItem::childValueChanged( PropertyItem *child )
 {
     QSizePolicy sp = val.toSizePolicy();
-    if ( child->name() == tr( "hSizeType" ) )
+    if ( child->name() == i18n( "hSizeType" ) )
 	sp.setHorData( int_to_size_type( ( ( PropertyListItem*)child )->currentIntItem() ) );
-    else if ( child->name() == tr( "vSizeType" ) )
+    else if ( child->name() == i18n( "vSizeType" ) )
 	sp.setVerData( int_to_size_type( ( ( PropertyListItem*)child )->currentIntItem() ) );
-    else if ( child->name() == tr( "horizontalStretch" ) )
+    else if ( child->name() == i18n( "horizontalStretch" ) )
 	sp.setHorStretch( ( ( PropertyIntItem*)child )->value().toInt() );
-    else if ( child->name() == tr( "verticalStretch" ) )
+    else if ( child->name() == i18n( "verticalStretch" ) )
 	sp.setVerStretch( ( ( PropertyIntItem*)child )->value().toInt() );
     setValue( sp );
     notifyValueChange();
@@ -2249,63 +2251,63 @@ QComboBox *PropertyCursorItem::combo()
 
     cur = QBitmap(arrow_width, arrow_height, arrow_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Arrow"), QObject::ArrowCursor);
+    comb->insertItem( cur, i18n("Arrow"), QObject::ArrowCursor);
 
     cur = QBitmap(uparrow_width, uparrow_height, uparrow_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Up-Arrow"), QObject::UpArrowCursor );
+    comb->insertItem( cur, i18n("Up-Arrow"), QObject::UpArrowCursor );
 
     cur = QBitmap(cross_width, cross_height, cross_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Cross"), QObject::CrossCursor );
+    comb->insertItem( cur, i18n("Cross"), QObject::CrossCursor );
 
     cur = QBitmap(wait_width, wait_height, wait_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Waiting"), QObject::WaitCursor );
+    comb->insertItem( cur, i18n("Waiting"), QObject::WaitCursor );
 
     cur = QBitmap(ibeam_width, ibeam_height, ibeam_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("iBeam"), QObject::IbeamCursor );
+    comb->insertItem( cur, i18n("iBeam"), QObject::IbeamCursor );
 
     cur = QBitmap(sizev_width, sizev_height, sizev_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Size Vertical"), QObject::SizeVerCursor );
+    comb->insertItem( cur, i18n("Size Vertical"), QObject::SizeVerCursor );
 
     cur = QBitmap(sizeh_width, sizeh_height, sizeh_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Size Horizontal"), QObject::SizeHorCursor );
+    comb->insertItem( cur, i18n("Size Horizontal"), QObject::SizeHorCursor );
 
     cur = QBitmap(sizef_width, sizef_height, sizef_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Size Slash"), QObject::SizeBDiagCursor );
+    comb->insertItem( cur, i18n("Size Slash"), QObject::SizeBDiagCursor );
 
     cur = QBitmap(sizeb_width, sizeb_height, sizeb_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Size Backslash"), QObject::SizeFDiagCursor );
+    comb->insertItem( cur, i18n("Size Backslash"), QObject::SizeFDiagCursor );
 
     cur = QBitmap(sizeall_width, sizeall_height, sizeall_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Size All"), QObject::SizeAllCursor );
+    comb->insertItem( cur, i18n("Size All"), QObject::SizeAllCursor );
 
     cur = QBitmap( 25, 25, 1 );
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Blank"), QObject::BlankCursor );
+    comb->insertItem( cur, i18n("Blank"), QObject::BlankCursor );
 
     cur = QBitmap(vsplit_width, vsplit_height, vsplit_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Split Vertical"), QObject::SplitVCursor );
+    comb->insertItem( cur, i18n("Split Vertical"), QObject::SplitVCursor );
 
     cur = QBitmap(hsplit_width, hsplit_height, hsplit_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Split Horizontal"), QObject::SplitHCursor );
+    comb->insertItem( cur, i18n("Split Horizontal"), QObject::SplitHCursor );
 
     cur = QBitmap(hand_width, hand_height, hand_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Pointing Hand"), QObject::PointingHandCursor );
+    comb->insertItem( cur, i18n("Pointing Hand"), QObject::PointingHandCursor );
 
     cur = QBitmap(no_width, no_height, no_bits, TRUE);
     cur.setMask( cur );
-    comb->insertItem( cur, tr("Forbidden"), QObject::ForbiddenCursor );
+    comb->insertItem( cur, i18n("Forbidden"), QObject::ForbiddenCursor );
 
     connect( comb, SIGNAL( activated( int ) ),
 	     this, SLOT( setValue() ) );
@@ -2397,8 +2399,8 @@ PropertyList::PropertyList( PropertyEditor *e )
     setResizePolicy( QScrollView::Manual );
     viewport()->setAcceptDrops( TRUE );
     viewport()->installEventFilter( this );
-    addColumn( tr( "Property" ) );
-    addColumn( tr( "Value" ) );
+    addColumn( i18n( "Property" ) );
+    addColumn( i18n( "Value" ) );
     connect( header(), SIGNAL( sizeChange( int, int, int ) ),
 	     this, SLOT( updateEditorSize() ) );
     disconnect( header(), SIGNAL( sectionClicked( int ) ),
@@ -2880,7 +2882,7 @@ void PropertyList::valueChanged( PropertyItem *i )
 {
     if ( !editor->widget() )
 	return;
-    QString pn( tr( "Set '%1' of '%2'" ).arg( i->name() ).arg( editor->widget()->name() ) );
+    QString pn( i18n( "Set '%1' of '%2'" ).arg( i->name() ).arg( editor->widget()->name() ) );
     SetPropertyCommand *cmd = new SetPropertyCommand( pn, editor->formWindow(),
 						      editor->widget(), editor,
 						      i->name(), WidgetFactory::property( editor->widget(), i->name() ),
@@ -3001,8 +3003,8 @@ bool PropertyList::eventFilter( QObject *o, QEvent *e )
 	    menu.setCheckable( TRUE );
 	    const int cat_id = 1;
 	    const int alpha_id = 2;
-	    menu.insertItem( tr( "Sort &Categorized" ), cat_id );
-	    int alpha = menu.insertItem( tr( "Sort &Alphabetically" ), alpha_id );
+	    menu.insertItem( i18n( "Sort &Categorized" ), cat_id );
+	    int alpha = menu.insertItem( i18n( "Sort &Alphabetically" ), alpha_id );
 	    if ( showSorted )
 		menu.setItemChecked( alpha_id, TRUE );
 	    else
@@ -3132,7 +3134,7 @@ void PropertyList::resetProperty()
     PropertyItem *i = (PropertyItem*)currentItem();
     if ( !MetaDataBase::isPropertyChanged( editor->widget(), i->PropertyItem::name() ) )
 	return;
-    QString pn( tr( "Reset '%1' of '%2'" ).arg( i->name() ).arg( editor->widget()->name() ) );
+    QString pn( i18n( "Reset '%1' of '%2'" ).arg( i->name() ).arg( editor->widget()->name() ) );
     SetPropertyCommand *cmd = new SetPropertyCommand( pn, editor->formWindow(),
 						      editor->widget(), editor,
 						      i->name(), i->value(),
@@ -3239,7 +3241,7 @@ QString PropertyList::whatsThisText( QListViewItem *i )
 	mo = mo->superClass();
     }
 
-    return tr( "<p><b>QWidget::%1</b></p><p>There is no documentation available for this property.</p>" ).arg( prop );
+    return i18n( "<p><b>QWidget::%1</b></p><p>There is no documentation available for this property.</p>" ).arg( prop );
 }
 
 void PropertyList::readPropertyDocs()
@@ -3390,8 +3392,8 @@ void EventList::showRMBMenu( QListViewItem *i, const QPoint &pos )
     QPopupMenu menu;
     const int NEW_ITEM = 1;
     const int DEL_ITEM = 2;
-    menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), tr( "New Signal Handler" ), NEW_ITEM );
-    menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), tr( "Delete Signal Handler" ), DEL_ITEM );
+    menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), i18n( "New Signal Handler" ), NEW_ITEM );
+    menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n( "Delete Signal Handler" ), DEL_ITEM );
     int res = menu.exec( pos );
     if ( res == NEW_ITEM ) {
 	QString s;
@@ -3425,7 +3427,7 @@ void EventList::showRMBMenu( QListViewItem *i, const QPoint &pos )
 	    conn.signal = i->parent()->text( 0 );
 	    conn.slot = i->text( 0 );
 	    delete i;
-	    RemoveConnectionCommand *cmd = new RemoveConnectionCommand( tr( "Remove connection" ),
+	    RemoveConnectionCommand *cmd = new RemoveConnectionCommand( i18n( "Remove connection" ),
 									formWindow,
 									conn );
 	    formWindow->commandHistory()->addCommand( cmd );
@@ -3468,14 +3470,14 @@ void EventList::renamed( QListViewItem *i )
 		editFunction( i->text( 0 ), editor->formWindow()->project()->language(), TRUE );
 #else
 		editFunction( i->text( 0 ), "C++", TRUE );
-#endif 
+#endif
 	} else {
 	    MetaDataBase::Connection conn;
 	    conn.sender = editor->widget();
 	    conn.receiver = formWindow->mainContainer();
 	    conn.signal = i->parent()->text( 0 );
 	    conn.slot = i->text( 0 );
-	    AddConnectionCommand *cmd = new AddConnectionCommand( tr( "Add connection" ),
+	    AddConnectionCommand *cmd = new AddConnectionCommand( i18n( "Add connection" ),
 								  formWindow,
 								  conn );
 	    formWindow->commandHistory()->addCommand( cmd );
@@ -3537,15 +3539,15 @@ PropertyEditor::PropertyEditor( QWidget *parent )
     : QTabWidget( parent, 0, WStyle_Customize | WStyle_NormalBorder | WStyle_Title |
 		  WStyle_StaysOnTop | WStyle_Tool |WStyle_MinMax | WStyle_SysMenu )
 {
-    setCaption( tr( "Property Editor" ) );
+    setCaption( i18n( "Property Editor" ) );
     setIcon( PixmapChooser::loadPixmap( "logo" ) );
     wid = 0;
     formwindow = 0;
     listview = new PropertyList( this );
-    addTab( listview, tr( "P&roperties" ) );
+    addTab( listview, i18n( "P&roperties" ) );
 #ifndef KOMMANDER
     eList = new EventList( this, formWindow(), this );
-    addTab( eList, tr( "S&ignal Handlers" ) );
+    addTab( eList, i18n( "S&ignal Handlers" ) );
 #endif
 }
 
@@ -3577,7 +3579,7 @@ void PropertyEditor::setWidget( QObject *w, FormWindow *fw )
     }
 
     if ( !w || !fw ) {
-	setCaption( tr( "Property Editor" ) );
+	setCaption( i18n( "Property Editor" ) );
 	clear();
 	wid = 0;
 	formwindow = 0;
@@ -3586,7 +3588,7 @@ void PropertyEditor::setWidget( QObject *w, FormWindow *fw )
 
     wid = w;
     formwindow = fw;
-    setCaption( tr( "Property Editor (%1)" ).arg( formwindow->name() ) );
+    setCaption( i18n( "Property Editor (%1)" ).arg( formwindow->name() ) );
     listview->viewport()->setUpdatesEnabled( FALSE );
     listview->setUpdatesEnabled( FALSE );
     clear();

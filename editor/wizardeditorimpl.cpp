@@ -29,6 +29,8 @@
 #include <qpushbutton.h>
 #include <qinputdialog.h>
 
+#include <klocale.h>
+
 WizardEditor::WizardEditor( QWidget *parent, QWizard *w, FormWindow *fw )
     : WizardEditorBase( parent, 0 ), formwindow( fw ), wizard( w )
 {
@@ -57,7 +59,7 @@ void WizardEditor::applyClicked()
     if ( commands.isEmpty() ) return;
 
     // schedule macro command
-    MacroCommand* cmd = new MacroCommand( tr( "Edit Wizard Pages" ), formwindow, commands );
+    MacroCommand* cmd = new MacroCommand( i18n( "Edit Wizard Pages" ), formwindow, commands );
     formwindow->commandHistory()->addCommand( cmd );
     cmd->execute();
 
@@ -107,7 +109,7 @@ void WizardEditor::addClicked()
     listBox->insertItem( "Page", index );
 
     // schedule add command
-    AddWizardPageCommand *cmd = new AddWizardPageCommand( tr( "Add Page to %1" ).arg( wizard->name() ),
+    AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n( "Add Page to %1" ).arg( wizard->name() ),
 							  formwindow, wizard, "Page", index, FALSE);
     commands.append( cmd );
 
@@ -125,7 +127,7 @@ void WizardEditor::removeClicked()
     listBox->removeItem( index);
 
     // schedule remove command
-    DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( tr( "Delete Page %1 of %2" )
+    DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n( "Delete Page %1 of %2" )
 								.arg( listBox->text( index ) ).arg( wizard->name() ),
 								formwindow, wizard, index, FALSE );
     commands.append( cmd );
@@ -146,7 +148,7 @@ void WizardEditor::upClicked()
     listBox->setCurrentItem( index2 );
 
     // schedule swap command
-    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( tr( "Swap pages %1 and %2 of %1" ).arg( index1 ).arg( index2 )
+    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( i18n( "Swap pages %1 and %2 of %1" ).arg( index1 ).arg( index2 )
 							     .arg( wizard->name() ), formwindow, wizard, index1, index2);
     commands.append( cmd );
 
@@ -166,7 +168,7 @@ void WizardEditor::downClicked()
     listBox->setCurrentItem( index2 );
 
     // schedule swap command
-    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( tr( "Swap pages %1 and %2 of %1" ).arg( index1 ).arg( index2 )
+    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( i18n( "Swap pages %1 and %2 of %1" ).arg( index1 ).arg( index2 )
 							     .arg( wizard->name() ), formwindow, wizard, index2, index1);
     commands.append( cmd );
 
@@ -195,9 +197,9 @@ void WizardEditor::itemSelected( int index )
     if ( index < 0 ) return;
 
     bool ok = FALSE;
-    QString text = QInputDialog::getText( tr("Page Title"), tr( "New page title" ), QLineEdit::Normal, listBox->text( index ), &ok, this );
+    QString text = QInputDialog::getText( i18n("Page Title"), i18n( "New page title" ), QLineEdit::Normal, listBox->text( index ), &ok, this );
     if ( ok ) {
-	QString pn( tr( "Rename page %1 of %2" ).arg( listBox->text( index ) ).arg( wizard->name() ) );
+	QString pn( i18n( "Rename page %1 of %2" ).arg( listBox->text( index ) ).arg( wizard->name() ) );
 	RenameWizardPageCommand *cmd = new RenameWizardPageCommand( pn, formwindow, wizard, index, text );
 	commands.append( cmd );
 	listBox->changeItem( text, index );

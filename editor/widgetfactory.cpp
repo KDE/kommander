@@ -18,6 +18,8 @@
 **
 **********************************************************************/
 
+#include <klocale.h>
+
 #include <qvariant.h> // HP-UX compiler need this here
 #include "widgetfactory.h"
 #include "widgetdatabase.h"
@@ -277,7 +279,7 @@ bool QDesignerTabWidget::eventFilter( QObject *o, QEvent *e )
 
 		FormWindow *fw = find_formwindow( this );
 		MoveTabPageCommand *cmd =
-		    new MoveTabPageCommand( tr( "Move Tab Page" ), fw, this,
+		    new MoveTabPageCommand( i18n( "Move Tab Page" ), fw, this,
 					    dragPage, dragLabel, newIndex, oldIndex );
 		fw->commandHistory()->addCommand( cmd );
 		cmd->execute();
@@ -557,7 +559,7 @@ bool EditorTabWidget::eventFilter( QObject *o, QEvent *e )
 
 		FormWindow *fw = find_formwindow( this );
 		MoveTabPageCommand *cmd =
-		    new MoveTabPageCommand( tr( "Move Tab Page" ), fw, this,
+		    new MoveTabPageCommand( i18n( "Move Tab Page" ), fw, this,
 					    dragPage, dragLabel, newIndex, oldIndex );
 		fw->commandHistory()->addCommand( cmd );
 		cmd->execute();
@@ -891,7 +893,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 #if !defined(QT_NO_ICONVIEW)
 	QIconView* iv = new QIconView( parent, name );
 	if ( init )
-	    (void) new QIconViewItem( iv, MainWindow::tr( "New Item" ) );
+	    (void) new QIconViewItem( iv, i18n( "New Item" ) );
 	return iv;
 #else
 	return 0;
@@ -918,7 +920,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     else if ( className == "QListBox" ) {
 	QListBox* lb = new QListBox( parent, name );
 	if ( init ) {
-	    lb->insertItem( MainWindow::tr( "New Item" ) );
+	    lb->insertItem( i18n( "New Item" ) );
 	    lb->setCurrentItem( 0 );
 	}
 	return lb;
@@ -926,8 +928,8 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	QListView *lv = new QListView( parent, name );
 	lv->setSorting( -1 );
 	if ( init ) {
-	    lv->addColumn( MainWindow::tr( "Column 1" ) );
-	    lv->setCurrentItem( new QListViewItem( lv, MainWindow::tr( "New Item" ) ) );
+	    lv->addColumn( i18n( "Column 1" ) );
+	    lv->setCurrentItem( new QListViewItem( lv, i18n( "New Item" ) ) );
 	}
 	return lv;
     } else if ( className == "QLineEdit" )
@@ -965,10 +967,10 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	if ( init ) {
 	    FormWindow *fw = find_formwindow( parent );
 	    QWidget *w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-	    tw->addTab( w, MainWindow::tr("Tab 1") );
+	    tw->addTab( w, i18n("Tab 1") );
 	    MetaDataBase::addEntry( w );
 	    w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-	    tw->addTab( w, MainWindow::tr("Tab 2") );
+	    tw->addTab( w, i18n("Tab 2") );
 	    MetaDataBase::addEntry( tw );
 	    MetaDataBase::addEntry( w );
 	}
@@ -1011,7 +1013,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	if ( init && parent && parent->inherits( "FormWindow" ) ) {
 	    QDesignerWidget *dw = new QDesignerWidget( (FormWindow*)parent, wiz, "page" );
 	    MetaDataBase::addEntry( dw );
-	    wiz->addPage( dw, FormWindow::tr( "Page" ) );
+	    wiz->addPage( dw, i18n( "Page" ) );
 	    QTimer::singleShot( 0, wiz, SLOT( next() ) );
 	}
 	return wiz;
@@ -1112,10 +1114,10 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	{
 		QListView *lv = new QListView( parent, name );
 		lv->setSorting( -1 );
-		if ( init ) 
+		if ( init )
 		{
-			lv->addColumn( MainWindow::tr( "Column 1" ) );
-			lv->setCurrentItem( new QListViewItem( lv, MainWindow::tr( "New Item" ) ) );
+			lv->addColumn( i18n( "Column 1" ) );
+			lv->setCurrentItem( new QListViewItem( lv, i18n( "New Item" ) ) );
 		}
 		return lv;
 	}
@@ -1139,7 +1141,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 		if ( init && parent && parent->inherits( "FormWindow" ) ) {
 			QDesignerWidget *dw = new QDesignerWidget( (FormWindow*)parent, wiz, "page" );
 			MetaDataBase::addEntry( dw );
-			wiz->addPage( dw, FormWindow::tr( "Page" ) );
+			wiz->addPage( dw, i18n( "Page" ) );
 			QTimer::singleShot( 0, wiz, SLOT( next() ) );
 		}
 		return wiz;
@@ -1147,14 +1149,14 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	else if(className == "TabWidget")
 	{
 		QTabWidget *tw = new EditorTabWidget( parent, name );
-		if ( init ) 
+		if ( init )
 		{
 			FormWindow *fw = find_formwindow( parent );
 			QWidget *w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-			tw->addTab( w, MainWindow::tr("Tab 1") );
+			tw->addTab( w, i18n("Tab 1") );
 			MetaDataBase::addEntry( w );
 			w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
-			tw->addTab( w, MainWindow::tr("Tab 2") );
+			tw->addTab( w, i18n("Tab 2") );
 			MetaDataBase::addEntry( tw );
 			MetaDataBase::addEntry( w );
 		}
@@ -1488,7 +1490,7 @@ void WidgetFactory::editWidget( int id, QWidget *parent, QWidget *editWidget, Fo
     QString className = WidgetDatabase::className( id );
 
 #ifdef KOMMANDER
-    if(className == "ComboBox") 
+    if(className == "ComboBox")
 	{
 		if ( !editWidget->inherits( "QComboBox" ) )
 			return;
@@ -1511,7 +1513,7 @@ void WidgetFactory::editWidget( int id, QWidget *parent, QWidget *editWidget, Fo
 		return;
 	}
 #endif
-    if ( className.mid( 1 ) == "ListBox" ) 
+    if ( className.mid( 1 ) == "ListBox" )
     {
 	if ( !editWidget->inherits( "QListBox" ) )
 	    return;

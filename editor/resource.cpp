@@ -72,6 +72,8 @@
 #include <qtable.h>
 #endif
 
+#include <klocale.h>
+
 static QString makeIndent( int indent )
 {
     QString s;
@@ -314,7 +316,7 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
     if ( !w )
 	return FALSE;
     if ( previewMode )
-	w->reparent( MainWindow::self, Qt::WType_TopLevel,  w->pos(), TRUE );	
+	w->reparent( MainWindow::self, Qt::WType_TopLevel,  w->pos(), TRUE );
 #else
     if ( !createObject( widget, formwindow) )
 	return FALSE;
@@ -604,7 +606,7 @@ void Resource::paste( const QString &cb, QWidget *parent )
     formwindow->emitShowProperties();
     buf.close();
 
-    PasteCommand *cmd = new PasteCommand( FormWindow::tr( "Paste" ), formwindow, widgets );
+    PasteCommand *cmd = new PasteCommand( i18n( "Paste" ), formwindow, widgets );
     formwindow->commandHistory()->addCommand( cmd );
 }
 
@@ -885,7 +887,7 @@ QPixmap Resource::loadPixmap( const QDomElement &e, const QString &/*tagname*/ )
 	pix.convertFromImage( img );
 	MetaDataBase::setPixmapArgument( formwindow, pix.serialNumber(), arg );
 	return pix;
-    } 
+    }
 #ifndef KOMMANDER
     else if ( formwindow && formwindow->savePixmapInProject() ) {
 	QPixmap pix;
@@ -2033,7 +2035,7 @@ void Resource::loadConnections( const QDomElement &e )
 		if ( lang == "C++" ) {
 		    MetaDataBase::addConnection( formwindow ? formwindow : toplevel,
 						 conn.sender, conn.signal, conn.receiver, conn.slot );
-		} 
+		}
 		else if ( MetaDataBase::hasEvents( lang ) ) {
 		    MetaDataBase::setEventFunctions( conn.sender, formwindow, lang, conn.signal,
 						     QStringList::split( ',', conn.slot ), FALSE );
@@ -2281,21 +2283,21 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 	if ( !includes.isEmpty() || needExtensionInclude ) {
 	    ts << makeIndent( indent ) << "<includes>" << endl;
 	    indent++;
-	
+
 	    for ( QValueList<MetaDataBase::Include>::Iterator it = includes.begin(); it != includes.end(); ++it ) {
 		ts << makeIndent( indent ) << "<include location=\"" << (*it).location
 		   << "\" impldecl=\"" << (*it).implDecl << "\">" << (*it).header << "</include>" << endl;
 		if ( needExtensionInclude )
 		    needExtensionInclude = (*it).header != extensionInclude;
 	    }
-	
+
 	    if ( needExtensionInclude )
 		ts << makeIndent( indent ) << "<include location=\"local\" impldecl=\"in implementation\">"
 		   << extensionInclude << "</include>" << endl;
 	    indent--;
 	    ts << makeIndent( indent ) << "</includes>" << endl;
 	}
-	
+
 	QStringList forwards = MetaDataBase::forwards( formwindow );
 	if ( !forwards.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<forwards>" << endl;
@@ -2777,7 +2779,7 @@ void Resource::loadFunctions( const QDomElement &e )
 	    hasFunctions = TRUE;
 	}
     }
-	
+
 }
 
 void Resource::loadExtraSource()

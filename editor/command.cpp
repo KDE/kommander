@@ -48,6 +48,8 @@
 #endif
 #include <qaction.h>
 
+#include <klocale.h>
+
 
 CommandHistory::CommandHistory( int s )
     : current( -1 ), steps( s ), savedAt( -1 )
@@ -245,7 +247,7 @@ void ScriptObjectCommand::unexecute()
 
 void ScriptObjectCommand::addScriptObjects(QMap<QString, QString> a_objects)
 {
-	QMap<QString, QString>::Iterator it; 
+	QMap<QString, QString>::Iterator it;
 	for(it = a_objects.begin();it != a_objects.end();++it)
 	{
 		ScriptObject *obj;
@@ -550,10 +552,10 @@ bool SetPropertyCommand::checkProperty()
 	QString s = newValue.toString();
 	if ( !formWindow()->unify( widget, s, FALSE ) ) {
 	    QMessageBox::information( formWindow()->mainWindow(),
-				      FormWindow::tr( "Set 'name' property" ),
-				      FormWindow::tr( "The name of a widget must be unique.\n"
-						      "'%1' is already used in form '%2',\n"
-						      "so the name has been reverted to '%3'." ).
+				      i18n( "Set 'name' property" ),
+				      i18n( "The name of a widget must be unique.\n"
+                            "'%1' is already used in form '%2',\n"
+                            "so the name has been reverted to '%3'." ).
 				      arg( newValue.toString() ).
 				      arg( formWindow()->name() ).
 				      arg( oldValue.toString() ));
@@ -562,9 +564,9 @@ bool SetPropertyCommand::checkProperty()
 	}
 	if ( s.isEmpty() ) {
 	    QMessageBox::information( formWindow()->mainWindow(),
-				      FormWindow::tr( "Set 'name' property" ),
-				      FormWindow::tr( "The name of a widget must not be null.\n"
-						      "The name has been reverted to '%1'." ).
+				      i18n( "Set 'name' property" ),
+				      i18n( "The name of a widget must not be null.\n"
+                            "The name has been reverted to '%1'." ).
 				      arg( oldValue.toString() ));
 	    setProperty( oldValue, oldCurrentItemText, FALSE );
 	    return FALSE;

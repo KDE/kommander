@@ -31,7 +31,7 @@ MyProcess::MyProcess(const AssocTextWidget *a_atw)
 {
 }
 
-QString MyProcess::run(QString a_command)
+QString MyProcess::run(const QString & a_command)
 {
 	KShellProcess proc;
 

@@ -44,6 +44,8 @@
 #include <qtextcodec.h>
 #include <qcheckbox.h>
 
+#include <klocale.h>
+
 CustomWidgetEditor::CustomWidgetEditor( QWidget *parent, MainWindow *mw )
     : CustomWidgetEditorBase( parent, 0, TRUE ), mainWindow( mw )
 {
@@ -208,8 +210,8 @@ void CustomWidgetEditor::addWidgetClicked()
     MetaDataBase::CustomWidget *w = new MetaDataBase::CustomWidget;
     QString s = w->className;
     if ( !MetaDataBase::addCustomWidget( w ) ) {
-	QMessageBox::information( this, tr( "Adding a Custom Widget" ),
-				  tr( "Custom widget names must be unique.\n"
+	QMessageBox::information( this, i18n( "Adding a Custom Widget" ),
+				  i18n( "Custom widget names must be unique.\n"
 				      "A custom widget called '%1' already exists, so it is not possible "
 				      "to add another widget with this name." ).arg( s ) );
 	return;
@@ -256,8 +258,8 @@ void CustomWidgetEditor::deleteWidgetClicked()
     MetaDataBase::CustomWidget *w = findWidget( i );
 
     if ( mainWindow->isCustomWidgetUsed( w ) ) {
-	QMessageBox::information( mainWindow, tr( "Removing Custom Widget" ),
-				  tr( "The custom widget '%1' is in use, so it cannot be removed." ).
+	QMessageBox::information( mainWindow, i18n( "Removing Custom Widget" ),
+				  i18n( "The custom widget '%1' is in use, so it cannot be removed." ).
 				  arg( w->className ) );
 	return;
     }
@@ -359,7 +361,7 @@ void CustomWidgetEditor::chooseHeader()
     if ( !i || !w )
 	return;
 
-    QString h = QFileDialog::getOpenFileName( QString::null, tr( "Header Files (*.h *.h++ *.hxx)" ), this );
+    QString h = QFileDialog::getOpenFileName( QString::null, i18n( "Header Files (*.h *.h++ *.hxx)" ), this );
     if ( h.isEmpty() )
 	return;
     editHeader->setText( h );
@@ -377,8 +379,8 @@ void CustomWidgetEditor::checkWidgetName()
     if ( MetaDataBase::isWidgetNameUsed( w ) ) {
 	QString s = w->className;
 	w->className = oldName;
-	QMessageBox::information( this, tr( "Renaming a Custom Widget" ),
-				  tr( "Custom widget names must be unique.\n"
+	QMessageBox::information( this, i18n( "Renaming a Custom Widget" ),
+				  i18n( "Custom widget names must be unique.\n"
 				      "A custom widget called '%1' already exists, so it is not possible "
 				      "to rename this widget with this name." ).arg( s ) );
 	if ( i != boxWidgets->item( boxWidgets->currentItem() ) ) {
@@ -538,7 +540,7 @@ void CustomWidgetEditor::currentSlotChanged( QListViewItem *i )
     editSlot->blockSignals( TRUE );
     comboAccess->blockSignals( TRUE );
     editSlot->setText( i->text( 0 ) );
-    if ( i->text( 1 ) == tr( "protected" ) )
+    if ( i->text( 1 ) == "protected" )
 	comboAccess->setCurrentItem( 1 );
     else
 	comboAccess->setCurrentItem( 0 );
@@ -662,7 +664,7 @@ static QString entitize2( const QString &s )
 
 void CustomWidgetEditor::saveDescription()
 {
-    QString fn = QFileDialog::getSaveFileName( QString::null, tr( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
+    QString fn = QFileDialog::getSaveFileName( QString::null, i18n( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
     if ( fn.isEmpty() )
 	return;
 
@@ -730,7 +732,7 @@ void CustomWidgetEditor::saveDescription()
 
 void CustomWidgetEditor::loadDescription()
 {
-    QString fn = QFileDialog::getOpenFileName( QString::null, tr( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
+    QString fn = QFileDialog::getOpenFileName( QString::null, i18n( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
     if ( fn.isEmpty() )
 	return;
 

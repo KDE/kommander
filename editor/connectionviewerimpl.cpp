@@ -29,6 +29,8 @@
 #include <qpushbutton.h>
 #include <qobjectlist.h>
 
+#include <klocale.h>
+
 ConnectionViewer::ConnectionViewer( QWidget *parent, FormWindow *fw )
     : ConnectionViewerBase( parent, 0, TRUE ), formWindow( fw )
 {
@@ -134,7 +136,7 @@ void ConnectionViewer::disconnectConnection()
 	return;
 
     MetaDataBase::Connection conn = connections[ connectionListView->currentItem() ];
-    RemoveConnectionCommand *cmd = new RemoveConnectionCommand( tr( "Remove connection between '%1' and '%2'" ).
+    RemoveConnectionCommand *cmd = new RemoveConnectionCommand( i18n( "Remove connection between '%1' and '%2'" ).
 								arg( conn.sender->name() ).arg( conn.receiver->name() ),
 								formWindow, conn );
     formWindow->commandHistory()->addCommand( cmd );

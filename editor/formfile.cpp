@@ -45,6 +45,8 @@
 #include <kdebug.h>
 #endif
 
+#include <klocale.h>
+
 #ifndef KOMMANDER
 static QString make_func_pretty( const QString &s )
 {
@@ -265,7 +267,8 @@ bool FormFile::save( bool withMsgBox )
         f.readBlock( data.data(), f.size() );
         f2.writeBlock( data );
     } else {
-        QMessageBox::warning( MainWindow::self, "Save", "The file " + codeFile() + " could not be saved" );
+        QMessageBox::warning( MainWindow::self, i18n("Save"), i18n("The file %1 could not be saved")
+                              .arg(codeFile()) );
     }
       }
   }
@@ -290,7 +293,8 @@ bool FormFile::save( bool withMsgBox )
         f.readBlock( data.data(), f.size() );
         f2.writeBlock( data );
     } else {
-        QMessageBox::warning( MainWindow::self, "Save", "The file " + codeFile() + " could not be saved" );
+        QMessageBox::warning( MainWindow::self, i18n("Save"), i18n("The file %1 could not be saved")
+                              .arg(codeFile()) );
     }
       }
   }
@@ -302,18 +306,18 @@ bool FormFile::save( bool withMsgBox )
 #ifndef KOMMANDER
     bool formCodeOnly = isModified( WFormCode ) && !isModified( WFormWindow ) && seperateSource;
     if ( !resource.save( pro->makeAbsolute( filename ), formCodeOnly ) ) {
-  MainWindow::self->statusBar()->message( tr( "Failed to save file '%1'.").arg( filename ), 5000 );
+  MainWindow::self->statusBar()->message( i18n( "Failed to save file '%1'.").arg( filename ), 5000 );
   return saveAs();
     }
-    MainWindow::self->statusBar()->message( tr( "'%1' saved.").arg( formCodeOnly ? codeFile() : filename ), 3000 );
+    MainWindow::self->statusBar()->message( i18n( "'%1' saved.").arg( formCodeOnly ? codeFile() : filename ), 3000 );
 #else
     if(!resource.save(filename, false))
     {
-        MainWindow::self->statusBar()->message(tr("Failed to save file '%1'.").arg(filename), 5000);
+        MainWindow::self->statusBar()->message(i18n("Failed to save file '%1'.").arg(filename), 5000);
   return saveAs();
     }
 #endif
-    MainWindow::self->statusBar()->message( tr( "'%1' saved.").arg(filename), 3000);
+    MainWindow::self->statusBar()->message( i18n( "'%1' saved.").arg(filename), 3000);
 #ifndef KOMMANDER
     timeStamp.update();
 #endif
@@ -340,11 +344,11 @@ bool FormFile::saveAs()
     while ( !saved ) {
   QString fn = KFileDialog::getSaveFileName( QString::null,
 #ifndef KOMMANDER
-      tr( "*.ui|AQt User-Interface Files" ), MainWindow::self,
+      i18n( "*.ui|AQt User-Interface Files" ), MainWindow::self,
 #else
-      tr( "*.kmdr|Kommander Files" ), MainWindow::self,
+      i18n( "*.kmdr|Kommander Files" ), MainWindow::self,
 #endif
-                 tr( "Save Form '%1' As ...").arg( formWindow()->name() ));
+                 i18n( "Save Form '%1' As ...").arg( formWindow()->name() ));
 
   if ( fn.isEmpty() )
       return FALSE;
@@ -365,8 +369,8 @@ bool FormFile::saveAs()
 
   QFileInfo relfi( filename );
   if ( relfi.exists() ) {
-      if ( QMessageBox::warning( MainWindow::self, tr( "File Already Exists" ),
-    tr( "The file already exists. Do you wish to overwrite it?" ),
+      if ( QMessageBox::warning( MainWindow::self, i18n( "File Already Exists" ),
+    i18n( "The file already exists. Do you wish to overwrite it?" ),
     QMessageBox::Yes,
     QMessageBox::No ) == QMessageBox::Yes ) {
     saved = TRUE;
@@ -390,7 +394,7 @@ bool FormFile::saveAs()
 #endif
 #ifndef KOMMANDER
     if ( ed )
-  ed->setCaption( tr( "Edit %1" ).arg( formWindow()->name() ) );
+  ed->setCaption( i18n( "Edit %1" ).arg( formWindow()->name() ) );
 #endif
     setModified( TRUE );
     return save();
@@ -430,9 +434,9 @@ bool FormFile::closeEvent()
   editor()->save();
   #endif
 
-    switch ( QMessageBox::warning( MainWindow::self, tr( "Save Form" ),
-           tr( "Save changes to form '%1'?" ).arg( filename ),
-           tr( "&Yes" ), tr( "&No" ), tr( "&Cancel" ), 0, 2 ) ) {
+    switch ( QMessageBox::warning( MainWindow::self, i18n( "Save Form" ),
+           i18n( "Save changes to form '%1'?" ).arg( filename ),
+           i18n( "&Yes" ), i18n( "&No" ), i18n( "&Cancel" ), 0, 2 ) ) {
     case 0: // save
   if ( !save() )
       return FALSE;
@@ -736,10 +740,10 @@ void FormFile::checkTimeStamp()
   return;
     timeStamp.update();
     if ( codeEdited ) {
-  if ( QMessageBox::information( MainWindow::self, tr( "Qt Designer" ),
-               tr( "File '%1' has been changed outside Qt Designer.\n"
+  if ( QMessageBox::information( MainWindow::self, i18n( "Qt Designer" ),
+               i18n( "File '%1' has been changed outside Qt Designer.\n"
              "Do you want to reload it?" ).arg( timeStamp.fileName() ),
-               tr( "&Yes" ), tr( "&No" ) ) == 0 ) {
+               i18n( "&Yes" ), i18n( "&No" ) ) == 0 ) {
       QFile f( timeStamp.fileName() );
       if ( f.open( IO_ReadOnly ) ) {
     QTextStream ts( &f );
@@ -863,20 +867,20 @@ bool FormFile::checkFileName( bool allowBreak )
 {
     FormFile *ff = pro->findFormFile( filename, this );
     if ( ff )
-  QMessageBox::warning( MainWindow::self, tr( "Invalid Filename" ),
-            tr( "The project already contains a form with a\n"
+  QMessageBox::warning( MainWindow::self, i18n( "Invalid Filename" ),
+            i18n( "The project already contains a form with a\n"
           "filename of '%1'. Please choose a new filename." ).arg( filename ) );
     while ( ff ) {
   QString fn;
   while ( fn.isEmpty() ) {
       fn = QFileDialog::getSaveFileName( pro->makeAbsolute( fileName() ),
 #ifndef KOMMANDER
-          tr( "BQt User-Interface Files (*nameui)" ) + ";;" +
+          i18n( "BQt User-Interface Files (*nameui)" ) + ";;" +
 #else
-          tr( "Kommander Files (*nameui)" ) + ";;" +
+          i18n( "Kommander Files (*nameui)" ) + ";;" +
 #endif
-                 tr( "All Files (*)" ), MainWindow::self, 0,
-                 tr( "Save Form '%1' As ...").
+                 i18n( "All Files (*)" ), MainWindow::self, 0,
+                 i18n( "Save Form '%1' As ...").
                  arg( formWindow()->name() ),
                  &MainWindow::self->lastSaveFilter );
       if ( allowBreak && fn.isEmpty() )

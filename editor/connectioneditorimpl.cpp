@@ -38,6 +38,8 @@
 #include <qregexp.h>
 #include <qcombobox.h>
 
+#include <klocale.h>
+
 static const char* const ignore_slots[] = {
     "destroyed()",
     "setCaption(const QString&)",
@@ -112,7 +114,7 @@ ConnectionEditor::ConnectionEditor( QWidget *parent, QObject* sndr, QObject* rcv
 	    signalBox->insertStringList( extra );
     }
 
-    labelSignal->setText( tr( "Signals (%1):" ).arg( sender->name() ) );
+    labelSignal->setText( i18n( "Signals (%1):" ).arg( sender->name() ) );
 
     QPtrDictIterator<QWidget> it( *formWindow->widgets() );
     QStringList lst;
@@ -294,15 +296,15 @@ void ConnectionEditor::disconnectClicked()
 void ConnectionEditor::okClicked()
 {
     MacroCommand *rmConn = 0, *addConn = 0;
-    QString n = tr( "Connect/Disconnect the signals and slots of '%1' and '%2'" ).arg( sender->name() ).arg( receiver->name() );
+    QString n = i18n( "Connect/Disconnect the signals and slots of '%1' and '%2'" ).arg( sender->name() ).arg( receiver->name() );
     QValueList<MetaDataBase::Connection>::Iterator cit;
     if ( !oldConnections.isEmpty() ) {
 	QPtrList<Command> commands;
 	for ( cit = oldConnections.begin(); cit != oldConnections.end(); ++cit ) {
-	    commands.append( new RemoveConnectionCommand( tr( "Remove connection" ),
+	    commands.append( new RemoveConnectionCommand( i18n( "Remove connection" ),
 							  formWindow, *cit ) );
 	}
-	rmConn = new MacroCommand( tr( "Remove connections" ), formWindow, commands );
+	rmConn = new MacroCommand( i18n( "Remove connections" ), formWindow, commands );
     }
 
     if ( !connections.isEmpty() ) {
@@ -315,10 +317,10 @@ void ConnectionEditor::okClicked()
 	    conn.signal = c.signal;
 	    conn.receiver = c.receiver;
 	    conn.slot = c.slot;
-	    commands.append( new AddConnectionCommand( tr( "Add connection" ),
+	    commands.append( new AddConnectionCommand( i18n( "Add connection" ),
 						       formWindow, conn ) );
 	}
-	addConn = new MacroCommand( tr( "Add connections" ), formWindow, commands );
+	addConn = new MacroCommand( i18n( "Add connections" ), formWindow, commands );
     }
 
     if ( rmConn || addConn ) {

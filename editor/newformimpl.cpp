@@ -50,6 +50,8 @@
 #include <qworkspace.h>
 #include <qmessagebox.h>
 
+#include <klocale.h>
+
 static int forms = 0;
 
 #ifndef KOMMANDER
@@ -195,9 +197,8 @@ void CustomFormItem::insert()
   FormFile *ff = new FormFile( filename, TRUE );
 #endif
   if ( !resource.load( ff ) ) {
-      QMessageBox::information( MainWindow::self, MainWindow::tr("Load Template"),
-              MainWindow::tr("Couldn't load form description from template '" +
-                 filename + "'" ) );
+      QMessageBox::information( MainWindow::self, i18n("Load Template"),
+                                i18n("Couldn't load form description from template '%1'").arg(filename) );
       delete ff;
       return;
   }
@@ -296,7 +297,7 @@ NewForm::NewForm( QWidget *parent, const QString &templatePath )
     QStringList languages = MetaDataBase::languages();
     QStringList::Iterator it;
     for ( it = languages.begin(); it != languages.end(); ++it ) {
-  ProjectItem *pi = new ProjectItem( templateView, *it + " " + tr( "Project" ) );
+  ProjectItem *pi = new ProjectItem( templateView, *it + " " + i18n( "Project" ) );
   allItems.append( pi );
   pi->setLanguage( *it );
   pi->setPixmap( PixmapChooser::loadPixmap( "project.xpm" ) );
@@ -305,24 +306,24 @@ NewForm::NewForm( QWidget *parent, const QString &templatePath )
 #endif
 
     QIconViewItem *cur = 0;
-    FormItem *fi = new FormItem( templateView,tr( "Dialog" ) );
+    FormItem *fi = new FormItem( templateView,i18n( "Dialog" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::Dialog );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );
     fi->setDragEnabled( FALSE );
     cur = fi;
-    fi = new FormItem( templateView,tr( "Wizard" ) );
+    fi = new FormItem( templateView,i18n( "Wizard" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::Wizard );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );
     fi->setDragEnabled( FALSE );
 #ifndef KOMMANDER
-    fi = new FormItem( templateView, tr( "Widget" ) );
+    fi = new FormItem( templateView, i18n( "Widget" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::Widget );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );
     fi->setDragEnabled( FALSE );
-    fi = new FormItem( templateView, tr( "Main Window" ) );
+    fi = new FormItem( templateView, i18n( "Main Window" ) );
     allItems.append( fi );
     fi->setFormType( FormItem::MainWindow );
     fi->setPixmap( PixmapChooser::loadPixmap( "newform.xpm" ) );

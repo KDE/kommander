@@ -39,6 +39,8 @@
 #include <qlabel.h>
 #include <qgroupbox.h>
 
+#include <klocale.h>
+
 EditSlots::EditSlots( QWidget *parent, FormWindow *fw )
     : EditSlotsBase( parent, 0, TRUE ), formWindow( fw )
 {
@@ -61,9 +63,9 @@ EditSlots::EditSlots( QWidget *parent, FormWindow *fw )
 	i->setText( 2, (*it).specifier );
 	i->setText( 3, (*it).access  );
 	if ( MetaDataBase::isSlotUsed( formWindow, MetaDataBase::normalizeSlot( (*it).slot ).latin1() ) )
-	    i->setText( 4, tr( "Yes" ) );
+	    i->setText( 4, i18n( "Yes" ) );
 	else
-	    i->setText( 4, tr( "No" ) );
+	    i->setText( 4, i18n( "No" ) );
     }
 
     boxProperties->setEnabled( FALSE );
@@ -77,12 +79,12 @@ void EditSlots::okClicked()
 {
     QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formWindow );
     MacroCommand *rmSlt = 0, *addSlt = 0;
-    QString n = tr( "Add/Remove slots of '%1'" ).arg( formWindow->name() );
+    QString n = i18n( "Add/Remove slots of '%1'" ).arg( formWindow->name() );
     QValueList<MetaDataBase::Slot>::Iterator sit;
     if ( !slotList.isEmpty() ) {
 	QPtrList<Command> commands;
 	for ( sit = slotList.begin(); sit != slotList.end(); ++sit ) {
-	    commands.append( new RemoveSlotCommand( tr( "Remove slot" ),
+	    commands.append( new RemoveSlotCommand( i18n( "Remove slot" ),
 						    formWindow, (*sit).slot, (*sit).specifier, (*sit).access,
 #ifndef KOMMANDER
 						    formWindow->project()->language(), (*sit).returnType ) );
@@ -90,7 +92,7 @@ void EditSlots::okClicked()
 						    "C++",(*sit).returnType ) );
 #endif
 	}
-	rmSlt = new MacroCommand( tr( "Remove slots" ), formWindow, commands );
+	rmSlt = new MacroCommand( i18n( "Remove slots" ), formWindow, commands );
     }
 
     bool invalidSlots = FALSE;
@@ -123,7 +125,7 @@ void EditSlots::okClicked()
 		invalidItems.append( it.current() );
 		continue;
 	    }
-	    commands.append( new AddSlotCommand( tr( "Add slot" ),
+	    commands.append( new AddSlotCommand( i18n( "Add slot" ),
 						 formWindow, slot.slot, slot.specifier, slot.access,
 #ifndef KOMMANDER
 						 formWindow->project()->language(),
@@ -142,14 +144,14 @@ void EditSlots::okClicked()
 	}
 
 	if ( !commands.isEmpty() )
-	    addSlt = new MacroCommand( tr( "Add slots" ), formWindow, commands );
+	    addSlt = new MacroCommand( i18n( "Add slots" ), formWindow, commands );
     }
 
     if ( invalidSlots ) {
-	if ( QMessageBox::information( this, tr( "Edit Slots" ),
-					     tr( "Some syntactically incorrect slots have been defined.\n"
+	if ( QMessageBox::information( this, i18n( "Edit Slots" ),
+					     i18n( "Some syntactically incorrect slots have been defined.\n"
 						 "Remove these slots?" ),
-				       tr( "&Yes" ), tr( "&No" ) ) == 0 ) {
+				       i18n( "&Yes" ), i18n( "&No" ) ) == 0 ) {
 	    QListViewItemIterator it( slotListView );
 	    QListViewItem *i;
 	    while ( (i = it.current() ) ) {
@@ -202,9 +204,9 @@ void EditSlots::slotAdd( const QString& access )
     else
 	i->setText( 3, access );
     if ( MetaDataBase::isSlotUsed( formWindow, "newSlot()" ) )
-	i->setText( 4, tr( "Yes" ) );
+	i->setText( 4, i18n( "Yes" ) );
     else
-	i->setText( 4, tr( "No" ) );
+	i->setText( 4, i18n( "No" ) );
     slotListView->setCurrentItem( i );
     slotListView->setSelected( i, TRUE );
     slotName->setFocus();
@@ -265,9 +267,9 @@ void EditSlots::currentTextChanged( const QString &txt )
 
     slotListView->currentItem()->setText( 0, txt );
     if ( MetaDataBase::isSlotUsed( formWindow, MetaDataBase::normalizeSlot( txt.latin1() ).latin1() ) )
-	slotListView->currentItem()->setText( 4, tr( "Yes" ) );
+	slotListView->currentItem()->setText( 4, i18n( "Yes" ) );
     else
-	slotListView->currentItem()->setText( 4, tr( "No" ) );
+	slotListView->currentItem()->setText( 4, i18n( "No" ) );
 }
 
 void EditSlots::currentSpecifierChanged( const QString& s )

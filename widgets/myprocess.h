@@ -31,7 +31,7 @@ class MyProcess : QObject
 public:
 	MyProcess(const AssocTextWidget *);
 public slots:
-	QString run(QString);
+	QString run(const QString &);
 	void receivedStdout(KProcess *, char *, int);
 protected:
 	const AssocTextWidget *m_atw;

@@ -19,6 +19,8 @@
 #include "metadatabase.h"
 #include "mainwindow.h"
 
+#include <klocale.h>
+
 TableEditor::TableEditor( QWidget* parent,  QWidget *editWidget, FormWindow *fw, const char* name, bool modal, WFlags fl )
     : TableEditorBase( parent, name, modal, fl ),
 #ifndef QT_NO_TABLE
@@ -310,7 +312,7 @@ void TableEditor::applyClicked()
 	    row.pix = table->verticalHeader()->iconSet( i )->pixmap();
 	rows.append( row );
     }
-    PopulateTableCommand *cmd = new PopulateTableCommand( tr( "Edit the Rows and Columns of '%1' " ).arg( editTable->name() ),
+    PopulateTableCommand *cmd = new PopulateTableCommand( i18n( "Edit the Rows and Columns of '%1' " ).arg( editTable->name() ),
 							  formWindow, editTable, rows, cols );
     cmd->execute();
     formWindow->commandHistory()->addCommand( cmd );

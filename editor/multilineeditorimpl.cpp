@@ -26,6 +26,8 @@
 #include <qmultilineedit.h>
 #include <qpushbutton.h>
 
+#include <klocale.h>
+
 MultiLineEditor::MultiLineEditor( QWidget *parent, QWidget *editWidget, FormWindow *fw )
     : MultiLineEditorBase( parent, 0, TRUE ), formwindow( fw )
 {
@@ -51,7 +53,7 @@ void MultiLineEditor::okClicked()
 
 void MultiLineEditor::applyClicked()
 {
-    PopulateMultiLineEditCommand *cmd = new PopulateMultiLineEditCommand( tr( "Set the text of '%1'" ).arg( mlined->name() ),
+    PopulateMultiLineEditCommand *cmd = new PopulateMultiLineEditCommand( i18n( "Set the text of '%1'" ).arg( mlined->name() ),
 									  formwindow, mlined, preview->text() );
     cmd->execute();
     formwindow->commandHistory()->addCommand( cmd );
@@ -63,7 +65,7 @@ TextEditor::TextEditor( QWidget *parent, const QString &text )
     : MultiLineEditorBase( parent, 0, TRUE )
 {
     buttonApply->hide();
-    setCaption( tr( "Text" ) );
+    setCaption( i18n( "Text" ) );
     preview->setText( text );
     preview->setFocus();
     preview->selectAll();

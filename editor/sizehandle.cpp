@@ -28,6 +28,8 @@
 #include <qapplication.h>
 #include <qlabel.h>
 
+#include <klocale.h>
+
 SizeHandle::SizeHandle( FormWindow *parent, Direction d, WidgetSelection *s )
     : QWidget( parent )
 {
@@ -40,7 +42,7 @@ SizeHandle::SizeHandle( FormWindow *parent, Direction d, WidgetSelection *s )
     formWindow = parent;
     sel = s;
     updateCursor();
-}	
+}
 
 void SizeHandle::updateCursor()
 {
@@ -206,7 +208,7 @@ void SizeHandle::mouseMoveEvent( QMouseEvent *e )
     sel->updateGeometry();
     oldPressPos += ( p - pos() );
 
-    formWindow->sizePreview()->setText( tr( "%1/%2" ).arg( widget->width() ).arg( widget->height() ) );
+    formWindow->sizePreview()->setText( QString( "%1/%2" ).arg( widget->width() ).arg( widget->height() ) );
     formWindow->sizePreview()->adjustSize();
     QRect lg( formWindow->mapFromGlobal( e->globalPos() ) + QPoint( 16, 16 ),
 	      formWindow->sizePreview()->size() );
@@ -225,7 +227,7 @@ void SizeHandle::mouseReleaseEvent( QMouseEvent *e )
 
     formWindow->sizePreview()->hide();
     if ( geom != widget->geometry() )
-	formWindow->commandHistory()->addCommand( new ResizeCommand( tr( "Resize" ),
+	formWindow->commandHistory()->addCommand( new ResizeCommand( i18n( "Resize" ),
 								     formWindow,
 								     widget, origGeom,
 								     widget->geometry() ) );

@@ -46,6 +46,7 @@
 #include "qcompletionedit.h"
 
 #include <kurldrag.h>
+#include <klocale.h>
 
 static const char * const folder_xpm[]={
     "16 16 6 1",
@@ -222,7 +223,7 @@ QString WorkspaceItem::text( int column ) const
 #ifndef KOMMANDER
     case ProjectType:
   if ( project->isDummy() )
-      return Project::tr("<No Project>" );
+      return Project::i18n("<No Project>" );
   return project->makeRelative( project->fileName() );
 #endif
     case FormFileType:
@@ -352,7 +353,7 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     p.setColor( QColorGroup::Base, QColor( *backColor2 ) );
     (void)*selectedBack; // hack
     setPalette( p );
-    addColumn( tr( "Files" ) );
+    addColumn( i18n( "Files" ) );
     setAllColumnsShowFocus( TRUE );
     connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem *, const QPoint &, int ) ),
        this, SLOT( itemClicked( int, QListViewItem *, const QPoint& ) ) ),
@@ -658,30 +659,30 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
     switch ( wi->type() ) {
 #ifndef KOMMANDER
     case WorkspaceItem::SourceFileType:
-  menu.insertItem( tr( "&Open source file..." ), OPEN_SOURCE );
+  menu.insertItem( i18n( "&Open source file..." ), OPEN_SOURCE );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
-       tr( "&Remove source file from project" ), REMOVE_SOURCE );
+       i18n( "&Remove source file from project" ), REMOVE_SOURCE );
   break;
 #endif
     case WorkspaceItem::FormFileType:
-  menu.insertItem( tr( "&Open form..." ), OPEN_FORM );
+  menu.insertItem( i18n( "&Open form..." ), OPEN_FORM );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
 #ifndef KOMMANDER
-       tr( "&Remove form from project" ), REMOVE_FORM );
+       i18n( "&Remove form from project" ), REMOVE_FORM );
 #else
-       tr( "&Remove form" ), REMOVE_FORM );
+       i18n( "&Remove form" ), REMOVE_FORM );
 #endif
   break;
     case WorkspaceItem::FormSourceType:
-  menu.insertItem( tr( "&Open form source..." ), OPEN_FORM_SOURCE );
+  menu.insertItem( i18n( "&Open form source..." ), OPEN_FORM_SOURCE );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
 #ifndef KOMMANDER
-       tr( "&Remove form from project" ), REMOVE_FORM );
+       i18n( "&Remove form from project" ), REMOVE_FORM );
 #else
-       tr( "&Remove form" ), REMOVE_FORM );
+       i18n("&Remove form" ), REMOVE_FORM );
 #endif
   break;
 #ifndef KOMMANDER
