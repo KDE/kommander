@@ -40,6 +40,7 @@
 #include "outputwindow.h"
 #include "widgetfactory.h"
 #include <qinputdialog.h>
+#include "widgetfactory.h"
 #if defined(HAVE_KDE)
 #include <ktoolbar.h>
 #else
@@ -73,7 +74,7 @@
 #include <qstylefactory.h>
 #include "actioneditorimpl.h"
 #include "actiondnd.h"
-#ifndef KOMMANDER 
+#ifndef KOMMANDER
 #include "project.h"
 #endif
 #ifndef KOMMANDER
@@ -1445,7 +1446,7 @@ void MainWindow::insertFormWindow( FormWindow *fw )
 					  idFromClassName( WidgetFactory::classNameOf( fw->mainContainer() ) ) );
     activeWindowChanged( fw );
     emit formWindowsChanged();
-#ifndef KOMMANDER 
+#ifndef KOMMANDER
     for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
 	if ( e->project() == fw->project() )
 	    e->resetContext();
@@ -1738,7 +1739,7 @@ void MainWindow::setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, in
 	ids << ( id = rmbWidgets->insertItem( tr("Add Page"), -1, 0 ) );
 	commands.insert( "add", id );
     }
-    if ( WidgetFactory::hasSpecialEditor( WidgetDatabase::idFromClassName( WidgetFactory::classNameOf( w ) ) ) ) 
+    if ( WidgetFactory::hasSpecialEditor( WidgetDatabase::idFromClassName( WidgetFactory::classNameOf( w ) ) ) )
     {
 	if ( ids.isEmpty() )
 	    ids << rmbWidgets->insertSeparator( 0 );
@@ -1856,7 +1857,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
     // we assume all widgets derive from AssocTextWidget [MB02]
     if(id == commands["assoc"])
     {
-	 AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(w); 
+	 AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(w);
 	 if(!atw)
 	     return;
 
@@ -1868,7 +1869,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 	 {
    	 	QString text = QString("Set the \'text association\' of \'%1\'").arg(w->name());
 
-	     SetPropertyCommand *cmd  = new SetPropertyCommand(text, 
+	     SetPropertyCommand *cmd  = new SetPropertyCommand(text,
 				    formWindow(), w, propertyEditor,
 				    "associations", atw->associatedText(),
 				    editor->associatedText(), QString::null,
@@ -1910,7 +1911,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 {
     if(id == commands["assoc"])
     {
-	 AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(fw->mainContainer()); 
+	 AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(fw->mainContainer());
 	 if(!atw)
 	     return;
 
@@ -1922,7 +1923,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 	 {
    	 	QString text = QString("Set the \'text association\' of \'%1\'").arg(fw->mainContainer()->name());
 
-	     SetPropertyCommand *cmd  = new SetPropertyCommand(text, 
+	     SetPropertyCommand *cmd  = new SetPropertyCommand(text,
 				    formWindow(), fw, propertyEditor,
 				    "associations", atw->associatedText(),
 				    editor->associatedText(), QString::null,

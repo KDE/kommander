@@ -30,6 +30,7 @@
 #include "iconvieweditorimpl.h"
 #include "multilineeditorimpl.h"
 #include "widgetinterface.h"
+#include "command.h"
 #include "formwindow.h"
 #ifndef QT_NO_TABLE
 #include "tableeditorimpl.h"
@@ -100,7 +101,7 @@
 #include <tabwidget.h>
 #include <subdialog.h>
 #include <listbox.h>
-
+#include <qwidgetstack.h>
 
 
 FormWindow *find_formwindow( QWidget *w )
@@ -1110,7 +1111,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	{
 		QListView *lv = new QListView( parent, name );
 		lv->setSorting( -1 );
-		if ( init ) 
+		if ( init )
 		{
 			lv->addColumn( MainWindow::tr( "Column 1" ) );
 			lv->setCurrentItem( new QListViewItem( lv, MainWindow::tr( "New Item" ) ) );
@@ -1145,7 +1146,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	else if(className == "TabWidget")
 	{
 		QTabWidget *tw = new EditorTabWidget( parent, name );
-		if ( init ) 
+		if ( init )
 		{
 			FormWindow *fw = find_formwindow( parent );
 			QWidget *w = fw ? new QDesignerWidget( fw, tw, "tab" ) : new QWidget( tw, "tab" );
@@ -1482,7 +1483,7 @@ void WidgetFactory::editWidget( int id, QWidget *parent, QWidget *editWidget, Fo
     QString className = WidgetDatabase::className( id );
 
 #ifdef KOMMANDER
-    if(className == "ComboBox") 
+    if(className == "ComboBox")
 	{
 		if ( !editWidget->inherits( "QComboBox" ) )
 			return;
@@ -1505,7 +1506,7 @@ void WidgetFactory::editWidget( int id, QWidget *parent, QWidget *editWidget, Fo
 		return;
 	}
 #endif
-    if ( className.mid( 1 ) == "ListBox" ) 
+    if ( className.mid( 1 ) == "ListBox" )
     {
 	if ( !editWidget->inherits( "QListBox" ) )
 	    return;
