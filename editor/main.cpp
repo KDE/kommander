@@ -22,8 +22,7 @@
 // Other includes
 #include "mainwindow.h"
 #include "kommanderwidget.h"
-
-#define VERSION "1.1dev3"
+#include "kommanderversion.h"
 
 static const char *description =
   I18N_NOOP("Kommander is a graphical editor of scripted dialogs.");
@@ -39,7 +38,7 @@ static KCmdLineOptions options[] =
 int main( int argc, char *argv[] )
 {
   KAboutData aboutData( "Kommander", I18N_NOOP("Kommander"),
-                        VERSION, description, KAboutData::License_GPL,
+                        KOMMANDER_VERSION, description, KAboutData::License_GPL,
                         "(C) 2002-2004 Kommander authors", text);
   aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
   aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
