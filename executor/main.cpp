@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
   else
   {
     KURL url = args->url(0);
-    instance = new Instance(url.path(), 0);
+    instance = new Instance(url, 0);
   }
   
   // Read command-line variables

@@ -4,6 +4,7 @@
     begin                : Tue Aug 13 2002
     copyright            : (C) 2002 by Marc Britton <consume@optushome.com.au>
                            (C) 2004 by Andras Mantia <amantia@kde.org>
+                           (C) 2004 by Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -48,12 +49,12 @@
 #include <fileselector.h>
 
 Instance::Instance()
-  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(""), m_parent(0),
+  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0),
   m_cmdArguments(0)
 {
 }
 
-Instance::Instance(QString a_uiFileName, QWidget *a_parent)
+Instance::Instance(const KURL& a_uiFileName, QWidget *a_parent)
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
   m_parent(a_parent), m_cmdArguments(0)
 {
@@ -84,23 +85,23 @@ bool Instance::build()
   if (m_uiFileName.isEmpty())
     return false;
 
-  if (!QFileInfo(m_uiFileName).exists())
+  if (!QFileInfo(m_uiFileName.path()).exists())
   {
     KMessageBox::sorry(0, i18n("<qt>Kommander file<br><b>%1</b><br>does not "
-      "exist.</qt>").arg(m_uiFileName));
+      "exist.</qt>").arg(m_uiFileName.path()));
     return false;
   }
 
   // create the main instance, must inherit QDialog
   KommanderFactory::loadPlugins();
-  m_instance = (QDialog*)KommanderFactory::create(m_uiFileName);
+  m_instance = (QDialog*)KommanderFactory::create(m_uiFileName.path());
   if (!m_instance)
   {
     KMessageBox::sorry(0, i18n("<qt>Unable to create dialog from "
-      "file<br><b>%1</b></qt>").arg(m_uiFileName));
+      "file<br><b>%1</b></qt>").arg(m_uiFileName.path()));
     return false;
   }
-  m_instance->setName(m_uiFileName.local8Bit());
+  m_instance->setName(m_uiFileName.path().local8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
   m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
@@ -143,6 +144,12 @@ bool Instance::run(QFile *a_file)
   }
   setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
     
+  if (!m_uiFileName.isEmpty()) 
+  {
+    setGlobal("_KDDIR", m_uiFileName.directory());
+    setGlobal("_NAME", m_uiFileName.fileName());
+  }
+  
   if (!m_instance)
     if (!a_file && !build())
       return false;
@@ -158,7 +165,7 @@ bool Instance::isBuilt()
   return m_instance;
 }
 
-void Instance::setUIFileName(QString a_uiFileName)
+void Instance::setUIFileName(const KURL& a_uiFileName)
 {
   m_uiFileName = a_uiFileName;
 }
@@ -223,9 +230,9 @@ QString Instance::item(const QString &widgetName, int i)
     for (QObject* child = children->first(); child; child = children->next())
     {
       if (child->inherits("QListBox"))
-        return i < ((QListBox*)child)->count() ? ((QListBox*)child)->item(i)->text() : QString::null;
+        return (uint)i < ((QListBox*)child)->count() ? ((QListBox*)child)->item(i)->text() : QString::null;
       else if (child->inherits("QComboBox"))
-        return i < ((QComboBox*)child)->count() ? ((QComboBox*)child)->text(i) : QString::null;
+        return (uint)i < ((QComboBox*)child)->count() ? ((QComboBox*)child)->text(i) : QString::null;
     }
   delete children;
   return QString::null;

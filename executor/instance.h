@@ -4,6 +4,7 @@
     begin                : Tue Aug 13 2002
     copyright            : (C) 2002 by Marc Britton <consume@optushome.com.au>
                            (C) 2004 by Andras Mantia <amantia@kde.org>
+                           (C) 2004 by Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +24,9 @@
 #include <qobject.h>
 #include <qmap.h>
 
+/* KDE INCLUDES */
+#include <kurl.h>
+
 /* OTHER INCLUDES */
 #include "dcopkommanderif.h"
 
@@ -32,18 +36,15 @@ class QDialog;
 class QFile;
 class KommanderWidget;
 
-/**
-  *@author Marc Britton
-  */
 
-/* CLASS DEFINITION*/
+
 class Instance : public QObject, virtual public DCOPKommanderIf
 {
   Q_OBJECT
     
 public: 
   Instance();
-  Instance(QString, QWidget *);
+  Instance(const KURL&, QWidget*);
   ~Instance();
   
   /* add global variable; two forms are accepted:
@@ -77,7 +78,7 @@ public slots:
   /** Sets the instance's parent */
   void setParent(QWidget*);
   /** Sets the UI file name */
-  void setUIFileName(QString);
+  void setUIFileName(const KURL&);
   /** Returns whether the instance is built */
   bool isBuilt();
   /** Builds the instance */
@@ -90,7 +91,7 @@ protected:
   /* Associated Text Instance */
   KommanderWidget *m_textInstance;
   /* UI Dialog file name to open */
-  QString m_uiFileName;
+  KURL m_uiFileName;
   /** The parent widget */
   QWidget *m_parent;
   /* Global variables */
