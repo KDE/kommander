@@ -92,8 +92,11 @@ void FunctionsDialog::groupChanged(int index)
     int pGroup = SpecialInformation::group(groupComboBox->text(index));
     if (a_atw) 
       for (uint i=0; i<pFunctions.count(); i++)
-        if (a_atw->isFunctionSupported(SpecialInformation::function(pGroup, pFunctions[i])))
+      {
+        int pFunction = SpecialInformation::function(pGroup, pFunctions[i]);
+        if (a_atw->isFunctionSupported(pFunction) or a_atw->isCommonFunction(pFunction))
           functionListBox->insertItem(pFunctions[i]);
+      }
   }
   else
     functionListBox->insertStringList(SpecialInformation::functions(groupComboBox->text(index)));

@@ -610,6 +610,12 @@ bool KommanderWidget::isFunctionSupported(int)
   return true;  
 }
 
+bool KommanderWidget::isCommonFunction(int f)
+{
+  return f == DCOP::setEnabled or f == DCOP::setVisible or f == DCOP::children or f == DCOP::type;
+}
+
+
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
 QMap<QString, QString> KommanderWidget::m_globals;

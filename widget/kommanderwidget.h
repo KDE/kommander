@@ -87,6 +87,8 @@ public:
   // Checks if appropriate function is supported by widget. By default all functions
   // are reported as supported: use this to allow recognizing incorrect function calls.
   virtual bool isFunctionSupported(int function);
+  // Checks if the function is common widget function (i. e. supported by all widgets)
+  virtual bool isCommonFunction(int function);
   
   // Recognizes editor vs executor mode
   static bool inEditor;

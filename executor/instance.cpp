@@ -194,6 +194,7 @@ void Instance::setParent(QWidget *a_parent)
 }
 
 
+// Widget functions
 void Instance::setEnabled(const QString& widgetName, bool enable)
 {
   QObject* child = stringToWidget(widgetName);  
