@@ -91,7 +91,7 @@ void MainWindow::add( const QString &plugin )
 	if( !l )
 	    errMsg = i18n("Unable to load Kommander plugin %1").arg(plugin);
 	else if( !l->hasSymbol("kommander_plugin") )
-	    errMsg = i18n("Library %1 isn't a Kommander plugin").arg(plugin);
+	    errMsg = i18n("Library %1 is not a Kommander plugin").arg(plugin);
 	else
 	{
 	    for( int i = 0 ; i < m_list->count() ; ++i )
@@ -100,7 +100,7 @@ void MainWindow::add( const QString &plugin )
 	}
 
 	if( !errMsg.isNull() )
-	    KMessageBox::error( this, errMsg, i18n("Can't add plugin") );
+	    KMessageBox::error( this, errMsg, i18n("Cannott add plugin") );
 	else if( !alreadyHaveIt )
 	    m_list->insertItem( l->fileName() );
     }

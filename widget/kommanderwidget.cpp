@@ -349,7 +349,7 @@ QString KommanderWidget::dcopQuery(QString a_query) const
     {
 	if(!cl->call(appId, object, function, byteData, replyType, byteReply))
 	{
-	    printError(m_thisObject->name(), i18n("Tried to perform DCOP query, but failed!"));
+	    printError(m_thisObject->name(), i18n("Tried to perform DCOP query, but failed"));
 	    return QString::null;
 	}
 
