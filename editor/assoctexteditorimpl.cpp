@@ -123,10 +123,9 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
     if (!m_atdict[stateComboBox->text(i)].isEmpty())
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(i), i);
   if (!m_populationText.isEmpty())
-       stateComboBox->changeItem(scriptPixmap, stateComboBox->text(p_population), p_population);
+    stateComboBox->changeItem(scriptPixmap, stateComboBox->text(p_population), p_population);
 
-
-    // initial text for initial state
+  // initial text for initial state
   stateComboBox->setCurrentItem(0);
   m_currentState = stateComboBox->currentText();
 
@@ -136,7 +135,6 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
 
 void AssocTextEditor::save() const
 {
-//FIXME: Use only KommanderWidget
   KommanderWidget *atw = dynamic_cast<KommanderWidget *>(m_widget);
   if (!atw)
     return;
@@ -317,64 +315,6 @@ QWidget* AssocTextEditor::widgetFromString(const QString& name)
     realname.truncate(i);
   return m_widgetList[realname];
 }
-
-
-
-
-/* Paste text encoded
-QString AssocTextEditor::escapeText(QString &a_text)
-{
-	char *text = a_text.latin1();
-	QString escapedText;
-
-	int textLength = a_text.length();
-	int i = 0;
-	while(i < textLength)
-	{
-		while(i < textLength && text[i] != '$')
-				escapedText += text[i++];
-
-		if(i < textLength)
-		{
-			escapedText += "\\$";
-		}
-		++i;
-	}
-	return escapedText;
-}
-
-void AssocTextEditor::escapeDollarSigns()
-{
-	QString text = associatedTextEdit->text();
-	associatedTextEdit->setText(escapeText(text));
-}
-
-AssocTextEdit::AssocTextEdit(QWidget *a_parent, const char *a_name)
-    : QTextEdit(a_parent, a_name)
-{
-}
-
-void AssocTextEdit::insert(const QString &a_text, bool a_indent, bool a_checkNewLine, bool a_removeSelected)
-{
-    QString text = a_text;
-    QString escapedText;
-
-    int textLength = a_text.length();
-    int i = 0;
-    while(i < textLength)
-    {
-        while(i < textLength && text[i] != '$')
-   	    escapedText += text[i++];
-
-        if(i < textLength)
-        {
-				escapedText += "\\$";
-        }
-        ++i;
-    }
-    QTextEdit::insert(escapedText, a_indent, a_checkNewLine, a_removeSelected);
-}
-*/
 
 
 
