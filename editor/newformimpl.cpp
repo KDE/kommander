@@ -155,7 +155,6 @@ NewForm::NewForm(QWidget *parent, const QString &templatePath)
   // search each path
   for (QStringList::ConstIterator it = searchPaths.begin(); it != searchPaths.end(); ++it)
   {
-    qDebug("%s", (*it).latin1());
     if (!QFile::exists(*it))
       continue;
     QDir dir(*it);
