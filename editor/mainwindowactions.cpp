@@ -302,135 +302,141 @@ void MainWindow::setupLayoutActions()
 
 void MainWindow::setupToolActions()
 {
-    if ( !actionGroupTools ) {
-  actionGroupTools = new QActionGroup( this );
-  actionGroupTools->setExclusive( TRUE );
-  connect( actionGroupTools, SIGNAL( selected(QAction*) ), this, SLOT( toolSelected(QAction*) ) );
-    }
-
-    actionPointerTool = new QAction( i18n("Pointer"), createIconSet("pointer.xpm"), i18n("&Pointer"),  Key_F2,
-             actionGroupTools, QString::number(POINTER_TOOL).latin1(), TRUE );
-    actionPointerTool->setStatusTip( i18n("Selects the pointer tool") );
-    actionPointerTool->setWhatsThis( whatsThisFrom( "Tools|Pointer" ) );
-
-    actionConnectTool = new QAction( i18n("Connect Signal/Slots"), createIconSet("connecttool.xpm"),
-             i18n("&Connect Signal/Slots"),  Key_F3,
-             actionGroupTools, QString::number(CONNECT_TOOL).latin1(), TRUE );
-    actionConnectTool->setStatusTip( i18n("Selects the connection tool") );
-    actionConnectTool->setWhatsThis( whatsThisFrom( "Tools|Connect Signals and Slots" ) );
-
-    actionOrderTool = new QAction( i18n("Tab Order"), createIconSet("ordertool.xpm"),
-           i18n("Tab &Order"),  Key_F4,
-           actionGroupTools, QString::number(ORDER_TOOL).latin1(), TRUE );
-    actionOrderTool->setStatusTip( i18n("Selects the tab order tool") );
-    actionOrderTool->setWhatsThis( whatsThisFrom( "Tools|Tab Order" ) );
-
-    KToolBar *tb = new KToolBar( this, "Tools" );
-    tb->setFullSize( FALSE );
-    QWhatsThis::add( tb, i18n("<b>The Tools toolbar</b>%1" ).arg(toolbarHelp) );
-
-    addToolBar( tb, i18n("Tools" ), QMainWindow::DockTop, TRUE );
-    actionPointerTool->addTo( tb );
-    actionConnectTool->addTo( tb );
-    actionOrderTool->addTo( tb );
-
-    QPopupMenu *mmenu = new QPopupMenu( this, "Tools" );
-    menubar->insertItem( i18n("&Tools" ), mmenu );
-    actionPointerTool->addTo( mmenu );
-    actionConnectTool->addTo( mmenu );
-    actionOrderTool->addTo( mmenu );
-    mmenu->insertSeparator();
-
-    customWidgetToolBar = 0;
-    customWidgetMenu = 0;
-
-    actionToolsCustomWidget = new QAction( i18n("Custom Widgets"),
-             createIconSet( "customwidget.xpm" ), i18n("Edit &Custom Widgets..."), 0, this, 0 );
-    actionToolsCustomWidget->setStatusTip( i18n("Opens a dialog to add and change custom widgets") );
-    actionToolsCustomWidget->setWhatsThis( whatsThisFrom( "Tools|Custom|Edit Custom Widgets" ) );
-
-    connect( actionToolsCustomWidget, SIGNAL( activated() ), this, SLOT( toolsCustomWidget() ) );
-
-    for ( int j = 0; j < WidgetDatabase::numWidgetGroups(); ++j ) {
-  QString grp = WidgetDatabase::widgetGroup( j );
-  if ( !WidgetDatabase::isGroupVisible( grp ) ||
-       WidgetDatabase::isGroupEmpty( grp ) )
-      continue;
-  KToolBar *tb = new KToolBar( this, grp.latin1() );
-  tb->setFullSize( FALSE );
-  bool plural = grp[(int)grp.length()-1] == 's';
-  if ( plural ) {
-      QWhatsThis::add( tb, i18n("<b>The %1</b>%2" ).arg(grp).arg(toolbarHelp).
-            arg( i18n(" Click on a button to insert a single widget, "
-            "or double click to insert multiple %1.") ).arg(grp));
-  } else {
-      QWhatsThis::add( tb, i18n("<b>The %1 Widgets</b>%2" ).arg(grp).arg(toolbarHelp).
-            arg( i18n(" Click on a button to insert a single %1 widget, "
-            "or double click to insert multiple widgets.") ).arg(grp));
+  if (!actionGroupTools)
+  {
+    actionGroupTools = new QActionGroup(this);
+    actionGroupTools->setExclusive(TRUE);
+    connect(actionGroupTools, SIGNAL(selected(QAction *)), this, SLOT(toolSelected(QAction *)));
   }
-  addToolBar( tb, grp );
-  QPopupMenu *menu = new QPopupMenu( this, grp.latin1() );
-  mmenu->insertItem( grp, menu );
 
-  if ( grp == "Custom" ) {
-      if ( !customWidgetMenu )
-    actionToolsCustomWidget->addTo( menu );
+  actionPointerTool =
+      new QAction(i18n("Pointer"), createIconSet("pointer.xpm"), i18n("&Pointer"), Key_F2,
+      actionGroupTools, QString::number(POINTER_TOOL).latin1(), TRUE);
+  actionPointerTool->setStatusTip(i18n("Selects the pointer tool"));
+  actionPointerTool->setWhatsThis(whatsThisFrom("Tools|Pointer"));
+
+  actionConnectTool = new QAction(i18n("Connect Signal/Slots"), createIconSet("connecttool.xpm"),
+      i18n("&Connect Signal/Slots"), Key_F3,
+      actionGroupTools, QString::number(CONNECT_TOOL).latin1(), TRUE);
+  actionConnectTool->setStatusTip(i18n("Selects the connection tool"));
+  actionConnectTool->setWhatsThis(whatsThisFrom("Tools|Connect Signals and Slots"));
+
+  actionOrderTool = new QAction(i18n("Tab Order"), createIconSet("ordertool.xpm"),
+      i18n("Tab &Order"), Key_F4, actionGroupTools, QString::number(ORDER_TOOL).latin1(), TRUE);
+  actionOrderTool->setStatusTip(i18n("Selects the tab order tool"));
+  actionOrderTool->setWhatsThis(whatsThisFrom("Tools|Tab Order"));
+
+  KToolBar *tb = new KToolBar(this, "Tools");
+  tb->setFullSize(FALSE);
+  QWhatsThis::add(tb, i18n("<b>The Tools toolbar</b>%1").arg(toolbarHelp));
+
+  addToolBar(tb, i18n("Tools"), QMainWindow::DockTop, TRUE);
+  actionPointerTool->addTo(tb);
+  actionConnectTool->addTo(tb);
+  actionOrderTool->addTo(tb);
+
+  QPopupMenu *mmenu = new QPopupMenu(this, "Tools");
+  menubar->insertItem(i18n("&Tools"), mmenu);
+  actionPointerTool->addTo(mmenu);
+  actionConnectTool->addTo(mmenu);
+  actionOrderTool->addTo(mmenu);
+  mmenu->insertSeparator();
+
+  customWidgetToolBar = 0;
+  customWidgetMenu = 0;
+
+  actionToolsCustomWidget = new QAction(i18n("Custom Widgets"),
+      createIconSet("customwidget.xpm"), i18n("Edit &Custom Widgets..."), 0, this, 0);
+  actionToolsCustomWidget->setStatusTip(i18n("Opens a dialog to add and change custom widgets"));
+  actionToolsCustomWidget->setWhatsThis(whatsThisFrom("Tools|Custom|Edit Custom Widgets"));
+
+  connect(actionToolsCustomWidget, SIGNAL(activated()), this, SLOT(toolsCustomWidget()));
+
+  for (int j = 0; j < WidgetDatabase::numWidgetGroups(); ++j)
+  {
+    QString grp = WidgetDatabase::widgetGroup(j);
+    if (!WidgetDatabase::isGroupVisible(grp) || WidgetDatabase::isGroupEmpty(grp))
+      continue;
+    KToolBar *tb = new KToolBar(this, grp.latin1());
+    tb->setFullSize(FALSE);
+    bool plural = grp[(int) grp.length() - 1] == 's';
+    if (plural)
+    {
+      QWhatsThis::add(tb, i18n("<b>The %1</b>%2").arg(grp).arg(toolbarHelp).
+          arg(i18n(" Click on a button to insert a single widget, "
+                  "or double click to insert multiple %1.")).arg(grp));
+    } else
+    {
+      QWhatsThis::add(tb, i18n("<b>The %1 Widgets</b>%2").arg(grp).arg(toolbarHelp).
+          arg(i18n(" Click on a button to insert a single %1 widget, "
+                  "or double click to insert multiple widgets.")).arg(grp));
+    }
+    addToolBar(tb, grp);
+    QPopupMenu *menu = new QPopupMenu(this, grp.latin1());
+    mmenu->insertItem(grp, menu);
+
+    if (grp == "Custom")
+    {
+      if (!customWidgetMenu)
+        actionToolsCustomWidget->addTo(menu);
       else
-    menu->insertSeparator();
+        menu->insertSeparator();
       customWidgetMenu = menu;
       customWidgetToolBar = tb;
-  }
-
-  for ( int i = 0; i < WidgetDatabase::count(); ++i ) {
-      if ( WidgetDatabase::group( i ) != grp )
-    continue; // only widgets, i.e. not forms and temp stuff
-      QAction* a = new QAction( actionGroupTools, QString::number( i ).latin1() );
-      a->setToggleAction( TRUE );
-      QString atext = WidgetDatabase::className( i );
-      if ( atext[0] == 'Q' )
-    atext = atext.mid(1);
-      while ( atext.length() && atext[0] >= 'a' && atext[0] <= 'z' )
-    atext = atext.mid(1);
-      if ( atext.isEmpty() )
-    atext = WidgetDatabase::className( i );
-      a->setText( atext );
-      QString ttip = WidgetDatabase::toolTip( i );
-      a->setIconSet( WidgetDatabase::iconSet( i ) );
-      a->setToolTip( ttip );
-      if ( !WidgetDatabase::isWhatsThisLoaded() )
-    WidgetDatabase::loadWhatsThis( documentationPath() );
-      a->setStatusTip( i18n("Insert a %1").arg(WidgetDatabase::className( i )) );
-
-      QString whats = i18n("<b>A %1</b>").arg( WidgetDatabase::className( i ) );
-      if ( !WidgetDatabase::whatsThis( i ).isEmpty() )
-      whats += QString("<p>%1</p>").arg(WidgetDatabase::whatsThis( i ));
-      a->setWhatsThis( whats + i18n("<p>Double click on this tool to keep it selected.</p>") );
-
-      if ( grp != "KDE" )
-    a->addTo( tb );
-      a->addTo( menu );
-  }
     }
 
-    if ( !customWidgetToolBar ) {
-  KToolBar *tb = new KToolBar( this, "Custom Widgets" );
-  tb->setFullSize( FALSE );
-  QWhatsThis::add( tb, i18n("<b>The Custom Widgets toolbar</b>%1"
-         "<p>Click <b>Edit Custom Widgets...</b> in the <b>Tools|Custom</b> menu to "
-         "add and change custom widgets</p>" ).arg(toolbarHelp).
-         arg( i18n(" Click on the buttons to insert a single widget, "
-         "or double click to insert multiple widgets.") ));
-  addToolBar( tb, i18n("Custom") );
-  customWidgetToolBar = tb;
-  QPopupMenu *menu = new QPopupMenu( this, "Custom Widgets" );
-  mmenu->insertItem( i18n("Custom"), menu );
-  customWidgetMenu = menu;
-  customWidgetToolBar->hide();
-  actionToolsCustomWidget->addTo( customWidgetMenu );
-  customWidgetMenu->insertSeparator();
-    }
+    for (int i = 0; i < WidgetDatabase::count(); ++i)
+    {
+      if (WidgetDatabase::group(i) != grp)
+        continue;               // only widgets, i.e. not forms and temp stuff
+      QAction *a = new QAction(actionGroupTools, QString::number(i).latin1());
+      a->setToggleAction(TRUE);
+      QString atext = WidgetDatabase::className(i);
+      if (atext[0] == 'Q')
+        atext = atext.mid(1);
+      while (atext.length() && atext[0] >= 'a' && atext[0] <= 'z')
+        atext = atext.mid(1);
+      if (atext.isEmpty())
+        atext = WidgetDatabase::className(i);
+      a->setText(atext);
+      QString ttip = WidgetDatabase::toolTip(i);
+      a->setIconSet(WidgetDatabase::iconSet(i));
+      a->setToolTip(ttip);
+      if (!WidgetDatabase::isWhatsThisLoaded())
+        WidgetDatabase::loadWhatsThis(documentationPath());
+      a->setStatusTip(i18n("Insert a %1").arg(WidgetDatabase::className(i)));
 
-    resetTool();
+      QString whats = i18n("<b>A %1</b>").arg(WidgetDatabase::className(i));
+      if (!WidgetDatabase::whatsThis(i).isEmpty())
+        whats += QString("<p>%1</p>").arg(WidgetDatabase::whatsThis(i));
+      a->setWhatsThis(whats + i18n("<p>Double click on this tool to keep it selected.</p>"));
+
+      if (grp != "KDE")
+        a->addTo(tb);
+      a->addTo(menu);
+    }
+  }
+
+  if (!customWidgetToolBar)
+  {
+    KToolBar *tb = new KToolBar(this, "Custom Widgets");
+    tb->setFullSize(FALSE);
+    QWhatsThis::add(tb, i18n("<b>The Custom Widgets toolbar</b>%1"
+            "<p>Click <b>Edit Custom Widgets...</b> in the <b>Tools|Custom</b> menu to "
+            "add and change custom widgets</p>").arg(toolbarHelp).
+        arg(i18n(" Click on the buttons to insert a single widget, "
+                "or double click to insert multiple widgets.")));
+    addToolBar(tb, i18n("Custom"));
+    customWidgetToolBar = tb;
+    QPopupMenu *menu = new QPopupMenu(this, "Custom Widgets");
+    mmenu->insertItem(i18n("Custom"), menu);
+    customWidgetMenu = menu;
+    customWidgetToolBar->hide();
+    actionToolsCustomWidget->addTo(customWidgetMenu);
+    customWidgetMenu->insertSeparator();
+  }
+
+  resetTool();
 }
 
 void MainWindow::setupFileActions()
@@ -1151,24 +1157,24 @@ void MainWindow::editAccels()
 
 void MainWindow::editSlots()
 {
-    if ( !formWindow() )
-  return;
+  if (!formWindow())
+    return;
 
-    statusBar()->message( i18n("Edit the current form's slots..." ) );
-    EditSlots dlg( this, formWindow() );
-    dlg.exec();
-    statusBar()->clear();
+  statusBar()->message(i18n("Edit the current form's slots..."));
+  EditSlots dlg(this, formWindow());
+  dlg.exec();
+  statusBar()->clear();
 }
 
 void MainWindow::editConnections()
 {
-    if ( !formWindow() )
-  return;
+  if (!formWindow())
+    return;
 
-    statusBar()->message( i18n("Edit the current form's connections..." ) );
-    ConnectionViewer dlg( this, formWindow() );
-    dlg.exec();
-    statusBar()->clear();
+  statusBar()->message(i18n("Edit the current form's connections..."));
+  ConnectionViewer dlg(this, formWindow());
+  dlg.exec();
+  statusBar()->clear();
 }
 
 void MainWindow::editFormSettings()
