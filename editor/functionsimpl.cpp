@@ -71,16 +71,26 @@ QString FunctionsDialog::functionText() const
 
 QString FunctionsDialog::currentFunctionText()
 {
-  QString prefix = "";
-  if (!KommanderWidget::useInternalParser)
+  QString prefix, function;
+  if (KommanderWidget::useInternalParser)
+  {
+    function = SpecialInformation::parserGroupName(groupComboBox->currentText());
+    if (!function.isEmpty())
+      function += "_";
+  }
+  else 
+  {
     prefix = "@";
+    function = groupComboBox->currentText() + ".";
+  }
+      
   if (groupComboBox->currentText() == "Kommander")
     return QString("%1%2%3").arg(prefix).arg(functionListBox->currentText()).arg(params());
   else if (groupComboBox->currentText() == "DCOP")
     return QString("%1%2.%3%4").arg(prefix).arg(widgetComboBox->currentText().section(' ', 0, 0))
         .arg(functionListBox->currentText()).arg(params());
   else 
-    return QString("%1%2.%3%4").arg(prefix).arg(groupComboBox->currentText())
+    return QString("%1%2%3%4").arg(prefix).arg(function)
         .arg(functionListBox->currentText()).arg(params());
 }
 
