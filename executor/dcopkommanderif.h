@@ -34,7 +34,9 @@ class DCOPKommanderIf : virtual public DCOPObject
       QLineEdit: changes the lineedit text
       QTextEdit: changes the content of the edit widget
       QSpinBox: changes the value of the spinbox.
-      FileSelector: changes value of current file  */
+      FileSelector: changes value of current file  
+      QListBox:  sets content of list 
+      QComboBox: sets coontent of combo */
   virtual void changeWidgetText(const QString& widgetName, const QString& text) = 0;
 
 /** Returns current item or -1 if there is no item selected. Works for:

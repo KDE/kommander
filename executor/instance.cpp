@@ -219,6 +219,16 @@ void Instance::changeWidgetText(const QString& widgetName, const QString& text)
         ((FileSelector*)child)->setWidgetText(text);
       else if (child->inherits("QSpinBox"))
         ((QSpinBox*)child)->setValue(text.toInt());
+      else if (child->inherits("QListBox"))
+      {
+        ((QListBox*)child)->clear();
+        ((QListBox*)child)->insertStringList(QStringList::split("\n", text));
+      }
+      else if (child->inherits("QComboBox"))
+      {
+        ((QComboBox*)child)->clear();
+        ((QComboBox*)child)->insertStringList(QStringList::split("\n", text));
+      }
     }
   delete children;
 }
