@@ -102,7 +102,7 @@ void CloseButton::startProcess()
 
 		if(!process->start(KProcess::Block, KProcess::Stdout))
 		{
-			KMessageBox::error(this, i18n("Failed to start shell process"));
+			KMessageBox::error(this, i18n("Failed to start shell process."));
 			endProcess(process);
 			return;
 		}

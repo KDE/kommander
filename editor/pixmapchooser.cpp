@@ -928,7 +928,7 @@ QStringList qChoosePixmaps( QWidget *parent )
     fd.setContentsPreview( pw, pw );
     fd.setViewMode( QFileDialog::List );
     fd.setPreviewMode( QFileDialog::Contents );
-    fd.setCaption( qApp->translate( "qChoosePixmap", "Choose Images..." ) );
+    fd.setCaption( qApp->translate( "qChoosePixmap", "Choose Images" ) );
     if ( fd.exec() == QDialog::Accepted )
 	return fd.selectedFiles();
     return QStringList();
@@ -958,7 +958,7 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	fd.setContentsPreview( pw, pw );
 	fd.setViewMode( QFileDialog::List );
 	fd.setPreviewMode( QFileDialog::Contents );
-	fd.setCaption( qApp->translate( "qChoosePixmap", "Choose a Pixmap..." ) );
+	fd.setCaption( qApp->translate( "qChoosePixmap", "Choose Pixmap" ) );
 	if ( fd.exec() == QDialog::Accepted ) {
 	    QPixmap pix( fd.selectedFile() );
 	    if ( fn )

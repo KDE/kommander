@@ -57,7 +57,7 @@
 #include <qlistbox.h>
 #include <qfontdatabase.h>
 #include <qcolor.h>
-#include <qcolordialog.h>
+#include <kcolordialog.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qsizepolicy.h>
@@ -1719,8 +1719,8 @@ void PropertyColorItem::childValueChanged( PropertyItem *child )
 
 void PropertyColorItem::getColor()
 {
-    QColor c = QColorDialog::getColor( val.asColor(), listview );
-    if ( c.isValid() ) {
+    QColor c = val.asColor();
+    if ( KColorDialog::getColor( c, listview ) == QDialog::Accepted ) {
 	setValue( c );
 	notifyValueChange();
     }

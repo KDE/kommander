@@ -873,7 +873,7 @@ bool FormFile::checkFileName( bool allowBreak )
     while ( ff ) {
   QString fn;
   while ( fn.isEmpty() ) {
-      fn = QFileDialog::getSaveFileName( pro->makeAbsolute( fileName() ),
+      fn = KFileDialog::getSaveFileName( pro->makeAbsolute( fileName() ),
 #ifndef KOMMANDER
           i18n( "BQt User-Interface Files (*nameui)" ) + ";;" +
 #else

@@ -63,7 +63,7 @@ bool Instance::build()
   QFileInfo uiFileInfo(m_uiFileName);
   if(!uiFileInfo.exists())
   {
-    KMessageBox::sorry(0, i18n("%1 does not exist").arg(m_uiFileName), i18n("Error"));
+    KMessageBox::sorry(0, i18n("%1 does not exist.").arg(m_uiFileName), i18n("Error"));
     return FALSE;
   }
 
@@ -71,7 +71,7 @@ bool Instance::build()
   m_instance = (QDialog *)EWidgetFactory::create(m_uiFileName);
   if(!m_instance)
   {
-    KMessageBox::sorry(0, i18n("Unable to create dialog from %1").arg(m_uiFileName));
+    KMessageBox::sorry(0, i18n("Unable to create dialog from %1.").arg(m_uiFileName));
     return FALSE;
   }
 
@@ -95,7 +95,7 @@ bool Instance::build(QFile *a_file)
 	m_instance = (QDialog *)EWidgetFactory::create(a_file);
 	if(!m_instance)
 	{
-    	KMessageBox::sorry(0, i18n("Unable to create dialog from input"));
+    	KMessageBox::sorry(0, i18n("Unable to create dialog from input."));
 		return FALSE;
 	}
 

@@ -1,7 +1,7 @@
 #include "filechooser.h"
 #include <qlineedit.h>
 #include <qpushbutton.h>
-#include <qfiledialog.h>
+#include <kfiledialog.h>
 #include <qlayout.h>
 
 FileChooser::FileChooser( QWidget *parent, const char *name )
@@ -50,9 +50,9 @@ void FileChooser::chooseFile()
 {
     QString fn;
     if ( mode() == File )
-	fn = QFileDialog::getOpenFileName( lineEdit->text(), QString::null, this );
+	fn = KFileDialog::getOpenFileName( lineEdit->text(), QString::null, this );
     else
-	fn = QFileDialog::getExistingDirectory( lineEdit->text(),this );
+	fn = KFileDialog::getExistingDirectory( lineEdit->text(),this );
 
     if ( !fn.isEmpty() ) {
 	lineEdit->setText( fn );

@@ -22,7 +22,7 @@
 #include "styledbutton.h"
 #include "formwindow.h"
 #include "pixmapchooser.h"
-#include <qcolordialog.h>
+#include <kcolordialog.h>
 #include <qpalette.h>
 #include <qlabel.h>
 #include <qpainter.h>
@@ -178,8 +178,8 @@ void StyledButton::onEditor()
 {
     switch (edit) {
     case ColorEditor: {
-	QColor c = QColorDialog::getColor( palette().active().background(), this );
-	if ( c.isValid() ) {
+        QColor c = palette().active().background();
+	if ( KColorDialog::getColor( c, this ) == QDialog::Accepted ) {
 	    setColor( c );
 	    emit changed();
 	}

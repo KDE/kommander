@@ -22,7 +22,7 @@
 #include <qapplication.h>
 #include <qbitmap.h>
 #include <qdragobject.h>
-#include <qinputdialog.h>
+#include <klineeditdlg.h>
 #include <qlayout.h>
 #include <qmainwindow.h>
 #include <qmenudata.h>
@@ -750,8 +750,8 @@ void QDesignerMenuBar::contextMenuEvent( QContextMenuEvent *e )
     } else if ( res == 2 ) {
 	bool ok;
 	QString old = text( idAt( itm ) );
-	QString txt = QInputDialog::getText( i18n( "Rename Menu Item" ), i18n( "Menu Text" ),
-					     QLineEdit::Normal, text( idAt( itm ) ), &ok, 0 );
+	QString txt = KLineEditDlg::getText( i18n( "Rename Menu Item" ), i18n( "Menu text:" ),
+					     text( idAt( itm ) ), &ok, 0 );
 	if ( ok ) {
 	    RenameMenuCommand *cmd = new RenameMenuCommand(
 		i18n( "Rename Menu '%1' to '%2'" ).arg( old ).arg( txt ),

@@ -1227,12 +1227,12 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
   if ( fn.isEmpty() ) {
 #ifndef KOMMANDER
       if ( !inProject ) {
-    QString f = QFileDialog::getOpenFileName( QString::null, filters, this, 0,
+    QString f = KFileDialog::getOpenFileName( QString::null, filters, this, 0,
                 (inProject ? i18n("Add") : i18n("Open" )),
                 &lastOpenFilter );
     filenames << f;
       } else {
-    filenames = QFileDialog::getOpenFileNames( filters, QString::null, this, 0,
+    filenames = KFileDialog::getOpenFileNames( filters, QString::null, this, 0,
                 (inProject ? i18n("Add") : i18n("Open" )),
                 &lastOpenFilter );
 #else
@@ -2072,7 +2072,7 @@ void MainWindow::chooseDocPath()
 {
     if ( !prefDia )
   return;
-    QString fn = QFileDialog::getExistingDirectory( QString::null, this );
+    QString fn = KFileDialog::getExistingDirectory( QString::null, this );
     if ( !fn.isEmpty() )
   prefDia->editDocPath->setText( fn );
 }

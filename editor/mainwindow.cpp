@@ -43,7 +43,7 @@
 #ifndef KOMMANDER
 #include "outputwindow.h"
 #endif
-#include <qinputdialog.h>
+#include <klineeditdlg.h>
 #if defined(HAVE_KDE)
 #include <ktoolbar.h>
 #else
@@ -1831,7 +1831,7 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
             text = TextEditor::getText( this, w->property("text").toString() );
             ok = !text.isEmpty();
         } else {
-            text = QInputDialog::getText( i18n("Text"), i18n( "New text" ), QLineEdit::Normal, w->property("text").toString(), &ok, this );
+            text = KLineEditDlg::getText( i18n("Text"), i18n( "New text:" ), w->property("text").toString(), &ok, this );
         }
         if ( ok ) {
             QString pn( i18n( "Set the 'text' of '%2'" ).arg( w->name() ) );
@@ -1844,7 +1844,7 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
         }
     } else if ( id == props[ "title" ] ) {
         bool ok = FALSE;
-        QString title = QInputDialog::getText( i18n("Title"), i18n( "New title" ), QLineEdit::Normal, w->property("title").toString(), &ok, this );
+        QString title = KLineEditDlg::getText( i18n("Title"), i18n( "New title:" ), w->property("title").toString(), &ok, this );
         if ( ok ) {
             QString pn( i18n( "Set the 'title' of '%2'" ).arg( w->name() ) );
             SetPropertyCommand *cmd = new SetPropertyCommand( pn, formWindow(), w, propertyEditor,
@@ -1856,7 +1856,7 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
         }
     } else if ( id == props[ "pagetitle" ] ) {
         bool ok = FALSE;
-        QString text = QInputDialog::getText( i18n("Page Title"), i18n( "New page title" ), QLineEdit::Normal, w->property("pageTitle").toString(), &ok, this );
+        QString text = KLineEditDlg::getText( i18n("Page Title"), i18n( "New page title:" ), w->property("pageTitle").toString(), &ok, this );
         if ( ok ) {
             QString pn( i18n( "Set the 'pageTitle' of '%2'" ).arg( w->name() ) );
             SetPropertyCommand *cmd = new SetPropertyCommand( pn, formWindow(), w, propertyEditor,
@@ -1892,7 +1892,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
              return;
 
          AssocTextEditor *editor = new AssocTextEditor(w, atw, this, "AssocTextEditor", TRUE);
-         QString caption = QString("Edit text association for widget \'%1\'").arg(w->name());
+         QString caption = QString("Edit Text Association for Widget \'%1\'").arg(w->name());
          editor->setCaption(caption);
 
          if(editor->exec())
@@ -1946,7 +1946,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
              return;
 
          AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), atw, this, "AssocTextEditor", TRUE);
-         QString caption = QString("Edit text association for widget \'%1\'").arg(fw->mainContainer()->name());
+         QString caption = QString("Edit Text Association for Widget \'%1\'").arg(fw->mainContainer()->name());
          editor->setCaption(caption);
 
          if(editor->exec())
@@ -1990,7 +1990,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 
             bool ok = FALSE;
             QDesignerWizard *dw = (QDesignerWizard*)wiz;
-            QString text = QInputDialog::getText( i18n("Page Title"), i18n( "New page title" ), QLineEdit::Normal, dw->pageTitle(), &ok, this );
+            QString text = KLineEditDlg::getText( i18n("Page Title"), i18n( "New page title:" ), dw->pageTitle(), &ok, this );
             if ( ok ) {
                 QString pn( i18n( "Rename page %1 of %2" ).arg( dw->pageTitle() ).arg( wiz->name() ) );
                 RenameWizardPageCommand *cmd = new RenameWizardPageCommand( pn, formWindow()
@@ -2647,7 +2647,7 @@ bool MainWindow::openEditor( QWidget *w, FormWindow * )
             text = TextEditor::getText( this, w->property("text").toString() );
             ok = !text.isEmpty();
         } else {
-            text = QInputDialog::getText( i18n("Text"), i18n( "New text" ), QLineEdit::Normal, w->property("text").toString(), &ok, this );
+            text = KLineEditDlg::getText( i18n("Text"), i18n( "New text:" ), w->property("text").toString(), &ok, this );
         }
         if ( ok ) {
             QString pn( i18n( "Set the 'text' of '%2'" ).arg( w->name() ) );
@@ -2663,7 +2663,7 @@ bool MainWindow::openEditor( QWidget *w, FormWindow * )
     if ( title && title->designable(w) ) {
         bool ok = FALSE;
         QString text;
-        text = QInputDialog::getText( i18n("Title"), i18n( "New title" ), QLineEdit::Normal, w->property("title").toString(), &ok, this );
+        text = KLineEditDlg::getText( i18n("Title"), i18n( "New title:" ), w->property("title").toString(), &ok, this );
         if ( ok ) {
             QString pn( i18n( "Set the 'title' of '%2'" ).arg( w->name() ) );
             SetPropertyCommand *cmd = new SetPropertyCommand( pn, formWindow(), w, propertyEditor,

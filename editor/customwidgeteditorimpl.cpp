@@ -34,7 +34,7 @@
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qmessagebox.h>
-#include <qfiledialog.h>
+#include <kfiledialog.h>
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qlistview.h>
@@ -361,7 +361,7 @@ void CustomWidgetEditor::chooseHeader()
     if ( !i || !w )
 	return;
 
-    QString h = QFileDialog::getOpenFileName( QString::null, i18n( "Header Files (*.h *.h++ *.hxx)" ), this );
+    QString h =KFileDialog::getOpenFileName( QString::null, i18n( "Header Files (*.h *.h++ *.hxx)" ), this );
     if ( h.isEmpty() )
 	return;
     editHeader->setText( h );
@@ -664,7 +664,7 @@ static QString entitize2( const QString &s )
 
 void CustomWidgetEditor::saveDescription()
 {
-    QString fn = QFileDialog::getSaveFileName( QString::null, i18n( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
+    QString fn = KFileDialog::getSaveFileName( QString::null, i18n( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
     if ( fn.isEmpty() )
 	return;
 
@@ -732,7 +732,7 @@ void CustomWidgetEditor::saveDescription()
 
 void CustomWidgetEditor::loadDescription()
 {
-    QString fn = QFileDialog::getOpenFileName( QString::null, i18n( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
+    QString fn = KFileDialog::getOpenFileName( QString::null, i18n( "Custom-Widget Description (*.cw);;All Files (*)" ), this );
     if ( fn.isEmpty() )
 	return;
 
