@@ -297,5 +297,5 @@ QString AssocTextWidget::execCommand(QString a_command) const
 
 void AssocTextWidget::printError(QString a_className, QString a_error) const
 {
-	qWarning(QString("In widget %1:\n\t").arg(a_className) + a_error);
+	qWarning("In widget %s:\n\t%s", a_className.latin1(), a_error.latin1());
 }

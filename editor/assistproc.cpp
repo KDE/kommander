@@ -43,7 +43,7 @@ bool AssistProc::run( const QString &path )
     addArgument( "-stdin" );
 
     if ( !start() ) {
-	qWarning( QString("Assistant [exe]: Couldn't start \'%1\', please check path.").arg(assistantPath) );
+	qWarning( "Assistant [exe]: Couldn't start \'%s\', please check path.", assistantPath.latin1() );
 	return FALSE;
     }
     return TRUE;
@@ -64,11 +64,11 @@ bool AssistProc::sendRequest( const QString &data )
 
 void AssistProc::processOutput()
 {
-    qWarning( QString("Assistant [out]: %1").arg(QString(readStdout())) );
+    qWarning( "Assistant [out]: %s", readStdout().data() );
 }
 
 void AssistProc::processErrOutput()
 {
-    qWarning( QString("Assistant [err]: %1").arg(QString(readStderr())) );
+    qWarning( "Assistant [err]: %s", readStderr().data() );
 }
 #include "assistproc.moc"
