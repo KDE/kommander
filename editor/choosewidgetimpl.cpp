@@ -27,7 +27,7 @@
 
 /** OTHER INCLUDES */
 #include "choosewidgetimpl.h"
-
+#include "choosewidgetimpl.moc"
  
 ChooseWidget::ChooseWidget(QWidget* a_parent, const char* a_name, bool a_modal)
    : ChooseWidgetBase(a_parent, a_name, a_modal)
