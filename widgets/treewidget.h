@@ -59,6 +59,9 @@ signals:
   void widgetTextChanged(const QString&);
 protected:
   void showEvent(QShowEvent *e);
+  int itemToIndex(QListViewItem* item);
+  QString itemText(QListViewItem* item);
+  QListViewItem* indexToItem(int index);
 private:
   void addItemFromString(const QString& s);
   QListViewItem* itemFromString(QListViewItem* parent, const QString& s);

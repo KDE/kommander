@@ -27,7 +27,9 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::selection, "selection(QString widget)");
   insert(DCOP::setSelection, "setCurrentListItem(QString widget, QString text)");
   insertAlias(DCOP::setSelection, "setSelection");
-  insert(DCOP::currentItem, "currentItem(QString, widget)");
+  insert(DCOP::currentItem, "currentItem(QString widget)");
+  insert(DCOP::setCurrentItem, "setCurrentTab(QString widget, int index)");
+  insertAlias(DCOP::setCurrentItem, "setCurrentItem");
   insert(DCOP::item, "item(QString widget, int index)");
   insert(DCOP::removeItem, "removeListItem(QString widget, int index)");
   insertAlias(DCOP::removeItem, "removeListItem");
@@ -36,11 +38,11 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::insertItems, "addListItems(QString widget, QStringList items, int index)");
   insertAlias(DCOP::insertItems, "insertItems");
   insert(DCOP::addUniqueItem, "addUniqueItem(QString widget, QString item)");
+  insert(DCOP::removeItem, "removeListItem(QString widget, QString item)");
+  insertAlias(DCOP::removeItem, "removeItem");
   insert(DCOP::findItem, "findItem(QString widget, QString item)");
   insert(DCOP::clear, "clearList(QString widget)");
   insertAlias(DCOP::clear, "clear");
-  insert(DCOP::setCurrentItem, "setCurrentTab(QString widget, int index)");
-  insertAlias(DCOP::setCurrentItem, "setCurrentItem");
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)");
   insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)");
   insert(DCOP::associatedText, "associatedText(QString widget)");

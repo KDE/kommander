@@ -49,11 +49,17 @@ void TreeWidget::addItemFromString(const QString& s)
   QListViewItem* parent = 0;
   for (uint i=0; i<elements.count(); i++)
   {
-//FIXME: don't find first only     
-     QListViewItem* current = findItem(elements[i], 0);
-     if (!current || current->depth() != (int)i)
-       current  = itemFromString(parent, elements[i]);
-     parent = current;
+    QListViewItemIterator it(this);
+    while (it.current()) {
+      if (it.current()->depth() == (int)i && it.current()->text(0) == elements[i])
+      {
+        parent = it.current();
+        break;
+      }
+      ++it;
+    }
+    if (!it.current())
+      parent = itemFromString(parent, elements[i]);
   }
 }
 
@@ -77,7 +83,42 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
   return item;
 }
 
+int TreeWidget::itemToIndex(QListViewItem* item) 
+{
+  QListViewItemIterator it(this);
+  int index = 0;
+  while (it.current()) {
+    if (it.current() == item)
+      return index;
+    ++it;
+    ++index;
+  }
+  return -1;
+}
 
+QListViewItem* TreeWidget::indexToItem(int item) 
+{
+  QListViewItemIterator it(this);
+  int index = 0;
+  while (it.current()) {
+    if (index == item)
+      return it.current();
+    ++it;
+    ++index;
+  }
+  return 0;
+}
+  
+QString TreeWidget::itemText(QListViewItem* item)
+{
+  if (!item)
+    return QString::null;
+  QStringList items;
+  for (int i=0; i<columns(); i++)
+    items.append(item->text(i));
+  return items.join("\t");
+}
+  
 
 QString TreeWidget::currentState() const
 {
@@ -133,20 +174,31 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::insertItem:
       addItemFromString(args[0]);
       break;
-    case DCOP::selection:
-      if (currentItem())
-        return currentItem()->text(0);
-      break;
-    case DCOP::setSelection:
+    case DCOP::insertItems:
     {
-      QListViewItem* item = findItem(args[0], 0);
-      if (item)
-        setCurrentItem(item);
+      QStringList items(QStringList::split("\n", args[0]));
+      for (uint i=0; i<items.count(); i++)
+        addItemFromString(items[i]);
       break;
     }
+    case DCOP::selection:
+      return itemText(currentItem());
+    case DCOP::setSelection:
+      setCurrentItem(findItem(args[0], 0));
+      break;
     case DCOP::clear:
       clear();
       break;
+    case DCOP::removeItem:
+      delete indexToItem(args[0].toInt());
+      break;
+    case DCOP::currentItem:
+      return QString::number(itemToIndex(currentItem()));
+    case DCOP::setCurrentItem:
+      setCurrentItem(indexToItem(args[0].toInt()));
+      break;
+    case DCOP::item:
+      return itemText(indexToItem(args[0].toInt()));
     default:
       break;
   }
