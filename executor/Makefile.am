@@ -18,7 +18,3 @@ METASOURCES = AUTO
 # the library search path. 
 kmdr_executor_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
-AM_CFLAGS = 
-AM_CXXFLAGS = 
-AM_FFLAGS = 
-SUBDIRS = 

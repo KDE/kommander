@@ -25,7 +25,3 @@ METASOURCES = AUTO
 # this is where the desktop file will go 
 desktopdir = $(kde_appsdir)/Editors
 desktop_DATA = kmdr-editor.desktop
-AM_CFLAGS = 
-AM_CXXFLAGS = 
-AM_FFLAGS = 
-SUBDIRS = 

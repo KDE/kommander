@@ -18,8 +18,3 @@ noinst_HEADERS = assoctextwidget.h  myprocess.h buttongroup.h  checkbox.h ewidge
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
-
-AM_CFLAGS = 
-AM_CXXFLAGS = 
-AM_FFLAGS = 
-SUBDIRS = 
