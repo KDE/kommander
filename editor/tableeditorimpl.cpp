@@ -312,7 +312,7 @@ void TableEditor::applyClicked()
 	    row.pix = table->verticalHeader()->iconSet( i )->pixmap();
 	rows.append( row );
     }
-    PopulateTableCommand *cmd = new PopulateTableCommand( i18n("Edit the Rows and Columns of '%1' " ).arg( editTable->name() ),
+    PopulateTableCommand *cmd = new PopulateTableCommand( i18n("Edit Rows and Columns of '%1' " ).arg( editTable->name() ),
 							  formWindow, editTable, rows, cols );
     cmd->execute();
     formWindow->commandHistory()->addCommand( cmd );

@@ -68,7 +68,7 @@ void MainWindow::add()
 {
   QString libDir = KGlobal::dirs()->findResourceDir("lib", "libkommanderplugin.la");
   QString plugin = KFileDialog::getOpenFileName(libDir, "lib*", this, 
-    i18n("Add Kommander plugin") );
+    i18n("Add Kommander Plugin") );
   add(plugin);
 }
 

@@ -121,7 +121,7 @@ void IconViewEditor::applyClicked()
 	items.append( item );
     }
 
-    PopulateIconViewCommand *cmd = new PopulateIconViewCommand( i18n("Edit the Items of '%1'" ).arg( iconview->name() ),
+    PopulateIconViewCommand *cmd = new PopulateIconViewCommand( i18n("Edit Items of '%1'" ).arg( iconview->name() ),
 								formwindow, iconview, items );
     cmd->execute();
     formwindow->commandHistory()->addCommand( cmd );

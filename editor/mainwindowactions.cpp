@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -170,7 +170,7 @@ void MainWindow::setupEditActions()
     //Script Objects Action
     actionEditScriptObjects = new QAction(i18n("Script Objects"), QPixmap(), i18n("&Script Objects"), ALT + Key_S, this);
     actionEditScriptObjects->setStatusTip(i18n("Opens the script object editor."));
-    actionEditScriptObjects->setWhatsThis(i18n("Script Objects Editor."));
+    actionEditScriptObjects->setWhatsThis(i18n("Script Objects Editor"));
     connect(actionEditScriptObjects, SIGNAL(activated()), this, SLOT(editScriptObjects()));
     connect(this, SIGNAL(hasActiveForm(bool)), actionEditScriptObjects, SLOT(setEnabled(bool)));
 
