@@ -73,7 +73,7 @@ QString StatusBar::populationText() const
 
 void StatusBar::populate()
 {
-  message(KommanderWidget::evalAssociatedText( populationText()));
+  changeItem(KommanderWidget::evalAssociatedText(populationText()), 0);
 }
 
 void StatusBar::showEvent(QShowEvent *e)
