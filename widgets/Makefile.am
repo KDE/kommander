@@ -1,14 +1,14 @@
 lib_LTLIBRARIES = libkommanderwidgets.la
 
 # set the include path for X, qt and KDE
-INCLUDES = -I$(top_srcdir)/kommander/editor -I$(top_srcdir)/kommander/factory $(all_includes)
+INCLUDES = -I$(top_srcdir)/kommander/editor -I$(top_srcdir)/kommander/factory -I$(top_srcdir)/kommander/plugin $(all_includes)
 
-# the library search path. 
+# the library search path.
 #widgets_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 libkommanderwidgets_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 # the libraries to link against.
-libkommanderwidgets_la_LIBADD  = $(LIB_KIO) 
+libkommanderwidgets_la_LIBADD  = $(LIB_KIO)
 
 # which sources should be compiled for widgets
 libkommanderwidgets_la_SOURCES = assoctextwidget.cpp myprocess.cpp buttongroup.cpp  subdialog.cpp checkbox.cpp closebutton.cpp combobox.cpp listbox.cpp wizard.cpp dialog.cpp tabwidget.cpp execbutton.cpp fileselector.cpp groupbox.cpp	lineedit.cpp radiobutton.cpp  spinboxint.cpp textedit.cpp scriptobject.cpp richtexteditor.cpp treewidget.cpp plugin.cpp
