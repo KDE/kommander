@@ -108,9 +108,11 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
         !it.current()->inherits("QLayoutWidget") &&
         !it.current()->inherits("Spacer") &&
         qstrcmp(it.current()->name(), "central widget") &&
-        !m_formWindow->isMainContainer(it.current()))
+        !m_formWindow->isMainContainer(it.current()) &&
+        !lst.contains(it.current()->name()))
       lst << it.current()->name();
   }
+  lst.sort();
   
   // Fill receiver combos with widget list    
   fillWidgetList(comboReceiver, lst, m_receiver->name());
@@ -357,7 +359,6 @@ void ConnectionEditor::fillConnectionsList()
 void ConnectionEditor::fillWidgetList(KComboBox* a_combo, const QStringList& items, const QString& defaultWidget)
 {
   a_combo->insertStringList(items);
-  a_combo->listBox()->sort();
   for (int i = 0; i < a_combo->count(); ++i)
     if (a_combo->text(i) == defaultWidget)
     {

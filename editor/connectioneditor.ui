@@ -240,9 +240,6 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="duplicatesEnabled">
-                        <bool>false</bool>
-                    </property>
                 </widget>
             </hbox>
         </widget>
@@ -282,9 +279,6 @@
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
-                    </property>
-                    <property name="duplicatesEnabled">
-                        <bool>false</bool>
                     </property>
                 </widget>
             </hbox>
