@@ -589,7 +589,7 @@ bool EditorTabWidget::eventFilter( QObject *o, QEvent *e )
 QWidget *WidgetFactory::create( int id, QWidget *parent, const char *name, bool init, const QRect *r, Qt::Orientation orient )
 {
   QString n = WidgetDatabase::className(id);
-  qDebug("Trying to create '%s'", n.latin1());
+  //qDebug("Trying to create '%s'", n.latin1());
   if (n.isEmpty())
     return 0;
 
@@ -603,7 +603,7 @@ QWidget *WidgetFactory::create( int id, QWidget *parent, const char *name, bool 
   QString str = WidgetDatabase::createWidgetName(id);
   const char *s = str.latin1();
   w = createWidget(n, parent, name ? name : s, init, r, orient);
-  qDebug("Trying to create '%s', widget (id=%d) - %s", s, id, w ? "successful" : "failure");
+  //qDebug("Trying to create '%s', widget (id=%d) - %s", s, id, w ? "successful" : "failure");
   if (!w && WidgetDatabase::isCustomWidget(id))
     w = createCustomWidget(parent, name ? name : s, MetaDataBase::customWidget(id));
   if (!w)
@@ -1086,7 +1086,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
   } 
   else if (className == "Wizard")
   {
-    qDebug("Creating Wizard...");
+    //qDebug("Creating Wizard...");
     QWizard *wiz;
     if (parent && parent->inherits("FormWindow"))
       wiz = new QDesignerWizard(parent, name);
