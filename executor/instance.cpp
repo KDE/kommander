@@ -133,7 +133,7 @@ bool Instance::run(QFile *a_file)
 {
   // Check whether extension is *.kmdr
   if (!m_uiFileName.fileName().endsWith(".kmdr")) {
-    KMessageBox::error(0, i18n("<qt>This file doesn't have a <b>.kmdr</b> extension. As a security precaution "
+    KMessageBox::error(0, i18n("<qt>This file does not have a <b>.kmdr</b> extension. As a security precaution "
            "Kommander will only run Kommander scripts with a clear identity.</qt>"),
            i18n("Wrong Extension"));
     return false;
