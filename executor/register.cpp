@@ -72,6 +72,7 @@ void Instance::registerSpecials()
   SpecialInformation::setCurrentObject("String");
   SpecialInformation::insert("length", 1);
   SpecialInformation::insert("contains", 2);
+  SpecialInformation::insert("find", 2);
   SpecialInformation::insert("left", 2);
   SpecialInformation::insert("right", 2);
   SpecialInformation::insert("mid", 3);

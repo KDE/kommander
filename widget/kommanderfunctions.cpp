@@ -215,6 +215,8 @@ QString KommanderWidget::evalStringFunction(const QString& function, const QStri
     return QString::number(args[0].length());
   else if (function == "contains")
     return QString::number(args[0].contains(args[1]));
+  else if (function == "find")
+    return QString::number(args[0].find(args[1]));
   else if (function == "left")
     return args[0].left(args[1].toInt());
   else if (function == "right")
