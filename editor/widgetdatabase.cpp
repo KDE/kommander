@@ -25,7 +25,7 @@
 #include "widgetdatabase.h"
 
 #include <qapplication.h>
-#define NO_STATIC_COLORS
+//#define NO_STATIC_COLORS
 #include "globaldefs.h"
 #include <qstrlist.h>
 #include <qdict.h>
@@ -40,7 +40,7 @@
 const int dbsize = 300;
 const int dbcustom = 200;
 const int dbdictsize = 211;
-static WidgetDatabaseRecord* db[ dbsize ];
+static WidgetDatabaseRecord* widget_db[ dbsize ];
 static QDict<int> *className2Id = 0;
 static int dbcount  = 0;
 static int dbcustomcount = 200;
@@ -567,7 +567,7 @@ void WidgetDatabase::setupDataBase( int id )
     r->isContainer = TRUE;
 
     append( r );
-	
+
     r = new WidgetDatabaseRecord;
     r->name = "EditorTabWidget";
     r->group = widgetGroup( "Temp" );
@@ -943,9 +943,9 @@ WidgetDatabaseRecord *WidgetDatabase::at( int index )
     if ( index < 0 )
 	return 0;
     if ( index >= dbcustom && index < dbcustomcount )
-	return db[ index ];
+	return widget_db[ index ];
     if ( index < dbcount )
-	return db[ index ];
+	return widget_db[ index ];
     return 0;
 }
 
@@ -953,7 +953,7 @@ void WidgetDatabase::insert( int index, WidgetDatabaseRecord *r )
 {
     if ( index < 0 || index >= dbsize )
 	return;
-    db[ index ] = r;
+    widget_db[ index ] = r;
     className2Id->insert( r->name, new int( index ) );
     if ( index < dbcustom )
 	dbcount = QMAX( dbcount, index );
@@ -977,7 +977,7 @@ bool WidgetDatabase::isGroupEmpty( const QString &grp )
 {
     WidgetDatabaseRecord *r = 0;
     for ( int i = 0; i < dbcount; ++i ) {
-	if ( !( r = db[ i ] ) )
+	if ( !( r = widget_db[ i ] ) )
 	    continue;
 	if ( r->group == grp )
 	{
@@ -985,7 +985,7 @@ bool WidgetDatabase::isGroupEmpty( const QString &grp )
 	    if(r->group == "Kommander")
 		    return FALSE;
 
-	    if(r->name[0] != 'Q') 
+	    if(r->name[0] != 'Q')
   	        return FALSE;
 	}
     }

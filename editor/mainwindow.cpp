@@ -98,9 +98,7 @@
 #include <qsettings.h>
 #ifndef KOMMANDER
 #include "pixmapcollection.h"
-#endif
-#ifndef KOMMANDER
-    #include "sourcefile.h"
+#include "sourcefile.h"
 #endif
 #include "qcompletionedit.h"
 #include <qaccel.h>
@@ -2555,23 +2553,23 @@ void MainWindow::closeEvent( QCloseEvent *e )
 	QWidget *w = wit.current();
 	++wit;
 	if ( w->inherits( "FormWindow" ) ) {
-	#ifndef KOMMANDER
+#ifndef KOMMANDER
 	    if ( ( (FormWindow*)w )->formFile()->editor() )
 		windows.removeRef( ( (FormWindow*)w )->formFile()->editor() );
-	#endif
+#endif
 	    if ( !( (FormWindow*)w )->formFile()->close() ) {
 		e->ignore();
 		return;
 	    }
 	}
-	#ifndef KOMMANDER
+#ifndef KOMMANDER
 	else if ( w->inherits( "SourceEditor" ) ) {
 	    if ( !( (SourceEditor*)w )->close() ) {
 		e->ignore();
 		return;
 	    }
 	}
-	#endif
+#endif
     }
 
 #ifndef KOMMANDER

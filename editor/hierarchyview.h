@@ -188,7 +188,7 @@ private:
     SourceEditor *editor;
     QGuardedPtr<SourceEditor> lastSourceEditor;
     QMap<QString, ClassBrowser> *classBrowsers;
-    #endif
+#endif
     FormWindow *formwindow;
     HierarchyList *listview;
 

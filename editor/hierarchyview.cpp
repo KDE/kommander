@@ -18,9 +18,9 @@
 **
 **********************************************************************/
 
+#include "globaldefs.h"
 #include "hierarchyview.h"
 #include "formwindow.h"
-#include "globaldefs.h"
 #include "mainwindow.h"
 #include "command.h"
 #include "widgetfactory.h"

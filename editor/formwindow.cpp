@@ -31,10 +31,12 @@
 #include "pixmapchooser.h"
 #include "orderindicator.h"
 #include "hierarchyview.h"
+
 #ifndef KOMMANDER
-    #include "designerappiface.h"
+#include "designerappiface.h"
 #endif
-#define NO_STATIC_COLORS
+
+//#define NO_STATIC_COLORS
 #include "globaldefs.h"
 #include "formfile.h"
 #include <scriptobject.h>
@@ -1530,11 +1532,11 @@ void FormWindow::resizeEvent( QResizeEvent *e )
     if ( currTool == ORDER_TOOL )
 	repositionOrderIndicators();
     if ( isVisible() )
-    #ifndef KOMMANDER
+#ifndef KOMMANDER
 	formFile()->setModified( TRUE, FormFile::WFormWindow );
-    #else
+#else
     	formFile()->setModified( TRUE );
-	#endif
+#endif
 
 #if defined(Q_WS_WIN32)
     windowsRepaintWorkaroundTimer->start( 100, TRUE );

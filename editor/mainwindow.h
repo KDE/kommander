@@ -106,7 +106,7 @@ public:
     FormWindow *formWindow();
 
     bool unregisterClient( FormWindow *w );
-#ifndef KOMMANDER 
+#ifndef KOMMANDER
 //    void editorClosed( SourceEditor *e );
 #endif
     QWidget *isAFormWindowChild( QObject *o ) const;
@@ -153,9 +153,9 @@ public:
 //    QUnknownInterface* designerInterface() const { return desInterface; }
 //    OutputWindow *outputWindow() const { return oWindow; }
 #endif
-    #ifndef KOMMANDER
+#ifndef KOMMANDER
 //    void addPreferencesTab( QWidget *tab, const QString &title, QObject *receiver, const char *init_slot, const char *accept_slot );
-   #endif
+#endif
     void setModified( bool b, QWidget *window );
 #ifndef KOMMANDER
 //    void slotsChanged();
@@ -334,7 +334,7 @@ private:
     void checkTempFiles();
 
     void addRecentlyOpened( const QString &fn, QStringList &lst );
-    #ifndef KOMMANDER
+#ifndef KOMMANDER
 //    enum LineMode { Error, Step, StackFrame };
 //    void showSourceLine( QObject *o, int line, LineMode lm );
 #endif

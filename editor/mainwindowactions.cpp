@@ -1072,10 +1072,10 @@ void MainWindow::fileClose()
       emit removedFormFile(((FormWindow *)w)->formFile());
       ( (FormWindow*)w )->formFile()->close();
   }
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
   else if ( w->inherits( "SourceEditor" ) )
       ( (SourceEditor*)w )->close();
-      #endif
+#endif
 #endif
 }
 
@@ -1396,7 +1396,7 @@ bool MainWindow::fileSaveForm()
 #endif
 
 
-    #ifndef KOMMANDER
+#ifndef KOMMANDER
     QWidget *w = qWorkspace()->activeWindow();
     if ( w ) {
   if ( w->inherits( "SourceEditor" ) ) {
@@ -1409,7 +1409,7 @@ bool MainWindow::fileSaveForm()
       }
   }
     }
-    #endif
+#endif
 
     if ( !fw )
   fw = formWindow();
@@ -1437,10 +1437,10 @@ bool MainWindow::fileSaveAs()
   return TRUE;
     if ( w->inherits( "FormWindow" ) )
   return ( (FormWindow*)w )->formFile()->saveAs();
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
     else if ( w->inherits( "SourceEditor" ) )
   return ( (SourceEditor*)w )->saveAs();
-  #endif
+#endif
     return FALSE;
 }
 
@@ -1674,7 +1674,7 @@ void MainWindow::editSelectAll()
   ( (SourceEditor*)qWorkspace()->activeWindow() )->editSelectAll();
   return;
     }
-    #endif
+#endif
     if ( formWindow() )
   formWindow()->selectAll();
 }

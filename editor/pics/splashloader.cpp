@@ -19,9 +19,11 @@
 **********************************************************************/
 
 #include "splashloader.h"
-#include "pics/splash.h"
+#include "splash.h"
 
 #include <qimage.h>
+
+struct Embed2;
 
 QPixmap splashScreen()
 {

@@ -133,7 +133,6 @@ void CloseButton::endProcess(KProcess *a_process)
 	emit widgetTextChanged(m_output);
 	m_output = "";
         delete a_process;
-
 }
 
 bool CloseButton::writeStdout() const

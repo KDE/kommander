@@ -81,7 +81,7 @@
 #include "database.h"
 #endif
 
-#define NO_STATIC_COLORS
+//#define NO_STATIC_COLORS
 #include "globaldefs.h"
 
 /* KOMMANDER INCLUDES */
