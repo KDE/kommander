@@ -105,59 +105,59 @@ void SpecialInformation::registerSpecials()
      i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each "
         "time loop is executed. Execution stops when variable becomes larger then <i>end</i>."));
   insert(Kommander::global, "global(QString variable)", 1,
-     i18n("Returns value of a global variable."));
+     i18n("Returns the value of a global variable."));
   insert(Kommander::i18n, "i18n(QString variable)", 1,
-     i18n("Translates string into current language."));
+     i18n("Translates the string into the current language."));
   insert(Kommander::dialog, "dialog(QString file, QString args)", 1,
-     i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given."));
+     i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"));
   insert(Kommander::readSetting, "readSetting(QString key, QString default)", 2,
      i18n("Reads setting from configration file for this dialog."));
   insert(Kommander::setGlobal, "setGlobal(QString variable, QString value)", 2,
-     i18n("Sets value of a global variable."));
+     i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."));
   insert(Kommander::writeSetting, "writeSetting(QString key, QString value)", 2,
      i18n("Stores setting in configuration file for this dialog."));
   insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)", 3,
-     i18n("Executes external DCOP call."));
+     i18n("Executes an external DCOP call."));
   
   insertGroup(Group::Array, "Array");
   insert(Array::values, "values(QString array)", 1, 
-    i18n("Returns EOL-separated list of all values in the array."));
+    i18n("Returns an EOL-separated list of all values in the array."));
   insert(Array::keys,"keys(QString array)", 1, 
-    i18n("Returns EOL-separated list of all keys in the array."));
+    i18n("Returns EOL-separated list of all keys in the array."));an 
   insert(Array::clear,"clear(QString array)", 1, 
     i18n("Removes all elements from the array."));
   insert(Array::count,"count(QString array)", 1, 
-    i18n("Returns number of elements in the array."));
+    i18n("Returns the number of elements in the array."));
   insert(Array::value, "value(QString array, QString key)", 2, 
-    i18n("Returns the value associated with given key."));
+    i18n("Returns the value associated with the given key."));
   insert(Array::remove,"remove(QString array, QString key)", 2, 
-    i18n("Removes element with given key from the array."));
+    i18n("Removes element with the given key from the array."));
   insert(Array::setValue,"setValue(QString array, QString key, QString value)", 3, 
-    i18n("Adds element with given key and value to the array"));
+    i18n("Adds element with the given key and value to the array"));
   insert(Array::fromString, "fromString(QString array, QString string)", 2, 
     i18n("Adds all elements in the string to the array. "
-    "String should have <i>key>\\tvalue\\n</i> format."));
+    "String should have <i>key\\tvalue\\n</i> format."));
   insert(Array::toString, "toString(QString array)", 1, 
-    i18n("Returns all elements in the array in <pre>key>\\tvalue\\n</pre> format."));
+    i18n("Returns all elements in the array in <pre>key\\tvalue\\n</pre> format."));
   
   
   insertGroup(Group::String, "String");
   insert(String::length, "length(QString string)", 1, 
     i18n("Returns number of chars in the string."));
   insert(String::contains, "contains(QString string, QString substring)", 2, 
-    i18n("Checks if the string contains given substring."));
+    i18n("Checks if the the string contains the given substring."));
   insert(String::find, "find(QString string, QString sought, int index)", 2, 
-    i18n("Returns position of a substring in the string, or -1 if it isn't found."));
+    i18n("Returns the position of a substring in the string, or -1 if it isn't found."));
   insert(String::left, "left(QString string, int n)", 2, 
-    i18n("Returns first <i>n</i> chars of the string."));
+    i18n("Returns the first <i>n</i> chars of the string."));
   insert(String::right, "right(QString string, int n)", 2, 
-    i18n("Returns last <i>n</i> chars of the string."));
+    i18n("Returns the last <i>n</i> chars of the string."));
   insert(String::mid, "mid(QString string, int start, int n)", 3, 
     i18n("Returns <i>n</i> chars of the string, starting from <i>start</i>."));
   insert(String::remove, "remove(QString string, QString substring)", 2, 
-    i18n("Replaces all occurencies of given substring."));
+    i18n("Removes all occurencies of given substring."));
   insert(String::replace, "replace(QString string, QString substring, QString replacement)", 3, 
-    i18n("Replaces all occurencies of given substring with given replacement."));
+    i18n("Replaces all occurencies of the given substring with the given replacement."));
   insert(String::upper, "upper(QString string)", 1, 
     i18n("Converts the string to uppercase."));
   insert(String::lower, "lower(QString string)", 1, 
