@@ -1,3 +1,6 @@
+Thu 14 Oct 2004 12:06:05 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added Timer widget
+
 Wed 13 Oct 2004 12:29:13 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added missing 'checked' function for RadioButton 
 	o added @String.findRev function for searching string backwards

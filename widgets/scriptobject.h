@@ -1,8 +1,9 @@
 /***************************************************************************
-                          ScriptObject.h - Widget for holding scripts 
+                          scriptobject.h - Widget for holding scripts 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002      Marc Britton <consume@optusnet.com.au>
+                           (C) 2003-2004 Michal Rudolf <mrudolf@kdewebdev.org>
+    
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,7 +25,6 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 
-class QShowEvent;
 class ScriptObject : public QLabel, public KommanderWidget
 {
   Q_OBJECT
