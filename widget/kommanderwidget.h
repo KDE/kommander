@@ -28,6 +28,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
+class ParserData;
 
 class KommanderWidget
 {
@@ -89,11 +90,16 @@ public:
   virtual bool isFunctionSupported(int function);
   // Checks if the function is common widget function (i. e. supported by all widgets)
   virtual bool isCommonFunction(int function);
+  // Checks if the string is a valid widget name)
+  virtual bool isWidget(const QString& a_name) const;
+
   
   // Recognizes editor vs executor mode
   static bool inEditor;
   // Prints errors in message boxes, not in stderr
   static bool showErrors;
+  // Default parser
+  static bool useInternalParser;
   // Return global variable value
   static QString global(const QString& variableName);
   // Set global variable value
@@ -137,6 +143,8 @@ protected:
   // Return parent dialog of this widget
   QWidget* parentDialog() const;
   QString substituteVariable(QString text, QString variable, QString value) const;
+   
+  ParserData* internalParserData();
       
   QObject *m_thisObject;
   QStringList m_states;
@@ -148,6 +156,8 @@ protected:
   static QMap<QString, QString> m_globals;
   // Global arrays 
   static QMap<QString, QMap<QString, QString> > m_arrays;
+  // Internal parser data
+  static ParserData* m_parserData;
 };
 
 

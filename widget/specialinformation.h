@@ -33,7 +33,7 @@ public:
          prefixed by widget name 
       ShowArgumentNames - show parameter names, not only types 
    */
-   enum PrototypeFlags {SkipFirstArgument = 1, ShowArgumentNames = 2};
+   enum PrototypeFlags {SkipFirstArgument = 1, ShowArgumentNames = 2, NoSpaces = 4};
    SpecialFunction(const QString& function, const QString& description
      = QString::null, int minArgs = -1, int maxArgs = -1);
    SpecialFunction()   {m_minArgs = m_maxArgs = 0;}
@@ -48,7 +48,7 @@ public:
    /* function name */
    QString name() const {return m_function;}
    /* function prototype: with parameter types and optional names */
-   QString prototype(uint prototypeFlags) const;
+   QString prototype(uint prototypeFlags = 0) const;
    /* i-th parameter name */
    QString argumentName(uint i) const;
    /* i-th parameter type */

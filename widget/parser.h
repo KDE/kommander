@@ -21,6 +21,8 @@
 #include <qvaluevector.h>
 #include <qmap.h>
 
+
+class KommanderWidget;
 class ParserData;
 
 class Parser
@@ -30,6 +32,8 @@ public:
   Parser(ParserData* data, const QString& expr);
   // set string to parse
   void setString(const QString& s);
+  // set Kommander widget associated with parser
+  void setWidget(KommanderWidget* w);
   
   // parse generic expression
   QString expression(Parse::Mode mode = Parse::Execute);
@@ -87,6 +91,8 @@ private:
   ParseNode parseExpression(Parse::Mode mode = Parse::Execute);
   // parse parameters
   ParseNode parseFunction(Parse::Mode mode = Parse::Execute);
+  // parse widget function
+  ParseNode parseWidget(Parse::Mode mode = Parse::Execute);
   
   // parse assignment
   void parseAssignment(Parse::Mode mode = Parse::Execute);
@@ -116,6 +122,8 @@ private:
   QString nextVariable();
   // check if next item is a function
   bool isFunction();
+  // check if next item is a widget
+  bool isWidget();
    
   // reset to default state
   void reset();
@@ -136,6 +144,8 @@ private:
   QMap<QString, ParseNode> m_variables;
   // arrays
   QMap<QString, QMap<QString, ParseNode> > m_arrays;
+  // Kommander 
+  KommanderWidget* m_widget;
 };
 
 #endif

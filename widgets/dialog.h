@@ -33,10 +33,14 @@ class Dialog : public QDialog, public KommanderWindow
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_PROPERTY(bool useInternalParser READ useInternalParser WRITE setUseInternalParser)
+  
 public:
   Dialog(QWidget *, const char *, bool=TRUE, int=0);
   ~Dialog();
   virtual bool isKommanderWidget() const;
+  virtual bool useInternalParser() const;
+  virtual void setUseInternalParser(bool b);
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;

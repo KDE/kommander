@@ -16,6 +16,7 @@
 
 #include "parser.h"
 #include "parserdata.h"
+#include "kommanderwidget.h"
 
 using namespace Parse;
 
@@ -24,11 +25,13 @@ QString unescape(QString s)
   return s.replace("\\\"", "\"").replace("\\t", "\t").replace("\\n", "\n").replace("\\\\", "\\");
 }
 
-Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(None), m_errorPosition(0)
+Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(None), m_errorPosition(0), 
+  m_widget(0)
 {
 }
   
-Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), m_error(None), m_errorPosition(0)
+Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), m_error(None), 
+  m_errorPosition(0), m_widget(0)
 {
   setString(expr);
 }
@@ -123,6 +126,11 @@ void Parser::setString(const QString& s)
     else qDebug("%d. %d/%s", i, m_parts[i].type(), m_parts[i].toString().latin1()); 
    }
   */
+}
+
+void Parser::setWidget(KommanderWidget* w)
+{
+  m_widget = w;  
 }
 
 void Parser::insertNode(ParseNode p, int line)
@@ -357,6 +365,7 @@ ParseNode Parser::parseFunction(Mode mode)
   Function f = m_data->function(next().variableName());
   m_start++;
   ParameterList params;
+  
   if (tryKeyword(LeftParenthesis, CheckOnly) && !tryKeyword(RightParenthesis, CheckOnly))
   {
     do {
@@ -364,16 +373,36 @@ ParseNode Parser::parseFunction(Mode mode)
     } while (tryKeyword(Comma, CheckOnly));
     tryKeyword(RightParenthesis);
   }
-  if (!f.isValid(params))
-    setError(IncorrectParams);
   else if (mode == Execute)
     return f.execute(params);
   return ParseNode();
 }
 
-
-
-
+ParseNode Parser::parseWidget(Mode mode)
+{
+  QString widget = nextVariable();
+  Function f = m_data->function("dcop");
+  
+  if (!tryKeyword(Dot))
+    return ParseNode();
+  QString var = nextVariable();
+  if (var.isNull())
+    return ParseNode();
+  ParameterList params;
+  params.append(var);
+  params.append(widget);
+  
+  if (tryKeyword(LeftParenthesis, CheckOnly) && !tryKeyword(RightParenthesis, CheckOnly))
+  {
+    do {
+      params.append(parseExpression(mode));
+    } while (tryKeyword(Comma, CheckOnly));
+    tryKeyword(RightParenthesis);
+  }
+  if (mode == Execute)
+    return f.execute(params);
+  return ParseNode();
+}
 
 
 void Parser::parseAssignment(Mode mode)
@@ -508,6 +537,8 @@ Flow Parser::parseCommand(Mode mode)
     return FlowBreak;
   else if (isFunction())
     parseFunction(mode);
+  else if (isWidget())
+    parseWidget(mode);
   else if (next().isVariable()) 
     parseAssignment(mode);
   return FlowStandard;
@@ -579,6 +610,12 @@ bool Parser::isFunction()
 {
   return next().isVariable() && m_data->isFunction(next().variableName());
 }
+
+bool Parser::isWidget()
+{
+  return m_widget && next().isVariable() && m_widget->isWidget(next().variableName());
+}
+
 
 void Parser::reset()
 {

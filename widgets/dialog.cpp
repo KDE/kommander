@@ -52,6 +52,17 @@ bool Dialog::isKommanderWidget() const
   return true;
 }
 
+bool Dialog::useInternalParser() const
+{
+  return KommanderWidget::useInternalParser; 
+}
+
+void Dialog::setUseInternalParser(bool b) 
+{
+  KommanderWidget::useInternalParser = b; 
+}
+
+
 QStringList Dialog::associatedText() const
 {
   return KommanderWidget::associatedText();

@@ -15,9 +15,16 @@
  ***************************************************************************/
 
 #include "parserdata.h"
-#include <qtextstream.h>
-#include <qfile.h>
+#include "specials.h"
+#include "specialinformation.h"
+
 #include <iostream>
+
+#include <qfile.h>
+#include <qtextstream.h>
+
+#include <dcopclient.h>
+#include <kapplication.h>
 
 using namespace Parse;
 
@@ -159,6 +166,82 @@ ParseNode fileAppend(const ParameterList& params)
 }
 
 
+
+/******************* DCOP function ********************************/
+ParseNode localDCOPQuery(const ParameterList& params)
+{
+  QCString appId = kapp->dcopClient()->appId();
+  QCString object = "KommanderIf";
+  SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
+  
+  if (!function.isValidArg(params.count() - 1))
+    return ParseNode();
+  
+  QByteArray byteData;
+  QDataStream byteDataStream(byteData, IO_WriteOnly);
+  for (uint i=0 ; i<params.count()-1; i++) 
+  {
+    if (function.argumentType(i) == "int")
+      byteDataStream << params[i+1].toInt();
+    else if (function.argumentType(i) == "long")
+      byteDataStream << params[i+1].toInt();
+    else if (function.argumentType(i) == "float")
+      byteDataStream << params[i+1].toDouble();
+    else if (function.argumentType(i) == "double")
+      byteDataStream << params[i+1].toDouble();
+    else if (function.argumentType(i) == "bool")
+      byteDataStream << (bool)params[i+1].toInt();
+    else if (function.argumentType(i) == "QStringList")
+      if (params[i].toString().find('\n') != -1)
+        byteDataStream << QStringList::split("\n", params[i+1].toString(), true);
+      else
+        byteDataStream << QStringList::split("\\n", params[i+1].toString(), true);
+    else 
+      byteDataStream << params[i+1].toString();
+  }
+  
+  QCString replyType, byteReply;
+  DCOPClient* cl = KApplication::dcopClient();
+  if (!cl || !cl->call(appId, object, function.prototype(SpecialFunction::NoSpaces).latin1(), 
+       byteData, replyType, byteReply))
+  {
+    //printError(i18n("Tried to perform DCOP query, but failed."));
+    qDebug("Failure");
+    return ParseNode();
+  }
+  QDataStream byteReplyStream(byteReply, IO_ReadOnly);
+  if (replyType == "QString")
+  {
+    QString text;
+    byteReplyStream >> text;
+    return text;
+  }
+  else if(replyType == "int")
+  {
+    int i;
+    byteReplyStream >> i;
+    return i;
+  }
+  else if(replyType == "bool")
+  {
+    bool b;
+    byteReplyStream >> b;
+    return b;
+  }
+  else if (replyType == "QStringList")
+  {
+    QStringList text;
+    byteReplyStream >> text;
+    return text.join("\n");
+  }
+  else if(replyType != "void")
+  {
+  //printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
+  }
+
+  return ParseNode();
+}
+
   
 void ParserData::registerStandardFunctions()
 {
@@ -182,5 +265,6 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_read", Function(&fileRead, ValueString, ValueString, 1, 1));
   registerFunction("file_write", Function(&fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&fileAppend, ValueInt, ValueString, ValueString, 2, 100));
+  registerFunction("dcop", Function(&localDCOPQuery, ValueString, ValueString, 1, 100));
 }
 

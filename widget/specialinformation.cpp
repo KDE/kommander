@@ -47,10 +47,12 @@ QString SpecialFunction::prototype(uint prototypeFlags) const
       params.append(QString("%1 %2").arg(m_types[i]).arg(m_args[i]));
     else
       params.append(m_types[i]);
-  if (params.count())
-     return QString("%1(%2)").arg(m_function).arg(params.join(", "));
+  if (!params.count())
+    return m_function;
+  else if (prototypeFlags & NoSpaces)
+    return QString("%1(%2)").arg(m_function).arg(params.join(","));
   else
-     return m_function;
+    return QString("%1(%2)").arg(m_function).arg(params.join(", "));
 }
 
 QString SpecialFunction::argumentName(uint i) const

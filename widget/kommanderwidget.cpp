@@ -47,7 +47,8 @@
 #include "kommanderwidget.h"
 #include "specials.h"
 #include "specialinformation.h"
-
+#include "parser.h"
+#include "parserdata.h"
 
 KommanderWidget::KommanderWidget(QObject *a_thisObject)
 {
@@ -122,6 +123,22 @@ QString KommanderWidget::evalAssociatedText() // expands and returns associated 
 
 QString KommanderWidget::evalAssociatedText(const QString& a_text)
 {
+  /* New internal parser is used if global flag is set */
+  if (KommanderWidget::useInternalParser)
+  {
+    Parser p(internalParserData());
+    p.setString(a_text);
+    p.setWidget(this);
+    if (!p.parse())
+    {
+      // FIXME add widget's name to KommanderWidget class      
+      printError(i18n("Line %1: error: %2\n").arg(p.errorLine()).arg(p.errorMessage()));
+      return QString::null;
+    }
+  }
+  
+  /* Old macro-only parser is implemented below  */
+  
   QString evalText;
   
   int pos = 0, baseTextLength = a_text.length();
@@ -504,6 +521,11 @@ QString KommanderWidget::parseQuotes(const QString& s) const
   else return s;
 }
 
+bool KommanderWidget::isWidget(const QString& a_name) const
+{
+  return parseWidget(a_name);  
+}
+
 KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
   if (QString(parentDialog()->name()) == widgetName) 
@@ -630,11 +652,19 @@ bool KommanderWidget::isFunctionSupported(int)
 
 bool KommanderWidget::isCommonFunction(int f)
 {
-  return f == DCOP::setEnabled or f == DCOP::setVisible or f == DCOP::children or f == DCOP::type;
+  return f == DCOP::setEnabled || f == DCOP::setVisible || f == DCOP::children || f == DCOP::type;
+}
+
+ParserData* KommanderWidget::internalParserData()
+{
+  return m_parserData;
 }
 
 
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
+bool KommanderWidget::useInternalParser = false;
 QMap<QString, QString> KommanderWidget::m_globals;
 QMap<QString, QMap<QString, QString> > KommanderWidget::m_arrays;
+ParserData* KommanderWidget::m_parserData = new ParserData;
+
