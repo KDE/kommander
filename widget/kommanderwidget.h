@@ -135,7 +135,7 @@ protected:
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
   // Return parent dialog of this widget
-  QObject* parentDialog() const;
+  QWidget* parentDialog() const;
   QString substituteVariable(QString text, QString variable, QString value) const;
       
   QObject *m_thisObject;

@@ -21,11 +21,11 @@
 #include <kapplication.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kdialogbase.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
 
 /* QT INCLUDES */
-#include <qapplication.h>
 #include <qcstring.h>
 #include <qdatastream.h>
 #include <qfileinfo.h>
@@ -72,7 +72,7 @@ QStringList KommanderWidget::associatedText() const
 
 bool KommanderWidget::hasAssociatedText()
 {
-  int index = (states().findIndex( currentState()));
+  int index = states().findIndex(currentState());
   if (index == -1 || m_associatedText[index].isEmpty())
     return false;
   return true;
@@ -361,8 +361,26 @@ void KommanderWidget::printError(const QString& a_error) const
 {
   if (showErrors) 
   {
-    KMessageBox::error(0, i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>")
-       .arg(QString(m_thisObject->name())).arg(a_error)); 
+    KDialogBase* dialog = new KDialogBase("Error", KDialogBase::Yes | KDialogBase::No | KDialogBase::Cancel,
+                KDialogBase::Yes, KDialogBase::No, 0, 0, true, false, 
+                i18n("Continue"), i18n("Continue and ignore next errors"), i18n("Stop"));
+    switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
+                i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>").arg(QString(m_thisObject->name()))
+                    .arg(a_error), QStringList(), QString::null, 0, 0))
+    {
+      case KDialogBase::No:
+        showErrors = false;
+      case KDialogBase::Yes:
+        break;
+      case KDialogBase::Cancel:
+        if (parentDialog()->inherits("QDialog"))
+        {
+          parentDialog()->close();
+          exit(-1);
+        }
+        else if (parentDialog()->inherits("QMainWindow"))
+          kapp->quit();
+    }
   }
   else 
   {
@@ -572,16 +590,16 @@ QString KommanderWidget::substituteVariable(QString text, QString variable, QStr
 
 
 
-QObject* KommanderWidget::parentDialog() const
+QWidget* KommanderWidget::parentDialog() const
 {
   QObject *superParent = m_thisObject;
   while (superParent->parent())
   {
     superParent = superParent->parent();
-    if (superParent->inherits("Dialog"))
+    if (superParent->inherits("QDialog") || superParent->inherits("QMainWindow"))
       break;
   }
-  return superParent;
+  return (QWidget*)superParent;
 }
 
 
