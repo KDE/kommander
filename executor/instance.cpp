@@ -2,8 +2,8 @@
                           instance.cpp  -  description
                              -------------------
     begin                : Tue Aug 13 2002
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optushome.com.au
+    copyright            : (C) 2002 by Marc Britton <consume@optushome.com.au>
+                           (C) 2004 by Andras Mantia <amantia@kde.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,6 +16,7 @@
  ***************************************************************************/
 
  /* KDE INCLUDES */
+#include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
@@ -27,18 +28,31 @@
 #include <qfile.h>
 #include <qiodevice.h>
 
+#include <qobjectlist.h>
+#include <qbutton.h>
+#include <qlabel.h>
+#include <qgroupbox.h>
+#include <qlistbox.h>
+#include <qcombobox.h>
+#include <qlineedit.h>
+#include <qtabwidget.h>
+#include <qcheckbox.h>
+#include <qradiobutton.h>
+#include <qspinbox.h>
+#include <qtextedit.h>
+
 /* OTHER INCLUDES */
 #include "instance.h"
 #include "../widgets/assoctextwidget.h"
 #include <kommanderfactory.h>
 
 Instance::Instance()
-  : m_instance(0), m_textInstance(0), m_uiFileName(""), m_parent(0)
+  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(""), m_parent(0)
 {
 }
 
 Instance::Instance(QString a_uiFileName, QWidget *a_parent)
-  : m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName), m_parent(a_parent)
+  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName), m_parent(a_parent)
 {
 }
 
@@ -146,4 +160,168 @@ void Instance::setParent(QWidget *a_parent)
 {
   m_parent = a_parent;
 }
+
+
+void Instance::enableWidget(const QString& widgetName, bool enable)
+{
+  QObjectList* children = m_instance->queryList("QWidget", widgetName);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    ((QWidget*)child)->setEnabled(enable);
+  }
+  delete children;
+}
+
+void Instance::changeWidgetText(const QString& widgetName, const QString& text)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    if (child->inherits("QButton"))
+      ((QButton*)child)->setText(text);
+    else if (child->inherits("QLabel"))
+      ((QLabel*)child)->setText(text);
+    else if (child->inherits("QGroupBox"))
+      ((QGroupBox*)child)->setTitle(text);
+    else if (child->inherits("QLineEdit"))
+      ((QLineEdit*)child)->setText(text);
+    else if (child->inherits("QTextEdit"))
+      ((QTextEdit*)child)->setText(text);
+    else if (child->inherits("QSpinBox"))
+      ((QSpinBox*)child)->setValue(text.toInt());
+  }
+  delete children;
+}
+
+void Instance::removeListItem(const QString &widgetName, int index)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    if (child->inherits("QListBox"))
+      ((QListBox*)child)->removeItem(index);
+    else if (child->inherits("QComboBox"))
+      ((QComboBox*)child)->removeItem(index);
+  }
+  delete children;
+}
+
+void Instance::addListItem(const QString &widgetName, const QString &item, int index)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    if (child->inherits("QListBox"))
+      ((QListBox*)child)->insertItem(item, index);
+    else if (child->inherits("QComboBox"))
+      ((QComboBox*)child)->insertItem(item, index);
+  }
+  delete children;
+}
+
+void Instance::addListItems(const QString &widgetName, const QStringList &items, int index)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    if (child->inherits("QListBox"))
+      ((QListBox*)child)->insertStringList(items, index);
+    else if (child->inherits("QComboBox"))
+      ((QComboBox*)child)->insertStringList(items, index);
+  }
+  delete children;
+}
+
+void Instance::clearList(const QString &widgetName)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    if (child->inherits("QListBox"))
+      ((QListBox*)child)->clear();
+    else if (child->inherits("QComboBox"))
+      ((QComboBox*)child)->clear();
+  }
+  delete children;
+}
+
+void Instance::setCurrentListItem(const QString& widgetName, int index)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    if (child->inherits("QListBox"))
+      ((QListBox*)child)->setCurrentItem(index);
+    else if (child->inherits("QComboBox"))
+      ((QComboBox*)child)->setCurrentItem(index);
+  }
+  delete children;
+}
+
+void Instance::setCurrentTab(const QString &widgetName, int index)
+{
+  QObjectList* children = m_instance->queryList("QTabWidget", widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+   ((QTabWidget*)child)->setCurrentPage(index);
+  }
+  delete children;
+}
+
+void Instance::setChecked(const QString &widgetName, bool checked)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  for (child = children->first(); child; child = children->next())
+  {
+    if (child->inherits("QCheckBox"))
+      ((QCheckBox*)child)->setChecked(checked);
+    else if (child->inherits("QRadioButton"))
+      ((QRadioButton*)child)->setChecked(checked);
+  }
+  delete children;
+}
+
+void Instance::setAssociatedText(const QString &widgetName, const QString &text)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  AssocTextWidget *assoctextwidget;
+  for (child = children->first(); child; child = children->next())
+  {
+    assoctextwidget = dynamic_cast<AssocTextWidget*>(child);
+    if (assoctextwidget)
+    {
+      assoctextwidget->setAssociatedText(QStringList::split('\n', text, true));
+    }
+  }
+  delete children;
+}
+
+QStringList Instance::associatedText(const QString &widgetName)
+{
+  QObjectList* children = m_instance->queryList(0, widgetName, false);
+  QObject *child;
+  AssocTextWidget *assoctextwidget;
+  QStringList result;
+  for (child = children->first(); child; child = children->next())
+  {
+    assoctextwidget = dynamic_cast<AssocTextWidget*>(child);
+    if (assoctextwidget)
+    {
+      result = assoctextwidget->associatedText();
+    }
+  }
+  delete children;
+  return result;
+}
+
 #include "instance.moc"

@@ -13,7 +13,9 @@
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <description></description>
-    <ignoreparts/>
+    <ignoreparts>
+      <part>KDevDoxygen</part>
+    </ignoreparts>
     <secondaryLanguages/>
   </general>
   <kdevfileview>
@@ -23,7 +25,6 @@
       <group pattern="*.png" name="Icons" />
       <group pattern="*.po;*.ts" name="Translations" />
       <group pattern="*" name="Others" />
-      <hidenonprojectfiles>false</hidenonprojectfiles>
     </groups>
     <tree>
       <hidenonprojectfiles>false</hidenonprojectfiles>
@@ -50,7 +51,7 @@
   <kdevdebugger>
     <general>
       <dbgshell></dbgshell>
-      <programargs>/home/andris/test.kmdr</programargs>
+      <programargs>/home/andris/development/quanta/quanta/quanta/scripts/htmlquickstart.kmdr</programargs>
       <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
@@ -90,8 +91,8 @@
     <configurations>
       <default>
         <configargs>--with-kommander --enable-debug=full</configargs>
-        <builddir>/home/andris/development/build/kde-head/quanta-be/kommander</builddir>
-        <topsourcedir>/home/andris/development/quanta/quanta-be</topsourcedir>
+        <builddir>/home/andris/development/build/kde-head/kdewebdev</builddir>
+        <topsourcedir>/home/andris/development/quanta/quanta</topsourcedir>
         <cppflags></cppflags>
         <ldflags></ldflags>
         <ccompiler>kdevgccoptions</ccompiler>
@@ -106,8 +107,8 @@
       </default>
     </configurations>
     <run>
-      <mainprogram>executor/.libs/kmdr-executor</mainprogram>
-      <programargs>/home/andris/test.kmdr</programargs>
+      <mainprogram>kommander/executor/.libs/kmdr-executor</mainprogram>
+      <programargs>/home/andris/development/quanta/quanta/quanta/scripts/tidy.kmdr</programargs>
       <terminal>false</terminal>
       <envvars/>
       <directoryradio>build</directoryradio>

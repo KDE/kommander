@@ -2,8 +2,8 @@
                           instance.h  -  description
                              -------------------
     begin                : Tue Aug 13 2002
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optushome.com.au
+    copyright            : (C) 2002 by Marc Britton <consume@optushome.com.au>
+                           (C) 2004 by Andras Mantia <amantia@kde.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -25,6 +25,8 @@
 
 /* OTHER INCLUDES */
 
+#include "dcopkommanderif.h"
+
 /* FORWARD DECLARATIONS */
 class QWidget;
 class AssocTextWidget;
@@ -36,14 +38,28 @@ class QFile;
   */
 
 /* CLASS DEFINITION*/
-class Instance : public QObject
+class Instance : public QObject, virtual public DCOPKommanderIf
 {
   Q_OBJECT
   
 public: 
-	Instance();
+  Instance();
   Instance(QString, QWidget *);
-	~Instance();
+  ~Instance();
+
+//DCOP methods  
+  virtual void enableWidget(const QString& widgetName, bool enable);  
+  virtual void changeWidgetText(const QString& widgetName, const QString& text);      
+  virtual void removeListItem(const QString &widgetName, int index);
+  virtual void addListItem(const QString &widgetName, const QString &item, int index);
+  virtual void addListItems(const QString &widgetName, const QStringList &items, int index);
+  virtual void clearList(const QString &widgetName);
+  virtual void setCurrentListItem(const QString& widgetName, int index);
+  virtual void setCurrentTab(const QString &widgetName, int index);
+  virtual void setChecked(const QString &widgetName, bool checked);
+  virtual void setAssociatedText(const QString &widgetName, const QString &text);
+  virtual QStringList associatedText(const QString &widgetName);
+   
 public slots:
   /** Builds the instance then runs*/
   bool run(QFile * =0);

@@ -1,3 +1,5 @@
+Thu Jan 29 13:48:49 2004 - Andras Mantia <amantia@kde.org>
+        o DCOP methods for modifying the widgets
 
 Sat Nov  1 17:00:03 AEST 2003
 	o New widget plugin system KommanderPlugin and KommanderFactory
