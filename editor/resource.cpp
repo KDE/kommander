@@ -278,23 +278,10 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
 	    metaVariables << e.firstChild().toText().data();
 	} else if ( e.tagName() == "author" ) {
 	    metaInfo.author = e.firstChild().toText().data();
-	} else if ( e.tagName() == "class" ) {
-	    metaInfo.className = e.firstChild().toText().data();
-	} else if ( e.tagName() == "pixmapfunction" ) {
-	    if ( formwindow ) {
-		formwindow->setSavePixmapInline( FALSE );
-#ifndef KOMMANDER
-		formwindow->setSavePixmapInProject( FALSE );
-#endif
-		formwindow->setPixmapLoaderFunction( e.firstChild().toText().data() );
-	    }
-	} else if ( e.tagName() == "pixmapinproject" ) {
-	    if ( formwindow ) {
-		formwindow->setSavePixmapInline( FALSE );
-#ifndef KOMMANDER
-		formwindow->setSavePixmapInProject( TRUE );
-#endif
-	    }
+  } else if ( e.tagName() == "version" ) {
+    metaInfo.version = e.firstChild().toText().data();
+  } else if ( e.tagName() == "license" ) {
+    metaInfo.license = e.firstChild().toText().data();
 	} else if ( e.tagName() == "exportmacro" ) {
 	    exportMacro = e.firstChild().toText().data();
 	} else if ( e.tagName() == "layoutdefaults" ) {
@@ -389,29 +376,17 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
 
     if ( !connections.isNull() )
 	loadConnections( connections );
-#ifndef KOMMANDER
-    if ( !functions.isNull() )
-
-	loadFunctions( functions );
-#endif
     if ( !tabOrder.isNull() )
 	loadTabOrder( tabOrder );
 
     if ( formwindow ) {
 	MetaDataBase::setIncludes( formwindow, metaIncludes );
 	MetaDataBase::setForwards( formwindow, metaForwards );
-#ifndef KOMMANDER
-    MetaDataBase::setVariables( formwindow, metaVariables );
-#endif
 	MetaDataBase::setSignalList( formwindow, metaSignals );
-	metaInfo.classNameChanged = metaInfo.className != QString( formwindow->name() );
 	MetaDataBase::setMetaInfo( formwindow, metaInfo );
 	MetaDataBase::setExportMacro( formwindow->mainContainer(), exportMacro );
     }
 
-#ifndef KOMMANDER
-    loadExtraSource();
-#endif
 
     if ( mainwindow && formwindow )
     {
@@ -473,9 +448,6 @@ bool Resource::save( QIODevice* dev )
     saveTabOrder( ts, 0 );
     saveMetaInfoAfter( ts, 0 );
     ts << "</UI>" << endl;
-#ifndef KOMMANDER
-    saveFormCode();
-#endif
     images.clear();
 
     return TRUE;
@@ -2234,35 +2206,25 @@ void Resource::loadTabOrder( const QDomElement &e )
 
 void Resource::saveMetaInfoBefore( QTextStream &ts, int indent )
 {
-    MetaDataBase::MetaInfo info = MetaDataBase::metaInfo( formwindow );
-    QString cn;
-    if ( info.classNameChanged && !info.className.isEmpty() )
-	cn = info.className;
-    else
-	cn = formwindow->name();
-    ts << makeIndent( indent ) << "<class>" << entitize( cn ) << "</class>" << endl;
-    if ( !info.comment.isEmpty() )
-	ts << makeIndent( indent ) << "<comment>" << entitize( info.comment ) << "</comment>" << endl;
-    if ( !info.author.isEmpty() )
-	ts << makeIndent( indent ) << "<author>" << entitize( info.author ) << "</author>" << endl;
+  MetaDataBase::MetaInfo info = MetaDataBase::metaInfo(formwindow);
+  QString cn = formwindow->name();
+  ts << makeIndent(indent) << "<class>" << entitize(cn) << "</class>" << endl;
+  if (!info.comment.isEmpty())
+    ts << makeIndent(indent) << "<comment>" << entitize(info.comment) << "</comment>" << endl;
+  if (!info.author.isEmpty())
+    ts << makeIndent(indent) << "<author>" << entitize(info.author) << "</author>" << endl;
+  if (!info.license.isEmpty())
+    ts << makeIndent(indent) << "<license>" << entitize(info.license) << "</license>" << endl;
+  if (!info.version.isEmpty())
+    ts << makeIndent(indent) << "<version>" << entitize(info.version) << "</version>" << endl;
 }
 
 void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 {
     MetaDataBase::MetaInfo info = MetaDataBase::metaInfo( formwindow );
-#ifndef KOMMANDER
-    if ( !langIface || formwindow->project()->language() == "C++" ) {
-#endif
 	QValueList<MetaDataBase::Include> includes = MetaDataBase::includes( formwindow );
 	QString extensionInclude;
 	bool needExtensionInclude = FALSE;
-#ifndef KOMMANDER
-	if ( langIface && formwindow->project()->language() == "C++"  &&
-	     formwindow->formFile()->hasFormCode() ) {
-	    extensionInclude = QFileInfo( currFileName ).fileName() + langIface->formCodeExtension();
-	    needExtensionInclude = TRUE;
-	}
-#endif
 	if ( !includes.isEmpty() || needExtensionInclude ) {
 	    ts << makeIndent( indent ) << "<includes>" << endl;
 	    indent++;
@@ -2290,17 +2252,6 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 	    indent--;
 	    ts << makeIndent( indent ) << "</forwards>" << endl;
 	}
-#ifndef KOMMANDER
-	QStringList vars = MetaDataBase::variables( formwindow );
-	if ( !vars.isEmpty() ) {
-	    ts << makeIndent( indent ) << "<variables>" << endl;
-	    indent++;
-	    for ( QStringList::Iterator it3 = vars.begin(); it3 != vars.end(); ++it3 )
-		ts << makeIndent( indent ) << "<variable>" << entitize( *it3 ) << "</variable>" << endl;
-	    indent--;
-	    ts << makeIndent( indent ) << "</variables>" << endl;
-	}
-#endif
 	QStringList sigs = MetaDataBase::signalList( formwindow );
 	if ( !sigs.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<signals>" << endl;
@@ -2338,10 +2289,6 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 
     if ( formwindow && formwindow->savePixmapInline() )
 	;
-#ifndef KOMMANDER
-    else if ( formwindow && formwindow->savePixmapInProject() )
-	ts << makeIndent( indent ) << "<pixmapinproject/>" << endl;
-#endif
     else
 	ts << makeIndent( indent ) << "<pixmapfunction>" << formwindow->pixmapLoaderFunction() << "</pixmapfunction>" << endl;
     if ( !( exportMacro = MetaDataBase::exportMacro( formwindow->mainContainer() ) ).isEmpty() )

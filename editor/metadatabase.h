@@ -35,9 +35,6 @@
 
 class QObject;
 class QPixmap;
-#ifndef KOMMANDER
-//struct LanguageInterface;
-#endif
 
 class MetaDataBase
 {
@@ -118,10 +115,10 @@ public:
 
     struct MetaInfo
     {
-	QString className;
-	bool classNameChanged;
-	QString comment;
-	QString author;
+      QString license;
+      QString version;
+      QString comment;
+      QString author;
     };
 
     struct EventDescription
@@ -190,11 +187,6 @@ public:
 
     static void setForwards( QObject *o, const QStringList &fwds );
     static QStringList forwards( QObject *o );
-#ifndef KOMMANDER
-
-//    static void setVariables( QObject *o, const QStringList &vars );
-//    static QStringList variables( QObject *o );
-#endif
 
     static void setSignalList( QObject *o, const QStringList &sigs );
     static QStringList signalList( QObject *o );
@@ -216,55 +208,14 @@ public:
     static void setColumnFields( QObject *o, const QMap<QString, QString> &columnFields );
     static QMap<QString, QString> columnFields( QObject *o );
 
-#ifndef KOMMANDER
-//    static bool hasEvents( const QString &lang );
-#endif
-
-#ifndef KOMMANDER
-//    static void setEditor( const QStringList &langs );
- //   static bool hasEditor( const QString &lang );
-#endif
-
-#ifndef KOMMANDER
-//    static QValueList<EventDescription> events( QObject *o, const QString &lang );
-//    static bool setEventFunctions( QObject *o, QObject *form, const QString &lang,
-//   const QString &event, const QStringList &functions, bool = TRUE );
- //   static QStringList eventFunctions( QObject *o, const QString &event, const QString &lang );
-//    static bool hasEventFunctions( QObject *o );
-//    static QMap<QString, QStringList> eventFunctions( QObject *o );
-//    static void setFunctionBodies( QObject *o, const QMap<QString, QString> &bodies, const QString &lang, const QString &returnType );
-//    static void addFunctionBody( QObject *o, const QString &func, const QString &body );
-//    static void setFunctionComments( QObject *o, const QString &func, const QString &comments );
-//    static QMap<QString, QString> functionBodies( QObject *o );
-//    static QString functionComments( QObject *o, const QString &func );
-#endif
-
-#ifndef KOMMANDER
-//    static void setupInterfaceManagers();
-//    static QStringList languages();
-#endif
-
-#ifndef KOMMANDER
-//    static LanguageInterface *languageInterface( const QString &lang );
-#endif
-
     static QString normalizeSlot( const QString &slot );
 
     static void clear( QObject *o );
-
-#ifndef KOMMANDER
-    static void setBreakPoints( QObject *o, const QValueList<int> &l );
-    static QValueList<int> breakPoints( QObject *o );
-#endif
 
     static void setExportMacro( QObject *o, const QString &macro );
     static QString exportMacro( QObject *o );
 
     static bool hasObject( QObject *o );
-
-#ifndef KOMMANDER
-    static void functionNameChanged( QObject *o, const QString &oldName, const QString &newName );
-#endif
 
 };
 
