@@ -65,6 +65,8 @@
 #include <kstdguiitem.h>
 #include <kurl.h>
 
+#include <stdlib.h>
+
 const QString toolbarHelp = "<p>Toolbars contain a number of buttons to "
 "provide quick access to often used functions.%1"
 "<br>Click on the toolbar handle to hide the toolbar, "
