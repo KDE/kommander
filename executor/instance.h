@@ -93,7 +93,7 @@ public slots:
   void registerSpecials();
 protected:
   /* Dialog Instance */
-  QDialog *m_instance;
+  QWidget *m_instance;
   /* Associated Text Instance */
   KommanderWidget *m_textInstance;
   /* UI Dialog file name to open */

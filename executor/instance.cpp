@@ -20,6 +20,8 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kapplication.h>
+
 
 /* QT INCLUDES */
 #include <qdialog.h>
@@ -42,6 +44,7 @@
 #include <qradiobutton.h>
 #include <qspinbox.h>
 #include <qtextedit.h>
+#include <qmainwindow.h>
 
 /* OTHER INCLUDES */
 #include "instance.h"
@@ -99,7 +102,7 @@ bool Instance::build()
 
   // create the main instance, must inherit QDialog
   KommanderFactory::loadPlugins();
-  m_instance = (QDialog*)KommanderFactory::create(m_uiFileName.path());
+  m_instance = KommanderFactory::create(m_uiFileName.path());
   if (!m_instance)
   {
     KMessageBox::sorry(0, i18n("<qt>Unable to create dialog from "
@@ -123,7 +126,7 @@ bool Instance::build(QFile *a_file)
   m_instance = 0;
 
   KommanderFactory::loadPlugins();
-  m_instance = (QDialog *)KommanderFactory::create(a_file);
+  m_instance = KommanderFactory::create(a_file);
   if (!m_instance)
   {
     KMessageBox::sorry(0, i18n("Unable to create dialog from input."));
@@ -161,7 +164,14 @@ bool Instance::run(QFile *a_file)
     else if(a_file && !build(a_file))
       return false;
 
-  m_instance->exec();
+  if (m_instance->inherits("QDialog"))
+    ((QDialog*)m_instance)->exec();
+  else if (m_instance->inherits("QMainWindow"))
+  {
+    kapp->setMainWidget(m_instance);
+    ((QMainWindow*)m_instance)->show();
+    kapp->exec();
+  }
   return true;
 }
 
