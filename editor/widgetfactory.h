@@ -173,7 +173,7 @@ class QDesignerWizard : public QWizard
     Q_PROPERTY( QCString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
 public:
     QDesignerWizard( QWidget *parent, const char *name ) : QWizard( parent, name ) {}
-
+    
     int currentPageNum() const;
     void setCurrentPage( int i );
     QString pageTitle() const;
