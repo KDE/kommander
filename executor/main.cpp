@@ -50,7 +50,7 @@ static const char *description =
 static KCmdLineOptions options[] =
 {
   { "!stdin", I18N_NOOP("Read dialog from standard input"), 0},
-  { "c <catalogue>", I18N_NOOP("Use given catalogue for translation"), 0},      
+  { "c <catalog>", I18N_NOOP("Use given catalog for translation"), 0},      
   { "+[file]", I18N_NOOP("Dialog to open"), 0 },
   KCmdLineLastOption
 };
