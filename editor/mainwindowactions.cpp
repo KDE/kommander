@@ -144,7 +144,7 @@ void MainWindow::setupEditActions()
   actionEditConnections->setWhatsThis(whatsThisFrom("Edit|Connections"));
   connect(this, SIGNAL(hasActiveForm(bool)), actionEditConnections, SLOT(setEnabled(bool)));
 
-  actionEditFormSettings = new KAction(i18n("Form Settings"), KShortcut::null(),
+  actionEditFormSettings = new KAction(i18n("Form Settings..."), KShortcut::null(),
                                        this, SLOT(editFormSettings()), actionCollection(), "edit_form");
   actionEditFormSettings->setToolTip(i18n("Opens a dialog to change the form's settings"));
   actionEditFormSettings->setWhatsThis(whatsThisFrom("Edit|Form Settings"));
@@ -357,6 +357,11 @@ void MainWindow::setupToolActions()
     }
   }
 
+//  FIXME: parse external Kommander dialogs
+  QPopupMenu *editmenu = new QPopupMenu(this);
+  if (editmenu->count())
+    mmenu->insertItem(i18n("Editor"), editmenu);
+  
   resetTool();
 }
 
