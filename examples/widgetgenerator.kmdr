@@ -8,62 +8,64 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>469</width>
-            <height>230</height>
+            <width>470</width>
+            <height>267</height>
         </rect>
     </property>
     <property name="caption">
         <string>Kommander Widget Source Generator</string>
     </property>
-    <widget class="QLayoutWidget">
+    <grid>
         <property name="name">
-            <cstring>Layout12</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>11</x>
-                <y>190</y>
-                <width>447</width>
-                <height>29</height>
-            </rect>
+        <property name="margin">
+            <number>11</number>
         </property>
-        <hbox>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>Layout12</cstring>
             </property>
-            <property name="margin">
-                <number>0</number>
-            </property>
-            <property name="spacing">
-                <number>24</number>
-            </property>
-            <spacer>
+            <hbox>
                 <property name="name">
-                    <cstring>Spacer2</cstring>
+                    <cstring>unnamed</cstring>
                 </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
+                <property name="margin">
+                    <number>0</number>
                 </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
+                <property name="spacing">
+                    <number>24</number>
                 </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>30</width>
-                        <height>0</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="ExecButton">
-                <property name="name">
-                    <cstring>ExecButton1</cstring>
-                </property>
-                <property name="text">
-                    <string>Save</string>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Save</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>
 classNameLower=$(echo '@className' | tr "A-Z" "a-z")
 classNameUpper=$(echo '@className' | tr "a-z" "A-Z")
 inheritClassHeader=$(echo '@inheritClassName' | tr "A-Z" "a-z")
@@ -239,213 +241,198 @@ void @className::showEvent( QShowEvent *e )
 
 echo "$headerContent" &gt; @directory/$classNameLower.h
 echo "$cppContent" &gt; @directory/$classNameLower.cpp</string>
-                    </stringlist>
-                </property>
-                <property name="writeStdout">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="CloseButton">
-                <property name="name">
-                    <cstring>CloseButton1</cstring>
-                </property>
-                <property name="text">
-                    <string>Close</string>
-                </property>
-            </widget>
-            <spacer>
-                <property name="name">
-                    <cstring>Spacer3</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>30</width>
-                        <height>0</height>
-                    </size>
-                </property>
-            </spacer>
-        </hbox>
-    </widget>
-    <widget class="QLayoutWidget">
-        <property name="name">
-            <cstring>Layout37</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>12</x>
-                <y>12</y>
-                <width>112</width>
-                <height>171</height>
-            </rect>
-        </property>
-        <vbox>
+                        </stringlist>
+                    </property>
+                    <property name="writeStdout">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="CloseButton">
+                    <property name="name">
+                        <cstring>CloseButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Close</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>Layout37</cstring>
             </property>
-            <property name="margin">
-                <number>0</number>
-            </property>
-            <property name="spacing">
-                <number>6</number>
-            </property>
-            <widget class="QLabel">
+            <vbox>
                 <property name="name">
-                    <cstring>TextLabel1</cstring>
+                    <cstring>unnamed</cstring>
                 </property>
-                <property name="text">
-                    <string>Author:</string>
+                <property name="margin">
+                    <number>0</number>
                 </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel6</cstring>
+                <property name="spacing">
+                    <number>6</number>
                 </property>
-                <property name="text">
-                    <string>Email:</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel2</cstring>
-                </property>
-                <property name="text">
-                    <string>Description:</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel3</cstring>
-                </property>
-                <property name="text">
-                    <string>Date Started:</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel4</cstring>
-                </property>
-                <property name="text">
-                    <string>Class Name:</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel7</cstring>
-                </property>
-                <property name="text">
-                    <string>Base Class Name</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel5</cstring>
-                </property>
-                <property name="text">
-                    <string>Directory to Save In:</string>
-                </property>
-            </widget>
-        </vbox>
-    </widget>
-    <widget class="QLayoutWidget">
-        <property name="name">
-            <cstring>Layout36</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>130</x>
-                <y>12</y>
-                <width>327</width>
-                <height>171</height>
-            </rect>
-        </property>
-        <vbox>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Author:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Email:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Description:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Date Started:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Class Name:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel7</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Base Class Name</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Directory to Save In:</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="1">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>Layout36</cstring>
             </property>
-            <property name="margin">
-                <number>0</number>
-            </property>
-            <property name="spacing">
-                <number>6</number>
-            </property>
-            <widget class="LineEdit">
+            <vbox>
                 <property name="name">
-                    <cstring>author</cstring>
+                    <cstring>unnamed</cstring>
                 </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
+                <property name="margin">
+                    <number>0</number>
                 </property>
-            </widget>
-            <widget class="LineEdit">
-                <property name="name">
-                    <cstring>email</cstring>
+                <property name="spacing">
+                    <number>6</number>
                 </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="LineEdit">
-                <property name="name">
-                    <cstring>description</cstring>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="LineEdit">
-                <property name="name">
-                    <cstring>dateStarted</cstring>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="LineEdit">
-                <property name="name">
-                    <cstring>className</cstring>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="LineEdit">
-                <property name="name">
-                    <cstring>inheritClassName</cstring>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-            <widget class="FileSelector">
-                <property name="name">
-                    <cstring>directory</cstring>
-                </property>
-                <property name="associations" stdset="0">
-                    <stringlist>
-                        <string>@widgetText</string>
-                    </stringlist>
-                </property>
-            </widget>
-        </vbox>
-    </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>author</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>email</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>description</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>dateStarted</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>className</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>inheritClassName</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="FileSelector">
+                    <property name="name">
+                        <cstring>directory</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
