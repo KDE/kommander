@@ -211,13 +211,15 @@ void AssocTextEditor::buildWidgetList()
 void AssocTextEditor::buildFunctionList()
 {
   functionComboBox->insertItem("@dcop()");
-  functionComboBox->insertItem("@dexec()");
   functionComboBox->insertItem("@dcopid");
-  functionComboBox->insertItem("@pid");
+  functionComboBox->insertItem("@exec()");
+  functionComboBox->insertItem("@global()");
   functionComboBox->insertItem("@parentPid");
-  functionComboBox->insertItem("@widgetText");
-  functionComboBox->insertItem("@selectedWidgetText");
+  functionComboBox->insertItem("@pid");
   functionComboBox->insertItem("@readSetting()");
+  functionComboBox->insertItem("@selectedWidgetText");
+  functionComboBox->insertItem("@setGlobal");
+  functionComboBox->insertItem("@widgetText");
   functionComboBox->insertItem("@writeSetting()");
 }
 
