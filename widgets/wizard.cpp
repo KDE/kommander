@@ -9,7 +9,7 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
-#include "ewidgetfactory.cpp"
+#include "ewidgetfactory.h"
 #include "assoctextwidget.h"
 #include "wizard.h"
 
