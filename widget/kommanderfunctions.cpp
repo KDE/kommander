@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
+#include <cstdlib> // getenv()
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kconfig.h>
