@@ -19,6 +19,7 @@
 #include <kfiledialog.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
+#include <kurlcompletion.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -41,6 +42,7 @@ FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
   setDisplayStates(states);
 
   m_lineEdit = new KLineEdit(this);
+  
   m_selectButton = new KPushButton("...", this);
 
   m_boxLayout = new QHBoxLayout(this, 0, 11);
@@ -129,6 +131,12 @@ FileSelector::SelectionType FileSelector::selectionType() const
 void FileSelector::setSelectionType(SelectionType a_selectionType)
 {
   m_selectionType = a_selectionType;
+  delete m_lineEdit->completionObject();
+  if (m_selectionType == Directory) 
+     m_lineEdit->setCompletionObject(new KURLCompletion(KURLCompletion::DirCompletion));
+  else
+     m_lineEdit->setCompletionObject(new KURLCompletion(KURLCompletion::FileCompletion));
+  
 }
 
 QString FileSelector::selectionFilter() const
