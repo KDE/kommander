@@ -1,4 +1,4 @@
-Sun 04 May 2003 07:38:42 PM EEST - Andras Mantia <amantia@freemail.hu>
+Sun 04 May 2003 07:38:42 PM EEST - Andras Mantia <amantia@kde.org>
 	o do not add the .kmdr extension to files ending with .kmdr
 	o remove some warning/error messages polluting the output
 	o flush the stdout buffer after writing to it
