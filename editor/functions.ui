@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Function browser</string>
+        <string>Function Browser</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>true</bool>
