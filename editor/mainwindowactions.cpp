@@ -444,12 +444,12 @@ void MainWindow::setupWindowActions()
   {
     windowActionsSetup = true;
 
-    actionWindowTile = new KAction(i18n("Tile"), KShortcut::null(), qworkspace, SLOT(tile()), 
+    KAction* actionWindowTile = new KAction(i18n("Tile"), KShortcut::null(), qworkspace, SLOT(tile()), 
                                    actionCollection(), "window_tile");
     actionWindowTile->setToolTip(i18n("Tiles the windows so that they are all visible"));
     actionWindowTile->setWhatsThis(whatsThisFrom("Window|Tile"));
     
-    actionWindowCascade = new KAction(i18n("Cascade"), KShortcut::null(), qworkspace, SLOT(cascade()), 
+    KAction* actionWindowCascade = new KAction(i18n("Cascade"), KShortcut::null(), qworkspace, SLOT(cascade()), 
                                       actionCollection(), "window_cascade");
     actionWindowCascade->setToolTip(i18n("Cascades the windows so that all their title bars are visible"));
     actionWindowCascade->setWhatsThis(whatsThisFrom("Window|Cascade"));
@@ -464,12 +464,12 @@ void MainWindow::setupWindowActions()
     actionWindowCloseAll->setToolTip(i18n("Closes all form windows"));
     actionWindowCloseAll->setWhatsThis(whatsThisFrom("Window|Close All"));
     
-    actionWindowNext = new KAction(i18n("Next"), Key_F6, qworkspace, 
+    KAction* actionWindowNext = new KAction(i18n("Next"), Key_F6, qworkspace, 
                                    SLOT(activateNextWindow()), actionCollection(), "window_next");
     actionWindowNext->setToolTip(i18n("Activates the next window"));
     actionWindowNext->setWhatsThis(whatsThisFrom("Window|Next"));
     
-    actionWindowPrevious = new KAction(i18n("Previous"), CTRL + SHIFT + Key_F6, qworkspace, 
+    KAction* actionWindowPrevious = new KAction(i18n("Previous"), CTRL + SHIFT + Key_F6, qworkspace, 
                                        SLOT(activatePreviousWindow()), actionCollection(), "window_prev");
     actionWindowPrevious->setToolTip(i18n("Activates the previous window"));
     actionWindowPrevious->setWhatsThis(whatsThisFrom("Window|Previous"));
