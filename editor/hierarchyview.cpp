@@ -206,8 +206,8 @@ HierarchyList::HierarchyList( QWidget *parent, FormWindow *fw, bool doConnects )
     header()->setStretchEnabled( TRUE );
     normalMenu = 0;
     tabWidgetMenu = 0;
-    addColumn( i18n("Name" ) );
-    addColumn( i18n("Class" ) );
+    addColumn( i18n( "Name" ) );
+    addColumn( i18n( "Class" ) );
     QPalette p( palette() );
     p.setColor( QColorGroup::Base, QColor( *backColor2 ) );
     (void)*selectedBack; // hack
@@ -351,7 +351,7 @@ void HierarchyList::setup()
 #ifndef QT_NO_SQL
     if ( formWindow->isDatabaseAware() ) {
   if ( columns() == 2 ) {
-      addColumn( i18n("Database" ) );
+      addColumn( i18n( "Database" ) );
       header()->resizeSection( 0, 1 );
       header()->resizeSection( 1, 1 );
       header()->resizeSection( 2, 1 );
@@ -523,13 +523,13 @@ void HierarchyList::addTabPage()
   return;
     if ( w->inherits( "QTabWidget" ) ) {
   QTabWidget *tw = (QTabWidget*)w;
-  AddTabPageCommand *cmd = new AddTabPageCommand( i18n("Add Page to %1" ).arg( tw->name() ), formWindow,
+  AddTabPageCommand *cmd = new AddTabPageCommand( i18n( "Add Page to %1" ).arg( tw->name() ), formWindow,
               tw, "Tab" );
   formWindow->commandHistory()->addCommand( cmd );
   cmd->execute();
     } else if ( w->inherits( "QWizard" ) ) {
   QWizard *wiz = (QWizard*)formWindow->mainContainer();
-  AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n("Add Page to %1" ).arg( wiz->name() ), formWindow,
+  AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n( "Add Page to %1" ).arg( wiz->name() ), formWindow,
                     wiz, "Page" );
   formWindow->commandHistory()->addCommand( cmd );
   cmd->execute();
@@ -545,7 +545,7 @@ void HierarchyList::removeTabPage()
   QTabWidget *tw = (QTabWidget*)w;
   if ( tw->currentPage() ) {
       QDesignerTabWidget *dtw = (QDesignerTabWidget*)tw;
-      DeleteTabPageCommand *cmd = new DeleteTabPageCommand( i18n("Delete Page %1 of %2" ).
+      DeleteTabPageCommand *cmd = new DeleteTabPageCommand( i18n( "Delete Page %1 of %2" ).
                   arg( dtw->pageTitle() ).arg( tw->name() ),
                   formWindow, tw, tw->currentPage() );
       formWindow->commandHistory()->addCommand( cmd );
@@ -555,7 +555,7 @@ void HierarchyList::removeTabPage()
   QWizard *wiz = (QWizard*)formWindow->mainContainer();
   if ( wiz->currentPage() ) {
       QDesignerWizard *dw = (QDesignerWizard*)wiz;
-      DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n("Delete Page %1 of %2" ).
+      DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n( "Delete Page %1 of %2" ).
                   arg( dw->pageTitle() ).arg( wiz->name() ),
                   formWindow, wiz,
                   wiz->indexOf( wiz->currentPage() ), TRUE );
@@ -634,7 +634,7 @@ void FormDefinitionView::refresh( bool doDelete )
 
     QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formWindow );
     HierarchyItem *itemSlots = new HierarchyItem( HierarchyItem::SlotParent,
-              this, i18n("Slots" ), QString::null, QString::null );
+              this, i18n( "Slots" ), QString::null, QString::null );
     itemSlots->moveItem( i );
     itemSlots->setPixmap( 0, *folderPixmap );
     HierarchyItem *itemPrivate = new HierarchyItem( HierarchyItem::Private, itemSlots, "private",
@@ -720,7 +720,7 @@ void FormDefinitionView::showRMBMenu( QListViewItem *i, const QPoint &pos )
   return;
     if ( i->rtti() == HierarchyItem::SlotParent ) {
   QPopupMenu menu;
-  menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n("Edit..." ) );
+  menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n( "Edit..." ) );
   if ( menu.exec( pos ) != -1 ) {
       EditSlots dlg( this, formWindow );
       dlg.exec();
@@ -734,17 +734,17 @@ void FormDefinitionView::showRMBMenu( QListViewItem *i, const QPoint &pos )
   const int EDIT = 2;
   const int REMOVE = 3;
   const int NEW_ITEM = 4;
-  menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), i18n("New" ), NEW_ITEM );
+  menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), i18n( "New" ), NEW_ITEM );
 #ifndef KOMMANDER
   if ( formWindow->project()->language() == "C++" )
 #endif
-      menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n("Properties..." ), PROPS );
+      menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n( "Properties..." ), PROPS );
 #ifndef KOMMANDER
         if ( MetaDataBase::hasEditor( formWindow->project()->language() ) )
-      menu.insertItem( i18n("Goto Implementation" ), EDIT );
+      menu.insertItem( i18n( "Goto Implementation" ), EDIT );
 #endif
   menu.insertSeparator();
-  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n("Delete" ), REMOVE );
+  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n( "Delete" ), REMOVE );
   popupOpen = TRUE;
   int res = menu.exec( pos );
   popupOpen = FALSE;
@@ -785,22 +785,22 @@ void FormDefinitionView::showRMBMenu( QListViewItem *i, const QPoint &pos )
     const int NEW_ITEM = 1;
     const int DEL_ITEM = 2;
     const int EDIT_ITEM = 3;
-    menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), i18n("New" ), NEW_ITEM );
+    menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), i18n( "New" ), NEW_ITEM );
     if ( i->rtti() == HierarchyItem::Definition || i->rtti() == HierarchyItem::DefinitionParent ) {
   if ( i->text( 0 ) == "Class Variables" ||
        i->parent() && i->parent()->text( 0 ) == "Class Variables" )
-      menu.insertItem( i18n("Edit...\tAlt+V" ), EDIT_ITEM );
+      menu.insertItem( i18n( "Edit...\tAlt+V" ), EDIT_ITEM );
   else
   {
     qWarning("[MB02] Edit");
-      menu.insertItem( i18n("Edit..." ), EDIT_ITEM );
+      menu.insertItem( i18n( "Edit..." ), EDIT_ITEM );
   }
     }
     if ( i->parent() && i->rtti() != HierarchyItem::Public &&
    i->rtti() != HierarchyItem::Protected &&
    i->rtti() != HierarchyItem::Private ) {
   menu.insertSeparator();
-  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n("Delete" ), DEL_ITEM );
+  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n( "Delete" ), DEL_ITEM );
     }
     popupOpen = TRUE;
     int res = menu.exec( pos );
@@ -843,7 +843,7 @@ void FormDefinitionView::showRMBMenu( QListViewItem *i, const QPoint &pos )
   if ( i->rtti() == HierarchyItem::Definition )
       i = i->parent();
   ListEditor dia( this, 0, TRUE );
-  dia.setCaption( i18n("Edit %1" ).arg( i->text( 0 ) ) );
+  dia.setCaption( i18n( "Edit %1" ).arg( i->text( 0 ) ) );
   QStringList entries = lIface->definitionEntries( i->text( 0 ), MainWindow::self->designerInterface() );
   dia.setList( entries );
   dia.exec();
@@ -915,7 +915,7 @@ void FormDefinitionView::editVars()
     if ( !lIface )
   return;
     ListEditor dia( this, 0, TRUE );
-    dia.setCaption( i18n("Edit Class Variables" ) );
+    dia.setCaption( i18n( "Edit Class Variables" ) );
     QStringList entries = lIface->definitionEntries( "Class Variables", MainWindow::self->designerInterface() );
     dia.setList( entries );
     dia.exec();
@@ -972,12 +972,12 @@ HierarchyView::HierarchyView( QWidget *parent )
 #endif
     setIcon( PixmapChooser::loadPixmap( "logo" ) );
     listview = new HierarchyList( this, formWindow() );
-    addTab( listview, i18n("Widgets" ) );
+    addTab( listview, i18n( "Widgets" ) );
 #ifndef KOMMANDER
   fView = new FormDefinitionView( this, formWindow() );
 #endif
 #ifndef KOMMANDER
-  addTab( fView, i18n("Source" ) );
+  addTab( fView, i18n( "Source" ) );
 #endif
 
 #ifndef KOMMANDER
@@ -994,7 +994,7 @@ HierarchyView::HierarchyView( QWidget *parent )
   classBrowserInterfaceManager->queryInterface( *it, &ciface );
   if ( ciface ) {
       ClassBrowser cb( ciface->createClassBrowser( this ), ciface );
-      addTab( cb.lv, *it + i18n(" Classes" ) );
+      addTab( cb.lv, *it + i18n( " Classes" ) );
       ciface->onClick( this, SLOT( jumpTo( const QString &, const QString &, int ) ) );
       classBrowsers->insert( *it, cb );
   }

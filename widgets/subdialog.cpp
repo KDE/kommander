@@ -24,7 +24,7 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
-#include <kommanderfactory.h>
+#include "ewidgetfactory.h"
 #include "assoctextwidget.h"
 #include "subdialog.h"
 
@@ -97,8 +97,7 @@ void SubDialog::showDialog()
   if(m_dialog)
     delete m_dialog;
 
-  KommanderFactory::loadPlugins();
-  m_dialog = (QDialog *)KommanderFactory::create(kmdrFile());
+  m_dialog = (QDialog *)EWidgetFactory::create(kmdrFile());
   if(!m_dialog)
     qWarning("Creation of sub dialog failed ..");
   connect(m_dialog, SIGNAL(finished()), this, SLOT(slotFinished()));

@@ -63,7 +63,7 @@ ListViewEditor::ListViewEditor( QWidget *parent, QListView *lv, FormWindow *fw )
 void ListViewEditor::applyClicked()
 {
     setupItems();
-    PopulateListViewCommand *cmd = new PopulateListViewCommand( i18n("Edit the Items and Columns of '%1'" ).arg( listview->name() ),
+    PopulateListViewCommand *cmd = new PopulateListViewCommand( i18n( "Edit the Items and Columns of '%1'" ).arg( listview->name() ),
 								formwindow, listview, itemsPreview );
     cmd->execute();
     formwindow->commandHistory()->addCommand( cmd );
@@ -222,7 +222,7 @@ void ListViewEditor::currentColumnChanged( QListBoxItem *i )
 void ListViewEditor::newColumnClicked()
 {
     Column col;
-    col.text = i18n("New Column" );
+    col.text = i18n( "New Column" );
     col.pixmap = QPixmap();
     col.clickable = TRUE;
     col.resizable = TRUE;
@@ -567,7 +567,7 @@ ListViewEditor::Column *ListViewEditor::findColumn( QListBoxItem *i )
 void ListViewEditor::initTabPage( const QString &page )
 {
     numColumns = colPreview->count();
-    if ( page == i18n("&Items" ) ) {
+    if ( page == i18n( "&Items" ) ) {
 	setupItems();
 	if ( numColumns == 0 ) {
 	    itemNew->setEnabled( FALSE );

@@ -1,0 +1,155 @@
+/**********************************************************************
+** Copyright (C) 2000 Trolltech AS.  All rights reserved.
+**
+** This file is part of Qt Designer.
+**
+** This file may be distributed and/or modified under the terms of the
+** GNU General Public License version 2 as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+**
+** See http://www.trolltech.com/gpl/ for GPL licensing information.
+**
+** Contact info@trolltech.com if any conditions of this licensing are
+** not clear to you.
+**
+**********************************************************************/
+/* Modifications by Marc Britton (c) 2002 under GNU GPL, terms as above */
+
+#ifndef _HAVE_EWIDGETFACTORY_H_
+#define _HAVE_EWIDGETFACTORY_H_
+
+#ifndef QT_H
+#include <qstring.h>
+#include <qptrlist.h>
+#include <qimage.h>
+#include <qpixmap.h>
+#include <qvaluelist.h>
+#include <qmap.h>
+#include <qaction.h>
+#endif // QT_H
+
+class QWidget;
+class QLayout;
+class QDomElement;
+class QListViewItem;
+class QTable;
+#ifndef KOMMANDER
+class QWidgetFactory;
+#endif
+
+class EWidgetFactory
+{
+public:
+    EWidgetFactory();
+    virtual ~EWidgetFactory();
+
+    static QWidget *create( const QString &uiFile, QObject *connector = 0, QWidget *parent = 0, const char *name = 0 );
+    static QWidget *create( QIODevice *dev, QObject *connector = 0, QWidget *parent = 0, const char *name = 0 );
+#ifndef KOMMANDER
+	static void addWidgetFactory( QWidgetFactory *factory );
+#else
+	static void addWidgetFactory( EWidgetFactory *factory );
+#endif
+    static void loadImages( const QString &dir );
+
+    virtual QWidget *createWidget( const QString &className, QWidget *parent, const char *name ) const;
+
+private:
+    enum LayoutType { HBox, VBox, Grid, NoLayout };
+    void loadImageCollection( const QDomElement &e );
+    void loadConnections( const QDomElement &e, QObject *connector );
+    void loadTabOrder( const QDomElement &e );
+    QWidget *createWidgetInternal( const QDomElement &e, QWidget *parent, QLayout* layout, const QString &classNameArg );
+    QLayout *createLayout( QWidget *widget, QLayout*  layout, LayoutType type );
+    LayoutType layoutType( QLayout *l ) const;
+    void setProperty( QObject* widget, const QString &prop, const QDomElement &e );
+    void createSpacer( const QDomElement &e, QLayout *layout );
+    QImage loadFromCollection( const QString &name );
+    QPixmap loadPixmap( const QDomElement &e );
+    QColorGroup loadColorGroup( const QDomElement &e );
+    void createColumn( const QDomElement &e, QWidget *widget );
+    void loadItem( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap );
+    void createItem( const QDomElement &e, QWidget *widget, QListViewItem *i = 0 );
+    void loadChildAction( QObject *parent, const QDomElement &e );
+    void loadActions( const QDomElement &e );
+    void loadToolBars( const QDomElement &e );
+    void loadMenuBar( const QDomElement &e );
+#ifndef KOMMANDER
+//    void loadFunctions( const QDomElement &e );
+#endif
+    QAction *findAction( const QString &name );
+#ifndef KOMMANDER
+ //   void loadExtraSource();
+#endif
+    QString translate( const QString& sourceText, const QString& comment = "" );
+
+private:
+    struct Image {
+	QImage img;
+	QString name;
+	bool operator==(  const Image &i ) const {
+	    return ( i.name == name &&
+		     i.img == img );
+	}
+    };
+
+    struct Field
+    {
+	Field() {}
+	Field( const QString &s1, const QPixmap &p, const QString &s2 ) : name( s1 ), pix( p ), field( s2 ) {}
+	QString name;
+	QPixmap pix;
+	QString field;
+#if defined(Q_FULL_TEMPLATE_INSTANTIATION)
+	bool operator==( const Field& ) const { return FALSE; }
+#endif
+    };
+
+    struct EventFunction
+    {
+	EventFunction() {}
+	EventFunction( const QString &e, const QStringList &f )
+	    : events( e ) { functions.append( f ); }
+	QStringList events;
+	QValueList<QStringList> functions;
+    };
+
+    struct SqlWidgetConnection
+    {
+	SqlWidgetConnection() {}
+	SqlWidgetConnection( const QString &c, const QString &t )
+	    : conn( c ), table( t ), dbControls( new QMap<QString, QString>() ) {}
+	QString conn;
+	QString table;
+	QMap<QString, QString> *dbControls;
+    };
+
+    struct Functions
+    {
+	QString functions;
+    };
+
+    QValueList<Image> images;
+    QWidget *toplevel;
+    QListViewItem *lastItem;
+    QMap<QString, QString> *dbControls;
+    QMap<QString, QStringList> dbTables;
+    QMap<QWidget*, SqlWidgetConnection> sqlWidgetConnections;
+    QMap<QString, QString> buddies;
+    QMap<QTable*, QValueList<Field> > fieldMaps;
+    QPtrList<QAction> actionList;
+    QMap<QObject *, EventFunction> eventMap;
+    QMap<QString, QString> languageSlots;
+    QMap<QString, Functions*> languageFunctions;
+    QStringList variables;
+    QStringList noDatabaseWidgets;
+    bool usePixmapCollection;
+    int defMargin, defSpacing;
+
+};
+
+#endif

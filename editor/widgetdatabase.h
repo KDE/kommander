@@ -23,13 +23,11 @@
 
 #include <qiconset.h>
 #include <qstring.h>
-#ifndef KOMMANDER
 #include "widgetinterface.h" // up here for GCC 2.7.* compatibility
 #include <private/qpluginmanager_p.h>
 
 
 extern QPluginManager<WidgetInterface> *widgetManager();
-#endif
 
 struct WidgetDatabaseRecord
 {

@@ -21,9 +21,7 @@
 #if !defined(UIC)
 #include "pixmapchooser.h"
 #endif
-#ifndef KOMMANDER
 #include "widgetinterface.h"
-#endif
 #include "widgetdatabase.h"
 
 #include <qapplication.h>
@@ -39,8 +37,6 @@
 
 #include <stdlib.h>
 
-#include <kommanderfactory.h>
-
 const int dbsize = 300;
 const int dbcustom = 200;
 const int dbdictsize = 211;
@@ -51,15 +47,11 @@ static int dbcustomcount = 200;
 static QStrList *wGroups;
 static QStrList *invisibleGroups;
 static bool whatsThisLoaded = FALSE;
-#ifndef KOMMANDER
 static QPluginManager<WidgetInterface> *widgetPluginManager = 0;
-#endif
 static bool plugins_set_up = FALSE;
 static bool was_in_setup = FALSE;
 
-#ifndef KOMMANDER
 QCleanupHandler<QPluginManager<WidgetInterface> > cleanup_manager;
-#endif
 
 WidgetDatabaseRecord::WidgetDatabaseRecord()
 {
@@ -746,22 +738,32 @@ void WidgetDatabase::setupPlugins()
     if ( plugins_set_up )
 	return;
     plugins_set_up = TRUE;
-    FeatureList widgets = KommanderFactory::featureList();
-    for ( FeatureList::Iterator it = widgets.begin(); it != widgets.end(); ++it )
-    {
-	if ( hasWidget( it.key() ) )
+    QStringList widgets = widgetManager()->featureList();
+    for ( QStringList::Iterator it = widgets.begin(); it != widgets.end(); ++it ) {
+	if ( hasWidget( *it ) )
 	    continue;
 	WidgetDatabaseRecord *r = new WidgetDatabaseRecord;
+	WidgetInterface *iface = 0;
+	widgetManager()->queryInterface( *it, &iface );
+	if ( !iface )
+	    continue;
 
-	QString grp = (*it).group;
+#ifndef UIC
+	QIconSet icon = iface->iconSet( *it );
+	if ( !icon.pixmap().isNull() )
+	    r->icon = new QIconSet( icon );
+#endif
+	QString grp = iface->group( *it );
 	if ( grp.isEmpty() )
-	    grp = "Kommander";
+	    grp = "3rd party widgets";
 	r->group = widgetGroup( grp );
-	r->toolTip = (*it).toolTip;
-	r->whatsThis = (*it).whatsThis;
-	r->isContainer = (*it).isContainer;
-	r->name = it.key();
+	r->toolTip = iface->toolTip( *it );
+	r->whatsThis = iface->whatsThis( *it );
+	r->includeFile = iface->includeFile( *it );
+	r->isContainer = iface->isContainer( *it );
+	r->name = *it;
 	append( r );
+	iface->release();
     }
 }
 
@@ -1048,7 +1050,6 @@ void WidgetDatabase::loadWhatsThis( const QString &docPath )
 
 
 // ### Qt 3.1: make these publically accessible via QWidgetDatabase API
-#ifndef KOMMANDER
 #if defined(UIC)
 bool dbnounload = FALSE;
 QStringList *dbpaths = 0;
@@ -1076,4 +1077,3 @@ QPluginManager<WidgetInterface> *widgetManager()
     }
     return widgetPluginManager;
 }
-#endif

@@ -19,13 +19,20 @@
 **********************************************************************/
 /* Modifications by Marc Britton (c) 2002 under GNU GPL, terms as above */
 
-#include <kconfig.h>
-#include <klibloader.h>
+// FIXME : Find the data directory with KDE functions and determine the plugin dir based on this
 
-#include "kommanderfactory.h"
-#include <kommanderplugin.h>
+#include "ewidgetfactory.h"
 
+#ifndef KOMMANDER
+#include "eventinterface.h"
+#include "interpreterinterface.h"
+#include "languageinterface.h"
+#endif
+#include "widgetinterface.h"
 
+#ifndef KOMMANDER
+#include <qwidgetfactory.h>
+#endif
 #include <qfeatures.h>
 #include "config.h"
 #ifndef QT_NO_SQL
@@ -91,9 +98,40 @@
 #include <qmenubar.h>
 #include <qdatetimeedit.h>
 
+/* KOMMANDER INCLUDES */
+#include <lineedit.h>
+#include <dialog.h>
+#include <execbutton.h>
+#include <closebutton.h>
+#include <fileselector.h>
+#include <textedit.h>
+#include <radiobutton.h>
+#include <buttongroup.h>
+#include <groupbox.h>
+#include <checkbox.h>
+#include <combobox.h>
+#include <spinboxint.h>
+#include <wizard.h>
+#include <tabwidget.h>
+#include <subdialog.h>
+#include <listbox.h>
+#include <scriptobject.h>
+#include <richtexteditor.h>
+#include <treewidget.h>
+
 #include <stdlib.h>
 
-static QPtrList<KommanderPlugin> widgetPlugins;
+#ifndef KOMMANDER
+static QPtrList<QWidgetFactory> widgetFactories;
+#else
+static QPtrList<EWidgetFactory> widgetFactories;
+#endif
+#ifndef KOMMANDER
+static QPluginManager<EventInterface> *eventInterfaceManager = 0;
+static QPluginManager<InterpreterInterface> *interpreterInterfaceManager = 0;
+static QPluginManager<LanguageInterface> *languageInterfaceManager = 0;
+#endif
+static QPluginManager<WidgetInterface> *widgetInterfaceManager = 0;
 
 QMap<QWidget*, QString> *qwf_functions = 0;
 QMap<QWidget*, QString> *qwf_forms = 0;
@@ -102,33 +140,106 @@ bool qwf_execute_code = TRUE;
 bool qwf_stays_on_top = FALSE;
 QString qwf_currFileName = "";
 
-KommanderFactory::KommanderFactory()
+/*!
+  \class QWidgetFactory
+
+  \brief The QWidgetFactory class provides for the dynamic creation of widgets
+  from Qt Designer .ui files.
+
+  This class basically offers two things:
+
+  \list
+
+  \i Dynamically creating widgets from \link designer-manual.book Qt
+  Designer\endlink\e{Qt Designer} user interface description files.
+  You can do this using the static function QWidgetFactory::create().
+  This function also performs signal and slot connections, tab
+  ordering, etc., as defined in the .ui file, and returns the
+  top-level widget in the .ui file. After creating the widget you can
+  use QObject::child() and QObject::queryList() to access child
+  widgets of this returned widget.
+
+  \i Adding additional widget factories to be able to create custom
+  widgets. See createWidget() for details.
+
+  \endlist
+
+  This class is not included in the Qt library itself. To use it you
+  must link against \c libqui.so (Unix) or \c qui.lib (Windows), which is
+  built into \c $(QTDIR)/lib if you built \e{Qt Designer}.
+
+  See the "Creating Dynamic Dialogs from .ui Files" section of the \link
+  designer-manual.book Qt Designer manual\endlink for an example. See
+  also the \l{QWidgetPlugin} class and the \link plugins-howto.html
+  Plugins documentation\endlink.
+*/
+
+/*! Constructs a WidgetFactory. */
+
+EWidgetFactory::EWidgetFactory()
     : dbControls( 0 ), usePixmapCollection( FALSE )
 {
-    widgetPlugins.setAutoDelete( TRUE );
+    widgetFactories.setAutoDelete( TRUE );
     defSpacing = 6;
     defMargin = 11;
 }
 
-KommanderFactory::~KommanderFactory()
+/*! \fn WidgetFactory::~WidgetFactory()
+    Destructor.
+*/
+EWidgetFactory::~EWidgetFactory()
 {
+#if 0 // #### Volker, please test your changes!!!
+    delete widgetInterfaceManager;
+    widgetInterfaceManager = 0;
+    delete languageInterfaceManager;
+    languageInterfaceManager = 0;
+    delete interpreterInterfaceManager;
+    interpreterInterfaceManager = 0;
+    delete eventInterfaceManager;
+    eventInterfaceManager = 0;
+#endif
 }
 
-QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QWidget *parent, const char *name )
+/*!
+
+    Loads the \e{Qt Designer} user interface description file \a uiFile
+  and returns the top-level widget in that description. \a parent and
+  \a name are passed to the constructor of the top-level widget.
+
+  This function also performs signal and slot connections, tab
+  ordering, etc., as described in the .ui file. In \e{Qt Designer} it
+  is possible to add custom slots to a form and connect to them. If
+  you want these connections to be made, you must create a class
+  derived from QObject, which implements all these slots. Then pass an
+  instance of the object as \a connector to this function. If you do
+  this, the connections to the custom slots will be done using the \a
+  connector as slot.
+
+  If something fails, 0 is returned.
+
+  The ownership of the returned widget is passed to the caller.
+*/
+
+QWidget *EWidgetFactory::create( const QString &uiFile, QObject *connector, QWidget *parent, const char *name )
 {
     QFile f( uiFile );
     if ( !f.open( IO_ReadOnly ) )
 	return 0;
 
     qwf_currFileName = uiFile;
-    QWidget *w = KommanderFactory::create( &f, connector, parent, name );
+    QWidget *w = EWidgetFactory::create( &f, connector, parent, name );
     if ( !qwf_forms )
 	qwf_forms = new QMap<QWidget*, QString>;
     qwf_forms->insert( w, uiFile );
     return w;
 }
 
-QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *parent, const char *name )
+/*!  \overload
+    Loads the user interface description from device \a dev.
+ */
+
+QWidget *EWidgetFactory::create( QIODevice *dev, QObject *connector, QWidget *parent, const char *name )
 {
     QDomDocument doc;
     QString errMsg;
@@ -140,7 +251,7 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
 
     DomTool::fixDocument( doc );
 
-    KommanderFactory *widgetFactory = new KommanderFactory;
+    EWidgetFactory *widgetFactory = new EWidgetFactory;
     widgetFactory->toplevel = 0;
 
     QDomElement e = doc.firstChild().toElement().firstChild().toElement();
@@ -235,6 +346,21 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
 	widgetFactory->loadTabOrder( tabOrder );
 
 
+#ifndef KOMMANDER
+    if ( !functions.isNull() ) // compatibiliy with early 3.0 betas
+	widgetFactory->loadFunctions( functions );
+#endif
+
+#ifndef KOMMANDER
+    if ( !languageInterfaceManager )
+	languageInterfaceManager = new QPluginManager<LanguageInterface>( IID_Language, QApplication::libraryPaths(), "" );
+    if ( !interpreterInterfaceManager )
+	interpreterInterfaceManager =
+	    new QPluginManager<InterpreterInterface>( IID_Interpreter, QApplication::libraryPaths(), "" );
+
+    widgetFactory->loadExtraSource();
+#endif
+
     if ( widgetFactory->toplevel ) {
 #ifndef QT_NO_SQL
 	QMap<QWidget*, SqlWidgetConnection>::Iterator cit = widgetFactory->sqlWidgetConnections.begin();
@@ -271,6 +397,52 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
 	}
 #endif
 
+#ifndef KOMMANDER
+	if ( !eventInterfaceManager )
+	    eventInterfaceManager = new QPluginManager<EventInterface>( IID_Event, QApplication::libraryPaths(), "" );
+
+	if ( eventInterfaceManager && interpreterInterfaceManager && languageInterfaceManager ) {
+	    QStringList langs = languageInterfaceManager->featureList();
+	    for ( QStringList::Iterator lit = langs.begin(); lit != langs.end(); ++lit ) {
+		EventInterface *eventInterface = 0;
+		eventInterfaceManager->queryInterface( *lit, &eventInterface );
+		InterpreterInterface *interpreterInterface = 0;
+		interpreterInterfaceManager->queryInterface( *lit, &interpreterInterface );
+		if ( eventInterface && interpreterInterface ) {
+		    interpreterInterface->init();
+		    QMap<QString, Functions*>::Iterator fit = widgetFactory->languageFunctions.find( *lit );
+		    if ( fit != widgetFactory->languageFunctions.end() ) {
+			QString funcs = (*fit)->functions;
+			funcs += "\n";
+			for ( QStringList::Iterator vit = widgetFactory->variables.begin(); vit != widgetFactory->variables.end(); ++vit )
+			    funcs += interpreterInterface->createVariableDeclaration( *vit ) + "\n";
+			if ( qwf_execute_code )
+			    interpreterInterface->exec( widgetFactory->toplevel, funcs );
+		    }
+		    if ( widgetFactory->languageFunctions.isEmpty() && qwf_execute_code )
+			interpreterInterface->exec( widgetFactory->toplevel, "dummy=0;" );
+		    for ( QMap<QObject *, EventFunction>::Iterator it = widgetFactory->eventMap.begin();
+			  it != widgetFactory->eventMap.end(); ++it ) {
+			QStringList::Iterator eit;
+			QValueList<QStringList>::Iterator fit;
+			for ( eit = (*it).events.begin(), fit = (*it).functions.begin(); eit != (*it).events.end(); ++eit, ++fit ) {
+			    QStringList funcs = *fit;
+			    for ( QStringList::Iterator fit2 = funcs.begin(); fit2 != funcs.end(); ++fit2 ) {
+				if ( widgetFactory->languageSlots.find( *fit2 ) !=
+				     widgetFactory->languageSlots.end() && qwf_execute_code ) {
+				    eventInterface->addEventHandler( it.key(),
+								     widgetFactory->toplevel, *eit, *fit2 );
+				}
+			    }
+			}
+		    }
+		    eventInterface->release();
+		    interpreterInterface->release();
+		}
+	    }
+	}
+#endif
+
     }
 
     for ( QMap<QString, QString>::Iterator it = widgetFactory->buddies.begin(); it != widgetFactory->buddies.end(); ++it ) {
@@ -287,14 +459,106 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
     return w;
 }
 
-void KommanderFactory::addPlugin( KommanderPlugin *plugin )
+/*! Installs a widget factory \a factory, which normally contains
+  additional widgets that can then be created using a QWidgetFactory.
+  See createWidget() for further details.
+*/
+
+#ifndef KOMMANDER
+void EWidgetFactory::addWidgetFactory( QWidgetFactory *factory )
+#else
+void EWidgetFactory::addWidgetFactory( EWidgetFactory *factory )
+#endif
 {
-    widgetPlugins.append( plugin );
+    widgetFactories.append( factory );
 }
 
-QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name ) const
+/*!
+    Creates a widget of the type \a className passing \a parent and \a
+    name to its constructor.
+
+    If \a className is a widget in the Qt library, it is directly
+    created by this function. If the widget isn't in the Qt library,
+    each of the installed widget plugins is asked, in turn, to create
+    the widget. As soon as a plugin says it can create the widget it
+    is asked to do so. It may occur that none of the plugins can
+    create the widget, in which case each installed widget factory is
+    asked to create the widget (see addWidgetFactory()). If the widget
+    cannot be created by any of these means, 0 is returned.
+
+    If you have a custom widget, and want it to be created using the
+    widget factory, there are two approaches you can use:
+
+    \list 1
+
+    \i Write a widget plugin. This allows you to use the widget in
+    \e{Qt Designer} and in this QWidgetFactory. See the widget plugin
+    documentation for further details. (See the "Creating Custom
+    Widgets with Plugins" section of the \link designer-manual.book Qt
+    Designer manual\endlink for an example.
+
+    \i Subclass QWidgetFactory. Then reimplement this function to
+    create and return an instance of your custom widget if \a
+    className equals the name of your widget, otherwise return 0. Then
+    at the beginning of your program where you want to use the widget
+    factory to create widgets do a:
+    \code
+    QWidgetFactory::addWidgetFactory( new MyWidgetFactory );
+    \endcode
+    where MyWidgetFactory is your QWidgetFactory subclass.
+
+    \endlist
+*/
+
+QWidget *EWidgetFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name ) const
 {
-    QString className = literalClassName;
+	QString className = literalClassName;
+
+	if(className.startsWith("Editor"))
+	{
+		className = className.mid(6);
+	}
+	// KOMMANDER WIDGETS
+	if(className == "LineEdit")
+		return new LineEdit(parent, name);
+	else if(className == "ListView")
+		return new QListView(parent, name);
+	else if(className == "Dialog")
+		return new Dialog(parent, name, FALSE);
+	else if(className == "ExecButton")
+			return new ExecButton(parent, name);
+	else if(className == "CloseButton")
+			return new CloseButton(parent, name);
+	else if(className == "FileSelector")
+			return new FileSelector(parent, name);
+	else if(className == "TextEdit")
+			return new TextEdit(parent, name);
+	else if(className == "RadioButton")
+			return new RadioButton(parent, name);
+	else if(className == "ButtonGroup")
+			return new ButtonGroup(parent, name);
+	else if(className == "GroupBox")
+			return new GroupBox(parent, name);
+	else if(className == "CheckBox")
+			return new CheckBox(parent, name);
+	else if(className == "ComboBox")
+			return new ComboBox(parent, name);
+	else if(className == "SpinBoxInt")
+			return new SpinBoxInt(parent, name);
+	else if(className == "TabWidget")
+			return new TabWidget(parent, name);
+	else if(className == "Wizard")
+			return new Wizard(parent, name, FALSE);
+	else if(className == "SubDialog")
+		return new SubDialog(parent, name);
+	else if(className == "ListBox")
+		return new ListBox(parent, name);
+	else if(className == "ScriptObject")
+		return new ScriptObject(parent, name);
+	else if(className == "RichTextEditor")
+		return new RichTextEditor(parent, name);
+	else if(className == "TreeWidget")
+	    return new TreeWidget(parent, name);
 
     // create widgets we know
     if ( className == "QPushButton" ) {
@@ -401,11 +665,26 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
     }
 #endif
 
-    // try to create it using the loaded kommander widget plugins
-    //find the widget plugin which can create className
-    for ( KommanderPlugin *p = widgetPlugins.first(); p ; p = widgetPlugins.next() )
-    {
-	QWidget *w = p->create( className, parent, name );
+/* Probably don't need this in Kommander. Widgets come from the factory. */
+    // try to create it using the loaded widget plugins
+    if ( !widgetInterfaceManager )
+	widgetInterfaceManager = new QPluginManager<WidgetInterface>( IID_Widget, QApplication::libraryPaths(), "" );
+
+    QInterfacePtr<WidgetInterface> iface = 0;
+    widgetInterfaceManager->queryInterface( className, &iface );
+    if ( iface ) {
+	QWidget *w = iface->create( className, parent, name );
+	if ( w )
+	    return w;
+    }
+
+    // hope we have a factory which can do it
+#ifndef KOMMANDER
+	for ( QWidgetFactory* f = widgetFactories.first(); f; f = widgetFactories.next() ) {
+#else
+	for ( EWidgetFactory* f = widgetFactories.first(); f; f = widgetFactories.next() ) {
+#endif
+	QWidget *w = f->createWidget( className, parent, name );
 	if ( w )
 	    return w;
     }
@@ -414,64 +693,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
     return 0;
 }
 
-static int num_plugins_loaded = 0;
-
-int KommanderFactory::loadPlugins( bool force )
-{
-    if( num_plugins_loaded > 0 && !force )
-	return num_plugins_loaded;
-
-    num_plugins_loaded = 0;
-    KConfig cfg( "kommanderrc", TRUE );
-    QStringList plugins = "libkommanderwidgets";
-    plugins += cfg.readListEntry( "plugins" );
-    QStringList::Iterator it;
-    KLibLoader *f = KLibLoader::self();
-    for( it = plugins.begin() ; it != plugins.end() ; ++it )
-    {
-	KLibrary *l = f->library( (*it).latin1() );
-	if( l )
-	{
-	    if( l->hasSymbol("kommander_plugin") )
-	    {
-		void *(*kommander_plugin)() = (void *(*)())l->symbol("kommander_plugin");
-		KommanderPlugin *p = (KommanderPlugin *)(*kommander_plugin)();
-		widgetPlugins.append( p );
-		++num_plugins_loaded;
-	    }
-	    else
-	    {
-		qWarning("KommanderFactory::loadPlugins - '%s' isn't a Kommander Plugin library, skipping.", l->fileName().latin1());
-	    }
-	}
-	else
-	{
-	    qWarning("KommanderFactory::loadPlugins - Can't load Kommander plugin library %s", (*it).latin1());
-	}
-    }
-    return num_plugins_loaded;
-    //get plugins to load from config file
-    //load them into widgetPlugins
-}
-
-FeatureList KommanderFactory::featureList()
-{
-    FeatureList features;
-    for ( KommanderPlugin *p = widgetPlugins.first(); p ; p = widgetPlugins.next() )
-    {
-	QStringList widgets = p->widgets();
-	QStringList::Iterator it;
-	for( it = widgets.begin() ; it != widgets.end() ; ++it )
-	{
-	    QString wn = *it;
-	    features[wn] = KommanderWidgetInfo( p->group(wn), p->toolTip(wn), p->whatsThis(wn), p->isContainer(wn) );
-	}
-    }
-    return features;
-    //iterate through widgetPlugins, appending KommanderPlugin::widgets() to features
-}
-
-QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *parent, QLayout* layout, const QString &classNameArg )
+QWidget *EWidgetFactory::createWidgetInternal( const QDomElement &e, QWidget *parent, QLayout* layout, const QString &classNameArg )
 {
     lastItem = 0;
     QDomElement n = e.firstChild().toElement();
@@ -495,7 +717,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    // hide layout widgets
 	    w = parent;
 	} else {
-	    obj = KommanderFactory::createWidget( className, parent, 0 );
+	    obj = EWidgetFactory::createWidget( className, parent, 0 );
 	    if ( !obj )
 	    {
 		return 0;
@@ -536,9 +758,9 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	} else if ( n.tagName() == "hbox" ) {
 	    QLayout *parentLayout = layout;
 	    if ( layout && layout->inherits( "QGridLayout" ) )
-		layout = createLayout( 0, 0, KommanderFactory::HBox );
+		layout = createLayout( 0, 0, EWidgetFactory::HBox );
 	    else
-		layout = createLayout( w, layout, KommanderFactory::HBox );
+		layout = createLayout( w, layout, EWidgetFactory::HBox );
 	    obj = layout;
 	    n = n.firstChild().toElement();
 	    if ( parentLayout && parentLayout->inherits( "QGridLayout" ) )
@@ -547,9 +769,9 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	} else if ( n.tagName() == "grid" ) {
 	    QLayout *parentLayout = layout;
 	    if ( layout && layout->inherits( "QGridLayout" ) )
-		layout = createLayout( 0, 0, KommanderFactory::Grid );
+		layout = createLayout( 0, 0, EWidgetFactory::Grid );
 	    else
-		layout = createLayout( w, layout, KommanderFactory::Grid );
+		layout = createLayout( w, layout, EWidgetFactory::Grid );
 	    obj = layout;
 	    n = n.firstChild().toElement();
 	    if ( parentLayout && parentLayout->inherits( "QGridLayout" ) )
@@ -558,9 +780,9 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	} else if ( n.tagName() == "vbox" ) {
 	    QLayout *parentLayout = layout;
 	    if ( layout && layout->inherits( "QGridLayout" ) )
-		layout = createLayout( 0, 0, KommanderFactory::VBox );
+		layout = createLayout( 0, 0, EWidgetFactory::VBox );
 	    else
-		layout = createLayout( w, layout, KommanderFactory::VBox );
+		layout = createLayout( w, layout, EWidgetFactory::VBox );
 	    obj = layout;
 	    n = n.firstChild().toElement();
 	    if ( parentLayout && parentLayout->inherits( "QGridLayout" ) )
@@ -590,7 +812,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
     return w;
 }
 
-QLayout *KommanderFactory::createLayout( QWidget *widget, QLayout*  layout, LayoutType type )
+QLayout *EWidgetFactory::createLayout( QWidget *widget, QLayout*  layout, LayoutType type )
 {
     int spacing = defSpacing;
     int margin = defMargin;
@@ -681,7 +903,7 @@ QLayout *KommanderFactory::createLayout( QWidget *widget, QLayout*  layout, Layo
     }
 }
 
-KommanderFactory::LayoutType KommanderFactory::layoutType( QLayout *layout ) const
+EWidgetFactory::LayoutType EWidgetFactory::layoutType( QLayout *layout ) const
 {
     if ( layout->inherits( "QHBoxLayout" ) )
 	return HBox;
@@ -692,7 +914,7 @@ KommanderFactory::LayoutType KommanderFactory::layoutType( QLayout *layout ) con
     return NoLayout;
 }
 
-void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDomElement &e )
+void EWidgetFactory::setProperty( QObject* obj, const QString &prop, const QDomElement &e )
 {
     const QMetaProperty *p = obj->metaObject()->property( obj->metaObject()->findProperty( prop, TRUE ), TRUE );
 
@@ -806,7 +1028,7 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
     obj->setProperty( prop, v );
 }
 
-void KommanderFactory::createSpacer( const QDomElement &e, QLayout *layout )
+void EWidgetFactory::createSpacer( const QDomElement &e, QLayout *layout )
 {
     QDomElement n = e.firstChild().toElement();
     int row = e.attribute( "row" ).toInt();
@@ -897,7 +1119,7 @@ static QImage loadImageData( QDomElement &n2 )
     return img;
 }
 
-void KommanderFactory::loadImageCollection( const QDomElement &e )
+void EWidgetFactory::loadImageCollection( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
     while ( !n.isNull() ) {
@@ -916,7 +1138,7 @@ void KommanderFactory::loadImageCollection( const QDomElement &e )
     }
 }
 
-QImage KommanderFactory::loadFromCollection( const QString &name )
+QImage EWidgetFactory::loadFromCollection( const QString &name )
 {
     QValueList<Image>::Iterator it = images.begin();
     for ( ; it != images.end(); ++it ) {
@@ -926,7 +1148,7 @@ QImage KommanderFactory::loadFromCollection( const QString &name )
     return QImage();
 }
 
-QPixmap KommanderFactory::loadPixmap( const QDomElement &e )
+QPixmap EWidgetFactory::loadPixmap( const QDomElement &e )
 {
     QString arg = e.firstChild().toText().data();
     if ( usePixmapCollection ) {
@@ -944,7 +1166,7 @@ QPixmap KommanderFactory::loadPixmap( const QDomElement &e )
     return pix;
 }
 
-QColorGroup KommanderFactory::loadColorGroup( const QDomElement &e )
+QColorGroup EWidgetFactory::loadColorGroup( const QDomElement &e )
 {
     QColorGroup cg;
     int r = -1;
@@ -980,7 +1202,7 @@ public:
     static QCString normalizeSignalSlot( const char *signalSlot ) { return QObject::normalizeSignalSlot( signalSlot ); }
 };
 
-void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector )
+void EWidgetFactory::loadConnections( const QDomElement &e, QObject *connector )
 {
     QDomElement n = e.firstChild().toElement();
     while ( !n.isNull() ) {
@@ -1093,7 +1315,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
     }
 }
 
-void KommanderFactory::loadTabOrder( const QDomElement &e )
+void EWidgetFactory::loadTabOrder( const QDomElement &e )
 {
     QWidget *last = 0;
     QDomElement n = e.firstChild().toElement();
@@ -1115,7 +1337,7 @@ void KommanderFactory::loadTabOrder( const QDomElement &e )
     }
 }
 
-void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
+void EWidgetFactory::createColumn( const QDomElement &e, QWidget *widget )
 {
     if ( widget->inherits( "QListView" ) && e.tagName() == "column" ) {
 	QListView *lv = (QListView*)widget;
@@ -1218,7 +1440,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 #endif
 }
 
-void KommanderFactory::loadItem( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap )
+void EWidgetFactory::loadItem( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap )
 {
     QDomElement n = e;
     hasPixmap = FALSE;
@@ -1237,7 +1459,7 @@ void KommanderFactory::loadItem( const QDomElement &e, QPixmap &pix, QString &tx
     }
 }
 
-void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListViewItem *i )
+void EWidgetFactory::createItem( const QDomElement &e, QWidget *widget, QListViewItem *i )
 {
     if ( widget->inherits( "QListBox" ) || widget->inherits( "QComboBox" ) ) {
 	QDomElement n = e.firstChild().toElement();
@@ -1310,7 +1532,7 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListV
 
 
 
-void KommanderFactory::loadChildAction( QObject *parent, const QDomElement &e )
+void EWidgetFactory::loadChildAction( QObject *parent, const QDomElement &e )
 {
     QDomElement n = e;
     QAction *a = 0;
@@ -1351,7 +1573,7 @@ void KommanderFactory::loadChildAction( QObject *parent, const QDomElement &e )
 	eventMap.insert( a, ef );
 }
 
-void KommanderFactory::loadActions( const QDomElement &e )
+void EWidgetFactory::loadActions( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
     while ( !n.isNull() ) {
@@ -1364,7 +1586,7 @@ void KommanderFactory::loadActions( const QDomElement &e )
     }
 }
 
-void KommanderFactory::loadToolBars( const QDomElement &e )
+void EWidgetFactory::loadToolBars( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
     QMainWindow *mw = ( (QMainWindow*)toplevel );
@@ -1395,7 +1617,7 @@ void KommanderFactory::loadToolBars( const QDomElement &e )
     }
 }
 
-void KommanderFactory::loadMenuBar( const QDomElement &e )
+void EWidgetFactory::loadMenuBar( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
     QMainWindow *mw = ( (QMainWindow*)toplevel );
@@ -1424,7 +1646,56 @@ void KommanderFactory::loadMenuBar( const QDomElement &e )
 }
 
 
-QAction *KommanderFactory::findAction( const QString &name )
+// compatibility with early 3.0 betas
+#ifndef KOMMANDER
+void EWidgetFactory::loadFunctions( const QDomElement &e )
+{
+    QDomElement n = e.firstChild().toElement();
+    QMap<QString, QString> bodies;
+    QString s;
+    if ( !interpreterInterfaceManager )
+	interpreterInterfaceManager =
+	    new QPluginManager<InterpreterInterface>( IID_Interpreter, QApplication::libraryPaths(), "" );
+
+    while ( !n.isNull() ) {
+	if ( n.tagName() == "function" ) {
+	    QString name = n.attribute( "name" );
+	    int pos = name.find( "(" );
+	    QString ident = name.left( pos );
+	    QMap<QString, QString>::Iterator it = languageSlots.find( ident );
+	    if ( it != languageSlots.end() ) {
+		InterpreterInterface *interpreterInterface = 0;
+		interpreterInterfaceManager->queryInterface( *it, &interpreterInterface );
+		Functions *funcs = 0;
+		QMap<QString, Functions*>::Iterator fit = languageFunctions.find( *it );
+		if ( fit == languageFunctions.end() ) {
+		    funcs = new Functions;
+		    languageFunctions.insert( *it, funcs );
+		} else {
+		    funcs = *fit;
+		}
+		QString body = n.firstChild().toText().data();
+		if ( interpreterInterface ) {
+		    QString s = interpreterInterface->createFunctionDeclaration( name, body );
+		    funcs->functions += s;
+		    if ( qwf_language && *qwf_language == *it ) {
+			if ( !qwf_functions )
+			    qwf_functions = new QMap<QWidget*, QString>;
+			if ( !qwf_forms )
+			    qwf_forms = new QMap<QWidget*, QString>;
+			(*(qwf_functions))[ toplevel ].append( s );
+		    }
+		    interpreterInterface->release();
+		}
+
+	    }
+	}
+	n = n.nextSibling().toElement();
+    }
+}
+#endif
+
+QAction *EWidgetFactory::findAction( const QString &name )
 {
     for ( QAction *a = actionList.first(); a; a = actionList.next() ) {
 	if ( QString( a->name() ) == name )
@@ -1436,7 +1707,18 @@ QAction *KommanderFactory::findAction( const QString &name )
     return 0;
 }
 
-void KommanderFactory::loadImages( const QString &dir )
+/*!
+    If you use a pixmap collection (which is the default for new
+    projects) rather than saving the pixmaps
+    within the .ui XML file, you must load the
+   pixmap collection. QWidgetFactory looks in the default
+   QMimeSourceFactory for the pixmaps. Either add it there
+   manually, or call this function and specify the directory where
+   the images can be found, as \a dir. This is normally the directory
+   called \c images in the project's directory.
+*/
+
+void EWidgetFactory::loadImages( const QString &dir )
 {
     QDir d( dir );
     QStringList l = d.entryList( QDir::Files );
@@ -1445,11 +1727,90 @@ void KommanderFactory::loadImages( const QString &dir )
 
 }
 
-QString KommanderFactory::translate( const QString& sourceText, const QString& comment )
+#ifndef KOMMANDER
+void EWidgetFactory::loadExtraSource()
 {
-  if (!sourceText.isEmpty())
+    if ( !qwf_language || !languageInterfaceManager )
+	return;
+    QString lang = *qwf_language;
+    LanguageInterface *iface = 0;
+    languageInterfaceManager->queryInterface( lang, &iface );
+    if ( !iface )
+	return;
+
+    QValueList<LanguageInterface::Function> functions;
+    QStringList forwards;
+    QStringList includesImpl;
+    QStringList includesDecl;
+    QStringList vars;
+    QValueList<LanguageInterface::Connection> connections;
+
+    iface->loadFormCode( toplevel->name(), qwf_currFileName + iface->formCodeExtension(),
+			 functions, forwards, includesImpl, includesDecl, vars, connections );
+
+    for ( QValueList<LanguageInterface::Connection>::Iterator cit = connections.begin();
+	  cit != connections.end(); ++cit ) {
+	QObject *sender  = 0;
+	QString name = (*cit).sender;
+	if ( name == "this" || qstrcmp( toplevel->name(), name ) == 0 ) {
+	    sender = toplevel;
+	} else {
+	    if ( name == "this" )
+		name = toplevel->name();
+	    QObjectList *l = toplevel->queryList( 0, name, FALSE );
+	    if ( l ) {
+		if ( l->first() )
+		    sender = l->first();
+		delete l;
+	    }
+	}
+	if ( !sender )
+	    sender = findAction( name );
+	EventFunction ef = eventMap[ sender ];
+	ef.events.append( (*cit).signal );
+	ef.functions.append( QStringList::split( ',', (*cit).slot ) );
+	eventMap.replace( sender, ef );
+    }
+
+    if ( interpreterInterfaceManager ) {
+	InterpreterInterface *interpreterInterface = 0;
+	interpreterInterfaceManager->queryInterface( lang, &interpreterInterface );
+	if ( interpreterInterface ) {
+	    Functions *funcs = 0;
+	    QMap<QString, Functions*>::Iterator fit = languageFunctions.find( lang );
+	    if ( fit == languageFunctions.end() ) {
+		funcs = new Functions;
+		languageFunctions.insert( lang, funcs );
+	    } else {
+		funcs = *fit;
+	    }
+	    for ( QValueList<LanguageInterface::Function>::Iterator fit2 = functions.begin();
+		  fit2 != functions.end(); ++fit2 ) {
+		languageSlots.insert( (*fit2).name.left( (*fit2).name.find( '(' ) ), lang );
+		QString s;
+		QString comments = (*fit2).comments;
+		if ( !comments.isEmpty() )
+		    s += comments + "\n";
+		 s += interpreterInterface->createFunctionDeclaration( (*fit2).name, (*fit2).body );
+		funcs->functions += s;
+		if ( !qwf_functions )
+		    qwf_functions = new QMap<QWidget*, QString>;
+		if ( !qwf_forms )
+		    qwf_forms = new QMap<QWidget*, QString>;
+		(*(qwf_functions))[ toplevel ].append( s );
+	    }
+	    interpreterInterface->release();
+	}
+    }
+
+    QStringList::Iterator vit;
+    for ( vit = vars.begin(); vit != vars.end(); ++vit )
+	variables << *vit;
+}
+#endif
+
+QString EWidgetFactory::translate( const QString& sourceText, const QString& comment )
+{
     return qApp->translate( toplevel->name(), sourceText.utf8(),
 			    comment.utf8(), QApplication::UnicodeUTF8 );
-  else
-    return sourceText;                            
 }

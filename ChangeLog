@@ -1,7 +1,3 @@
-
-Sat Nov  1 17:00:03 AEST 2003
-	o New widget plugin system KommanderPlugin and KommanderFactory
-
 Sun 04 May 2003 07:38:42 PM EEST - Andras Mantia <amantia@kde.org>
 	o do not add the .kmdr extension to files ending with .kmdr
 	o remove some warning/error messages polluting the output

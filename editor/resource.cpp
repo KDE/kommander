@@ -606,7 +606,7 @@ void Resource::paste( const QString &cb, QWidget *parent )
     formwindow->emitShowProperties();
     buf.close();
 
-    PasteCommand *cmd = new PasteCommand( i18n("Paste" ), formwindow, widgets );
+    PasteCommand *cmd = new PasteCommand( i18n( "Paste" ), formwindow, widgets );
     formwindow->commandHistory()->addCommand( cmd );
 }
 

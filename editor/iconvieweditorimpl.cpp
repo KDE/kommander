@@ -54,7 +54,7 @@ IconViewEditor::IconViewEditor( QWidget *parent, QWidget *editWidget, FormWindow
 
 void IconViewEditor::insertNewItem()
 {
-    QIconViewItem *i = new QIconViewItem( preview, i18n("New Item" ) );
+    QIconViewItem *i = new QIconViewItem( preview, i18n( "New Item" ) );
     preview->setCurrentItem( i );
     preview->setSelected( i, TRUE );
 }
@@ -121,7 +121,7 @@ void IconViewEditor::applyClicked()
 	items.append( item );
     }
 
-    PopulateIconViewCommand *cmd = new PopulateIconViewCommand( i18n("Edit the Items of '%1'" ).arg( iconview->name() ),
+    PopulateIconViewCommand *cmd = new PopulateIconViewCommand( i18n( "Edit the Items of '%1'" ).arg( iconview->name() ),
 								formwindow, iconview, items );
     cmd->execute();
     formwindow->commandHistory()->addCommand( cmd );

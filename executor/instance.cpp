@@ -30,7 +30,7 @@
 /* OTHER INCLUDES */
 #include "instance.h"
 #include "../widgets/assoctextwidget.h"
-#include <kommanderfactory.h>
+#include "ewidgetfactory.h"
 
 Instance::Instance()
   : m_instance(0), m_textInstance(0), m_uiFileName(""), m_parent(0)
@@ -68,8 +68,7 @@ bool Instance::build()
   }
 
   // create the main instance, must inherit QDialog
-  KommanderFactory::loadPlugins();
-  m_instance = (QDialog *)KommanderFactory::create(m_uiFileName);
+  m_instance = (QDialog *)EWidgetFactory::create(m_uiFileName);
   if(!m_instance)
   {
     KMessageBox::sorry(0, i18n("Unable to create dialog from %1.").arg(m_uiFileName));
@@ -93,8 +92,7 @@ bool Instance::build(QFile *a_file)
 		m_instance = 0;
 	}
 
-	KommanderFactory::loadPlugins();
-	m_instance = (QDialog *)KommanderFactory::create(a_file);
+	m_instance = (QDialog *)EWidgetFactory::create(a_file);
 	if(!m_instance)
 	{
     	KMessageBox::sorry(0, i18n("Unable to create dialog from input."));

@@ -353,7 +353,7 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     p.setColor( QColorGroup::Base, QColor( *backColor2 ) );
     (void)*selectedBack; // hack
     setPalette( p );
-    addColumn( i18n("Files" ) );
+    addColumn( i18n( "Files" ) );
     setAllColumnsShowFocus( TRUE );
     connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem *, const QPoint &, int ) ),
        this, SLOT( itemClicked( int, QListViewItem *, const QPoint& ) ) ),
@@ -659,28 +659,28 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
     switch ( wi->type() ) {
 #ifndef KOMMANDER
     case WorkspaceItem::SourceFileType:
-  menu.insertItem( i18n("&Open Source File..." ), OPEN_SOURCE );
+  menu.insertItem( i18n( "&Open Source File..." ), OPEN_SOURCE );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
-       i18n("&Remove Source File From Project" ), REMOVE_SOURCE );
+       i18n( "&Remove Source File From Project" ), REMOVE_SOURCE );
   break;
 #endif
     case WorkspaceItem::FormFileType:
-  menu.insertItem( i18n("&Open Form..." ), OPEN_FORM );
+  menu.insertItem( i18n( "&Open Form..." ), OPEN_FORM );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
 #ifndef KOMMANDER
-       i18n("&Remove Form From Project" ), REMOVE_FORM );
+       i18n( "&Remove Form From Project" ), REMOVE_FORM );
 #else
-       i18n("&Remove Form" ), REMOVE_FORM );
+       i18n( "&Remove Form" ), REMOVE_FORM );
 #endif
   break;
     case WorkspaceItem::FormSourceType:
-  menu.insertItem( i18n("&Open Form Source..." ), OPEN_FORM_SOURCE );
+  menu.insertItem( i18n( "&Open Form Source..." ), OPEN_FORM_SOURCE );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
 #ifndef KOMMANDER
-       i18n("&Remove Form From Project" ), REMOVE_FORM );
+       i18n( "&Remove Form From Project" ), REMOVE_FORM );
 #else
        i18n("&Remove Form" ), REMOVE_FORM );
 #endif
