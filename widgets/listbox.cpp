@@ -170,6 +170,8 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     case DCOP::setPixmap:
     {
       QPixmap pixmap = KGlobal::iconLoader()->loadIcon(args[0], KIcon::Small);
+      if (pixmap.isNull())
+        pixmap.load(args[0]);
       int index = args[1].toInt();
       if (index == -1)
       {
