@@ -625,7 +625,7 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
         statusBar()->message(i18n("Loaded file '%1'").arg(filename), 3000);
       } else
       {
-        statusBar()->message(i18n("Failed to load file '%1'").arg(filename), 5000);
+        statusBar()->message(i18n("Could not load file '%1'").arg(filename), 5000);
         KMessageBox::information(this, i18n("Could not load file '%1'").arg(filename), i18n("Load File"));
         delete ff;
       }
