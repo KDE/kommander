@@ -1,7 +1,7 @@
 /***************************************************************************
                         specials.cpp - known specials and DCOP calls
                              -------------------
-    copyright            : (C) 2004 by Michal Rudolf <mrudolf@kdewebdev.org>
+    copyright            : (C) 2004-2005 by Michal Rudolf <mrudolf@kdewebdev.org>
     copyright            : (C) 2004 by Eric Laffoon <sequitur@kde.org>
  ***************************************************************************/
 
@@ -15,9 +15,6 @@
  ***************************************************************************/
 
 #include <klocale.h>
-
-
- 
 #include "specials.h"
 
 void SpecialInformation::registerSpecials()
