@@ -574,10 +574,10 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    QVariant v = DomTool::elementToVariant( n.firstChild().toElement(), QVariant() );
 	    if ( parent->inherits( "QTabWidget" ) ) {
 		if ( attrib == "title" )
-		    ( (QTabWidget*)parent )->insertTab( w, v.toString() );
+		    ( (QTabWidget*)parent )->insertTab( w, translate(v.toString()) );
 	    } else if ( parent->inherits( "QWizard" ) ) {
 		if ( attrib == "title" )
-		    ( (QWizard*)parent )->addPage( w, v.toString() );
+		    ( (QWizard*)parent )->addPage( w, translate(v.toString()) );
 	    }
 	} else if ( n.tagName() == "item" ) {
 	    createItem( n, w );
