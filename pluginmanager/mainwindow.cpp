@@ -50,7 +50,7 @@ MainWindow::~MainWindow()
   for( uint i = 0; i < m_list->count(); ++i)
   {
     QFileInfo fi(m_list->item(i)->text());
-    plugins += fi.baseName();
+    plugins += m_list->item(i)->text();
   }
   m_cfg->writeEntry("plugins", plugins);
   delete m_cfg;
@@ -87,7 +87,7 @@ void MainWindow::add( const QString &plugin )
   {  // If already have the library in the list, don't add.
      // When loading plugin basenames from config file, expand them
      // to full library paths with kstandarddirs  
-    bool alreadyHaveIt = !(m_list->findItem(l->fileName(), Qt::ExactMatch));
+    bool alreadyHaveIt = m_list->findItem(l->fileName(), Qt::ExactMatch);
     if (!alreadyHaveIt)
       m_list->insertItem( l->fileName() );
   }
