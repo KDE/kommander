@@ -25,20 +25,26 @@ class KListBox;
 
 class MainWindow : public KMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    MainWindow( QWidget* parent = 0, const char *name = 0, WFlags f = WType_TopLevel | WDestructiveClose );
-    ~MainWindow();
+  MainWindow( QWidget* parent = 0, const char *name = 0, WFlags f = WType_TopLevel | WDestructiveClose );
+  ~MainWindow();
 
 protected slots:
-    void toolButton( int id );
-    void remove();
-    void add();
-    void add( const QString &plugin );
+  // Call function asigned to tollbutton (0 = add, 1 = remove)
+  void toolButton( int id );
+  // Remove currently selected plugin 
+  void remove();
+  // Show dialogbox for selecting plugin, then add it
+  void add();
+  // Add given plugin if is not added yet
+  void add( const QString &plugin );
 
 private:
-    KConfig *m_cfg;
-    KListBox *m_list;
+  // For writing plugin list on exit
+  KConfig *m_cfg;
+  // List of available plugins 
+  KListBox *m_list;
 };
 
 #endif

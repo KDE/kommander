@@ -22,6 +22,8 @@
       <group pattern="*.png" name="Icons" />
       <group pattern="*.po;*.ts" name="Translations" />
       <group pattern="*" name="Others" />
+      <hidenonprojectfiles>false</hidenonprojectfiles>
+      <hidenonlocation>false</hidenonlocation>
     </groups>
     <tree>
       <hidenonprojectfiles>false</hidenonprojectfiles>
@@ -102,6 +104,7 @@
       <terminal>false</terminal>
       <envvars/>
       <autocompile>true</autocompile>
+      <directoryradio>executable</directoryradio>
     </run>
   </kdevautoproject>
   <cppsupportpart>
@@ -121,13 +124,13 @@
   </kdevclassview>
   <kdevcvs>
     <cvsoptions>-f</cvsoptions>
-    <commitoptions></commitoptions>
+    <commitoptions/>
     <updateoptions>-dP</updateoptions>
-    <addoptions></addoptions>
+    <addoptions/>
     <removeoptions>-f</removeoptions>
     <diffoptions>-u3 -p</diffoptions>
-    <logoptions></logoptions>
-    <rshoptions></rshoptions>
+    <logoptions/>
+    <rshoptions/>
     <revertoptions>-C -d -P</revertoptions>
   </kdevcvs>
   <kdevcppsupport>
@@ -140,6 +143,9 @@
       <automaticArgumentsHint>true</automaticArgumentsHint>
       <codeCompletionDelay>250</codeCompletionDelay>
       <argumentsHintDelay>400</argumentsHintDelay>
+      <automaticHeaderCompletion>true</automaticHeaderCompletion>
+      <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
+    <references/>
   </kdevcppsupport>
 </kdevelop>

@@ -24,8 +24,8 @@
 #include <klibloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-
-#include <stdlib.h>
+#include <kglobal.h>
+#include <kstandarddirs.h>
 
 MainWindow::MainWindow( QWidget* parent, const char *name, WFlags f )
     : KMainWindow( parent, name, f )
@@ -46,77 +46,63 @@ MainWindow::MainWindow( QWidget* parent, const char *name, WFlags f )
 
 MainWindow::~MainWindow()
 {
-    QStringList plugins;
-    for( int i = 0 ; i < m_list->count() ; ++i )
-    {
-	QFileInfo fi( m_list->item( i )->text() );
-	plugins += fi.baseName();
-    }
-    m_cfg->writeEntry( "plugins", plugins );
-    delete m_cfg;
+  QStringList plugins;
+  for( uint i = 0; i < m_list->count(); ++i)
+  {
+    QFileInfo fi(m_list->item(i)->text());
+    plugins += fi.baseName();
+  }
+  m_cfg->writeEntry("plugins", plugins);
+  delete m_cfg;
 }
 
 void MainWindow::toolButton( int id )
 {
-    if( id == 0 )
-	add();
-    else if( id == 1 )
-	remove();
+  if (id == 0)
+    add();
+  else if(id == 1)
+    remove();
 }
 
 void MainWindow::add()
 {
-    QString libDir = getenv("KDEDIR");
-    if( !libDir.isEmpty() )
-	libDir += "/lib/";
-    QString plugin = KFileDialog::getOpenFileName( libDir, "lib*", this, 
-					    i18n("Add Kommander plugin") );
-    add( plugin );
+  QString libDir = KGlobal::dirs()->findResourceDir("lib", "libkommanderplugin.la");
+  QString plugin = KFileDialog::getOpenFileName(libDir, "lib*", this, 
+    i18n("Add Kommander plugin") );
+  add(plugin);
 }
 
 void MainWindow::add( const QString &plugin )
 {
-    if( !plugin.isNull() )
-    {
-	/* 
-	   WHERE
-	   if already have the library in the list, don't add it again
-	   when loading plugin basenames from config file, expand them
-	   to full library paths with kstandarddirs
-       */
-	QString errMsg;
-	bool alreadyHaveIt = FALSE;
-	KLibLoader *f = KLibLoader::self();
-	KLibrary *l = f->library( plugin.latin1() );
-	if( !l )
-	    errMsg = i18n("Unable to load Kommander plugin %1").arg(plugin);
-	else if( !l->hasSymbol("kommander_plugin") )
-	    errMsg = i18n("Library %1 is not a Kommander plugin").arg(plugin);
-	else
-	{
-	    for( int i = 0 ; i < m_list->count() ; ++i )
-		if( m_list->item( i )->text() == l->fileName() )
-		    alreadyHaveIt = TRUE;
-	}
-
-	if( !errMsg.isNull() )
-	    KMessageBox::error( this, errMsg, i18n("Cannot add plugin") );
-	else if( !alreadyHaveIt )
-	    m_list->insertItem( l->fileName() );
-    }
+  if (plugin.isNull())
+    return;
+    
+  QString errMsg;
+  KLibrary *l = KLibLoader::self()->library( plugin.latin1() );
+  if (!l)
+    errMsg = i18n("<qt>Unable to load Kommander plugin<br><b>%1</b></qt>").arg(plugin);
+  else if (!l->hasSymbol("kommander_plugin"))
+    errMsg = i18n("<qt>Library<br><b>%1</b><br>is not a Kommander plugin</qt>").arg(plugin);
+  else
+  {  // If already have the library in the list, don't add.
+     // When loading plugin basenames from config file, expand them
+     // to full library paths with kstandarddirs  
+    bool alreadyHaveIt = !(m_list->findItem(l->fileName(), Qt::ExactMatch));
+    if (!alreadyHaveIt)
+      m_list->insertItem( l->fileName() );
+  }
+  if (!errMsg.isNull())
+    KMessageBox::error( this, errMsg, i18n("Cannot add plugin") );
 }
 
 void MainWindow::remove()
 {
-    int ci = m_list->currentItem();
-    if( ci == -1 )
-	return;
-    m_list->removeItem( ci );
-    if( m_list->count() )
-    {
-	int ni = (ci > 0 ? ci-1 : 0);
-	m_list->setCurrentItem( ni );
-    }
+  int ci = m_list->currentItem();
+  if (ci == -1)
+    return;
+  m_list->removeItem( ci );
+  if(m_list->count())
+    m_list->setCurrentItem(ci > 0 ? ci-1 : 0);
 }
 
 #include "mainwindow.moc"
