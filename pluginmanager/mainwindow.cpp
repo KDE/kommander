@@ -100,7 +100,7 @@ void MainWindow::add( const QString &plugin )
 	}
 
 	if( !errMsg.isNull() )
-	    KMessageBox::error( this, errMsg, i18n("Cannott add plugin") );
+	    KMessageBox::error( this, errMsg, i18n("Cannot add plugin") );
 	else if( !alreadyHaveIt )
 	    m_list->insertItem( l->fileName() );
     }
