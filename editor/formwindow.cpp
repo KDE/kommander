@@ -27,7 +27,7 @@
 #include "resource.h"
 #include "layout.h"
 #include "connectioneditorimpl.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "pixmapchooser.h"
 #include "orderindicator.h"
 #include "hierarchyview.h"

@@ -14,7 +14,7 @@
 class TextEdit : public QTextEdit, public AssocTextWidget
 {
 	Q_OBJECT
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 public:
 	TextEdit(QWidget *, const char *);

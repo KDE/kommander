@@ -16,9 +16,9 @@ class CloseButton : public QPushButton, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
-	Q_PROPERTY(bool writeStdout READ writeStdout WRITE setWriteStdout);
+	Q_PROPERTY(bool writeStdout READ writeStdout WRITE setWriteStdout)
 public:
 	CloseButton(QWidget *a_parent, const char *a_name);
 	~CloseButton();

@@ -20,7 +20,7 @@
 
 #include <qvariant.h> // HP-UX compiler need this here
 #include "widgetfactory.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "metadatabase.h"
 #include "mainwindow.h"
 #include "pixmapchooser.h"
@@ -81,7 +81,7 @@
 #endif
 
 #define NO_STATIC_COLORS
-#include <globaldefs.h>
+#include "globaldefs.h"
 
 /* KOMMANDER INCLUDES */
 #include <lineedit.h>

@@ -13,7 +13,7 @@ class TabWidget : public QTabWidget, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 public:
 	TabWidget(QWidget *, const char *, int=0);

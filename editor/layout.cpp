@@ -20,7 +20,7 @@
 
 #include "formwindow.h"
 #include "layout.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "widgetfactory.h"
 
 #include <qlayout.h>

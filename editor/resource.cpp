@@ -25,10 +25,10 @@
 #include "formwindow.h"
 #include "mainwindow.h"
 #include "qdom.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "widgetfactory.h"
 #include "layout.h"
-#include <domtool.h>
+#include "domtool.h"
 #include "command.h"
 #include "pixmapchooser.h"
 #ifndef QT_NO_SQL

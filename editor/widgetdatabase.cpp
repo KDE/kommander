@@ -26,7 +26,7 @@
 
 #include <qapplication.h>
 #define NO_STATIC_COLORS
-#include <globaldefs.h>
+#include "globaldefs.h"
 #include <qstrlist.h>
 #include <qdict.h>
 #include <qfile.h>

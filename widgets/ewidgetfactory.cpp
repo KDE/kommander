@@ -97,22 +97,22 @@
 #include <qwidgetstack.h>
 
 /* KOMMANDER INCLUDES */
-#include <lineedit.h>
-#include <dialog.h>
-#include <execbutton.h>
-#include <closebutton.h>
-#include <fileselector.h>
-#include <textedit.h>
-#include <radiobutton.h>
-#include <buttongroup.h>
-#include <groupbox.h>
-#include <checkbox.h>
-#include <combobox.h>
-#include <spinboxint.h>
-#include <wizard.h>
-#include <tabwidget.h>
-#include <subdialog.h>
-#include <listbox.h>
+#include "lineedit.h"
+#include "dialog.h"
+#include "execbutton.h"
+#include "closebutton.h"
+#include "fileselector.h"
+#include "textedit.h"
+#include "radiobutton.h"
+#include "buttongroup.h"
+#include "groupbox.h"
+#include "checkbox.h"
+#include "combobox.h"
+#include "spinboxint.h"
+#include "wizard.h"
+#include "tabwidget.h"
+#include "subdialog.h"
+#include "listbox.h"
 
 #include <stdlib.h>
 

@@ -18,7 +18,7 @@ class CheckBox : public QCheckBox, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 public:
 	CheckBox(QWidget *a_parent, const char *a_name);

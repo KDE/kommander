@@ -18,8 +18,8 @@ class ButtonGroup : public QButtonGroup, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget DESIGNABLE false)
 public:
 	ButtonGroup(QWidget *a_parent, const char *a_name);
 	~ButtonGroup();

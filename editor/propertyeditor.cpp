@@ -25,7 +25,7 @@
 #include "formwindow.h"
 #include "command.h"
 #include "metadatabase.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "widgetfactory.h"
 #include "globaldefs.h"
 #include "defs.h"
