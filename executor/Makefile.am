@@ -1,3 +1,5 @@
+KDE_OPTIONS = nofinal
+
 ####### kdevelop will overwrite this part!!! (begin)##########
 bin_PROGRAMS = kmdr-executor
 ## INCLUDES were found outside kdevelop specific part

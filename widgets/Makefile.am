@@ -1,3 +1,5 @@
+KDE_OPTIONS = nofinal
+
 # this has all of the subdirectories that make will recurse into.  if
 # there are none, comment this out
 #SUBDIRS =

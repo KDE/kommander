@@ -1,3 +1,5 @@
+KDE_OPTIONS = nofinal
+
 SUBDIRS = widgets editor executor
 
 COMPILE_BEFORE_editor = widgets
