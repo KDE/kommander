@@ -52,7 +52,7 @@ void TreeWidget::addItemFromString(const QString& s)
   {
     QListViewItemIterator it(this);
     while (it.current()) {
-      if (it.current()->depth() == (int)i && it.current()->text(0) == elements[i])
+      if (it.current()->parent() == parent && it.current()->text(0) == elements[i])
       {
         parent = it.current();
         break;
