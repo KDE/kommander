@@ -1,3 +1,13 @@
+Tue 15 cze 2004 23:24:52 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added file read/write/append functions
+
+Mon 15 cze 2004 18:32:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added some string-handling functions
+
+Mon 14 cze 2004 10:23:12 CEST - Eric Laffoon <eric@kdewebdev.org>
+	o fix: parentPid bug
+	o fix: execBegin bug
+
 Sat 12 Jun 2004 01:49:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added more array functions: @Array.values(), @Array.clear()
 	  and @Array.remove()
@@ -5,6 +15,9 @@ Sat 12 Jun 2004 01:49:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o fix: FileSelector now opens file dialog in current directory
 	o added two new DCOP functions for ListBoxes: findItem()
 	  and addUniqueItem()
+	o ButtonGroup now has 'checked' and 'unchecked' states, it
+	  also supports setChecked()
+	o Kommander 1.0alpha4 released
 
 Thu 10 Jun 2004 00:49:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added DCOP information database that translates function
