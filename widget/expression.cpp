@@ -35,8 +35,8 @@ void Expression::setString(const QString& s)
    int i = 0;
    while (i < len)
    {
-      if ((s[i] == '>' || s[i] == '<' || s[i] == '=') && 
-        s[i+1] == '=')
+      if (((s[i] == '>' || s[i] == '<' || s[i] == '=' || s[i] == '!') && 
+            s[i+1] == '=') || (s[i] == '<' && s[i+1] == '>')) 
       {
         m_parts.append(QVariant(s.mid(i, 2)));
 	i += 2;
@@ -229,7 +229,7 @@ QVariant Expression::parseComparison()
   if (!validate()) return -1;
   QVariant value = parseAdd();
   QString cmp = next();
-  if (cmp == "<" || cmp == "<=" || cmp == "==" || cmp == ">=" || cmp == ">")
+  if (cmp == "<" || cmp == "<=" || cmp == "==" || cmp == ">=" || cmp == ">" || cmp == "<>" || cmp == "!=")
   {
     m_start++;
     QVariant value2 = parseAdd();
@@ -241,6 +241,8 @@ QVariant Expression::parseComparison()
       return compare(value, value2) == 0;
     else if (cmp == ">=")
       return compare(value, value2) >= 0;
+    else if (cmp == "<>" || cmp == "!=")
+      return compare(value, value2) != 0;
     else 
       return compare(value, value2) > 0;
   }
