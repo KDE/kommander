@@ -100,7 +100,7 @@ void SpecialInformation::registerSpecials()
     "Return number of chars in the string.");
   insert(String::contains, "contains(QString string, QString substring)", 2, 
     "Check if the string contains given substring.");
-  insert(String::find, "find(QString string, QString sought)", 2, 
+  insert(String::find, "find(QString string, QString sought, int index)", 2, 
     "Return position of a substring in the string, or -1 if it isn't found.");
   insert(String::left, "left(QString string, int n)", 2, 
     "Return first n chars of the string.");

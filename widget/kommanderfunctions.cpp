@@ -223,7 +223,7 @@ QString KommanderWidget::evalStringFunction(const QString& function, const QStri
     case String::contains:
       return QString::number(args[0].contains(args[1]));
     case String::find:
-      return QString::number(args[0].find(args[1]));
+      return QString::number(args[0].find(args[1], args.count() == 3 ? args[2].toInt() : 0));
     case String::left:
       return args[0].left(args[1].toInt());
     case String::right:
