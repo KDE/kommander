@@ -448,7 +448,31 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
 QString KommanderWidget::parseQuotes(const QString& s) const
 {
   if (s[0] == s[s.length()-1] && (s[0] == '\'' || s[0] == '\"'))
-    return s.mid(1, s.length()-2);
+  {
+    QChar buf[s.length()];
+    int start = 0;
+    int end = s.length() - 1;
+    for (int i=1; i<end; i++)
+      if (s[i] == '\\')
+      {
+        if (s[i+1] == 't')
+          buf[start++] = '\t';
+        else if (s[i+1] == 'n')
+          buf[start++] = '\n';
+        else if (s[i+1] == '\\')
+          buf[start++] = '\\';
+        else 
+        {
+          buf[start++] = s[i];
+          i--;
+        } 
+        i++;
+      }
+      else
+        buf[start++] = s[i];
+    return QString(buf, start);
+    //return s.mid(1, s.length()-2);
+  }
   else return s;
 }
 
