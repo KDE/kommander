@@ -144,7 +144,7 @@ public slots:
     void fileNew();
     void fileClose();
     void fileOpen();
-    void fileOpen( const QString &filter, const QString &filename = "" );
+    void fileOpen(const QString &filename);
     void fileOpenRecent(const KURL& name);
     bool fileSave();
     bool fileSaveForm(); // not visible in menu, called from fileSave
@@ -247,8 +247,7 @@ private:
     bool backPix;
     bool splashScreen;
     QString docPath;
-    QString fileFilter;
-
+    
     KAction *actionEditUndo, *actionEditRedo, *actionEditCut, *actionEditCopy,
       *actionEditPaste, *actionEditDelete, *actionEditAdjustSize,
       *actionEditHLayout, *actionEditVLayout, *actionEditGridLayout,

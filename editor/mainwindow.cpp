@@ -114,8 +114,7 @@ static QString textNoAccel( const QString& text)
 MainWindow::MainWindow( bool asClient )
     : KDockMainWindow( 0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader ),
       grd( 10, 10 ), sGrid( TRUE ), snGrid( TRUE ), restoreConfig( TRUE ), splashScreen( TRUE ),
-      docPath( "$QTDIR/doc/html" ), fileFilter( i18n("Kommander Files (*.kmdr)" ) ), client( asClient ),
-      previewing( FALSE ), databaseAutoEdit( FALSE )
+      docPath( "$QTDIR/doc/html" ), client( asClient ),  previewing( FALSE ), databaseAutoEdit( FALSE )
 {
   init_colors();
 
@@ -1246,7 +1245,6 @@ void MainWindow::writeConfig()
   config->writeEntry("RestoreWorkspace", restoreConfig);
   config->writeEntry("SplashScreen", splashScreen);
   config->writeEntry("DocPath", docPath);
-  config->writeEntry("FileFilter", fileFilter);
   config->writeEntry("TemplatePath", templPath);
 
   config->setGroup("Grid");
@@ -1284,7 +1282,6 @@ void MainWindow::readConfig()
   restoreConfig = config->readBoolEntry("RestoreWorkspace", true);
   splashScreen = config->readBoolEntry("SplashScreen", true);
   docPath = config->readEntry("DocPath", docPath);
-  fileFilter = config->readEntry("FileFilter", fileFilter);
   templPath = config->readEntry("TemplatePath", QString::null);
 
   config->setGroup("Grid");
@@ -1535,10 +1532,10 @@ void MainWindow::checkTempFiles()
     d.setNameFilter( "*.kmdr" );
     QStringList lst = d.entryList();
     QApplication::restoreOverrideCursor();
-    bool load = QMessageBox::information( this, i18n("Restoring the Last Session" ),
-                                          i18n("Kommander found some temporary saved files, which were\n"
-                                              "written when Kommander crashed last time. Do you want to\n"
-                                              "load these files?" ), i18n("&Yes" ), i18n("&No" ) ) == 0;
+    bool load = KMessageBox::questionYesNo(this,
+                i18n("Kommander found some temporary saved files, which were\n"
+                "written when Kommander crashed last time. Do you want to\n"
+                    "load these files?" ), i18n("Restoring the Last Session" ) ) == KMessageBox::Yes;
     QApplication::setOverrideCursor( waitCursor );
     for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
         if ( load )
@@ -1590,8 +1587,8 @@ void MainWindow::showDialogHelp()
         link += "dialog-edit-table";
 
     else {
-        QMessageBox::information( this, i18n("Help" ),
-                                  i18n("There is no help available for this dialog at the moment." ) );
+        KMessageBox::information( this, 
+            i18n("There is no help available for this dialog at the moment." ), i18n("Help" ) );
         return;
     }
 
@@ -1605,12 +1602,12 @@ void MainWindow::fileOpenRecent(const KURL& filename)
 {
   if (!QFile::exists(filename.path()))
   {
-    QMessageBox::warning(this, i18n("Open File"), i18n("<qt>Could not open file:<br><b>%1</b><br>File does not exist.</qt>").
-        arg(filename.path()));
+    KMessageBox::error(this, i18n("<qt>Could not open file:<br><b>%1</b><br>File does not exist.</qt>").
+        arg(filename.path()), i18n("Open File"));
     actionRecent->removeURL(filename);
   }
   else
-    fileOpen("", filename.path());
+    fileOpen(filename.path());
 }
 
 void MainWindow::setupPlugins()
@@ -1620,7 +1617,7 @@ void MainWindow::setupPlugins()
 
 
 
-void MainWindow::setModified( bool b, QWidget *window )
+void MainWindow::setModified(bool b, QWidget *window)
 {
   QWidget *w = window;
   while (w)

@@ -612,25 +612,24 @@ void Workspace::itemClicked( int button, QListViewItem *i, const QPoint& )
 
 void Workspace::contentsDropEvent( QDropEvent *e )
 {
-    if ( !KURLDrag::canDecode( e ) ) {
-  e->ignore();
-    } else {
-  KURL::List files;
-  KURLDrag::decode( e, files );
-  if ( !files.isEmpty() ) {
-      for ( KURL::List::Iterator it = files.begin(); it != files.end(); ++it ) {
-          if (!(*it).isLocalFile())
-             continue;
-
-    QString fn = (*it).path();
-#ifndef KOMMANDER
-    mainWindow->fileOpen( "", "", fn );
-#else
-    mainWindow->fileOpen("", fn);
-#endif
-      }
+  if (!KURLDrag::canDecode(e))
+  {
+    e->ignore();
+    return;
   }
-    }
+  
+  KURL::List files;
+  KURLDrag::decode(e, files);
+  if (files.isEmpty())
+    return;
+  
+  for (KURL::List::Iterator it = files.begin(); it != files.end(); ++it)
+  {
+    if (!(*it).isLocalFile())
+      continue;
+    QString fn = (*it).path();
+    mainWindow->fileOpen(fn);
+  }
 }
 
 void Workspace::contentsDragEnterEvent( QDragEnterEvent *e )

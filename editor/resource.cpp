@@ -436,17 +436,6 @@ bool Resource::save( const QString& filename, bool formCodeOnly )
 {
     if ( !formwindow || filename.isEmpty() )
 	return FALSE;
-#ifndef KOMMANDER
-    if (!langIface) {
-	    langIface = MetaDataBase::languageInterface( mainwindow->self->currProject()->language() );
-	if ( langIface )
-	    langIface->addRef();
-    }
-    if ( formCodeOnly && langIface && langIface->supports( LanguageInterface::StoreFormCodeSeperate ) ) {
-	saveFormCode();
-	return TRUE; // missing error checking in saveFormCode ?
-    }
-#endif
     currFileName = filename;
 
     QFile f( filename );
@@ -462,13 +451,6 @@ bool Resource::save( QIODevice* dev )
     if ( !formwindow )
 	return FALSE;
 
-#ifndef KOMMANDER
-    if (!langIface) {
-	    langIface = MetaDataBase::languageInterface( mainwindow->self->currProject()->language() );
-	if ( langIface )
-	    langIface->addRef();
-    }
-#endif
 
     QTextStream ts( dev );
     ts.setCodec( QTextCodec::codecForName( "UTF-8" ) );

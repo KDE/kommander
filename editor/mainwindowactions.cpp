@@ -561,27 +561,20 @@ void MainWindow::fileClose()
 
 void MainWindow::fileOpen()     // as called by the menu
 {
-  fileOpen("", "");
+  fileOpen("");
 }
 
-void MainWindow::fileOpen(const QString & filter, const QString & fn)
+void MainWindow::fileOpen(const QString & fn)
 {
   statusBar()->message(i18n("Open a file..."));
   QStringList additionalSources;
 
-  QStringList filterlist;
-  if (filter.isEmpty())
-    filterlist << i18n("*.kmdr|Kommander Files");
-  else
-    filterlist << filter;
-
-  QString filters = filterlist.join(" ");
   QStringList filenames;
   if (fn.isEmpty())
-    filenames = KFileDialog::getOpenFileNames(QString::null, filters, this, i18n("Open Files"));
+    filenames = KFileDialog::getOpenFileNames(QString::null, i18n("*.kmdr|Kommander Files"), this, i18n("Open Files"));
   else
     filenames << fn;
-  for (QStringList::Iterator fit = filenames.begin(); fit != filenames.end(); ++fit)
+  for (QStringList::ConstIterator fit = filenames.constBegin(); fit != filenames.constEnd(); ++fit)
   {
     QString filename = *fit;
     if (!filename.isEmpty())
