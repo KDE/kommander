@@ -1414,9 +1414,7 @@ void MainWindow::writeConfig()
 
     config.writeEntry( keybase + "Background/UsePixmap", backPix );
     config.writeEntry( keybase + "Background/Color", (int)qworkspace->backgroundColor().rgb() );
-    if ( qworkspace->backgroundPixmap() )
-        qworkspace->backgroundPixmap()->save( QDir::home().absPath() + "/.designer/" + "background.xpm", "XPM" );
-
+    
     config.writeEntry( keybase + "Geometries/MainwindowX", x() );
     config.writeEntry( keybase + "Geometries/MainwindowY", y() );
     config.writeEntry( keybase + "Geometries/MainwindowWidth", width() );
@@ -1506,10 +1504,8 @@ void MainWindow::readConfig()
         recentlyFiles = config.readListEntry( keybase + "RecentlyOpenedFiles", ',' );
         backPix = config.readBoolEntry( keybase + "Background/UsePixmap", TRUE );
         if ( backPix ) {
-            QPixmap pix;
-            pix.load( QDir::home().absPath() + "/.designer/" + "background.xpm" );
-            if ( !pix.isNull() )
-                qworkspace->setBackgroundPixmap( pix );
+            qworkspace->setBackgroundPixmap(PixmapChooser::loadPixmap( "background.png",
+            PixmapChooser::NoSize ));
         } else {
             qworkspace->setBackgroundColor( QColor( (QRgb)config.readNumEntry( keybase + "Background/Color" ) ) );
         }
@@ -1632,10 +1628,8 @@ void MainWindow::readOldConfig()
         config.setGroup( "Background" );
         backPix = config.readBoolEntry( "UsePixmap", TRUE );
         if ( backPix ) {
-            QPixmap pix;
-            pix.load( QDir::home().absPath() + "/.designer/" + "background.xpm" );
-            if ( !pix.isNull() )
-                qworkspace->setBackgroundPixmap( pix );
+            qworkspace->setBackgroundPixmap( PixmapChooser::loadPixmap( "background.png",
+            PixmapChooser::NoSize ));
         } else {
             qworkspace->setBackgroundColor( QColor( (QRgb)config.readNumEntry( "Color" ) ) );
         }
