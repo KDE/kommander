@@ -201,6 +201,21 @@ void Instance::changeWidgetText(const QString& widgetName, const QString& text)
   delete children;
 }
 
+int Instance::currentItem(const QString &widgetName)
+{
+  QObjectList* children = stringToWidget(widgetName);  
+  if (children)
+    for (QObject* child = children->first(); child; child = children->next())
+    {
+      if (child->inherits("QListBox"))
+        return ((QListBox*)child)->currentItem();
+      else if (child->inherits("QComboBox"))
+        return ((QComboBox*)child)->currentItem();
+    }
+  delete children;
+  return -1;
+}
+
 void Instance::removeListItem(const QString &widgetName, int index)
 {
   QObjectList* children = stringToWidget(widgetName);  

@@ -26,6 +26,7 @@ class DCOPKommanderIf : virtual public DCOPObject
   k_dcop:
 /** Enable or disable the widget. Works for all widgets based on QWidget.*/
   virtual void enableWidget(const QString& widgetName, bool enable) = 0;  
+
 /** Set the current text/value of the widget. Works for:
       QLabel
       QButton
@@ -33,53 +34,63 @@ class DCOPKommanderIf : virtual public DCOPObject
       QLineEdit: changes the lineedit text
       QTextEdit: changes the content of the edit widget
       QSpinBox: changes the value of the spinbox.
-*/
+      FileSelector: changes value of current file  */
   virtual void changeWidgetText(const QString& widgetName, const QString& text) = 0;
+
+/** Returns current item or -1 if there is no item selected. Works for:
+      QListBox
+      QComboBox  */  
+virtual int currentItem(const QString &widgetName) = 0;  
+  
 /** Removes the item at position index. Works for:
       QListBox  
-      QComboBox
-*/            
-  virtual void removeListItem(const QString &widgetName, int index) = 0;
+      QComboBox  */            
+virtual void removeListItem(const QString &widgetName, int index) = 0;
+
 /** Inserts a text item with text item, at position index. The item will be appended
     if index is negative. Works for:
       QListBox
-      QComboBox
-*/        
-  virtual void addListItem(const QString &widgetName, const QString &item, int index) = 0;
+      QComboBox  */        
+virtual void addListItem(const QString &widgetName, const QString &item, int index) = 0;
+
 /** Inserts the list of strings at position index. The items will be appended if index
     is negative. Works for:
       QListBox
-      QComboBox
-*/        
-  virtual void addListItems(const QString &widgetName, const QStringList &items, int index) = 0;
+      QComboBox  */        
+virtual void addListItems(const QString &widgetName, const QStringList &items, int index) = 0;
+
 /** Remove all items from the list. Works for:  
       QListBox
-      QComboBox
-*/        
-  virtual void clearList(const QString &widgetName) = 0;
+      QComboBox */        
+virtual void clearList(const QString &widgetName) = 0;
+
 /** Sets the cuurent item to the item with name if exists. Otherwise doesn't do
 anything. Works for:  
       QListBox
       QComboBox
 */        
-  virtual void setCurrentListItem(const QString& widgetName, const QString &name) = 0;
+virtual void setCurrentListItem(const QString& widgetName, const QString &name) = 0;
+
 /** Sets the current tab to the index position. Works for:
-      QTabWidget
-*/        
-  virtual void setCurrentTab(const QString &widgetName, int index) = 0;
+      QTabWidget  */        
+virtual void setCurrentTab(const QString &widgetName, int index) = 0;
+
 /** Checks/unchecks the widget. Works for:
       QCheckBox
-      QRadioButton
-*/         
-  virtual void setChecked(const QString &widgetName, bool checked) = 0;
+      QRadioButton  */         
+virtual void setChecked(const QString &widgetName, bool checked) = 0;
+
 /** Sets the associated text of the widget. Works for all Kommander widgets. */  
-  virtual void setAssociatedText(const QString &widgetName, const QString &text) = 0;
+virtual void setAssociatedText(const QString &widgetName, const QString &text) = 0;
+
 /** Returns the associated text of the widget. Works for all Kommander widgets. */ 
-  virtual QStringList associatedText(const QString &widgetName) = 0;
-  /** Returns the value of global variable */ 
-  virtual QString global(const QString& variableName) = 0;
-  /** Sets the value of global variable */ 
-  virtual void setGlobal(const QString& variableName, const QString& value) = 0;
+virtual QStringList associatedText(const QString &widgetName) = 0;
+
+/** Returns the value of global variable */ 
+virtual QString global(const QString& variableName) = 0;
+
+/** Sets the value of global variable */ 
+virtual void setGlobal(const QString& variableName, const QString& value) = 0;
 };
 
 #endif

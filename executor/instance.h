@@ -57,6 +57,7 @@ public:
 //DCOP methods. The documentation is in the dcopkommanderif.h file.
   virtual void enableWidget(const QString& widgetName, bool enable);  
   virtual void changeWidgetText(const QString& widgetName, const QString& text);      
+  virtual int currentItem(const QString &widgetName);
   virtual void removeListItem(const QString &widgetName, int index);
   virtual void addListItem(const QString &widgetName, const QString &item, int index);
   virtual void addListItems(const QString &widgetName, const QStringList &items, int index);
