@@ -37,7 +37,7 @@ namespace Special
   {   
     enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, 
     env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
-    switchBlock, execBegin, forBlock, forEachBlock, ifBlock};
+    switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment};
   }
  
   namespace Array

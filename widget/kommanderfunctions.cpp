@@ -44,6 +44,8 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return QString().setNum(getpid());
     case Kommander::null:
       return QString::null;
+    case Kommander::comment:
+      return QString("#");
     case Kommander::exec:
       return execCommand(args[0]);
     case Kommander::dcop:

@@ -140,8 +140,8 @@ void FunctionsDialog::copyText()
 
 void FunctionsDialog::showParameters()
 {
-  KLineEdit* edits[3] = {arg1Edit, arg2Edit, arg3Edit};
-  QLabel* labels[3] = {argLabel1, argLabel2, argLabel3};
+  KLineEdit* edits[4] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit};
+  QLabel* labels[4] = {argLabel1, argLabel2, argLabel3, argLabel4};
   int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
   
   widgetComboBox->setShown(start);
@@ -151,7 +151,7 @@ void FunctionsDialog::showParameters()
     arg1Edit->setShown(false);
     argLabel1->setShown(false);
   }
-  for (int i=start; i<3; i++)
+  for (int i=start; i<4; i++)
   {
     edits[i]->setShown(i<m_function.argumentCount());
     edits[i]->clear();
@@ -163,9 +163,9 @@ void FunctionsDialog::showParameters()
 
 QString FunctionsDialog::params()
 {
-  KLineEdit* edits[3] = {arg1Edit, arg2Edit, arg3Edit};
+  KLineEdit* edits[4] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit};
   QStringList pars;
-  for (int i=0; i<3; i++)
+  for (int i=0; i<4; i++)
     if (edits[i]->isShown())
       pars.append(edits[i]->text());
   return pars.join(", ");

@@ -85,38 +85,36 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::cancel, "cancel(QString widget)", i18n("Stops execution of the script associated with the widget."), 1);
   
   insertGroup(Group::Kommander, "Kommander");
-  insert(Kommander::widgetText, "widgetText", i18n("Returns current widget's content."), 0);
+  insert(Kommander::widgetText, "widgetText", i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
   insert(Kommander::selectedWidgetText, "selectedWidgetText", 
-    i18n("Returns selected text or text of current item."), 0);
+    i18n("Returns selected text or text of current item. This is deprecated for <i>@mywidget.selected</i>."), 0);
   insert(Kommander::null, "null", 
-     i18n("Does nothing. This is useful if you request the @widgetText value from another widget for a CheckBox that returns nothing in its unchecked state. The @null prevents an error indicating it is empty."), 0);
+     i18n("Does nothing. This is useful if you request a CheckBox or RadioButton to return a value where a state, typically the unchecked state, has no value. The @null prevents an error indicating it is empty."), 0);
   insert(Kommander::pid, "pid", 
      i18n("Returns the pid (process ID) of the current process."), 0);
   insert(Kommander::dcopid, "dcopid", 
-     i18n("Returns DCOP identifier of current process. This is shorthand for <i>kmdr-executor-@pid></i>."), 
+     i18n("Returns DCOP identifier of current process. This is shorthand for <i>kmdr-executor-@pid</i>."), 
      0);
   insert(Kommander::parentPid, "parentPid", 
      i18n("Returns the pid of the parent Kommander window."), 0);
   insert(Kommander::execBegin, "execBegin(QString shell)", 
-     i18n("Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"), 0);
+     i18n("Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. Full path is not required for the shell which may be useful for portability. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"), 0);
   insert(Kommander::env, "env(QString variable)",
      i18n("Returns value of an environment (shell) variable. Do not use <i>$</i> in the name. For example, <i>@env(PATH)</i>."), 1);
   insert(Kommander::exec, "exec(QString command)",
-     i18n("Executes an external command."), 1);
+     i18n("Executes an external shell command."), 1);
   insert(Kommander::expr, "expr(QString expression)",
      i18n("Parses an expression and returns computed value."), 1);
   insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",
-     i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned "
-        "to the variable."), 2);
+     i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned to the variable. <br> <i>@forEach(i,A\\nB\\nC\\n)<br>  @# @i=A<br>@endif</i>"), 2);
   insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)",
-     i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each "
-        "time loop is executed. Execution stops when variable becomes larger then <i>end</i>."), 2);
+     i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger then <i>end</i>. <br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i>."), 3);
   insert(Kommander::global, "global(QString variable)",
      i18n("Returns the value of a global variable."), 1);
   insert(Kommander::i18n, "i18n(QString variable)",
      i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."), 1);
   insert(Kommander::ifBlock, "if(QString expression)",
-     i18n("Executes block if expression is true (non-zero number of non-empty string.)"), 1);
+     i18n("Executes block if expression is true (non-zero number of non-empty string.) <p>Close with <b>@endif</></p>"), 1);
   insert(Kommander::dialog, "dialog(QString file, QString args)",
      i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"), 1);
   insert(Kommander::readSetting, "readSetting(QString key, QString default)",
@@ -126,10 +124,12 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::writeSetting, "writeSetting(QString key, QString value)",
      i18n("Stores setting in configuration file for this dialog."), 2);
   insert(Kommander::switchBlock, "switch(QString expresion)",
-     i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i> ."), 1);
+     i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i>.<p>@switch()<br>@case()<br>@end"), 1);
   insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)",
      i18n("Executes an external DCOP call."), 3, 9);
-  
+  insert(Kommander::comment, "#",
+     i18n("Adds a comment to EOL that Kommander will not parse"), 0);
+     
   insertGroup(Group::Array, "Array");
   insert(Array::values, "values(QString array)", 
     i18n("Returns an EOL-separated list of all values in the array."), 1);
