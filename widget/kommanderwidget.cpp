@@ -125,7 +125,7 @@ QString KommanderWidget::evalAssociatedText() // expands and returns associated 
 QString KommanderWidget::evalAssociatedText(const QString& a_text)
 {
   /* New internal parser is used if global flag is set */
-  if (KommanderWidget::useInternalParser || a_text.startsWith("#!kommander"))
+  if ((KommanderWidget::useInternalParser && !a_text.startsWith("#!")) || a_text.startsWith("#!kommander"))  
   {
     Parser p(internalParserData());
     p.setString(a_text);
