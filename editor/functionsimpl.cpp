@@ -89,9 +89,10 @@ void FunctionsDialog::functionChanged(int)
            m_function.minArg()).arg(m_function.minArg());
   
   descriptionText->clear();
-  descriptionText->setText(QString("<qt><h3>%1</h3>").arg(m_function.name()) + 
-     i18n("<p><b>Description:</b> %2").arg(m_function.description()) + 
-     i18n("<p><b>Syntax:</b> <i>%3</i>%4</qt>").arg(m_function.longPrototype()).arg(defArgs));
+  descriptionText->setText(i18n("<qt><h3>%1</h3>"
+     "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
+     .arg(m_function.name()).arg(m_function.description())
+     .arg(m_function.longPrototype()).arg(defArgs));
   
   showParameters();
 }
