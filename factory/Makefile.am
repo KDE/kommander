@@ -1,7 +1,7 @@
 noinst_LTLIBRARIES = libkommanderfactory.la
 
 # set the include path for X, qt and KDE
-AM_CPPFLAGS = -I$(top_builddir)/kommander/plugin $(all_includes)
+AM_CPPFLAGS = -I$(top_srcdir)/kommander/plugin $(all_includes)
 
 # the library search path. 
 libkommanderfactory_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
