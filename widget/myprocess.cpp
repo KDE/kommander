@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <klocale.h>
 #include <kprocess.h>
 
 /* QT INCLUDES */
@@ -72,7 +73,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
 
   if(!process->start(KProcess::NotifyOnExit, KProcess::All))
   {
-    m_atw->printError(QString("Unable to start shell process %1").arg(shellName));
+    m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>").arg(shellName));
     return QString::null;
   }
   process->writeStdin(m_input, m_input.length());

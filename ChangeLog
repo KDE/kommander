@@ -1,6 +1,9 @@
-Thu 22 lip 2004 22:17:49 CEST
+Thu 22 Jul 2004 22:17:49 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o ExecButton now has three modes: no blocking, block only ExecButton,
 	  block whole GUI
+
+Wed 22 Jul 2004 24:10:59 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o optimized Tree Widget
 
 Tue 20 Jul 2004 19:51:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o bug fixed: @dcop with more than 4 arguments
@@ -27,7 +30,7 @@ Wed 14 Jul 2004 12:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @String.args (based on Qt QString("%1").arg()
 	o support parameters in function browser
 
-Tue 13 lip 2004 22:33:19 CEST
+Tue 13 Jul 2004 22:33:19 CEST
 	o added support for internationalizatiof Kommander dialogs
 	o added @i18n special for marking strings for translation
 
