@@ -1,4 +1,4 @@
-SUBDIRS = widgets editor executor
+SUBDIRS = plugin factory widgets editor executor
 
 mimetypedata_DATA = x-kommander.desktop
 mimetypedatadir = $(kde_mimedir)/application

@@ -24,7 +24,7 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
-#include "ewidgetfactory.h"
+#include <kommanderfactory.h>
 #include "assoctextwidget.h"
 #include "wizard.h"
 
@@ -95,7 +95,8 @@ void Wizard::runHelp()
 	}
 	else if(helpAction() == Dialog)
 	{
-		QDialog *dialog = (QDialog *)EWidgetFactory::create(helpActionText());
+		KommanderFactory::loadPlugins();
+		QDialog *dialog = (QDialog *)KommanderFactory::create(helpActionText());
 
 		dialog->exec();
 

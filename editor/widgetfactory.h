@@ -43,8 +43,10 @@
 #include "metadatabase.h"
 #ifndef KOMMANDER
 #include "qwidgetfactory.h"
-#endif
 #include "ewidgetfactory.h"
+#else
+#include "kommanderfactory.h"
+#endif
 
 /* KOMMANDER INCLUDES */
 #include <dialog.h>
@@ -54,14 +56,6 @@
 class QWidget;
 class QLayout;
 class FormWindow;
-
-class CustomWidgetFactory : public EWidgetFactory
-{
-public:
-    CustomWidgetFactory();
-    QWidget *createWidget( const QString &className, QWidget *parent, const char *name ) const;
-
-};
 
 class WidgetFactory : public Qt
 {
