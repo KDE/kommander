@@ -62,8 +62,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     }
   buildFunctionList();
   setWidget(a_widget);
-  
-  
+    
   connect(associatedTextEdit, SIGNAL(textChanged()), SLOT(textEditChanged()));
   connect(widgetsComboBox, SIGNAL(activated(int)), SLOT(widgetChanged(int)));
   connect(stateComboBox, SIGNAL(activated(int)), SLOT(stateChanged(int)));
@@ -114,10 +113,9 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(i), i);
   
     // initial text for initial state
-  m_currentState = stateComboBox->currentText();
-
-  // show current state
   stateComboBox->setCurrentItem(0);
+  m_currentState = stateComboBox->currentText();
+  
   stateChanged(0);
   
 }
@@ -232,7 +230,7 @@ void AssocTextEditor::textEditChanged()
   int index = stateComboBox->currentItem();
   if (associatedTextEdit->text().isEmpty())
     stateComboBox->changeItem(QPixmap(), stateComboBox->currentText(), index);
-  else if (stateComboBox->pixmap(index)->isNull())
+  else if (!stateComboBox->pixmap(index) || stateComboBox->pixmap(index)->isNull())
     stateComboBox->changeItem(scriptPixmap, stateComboBox->currentText(), index);
 }
 
