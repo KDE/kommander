@@ -45,7 +45,7 @@ static const char *description =
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
 
-#define VERSION "1.0alpha3"
+#define VERSION "1.0alpha4"
 
 static KCmdLineOptions options[] =
 {
