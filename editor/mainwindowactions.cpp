@@ -454,12 +454,12 @@ void MainWindow::setupWindowActions()
     actionWindowCascade->setToolTip(i18n("Cascades the windows so that all their title bars are visible"));
     actionWindowCascade->setWhatsThis(whatsThisFrom("Window|Cascade"));
     
-    actionWindowClose = new KAction(i18n("Cascade"), KShortcut::null(), qworkspace, SLOT(closeActiveWindow()),
+    KAction* actionWindowClose = new KAction(i18n("Cascade"), KShortcut::null(), qworkspace, SLOT(closeActiveWindow()),
                                     actionCollection(), "window_close");
     actionWindowClose->setToolTip(i18n("Closes the active window"));
     actionWindowClose->setWhatsThis(whatsThisFrom("Window|Close"));
     
-    actionWindowCloseAll = new KAction(i18n("Close All"), KShortcut::null(), qworkspace, 
+    KAction* actionWindowCloseAll = new KAction(i18n("Close All"), KShortcut::null(), qworkspace, 
                                        SLOT(closeAllWindows()), actionCollection(), "window_close_all");
     actionWindowCloseAll->setToolTip(i18n("Closes all form windows"));
     actionWindowCloseAll->setWhatsThis(whatsThisFrom("Window|Close All"));
@@ -473,28 +473,27 @@ void MainWindow::setupWindowActions()
                                        SLOT(activatePreviousWindow()), actionCollection(), "window_prev");
     actionWindowPrevious->setToolTip(i18n("Activates the previous window"));
     actionWindowPrevious->setWhatsThis(whatsThisFrom("Window|Previous"));
-  }
-
-  if (!windowMenu)
-  {
+    
     windowMenu = new KPopupMenu(this, "Window");
     menuBar()->insertItem(i18n("&Window"), windowMenu);
     connect(windowMenu, SIGNAL(aboutToShow()), this, SLOT(setupWindowActions()));
-  } 
-  else
-    windowMenu->clear();
+    
+    actionWindowClose->plug(windowMenu);
+    actionWindowCloseAll->plug(windowMenu);
+    windowMenu->insertSeparator();
+    actionWindowNext->plug(windowMenu);
+    actionWindowPrevious->plug(windowMenu);
+    windowMenu->insertSeparator();
+    actionWindowTile->plug(windowMenu);
+    actionWindowCascade->plug(windowMenu);
+    windowMenu->insertSeparator();
+    windowMenu->insertItem(i18n("Vie&ws"), dockHideShowMenu());
+    windowMenu->insertItem(i18n("Tool&bars"), createDockWindowMenu(OnlyToolBars));
+  }
   
-  actionWindowClose->plug(windowMenu);
-  actionWindowCloseAll->plug(windowMenu);
-  windowMenu->insertSeparator();
-  actionWindowNext->plug(windowMenu);
-  actionWindowPrevious->plug(windowMenu);
-  windowMenu->insertSeparator();
-  actionWindowTile->plug(windowMenu);
-  actionWindowCascade->plug(windowMenu);
-  windowMenu->insertSeparator();
-  windowMenu->insertItem(i18n("Vie&ws"), dockHideShowMenu());
-  windowMenu->insertItem(i18n("Tool&bars"), createDockWindowMenu(OnlyToolBars));
+  //FIXME  find a better way to remove only menu items linked to dialogs/forms
+  while (windowMenu->count() > 11)
+    windowMenu->removeItemAt(windowMenu->count() - 1);
   
   QWidgetList windows = qworkspace->windowList();
   if (windows.count() && formWindow())

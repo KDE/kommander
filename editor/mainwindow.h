@@ -257,7 +257,7 @@ private:
     
     KToggleAction* actionPointerTool, *actionConnectTool, *actionOrderTool;
     KAction* actionCurrentTool;
-    KAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
+    KAction *actionWindowTile, *actionWindowCascade;
     KAction *actionWindowNext, *actionWindowPrevious;
     KAction *actionEditFormSettings, *actionEditAccels;
     KRecentFilesAction* actionRecent;
