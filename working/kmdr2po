@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+   echo "Makepo extracts strings for translation from Kommander dialog."
+   echo "Usage: kmdr2po <Kommander dialog>"
+else
+   ./extractkmdr $1 >_from_rc.cc
+   xgettext -C -F --default-domain=`basename $1 .kmdr` \
+      --keyword=i18n --keyword=@i18n $1 _from_rc.cc
+   rm _from_rc.cc
+fi  

@@ -106,6 +106,8 @@ void SpecialInformation::registerSpecials()
         "time loop is executed. Execution stops when variable becomes larger then <i>end</i>."));
   insert(Kommander::global, "global(QString variable)", 1,
      i18n("Return value of a global variable."));
+  insert(Kommander::i18n, "i18n(QString variable)", 1,
+     i18n("Translate string into current language."));
   insert(Kommander::dialog, "dialog(QString file, QString args)", 1,
      i18n("Execute another Kommander dialog. Current dialog directory is used if no path is given."));
   insert(Kommander::readSetting, "readSetting(QString key, QString default)", 2,

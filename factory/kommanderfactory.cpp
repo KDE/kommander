@@ -92,6 +92,8 @@
 #include <qdatetimeedit.h>
 
 #include <stdlib.h>
+#include <kglobal.h>
+#include <klocale.h>
 
 static QPtrList<KommanderPlugin> widgetPlugins;
 
@@ -726,10 +728,10 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
 	if ( obj->isWidgetType() ) {
 	    if ( prop == "toolTip" ) {
 		if ( !v.toString().isEmpty() )
-		    QToolTip::add( (QWidget*)obj, v.toString() );
+		    QToolTip::add( (QWidget*)obj, translate(v.toString()) );
 	    } else if ( prop == "whatsThis" ) {
 		if ( !v.toString().isEmpty() )
-		    QWhatsThis::add( (QWidget*)obj, v.toString() );
+		    QWhatsThis::add( (QWidget*)obj, translate(v.toString()) );
 	    }
 #ifndef QT_NO_SQL
 	    if ( prop == "database" && !obj->inherits( "QDataView" )
@@ -1128,7 +1130,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 		QString attrib = n.attribute( "name" );
 		QVariant v = DomTool::elementToVariant( n.firstChild().toElement(), QVariant() );
 		if ( attrib == "text" )
-		    txt = v.toString();
+		    txt = translate(v.toString());
 		else if ( attrib == "pixmap" ) {
 		    pix = loadPixmap( n.firstChild().toElement().toElement() );
 		    hasPixmap = !pix.isNull();
@@ -1180,7 +1182,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 		QString attrib = n.attribute( "name" );
 		QVariant v = DomTool::elementToVariant( n.firstChild().toElement(), QVariant() );
 		if ( attrib == "text" )
-		    txt = v.toString();
+		    txt = translate(v.toString());
 		else if ( attrib == "pixmap" ) {
 		    hasPixmap = !n.firstChild().firstChild().toText().data().isEmpty();
 		    if ( hasPixmap )
@@ -1226,7 +1228,7 @@ void KommanderFactory::loadItem( const QDomElement &e, QPixmap &pix, QString &tx
 	    QString attrib = n.attribute( "name" );
 	    QVariant v = DomTool::elementToVariant( n.firstChild().toElement(), QVariant() );
 	    if ( attrib == "text" )
-		txt = v.toString();
+		txt = translate(v.toString());
 	    else if ( attrib == "pixmap" ) {
 		pix = loadPixmap( n.firstChild().toElement() );
 		hasPixmap = !pix.isNull();
@@ -1281,7 +1283,7 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListV
 		QString attrib = n.attribute( "name" );
 		QVariant v = DomTool::elementToVariant( n.firstChild().toElement(), QVariant() );
 		if ( attrib == "text" )
-		    textes << v.toString();
+		    textes << translate(v.toString());
 		else if ( attrib == "pixmap" ) {
 		    QString s = v.toString();
 		    if ( s.isEmpty() ) {
@@ -1437,18 +1439,18 @@ QAction *KommanderFactory::findAction( const QString &name )
 
 void KommanderFactory::loadImages( const QString &dir )
 {
-    QDir d( dir );
-    QStringList l = d.entryList( QDir::Files );
-    for ( QStringList::Iterator it = l.begin(); it != l.end(); ++it )
-	QMimeSourceFactory::defaultFactory()->setPixmap( *it, QPixmap( d.path() + "/" + *it, "PNG" ) );
-
+  QDir d(dir);
+  QStringList l = d.entryList(QDir::Files);
+  for (QStringList::Iterator it = l.begin(); it != l.end(); ++it)
+    QMimeSourceFactory::defaultFactory()->setPixmap(*it, QPixmap(d.path() + "/" + *it, "PNG"));
 }
 
 QString KommanderFactory::translate( const QString& sourceText, const QString& comment )
 {
-  if (!sourceText.isEmpty())
-    return qApp->translate( toplevel->name(), sourceText.utf8(),
-			    comment.utf8(), QApplication::UnicodeUTF8 );
+  if (!sourceText.isEmpty() && !comment.isEmpty())
+    return KGlobal::locale()->translate(comment.utf8(), sourceText.utf8());
+  else if (!sourceText.isEmpty())
+    return KGlobal::locale()->translate(sourceText.utf8());
   else
     return sourceText;                            
 }

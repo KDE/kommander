@@ -19,6 +19,7 @@
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
+#include <kglobal.h>
 #include <klocale.h>
 #include <kurl.h>
 
@@ -31,9 +32,9 @@
 
 /* OTHER INCLUDES */
 #include <cstdio>
-#include <iostream>
 #include <cstdlib>
 #include "instance.h"
+#include <iostream>
 
 using std::cout;
 using std::endl;
@@ -56,21 +57,33 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char *argv[])
 {
-  KLocale::setMainCatalogue("kommander");
   KAboutData aboutData( "kmdr-executor", I18N_NOOP("Kommander Executor"),
     VERSION, description, KAboutData::License_GPL,
     "(c) 2002, Marc Britton", 0, 0, "consume@optushome.com.au");
-  aboutData.addAuthor("Marc Britton",0, "consume@optushome.com.au");
+  aboutData.addAuthor("Marc Britton", 0, "consume@optushome.com.au");
+  aboutData.addAuthor("Michal Rudolf", 0, "mrudolf@kdewebdev.org");
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
+  if (args->count())
+  {
+    char buf[200];
+    QString baseFile = args->url(0).fileName();
+    int ext = baseFile.findRev('.');
+    if (ext != -1)
+      baseFile = baseFile.left(ext);
+    strcpy(buf, baseFile.latin1());
+    KLocale::setMainCatalogue(buf);
+  }
+  else
+    KLocale::setMainCatalogue("Kommander");
+  
   KApplication app;
   
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
   Instance* instance = 0;
   QFile inputFile;
-  
   if (args->isSet("stdin"))
   {
     inputFile.open(IO_ReadOnly, stdin);

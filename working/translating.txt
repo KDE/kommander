@@ -1,0 +1,25 @@
+Short Kommander Dialog Translation Howto
+
+1. How to prepare dialog to be translated?
+
+    Always use @i18n("This is my text") when you use some English text.
+    
+2. How to prepare PO file?
+
+    Use attached scripsts. Just run
+       kmdr2po <your-kommander-dialog.kmdr>
+       
+    Appropriate <your-kommander-dialog.po> file would be created.
+    
+3. How to translate it?
+
+    Use KBabel to translate it. Use msgfmt to compile translation.
+    Look at http://i18n.kde.org for help on this subject.
+    
+4. How to install translation
+
+    Put compiled *.mo files either in:
+	$KDEDIR/share/locale/<your language>/LC_MESSAGES/     (global)
+    or in:
+	$HOME/.kde/share/locale/<your language>/LC_MESSAGES/  (user)
+	

@@ -17,23 +17,23 @@
  ***************************************************************************/
 
  /* KDE INCLUDES */
-#include <kdebug.h>
-#include <kmessagebox.h>
-#include <klocale.h>
 #include <kapplication.h>
+#include <kglobal.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 #include <kstandarddirs.h>
 
 /* QT INCLUDES */
 #include <qdialog.h>
-#include <qwidget.h>
-#include <qstring.h>
-#include <qfileinfo.h>
 #include <qfile.h>
+#include <qfileinfo.h>
 #include <qiodevice.h>
-#include <qobjectlist.h>
 #include <qlabel.h>
-#include <qtabwidget.h>
 #include <qmainwindow.h>
+#include <qobjectlist.h>
+#include <qstring.h>
+#include <qtabwidget.h>
+#include <qwidget.h>
 
 /* OTHER INCLUDES */
 #include "instance.h"
@@ -88,7 +88,7 @@ bool Instance::build()
       "exist.</qt>").arg(m_uiFileName.path()));
     return false;
   }
-
+  
   // create the main instance, must inherit QDialog
   KommanderFactory::loadPlugins();
   m_instance = KommanderFactory::create(m_uiFileName.path());

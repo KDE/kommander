@@ -24,6 +24,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <klocale.h>
+#include <kglobal.h>
 
 #include "kommanderwidget.h"
 #include "kommanderwindow.h"
@@ -50,6 +51,8 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return global("_PARENTPID").isEmpty() ? QString().setNum(getppid()) : global("_PARENTPID");
     case Kommander::env:
       return QString(getenv(args[0].latin1())); 
+    case Kommander::i18n:
+      return KGlobal::locale()->translate(args[0]);
     case Kommander::global:
       return global(args[0]);
     case Kommander::setGlobal:
