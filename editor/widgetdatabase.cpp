@@ -547,7 +547,7 @@ void WidgetDatabase::setupDataBase( int id )
   r->name = "TextBrowser";
   r->iconSet = "textbrowser.png";
   r->group = widgetGroup("Kommander");
-  r->toolTip = "A rich text view with links support";
+  r->toolTip = i18n("Text Browser");
   append(r);
 
   r = new WidgetDatabaseRecord;
@@ -598,7 +598,7 @@ void WidgetDatabase::setupDataBase( int id )
   r->name = "Slider";
   r->iconSet = "slider.png";
   r->group = widgetGroup("Kommander");
-  r->toolTip = "A slider";
+  r->toolTip = i18n("Slider");
   append(r);
 
   r = new WidgetDatabaseRecord;
@@ -633,7 +633,7 @@ void WidgetDatabase::setupDataBase( int id )
   r->name = "ScriptObject";
   r->iconSet = "exec.png";
   r->group = widgetGroup( "Kommander" );
-  r->toolTip = "A hidden script container";
+  r->toolTip = i18n("A hidden script container");
   append(r);
 
 
