@@ -112,9 +112,9 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   // show pixmaps for nonempty scripts
   int p_population = stateComboBox->count()-1; 
   for (int i=0; i<p_population; i++)
-    if (!m_atdict[stateComboBox->text(i)].isNull())
+    if (!m_atdict[stateComboBox->text(i)].isEmpty())
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(i), i);
-  if (!m_populationText.isNull())
+  if (!m_populationText.isEmpty())
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(p_population), p_population);
   
   
