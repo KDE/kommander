@@ -18,8 +18,8 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
-//FIXME: Do we need it?
-//	connect(this, SIGNAL(activated(int)), this, SLOT(setActivatedText(int)));
+
+	connect(this, SIGNAL(activated(int)), this, SLOT(emitWidgetTextChanged(int)));
 
 	emit widgetOpened();
 }
@@ -64,6 +64,7 @@ QString ComboBox::widgetText() const
 	return currentText();
 }
 
+#if 0
 QStringList ComboBox::items() const
 {
 	QStringList itemList;
@@ -88,8 +89,9 @@ void ComboBox::resetItems()
 	for(;i < count();++i)
 		removeItem(i);
 }
+#endif
 
-void ComboBox::setActivated(int a_index)
+void ComboBox::emitWidgetTextChanged(int a_index)
 {
 	QString currentText = text(a_index);
 	emit widgetTextChanged(currentText);

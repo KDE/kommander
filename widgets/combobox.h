@@ -21,7 +21,7 @@ class ComboBox : public QComboBox, public AssocTextWidget
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget);
 	
-	Q_PROPERTY(QStringList items READ items WRITE setItems RESET resetItems);
+//	Q_PROPERTY(QStringList items READ items WRITE setItems RESET resetItems);
 public:
 	ComboBox(QWidget *a_parent, const char *a_name);
 	~ComboBox();
@@ -33,12 +33,13 @@ public:
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
-	QStringList items() const;
-	void setItems(QStringList);
-	void resetItems();
+//	QStringList items() const;
+//	void setItems(QStringList);
+//	void resetItems();
 public slots:
 	virtual void setWidgetText(const QString &);
-	virtual void setActivated(int);
+	
+	virtual void emitWidgetTextChanged(int);
 signals:
 	void widgetOpened();
 	void widgetTextChanged(const QString &);
