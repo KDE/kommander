@@ -1,6 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 GenericName=Dynamic Dialog Editor
+GenericName[da]=Dynamisk dialogeditor
+GenericName[hu]=párbeszédablak-szerkesztő
+GenericName[it]=Editor per le maschere dinamiche
+GenericName[sv]=Editor för dynamiska dialogrutor
 Name=Kommander Editor
 Name[ca]=Editor Kommander
 Name[cs]=Editor Kommanderu
@@ -11,7 +15,7 @@ Name[es]=Editor Kommander
 Name[et]=Kommander redaktor
 Name[fa]=ویرایشگر کماندر
 Name[fr]=Éditeur Kommander
-Name[hu]=Kommander szerkesztő
+Name[hu]=Kommander
 Name[it]=Editor per Kommander
 Name[pt]=Editor do Kommander
 Name[pt_BR]=Editor Kommander
@@ -23,7 +27,6 @@ Name[xx]=xxKommander Editorxx
 Exec=kmdr-editor %F
 Icon=kmdr-editor
 Type=Application
-GenericName=Dynamic Dialog Editor
 Comment=Dynamic Dialog Editor
 Comment[ca]=Editor de diàlegs dinàmics
 Comment[cs]=Dynamický dialogový editor
