@@ -18,6 +18,8 @@
     <property name="associations" stdset="0">
         <stringlist>
             <string></string>
+            <string></string>
+            <string></string>
         </stringlist>
     </property>
     <grid>
@@ -48,6 +50,11 @@
                     <property name="name">
                         <cstring>LineEdit1</cstring>
                     </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string></string>
+                        </stringlist>
+                    </property>
                 </widget>
                 <widget class="ExecButton">
                     <property name="name">
@@ -58,8 +65,7 @@
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>TMPSIZE=`date`
-dcop @dcopid KommanderIf setGlobal TEMPSIZE "$TMPSIZE"</string>
+                            <string>@setGlobal(TEMPSIZE, "@exec(date)")</string>
                         </stringlist>
                     </property>
                     <property name="writeStdout">
@@ -75,8 +81,7 @@ dcop @dcopid KommanderIf setGlobal TEMPSIZE "$TMPSIZE"</string>
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>SIZE="`dcop @dcopid KommanderIf global TEMPSIZE`"
-dcop @dcopid KommanderIf changeWidgetText LineEdit1 "$SIZE"</string>
+                            <string>dcop @dcopid KommanderIf changeWidgetText LineEdit1 "@global(TEMPSIZE)"</string>
                         </stringlist>
                     </property>
                     <property name="writeStdout">
