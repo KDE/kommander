@@ -251,8 +251,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       setCurrentItem(indexToItem(args[0].toInt()));
       break;
     case DCOP::findItem:
-      setCurrentItem(findItem(args[0], 0));
-      break;
+      return QString::number(itemToIndex(findItem(args[0], 0)));
     case DCOP::item:
       return itemText(indexToItem(args[0].toInt()));
     case DCOP::itemPath:
