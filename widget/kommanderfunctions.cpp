@@ -231,10 +231,13 @@ QString KommanderWidget::evalStringFunction(const QString& function, const QStri
     return args[0].lower();
   else if (function == "upper")
     return args[0].upper();
-  else if (function == "compare")
-    return QString::number(args[0].compare(args[1]));
   else if (function == "isEmpty")
     return QString::number(args[0].isEmpty());
+  else if (function == "compare")
+  {
+    int compare = args[0].compare(args[1]);
+    return compare < 0 ? "-1" : (compare == 0 ? "0" : "1");
+  }
   else if (function == "isNumber")
   {
     bool ok;
