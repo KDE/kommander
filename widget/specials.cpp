@@ -107,7 +107,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::global, "global(QString variable)", 1,
      i18n("Returns the value of a global variable."));
   insert(Kommander::i18n, "i18n(QString variable)", 1,
-     i18n("Translates the string into the current language."));
+     i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."));
   insert(Kommander::dialog, "dialog(QString file, QString args)", 1,
      i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"));
   insert(Kommander::readSetting, "readSetting(QString key, QString default)", 2,
