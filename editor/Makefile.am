@@ -5,7 +5,7 @@ KDE_OPTIONS = nofinal
 bin_PROGRAMS = kmdr-editor
 
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes) -Ishared -Iinterfaces -Ipics -I$(top_srcdir)/kommander/widgets
+INCLUDES = -I$(top_srcdir)/kommander/widgets $(all_includes) -Ishared -Iinterfaces -Ipics
 
 # the library search path. 
 kmdr_editor_LDFLAGS = $(KDE_RPATH) $(all_libraries) 
@@ -23,5 +23,9 @@ noinst_HEADERS = actiondnd.h actioneditorimpl.h actioninterface.h  actionlistvie
 METASOURCES = AUTO
 
 # this is where the desktop file will go 
-desktopdir   = $(kde_appsdir)/Editors
+desktopdir = $(kde_appsdir)/Editors
 desktop_DATA = kmdr-editor.desktop
+AM_CFLAGS = 
+AM_CXXFLAGS = 
+AM_FFLAGS = 
+SUBDIRS = 
