@@ -254,7 +254,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     else if (argTypes[i] == "double")
       byteDataStream << a_query[i+3].toDouble();
     else if (argTypes[i] == "bool")
-      byteDataStream << (bool)(a_query[i+3] != "false" && a_query[i+3] != "FALSE" && a_query[i] != "0");
+      byteDataStream << (bool)(a_query[i+3] != "false" && a_query[i+3] != "FALSE" && a_query[i+3] != "0");
     else if (argTypes[i] == "QStringList")
       if (a_query[i+3].find('\n') != -1)
         byteDataStream << QStringList::split("\n", a_query[i+3], true);
