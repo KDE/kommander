@@ -124,14 +124,14 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     case DCOP::setCurrentItem:
     {
       int index = args[0].toInt();
-      if (index < count())
+      if (index < (int)count())
         setCurrentItem(index);
       break;
     }
     case DCOP::item:
     {
       int index = args[0].toInt();
-      if (index >= 0 && index < count())
+      if (index >= 0 && index < (int)count())
         return item(index)->text();
       else
         return QString::null;
@@ -155,10 +155,10 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       int index = args[1].toInt();
       if (index == -1)
       {
-        for (int i=0; i<count(); i++)
+        for (uint i=0; i<count(); i++)
           changeItem(pixmap, text(i), i);
       }
-      else if (index < count())
+      else if (index < (int)count())
         changeItem(pixmap, text(index), index);
       break;
     }
