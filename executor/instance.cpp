@@ -21,7 +21,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kapplication.h>
-
+#include <kstandarddirs.h>
 
 /* QT INCLUDES */
 #include <qdialog.h>
@@ -152,12 +152,13 @@ bool Instance::run(QFile *a_file)
   }
   KommanderWidget::setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
     
-  if (m_uiFileName.directory().left(5) == "/tmp/") 
+  if (m_uiFileName.directory().startsWith(locateLocal("tmp", "") + "/") ||
+      m_uiFileName.directory().startsWith("/tmp/"))
   {
      if (KMessageBox::warningYesNo(0, "<qt>This dialog is running from your <i>/tmp</i> directory. "
          " This may mean that it was run from a KMail attachment or from a webpage. "
-		 " <i>Any script contained in this dialog will have write access to all of your home directory!</i>"
-         "<br> <b>Running such dialogs may be dangerous!</b>"
+         "<p>Any script contained in this dialog will have write access to all of your home directory! "
+         "<b>Running such dialogs may be dangerous!</b>"
          "<p>Are you sure you want to continue?</qt>") == KMessageBox::No)
        return false;
   }
