@@ -33,13 +33,13 @@
 ExecButton::ExecButton(QWidget *a_parent, const char *a_name)
 	: QPushButton(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
-	setWriteStdout(false);
-
-	connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
+  setWriteStdout(false);
+  bufferStdin = 0;
+  connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 
 }
 
@@ -105,26 +105,41 @@ QString ExecButton::selectedWidgetText() const
 
 void ExecButton::startProcess()
 {
-	QString at = evalAssociatedText();
+  QString at = evalAssociatedText();
+  QString shellName = "/bin/sh";
+  
+  if (at.isEmpty())
+    return;
+  
+  // Look for shell
+  if (at.startsWith("#!")) {
+    int eol = at.find("\n");
+    if (eol == -1)
+      eol = at.length();
+    shellName = at.mid(2, eol-1).stripWhiteSpace();
+    at = at.mid(eol+1);
+  } 
+   
+  KProcess *process = new KProcess(this);
+  *process << shellName;
+  connect(process, SIGNAL(processExited(KProcess *)), SLOT(endProcess(KProcess *)));
+  connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
+  connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
 
-	if(!at.isEmpty())
-	{
-		KShellProcess *process = new KShellProcess("/bin/sh");
-
-		*process << at;
-
-		connect(process, SIGNAL(processExited(KProcess *)), SLOT(endProcess(KProcess *)));
-		connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
-		connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
-		if(!process->start(KProcess::NotifyOnExit, KProcess::Stdout))
-		{
-			KMessageBox::error(this, i18n("Failed to start shell process."));
-			delete process;
-			return;
-		}
-
-		setEnabled(false); // disabled until process ends
-	}
+  if(!process->start(KProcess::NotifyOnExit, KProcess::All))
+  {
+    KMessageBox::error(this, i18n("<qt>Failed to start shell process.<br><b>%1</b></qt>").arg(shellName));
+    delete process;
+    return;
+  }
+  else {
+    int len = at.local8Bit().length();
+    bufferStdin = new char[len+1];
+    strcpy(bufferStdin, at.local8Bit());
+    process->writeStdin(bufferStdin, len);
+    process->closeStdin();
+  }  
+  setEnabled(false); // disabled until process ends
 }
 
 void ExecButton::appendOutput(KProcess *, char *a_buffer, int a_len)
@@ -146,12 +161,15 @@ void ExecButton::appendOutput(KProcess *, char *a_buffer, int a_len)
 
 void ExecButton::endProcess(KProcess *a_process)
 {
-	emit widgetTextChanged(m_output);
-	m_output = "";
+  emit widgetTextChanged(m_output);
+  m_output = "";
 
-	setEnabled(true);
+  setEnabled(true);
+  
+  delete[] bufferStdin;
+  bufferStdin = 0;
 
-	delete a_process;
+  delete a_process;
 }
 
 bool ExecButton::writeStdout() const

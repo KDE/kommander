@@ -31,44 +31,53 @@ class KProcess;
 class QShowEvent;
 class ExecButton : public QPushButton, public KommanderWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-	Q_PROPERTY(bool writeStdout READ writeStdout WRITE setWriteStdout)
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_PROPERTY(bool writeStdout READ writeStdout WRITE setWriteStdout)
 	
 public:
-	ExecButton(QWidget *a_parent, const char *a_name);
-	~ExecButton();
+  ExecButton(QWidget *a_parent, const char *a_name);
+  ~ExecButton();
 
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
+  virtual QString widgetText() const;
+  virtual QString selectedWidgetText() const;
 
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(const QStringList&);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
 
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
 
-	virtual void setWriteStdout(bool);
-	bool writeStdout() const;
+  // Handle stdout setting
+  virtual void setWriteStdout(bool);
+  bool writeStdout() const;
 public slots:
-    virtual void populate();
-	virtual void setWidgetText(const QString &);
-		virtual void setSelectedWidgetText(const QString &a_text);
-	virtual void startProcess();
-	virtual void appendOutput(KProcess *, char *, int);
-	virtual void endProcess(KProcess *);
+  virtual void populate();
+  virtual void setWidgetText(const QString &);
+  virtual void setSelectedWidgetText(const QString &a_text);
+  
+  // Execute script from associastedText
+  virtual void startProcess();
+  // Append output from proces to output string
+  virtual void appendOutput(KProcess *, char *, int);
+  // End process, cleanup data
+  virtual void endProcess(KProcess *);
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString&);
+  void widgetOpened();
+  void widgetTextChanged(const QString&);
 protected:
-	bool m_writeStdout;
-	QString m_output;
-    void showEvent( QShowEvent *e );
+  // Text sent to process
+  char* bufferStdin;
+  // Whether output from process should be put in real stdout
+  bool m_writeStdout;
+  // Output from process
+  QString m_output;
+  void showEvent( QShowEvent *e );
 private:
 };
 

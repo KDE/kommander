@@ -1,8 +1,8 @@
 <!DOCTYPE kdevelop>
 <kdevelop>
   <general>
-    <author>Marc Britton</author>
-    <email>consume@optushome.com.au</email>
+    <author>Michal Rudolf</author>
+    <email>mrudolf@kdewebdev.org</email>
     <version>$VERSION$</version>
     <projectmanagement>KDevKDEAutoProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
@@ -12,7 +12,7 @@
     </keywords>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
+    <description></description>
     <ignoreparts>
       <part>KDevDoxygen</part>
     </ignoreparts>
@@ -52,16 +52,16 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
+      <dbgshell></dbgshell>
       <programargs>/home/andris/development/quanta/quanta/quanta/scripts/htmlquickstart.kmdr</programargs>
-      <gdbpath/>
+      <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
     </general>
     <display>
       <staticmembers>false</staticmembers>
@@ -85,27 +85,28 @@
       <abortonerror>true</abortonerror>
       <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin></makebin>
     </make>
     <general>
       <useconfiguration>default</useconfiguration>
+      <activetarget>executor/kmdr-executor</activetarget>
     </general>
     <configurations>
       <default>
         <configargs>--with-kommander --enable-debug=full --prefix=/opt/kde3</configargs>
-        <builddir>/home/andris/development/build/kde-head/kdewebdev</builddir>
-        <topsourcedir>/home/andris/development/quanta/quanta</topsourcedir>
-        <cppflags/>
-        <ldflags/>
+        <builddir>/home/ja/programming/kde/kdewebdev/kommander/</builddir>
+        <topsourcedir>/home/ja/programming/kde/kdewebdev/kommander</topsourcedir>
+        <cppflags></cppflags>
+        <ldflags></ldflags>
         <ccompiler>kdevgccoptions</ccompiler>
         <cxxcompiler>kdevgppoptions</cxxcompiler>
         <f77compiler>kdevpgf77options</f77compiler>
-        <ccompilerbinary/>
-        <cxxcompilerbinary/>
-        <f77compilerbinary/>
-        <cflags/>
-        <cxxflags/>
-        <f77flags/>
+        <ccompilerbinary></ccompilerbinary>
+        <cxxcompilerbinary></cxxcompilerbinary>
+        <f77compilerbinary></f77compilerbinary>
+        <cflags></cflags>
+        <cxxflags></cxxflags>
+        <f77flags></f77flags>
       </default>
     </configurations>
     <run>
