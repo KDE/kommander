@@ -19,10 +19,12 @@ dialog, we get something like this in the outputted header file:
 --code--
 #include <kommanderwidget.h>
 
+class QShowEvent;
 class KomLineEdit : public KLineEdit, public KommanderWidget
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 	
@@ -37,8 +39,13 @@ public:
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
+	virtual QString populationText() const;
+	virtual void setPopulationText( QString );
 public slots:
 	virtual void setWidgetText(const QString &);
+	virtual void populate();
+protected:
+    void showEvent( QShowEvent *e );
 signals:
 	void widgetOpened();
 	void widgetTextChanged(const QString &);
@@ -60,8 +67,6 @@ KomLineEdit::KomLineEdit(QWidget *a_parent, const char *a_name)
     states << "default";
     setStates(states);
     setDisplayStates(states);
-
-    emit widgetOpened();
 }
 --endcode--
 
@@ -70,9 +75,6 @@ Our line edit doesn't have any kind of state, so we just
 give it one state 'default'. If you were creating a widget
 that had different kinds of states, such as a check box, you might
 set three states "unchecked", "semichecked" and "checked" here.
-
-The widgetOpened() signal is also emitted. This is useful
-for anyone wanting to perform an action when this widget is shown.
 
 --code--
 QString KomLineEdit::currentState() const
@@ -95,7 +97,7 @@ QString KomLineEdit::widgetText() const
 
 void KomLineEdit::setWidgetText(const QString &a_text)
 {
-
+    KLineEdit::setText(a_text);
     emit widgetTextChanged(a_text);
 }
 --endcode--
@@ -119,13 +121,14 @@ The standard widgets are loaded as widget plugins, but the Kommander editor
 is also linked against this library because certain mechanisms in the editor
 are tied specifically to the standard widgets.
 
-A plugin in Kommander is simply a shared library which has the symbol
-'kommander_plugin' available. This symbol is a function returning a pointer
+A plugin in Kommander is simply a shared library that has the symbol
+'kommander_plugin'. This symbol is a function returning a pointer
 to an instance of a KommanderPlugin class.
 
-Kommander makes it easy to turn you widgets into a plugin, so you don't
+Kommander makes it easy to create a plugin for you widgets, so you don't
 need to worry about this low level stuff. The basic idea is to derive
-a new plugin class for your widgets from the KommanderPlugin base class.
+a new plugin class for your widgets from the KommanderPlugin base class
+and implement a few specific details.
 
 The following code continues on our example of creating a Kommander line edit 
 widget.
@@ -164,7 +167,7 @@ MyKomPlugin::MyKomPlugin()
 In the constructor of the plugin, we call addWidget() for each widget we wish 
 to provide in this plugin. addWidget() takes 5 arguments but only the first 3 
 are required. In order, the arguments are the widget's class name, group, 
-tool tip, what's this information, and a bool indicating whether this widget 
+tool tip, what's this information, and a bool indicating whether the widget 
 is a container for other widgets or not. This information is used
 by the editor when grouping your widget in menus, providing help information
 etc.
@@ -191,7 +194,8 @@ KOMMANDER_EXPORT_PLUGIN(MyKomPlugin)
 --endcode--
 
 Finally, we export our plugin. This just provides an entry point to our
-plugin so the Kommander system can get access to it.
+plugin so the Kommander system can get access to it. Without this,
+Kommander won't recognise your library as a Kommander plugin.
 
 To compile your new Kommander extension, you should compile all files
 as a shared library, linking against the kommanderplugin, kommanderwidget

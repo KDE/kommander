@@ -217,8 +217,8 @@ QString KommanderWidget::evalAssociatedText(const QString &a_text) const
 			    cfg.setGroup( QString(superParent->name()) );
 			    bool ok;
 			    QStringList args = parseArgs( arg, ok );
-			    if( !ok || (args.count() != 2 || 
-				    (args.count() == 1 && identifier == "readSetting")) )
+			    if( !ok || (args.count() != 2 && 
+				    (args.count() != 1 && identifier == "readSetting")) )
 			    {
 				printError(QString(m_thisObject->name()), i18n("Error"
 					" parsing arguments to @%1").arg(identifier));

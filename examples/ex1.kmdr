@@ -1,0 +1,105 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>169</width>
+            <height>168</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Sentence Generator</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="GroupBox">
+            <property name="name">
+                <cstring>sentenceGen</cstring>
+            </property>
+            <property name="title">
+                <string>Words</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@lineEditOne@lineEditTwo@lineEditThree@lineEditFour@lineEditFive</string>
+                </stringlist>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>lineEditOne</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>lineEditTwo</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>lineEditThree</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>lineEditFour</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>lineEditFive</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

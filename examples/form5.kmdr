@@ -1,0 +1,346 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>423</width>
+            <height>269</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Echo Demo</string>
+    </property>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>usetext</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>120</x>
+                <y>120</y>
+                <width>281</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>du -h</string>
+            <comment>test</comment>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton1_3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>230</x>
+                <y>170</y>
+                <width>90</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Echo+Exec</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo @usetext; @usetext</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+        <property name="WriteStdout" stdset="0">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>121</y>
+                <width>101</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Enter command</string>
+        </property>
+    </widget>
+    <widget class="FileSelector">
+        <property name="name">
+            <cstring>FileSelector1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>30</y>
+                <width>401</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton1_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>120</x>
+                <y>170</y>
+                <width>90</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Exec</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@usetext</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+        <property name="WriteStdout" stdset="0">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton7</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>340</x>
+                <y>170</y>
+                <width>70</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>ls -l</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>ls -l</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+        <property name="WriteStdout" stdset="0">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>7</y>
+                <width>231</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Select a file</string>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>170</y>
+                <width>90</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Echo</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo @usetext</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+        <property name="WriteStdout" stdset="0">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton7_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>150</x>
+                <y>70</y>
+                <width>91</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Your File</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo You chose @FileSelector1</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="CloseButton">
+        <property name="name">
+            <cstring>CloseButton1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>340</x>
+                <y>210</y>
+                <width>70</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Close</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo "Thanks for testing"</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+        <property name="toolTip" stdset="0">
+            <string>Try "What's this" on me!</string>
+        </property>
+        <property name="whatsThis" stdset="0">
+            <string>Like you need someone to tell you what this is?
+Wow that is so like lame man!
+
+Ha ha. We got it all with Kommander!</string>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton5</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>230</x>
+                <y>210</y>
+                <width>91</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>test</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo "Thanks for testing"</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+        <property name="WriteStdout" stdset="0">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton9</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>210</y>
+                <width>91</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>count files</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo filecount: `ls | wc -l`</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>false</bool>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton9_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>120</x>
+                <y>210</y>
+                <width>91</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>change str</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo "ls | wc -l"</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>false</bool>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>ExecButton9</sender>
+        <signal>widgetTextChanged(const QString&amp;)</signal>
+        <receiver>usetext</receiver>
+        <slot>setWidgetText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>ExecButton9_2</sender>
+        <signal>widgetTextChanged(const QString&amp;)</signal>
+        <receiver>usetext</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

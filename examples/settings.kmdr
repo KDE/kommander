@@ -1,0 +1,254 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>settingsDialog</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>settingsDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>512</width>
+            <height>482</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Settings Dialog</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout7</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Enter any text you want in the widgets below - Kommander will remember it!</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>lineEdit</cstring>
+                    </property>
+                    <property name="populationText">
+                        <string>@readSetting( "lineEditValue", "Default Line Edit Value" )</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="TextEdit">
+                    <property name="name">
+                        <cstring>textEdit</cstring>
+                    </property>
+                    <property name="populationText">
+                        <string>@readSetting("textEditValue", "Default Text Edit Value")</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout6</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>Layout5</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>6</number>
+                                </property>
+                                <widget class="LineEdit">
+                                    <property name="name">
+                                        <cstring>dirLineEdit</cstring>
+                                    </property>
+                                    <property name="populationText">
+                                        <string>@readSetting("dirLineEdit", "~/")</string>
+                                    </property>
+                                    <property name="associations" stdset="0">
+                                        <stringlist>
+                                            <string>@widgetText</string>
+                                        </stringlist>
+                                    </property>
+                                </widget>
+                                <widget class="ExecButton">
+                                    <property name="name">
+                                        <cstring>ExecButton1</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Update</string>
+                                    </property>
+                                    <property name="associations" stdset="0">
+                                        <stringlist>
+                                            <string>ls -1 @dirLineEdit</string>
+                                        </stringlist>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                        <widget class="ListBox">
+                            <property name="name">
+                                <cstring>listBox</cstring>
+                            </property>
+                            <property name="populationText">
+                                <string>@readSetting("listBoxValue", "Default
+List
+Box
+Items")
+</string>
+                            </property>
+                            <property name="associations" stdset="0">
+                                <stringlist>
+                                    <string>@widgetText</string>
+                                </stringlist>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout2</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>Spacer1</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>30</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="CloseButton">
+                            <property name="name">
+                                <cstring>CloseButton1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Close</string>
+                            </property>
+                            <property name="associations" stdset="0">
+                                <stringlist>
+                                    <string>@writeSetting("lineEditValue", "@lineEdit" )
+@writeSetting("textEditValue", "@textEdit" )
+@writeSetting("listBoxValue", "@listBox" )
+@writeSetting("dirLineEdit", "@dirLineEdit")</string>
+                                </stringlist>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>Spacer2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>30</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>settingsDialog</sender>
+        <signal>widgetOpened()</signal>
+        <receiver>lineEdit</receiver>
+        <slot>populate()</slot>
+    </connection>
+    <connection>
+        <sender>settingsDialog</sender>
+        <signal>widgetOpened()</signal>
+        <receiver>textEdit</receiver>
+        <slot>populate()</slot>
+    </connection>
+    <connection>
+        <sender>settingsDialog</sender>
+        <signal>widgetOpened()</signal>
+        <receiver>listBox</receiver>
+        <slot>populate()</slot>
+    </connection>
+    <connection>
+        <sender>ExecButton1</sender>
+        <signal>widgetTextChanged(const QString&amp;)</signal>
+        <receiver>listBox</receiver>
+        <slot>setWidgetText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>settingsDialog</sender>
+        <signal>widgetOpened()</signal>
+        <receiver>dirLineEdit</receiver>
+        <slot>populate()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

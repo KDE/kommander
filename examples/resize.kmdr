@@ -1,0 +1,217 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>516</width>
+            <height>187</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Batch Image Resizer</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout2</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="FileSelector" row="0" column="1">
+                    <property name="name">
+                        <cstring>FileSelectorSrc</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                    <property name="selectionType">
+                        <enum>Directory</enum>
+                    </property>
+                </widget>
+                <widget class="FileSelector" row="1" column="1">
+                    <property name="name">
+                        <cstring>FileSelectorDst</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                    <property name="selectionType">
+                        <enum>Directory</enum>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Source Dir:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Destination Dir:</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout3</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Width:</string>
+                    </property>
+                </widget>
+                <widget class="SpinBoxInt">
+                    <property name="name">
+                        <cstring>SpinBoxWidth</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Height:</string>
+                    </property>
+                </widget>
+                <widget class="SpinBoxInt">
+                    <property name="name">
+                        <cstring>SpinBoxHeight</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>141</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout4</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>251</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Resize</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>width=@SpinBoxWidth
+height=@SpinBoxHeight
+
+cd @FileSelectorSrc
+
+for file in *
+do
+   echo $file
+   convert -resize ${width}x${height} $file @FileSelectorDst/$file
+done
+</string>
+                        </stringlist>
+                    </property>
+                    <property name="writeStdout">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,104 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form2</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form2</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>243</width>
+            <height>79</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Program Executor</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="FileSelector">
+            <property name="name">
+                <cstring>FileSelector3</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@widgetText</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Run</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@FileSelector3</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
