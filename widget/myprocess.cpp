@@ -48,7 +48,10 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
 {
   QString at = a_command.stripWhiteSpace();
   if (at.isEmpty())
+  {
+    emit processExited(0);
     return QString::null;
+  }
   
   QString shellName = a_shell;
   if (shellName.isEmpty())

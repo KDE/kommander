@@ -43,41 +43,12 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
 TreeWidget::~TreeWidget()
 {
 }
-/*
+
 void TreeWidget::addItemFromString(const QString& s)
 {
   QStringList elements = QStringList::split("/", s);
-  QListViewItem* parent = 0;
-  if (m_lastPath.size() < elements.count())
-    m_lastPath.resize(elements.count());
-  for (uint i=0; i<elements.count(); i++)
-  {
-    if (m_lastPath[i] && m_lastPath[i]->text(0) == elements[i])
-    {
-      parent = m_lastPath[i];
-      continue;
-    }
-    else 
-    {
-      QListViewItemIterator it(this);
-      while (it.current()) {
-        if (it.current()->parent() == parent && it.current()->text(0) == elements[i])
-        {
-          parent = it.current();
-          break;
-        }
-        ++it;
-      }
-      if (!it.current())
-        parent = itemFromString(parent, elements[i]);
-      m_lastPath.insert(i, parent);
-    }
-  }
-}
-*/
-void TreeWidget::addItemFromString(const QString& s)
-{
-  QStringList elements = QStringList::split("/", s);
+  if (elements.count() > 1)
+    setRootIsDecorated(true);
   QListViewItem* parent = 0;
   if (m_lastPath.size() < elements.count())
     m_lastPath.resize(elements.count());
