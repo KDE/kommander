@@ -81,7 +81,7 @@
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>dcop @dcopid KommanderIf changeWidgetText LineEdit1 "@global(TEMPSIZE)"</string>
+                            <string>@LineEdit1.setText("@global(TEMPSIZE)")</string>
                         </stringlist>
                     </property>
                     <property name="writeStdout">
