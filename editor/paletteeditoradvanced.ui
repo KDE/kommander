@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>PaletteEditorAdvancedBase</class>
 <comment>*********************************************************************
 ** Copyright (C) 2000 Trolltech AS.  All rights reserved.
@@ -30,8 +30,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>327</width>
-            <height>341</height>
+            <width>430</width>
+            <height>368</height>
         </rect>
     </property>
     <property name="caption">
@@ -114,6 +114,8 @@
                 <sizepolicy>
                     <hsizetype>5</hsizetype>
                     <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
             <property name="title">
@@ -275,6 +277,8 @@
                                 <sizepolicy>
                                     <hsizetype>1</hsizetype>
                                     <vsizetype>1</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="text">
@@ -292,6 +296,8 @@
                                 <sizepolicy>
                                     <hsizetype>0</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="focusPolicy">
@@ -315,6 +321,8 @@
                                 <sizepolicy>
                                     <hsizetype>1</hsizetype>
                                     <vsizetype>1</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="minimumSize">
@@ -338,6 +346,8 @@
                                 <sizepolicy>
                                     <hsizetype>0</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="focusPolicy">
@@ -362,7 +372,7 @@
                 <cstring>groupEffect</cstring>
             </property>
             <property name="title">
-                <string>3-D Shadow &amp;Effects</string>
+                <string>3D Shadow &amp;Effects</string>
             </property>
             <vbox>
                 <property name="name">
@@ -482,6 +492,8 @@
                                 <sizepolicy>
                                     <hsizetype>1</hsizetype>
                                     <vsizetype>1</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="minimumSize">
@@ -505,6 +517,8 @@
                                 <sizepolicy>
                                     <hsizetype>0</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="focusPolicy">
@@ -613,6 +627,8 @@
         <sizepolicy>
             <hordata>5</hordata>
             <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
         </sizepolicy>
         <pixmap>image0</pixmap>
         <signal>clicked()</signal>
@@ -712,18 +728,6 @@
         <receiver>PaletteEditorAdvancedBase</receiver>
         <slot>onToggleBuildDisabled(bool)</slot>
     </connection>
-    <slot access="protected" language="C++" returnType="void">init()</slot>
-    <slot access="protected" language="C++" returnType="void">destroy()</slot>
-    <slot access="protected" language="C++" returnType="void">onToggleBuildDisabled(bool)</slot>
-    <slot access="protected" language="C++" returnType="void">onCentral(int)</slot>
-    <slot access="protected" language="C++" returnType="void">onChooseCentralColor()</slot>
-    <slot access="protected" language="C++" returnType="void">onChooseEffectColor()</slot>
-    <slot access="protected" language="C++" returnType="void">onChoosePixmap()</slot>
-    <slot access="protected" language="C++" returnType="void">onEffect(int)</slot>
-    <slot access="protected" language="C++" returnType="void">onToggleBuildEffects(bool)</slot>
-    <slot access="protected" language="C++" returnType="void">onToggleBuildInactive(bool)</slot>
-    <slot access="protected" language="C++" returnType="void">paletteSelected(int)</slot>
-    <slot access="public" language="C++" returnType="void">showHelp()</slot>
 </connections>
 <tabstops>
     <tabstop>buttonOk</tabstop>
@@ -739,4 +743,24 @@
     <tabstop>buttonEffect</tabstop>
     <tabstop>buttonHelp</tabstop>
 </tabstops>
+<slots>
+    <slot access="protected">init()</slot>
+    <slot access="protected">destroy()</slot>
+    <slot access="protected">onToggleBuildDisabled(bool)</slot>
+    <slot access="protected">onCentral(int)</slot>
+    <slot access="protected">onChooseCentralColor()</slot>
+    <slot access="protected">onChooseEffectColor()</slot>
+    <slot access="protected">onChoosePixmap()</slot>
+    <slot access="protected">onEffect(int)</slot>
+    <slot access="protected">onToggleBuildEffects(bool)</slot>
+    <slot access="protected">onToggleBuildInactive(bool)</slot>
+    <slot access="protected">paletteSelected(int)</slot>
+    <slot>showHelp()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>styledbutton.h</includehint>
+    <includehint>styledbutton.h</includehint>
+    <includehint>styledbutton.h</includehint>
+</includehints>
 </UI>

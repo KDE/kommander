@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>MyDialog2</class>
 <widget class="QDialog">
     <property name="name">
@@ -41,6 +41,8 @@
                 <sizepolicy>
                     <hsizetype>0</hsizetype>
                     <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
         </widget>
@@ -84,17 +86,17 @@
                         <cstring>buttonHelp</cstring>
                     </property>
                     <property name="text">
-                        <string>Help</string>
+                        <string>&amp;Help</string>
                     </property>
                     <property name="accel">
-                        <number>4144</number>
+                        <string>F1</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
                     </property>
                 </widget>
                 <spacer>
-                    <property name="name" stdset="0">
+                    <property name="name">
                         <cstring>Horizontal Spacing2</cstring>
                     </property>
                     <property name="orientation">
@@ -115,10 +117,10 @@
                         <cstring>buttonOk</cstring>
                     </property>
                     <property name="text">
-                        <string>OK</string>
+                        <string>&amp;OK</string>
                     </property>
                     <property name="accel">
-                        <number>0</number>
+                        <string>Alt+O</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
@@ -132,10 +134,10 @@
                         <cstring>buttonCancel</cstring>
                     </property>
                     <property name="text">
-                        <string>Cancel</string>
+                        <string>&amp;Cancel</string>
                     </property>
                     <property name="accel">
-                        <number>0</number>
+                        <string>Alt+C</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
@@ -159,4 +161,5 @@
         <slot>reject()</slot>
     </connection>
 </connections>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

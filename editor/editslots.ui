@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>EditSlotsBase</class>
 <comment>*********************************************************************
 ** Copyright (C) 2000 Trolltech AS.  All rights reserved.
@@ -19,8 +19,6 @@
 ** not clear to you.
 **
 *********************************************************************</comment>
-<include location="local" implDecl="in declaration">editslots.ui.h</include>
-<layoutdefaults spacing="6" margin="11"/>
 <widget class="QDialog">
     <property name="name">
         <cstring>EditSlotsBase</cstring>
@@ -60,7 +58,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -71,7 +69,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -82,7 +80,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -93,7 +91,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -104,7 +102,7 @@
                 <property name="clickable">
                     <bool>true</bool>
                 </property>
-                <property name="resizeable">
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
@@ -115,6 +113,8 @@
                 <sizepolicy>
                     <hsizetype>7</hsizetype>
                     <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
             <property name="frameShape">
@@ -202,6 +202,8 @@
                 <sizepolicy>
                     <hsizetype>5</hsizetype>
                     <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
             <property name="title">
@@ -239,7 +241,7 @@
                                 <string>&amp;Slot:</string>
                             </property>
                             <property name="alignment">
-                                <set>AlignAuto|AlignVCenter|AlignRight</set>
+                                <set>AlignVCenter|AlignRight</set>
                             </property>
                             <property name="buddy" stdset="0">
                                 <cstring>slotName</cstring>
@@ -253,6 +255,8 @@
                                 <sizepolicy>
                                     <hsizetype>7</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="toolTip" stdset="0">
@@ -270,7 +274,7 @@
                                 <string>&amp;Return type:</string>
                             </property>
                             <property name="alignment">
-                                <set>AlignAuto|AlignVCenter|AlignRight</set>
+                                <set>AlignVCenter|AlignRight</set>
                             </property>
                             <property name="buddy" stdset="0">
                                 <cstring>slotName</cstring>
@@ -284,6 +288,8 @@
                                 <sizepolicy>
                                     <hsizetype>5</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="toolTip" stdset="0">
@@ -334,7 +340,7 @@
                                 <string>S&amp;pecifier:</string>
                             </property>
                             <property name="alignment">
-                                <set>AlignAuto|AlignVCenter|AlignRight</set>
+                                <set>AlignVCenter|AlignRight</set>
                             </property>
                             <property name="buddy" stdset="0">
                                 <cstring>slotSpecifier</cstring>
@@ -343,17 +349,17 @@
                         <widget class="QComboBox">
                             <item>
                                 <property name="text">
-                                    <string>non virtual</string>
+                                    <string>Non Virtual</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>virtual</string>
+                                    <string>Virtual</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>pure virtual</string>
+                                    <string>Pure Virtual</string>
                                 </property>
                             </item>
                             <property name="name">
@@ -363,6 +369,8 @@
                                 <sizepolicy>
                                     <hsizetype>1</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="toolTip" stdset="0">
@@ -386,17 +394,17 @@
                         <widget class="QComboBox">
                             <item>
                                 <property name="text">
-                                    <string>public</string>
+                                    <string>Public</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>protected</string>
+                                    <string>Protected</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>private</string>
+                                    <string>Private</string>
                                 </property>
                             </item>
                             <property name="name">
@@ -406,6 +414,8 @@
                                 <sizepolicy>
                                     <hsizetype>1</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
                             <property name="toolTip" stdset="0">
@@ -514,76 +524,66 @@
     </vbox>
 </widget>
 <connections>
-    <connection language="C++">
+    <connection>
         <sender>cancelButton</sender>
         <signal>clicked()</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>reject()</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>okButton</sender>
         <signal>clicked()</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>okClicked()</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>deleteSlot</sender>
         <signal>clicked()</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>slotRemove()</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>addSlot</sender>
         <signal>clicked()</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>slotAdd()</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>slotName</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>currentTextChanged(const QString&amp;)</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>slotListView</sender>
         <signal>selectionChanged(QListViewItem*)</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>currentItemChanged(QListViewItem*)</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>slotListView</sender>
         <signal>currentChanged(QListViewItem*)</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>currentItemChanged(QListViewItem*)</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>editType</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>currentTypeChanged(const QString&amp;)</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>slotSpecifier</sender>
         <signal>activated(const QString&amp;)</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>currentSpecifierChanged(const QString&amp;)</slot>
     </connection>
-    <connection language="C++">
+    <connection>
         <sender>slotAccess</sender>
         <signal>activated(const QString&amp;)</signal>
         <receiver>EditSlotsBase</receiver>
         <slot>currentAccessChanged(const QString&amp;)</slot>
     </connection>
-    <slot access="protected" specifier="" language="C++" returnType="void">currentItemChanged( QListViewItem * )</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">currentSpecifierChanged( const QString &amp; )</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">currentTextChanged( const QString &amp; )</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">currentTypeChanged( const QString &amp; )</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">destroy()</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">init()</slot>
-    <slot access="public" specifier="" language="C++" returnType="void">currentAccessChanged( const QString &amp; )</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">okClicked()</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">slotAdd()</slot>
-    <slot access="protected" specifier="" language="C++" returnType="void">slotRemove()</slot>
 </connections>
 <tabstops>
     <tabstop>slotName</tabstop>
@@ -597,4 +597,17 @@
     <tabstop>addSlot</tabstop>
     <tabstop>deleteSlot</tabstop>
 </tabstops>
+<slots>
+    <slot access="protected">currentItemChanged( QListViewItem * )</slot>
+    <slot access="protected">currentSpecifierChanged( const QString &amp; )</slot>
+    <slot access="protected">currentTextChanged( const QString &amp; )</slot>
+    <slot access="protected">currentTypeChanged( const QString &amp; )</slot>
+    <slot access="protected">destroy()</slot>
+    <slot access="protected">init()</slot>
+    <slot>currentAccessChanged( const QString &amp; )</slot>
+    <slot access="protected">okClicked()</slot>
+    <slot access="protected">slotAdd()</slot>
+    <slot access="protected">slotRemove()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

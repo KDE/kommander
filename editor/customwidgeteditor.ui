@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>CustomWidgetEditorBase</class>
 <comment>*********************************************************************
 ** Copyright (C) 2000 Trolltech AS.  All rights reserved.
@@ -27,7 +27,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>712</width>
+            <width>790</width>
             <height>386</height>
         </rect>
     </property>
@@ -702,7 +702,7 @@
                             <property name="clickable">
                                 <bool>true</bool>
                             </property>
-                            <property name="resizeable">
+                            <property name="resizable">
                                 <bool>true</bool>
                             </property>
                         </column>
@@ -713,7 +713,7 @@
                             <property name="clickable">
                                 <bool>true</bool>
                             </property>
-                            <property name="resizeable">
+                            <property name="resizable">
                                 <bool>true</bool>
                             </property>
                         </column>
@@ -766,12 +766,12 @@
                     <widget class="QComboBox" row="2" column="3">
                         <item>
                             <property name="text">
-                                <string>public</string>
+                                <string>Public</string>
                             </property>
                         </item>
                         <item>
                             <property name="text">
-                                <string>protected</string>
+                                <string>Protected</string>
                             </property>
                         </item>
                         <property name="name">
@@ -1031,7 +1031,7 @@
                             <property name="clickable">
                                 <bool>true</bool>
                             </property>
-                            <property name="resizeable">
+                            <property name="resizable">
                                 <bool>true</bool>
                             </property>
                         </column>
@@ -1042,7 +1042,7 @@
                             <property name="clickable">
                                 <bool>true</bool>
                             </property>
-                            <property name="resizeable">
+                            <property name="resizable">
                                 <bool>true</bool>
                             </property>
                         </column>
@@ -1302,38 +1302,6 @@
         <receiver>CustomWidgetEditorBase</receiver>
         <slot>addSlot()</slot>
     </connection>
-    <slot access="protected" language="C++" returnType="void">init()</slot>
-    <slot access="protected" language="C++" returnType="void">destroy()</slot>
-    <slot access="protected" language="C++" returnType="void">addProperty()</slot>
-    <slot access="public" language="C++" returnType="void">addSignal()</slot>
-    <slot access="protected" language="C++" returnType="void">addWidgetClicked()</slot>
-    <slot access="protected" language="C++" returnType="void">chooseHeader()</slot>
-    <slot access="protected" language="C++" returnType="void">classNameChanged( const QString &amp; )</slot>
-    <slot access="protected" language="C++" returnType="void">closeClicked()</slot>
-    <slot access="protected" language="C++" returnType="void">currentPropertyChanged( QListViewItem * )</slot>
-    <slot access="protected" language="C++" returnType="void">currentSignalChanged( QListBoxItem * )</slot>
-    <slot access="protected" language="C++" returnType="void">currentSlotChanged( QListViewItem * )</slot>
-    <slot access="protected" language="C++" returnType="void">currentWidgetChanged( QListBoxItem * )</slot>
-    <slot access="protected" language="C++" returnType="void">deleteWidgetClicked()</slot>
-    <slot access="protected" language="C++" returnType="void">headerFileChanged( const QString &amp; )</slot>
-    <slot access="protected" language="C++" returnType="void">heightChanged( int )</slot>
-    <slot access="protected" language="C++" returnType="void">horDataChanged(int)</slot>
-    <slot access="protected" language="C++" returnType="void">includePolicyChanged( int )</slot>
-    <slot access="public" language="C++" returnType="void">loadDescription()</slot>
-    <slot access="public" language="C++" returnType="void">addSlot()</slot>
-    <slot access="protected" language="C++" returnType="void">pixmapChoosen()</slot>
-    <slot access="protected" language="C++" returnType="void">propertyNameChanged( const QString &amp; )</slot>
-    <slot access="protected" language="C++" returnType="void">propertyTypeChanged( const QString &amp; )</slot>
-    <slot access="protected" language="C++" returnType="void">removeProperty()</slot>
-    <slot access="protected" language="C++" returnType="void">removeSignal()</slot>
-    <slot access="protected" language="C++" returnType="void">removeSlot()</slot>
-    <slot access="protected" language="C++" returnType="void">saveDescription()</slot>
-    <slot access="protected" language="C++" returnType="void">signalNameChanged( const QString &amp; )</slot>
-    <slot access="protected" language="C++" returnType="void">slotAccessChanged( const QString &amp; )</slot>
-    <slot access="protected" language="C++" returnType="void">slotNameChanged( const QString &amp; )</slot>
-    <slot access="protected" language="C++" returnType="void">verDataChanged(int)</slot>
-    <slot access="protected" language="C++" returnType="void">widgetIsContainer(bool)</slot>
-    <slot access="protected" language="C++" returnType="void">widthChanged( int )</slot>
 </connections>
 <tabstops>
     <tabstop>buttonCancel</tabstop>
@@ -1369,4 +1337,39 @@
     <tabstop>editProperty</tabstop>
     <tabstop>comboType</tabstop>
 </tabstops>
+<slots>
+    <slot access="protected">init()</slot>
+    <slot access="protected">destroy()</slot>
+    <slot access="protected">addProperty()</slot>
+    <slot>addSignal()</slot>
+    <slot access="protected">addWidgetClicked()</slot>
+    <slot access="protected">chooseHeader()</slot>
+    <slot access="protected">classNameChanged( const QString &amp; )</slot>
+    <slot access="protected">closeClicked()</slot>
+    <slot access="protected">currentPropertyChanged( QListViewItem * )</slot>
+    <slot access="protected">currentSignalChanged( QListBoxItem * )</slot>
+    <slot access="protected">currentSlotChanged( QListViewItem * )</slot>
+    <slot access="protected">currentWidgetChanged( QListBoxItem * )</slot>
+    <slot access="protected">deleteWidgetClicked()</slot>
+    <slot access="protected">headerFileChanged( const QString &amp; )</slot>
+    <slot access="protected">heightChanged( int )</slot>
+    <slot access="protected">horDataChanged(int)</slot>
+    <slot access="protected">includePolicyChanged( int )</slot>
+    <slot>loadDescription()</slot>
+    <slot>addSlot()</slot>
+    <slot access="protected">pixmapChoosen()</slot>
+    <slot access="protected">propertyNameChanged( const QString &amp; )</slot>
+    <slot access="protected">propertyTypeChanged( const QString &amp; )</slot>
+    <slot access="protected">removeProperty()</slot>
+    <slot access="protected">removeSignal()</slot>
+    <slot access="protected">removeSlot()</slot>
+    <slot access="protected">saveDescription()</slot>
+    <slot access="protected">signalNameChanged( const QString &amp; )</slot>
+    <slot access="protected">slotAccessChanged( const QString &amp; )</slot>
+    <slot access="protected">slotNameChanged( const QString &amp; )</slot>
+    <slot access="protected">verDataChanged(int)</slot>
+    <slot access="protected">widgetIsContainer(bool)</slot>
+    <slot access="protected">widthChanged( int )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

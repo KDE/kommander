@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>PaletteEditorBase</class>
 <comment>********************************************************************* 
 ** Copyright (C) 2000 Trolltech AS.  All rights reserved. 
@@ -35,6 +35,8 @@
         <sizepolicy>
             <hsizetype>7</hsizetype>
             <vsizetype>7</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
         </sizepolicy>
     </property>
     <property name="caption">
@@ -58,6 +60,8 @@
                 <sizepolicy>
                     <hsizetype>5</hsizetype>
                     <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
             <property name="title">
@@ -84,6 +88,8 @@
                         <sizepolicy>
                             <hsizetype>1</hsizetype>
                             <vsizetype>1</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
                     <property name="minimumSize">
@@ -102,10 +108,10 @@
                         <number>0</number>
                     </property>
                     <property name="text">
-                        <string>&amp;3-D effects:</string>
+                        <string>&amp;3D effects:</string>
                     </property>
                     <property name="alignment">
-                        <set>AlignAuto|AlignVCenter</set>
+                        <set>AlignVCenter</set>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>buttonMainColor</cstring>
@@ -119,6 +125,8 @@
                         <sizepolicy>
                             <hsizetype>0</hsizetype>
                             <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
                     <property name="focusPolicy">
@@ -142,6 +150,8 @@
                         <sizepolicy>
                             <hsizetype>1</hsizetype>
                             <vsizetype>1</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
                     <property name="minimumSize">
@@ -163,7 +173,7 @@
                         <string>Back&amp;ground:</string>
                     </property>
                     <property name="alignment">
-                        <set>AlignAuto|AlignVCenter</set>
+                        <set>AlignVCenter</set>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>buttonMainColor2</cstring>
@@ -177,6 +187,8 @@
                         <sizepolicy>
                             <hsizetype>0</hsizetype>
                             <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
                     <property name="focusPolicy">
@@ -227,6 +239,8 @@
                 <sizepolicy>
                     <hsizetype>5</hsizetype>
                     <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
             <property name="title">
@@ -297,6 +311,8 @@
                         <sizepolicy>
                             <hsizetype>7</hsizetype>
                             <vsizetype>7</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
                 </widget>
@@ -391,6 +407,8 @@
         <sizepolicy>
             <hordata>5</hordata>
             <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
         </sizepolicy>
         <pixmap>image0</pixmap>
         <signal>clicked()</signal>
@@ -410,6 +428,8 @@
         <sizepolicy>
             <hordata>5</hordata>
             <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
         </sizepolicy>
         <pixmap>image1</pixmap>
     </customwidget>
@@ -471,12 +491,6 @@
         <receiver>PaletteEditorBase</receiver>
         <slot>onChoose2ndMainColor()</slot>
     </connection>
-    <slot access="protected" language="C++" returnType="void">init()</slot>
-    <slot access="protected" language="C++" returnType="void">destroy()</slot>
-    <slot access="protected" language="C++" returnType="void">onTune()</slot>
-    <slot access="protected" language="C++" returnType="void">onChoose2ndMainColor()</slot>
-    <slot access="protected" language="C++" returnType="void">onChooseMainColor()</slot>
-    <slot access="protected" language="C++" returnType="void">paletteSelected(int)</slot>
 </connections>
 <tabstops>
     <tabstop>buttonOk</tabstop>
@@ -487,4 +501,18 @@
     <tabstop>paletteCombo</tabstop>
     <tabstop>buttonHelp</tabstop>
 </tabstops>
+<slots>
+    <slot access="protected">init()</slot>
+    <slot access="protected">destroy()</slot>
+    <slot access="protected">onTune()</slot>
+    <slot access="protected">onChoose2ndMainColor()</slot>
+    <slot access="protected">onChooseMainColor()</slot>
+    <slot access="protected">paletteSelected(int)</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>styledbutton.h</includehint>
+    <includehint>styledbutton.h</includehint>
+    <includehint>previewframe.h</includehint>
+</includehints>
 </UI>
