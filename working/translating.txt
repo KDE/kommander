@@ -23,3 +23,8 @@ Short Kommander Dialog Translation Howto
     or in:
 	$HOME/.kde/share/locale/<your language>/LC_MESSAGES/  (user)
 	
+
+Please check also:
+    http://developer.kde.org/documentation/library/kdeqt/kde3arch/kde-i18n-howto.html/
+for general information on writing i18n-friendly KDE applications.
+
