@@ -66,9 +66,9 @@ void Instance::registerSpecials()
   SpecialInformation::insert("value", 2, 2, "Return the value associated with given key.");
   SpecialInformation::insert("remove", 2, 2, "Remove element with given key from the array.");
   SpecialInformation::insert("setValue", 3, 3, "Add element with given key and value to the array");
-  SpecialInformation::insert("read", 2, 2, "Add all elements in the string to the array. "
+  SpecialInformation::insert("fromString", 2, 2, "Add all elements in the string to the array. "
     "String should have <i>key>\\tvalue\\n</i> format.");
-  SpecialInformation::insert("write", 2, 2, "Return all elements in the array in "
+  SpecialInformation::insert("toString", 1, 1, "Return all elements in the array in "
     "<i>key>\\tvalue\\n</i> format.");
   
   SpecialInformation::setCurrentObject("String");
