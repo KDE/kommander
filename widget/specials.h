@@ -47,7 +47,7 @@ namespace Special
   namespace String
   {
     enum {length, contains, find, left, right, mid, remove, replace, upper, lower,
-    compare, isEmpty, isNumber};
+    compare, isEmpty, isNumber, section};
   }
   
   namespace File

@@ -123,6 +123,8 @@ void SpecialInformation::registerSpecials()
     "Check if string is empty.");
   insert(String::isNumber, "isNumber(QString string)", 1, 
     "Check if string is a valid number.");
+  insert(String::section, "section(QString string, QString separator, int index)", 1, 
+    "Returns given section of a string.");
   
   
   insertGroup(Group::File, "File");

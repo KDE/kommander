@@ -240,6 +240,8 @@ QString KommanderWidget::evalStringFunction(const QString& function, const QStri
       return args[0].upper();
     case String::isEmpty:
       return QString::number(args[0].isEmpty());
+    case String::section:
+      return args[0].section(args[1], args[2].toInt(), args[2].toInt());
     case String::compare:
     {
       int compare = args[0].compare(args[1]);
