@@ -28,66 +28,67 @@
 #include <kommanderwidget.h>
 
 class QBoxLayout;
-class QPushButton;
-class QLineEdit;
+class KPushButton;
+class KLineEdit;
 
 class QShowEvent;
 class FileSelector : public QWidget, public KommanderWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 
-	Q_PROPERTY(SelectionType selectionType READ selectionType WRITE setSelectionType)
-	Q_ENUMS(SelectionType)
+  Q_PROPERTY(SelectionType selectionType READ selectionType WRITE setSelectionType)
+  Q_ENUMS(SelectionType)
 
-	Q_PROPERTY(bool selectionOpenMultiple READ selectionOpenMultiple WRITE setSelectionOpenMultiple)
-	Q_PROPERTY(QString selectionFilter READ selectionFilter WRITE setSelectionFilter)
-	Q_PROPERTY(QString selectionCaption READ selectionCaption WRITE setSelectionCaption)
+  Q_PROPERTY(bool selectionOpenMultiple READ selectionOpenMultiple WRITE setSelectionOpenMultiple)
+  Q_PROPERTY(QString selectionFilter READ selectionFilter WRITE setSelectionFilter)
+  Q_PROPERTY(QString selectionCaption READ selectionCaption WRITE setSelectionCaption)
 public:
-	FileSelector(QWidget *a_parent, const char *a_name);
-	~FileSelector();
+  FileSelector(QWidget *a_parent, const char *a_name);
+  ~FileSelector();
 
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
+  virtual QString widgetText() const;
+  virtual QString selectedWidgetText() const;
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
 
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(const QStringList&);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
 
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
+  enum SelectionType { Open, Save, Directory };
+  SelectionType selectionType() const;
+  void setSelectionType(SelectionType);
 
-	enum SelectionType { Open, Save, Directory };
-	SelectionType selectionType() const;
-	void setSelectionType(SelectionType);
+  bool selectionOpenMultiple() const;
+  void setSelectionOpenMultiple(bool);
+  QString selectionFilter() const;
+  void setSelectionFilter(const QString&); 
+  QString selectionCaption() const;
+  void setSelectionCaption(const QString&);
 
-	bool selectionOpenMultiple() const;
-	void setSelectionOpenMultiple(bool);
-	QString selectionFilter() const;
-	void setSelectionFilter(const QString&);
-	QString selectionCaption() const;
-	void setSelectionCaption(const QString&);
 public slots:
-	virtual void setWidgetText(const QString&);
-	virtual void setSelectedWidgetText(const QString& a_text);
-	virtual void makeSelection();
-	virtual void populate();
+  virtual void setWidgetText(const QString&);
+  virtual void setSelectedWidgetText(const QString& a_text);
+  virtual void makeSelection();
+  virtual void populate();
+
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString&);
+  void widgetOpened();
+  void widgetTextChanged(const QString&);
 protected:
   bool m_openMultiple;
   QString m_caption;
   QString m_filter;
   SelectionType m_selectionType;
-  QLineEdit *m_lineEdit;
-  QPushButton *m_selectButton;
+  KLineEdit *m_lineEdit;
+  KPushButton *m_selectButton;
   QBoxLayout *m_boxLayout;
-  void showEvent( QShowEvent *e );
+  void showEvent(QShowEvent *e);
 private:
 };
 
