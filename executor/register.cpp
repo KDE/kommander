@@ -77,13 +77,13 @@ void Instance::registerSpecials()
   SpecialInformation::insert("length", 1, 1, i18n( "Return number of chars in the string.") );
   SpecialInformation::insert("contains", 2, 2, i18n( "Check if the string contains given substring.") );
   SpecialInformation::insert("find", 2, 2, i18n( "Return position of a substring in the string, "
-    "or -1 if it is not found.") );
+    "or -1 if it isn't found.") );
   SpecialInformation::insert("left", 2, 2, i18n( "Return first n chars of the string.") );
   SpecialInformation::insert("right", 2, 2, i18n( "Return last n chars of the string.") );
   SpecialInformation::insert("mid", 3, 3, i18n( "Return substring of the string, starting from "
     "given position.") );
-  SpecialInformation::insert("remove", 2, 2, i18n( "Replace all occurrences of given substring.") );
-  SpecialInformation::insert("replace", 3, 3, i18n( "Replace all occurrences of given substring "
+  SpecialInformation::insert("remove", 2, 2, i18n( "Replace all occurencies of given substring.") );
+  SpecialInformation::insert("replace", 3, 3, i18n( "Replace all occurencies of given substring "
     "with given replacement.") );
   SpecialInformation::insert("upper", 1, 1, i18n( "Convert the string to uppercase.") );
   SpecialInformation::insert("lower", 1, 1, i18n( "Convert the string to lowercase.") );
