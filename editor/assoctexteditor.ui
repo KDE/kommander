@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>AssocTextEditorBase</class>
 <widget class="QDialog">
     <property name="name">
@@ -19,12 +19,78 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QTextEdit" row="1" column="0">
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>layout5</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Widget:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>widgetsComboBox</cstring>
+                    </property>
+                </widget>
+                <widget class="QComboBox">
+                    <property name="name">
+                        <cstring>widgetsComboBox</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>3</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>treeWidgetButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>...</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Text for:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>stateComboBox</cstring>
+                    </property>
+                </widget>
+                <widget class="QComboBox">
+                    <property name="name">
+                        <cstring>stateComboBox</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>2</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="KTextEdit" row="1" column="0">
             <property name="name">
                 <cstring>associatedTextEdit</cstring>
             </property>
-            <property name="textFormat">
-                <enum>PlainText</enum>
+            <property name="autoFormatting">
+                <set>AutoAll</set>
             </property>
         </widget>
         <widget class="QGroupBox" row="2" column="0">
@@ -158,74 +224,10 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QLayoutWidget" row="0" column="0">
-            <property name="name">
-                <cstring>layout5</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel1_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Widget:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>widgetsComboBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QComboBox">
-                    <property name="name">
-                        <cstring>widgetsComboBox</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>3</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>treeWidgetButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>...</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Text for:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>stateComboBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QComboBox">
-                    <property name="name">
-                        <cstring>stateComboBox</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>2</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>AssocTextEditorBase</sender>
@@ -238,4 +240,7 @@
     <slot>AssocTextEditorBase_destroyed(QObject*)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>ktextedit.h</includehint>
+</includehints>
 </UI>

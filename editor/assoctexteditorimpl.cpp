@@ -18,13 +18,14 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kiconloader.h>
+#include <ktextedit.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
 #include <qmetaobject.h>
 #include <qcombobox.h>
-#include <qtextedit.h>
 #include <qstring.h>
 #include <qfile.h>
 #include <qobject.h>
@@ -45,6 +46,10 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     PropertyEditor* a_property, QWidget *a_parent, const char *a_name, bool a_modal)
     : AssocTextEditorBase(a_parent, a_name, a_modal)
 {
+  // text editor
+  associatedTextEdit->setFont(KGlobalSettings::fixedFont());
+  associatedTextEdit->setTabStopWidth(associatedTextEdit->fontMetrics().maxWidth() * 3);
+  
   // icon for non-empty scripts
   scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);
   
