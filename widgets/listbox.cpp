@@ -98,7 +98,15 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       setWidgetText(args[0]);
       break;
     case DCOP::selection:
-      return currentText();
+    {
+      if (selectionMode() == Single)
+        return currentText();
+      QString value;
+      for (uint i=0; i<count(); i++)
+        if (isSelected(i)) 
+          value += (value.length() ? "\n" : "") + item(i)->text();
+      return value;
+    }
     case DCOP::setSelection:
     {
       QListBoxItem* found = findItem(args[0], Qt::ExactMatch);
