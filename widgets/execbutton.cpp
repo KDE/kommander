@@ -22,6 +22,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qpushbutton.h>
 
 /* OTHER INCLUDES */
@@ -40,7 +41,6 @@ ExecButton::ExecButton(QWidget *a_parent, const char *a_name)
 
 	connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 
-	emit widgetOpened();
 }
 
 ExecButton::~ExecButton()
@@ -67,8 +67,25 @@ void ExecButton::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void ExecButton::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString ExecButton::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void ExecButton::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 void ExecButton::setWidgetText(const QString &a_text)
 {
+    setText( a_text );    
 	emit widgetTextChanged(a_text);
 }
 
@@ -137,4 +154,11 @@ void ExecButton::setWriteStdout(bool a_enable)
 {
 	m_writeStdout = a_enable;
 }
+
+void ExecButton::showEvent( QShowEvent *e )
+{
+    QPushButton::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "execbutton.moc"

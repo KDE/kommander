@@ -1,7 +1,7 @@
 /***************************************************************************
                           buttongroup.cpp - Button group widget 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
+    copyright            : (C) 2002-2004 by Marc Britton
     email                : consume@optusnet.com.au
  ***************************************************************************/
 
@@ -21,6 +21,7 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qbuttongroup.h>
+#include <qevent.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -36,7 +37,6 @@ ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
 	setStates(states);
 	setDisplayStates(states);
 
-	emit widgetOpened();
 }
 
 ButtonGroup::~ButtonGroup()
@@ -63,6 +63,22 @@ void ButtonGroup::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void ButtonGroup::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString ButtonGroup::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void ButtonGroup::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    //implement me
+}
+
 void ButtonGroup::setWidgetText(const QString &)
 {
 }
@@ -80,4 +96,11 @@ QString ButtonGroup::widgetText() const
 	}
 	return text;
 }
+
+void ButtonGroup::showEvent( QShowEvent *e )
+{
+    QButtonGroup::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "buttongroup.moc"

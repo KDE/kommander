@@ -32,6 +32,7 @@ public:
 	AssocTextEditor(QWidget *, KommanderWidget *, QWidget *, const char *, bool=TRUE);
 	~AssocTextEditor();
 	void build(KommanderWidget *);
+	QString populationText() const;
 	QStringList associatedText() const;
 
 public slots:
@@ -42,9 +43,14 @@ public slots:
 	void updateTextWidgets();
 	void insertFile();
 	void insertWidgetName(int);
+protected slots:
+    void typeChanged(int);
+
 signals:
 private:
+	bool m_curTypePopulation;
 	QWidget *m_widget;
+	QString m_populationText;
 	QString m_currentState;
 	QStringList m_states;
 	QMap<QString, QString> m_atdict;

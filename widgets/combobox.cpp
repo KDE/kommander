@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qcombobox.h>
 
 /* OTHER INCLUDES */
@@ -36,7 +37,6 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
 
 	connect(this, SIGNAL(activated(int)), this, SLOT(emitWidgetTextChanged(int)));
 
-	emit widgetOpened();
 }
 
 ComboBox::~ComboBox()
@@ -61,6 +61,22 @@ QStringList ComboBox::associatedText() const
 void ComboBox::setAssociatedText(QStringList a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
+}
+
+void ComboBox::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString ComboBox::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void ComboBox::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
 }
 
 void ComboBox::setWidgetText(const QString &a_text)
@@ -110,5 +126,11 @@ void ComboBox::emitWidgetTextChanged(int a_index)
 {
 	QString currentText = text(a_index);
 	emit widgetTextChanged(currentText);
+}
+
+void ComboBox::showEvent( QShowEvent *e )
+{
+    QComboBox::showEvent( e );
+    emit widgetOpened();
 }
 #include "combobox.moc"

@@ -24,10 +24,12 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 
+class QShowEvent;
 class Wizard : public QWizard, public KommanderWidget
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 
@@ -46,6 +48,9 @@ public:
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
+	virtual QString populationText() const;
+	virtual void setPopulationText(QString);
+
 	enum HelpAction { None, Command, Dialog };
 	HelpAction helpAction() const;
 	void setHelpAction(HelpAction);
@@ -57,6 +62,7 @@ public slots:
 	virtual void setWidgetText(const QString &);
 	virtual void exec();
 	virtual void runHelp();
+	virtual void populate();
 signals:
 	void widgetOpened();
 	void widgetTextChanged(const QString &);
@@ -64,6 +70,7 @@ signals:
 protected:
 	HelpAction m_helpAction;
 	QString m_helpActionText;
+    void showEvent( QShowEvent *e );
 private:
 };
 

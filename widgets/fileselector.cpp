@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
 #include <qlayout.h>
@@ -53,7 +54,6 @@ FileSelector::FileSelector(QWidget *a_parent, const char *a_name)
 	setSelectionType(Open);
 	setSelectionOpenMultiple(FALSE);
 
-	emit widgetOpened();
 }
 
 FileSelector::~FileSelector()
@@ -78,6 +78,22 @@ QStringList FileSelector::associatedText() const
 void FileSelector::setAssociatedText(QStringList a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
+}
+
+void FileSelector::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString FileSelector::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void FileSelector::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
 }
 
 void FileSelector::setWidgetText(const QString &a_text)
@@ -154,4 +170,11 @@ void FileSelector::makeSelection()
 	if(!text.isEmpty())
 		setWidgetText(text);
 }
+
+void FileSelector::showEvent( QShowEvent *e )
+{
+    QWidget::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "fileselector.moc"

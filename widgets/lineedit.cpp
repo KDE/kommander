@@ -31,8 +31,12 @@ LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
 	setDisplayStates(states);
 
 	connect(this, SIGNAL(textChanged(const QString &)), this, SIGNAL(widgetTextChanged(const QString &)));
+}
 
-	emit widgetOpened();
+void LineEdit::showEvent( QShowEvent *e )
+{
+    QLineEdit::showEvent( e );
+    emit widgetOpened();
 }
 
 QString LineEdit::currentState() const
@@ -59,6 +63,22 @@ void LineEdit::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void LineEdit::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString LineEdit::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void LineEdit::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 QString LineEdit::widgetText() const
 {
 	return text();
@@ -67,5 +87,6 @@ QString LineEdit::widgetText() const
 void LineEdit::setWidgetText(const QString &a_text)
 {
 	setText(a_text);
+	emit widgetTextChanged(a_text);
 }
 #include "lineedit.moc"

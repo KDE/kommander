@@ -1,7 +1,7 @@
 /***************************************************************************
                           assoctexteditorimpl.cpp  - Associated text editor implementation
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
+    copyright            : (C) 2002-2004 by Marc Britton
     email                : consume@optusnet.com.au
  ***************************************************************************/
 
@@ -29,10 +29,11 @@
 #include <qobjectlist.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
 
 /* OTHER INCLUDES */
 #include <cstdio>
-#include "assoctexteditor.h"
 #include "assoctexteditorimpl.h"
 #include <kommanderwidget.h>
 
@@ -48,6 +49,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, KommanderWidget *a_atw, QWid
 	connect(filePushButton, SIGNAL(clicked()), SLOT(insertFile()));
 	connect(allWidgetsCheckBox, SIGNAL(clicked()), SLOT(updateTextWidgets()));
 	connect(insertIdentifierButton, SIGNAL(clicked()), SLOT(insertIdentifier()));
+	connect( typeButtonGroup, SIGNAL(clicked(int)), this, SLOT(typeChanged(int)) );
 }
 
 AssocTextEditor::~AssocTextEditor()
@@ -56,9 +58,9 @@ AssocTextEditor::~AssocTextEditor()
 
 void AssocTextEditor::build(KommanderWidget *a_atw)
 {
-	a_atw->associatedText();
 	QStringList at = a_atw->associatedText();
 	m_states = a_atw->states();
+	m_populationText = a_atw->populationText();
 
 	stateComboBox->insertStringList(a_atw->displayStates());
 	QStringList::iterator s_it = m_states.begin();
@@ -77,10 +79,31 @@ void AssocTextEditor::build(KommanderWidget *a_atw)
 	}
 	// initial text for initial state
 	m_currentState = stateComboBox->currentText();
-	associatedTextEdit->setText(m_atdict[m_currentState]);
+
+	//state combo initially hidden
+	stateComboBox->hide();
+	m_curTypePopulation = TRUE;
+	populationRadio->setChecked( TRUE );
+	associatedTextEdit->setText( m_populationText );
 
 	// populate widget combo
 	updateTextWidgets();
+}
+
+void AssocTextEditor::typeChanged( int id )
+{
+    if( typeButtonGroup->find( id ) == populationRadio )
+    {
+	m_curTypePopulation = TRUE;
+	stateComboBox->hide();
+	associatedTextEdit->setText( m_populationText );
+    }
+    else
+    {
+	m_curTypePopulation = FALSE;
+	stateComboBox->show();
+	associatedTextEdit->setText(m_atdict[m_currentState]);
+    }
 }
 
 void AssocTextEditor::updateTextWidgets()
@@ -135,54 +158,68 @@ void AssocTextEditor::updateTextWidgets()
 
 void AssocTextEditor::stateChanged(int a_index)
 {
-	m_currentState = stateComboBox->text(a_index);
-	associatedTextEdit->setText(m_atdict[m_currentState]);
+    if( m_curTypePopulation )
+    {
+	qDebug("BUG : stateChanged when current editing type is population");
+	return;
+    }
+    m_currentState = stateComboBox->text(a_index);
+    associatedTextEdit->setText(m_atdict[m_currentState]);
 }
 
 void AssocTextEditor::insertAssociatedText(QString a_text)
 {
-	associatedTextEdit->insert(a_text);
-	m_atdict[m_currentState] = associatedTextEdit->text();
+    associatedTextEdit->insert(a_text);
 }
 
 void AssocTextEditor::textEditChanged()
 {
+    if( m_curTypePopulation )
+    {
+	m_populationText = associatedTextEdit->text();
+    }
+    else
 	m_atdict[m_currentState] = associatedTextEdit->text();
 }
 
 QStringList AssocTextEditor::associatedText() const
 {
-	QStringList at;
-	QStringList states = m_states;
-	QStringList::iterator it = states.begin();
-	for(;it != states.end();++it)
-	{
-		at.append(m_atdict[(*it)]);
-	}
-	return at;
+    QStringList at;
+    QStringList states = m_states;
+    QStringList::iterator it = states.begin();
+    for(;it != states.end();++it)
+    {
+	    at.append(m_atdict[(*it)]);
+    }
+    return at;
+}
+
+QString AssocTextEditor::populationText() const
+{
+    return m_populationText;
 }
 
 void AssocTextEditor::insertFile()
 {
-	QString fileName = KFileDialog::getOpenFileName();
+    QString fileName = KFileDialog::getOpenFileName();
 
-	if(!fileName.isEmpty())
-	{
-		QFile insertFile(fileName);
-		if(!insertFile.open(IO_ReadOnly))
-		{
-			qWarning("Failed to open '%s' for insertion", fileName.local8Bit().data());
-			return;
-		}
+    if(!fileName.isEmpty())
+    {
+	    QFile insertFile(fileName);
+	    if(!insertFile.open(IO_ReadOnly))
+	    {
+		    qWarning("Failed to open '%s' for insertion", fileName.local8Bit().data());
+		    return;
+	    }
 
-		QTextStream insertStream(&insertFile);
+	    QTextStream insertStream(&insertFile);
 
-		QString insertText = insertStream.read();
+	    QString insertText = insertStream.read();
 
-		insertAssociatedText(insertText);
+	    insertAssociatedText(insertText);
 
-		insertFile.close();
-	}
+	    insertFile.close();
+    }
 }
 
 void AssocTextEditor::insertWidgetName(int index)

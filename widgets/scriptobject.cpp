@@ -16,6 +16,7 @@
 /* Qt Includes */
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 
 /* Other Includes */
 #include <kommanderwidget.h>
@@ -34,7 +35,6 @@ ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
 	QStringList at("@widgetText");
 	setAssociatedText(at);
 
-	emit widgetOpened();
 }
 
 ScriptObject::~ScriptObject()
@@ -61,6 +61,22 @@ void ScriptObject::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void ScriptObject::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString ScriptObject::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void ScriptObject::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 void ScriptObject::setWidgetText(const QString &a_text)
 {
 	m_script = a_text;
@@ -77,5 +93,12 @@ void ScriptObject::show()
 	return; // widget is never shown
 }
 
+
+
+void ScriptObject::showEvent( QShowEvent *e )
+{
+    QWidget::showEvent( e );
+    emit widgetOpened();
+}
 
 #include "scriptobject.moc"

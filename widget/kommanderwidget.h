@@ -41,11 +41,17 @@ public:
 	virtual QString evalAssociatedText() const;
 	virtual QString evalAssociatedText(const QString &) const;
 
+	virtual QString populationText() const;
+	virtual void setPopulationText( QString );
+
 	virtual QString widgetText() const = 0;
-//	virtual void setWidgetText(QString) = 0;
+	virtual void setWidgetText(const QString &) = 0;
+
+	virtual void populate() = 0;
 protected:
 	virtual void setStates(QStringList);
 	virtual void setDisplayStates(QStringList);
+	QStringList parseArgs( const QString &args, bool &ok ) const;
 	QString dcopQuery(QString) const;
 	QString execCommand(QString) const;
 	void printError(QString, QString) const;
@@ -54,6 +60,7 @@ protected:
 	QStringList m_states;
 	QStringList m_displayStates;
 	QStringList m_associatedText;
+	QString m_populationText;
 };
 
 

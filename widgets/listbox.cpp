@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qlistbox.h>
 
 /* OTHER INCLUDES */
@@ -37,7 +38,6 @@ ListBox::ListBox(QWidget *a_parent, const char *a_name)
 //FIXME: Do we need it?
 //  connect(this, SIGNAL(highlighted(int)), this, SLOT(setActivatedText(int)));
 
-  emit widgetOpened();
 
 }
 
@@ -65,6 +65,22 @@ void ListBox::setAssociatedText(QStringList a_at)
   KommanderWidget::setAssociatedText(a_at);
 }
 
+void ListBox::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString ListBox::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void ListBox::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 void ListBox::setWidgetText(const QString &a_text)
 {
   /*
@@ -83,12 +99,19 @@ QString ListBox::widgetText() const
 {
   QStringList strings;
 
+#if 0 
   int I = 0, length = count();
   for(;I < length;++I)
   {
     if(isSelected(I))
       strings += item(I)->text();
   }
+  //only returning selected is something difdferent to widget text
+  //probably @selectedWidgetText
+#else
+  for( int i = 0 ; i < count() ; ++i )
+      strings += item( i )->text();
+#endif
   return strings.join("\n");
 }
 
@@ -104,4 +127,11 @@ void ListBox::setActivated(int /*a_item*/)
   }
   emit widgetTextChanged(strings.join("\n"));
 }
+
+void ListBox::showEvent( QShowEvent *e )
+{
+    QListBox::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "listbox.moc"

@@ -23,6 +23,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qpushbutton.h>
 
 /* OTHER INCLUDES */
@@ -49,7 +50,6 @@ CloseButton::CloseButton(QWidget *a_parent, const char *a_name)
 	}
 	connect(this, SIGNAL(clicked()), parent, SLOT(reject()));
 
-	emit widgetOpened();
 }
 
 CloseButton::~CloseButton()
@@ -76,8 +76,25 @@ void CloseButton::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void CloseButton::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString CloseButton::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void CloseButton::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 void CloseButton::setWidgetText(const QString &a_text)
 {
+    setText( a_text );
 	emit widgetTextChanged(a_text);
 }
 
@@ -143,5 +160,11 @@ bool CloseButton::writeStdout() const
 void CloseButton::setWriteStdout(bool a_enable)
 {
 	m_writeStdout = a_enable;
+}
+
+void CloseButton::showEvent( QShowEvent *e )
+{
+    QPushButton::showEvent( e );
+    emit widgetOpened();
 }
 #include "closebutton.moc"

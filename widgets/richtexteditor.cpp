@@ -27,6 +27,8 @@
 #include <qpixmap.h>
 #include <qhbuttongroup.h>
 #include <qfont.h>
+#include <qstringlist.h>
+#include <qevent.h>
 
 /* OTHER INCLUDES */
 #include "richtexteditor.h"
@@ -107,7 +109,6 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 	
 	connect(m_textedit, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
 
-	emit widgetOpened();
 }
 
 QString RichTextEditor::currentState() const
@@ -132,6 +133,22 @@ QStringList RichTextEditor::associatedText() const
 void RichTextEditor::setAssociatedText(QStringList a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
+}
+
+void RichTextEditor::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString RichTextEditor::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void RichTextEditor::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
 }
 
 QString RichTextEditor::widgetText() const
@@ -195,4 +212,11 @@ void RichTextEditor::alignmentChanged(int a_alignment)
 	else if(a_alignment & AlignHCenter) m_buttonTextCenter->setOn(TRUE);
 	else if(a_alignment & AlignRight) m_buttonTextRight->setOn(TRUE);
 }
+
+void RichTextEditor::showEvent( QShowEvent *e )
+{
+    QWidget::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "richtexteditor.moc"

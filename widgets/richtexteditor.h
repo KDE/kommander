@@ -32,9 +32,12 @@ class QFrame;
 class QToolButton;
 class QHButtonGroup;
 
+class QShowEvent;
 class RichTextEditor : public QWidget, public KommanderWidget
 {
 	Q_OBJECT
+
+	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
@@ -47,6 +50,9 @@ public:
 	QStringList associatedText() const;
 	QString currentState() const;
 
+	virtual QString populationText() const;
+	virtual void setPopulationText(QString);
+
 public slots:
 	void setTextChanged();
 	void setWidgetText(const QString &);
@@ -56,9 +62,12 @@ public slots:
 	void textItalic(bool);
 	void fontChanged(const QFont &);
 	void alignmentChanged(int);
+	virtual void populate();
 signals:
 	void widgetOpened();
 	void widgetTextChanged(const QString &);
+protected:
+    void showEvent( QShowEvent *e );
 private:
 	QFrame *m_toolbar;
 	QTextEdit *m_textedit;

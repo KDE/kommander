@@ -24,10 +24,12 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 
+class QShowEvent;
 class ScriptObject : public QWidget, public KommanderWidget
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 	Q_PROPERTY(QString script READ widgetText WRITE setWidgetText DESIGNABLE false)
@@ -42,14 +44,19 @@ public:
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
+	virtual QString populationText() const;
+	virtual void setPopulationText(QString);
+
 public slots:
 	virtual void setWidgetText(const QString &);
 	virtual void show();
+	virtual void populate();
 signals:
 	void widgetOpened();
 	void widgetTextChanged(const QString &);
 protected:
 	QString m_script;
+    void showEvent( QShowEvent *e );
 private:
 };
 

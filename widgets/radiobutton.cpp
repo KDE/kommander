@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qradiobutton.h>
 
 /* OTHER INCLUDES */
@@ -38,7 +39,6 @@ RadioButton::RadioButton(QWidget *a_parent, const char *a_name)
 	displayStates << "unchecked";
 	setDisplayStates(displayStates);
 
-	emit widgetOpened();
 }
 
 RadioButton::~RadioButton()
@@ -67,11 +67,35 @@ void RadioButton::setAssociatedText(QStringList a_at)
 
 void RadioButton::setWidgetText(const QString &a_text)
 {
+    setText(a_text);
 	emit widgetTextChanged(a_text);
+}
+
+void RadioButton::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString RadioButton::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void RadioButton::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
 }
 
 QString RadioButton::widgetText() const
 {
 	return QString::null;
 }
+
+void RadioButton::showEvent( QShowEvent *e )
+{
+    QRadioButton::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "radiobutton.moc"

@@ -15,8 +15,9 @@
  ***************************************************************************/
 /* QT INCLUDES */
 #include <qlayout.h>
-#include <qevent.h>
 #include <qlineedit.h>
+#include <qstringlist.h>
+#include <qevent.h>
 
 /* OTHER INCLUDES */
 #include "textedit.h"
@@ -32,7 +33,6 @@ TextEdit::TextEdit(QWidget *a_parent, const char *a_name)
 
 	connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
 
-	emit widgetOpened();
 }
 
 QString TextEdit::currentState() const
@@ -59,6 +59,22 @@ void TextEdit::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void TextEdit::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString TextEdit::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void TextEdit::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 QString TextEdit::widgetText() const
 {
 	return text();
@@ -73,4 +89,11 @@ void TextEdit::setTextChanged()
 {
 	emit widgetTextChanged(text());
 }
+
+void TextEdit::showEvent( QShowEvent *e )
+{
+    QTextEdit::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "textedit.moc"

@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qgroupbox.h>
 #include <qobjectlist.h>
 
@@ -36,7 +37,6 @@ GroupBox::GroupBox(QWidget *a_parent, const char *a_name)
 	setStates(states);
 	setDisplayStates(states);
 
-	emit widgetOpened();
 }
 
 GroupBox::~GroupBox()
@@ -61,6 +61,22 @@ QStringList GroupBox::associatedText() const
 void GroupBox::setAssociatedText(QStringList a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
+}
+
+void GroupBox::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString GroupBox::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void GroupBox::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
 }
 
 void GroupBox::setWidgetText(const QString &)
@@ -118,4 +134,11 @@ void GroupBox::removeChild(QObject *a_child)
 	m_childList.remove(a_child);
 	QObject::removeChild(a_child);
 }
+
+void GroupBox::showEvent( QShowEvent *e )
+{
+    QGroupBox::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "groupbox.moc"

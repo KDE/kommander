@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qcheckbox.h>
 #include <qbutton.h>
 
@@ -40,8 +41,6 @@ CheckBox::CheckBox(QWidget *a_parent, const char *a_name)
 	displayStates << "semichecked";
 	displayStates << "unchecked";
 	setDisplayStates(displayStates);
-
-	emit widgetOpened();
 }
 
 CheckBox::~CheckBox()
@@ -74,13 +73,36 @@ void CheckBox::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void CheckBox::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString CheckBox::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void CheckBox::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 void CheckBox::setWidgetText(const QString &a_text)
 {
+    setText( a_text );
 	emit widgetTextChanged(a_text);
 }
 
 QString CheckBox::widgetText() const
 {
 	return QString::null;
+}
+
+void CheckBox::showEvent( QShowEvent *e )
+{
+    QCheckBox::showEvent( e );
+    emit widgetOpened();
 }
 #include "checkbox.moc"

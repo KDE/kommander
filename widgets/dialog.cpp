@@ -19,6 +19,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
@@ -32,8 +33,6 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
-
-	emit widgetOpened();
 }
 
 Dialog::~Dialog()
@@ -60,6 +59,22 @@ void Dialog::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void Dialog::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString Dialog::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void Dialog::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
 void Dialog::setWidgetText(const QString &a_text)
 {
 	setCaption(a_text);
@@ -77,4 +92,11 @@ void Dialog::exec()
 
 	emit finished();
 }
+
+void Dialog::showEvent( QShowEvent *e )
+{
+    QDialog::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "dialog.moc"

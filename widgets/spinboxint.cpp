@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qspinbox.h>
 
 /* OTHER INCLUDES */
@@ -34,7 +35,6 @@ SpinBoxInt::SpinBoxInt(QWidget *a_parent, const char *a_name)
 	setStates(states);
 	setDisplayStates(states);
 
-	emit widgetOpened();
 }
 
 SpinBoxInt::~SpinBoxInt()
@@ -61,6 +61,22 @@ void SpinBoxInt::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void SpinBoxInt::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString SpinBoxInt::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void SpinBoxInt::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    //implement me
+}
+
 void SpinBoxInt::setWidgetText(const QString &a_text)
 {
 	emit widgetTextChanged(a_text);
@@ -70,4 +86,11 @@ QString SpinBoxInt::widgetText() const
 {
 	return text();
 }
+
+void SpinBoxInt::showEvent( QShowEvent *e )
+{
+    QSpinBox::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "spinboxint.moc"

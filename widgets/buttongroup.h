@@ -29,10 +29,12 @@
 
 class QWidget;
 
+class QShowEvent;
 class ButtonGroup : public QButtonGroup, public KommanderWidget
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget DESIGNABLE false)
 public:
@@ -45,12 +47,18 @@ public:
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
+
+	virtual QString populationText() const;
+	virtual void setPopulationText(QString);
 public slots:
 	virtual void setWidgetText(const QString &);
+	virtual void populate();
 signals:
 	void widgetOpened();
 	void widgetTextChanged(const QString &);
 protected:
+protected:
+    void showEvent( QShowEvent *e );
 private:
 };
 

@@ -20,6 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qpushbutton.h>
 #include <qdialog.h>
 
@@ -38,7 +39,6 @@ SubDialog::SubDialog(QWidget *a_parent, const char *a_name)
 
   connect(this, SIGNAL(clicked()), this, SLOT(showDialog()));
   
-  emit widgetOpened();
 }
 
 SubDialog::~SubDialog()
@@ -63,6 +63,22 @@ QStringList SubDialog::associatedText() const
 void SubDialog::setAssociatedText(QStringList a_at)
 {
   KommanderWidget::setAssociatedText(a_at);
+}
+
+void SubDialog::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString SubDialog::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void SubDialog::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
 }
 
 void SubDialog::setWidgetText(const QString &/*a_text*/)
@@ -115,4 +131,11 @@ void SubDialog::slotFinished()
       emit widgetTextChanged(atw->evalAssociatedText());
   }
 }
+
+void SubDialog::showEvent( QShowEvent *e )
+{
+    QPushButton::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "subdialog.moc"

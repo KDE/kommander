@@ -19,6 +19,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qtabwidget.h>
 
 /* OTHER INCLUDES */
@@ -33,7 +34,6 @@ TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
 	setStates(states);
 	setDisplayStates(states);
 
-	emit widgetOpened();
 }
 
 TabWidget::~TabWidget()
@@ -60,6 +60,22 @@ void TabWidget::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void TabWidget::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString TabWidget::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void TabWidget::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    //implement me
+}
+
 void TabWidget::setWidgetText(const QString &a_text)
 {
 	setCaption(a_text);
@@ -70,4 +86,11 @@ QString TabWidget::widgetText() const
 {
 	return caption();
 }
+
+void TabWidget::showEvent( QShowEvent *e )
+{
+    QTabWidget::showEvent( e );
+    emit widgetOpened();
+}
+
 #include "tabwidget.moc"

@@ -22,6 +22,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qevent.h>
 #include <qlistview.h>
 
 /* OTHER INCLUDES */
@@ -36,7 +37,6 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
 	setStates(states);
 	setDisplayStates(states);
 
-	emit widgetOpened();
 }
 
 TreeWidget::~TreeWidget()
@@ -63,6 +63,22 @@ void TreeWidget::setAssociatedText(QStringList a_at)
 	KommanderWidget::setAssociatedText(a_at);
 }
 
+void TreeWidget::setPopulationText( QString a_text )
+{
+    KommanderWidget::setPopulationText( a_text );
+}
+
+QString TreeWidget::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void TreeWidget::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    //implement me
+}
+
 void TreeWidget::setWidgetText(const QString &a_text)
 {
 	//set the widget text of your widget here
@@ -75,5 +91,11 @@ QString TreeWidget::widgetText() const
 	return QString::null;
 }
 
-#include "treewidget.moc"
+void TreeWidget::showEvent( QShowEvent *e )
+{
+    QListView::showEvent( e );
+    emit widgetOpened();
+}
 
+
+#include "treewidget.moc"

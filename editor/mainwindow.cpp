@@ -72,6 +72,7 @@
 #include <qwizard.h>
 #include <qtimer.h>
 #include <qlistbox.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <qdockwindow.h>
 #include <qregexp.h>
@@ -1756,7 +1757,7 @@ void MainWindow::setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, in
             if(ids.isEmpty())
                     ids << rmbWidgets->insertSeparator(0);
 
-            ids << (id = rmbWidgets->insertItem( i18n("Edit Text Associations..." ), -1, 0));
+            ids << (id = rmbWidgets->insertItem( i18n("Edit Kommander Text..." ), -1, 0));
 
             commands.insert("assoc", id);
     }
@@ -1791,7 +1792,7 @@ void MainWindow::setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, in
             if(ids.isEmpty())
                     ids << rmbFormWindow->insertSeparator(0);
 
-            ids << (id = rmbFormWindow->insertItem( i18n("Edit Text Associations..." ), -1, 0));
+            ids << (id = rmbFormWindow->insertItem( i18n("Edit Kommander Text..." ), -1, 0));
 
             commands.insert("assoc", id);
     }
@@ -1894,12 +1895,15 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
              return;
 
          AssocTextEditor *editor = new AssocTextEditor(w, atw, this, "AssocTextEditor", TRUE);
-         QString caption = QString("Edit Text Association for Widget \'%1\'").arg(w->name());
+         QString caption = i18n("Edit Kommander Text for Widget \'%1\'").arg(w->name());
          editor->setCaption(caption);
 
          if(editor->exec())
          {
-                    QString text = QString("Set the \'text association\' of \'%1\'").arg(w->name());
+	     //set both the population text and associated text if changed
+	     if( atw->associatedText() != editor->associatedText() )
+	     {
+		QString text = QString("Set the \'text association\' of \'%1\'").arg(w->name());
 
              SetPropertyCommand *cmd  = new SetPropertyCommand(text,
                                     formWindow(), w, propertyEditor,
@@ -1907,10 +1911,26 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
                                     editor->associatedText(), QString::null,
                                     QString::null, FALSE);
 
-             cmd->execute();
-             formWindow()->commandHistory()->addCommand(cmd);
+		 cmd->execute();
+		 formWindow()->commandHistory()->addCommand(cmd);
 
-             MetaDataBase::setPropertyChanged( w, "associations", TRUE );
+		 MetaDataBase::setPropertyChanged( w, "associations", TRUE );
+	     }
+	     if( atw->populationText() != editor->populationText() )
+	     {
+		QString text = QString("Set the \'population text\' of \'%1\'").arg(w->name());
+
+             SetPropertyCommand *cmd  = new SetPropertyCommand(text,
+                                    formWindow(), w, propertyEditor,
+                                    "populationText", atw->populationText(),
+                                    editor->populationText(), QString::null,
+                                    QString::null, FALSE);
+
+		 cmd->execute();
+		 formWindow()->commandHistory()->addCommand(cmd);
+
+		 MetaDataBase::setPropertyChanged( w, "populationText", TRUE );
+	     }
          }
          delete editor;
     }
@@ -1948,23 +1968,42 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
              return;
 
          AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), atw, this, "AssocTextEditor", TRUE);
-         QString caption = QString("Edit Text Association for Widget \'%1\'").arg(fw->mainContainer()->name());
+         QString caption = i18n("Edit Kommander Text for Widget \'%1\'").arg(fw->mainContainer()->name());
          editor->setCaption(caption);
 
          if(editor->exec())
          {
-                    QString text = QString("Set the \'text association\' of \'%1\'").arg(fw->mainContainer()->name());
+	     if( atw->associatedText() != editor->associatedText() )
+	     {
+		QString text = QString("Set the \'text association\' of \'%1\'")
+						    .arg(fw->mainContainer()->name());
+
+		 SetPropertyCommand *cmd  = new SetPropertyCommand(text,
+					formWindow(), fw, propertyEditor,
+					"associations", atw->associatedText(),
+					editor->associatedText(), QString::null,
+					QString::null, FALSE);
+
+		 cmd->execute();
+		 formWindow()->commandHistory()->addCommand(cmd);
+
+		 MetaDataBase::setPropertyChanged( fw, "associations", TRUE );
+	     }
+	     if( atw->populationText() != editor->populationText() )
+	     {
+		QString text = QString("Set the \'population text\' of \'%1\'").arg(fw->name());
 
              SetPropertyCommand *cmd  = new SetPropertyCommand(text,
                                     formWindow(), fw, propertyEditor,
-                                    "associations", atw->associatedText(),
-                                    editor->associatedText(), QString::null,
+                                    "populationText", atw->populationText(),
+                                    editor->populationText(), QString::null,
                                     QString::null, FALSE);
 
-             cmd->execute();
-             formWindow()->commandHistory()->addCommand(cmd);
+		 cmd->execute();
+		 formWindow()->commandHistory()->addCommand(cmd);
 
-             MetaDataBase::setPropertyChanged( fw, "associations", TRUE );
+		 MetaDataBase::setPropertyChanged( fw, "populationText", TRUE );
+	     }
          }
          delete editor;
     }
