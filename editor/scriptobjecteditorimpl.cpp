@@ -14,3 +14,4 @@ ScriptObjectEditor::~ScriptObjectEditor()
 }
 
 
+#include "scriptobjecteditorimpl.moc"
