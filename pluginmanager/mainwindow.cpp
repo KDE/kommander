@@ -118,3 +118,5 @@ void MainWindow::remove()
 	m_list->setCurrentItem( ni );
     }
 }
+
+#include "mainwindow.moc"
