@@ -98,3 +98,8 @@ Shows how to use statusbar widget
 Shows how to use internal loops
 - for
 - forEach
+
+* CALC.KMDR
+Shows how to use @expr function to do some calculations
+- expr
+- String.replace
