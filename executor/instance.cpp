@@ -433,6 +433,15 @@ void Instance::cancel(const QString &widgetName)
     kommanderWidget(child)->handleDCOP(DCOP::cancel);
 }
 
+int Instance::count(const QString &widgetName)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::count).toInt();
+  return -1;
+}
+
+
 QString Instance::global(const QString& variableName)
 {
   return KommanderWidget::global(variableName);

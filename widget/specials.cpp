@@ -23,67 +23,68 @@
 void SpecialInformation::registerSpecials()
 {
   insertGroup(Group::DCOP, "DCOP");
+  insert(DCOP::addUniqueItem, "addUniqueItem(QString widget, QString item)",
+         i18n("Inserts the item if it will not create a duplicate."), 2);
+  insert(DCOP::associatedText, "associatedText(QString widget)",
+         i18n("Returns scripts associated with widget. This is an advanced feature that would not be commonly used."), 1);
+  insert(DCOP::cancel, "cancel(QString widget)", i18n("Stops execution of the script associated with the widget."), 1);
+  insert(DCOP::checked, "checked(QString widget)",
+         i18n("Returns 1 for checked boxes, 0 for unchecked."), 1);
+  insert(DCOP::children, "children(QString widget, bool recursive)",
+         i18n("Returns the list of child widgets contained in the parent widget. Set the <i>recursive</i> parameter to <i>true</i> to include widgets contained by child widgets."), 2);
+  insert(DCOP::clear, "clear(QString widget)",
+         i18n("Removes all content from the widget."), 1);
+  insertAlias(DCOP::clear, "clearList");
+  insert(DCOP::count, "count(QString widget)",
+         i18n("Returns number of items in a widget such as combobox or listbox."), 1);
+  insert(DCOP::currentItem, "currentItem(QString widget)", 
+         i18n("Returns index of current item."), 1);
+  insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1);
+  insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)",
+         i18n("Inserts item at <i>index</i> position."), 3);
+  insertAlias(DCOP::insertItem, "addListItem");
+  insert(DCOP::insertItems, "insertItems(QString widget, QStringList items, int index)",
+         i18n("Inserts multiple items (EOL-separated) at <i>index</i> position."), 3);
+  insertAlias(DCOP::insertItems, "addListItems");
+  insert(DCOP::item, "item(QString widget, int index)",
+         i18n("Returns the text of the item at the given index."), 2);
+  insert(DCOP::itemDepth, "itemDepth(QString widget, int index)",
+         i18n("Returns the depth of the current item in the tree. Root items have depth 0."), 2);
+  insert(DCOP::itemPath, "itemPath(QString widget, int index)",
+         i18n("Returns the slash-separated path to the given item in the tree."), 2);
+  insert(DCOP::removeItem, "removeItem(QString widget, int index)",
+         i18n("Removes the item with the given index."), 2);
+  insertAlias(DCOP::removeItem, "removeListItem");
+  insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)",
+         i18n("Sets scripts associated with widget. This is an advanced feature that would not be commonly used."), 2);
   insert(DCOP::setEnabled, "setEnabled(QString widget, bool enabled)", 
      i18n("Enables or disables widget."), 2);
   insertAlias(DCOP::setEnabled, "enableWidget");
-  insert(DCOP::setVisible, "setVisible(QString widget, bool visible)", 
-     i18n("Shows/hides widget."), 2);
-  insert(DCOP::setText, "setText(QString widget, QString text)", 
-     i18n("Sets widget's content."), 2);
-  insertAlias(DCOP::setText, "changeWidgetText");
-  insert(DCOP::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DCOP::selection, "selection(QString widget)", 
-     i18n("Returns selected text or text of current item."), 1);
-  insert(DCOP::setSelection, "setSelection(QString widget, QString text)", 
-     i18n("Selects given text or select item containing given text."), 2);
-  insertAlias(DCOP::setSelection, "setCurrentListItem");
-  insert(DCOP::currentItem, "currentItem(QString widget)", 
-     i18n("Returns index of current item."), 1);
+         i18n("Returns selected text or text of current item."), 1);
+  insert(DCOP::setChecked, "setChecked(QString widget, bool checked)",
+         i18n("Sets/unsets checkbox."), 2);
   insert(DCOP::setCurrentItem, "setCurrentItem(QString widget, int index)",
-     i18n("Selects the item at the specified index. Indexes are zero based."), 2);
+         i18n("Selects the item at the specified index. Indexes are zero based."), 2);
   insertAlias(DCOP::setCurrentItem, "setCurrentTab");
+  insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
+         i18n("Sets maximum numeric value"), 2);
   insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)",
-     i18n("Sets pixmap at the given index to the specified icon. Use <i>index = -1</i> to set the pixmap for all items."), 3);
-  insert(DCOP::item, "item(QString widget, int index)",
-     i18n("Returns the text of the item at the given index."), 2);
-  insert(DCOP::itemPath, "itemPath(QString widget, int index)",
-     i18n("Returns the slash-separated path to the given item in the tree."), 2);
-  insert(DCOP::itemDepth, "itemDepth(QString widget, int index)",
-     i18n("Returns the depth of the current item in the tree. Root items have depth 0."), 2);
-  insert(DCOP::removeItem, "removeItem(QString widget, int index)",
-     i18n("Removes the item with the given index."), 2);
-  insertAlias(DCOP::removeItem, "removeListItem");
-  insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)",
-     i18n("Inserts item at <i>index</i> position."), 3);
-  insertAlias(DCOP::insertItem, "addListItem");
-  insert(DCOP::insertItems, "insertItems(QString widget, QStringList items, int index)",
-     i18n("Inserts multiple items (EOL-separated) at <i>index</i> position."), 3);
-  insertAlias(DCOP::insertItems, "addListItems");
-  insert(DCOP::addUniqueItem, "addUniqueItem(QString widget, QString item)",
-     i18n("Inserts the item if it will not create a duplicate."), 2);
+         i18n("Sets pixmap at the given index to the specified icon. Use <i>index = -1</i> to set the pixmap for all items."), 3);
+  insert(DCOP::setSelection, "setSelection(QString widget, QString text)", 
+         i18n("Selects given text or select item containing given text."), 2);
+  insertAlias(DCOP::setSelection, "setCurrentListItem");
+  insert(DCOP::setText, "setText(QString widget, QString text)", 
+         i18n("Sets widget's content."), 2);
+  insertAlias(DCOP::setText, "changeWidgetText");
+  insert(DCOP::setVisible, "setVisible(QString widget, bool visible)", 
+         i18n("Shows/hides widget."), 2);
+  insert(DCOP::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DCOP::findItem, "findItem(QString widget, QString item)",
      i18n("Returns the index of an item with the given text."), 2);
-  insert(DCOP::clear, "clear(QString widget)",
-     i18n("Removes all content from the widget."), 1);
-  insertAlias(DCOP::clear, "clearList");
-  insert(DCOP::setChecked, "setChecked(QString widget, bool checked)",
-     i18n("Sets/unsets checkbox."), 2);
-  insert(DCOP::checked, "checked(QString widget)",
-     i18n("Returns 1 for checked boxes, 0 for unchecked."), 1);
-  insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)",
-     i18n("Sets scripts associated with widget. This is an advanced feature that would not be commonly used."), 2);
-  insert(DCOP::associatedText, "associatedText(QString widget)",
-     i18n("Returns scripts associated with widget. This is an advanced feature that would not be commonly used."), 1);
   insert(DCOP::type, "type(QString widget)",
      i18n("Returns type(class) of widget."), 2);
-  insert(DCOP::children, "children(QString widget, bool recursive)",
-     i18n("Returns the list of child widgets contained in the parent widget. Set the <i>recursive</i> parameter to <i>true</i> to include widgets contained by child widgets."), 2);
-  /* functions with missing description - to be added after string freeze */
-  insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
-     i18n("Sets maximum numeric value"), 2);
-  insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1);
-  insert(DCOP::cancel, "cancel(QString widget)", i18n("Stops execution of the script associated with the widget."), 1);
-  
+    
   insertGroup(Group::Kommander, "Kommander");
   insert(Kommander::widgetText, "widgetText", 
     i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);

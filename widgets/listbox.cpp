@@ -96,7 +96,7 @@ bool ListBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
     f == DCOP::insertItems || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear ||
     f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || f == DCOP::addUniqueItem ||
-      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::text;
+      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::count;
 }
 
 
@@ -135,6 +135,8 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     case DCOP::clear:
       clear();
       break;
+    case DCOP::count:
+      return QString::number(count());
     case DCOP::currentItem:
       return QString::number(currentItem());
     case DCOP::setCurrentItem:

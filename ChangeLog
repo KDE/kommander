@@ -1,3 +1,6 @@
+Thu 28 Oct 2004 15:14:26 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added count() function for getting number of items in widget
+
 Wed 27 Oct 2004 23:58:56 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added <> and != for 'not equal to' condition in expressions
 

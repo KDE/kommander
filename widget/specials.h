@@ -27,10 +27,10 @@ namespace Special
   
   namespace DCOP
   {
-    enum {setEnabled, setVisible, setText, text, selection, setSelection, checked,
-      currentItem, item, itemPath, itemDepth, insertItem, insertItems, addUniqueItem, removeItem,
-      findItem, clear, setCurrentItem, setPixmap, setChecked, setAssociatedText, 
-      associatedText, type, children, setMaximum, global, setGlobal, execute, cancel};
+    enum {addUniqueItem, associatedText, cancel, clear, checked, children, count, currentItem, 
+      execute, findItem, global, insertItem, insertItems, item, itemDepth, itemPath, removeItem,
+      selection, setAssociatedText, setChecked, setCurrentItem, setEnabled, setGlobal, 
+      setMaximum, setPixmap, setSelection, setText, setVisible, text, type};
   }
 
   namespace Kommander

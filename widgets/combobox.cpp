@@ -100,7 +100,7 @@ bool ComboBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::selection || f == DCOP::setSelection ||
       f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || 
       f == DCOP::removeItem || f == DCOP::insertItem || f == DCOP::insertItems ||
-      f == DCOP::clear;
+      f == DCOP::clear || f == DCOP::count;
 }
 
 QString ComboBox::handleDCOP(int function, const QStringList& args)
@@ -137,6 +137,8 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
     case DCOP::clear:
       clear();
       break;
+    case DCOP::count:
+      return QString::number(count());
     case DCOP::setSelection:
     {
       for (int i = 0; i < count(); i++)

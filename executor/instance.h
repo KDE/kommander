@@ -93,6 +93,7 @@ public:
   virtual void setMaximum(const QString &widgetName, int value);
   virtual void execute(const QString &widgetName);
   virtual void cancel(const QString &widgetName);
+  virtual int count(const QString &widgetName);
    
 public slots:
   /** Builds the instance then executes it */

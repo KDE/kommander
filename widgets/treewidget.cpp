@@ -235,7 +235,7 @@ bool TreeWidget::isFunctionSupported(int f)
   return f == DCOP::insertItem || f == DCOP::text || f == DCOP::setText || f == DCOP::insertItems ||
     f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::removeItem || 
     f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::findItem || f == DCOP::item || 
-    f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap;
+      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap;
 }
 
 QString TreeWidget::handleDCOP(int function, const QStringList& args)
