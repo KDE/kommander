@@ -432,7 +432,7 @@ void Parser::parseAssignment(Mode mode)
     QString index = parseValue(mode).toString();
     tryKeyword(RightBracket);
     tryKeyword(Assign);
-    ParseNode p = parseValue(mode);
+    ParseNode p = parseExpression(mode);
     setArray(var, index, p);
   }
   else if (tryKeyword(Assign))
