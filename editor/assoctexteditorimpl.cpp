@@ -77,6 +77,8 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   connect(functionButton, SIGNAL(clicked()), SLOT(insertFunction()));
   connect(widgetComboBox, SIGNAL(activated(int)), SLOT(insertWidgetName(int)));
   connect(treeWidgetButton, SIGNAL(clicked()), SLOT(selectWidget()));
+  
+  associatedTextEdit->setFocus();
 }
 
 AssocTextEditor::~AssocTextEditor()
