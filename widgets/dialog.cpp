@@ -28,7 +28,7 @@
 #include "myprocess.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-  : QDialog(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
+  : QDialog(a_parent, a_name, a_modal, a_flags), KommanderWindow(this)
 {
   QStringList states;
   states << "default";

@@ -25,6 +25,7 @@
 #include <klocale.h>
 
 #include "kommanderwidget.h"
+#include "kommanderwindow.h"
 #include "specials.h"
  
 QString KommanderWidget::evalFunction(const QString& function, const QStringList& args)
@@ -55,15 +56,24 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return QString::null;
     case Kommander::readSetting:
     {
-      KConfig cfg("kommanderrc", true);
-      cfg.setGroup(QString(parentDialog()->name()));
-      return cfg.readEntry(args[0], args[1]);
+      KommanderWindow* window = dynamic_cast<KommanderWindow*>(parentDialog());
+      if (window)
+      {
+        KConfig cfg("kommanderrc", true);
+        cfg.setGroup(QString(window->fileName()));
+        return cfg.readEntry(args[0], args[1]);
+      }
+      return QString::null;
     }
     case Kommander::writeSetting:
     {
-      KConfig cfg("kommanderrc", false);
-      cfg.setGroup(QString(parentDialog()->name()));
-      cfg.writeEntry(args[0], args[1]);
+      KommanderWindow* window = dynamic_cast<KommanderWindow*>(parentDialog());
+      if (window)
+      {
+        KConfig cfg("kommanderrc", false);
+        cfg.setGroup(QString(window->fileName()));
+        cfg.writeEntry(args[0], args[1]);
+      }
       return QString::null;
     }
     case Kommander::dialog:

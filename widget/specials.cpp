@@ -46,6 +46,8 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)");
   insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)");
   insert(DCOP::associatedText, "associatedText(QString widget)");
+  insert(DCOP::type, "type(QString widget)");
+  insert(DCOP::children, "children(QString parent, bool recursive)");
   insert(DCOP::global, "global(QString variable)");
   insert(DCOP::setGlobal, "setGlobal(QString variable, QString value)");
   

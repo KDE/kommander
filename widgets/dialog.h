@@ -1,8 +1,9 @@
 /***************************************************************************
-                          dialog.h - Main dialog widget 
+                          dialog.h  -  Kommander dialog
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002 by Marc Britton <consume@optushome.com.au>
+                           (C) 2004 by Andras Mantia <amantia@kde.org>
+                           (C) 2004 by Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,10 +23,10 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <kommanderwindow.h>
 
 class QShowEvent;
-class Dialog : public QDialog, public KommanderWidget
+class Dialog : public QDialog, public KommanderWindow
 {
   Q_OBJECT
 
@@ -35,7 +36,6 @@ class Dialog : public QDialog, public KommanderWidget
 public:
   Dialog(QWidget *, const char *, bool=TRUE, int=0);
   ~Dialog();
-
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
@@ -62,6 +62,7 @@ protected:
   void showEvent( QShowEvent *e );
   
 private:
+  QString m_fileName;
 };
 
 #endif

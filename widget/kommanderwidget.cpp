@@ -277,6 +277,12 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     byteReplyStream >> i;
     return QString::number(i);
   }
+  else if (replyType == "QStringList")
+  {
+    QStringList text;
+    byteReplyStream >> text;
+    return text.join("\n");
+  }
   else if(replyType != "void")
   {
     printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
@@ -443,10 +449,12 @@ QString KommanderWidget::parseQuotes(const QString& s) const
   else return s;
 }
 
-KommanderWidget* KommanderWidget::parseWidget(const QString& name) const
+KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
-  QObject *childObj = parentDialog()->child(name.latin1());
-  return dynamic_cast <KommanderWidget *>(childObj);
+  if (QString(parentDialog()->name()) == widgetName) 
+    return dynamic_cast <KommanderWidget*>(parentDialog());
+  QObject* childObj = parentDialog()->child(widgetName.latin1());
+  return dynamic_cast <KommanderWidget*>(childObj);
 }
 
 QStringList KommanderWidget::parseFunction(const QString group, const QString& function, 

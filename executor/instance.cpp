@@ -30,25 +30,15 @@
 #include <qfileinfo.h>
 #include <qfile.h>
 #include <qiodevice.h>
-
 #include <qobjectlist.h>
-#include <qbutton.h>
 #include <qlabel.h>
-#include <qgroupbox.h>
-#include <qbuttongroup.h>
-#include <qlistbox.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
 #include <qtabwidget.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qspinbox.h>
-#include <qtextedit.h>
 #include <qmainwindow.h>
 
 /* OTHER INCLUDES */
 #include "instance.h"
 #include <kommanderwidget.h>
+#include <kommanderwindow.h>
 #include <kommanderfactory.h>
 #include <specials.h>
 #include <fileselector.h>
@@ -108,7 +98,10 @@ bool Instance::build()
       "file<br><b>%1</b></qt>").arg(m_uiFileName.path()));
     return false;
   }
-  m_instance->setName(m_uiFileName.path().local8Bit());
+  
+  KommanderWindow* window = dynamic_cast<KommanderWindow*>(m_instance);
+  if (window)
+    window->setFileName(m_uiFileName.path().local8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
   m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
@@ -132,7 +125,7 @@ bool Instance::build(QFile *a_file)
     return false;
   }
 
-  m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
+  m_textInstance = kommanderWidget(m_instance);
   return true;
 }
 
@@ -354,6 +347,31 @@ QStringList Instance::associatedText(const QString &widgetName)
   return QString::null;
 }
 
+QString Instance::type(const QString& widget)
+{
+  QObject* child = stringToWidget(widget);  
+  if (child->inherits("QWidget"))
+    return child->className();
+  return QString::null;
+}
+
+QStringList Instance::children(const QString& parent, bool recursive)
+{
+  QStringList matching;
+  QObject* child = stringToWidget(parent);  
+  QObjectList* widgets;
+  if (!child)
+     child = m_instance; 
+  if (child->inherits("QWidget"))
+  {
+    widgets = child->queryList("QWidget", 0, false, recursive);
+    for (QObject* w = widgets->first(); w; w = widgets->next())
+      if (w->name() && kommanderWidget(w))
+        matching.append(w->name());
+  }
+  return matching;
+} 
+  
 QString Instance::global(const QString& variableName)
 {
   return KommanderWidget::global(variableName);

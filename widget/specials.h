@@ -30,7 +30,7 @@ namespace Special
     enum {setEnabled, setVisible, setText, text, selection, setSelection,
       currentItem, item, insertItem, insertItems, addUniqueItem, removeItem,
       findItem, clear, setCurrentItem, setChecked, setAssociatedText, 
-      associatedText, global, setGlobal};
+      associatedText, type, children, global, setGlobal};
   }
 
   namespace Kommander

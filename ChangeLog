@@ -1,23 +1,38 @@
-Thu 29 cze 2004 00:44:39 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Thu 01 Jul 2004 16:03:20 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o add children(QString widget) DCOP call, returning list of
+	  widgets that are direct children of the widget (or all widgets
+	  if widget is null)
+	o added type(QString widget) DCOP call returning class of widget
+	o bug fixed: main dialog wasn't supported in @Widget.method syntax
+	o QStringList is now supported as DCOP return value
+
+Wed 30 Jun 2004 15:01:23 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o TreeView DCOP methods: insertItem(), insertItems(), clear(),
+	  item(), setCurrentItem(), selection(), setSelection(),
+	  removeItem()
+	o TreeView tree support: use / to separate nodes (f. e.
+	  insertItem("Root/Node/Subnode")
+	o TreeView multiple column support: use \t to separate columns
+	  (f. e. insertItem("document.txt\t45kb\t2004-06-30")
+
+Tue 29 Jun 2004 00:44:39 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o all DCOP functions are handled in appropriate widgets
 	o DCOP and specials are now registered together in single class
 	o it is now possible to create new methods for new (plugin) widgets
-	o new DCOP methods added - see below
-	o setVisible method added (show/hide widgets)
-	o setText alias for changeWidgetText
-	o insertItem alias for addListItem
-	o insertItems alias for addListItems
-	o setEnabled alias for enableWidget
-	o setCurrentItem for setting current item on index base
-	o selection for getting selected text/text of selected item
-	o setSelection for setting selected text/text of selected item
-	  (for ListBoxes: alias for setCurrentListItem)
-	o text for most widgets (makes @SomeWidget obsolete when
-	  setting it to @widgetText)
-	o clear for LineEdit and TextEdit
-	o text/setText works for spinbox
-	o basic TreeView support (use insertItem, separate path with / and
-	  columns with \t)
+	o setVisible() DCOP method added (show/hide widgets)
+	o setText() alias for changeWidgetText
+	o insertItem() alias for addListItem
+	o insertItems() alias for addListItems
+	o setEnabled() alias for enableWidget
+	o setCurrentItem() for setting current item on index base
+	o selection() for getting selected text/text of selected item
+	o setSelection() for setting selected text/text of selected item
+	  (alias for setCurrentListItem() for ListBoxes)
+	o text() DCOP method to get content of widget 
+	  (@SomeWidget.text is equivalent to @SomeWidget with default script
+	  set to @widgetText)
+	o clear() DCOP method handles LineEdit, TextEdit and FileSelector now
+	o text()/setText() work for spinbox
 
 Mon 21 Jun 2004 13:36:52 CEST - Eric Laffoon <eric@kdewebdev.org>
 	o added documentation

@@ -6,7 +6,7 @@ INCLUDES = $(all_includes)
 # the library search path. 
 libkommanderwidget_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
-libkommanderwidget_la_SOURCES = kommanderwidget.cpp myprocess.cpp specialinformation.cpp kommanderfunctions.cpp specials.cpp
+libkommanderwidget_la_SOURCES = kommanderwidget.cpp myprocess.cpp specialinformation.cpp kommanderfunctions.cpp specials.cpp kommanderwindow.cpp
 
 include_HEADERS = kommanderwidget.h
 

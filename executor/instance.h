@@ -75,6 +75,8 @@ public:
   virtual void setChecked(const QString &widgetName, bool checked);
   virtual void setAssociatedText(const QString &widgetName, const QString &text);
   virtual QStringList associatedText(const QString &widgetName);
+  virtual QString type(const QString& widget);
+  virtual QStringList children(const QString& parent, bool recursive);
   virtual QString global(const QString& variableName);
   virtual void setGlobal(const QString& variableName, const QString& value);
    

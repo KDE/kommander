@@ -116,13 +116,18 @@ virtual void setAssociatedText(const QString &widgetName, const QString &text) =
 /** Returns the associated text of the widget. Works for all Kommander widgets. */ 
 virtual QStringList associatedText(const QString &widgetName) = 0;
 
+/** Returns class of widget */
+virtual QString type(const QString& widget) = 0;
+
+/** Returns list of widgets that are children of given parent */
+virtual QStringList children(const QString& parent, bool recursive) = 0;
+
 /** Returns the value of global variable */ 
 virtual QString global(const QString& variableName) = 0;
 
 /** Sets the value of global variable */ 
 virtual void setGlobal(const QString& variableName, const QString& value) = 0;
-
-
+  
 };
 
 #endif
