@@ -52,6 +52,8 @@
 #ifdef HAVE_KDE
 #include <kstatusbar.h>
 #include <kmenubar.h>
+#include <kmessagebox.h>
+#include <qmessagebox.h>
 #endif
 #include <qfeatures.h>
 #include <qmetaobject.h>
@@ -60,7 +62,6 @@
 #include <qworkspace.h>
 #include <qfiledialog.h>
 #include <qclipboard.h>
-#include <qmessagebox.h>
 #include <qbuffer.h>
 #include <qdir.h>
 #include <qstyle.h>
@@ -95,7 +96,7 @@
 
 
 #include <qvbox.h>
-#include <qprocess.h>
+#include <kprocess.h>
 #include <qsettings.h>
 #ifndef KOMMANDER
 #include "pixmapcollection.h"
@@ -836,6 +837,19 @@ void MainWindow::previewForm()
     if ( w )
         w->show();
 }
+
+void MainWindow::runForm()
+{
+  FormWindow* form = activeForm();
+  if (!form || !form->formFile())
+    return;
+  form->formFile()->save(false);
+  KProcess process;
+  process << "kmdr-executor";
+  process << form->formFile()->fileName();
+  process.start(KProcess::DontCare);
+}
+
 
 void MainWindow::previewForm( const QString & style )
 {

@@ -261,6 +261,7 @@ public slots:
 
     void previewForm();
     void previewForm( const QString& );
+    void runForm();
 
     void toolsCustomWidget();
 

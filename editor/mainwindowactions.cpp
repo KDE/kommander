@@ -808,14 +808,23 @@ void MainWindow::setupProjectActions() // TODO : KOMMANDER doesn't need this
 void MainWindow::setupPreviewActions()
 {
     QAction* a = 0;
-    QPopupMenu *menu = new QPopupMenu( this, "Preview" );
-    menubar->insertItem( i18n("&Preview" ), menu );
+    QPopupMenu *menu = new QPopupMenu( this, "Run" );
+    menubar->insertItem( i18n("&Run" ), menu );
+
+    a = new QAction( i18n("Run dialog" ), createIconSet("previewform.xpm"),
+             i18n("Run &Dialog" ), 0, this, 0 );
+    a->setAccel( CTRL + Key_R );
+    a->setStatusTip( i18n("Executes dialog") );
+    a->setWhatsThis( whatsThisFrom( "Run|Run dialog" ) );
+    connect( a, SIGNAL( activated() ), this, SLOT( runForm() ) );
+    connect( this, SIGNAL( hasActiveForm(bool) ), a, SLOT( setEnabled(bool) ) );
+    a->addTo( menu );
 
     a = new QAction( i18n("Preview Form" ), createIconSet("previewform.xpm"),
              i18n("Preview &Form" ), 0, this, 0 );
     a->setAccel( CTRL + Key_T );
     a->setStatusTip( i18n("Opens a preview") );
-    a->setWhatsThis( whatsThisFrom( "Preview|Preview Form" ) );
+    a->setWhatsThis( whatsThisFrom( "Run|Preview Form" ) );
     connect( a, SIGNAL( activated() ), this, SLOT( previewForm() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), a, SLOT( setEnabled(bool) ) );
     a->addTo( menu );
