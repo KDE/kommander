@@ -204,10 +204,16 @@ With the line edit example, if we had komlineedit.h, komlineedit.cpp and
 mykomplugin.cpp, compiling and installing your plugin would involve
 something similar to the following commands:
 
-libtool --mode=compile g++ -I/usr/include/kde -I/usr/share/qt3/include \
+libtool --mode=compile g++ -$KDEDIR/include -IQTDIR/include \
    -I. -fPIC -c komlineedit.cpp
-libtool --mode=compile g++ -I/usr/include/kde -I/usr/share/qt3/include \
+libtool --mode=compile g++ -$KDEDIR/include -IQTDIR/include \
    -I. -fPIC -c mykomplugin.cpp
+
+libtool --mode=link g++ -shared -L$KDEDIR/lib -lkdeui -lkommanderwidget \
+   -lkommanderplugin komlineedit.cppkomlineedit.o mykomplugin.o 
+   -o libmykomplugin.so
+
+If you want to install new plugin system-wide, root, use:
 
 su -c "cp libmykomplugin.so $KDEDIR/lib"
 
