@@ -1,3 +1,7 @@
+Tue 02 Nov 2004 07:53:20 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
+	o Signals and slots: disallow unmatched (signal, slot) connections.
+	  Avoid duplicates in signals combo.
+
 Mon 01 Nov 2004 23:29:19 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o Signals and slots improved: slots that don't have any acceptable 
 	  signal in current sender are hidden now. For MainWindow dialogs, 

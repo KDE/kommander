@@ -306,8 +306,12 @@ void ConnectionEditor::receiverChanged(const QString& s)
 
 void ConnectionEditor::updateConnectButton()
 {
-  connectButton->setEnabled(!hasConnection(m_sender->name(), signalBox->currentText(),
-      m_receiver->name(), slotBox->currentText()));
+  bool itemsSelected = signalBox->currentItem() != -1 && slotBox->currentItem() != -1;
+  bool notConnected = !itemsSelected || !hasConnection(m_sender->name(), signalBox->currentText(),
+        m_receiver->name(), slotBox->currentText());
+  bool connectionAllowed = notConnected && checkConnectArgs(MetaDataBase::normalizeSlot(signalBox->currentText()).latin1(),
+      m_receiver, MetaDataBase::normalizeSlot(slotBox->currentText()).latin1());
+  connectButton->setEnabled(itemsSelected && notConnected && connectionAllowed);
 }
   
 void ConnectionEditor::updateDisconnectButton()  
