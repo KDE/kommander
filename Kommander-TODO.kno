@@ -18,21 +18,20 @@
 <li>Hints?</li></ul>
 </body></html>
 
-
-\NewEntry 0 Editor
+\CurrentEntry 0 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <ul type="disc"><li>use better editor (KWrite?)</li>
 <li>better layout</li>
 <li>add function browser with description</li>
 <li>add local DCOP functions browser</li>
-<li>add list of widgets for easy browsing</li>
-<li>add widget class after widget name</li>
+<li>replace list of widgets with tree of widgets</li>
+<li>replace widget class with widget pixmap in combos</li>
 <li>redesign layout</li>
-<li>don't make window modal</li>
-<li></li></ul>
+<li>don't make window modal</li></ul>
 </body></html>
 
-\CurrentEntry 0 Usability
+
+\NewEntry 0 Usability
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <ul type="disc"><li>clean up popup menus, remove disabled items</li>
 <li>use KDE dialogs, not Qt ones if possible</li>
@@ -46,7 +45,8 @@
 <li>better undo</li>
 <li>add WhatsThis for most items</li>
 <li>detect function name/widget name clash</li>
-<li>improve order of widget icons, add better icons if possible (CloseButton vs ExecButton)</li></ul>
+<li>improve order of widget icons, add better icons if possible (CloseButton vs ExecButton)</li>
+<li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
 
 
