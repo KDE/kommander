@@ -91,7 +91,7 @@
                                                 <cstring>textLabel1</cstring>
                                             </property>
                                             <property name="text">
-                                                <string>Object Name:</string>
+                                                <string>Object name:</string>
                                             </property>
                                         </widget>
                                         <widget class="QLineEdit">
@@ -190,7 +190,7 @@
                         <cstring>okButton</cstring>
                     </property>
                     <property name="text">
-                        <string>OK</string>
+                        <string>&amp;OK</string>
                     </property>
                 </widget>
                 <widget class="QPushButton">
@@ -198,7 +198,7 @@
                         <cstring>cancelButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Cancel</string>
+                        <string>&amp;Cancel</string>
                     </property>
                 </widget>
                 <spacer>
