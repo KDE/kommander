@@ -8,7 +8,7 @@ INCLUDES = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/factory -I
 libkommanderwidgets_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 # the libraries to link against.
-libkommanderwidgets_la_LIBADD  = $(LIB_KIO) $(top_builddir)/kommander/widget/libkommanderwidget.la
+libkommanderwidgets_la_LIBADD  = $(LIB_KIO) $(top_builddir)/kommander/widget/libkommanderwidget.la $(top_builddir)/kommander/plugin/libkommanderplugin.la
 
 # which sources should be compiled for widgets
 libkommanderwidgets_la_SOURCES = buttongroup.cpp subdialog.cpp checkbox.cpp \
