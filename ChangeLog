@@ -1,17 +1,21 @@
-Fri 04 cze 2004 23:33:35 CEST
+Sat 05 cze 2004 10:12:05 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @env(variable) special to get environment variable value
-	o added @dialog(dialog) that would call child dialog, setting
+	o added @dialog(dialog, params) that would call child dialog, setting
 	  _PARENTPID and _PARENTDCOPID variables for it
 	o check for global variable _PARENTPID when getting @parentPid
 	o added _KMDIR and _NAME global variables that return
 	  path/filename of current dialog
+	o @dialog now searches for a dialog in both dialog path 
+	  and current path
+	o parser fixes (improved handling of nested specials)
+	o Kommander 1.0alpha3 released
 
-Fri 04 cze 2004 00:40:59 CEST
+Fri 04 cze 2004 00:40:59 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o fixed: don't execute Initialization/Executor in Editor
 	o changed DCOP id of Editor to kmdr-editor
 	o version numbers unified
 
-Thu 02 cze 2004 15:08:32 CEST
+Thu 02 cze 2004 15:08:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o KDE widgets are now used for lists, buttons and combos
 	o added file completion to FileSelector
 
