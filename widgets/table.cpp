@@ -73,7 +73,7 @@ void Table::populate()
   setWidgetText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
-void Table::setWidgetText(const QString& a_text)
+void Table::setWidgetText(const QString&)
 {
 }
 
