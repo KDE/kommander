@@ -174,10 +174,12 @@ void FileSelector::makeSelection()
   // Depending on the SelectionType property we need to show either a save, open or directory dialog.
   QString text;
   if (m_selectionType == Open)
+  {
     if (m_openMultiple)
       text = KFileDialog::getOpenFileNames(m_lineEdit->text(), m_filter, this, m_caption).join(" ");
     else
       text = KFileDialog::getOpenFileName(m_lineEdit->text(), m_filter, this, m_caption);
+  }
   else if (m_selectionType == Save)
     text = KFileDialog::getSaveFileName(m_lineEdit->text(), m_filter, this, m_caption);
   else if (m_selectionType == Directory)
