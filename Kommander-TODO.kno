@@ -9,15 +9,15 @@
 <li>Make tree/detail widget usable</li></ul>
 </body></html>
 
-
 \NewEntry 0 Documentation
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <ul type="disc"><li>Create documentation</li>
 <li>Create Kommander function reference</li>
 <li>Create tutorials with examples</li>
-<li>Allow documenting examples - requires changes in kmdr format?</li>
+<li>Allow documenting examples - requires changes in kmdr format? (it would be a good idea to automatically include some KDE information+author, date, license and version when dialog is created)</li>
 <li>Hints?</li></ul>
 </body></html>
+
 
 \NewEntry 0 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -45,7 +45,8 @@
 <li>add wizards? (replace current New dialogs with Kommander-based ones?)</li>
 <li>better undo</li>
 <li>add WhatsThis for most items</li>
-<li>detect function name/widget name clash </li></ul>
+<li>detect function name/widget name clash</li>
+<li>improve order of widget icons, add better icons if possible (CloseButton vs ExecButton)</li></ul>
 </body></html>
 
 
