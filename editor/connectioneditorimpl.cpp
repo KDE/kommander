@@ -301,10 +301,10 @@ void ConnectionEditor::okClicked()
     if ( !oldConnections.isEmpty() ) {
 	QPtrList<Command> commands;
 	for ( cit = oldConnections.begin(); cit != oldConnections.end(); ++cit ) {
-	    commands.append( new RemoveConnectionCommand( i18n( "Remove connection" ),
+	    commands.append( new RemoveConnectionCommand( i18n( "Remove Connection" ),
 							  formWindow, *cit ) );
 	}
-	rmConn = new MacroCommand( i18n( "Remove connections" ), formWindow, commands );
+	rmConn = new MacroCommand( i18n( "Remove Connections" ), formWindow, commands );
     }
 
     if ( !connections.isEmpty() ) {
@@ -317,10 +317,10 @@ void ConnectionEditor::okClicked()
 	    conn.signal = c.signal;
 	    conn.receiver = c.receiver;
 	    conn.slot = c.slot;
-	    commands.append( new AddConnectionCommand( i18n( "Add connection" ),
+	    commands.append( new AddConnectionCommand( i18n( "Add Connection" ),
 						       formWindow, conn ) );
 	}
-	addConn = new MacroCommand( i18n( "Add connections" ), formWindow, commands );
+	addConn = new MacroCommand( i18n( "Add Connections" ), formWindow, commands );
     }
 
     if ( rmConn || addConn ) {

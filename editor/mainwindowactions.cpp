@@ -320,7 +320,7 @@ void MainWindow::setupSearchActions()
 
     actionSearchFind->addTo( tb );
     incrementalSearch = new QLineEdit( tb );
-    QToolTip::add( incrementalSearch, i18n( "Incremetal Search (Alt+I)" ) );
+    QToolTip::add( incrementalSearch, i18n( "Incremental Search (Alt+I)" ) );
     connect( incrementalSearch, SIGNAL( textChanged( const QString & ) ),
        this, SLOT( searchIncremetalFind() ) );
     connect( incrementalSearch, SIGNAL( returnPressed() ),
@@ -703,7 +703,7 @@ void MainWindow::setupFileActions()
 
     fileMenu->insertItem( i18n( "Recently Opened Files " ), recentlyFilesMenu );
 #ifndef KOMMANDER
-    fileMenu->insertItem( i18n( "Recently opened projects" ), recentlyProjectsMenu );
+    fileMenu->insertItem( i18n( "Recently Opened Projects" ), recentlyProjectsMenu );
 #endif
 
     connect( recentlyFilesMenu, SIGNAL( aboutToShow() ),
@@ -1650,7 +1650,7 @@ void MainWindow::editPaste()
   hierarchyView->widgetInserted( 0 );
   formWindow()->commandHistory()->setModified( TRUE );
     } else {
-  QMessageBox::information( this, i18n( "Paste error" ),
+  QMessageBox::information( this, i18n( "Paste Error" ),
           i18n( "Can't paste widgets. Designer couldn't find a container\n"
               "to paste into which does not contain a layout. Break the layout\n"
               "of the container you want to paste into and select this container\n"

@@ -84,7 +84,7 @@ void EditSlots::okClicked()
     if ( !slotList.isEmpty() ) {
 	QPtrList<Command> commands;
 	for ( sit = slotList.begin(); sit != slotList.end(); ++sit ) {
-	    commands.append( new RemoveSlotCommand( i18n( "Remove slot" ),
+	    commands.append( new RemoveSlotCommand( i18n( "Remove Slot" ),
 						    formWindow, (*sit).slot, (*sit).specifier, (*sit).access,
 #ifndef KOMMANDER
 						    formWindow->project()->language(), (*sit).returnType ) );
@@ -92,7 +92,7 @@ void EditSlots::okClicked()
 						    "C++",(*sit).returnType ) );
 #endif
 	}
-	rmSlt = new MacroCommand( i18n( "Remove slots" ), formWindow, commands );
+	rmSlt = new MacroCommand( i18n( "Remove Slots" ), formWindow, commands );
     }
 
     bool invalidSlots = FALSE;
@@ -125,7 +125,7 @@ void EditSlots::okClicked()
 		invalidItems.append( it.current() );
 		continue;
 	    }
-	    commands.append( new AddSlotCommand( i18n( "Add slot" ),
+	    commands.append( new AddSlotCommand( i18n( "Add Slot" ),
 						 formWindow, slot.slot, slot.specifier, slot.access,
 #ifndef KOMMANDER
 						 formWindow->project()->language(),
@@ -144,7 +144,7 @@ void EditSlots::okClicked()
 	}
 
 	if ( !commands.isEmpty() )
-	    addSlt = new MacroCommand( i18n( "Add slots" ), formWindow, commands );
+	    addSlt = new MacroCommand( i18n( "Add Slots" ), formWindow, commands );
     }
 
     if ( invalidSlots ) {

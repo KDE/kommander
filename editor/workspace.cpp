@@ -659,30 +659,30 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
     switch ( wi->type() ) {
 #ifndef KOMMANDER
     case WorkspaceItem::SourceFileType:
-  menu.insertItem( i18n( "&Open source file..." ), OPEN_SOURCE );
+  menu.insertItem( i18n( "&Open Source File..." ), OPEN_SOURCE );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
        i18n( "&Remove source file from project" ), REMOVE_SOURCE );
   break;
 #endif
     case WorkspaceItem::FormFileType:
-  menu.insertItem( i18n( "&Open form..." ), OPEN_FORM );
+  menu.insertItem( i18n( "&Open Form..." ), OPEN_FORM );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
 #ifndef KOMMANDER
-       i18n( "&Remove form from project" ), REMOVE_FORM );
+       i18n( "&Remove Form From Project" ), REMOVE_FORM );
 #else
-       i18n( "&Remove form" ), REMOVE_FORM );
+       i18n( "&Remove Form" ), REMOVE_FORM );
 #endif
   break;
     case WorkspaceItem::FormSourceType:
-  menu.insertItem( i18n( "&Open form source..." ), OPEN_FORM_SOURCE );
+  menu.insertItem( i18n( "&Open Form Source..." ), OPEN_FORM_SOURCE );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
 #ifndef KOMMANDER
-       i18n( "&Remove form from project" ), REMOVE_FORM );
+       i18n( "&Remove Form From Project" ), REMOVE_FORM );
 #else
-       i18n("&Remove form" ), REMOVE_FORM );
+       i18n("&Remove Form" ), REMOVE_FORM );
 #endif
   break;
 #ifndef KOMMANDER

@@ -136,7 +136,7 @@ void ConnectionViewer::disconnectConnection()
 	return;
 
     MetaDataBase::Connection conn = connections[ connectionListView->currentItem() ];
-    RemoveConnectionCommand *cmd = new RemoveConnectionCommand( i18n( "Remove connection between '%1' and '%2'" ).
+    RemoveConnectionCommand *cmd = new RemoveConnectionCommand( i18n( "Remove Connection between '%1' and '%2'" ).
 								arg( conn.sender->name() ).arg( conn.receiver->name() ),
 								formWindow, conn );
     formWindow->commandHistory()->addCommand( cmd );
