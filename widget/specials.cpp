@@ -2,6 +2,7 @@
                         specials.cpp - known specials and DCOP calls
                              -------------------
     copyright            : (C) 2004 by Michal Rudolf <mrudolf@kdewebdev.org>
+    copyright            : (C) 2004 by Eric Laffoon <sequitur@kde.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,6 +15,13 @@
  ***************************************************************************/
 
 #include <klocale.h>
+
+#if 0
+#define NEW_STRING(x) i18n(x)
+#else
+#define NEW_STRING(x) QString::null
+#endif
+
  
 #include "specials.h"
 
@@ -79,7 +87,7 @@ void SpecialInformation::registerSpecials()
      i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
   /* functions with missing description - to be added after string freeze */
   insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
-     QString::null, 2);
+     NEW_STRING("Sets maximum numeric value"), 2);
   
   insertGroup(Group::Kommander, "Kommander");
   insert(Kommander::widgetText, "widgetText", i18n("Returns current widget's content."), 0);
