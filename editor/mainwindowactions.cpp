@@ -21,11 +21,8 @@
 
 #include <qapplication.h>
 #include <qclipboard.h>
-#include <qcombobox.h>
 #include <qlineedit.h>
 #include <qlistbox.h>
-#include <qmap.h>
-#include <qmessagebox.h>
 #include <qsignalmapper.h>
 #include <qspinbox.h>
 #include <qstatusbar.h>
@@ -33,7 +30,6 @@
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 #include <qworkspace.h>
-#include <stdlib.h>
 
 #include "defs.h"
 #include "widgetdatabase.h"
@@ -63,6 +59,7 @@
 #include <kkeydialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
+#include <kmessagebox.h>
 #include <kpopupmenu.h>
 #include <kstatusbar.h>
 #include <kstdguiitem.h>
@@ -634,8 +631,7 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
       } else
       {
         statusBar()->message(i18n("Failed to load file '%1'").arg(filename), 5000);
-        QMessageBox::information(this, i18n("Load File"),
-            i18n("Could not load file '%1'").arg(filename));
+        KMessageBox::information(this, i18n("Could not load file '%1'").arg(filename), i18n("Load File"));
         delete ff;
       }
       return (FormWindow *) resource.widget();
@@ -743,7 +739,7 @@ void MainWindow::createNewTemplate()
   QString cn = dia->listClass->currentText();
   if (fn.isEmpty() || cn.isEmpty())
   {
-    QMessageBox::information(this, i18n("Create Template"), i18n("Could not create the template"));
+    KMessageBox::information(this, i18n("Could not create the template"), i18n("Create Template"));
     return;
   }
 
@@ -772,7 +768,7 @@ void MainWindow::createNewTemplate()
   }
   if (!f.isOpen())
   {
-    QMessageBox::information(this, i18n("Create Template"), i18n("Could not create the template"));
+    KMessageBox::information(this, i18n("Could not create the template"), i18n("Create Template"));
     return;
   }
   QTextStream ts(&f);
@@ -846,11 +842,10 @@ void MainWindow::editPaste()
     formWindow()->commandHistory()->setModified(true);
   } else
   {
-    QMessageBox::information(this, i18n("Paste Error"),
-        i18n("Cannot paste widgets. Designer could not find a container\n"
+    KMessageBox::information(this, i18n("Cannot paste widgets. Designer could not find a container\n"
             "to paste into which does not contain a layout. Break the layout\n"
             "of the container you want to paste into and select this container\n"
-            "and then paste again."));
+                "and then paste again."), i18n("Paste Error"));
   }
 }
 
