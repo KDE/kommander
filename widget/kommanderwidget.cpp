@@ -381,9 +381,9 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
   for (uint end = start+1; end < s.length(); end++) 
   {
     if (!quoteDouble && s[end] == '\'' && s[end-1] != '\\')
-      quoteSingle = not quoteSingle;
+      quoteSingle = !quoteSingle;
     else if (!quoteSingle && s[end] == '\"' && s[end-1] != '\\')
-      quoteDouble = not quoteDouble;
+      quoteDouble = !quoteDouble;
     else if (!quoteDouble && !quoteSingle && s[end] == '(') 
       brackets++;
     else if (!quoteDouble && !quoteSingle && s[end] == ')') 
@@ -416,9 +416,9 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok) const
     else if (!brackets) 
     {
       if (s[i] == '\'' && s[i-1] != '\\' && !quoteDouble)
-         quoteSingle = not quoteSingle;
+         quoteSingle = !quoteSingle;
       else if (s[i] == '\"' && s[i-1] != '\\' && !quoteSingle)
-         quoteDouble = not quoteDouble;
+         quoteDouble = !quoteDouble;
       else if (s[i] == ',' && !quoteDouble && !quoteSingle)
       {
         QString arg = s.mid(start, i - start).stripWhiteSpace();
