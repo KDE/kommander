@@ -27,12 +27,11 @@ Tue 20 Jul 2004 19:51:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o setMaximum for ProgressBar
 
 Mon 19 Jul 2004 11:47:58 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
-	o ScriptObject widget - hidden widget for
+	o added ScriptObject - hidden script container
 
 Fri 16 Jul 2004 15:37:41 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added Slider widget
 	o removed some obsolete code from editor
-	o added ScriptObject - hidden script container
 
 Thu 15 Jul 2004 23:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added TextBrowser widget for rich text viewing, with clickable 
@@ -46,7 +45,7 @@ Wed 14 Jul 2004 12:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o support parameters in function browser
 
 Tue 13 Jul 2004 22:33:19 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
-	o added support for internationalizatiof Kommander dialogs
+	o added support for internationalization of Kommander dialogs
 	o added @i18n special for marking strings for translation
 
 Tue 13 Jul 2004 13:33:00 CEST - Michal Rudolf <mrudolf@kdewebdev.org>

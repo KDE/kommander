@@ -22,6 +22,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kurl.h>
+#include <kmessagebox.h>
 
 /* QT INCLUDES */
 #include <qapplication.h>
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
   }
   else if (!args->count())
   {
-    qFatal("Error: no dialog given. Use --stdin option to read dialog from standard input.\n");
+    KMessageBox::sorry(0, i18n("Error: no dialog given. Use --stdin option to read dialog from standard input.\n"));
     return -1;
   }
   else
