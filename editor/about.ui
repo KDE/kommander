@@ -52,7 +52,7 @@
                 <cstring>TextLabel1</cstring>
             </property>
             <property name="text">
-                <string>Version 1.0beta1</string>
+                <string>Version 1.0</string>
             </property>
             <property name="alignment">
                 <set>AlignCenter</set>
