@@ -1,5 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
+GenericName=Dynamic Dialog Editor
+GenericName[xx]=xxDynamic Dialog Editorxx
 Name=Kommander Editor
 Name[ca]=Editor Kommander
 Name[cs]=Editor Kommanderu
@@ -39,4 +41,4 @@ Comment[sv]=Editor för dynamiska dialogrutor
 Comment[tr]=Pencere Düzenleyici
 Comment[xx]=xxDynamic Dialog Editorxx
 MimeType=application/x-kommander
-Categories=Qt;KDE;TextEditor
+Categories=Qt;KDE;Development
