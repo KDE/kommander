@@ -61,6 +61,7 @@
 #include <kapplication.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
+#include <kkeydialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kpopupmenu.h>
@@ -151,10 +152,6 @@ void MainWindow::setupEditActions()
   actionEditFormSettings->setWhatsThis(whatsThisFrom("Edit|Form Settings"));
   connect(this, SIGNAL(hasActiveForm(bool)), actionEditFormSettings, SLOT(setEnabled(bool)));
 
-  actionEditPreferences = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
-  actionEditPreferences->setToolTip(i18n("Opens a dialog to change preferences"));
-  actionEditPreferences->setWhatsThis(whatsThisFrom("Edit|Preferences"));
-  
   KToolBar *tb = new KToolBar(this, "Edit");
   tb->setFullSize(false);
   QWhatsThis::add(tb, i18n("<b>The Edit toolbar</b>%1").arg(toolbarHelp));
@@ -181,7 +178,7 @@ void MainWindow::setupEditActions()
   actionEditConnections->plug(menu);
   actionEditFormSettings->plug(menu);
   menu->insertSeparator();
-  actionEditPreferences->plug(menu);
+  
 }
 
 
@@ -526,7 +523,7 @@ void MainWindow::setupWindowActions()
 
   if (!windowMenu)
   {
-    windowMenu = new QPopupMenu(this, "Window");
+    windowMenu = new KPopupMenu(this, "Window");
     menuBar()->insertItem(i18n("&Window"), windowMenu);
     connect(windowMenu, SIGNAL(aboutToShow()), this, SLOT(setupWindowActions()));
   } 
@@ -568,6 +565,22 @@ void MainWindow::setupWindowActions()
     windowMenu->setItemChecked(id, qworkspace->activeWindow() == windows.at(i));
   }
 }
+
+
+void MainWindow::setupSettingsActions()
+{    
+  KPopupMenu *settings = new KPopupMenu(this, "Settings");
+  KAction* a = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
+  a->setToolTip(i18n("Opens a dialog to change preferences"));
+  a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
+  a->plug(settings);
+  
+  a = KStdAction::keyBindings(this, SLOT(editShortcuts()), actionCollection());
+  a->setToolTip(i18n("Opens a dialog to change shortcuts"));
+  a->plug(settings);
+  
+  menuBar()->insertItem( i18n("&Settings"), settings);
+} 
 
 void MainWindow::setupHelpActions()
 {
@@ -1125,6 +1138,13 @@ void MainWindow::editPreferences()
   prefDia = 0;
   statusBar()->clear();
 }
+
+void MainWindow::editShortcuts()
+{
+  KKeyDialog K(false);
+  K.configure(actionCollection());
+}
+    
 
 void MainWindow::chooseDocPath()
 {

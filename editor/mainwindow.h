@@ -173,6 +173,7 @@ public slots:
     
     void editFormSettings();
     void editPreferences();
+    void editShortcuts();
 
     void runForm();
 
@@ -202,6 +203,7 @@ private:
     void setupToolActions();
     void setupLayoutActions();
     void setupFileActions();
+    void setupSettingsActions();
     void setupRunActions();
     void setupHelpActions();
     void setupRMBMenus();
@@ -261,7 +263,7 @@ private:
     
     KToggleAction* actionPointerTool, *actionConnectTool, *actionOrderTool;
     KAction* actionCurrentTool;
-    KAction *actionToolsCustomWidget, *actionEditPreferences;
+    KAction *actionToolsCustomWidget;
     KAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
     KAction *actionWindowNext, *actionWindowPrevious;
     KAction *actionEditFormSettings, *actionEditAccels;

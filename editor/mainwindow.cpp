@@ -153,6 +153,7 @@ MainWindow::MainWindow( bool asClient )
     setupActionEditor();
     setupRunActions();
     setupWindowActions();
+    setupSettingsActions();
     setupHelpActions();
     
     setupRMBMenus();
