@@ -1,4 +1,4 @@
- /***************************************************************************
+/***************************************************************************
                     kommanderwidget.cpp - Text widget core functionality 
                              -------------------
     copyright          : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
@@ -166,7 +166,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     /* Standard, non-prefixed special */
     if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
     {    
-      args = parseFunction(QString::null, identifier, a_text, pos, ok);
+      args = parseFunction("Kommander", identifier, a_text, pos, ok);
       if (!ok)
         return QString::null;
       else if (identifier == "execBegin")

@@ -55,6 +55,7 @@ class SpecialInformation
 public:
   SpecialInformation()  {m_defaultGroup = -1;}
   static int function(int group, const QString& fname);
+  static SpecialFunction functionObject(const QString& gname, const QString& fname);
   static int group(const QString& gname);
   static bool isValid(int gname, int fname);
   static bool isValid(const QString& gname, const QString& fname);
@@ -70,10 +71,13 @@ public:
   static void insertGroup(int id, const QString& name);
   static void setDefaultGroup(int gname);
   static void registerSpecials();
+  static QStringList groups();
+  static QStringList functions(QString group);
 protected:
   static QMap<int, QMap<int, SpecialFunction> > m_specials;
   static QMap<QString, int> m_groups;
   static QMap<int, QMap<QString, int> > m_functions;
+  static QMap<int, QMap<QString, int> > m_aliases;
   static int m_defaultGroup;
 };
 

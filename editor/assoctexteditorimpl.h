@@ -1,8 +1,8 @@
 /***************************************************************************
                           assoctexteditorimpl.h - Associated text editor implementation 
                              -------------------
-    copyright            : (C) 2003 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2003    Marc Britton <consume@optusnet.com.au>
+                           (C) 2004    Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -61,8 +61,8 @@ public slots:
   void insertAssociatedText(const QString&);
   // Select file and insert its content at cursor position
   void insertFile();
-  // Select file and insert its content at cursor position
-  void insertFunction(int);
+  // Open function browser and insert chosen function at cursor position
+  void insertFunction();
   // Insert selected function at cursor position 
   void insertWidgetName(int);
 
@@ -92,8 +92,6 @@ private:
   // Create list of all widgets on the same dialog as current widget 
   // Set store to true, to update m_widgetList;
   void buildWidgetList();
-  // Create list of available functions
-  void buildFunctionList();
   // Convert widget to string displayed in combos
   // If formatted, return formatted string, else just widget's name
   QString widgetToString(QWidget* widget, bool formatted = true);

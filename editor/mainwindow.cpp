@@ -70,6 +70,7 @@
 #include "actiondnd.h"
 #include <kommanderfactory.h>
 #include "formfile.h"
+#include "specials.h"
 
 
 #include <qvbox.h>
@@ -206,6 +207,8 @@ MainWindow::MainWindow( bool asClient )
 
     statusBar()->setSizeGripEnabled( TRUE );
     set_splash_status( i18n("Initialization Done.") );
+    
+    SpecialInformation::registerSpecials();
 }
 
 MainWindow::~MainWindow()

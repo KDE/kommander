@@ -13,127 +13,169 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <klocale.h>
+ 
 #include "specials.h"
 
 void SpecialInformation::registerSpecials()
 {
   insertGroup(Group::DCOP, "DCOP");
-  insert(DCOP::setEnabled, "setEnabled(QString widget, bool enabled)");
+  insert(DCOP::setEnabled, "setEnabled(QString widget, bool enabled)", 2,
+     i18n("Enable or disable widget."));
   insertAlias(DCOP::setEnabled, "enableWidget");
-  insert(DCOP::setVisible, "setVisible(QString widget, bool visible)");
-  insert(DCOP::setText, "setText(QString widget, QString text)");
+  insert(DCOP::setVisible, "setVisible(QString widget, bool visible)", 2,
+     i18n("Show/hide widget."));
+  insert(DCOP::setText, "setText(QString widget, QString text)", 2,
+     i18n("Set widget's  content."));
   insertAlias(DCOP::setText, "changeWidgetText");
-  insert(DCOP::text, "text(QString widget)");
-  insert(DCOP::selection, "selection(QString widget)");
-  insert(DCOP::setSelection, "setSelection(QString widget, QString text)");
+  insert(DCOP::text, "text(QString widget)", 1,
+     i18n("Return content of widget."));
+  insert(DCOP::selection, "selection(QString widget)", 1,
+     i18n("Return selected part of widget."));
+  insert(DCOP::setSelection, "setSelection(QString widget, QString text)", 2,
+     i18n("Set selected part of widget."));
   insertAlias(DCOP::setSelection, "setCurrentListItem");
-  insert(DCOP::currentItem, "currentItem(QString widget)");
-  insert(DCOP::setCurrentItem, "setCurrentItem(QString widget, int index)");
+  insert(DCOP::currentItem, "currentItem(QString widget)", 1,
+     i18n("Return index of current item in widget."));
+  insert(DCOP::setCurrentItem, "setCurrentItem(QString widget, int index)", 2,
+     i18n("Sets index of current item in widget."));
   insertAlias(DCOP::setCurrentItem, "setCurrentTab");
-  insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)");
-  insert(DCOP::item, "item(QString widget, int index)");
-  insert(DCOP::itemPath, "itemPath(QString widget, int index)");
-  insert(DCOP::itemDepth, "itemDepth(QString widget, int index)");
-  insert(DCOP::removeItem, "removeItem(QString widget, int index)");
+  insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)", 3,
+     i18n("Set pixmap for given icon. Use <i>index = -1</-> to set pixmap for all items."));
+  insert(DCOP::item, "item(QString widget, int index)", 2,
+     i18n("Return item with given index."));
+  insert(DCOP::itemPath, "itemPath(QString widget, int index)", 2,
+     i18n("Return slash-separated path to given item in tree widget."));
+  insert(DCOP::itemDepth, "itemDepth(QString widget, int index)", 2,
+     i18n("Return depth of current item in tree widget. Root items have depth 0."));
+  insert(DCOP::removeItem, "removeItem(QString widget, int index)", 2,
+     i18n("Remove item with given index."));
   insertAlias(DCOP::removeItem, "removeListItem");
-  insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)");
+  insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)", 3,
+     i18n("Insert item at <i>index</i> position."));
   insertAlias(DCOP::insertItem, "addListItem");
-  insert(DCOP::insertItems, "insertItems(QString widget, QStringList items, int index)");
+  insert(DCOP::insertItems, "insertItems(QString widget, QStringList items, int index)", 3,
+     i18n("Insert multiple items (EOL-separated) at <i>index</i> position."));
   insertAlias(DCOP::insertItems, "addListItems");
-  insert(DCOP::addUniqueItem, "addUniqueItem(QString widget, QString item)");
-  insert(DCOP::removeItem, "removeItem(QString widget, QString item)");
-  insertAlias(DCOP::removeItem, "removeListItem");
-  insert(DCOP::findItem, "findItem(QString widget, QString item)");
-  insert(DCOP::clear, "clear(QString widget)");
+  insert(DCOP::addUniqueItem, "addUniqueItem(QString widget, QString item)", 2,
+     i18n("Insert item if it doesn't already exists."));
+  insert(DCOP::findItem, "findItem(QString widget, QString item)", 2,
+     i18n("Return index of item with given text."));
+  insert(DCOP::clear, "clear(QString widget)", 1,
+     i18n("Remove content of widget."));
   insertAlias(DCOP::clear, "clearList");
-  insert(DCOP::setChecked, "setChecked(QString widget, bool checked)");
-  insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)");
-  insert(DCOP::associatedText, "associatedText(QString widget)");
-  insert(DCOP::type, "type(QString widget)");
-  insert(DCOP::children, "children(QString parent, bool recursive)");
-  insert(DCOP::global, "global(QString variable)");
-  insert(DCOP::setGlobal, "setGlobal(QString variable, QString value)");
+  insert(DCOP::setChecked, "setChecked(QString widget, bool checked)", 2,
+     i18n("Set/unset checkbox."));
+  insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)", 2,
+     i18n("Set scripts associated with widget. You probably don't need to use this."));
+  insert(DCOP::associatedText, "associatedText(QString widget)", 1,
+     i18n("Return scripts associated with widget. You probably don't need to use this."));
+  insert(DCOP::type, "type(QString widget)", 2,
+     i18n("Return type(class) of widget."));
+  insert(DCOP::children, "children(QString parent, bool recursive)", 2,
+     i18n("Return list (optionally recursive) of widgets contained in widget."));
+  insert(DCOP::global, "global(QString variable)", 1,
+     i18n("Return value of a global variable."));
+  insert(DCOP::setGlobal, "setGlobal(QString variable, QString value)", 2,
+     i18n("Set value of a global variable."));
   
-  
-  insertGroup(Group::Kommander, QString::null);
-  insert(Kommander::widgetText, "widgetText");
-  insert(Kommander::selectedWidgetText, "selectedWidgetText");
-  insert(Kommander::null, "null");
-  insert(Kommander::pid, "pid");
-  insert(Kommander::dcopid, "dcopid");
-  insert(Kommander::parentPid, "parentPid");
-  insert(Kommander::execBegin, "execBegin(QString shell)", 0);
-  insert(Kommander::env, "env(QString variable)");
-  insert(Kommander::exec, "exec(QString command)");
-  insert(Kommander::forEachBlock, "forEach(QString variable, QString items)");
-  insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)", 3);
-  insert(Kommander::global, "global(QString variable)");
-  insert(Kommander::dialog, "dialog(QString file, QString args)", 1);
-  insert(Kommander::readSetting, "readSetting(QString key, QString default)");
-  insert(Kommander::setGlobal, "setGlobal(QString variable, QString value)");
-  insert(Kommander::writeSetting, "writeSetting(QString key, QString value)");
-  insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)", 3);
-  
+  insertGroup(Group::Kommander, "Kommander");
+  insert(Kommander::widgetText, "widgetText", 0,
+     i18n("Return current widget's content."));
+  insert(Kommander::selectedWidgetText, "selectedWidgetText", 0,
+     i18n("Return selected part of current widget's content."));
+  insert(Kommander::null, "null", 0,
+     i18n("Do nothing. Used when script is expected and empty text is not enough."));
+  insert(Kommander::pid, "pid", 0,
+     i18n("Return pid of current process."));
+  insert(Kommander::dcopid, "dcopid", 0,
+     i18n("Return DCOP identifier of current process."));
+  insert(Kommander::parentPid, "parentPid", 0,
+     i18n("Return pid of a parent dialog."));
+  insert(Kommander::execBegin, "execBegin(QString shell)", 0,
+     i18n("Execute block. Bash is used if no shell is given."));
+  insert(Kommander::env, "env(QString variable)", 1,
+     i18n("Return value of environmental (shell) variable."));
+  insert(Kommander::exec, "exec(QString command)", 1,
+     i18n("Execute external command."));
+  insert(Kommander::forEachBlock, "forEach(QString variable, QString items)", 2,
+     i18n("Execute loop: values from <i>items</i> list (passed as EOL-separated string) are assigned "
+        "to the variable."));
+  insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)", 2,
+     i18n("Execute loop: variable is set to <i>start</i> and is increased by <i>step</i> each "
+        "time loop is executed. Execution stops when variable becomes larger then <i>end</i>."));
+  insert(Kommander::global, "global(QString variable)", 1,
+     i18n("Return value of a global variable."));
+  insert(Kommander::dialog, "dialog(QString file, QString args)", 1,
+     i18n("Execute another Kommander dialog. Current dialog directory is used if no path is given."));
+  insert(Kommander::readSetting, "readSetting(QString key, QString default)", 2,
+     i18n("Read setting from configration file for this dialog."));
+  insert(Kommander::setGlobal, "setGlobal(QString variable, QString value)", 2,
+     i18n("Set value of a global variable."));
+  insert(Kommander::writeSetting, "writeSetting(QString key, QString value)", 2,
+     i18n("Store setting in configuration file for this dialog."));
+  insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)", 3,
+     i18n("Execute external DCOP call."));
   
   insertGroup(Group::Array, "Array");
   insert(Array::values, "values(QString array)", 1, 
-    "Return EOL-separated list of all values in the array.");
+    i18n("Return EOL-separated list of all values in the array."));
   insert(Array::keys,"keys(QString array)", 1, 
-    "Return EOL-separated list of all keys in the array.");
+    i18n("Return EOL-separated list of all keys in the array."));
   insert(Array::clear,"clear(QString array)", 1, 
-    "Remove all elements from the array.");
+    i18n("Remove all elements from the array."));
   insert(Array::count,"count(QString array)", 1, 
-    "Return number of elements in the array.");
+    i18n("Return number of elements in the array."));
   insert(Array::value, "value(QString array, QString key)", 2, 
-    "Return the value associated with given key.");
+    i18n("Return the value associated with given key."));
   insert(Array::remove,"remove(QString array, QString key)", 2, 
-    "Remove element with given key from the array.");
+    i18n("Remove element with given key from the array."));
   insert(Array::setValue,"setValue(QString array, QString key, QString value)", 3, 
-    "Add element with given key and value to the array");
+    i18n("Add element with given key and value to the array"));
   insert(Array::fromString, "fromString(QString array, QString string)", 2, 
-    "Add all elements in the string to the array. "
-    "String should have <i>key>\\tvalue\\n</i> format.");
+    i18n("Add all elements in the string to the array. "
+    "String should have <i>key>\\tvalue\\n</i> format."));
   insert(Array::toString, "toString(QString array)", 1, 
-    "Return all elements in the array in <i>key>\\tvalue\\n</i> format.");
+    i18n("Return all elements in the array in <i>key>\\tvalue\\n</i> format."));
   
   
   insertGroup(Group::String, "String");
   insert(String::length, "length(QString string)", 1, 
-    "Return number of chars in the string.");
+    i18n("Return number of chars in the string."));
   insert(String::contains, "contains(QString string, QString substring)", 2, 
-    "Check if the string contains given substring.");
+    i18n("Check if the string contains given substring."));
   insert(String::find, "find(QString string, QString sought, int index)", 2, 
-    "Return position of a substring in the string, or -1 if it isn't found.");
+    i18n("Return position of a substring in the string, or -1 if it isn't found."));
   insert(String::left, "left(QString string, int n)", 2, 
-    "Return first n chars of the string.");
+    i18n("Return first n chars of the string."));
   insert(String::right, "right(QString string, int n)", 2, 
-    "Return last n chars of the string.");
+    i18n("Return last n chars of the string."));
   insert(String::mid, "mid(QString string, int start, int n)", 3, 
-    "Return n chars of the string, starting from start.");
+    i18n("Return n chars of the string, starting from start."));
   insert(String::remove, "remove(QString string, QString substring)", 2, 
-    "Replace all occurencies of given substring.");
+    i18n("Replace all occurencies of given substring."));
   insert(String::replace, "replace(QString string, QString substring, QString replacement)", 3, 
-    "Replace all occurencies of given substring with given replacement.");
+    i18n("Replace all occurencies of given substring with given replacement."));
   insert(String::upper, "upper(QString string)", 1, 
-    "Convert the string to uppercase.");
+    i18n("Convert the string to uppercase."));
   insert(String::lower, "lower(QString string)", 1, 
-    "Convert the string to lowercase.");
+    i18n("Convert the string to lowercase."));
   insert(String::compare, "compare(QString string1, QString string2)", 2, 
-    "Compare two strings. Return 0 if they are equal, "
-    "-1 if the first one is lower, 1 if the first one is higher");
+    i18n("Compare two strings. Return 0 if they are equal, "
+    "-1 if the first one is lower, 1 if the first one is higher"));
   insert(String::isEmpty, "isEmpty(QString string)", 1, 
-    "Check if string is empty.");
+    i18n("Check if string is empty."));
   insert(String::isNumber, "isNumber(QString string)", 1, 
-    "Check if string is a valid number.");
+    i18n("Check if string is a valid number."));
   insert(String::section, "section(QString string, QString separator, int index)", 1, 
-    "Returns given section of a string.");
+    i18n("Returns given section of a string."));
   
   
   insertGroup(Group::File, "File");
   insert(File::read, "read(QString)", 1, 
-    "Return content of given file.");
+    i18n("Return content of given file."));
   insert(File::write, "write(QString file, QString string)", 2, 
-    "Write given string to a file.");
+    i18n("Write given string to a file."));
   insert(File::append, "append(QString file, QString string)", 2, 
-    "Append given string to the end of a file.");
+    i18n("Append given string to the end of a file."));
 }

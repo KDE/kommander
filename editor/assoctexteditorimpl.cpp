@@ -1,8 +1,8 @@
 /***************************************************************************
                           assoctexteditorimpl.cpp  - Associated text editor implementation
                              -------------------
-    copyright            : (C) 2002-2004 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2003    Marc Britton <consume@optusnet.com.au>
+                           (C) 2004    Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,7 @@
 #include <kglobal.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
+#include <kpushbutton.h>
 #include <ktextedit.h>
 
 /* QT INCLUDES */
@@ -30,7 +31,6 @@
 #include <qfile.h>
 #include <qobject.h>
 #include <qobjectlist.h>
-#include <qpushbutton.h>
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -41,6 +41,7 @@
 #include "command.h"
 #include "metadatabase.h"
 #include "choosewidgetimpl.h"
+#include "functionsimpl.h"
 
 AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form, 
     PropertyEditor* a_property, QWidget *a_parent, const char *a_name, bool a_modal)
@@ -67,15 +68,14 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
       widgetsComboBox->setCurrentItem(i);
       break;
     }
-  buildFunctionList();
   setWidget(a_widget);
     
   connect(associatedTextEdit, SIGNAL(textChanged()), SLOT(textEditChanged()));
   connect(widgetsComboBox, SIGNAL(activated(int)), SLOT(widgetChanged(int)));
   connect(stateComboBox, SIGNAL(activated(int)), SLOT(stateChanged(int)));
   connect(filePushButton, SIGNAL(clicked()), SLOT(insertFile()));
+  connect(functionButton, SIGNAL(clicked()), SLOT(insertFunction()));
   connect(widgetComboBox, SIGNAL(activated(int)), SLOT(insertWidgetName(int)));
-  connect(functionComboBox, SIGNAL(activated(int)), SLOT(insertFunction(int)));
   connect(treeWidgetButton, SIGNAL(clicked()), SLOT(selectWidget()));
 }
 
@@ -214,24 +214,6 @@ void AssocTextEditor::buildWidgetList()
   widgetsComboBox->insertStringList(widgetList);
 }
 
-void AssocTextEditor::buildFunctionList()
-{
-  functionComboBox->insertItem("@dcop()");
-  functionComboBox->insertItem("@dcopid");
-  functionComboBox->insertItem("@dialog()");
-  functionComboBox->insertItem("@env()");
-  functionComboBox->insertItem("@exec()");
-  functionComboBox->insertItem("@global()");
-  functionComboBox->insertItem("@null");
-  functionComboBox->insertItem("@parentPid");
-  functionComboBox->insertItem("@pid");
-  functionComboBox->insertItem("@readSetting()");
-  functionComboBox->insertItem("@selectedWidgetText");
-  functionComboBox->insertItem("@setGlobal");
-  functionComboBox->insertItem("@widgetText");
-  functionComboBox->insertItem("@writeSetting()");
-}
-
 void AssocTextEditor::stateChanged(int a_index)
 {
   m_currentState = stateComboBox->text(a_index);
@@ -306,9 +288,11 @@ void AssocTextEditor::insertWidgetName(int index)
        widgetToString ( widgetFromString(widgetComboBox->text(index)), false) );
 }
 
-void AssocTextEditor::insertFunction(int index)
+void AssocTextEditor::insertFunction()
 {
-  insertAssociatedText(functionComboBox->text(index));
+  FunctionsDialog pDialog(this, 0);
+  if (pDialog.exec())
+    insertAssociatedText(pDialog.functionText());
 }
 
 QString AssocTextEditor::widgetToString(QWidget* widget, bool formatted)

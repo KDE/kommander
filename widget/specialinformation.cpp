@@ -77,9 +77,17 @@ int SpecialInformation::function(int group, const QString& fname)
 {
   if (m_functions.contains(group) && m_functions[group].contains(fname))
     return m_functions[group][fname];
+  else if (m_aliases.contains(group) && m_aliases[group].contains(fname))
+    return m_aliases[group][fname];
   return -1;
 }
   
+SpecialFunction SpecialInformation::functionObject(const QString& gname, const QString& fname)
+{
+  int gid = group(gname);
+  return m_specials[gid][function(gid, fname)];
+}
+
 int SpecialInformation::group(const QString& gname) 
 {
  if (m_groups.contains(gname))
@@ -146,6 +154,8 @@ bool SpecialInformation::insert(int id, const QString& function, int minArgs,
     return false;
   if (m_functions[m_defaultGroup].contains(function))
     return false;                   /* function name already in use */
+  if (m_aliases[m_defaultGroup].contains(function))
+    return false;                   /* function name already in use */
   SpecialFunction sf(function, minArgs, description);
   m_specials[m_defaultGroup][id] = sf;
   m_functions[m_defaultGroup][sf.name()] = id;
@@ -158,7 +168,9 @@ bool SpecialInformation::insertAlias(int id, const QString& alias)
     return false;
   if (m_functions[m_defaultGroup].contains(alias))
     return false;
-  m_functions[m_defaultGroup][alias] = id;
+  if (m_aliases[m_defaultGroup].contains(alias))
+    return false;
+  m_aliases[m_defaultGroup][alias] = id;
   return true;
 }
 
@@ -175,8 +187,23 @@ void SpecialInformation::insertGroup(int id, const QString& name)
   }
 }
 
+QStringList SpecialInformation::groups()
+{
+  return m_groups.keys();
+}
+
+QStringList SpecialInformation::functions(QString g)
+{
+  int gid = group(g);
+  if (gid == -1)
+    return QStringList();
+  else
+    return m_functions[gid].keys();
+}
+
 QMap<int, QMap<int, SpecialFunction> > SpecialInformation::m_specials;
 QMap<QString, int> SpecialInformation::m_groups;
 QMap<int, QMap<QString, int> > SpecialInformation::m_functions;
+QMap<int, QMap<QString, int> > SpecialInformation::m_aliases;
 int SpecialInformation::m_defaultGroup;
 
