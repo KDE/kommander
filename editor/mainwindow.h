@@ -312,8 +312,8 @@ private:
 
 #ifndef KOMMANDER
 //    void setupActionManager();
-//    void setupPluginManagers();
 #endif
+    void setupPlugins();
 
     void enableAll( bool enable );
 

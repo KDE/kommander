@@ -88,7 +88,7 @@
 #ifndef KOMMANDER
 #include "qwidgetfactory.h"
 #else
-#include "ewidgetfactory.h"
+#include <kommanderfactory.h>
 #endif
 #include "formfile.h"
 
@@ -183,13 +183,13 @@ MainWindow::MainWindow( bool asClient )
 
 #ifndef KOMMANDER
     setupPluginManagers();
+#else
+    setupPlugins();
 #endif
 
     qApp->setMainWidget( this );
 #ifndef KOMMANDER
     QWidgetFactory::addWidgetFactory( new CustomWidgetFactory );
-#else
-    EWidgetFactory::addWidgetFactory( new CustomWidgetFactory );
 #endif
     self = this;
 #ifndef KOMMANDER
@@ -606,7 +606,7 @@ QObjectList *MainWindow::runProject()
 #ifndef KOMMANDER
             QWidget *w = QWidgetFactory::create( currentProject->makeAbsolute( (*it)->fileName() ), 0, invisibleGroupLeader );
 #else
-            QWidget *w = EWidgetFactory::create( currentProject->makeAbsolute( (*it)->fileName() ), 0, invisibleGroupLeader );
+            QWidget *w = KommanderFactory::create( currentProject->makeAbsolute( (*it)->fileName() ), 0, invisibleGroupLeader );
 #endif
 
         if ( w ) {
@@ -712,7 +712,7 @@ QObjectList *MainWindow::runProject()
 #ifndef KOMMANDER
                 QWidget *w = QWidgetFactory::create( (*it2)->absFileName(), 0, invisibleGroupLeader );
 #else
-                QWidget *w = EWidgetFactory::create( (*it2)->absFileName(), 0, invisibleGroupLeader );
+                QWidget *w = KommanderFactory::create( (*it2)->absFileName(), 0, invisibleGroupLeader );
 #endif
             if ( w ) {
                 l->append( w );
@@ -795,7 +795,11 @@ QWidget* MainWindow::previewFormInternal( QStyle* style, QPalette* palet )
 #ifndef KOMMANDER
     QWidget *w = QWidgetFactory::create( &buffer );
 #else
+#if 0
     QWidget *w = EWidgetFactory::create( &buffer );
+#else
+    QWidget *w = KommanderFactory::create( &buffer );
+#endif
 #endif
     if ( w ) {
         previewedForm = w;
@@ -3195,64 +3199,10 @@ TemplateWizardInterface * MainWindow::templateWizardInterface( const QString& cl
 }
 #endif
 
-#ifndef KOMMANDER
-void MainWindow::setupPluginManagers()
+void MainWindow::setupPlugins()
 {
-
-    editorPluginManager = new QPluginManager<EditorInterface>( IID_Editor, QApplication::libraryPaths(), "/designer" );
-    editorPluginManager = new QPluginManager<EditorInterface>( IID_Editor, QApplication::libraryPaths(), "" );
-    MetaDataBase::setEditor( editorPluginManager->featureList() );
-
-    templateWizardPluginManager = new QPluginManager<TemplateWizardInterface>( IID_TemplateWizard, QApplication::libraryPaths(), "/designer" );
-    templateWizardPluginManager = new QPluginManager<TemplateWizardInterface>( IID_TemplateWizard, QApplication::libraryPaths(), "" );
-
-    MetaDataBase::setupInterfaceManagers();
-    programPluginManager = new QPluginManager<ProgramInterface>( IID_Program, QApplication::libraryPaths(), "/designer" );
-    interpreterPluginManager = new QPluginManager<InterpreterInterface>( IID_Interpreter, QApplication::libraryPaths(), "/designer" );
-    preferencePluginManager = new QPluginManager<PreferenceInterface>( IID_Preference, QApplication::libraryPaths(), "/designer" );
-    projectSettingsPluginManager = new QPluginManager<ProjectSettingsInterface>( IID_ProjectSettings, QApplication::libraryPaths(), "/designer" );
-    sourceTemplatePluginManager = new QPluginManager<SourceTemplateInterface>( IID_SourceTemplate, QApplication::libraryPaths(), "/designer" );
-
-    programPluginManager = new QPluginManager<ProgramInterface>( IID_Program, QApplication::libraryPaths(), "" );
-    interpreterPluginManager = new QPluginManager<InterpreterInterface>( IID_Interpreter, QApplication::libraryPaths(), "" );
-    preferencePluginManager = new QPluginManager<PreferenceInterface>( IID_Preference, QApplication::libraryPaths(), "" );
-    projectSettingsPluginManager = new QPluginManager<ProjectSettingsInterface>( IID_ProjectSettings, QApplication::libraryPaths(), "" );
-    sourceTemplatePluginManager = new QPluginManager<SourceTemplateInterface>( IID_SourceTemplate, QApplication::libraryPaths(), "" );
-
-    if ( preferencePluginManager ) {
-        QStringList lst = preferencePluginManager->featureList();
-        for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
-            PreferenceInterface *i = 0;
-            preferencePluginManager->queryInterface( *it, &i );
-            if ( !i )
-                continue;
-            i->connectTo( designerInterface() );
-            PreferenceInterface::Preference *pf = i->preference();
-            if ( pf )
-                addPreferencesTab( pf->tab, pf->title, pf->receiver, pf->init_slot, pf->accept_slot );
-            i->deletePreferenceObject( pf );
-
-            i->release();
-        }
-    }
-    if ( projectSettingsPluginManager ) {
-        QStringList lst = projectSettingsPluginManager->featureList();
-        for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
-            ProjectSettingsInterface *i = 0;
-            projectSettingsPluginManager->queryInterface( *it, &i );
-            if ( !i )
-                continue;
-            i->connectTo( designerInterface() );
-
-            ProjectSettingsInterface::ProjectSettings *pf = i->projectSetting();
-            if ( pf )
-                addProjectTab( pf->tab, pf->title, pf->receiver, pf->init_slot, pf->accept_slot );
-            i->deleteProjectSettingsObject( pf );
-            i->release();
-        }
-    }
+    KommanderFactory::loadPlugins();
 }
-#endif
 
 #ifndef KOMMANDER
 void MainWindow::addPreferencesTab( QWidget *tab, const QString &title, QObject *receiver, const char *init_slot, const char *accept_slot )

@@ -19,6 +19,7 @@
 **********************************************************************/
 
 #include <klocale.h>
+#include <kommanderfactory.h>
 
 #include <qvariant.h> // HP-UX compiler need this here
 #include "widgetfactory.h"
@@ -32,7 +33,9 @@
 #include "listvieweditorimpl.h"
 #include "iconvieweditorimpl.h"
 #include "multilineeditorimpl.h"
+#ifndef KOMMANDER 
 #include "widgetinterface.h"
+#endif
 #ifndef QT_NO_TABLE
 #include "tableeditorimpl.h"
 #endif
@@ -1203,6 +1206,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	}
 #endif
 
+#ifndef KOMMANDER
     WidgetInterface *iface = 0;
     widgetManager()->queryInterface( className, &iface );
     if ( !iface )
@@ -1211,6 +1215,10 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     QWidget *w = iface->create( className, parent, name );
     iface->release();
     return w;
+#else
+    QWidget *w = KommanderFactory::create( className, 0, parent, name );
+    return w;
+#endif
 }
 
 
@@ -1857,6 +1865,7 @@ void CustomWidget::paintEvent( QPaintEvent *e )
 }
 
 
+#ifndef KOMMANDER
 CustomWidgetFactory::CustomWidgetFactory()
 {
 }
@@ -1868,4 +1877,5 @@ QWidget *CustomWidgetFactory::createWidget( const QString &className, QWidget *p
 	return 0;
     return WidgetFactory::createCustomWidget( parent, name, w );
 }
+#endif
 #include "widgetfactory.moc"
