@@ -82,7 +82,7 @@ QString TextEdit::widgetText() const
 
 void TextEdit::setSelectedWidgetText( const QString & )
 {
-    //possible but cbf :)
+//FIXME: possible but cbf :)
 }
 
 QString TextEdit::selectedWidgetText() const
