@@ -33,7 +33,7 @@ MyProcess::MyProcess(const KommanderWidget *a_atw)
 
 QString MyProcess::run(const QString & a_command)
 {
-	KShellProcess proc;
+	KShellProcess proc("/bin/sh");
 
 	proc << a_command;
 

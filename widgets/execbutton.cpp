@@ -109,7 +109,7 @@ void ExecButton::startProcess()
 
 	if(!at.isEmpty())
 	{
-		KShellProcess *process = new KShellProcess;
+		KShellProcess *process = new KShellProcess("/bin/sh");
 
 		*process << at;
 
