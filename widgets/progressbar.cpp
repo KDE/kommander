@@ -89,7 +89,7 @@ QString ProgressBar::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
     case DCOP::text:
-      return QString::number(value());
+      return QString::number(progress());
     case DCOP::setText:
       setProgress(args[0].toUInt());
       break;
