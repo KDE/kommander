@@ -29,11 +29,11 @@ CheckBox::~CheckBox()
 QString CheckBox::currentState() const
 {
 	if(state() == QButton::Off)
-		return "unchecked";
+		return "checked";
 	else if(state() == QButton::NoChange)
 		return "semichecked";
 	else if(state() == QButton::On)
-		return "checked";
+		return "unchecked";
 	return QString::null;
 }
 
