@@ -62,6 +62,7 @@ virtual QString global(const QString& variableName) = 0;
 virtual void setGlobal(const QString& variableName, const QString& value) = 0;
 virtual void setMaximum(const QString &widgetName, int value) = 0;
 virtual void execute(const QString &widgetName) = 0;   
+virtual void cancel(const QString &widgetName) = 0;   
 };
 
 #endif

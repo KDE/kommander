@@ -27,7 +27,7 @@
 #include <kommanderwidget.h>
 
 class QWidget;
-class KProcess;
+class MyProcess;
 
 class Konsole : public KListBox, public KommanderWidget
 {
@@ -54,12 +54,20 @@ class Konsole : public KListBox, public KommanderWidget
   public slots:
     virtual void populate();
     virtual void setWidgetText(const QString &);
+    // Execute current script
     virtual void execute();
+    // Stop executing current script
+    virtual void cancel();
     // Process has ended
     virtual void processReceivedStdout(MyProcess*, char* a_buffer, int a_len);
     virtual void processExited(MyProcess* p);
   signals:
     void widgetTextChanged(const QString&);
+  protected:
+    // Whether last line of output was ended with EOL
+    bool mSeenEOL;
+    // Current process or NULL if there is no process running
+    MyProcess* mProcess;
 };
 
 #endif

@@ -82,6 +82,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
      i18n("Sets maximum numeric value"), 2);
   insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1);
+  insert(DCOP::cancel, "cancel(QString widget)", i18n("Stops execution of the script associated with the widget."), 1);
   
   insertGroup(Group::Kommander, "Kommander");
   insert(Kommander::widgetText, "widgetText", i18n("Returns current widget's content."), 0);

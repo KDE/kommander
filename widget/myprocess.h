@@ -33,6 +33,8 @@ public:
   // Run given command, using a_shell as a shell (this can be overriden by shebang in the first line)
   // Process is run in blocking mode.
   QString run(const QString& a_command, const QString& a_shell = "/bin/sh");
+  // Kill running process
+  void cancel();
   void setBlocking(bool blocking);
   bool isBlocking() const;
   QString output() const;
@@ -49,6 +51,7 @@ protected:
   bool m_loopStarted;
   bool m_blocking;
   bool m_handleOutput;
+  KProcess* mProcess;
 };
 
 #endif

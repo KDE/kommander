@@ -426,6 +426,13 @@ void Instance::execute(const QString &widgetName)
     kommanderWidget(child)->handleDCOP(DCOP::execute);
 }
     
+void Instance::cancel(const QString &widgetName)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::cancel);
+}
+
 QString Instance::global(const QString& variableName)
 {
   return KommanderWidget::global(variableName);

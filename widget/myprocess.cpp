@@ -28,7 +28,7 @@
 #include "kommanderwidget.h"
 
 MyProcess::MyProcess(const KommanderWidget *a_atw)
-  : m_atw(a_atw), m_loopStarted(false), m_blocking(true)
+  : m_atw(a_atw), m_loopStarted(false), m_blocking(true), mProcess(0)
 {
 }
 
@@ -51,6 +51,11 @@ bool MyProcess::isBlocking() const
 }
 
   
+void MyProcess::cancel()
+{
+  if (mProcess)
+    mProcess->kill();
+}
 
 QString MyProcess::run(const QString& a_command, const QString& a_shell)
 {
@@ -75,20 +80,20 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   }
   m_input = at.local8Bit();
 
-  KProcess* process = new KProcess;
-  (*process) << shellName.latin1();
+  mProcess = new KProcess;
+  (*mProcess) << shellName.latin1();
 
-  connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)),
+  connect(mProcess, SIGNAL(receivedStdout(KProcess*, char*, int)),
       SLOT(slotReceivedStdout(KProcess*, char*, int)));
-  connect(process, SIGNAL(processExited(KProcess*)), SLOT(slotProcessExited(KProcess*)));
+  connect(mProcess, SIGNAL(processExited(KProcess*)), SLOT(slotProcessExited(KProcess*)));
 
-  if(!process->start(KProcess::NotifyOnExit, KProcess::All))
+  if(!mProcess->start(KProcess::NotifyOnExit, KProcess::All))
   {
     m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>").arg(shellName));
     return QString::null;
   }
-  process->writeStdin(m_input, m_input.length());
-  process->closeStdin();
+  mProcess->writeStdin(m_input, m_input.length());
+  mProcess->closeStdin();
 
   if (!m_blocking)
     return QString::null;
@@ -124,6 +129,7 @@ void MyProcess::slotProcessExited(KProcess* process)
   delete process;
   if (!m_blocking)
     emit processExited(this);
+  mProcess = 0;
 }
 
 #include "myprocess.moc"

@@ -26,7 +26,7 @@
 #include <myprocess.h>
 
 Konsole::Konsole(QWidget* a_parent, const char* a_name)
-  : KListBox(a_parent, a_name), KommanderWidget(this)
+  : KListBox(a_parent, a_name), KommanderWidget(this), mSeenEOL(true), mProcess(false)
 {
   QStringList states;
   states << "default";
@@ -82,12 +82,21 @@ void Konsole::setWidgetText(const QString&)
 void Konsole::execute()
 {
   QString at = evalAssociatedText().stripWhiteSpace();
-  MyProcess* process = new MyProcess(this);
-  process->setBlocking(false);
-  connect(process, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
-  connect(process, SIGNAL(processReceivedStdout(MyProcess*, char*, int)), SLOT(processReceivedStdout(MyProcess*, char*, int)));
+  if (mProcess)
+    cancel();
+  mProcess = new MyProcess(this);
+  mProcess->setBlocking(false);
+  connect(mProcess, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
+  connect(mProcess, SIGNAL(processReceivedStdout(MyProcess*, char*, int)), SLOT(processReceivedStdout(MyProcess*, char*, int)));
   setCursor(QCursor(Qt::WaitCursor));
-  process->run(at);
+  mProcess->run(at);
+}
+
+void Konsole::cancel()
+{
+  if (!mProcess) 
+    return;
+  mProcess->cancel();
 }
 
 
@@ -104,11 +113,12 @@ void Konsole::processExited(MyProcess* p)
 {
   unsetCursor();
   delete p;
+  mProcess = 0;
 }
 
 bool Konsole::isFunctionSupported(int f)
 {
-  return f == DCOP::setText or f == DCOP::clear or f == DCOP::execute;
+  return f == DCOP::setText or f == DCOP::clear or f == DCOP::execute or f == DCOP::cancel;
 }
 
 QString Konsole::handleDCOP(int function, const QStringList& args)
@@ -122,6 +132,9 @@ QString Konsole::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::execute:
       execute();
+      break;
+    case DCOP::cancel:
+      cancel();
       break;
     default:
       break;
