@@ -190,7 +190,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       return strings.join("\n");
     }
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

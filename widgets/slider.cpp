@@ -102,7 +102,7 @@ QString Slider::handleDCOP(int function, const QStringList& args)
       setMaxValue(args[0].toInt());
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

@@ -155,7 +155,7 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
       break;
     }
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

@@ -144,7 +144,7 @@ QString Konsole::handleDCOP(int function, const QStringList& args)
       cancel();
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

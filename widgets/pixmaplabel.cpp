@@ -110,6 +110,8 @@ QString PixmapLabel::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::text:
       return text();
+    default:
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

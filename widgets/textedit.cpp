@@ -111,7 +111,7 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       setWidgetText("");
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

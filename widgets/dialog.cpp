@@ -155,7 +155,7 @@ QString Dialog::handleDCOP(int function, const QStringList& args)
       setWidgetText(args[0]);
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

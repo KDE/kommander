@@ -104,7 +104,7 @@ QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
       setMaxValue(args[0].toUInt());
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

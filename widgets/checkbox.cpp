@@ -119,7 +119,7 @@ QString CheckBox::handleDCOP(int function, const QStringList& args)
       setChecked(args[0] != "false");
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

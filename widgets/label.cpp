@@ -102,8 +102,10 @@ QString Label::handleDCOP(int function, const QStringList& args)
     case DCOP::clear:
       setWidgetText("");
       break;
+    default:
+      return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString::null;  
 }
 
 #include "label.moc"

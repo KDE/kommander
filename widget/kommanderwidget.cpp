@@ -534,6 +534,12 @@ bool KommanderWidget::isWidget(const QString& a_name) const
   return parseWidget(a_name);  
 }
 
+KommanderWidget* KommanderWidget::widgetByName(const QString& a_name) const
+{
+  return parseWidget(a_name);
+}
+
+
 KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
   if (QString(parentDialog()->name()) == widgetName) 
@@ -648,14 +654,36 @@ void KommanderWidget::setGlobal(const QString& variableName, const QString& valu
   m_globals.insert(variableName, value); 
 }  
 
-QString KommanderWidget::handleDCOP(const int, const QStringList&)
+QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
 {
+  QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
+  if (!current) 
+    return QString::null;
+  switch(function) {
+    case DCOP::setEnabled:
+      current->setEnabled(args[0] != "false" && args[0] != "0");
+      break;
+    case DCOP::setVisible:
+      current->setShown(args[0] != "false" && args[0] != "0");
+      break;
+    case DCOP::type:
+      return current->className();      
+    case DCOP::children:
+    {
+      QStringList matching;
+      QObjectList* widgets = current->queryList("QWidget", 0, false, args.count() == 0 || args[0] != "false");
+      for (QObject* w = widgets->first(); w; w = widgets->next())
+        if (w->name() && (dynamic_cast<KommanderWidget*>(w)))
+            matching.append(w->name());
+      return matching.join("\n");  
+    }  
+  }
   return QString::null;
 }
 
-bool KommanderWidget::isFunctionSupported(int)
+bool KommanderWidget::isFunctionSupported(int f)
 {
-  return true;  
+  return f == DCOP::setEnabled || f == DCOP::setVisible || f == DCOP::children || f == DCOP::type;
 }
 
 bool KommanderWidget::isCommonFunction(int f)

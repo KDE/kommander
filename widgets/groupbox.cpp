@@ -116,9 +116,10 @@ QString GroupBox::handleDCOP(int function, const QStringList& args)
       setTitle(args[0]);
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
+  
 }
 
 #include "groupbox.moc"

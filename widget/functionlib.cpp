@@ -186,8 +186,35 @@ static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 
 
 
+
+
 /******************* DCOP function ********************************/
-static ParseNode f_dcop(Parser*, const ParameterList& params)
+static ParseNode f_dcop(Parser* parser, const ParameterList& params)
+{
+  SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
+  int functionId = SpecialInformation::function(Group::DCOP, params[0].toString());
+  if (!function.isValidArg(params.count() - 1))
+    return ParseNode();
+  KommanderWidget* widget = parser->currentWidget();
+  if (!widget)
+    return ParseNode();
+  widget = widget->widgetByName(params[1].toString());
+  if (!widget)
+    return ParseNode();
+  QStringList args;
+  ParameterList::ConstIterator it = params.begin(); 
+  ++it;   // skip function
+  ++it;   // skip widget
+  while (it != params.end())
+  {
+    args += (*it).toString(); 
+    ++it;
+  }
+  return widget->handleDCOP(functionId, args);
+}
+
+
+static ParseNode f_externalDcop(Parser*, const ParameterList& params)
 {
   QCString appId = kapp->dcopClient()->appId();
   QCString object = "KommanderIf";
@@ -577,7 +604,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));
   registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
-  registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, 1, 100));
+  registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
   registerFunction("env", Function(&f_env, ValueString, ValueString));

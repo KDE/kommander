@@ -111,7 +111,7 @@ QString RadioButton::handleDCOP(int function, const QStringList& args)
     case DCOP::checked:
       return QString::number(isOn());
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

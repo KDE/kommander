@@ -223,7 +223,7 @@ QString FileSelector::handleDCOP(int function, const QStringList& args)
       setWidgetText(QString::null);
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

@@ -122,7 +122,7 @@ void SubDialog::showEvent( QShowEvent *e )
     emit widgetOpened();
 }
 
-QString SubDialog::handleDCOP(int function, const QStringList&)
+QString SubDialog::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
     case DCOP::text:
@@ -134,8 +134,9 @@ QString SubDialog::handleDCOP(int function, const QStringList&)
         return atw->evalAssociatedText();
     }
     default:
-      return QString::null;
+      return KommanderWidget::handleDCOP(function, args);
   }
+  return QString::null;
 }
 
 

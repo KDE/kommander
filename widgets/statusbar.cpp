@@ -106,7 +106,7 @@ QString StatusBar::handleDCOP(int function, const QStringList& args)
       clear();
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

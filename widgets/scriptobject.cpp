@@ -120,7 +120,7 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
       executeProcess(true);
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

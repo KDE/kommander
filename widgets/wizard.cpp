@@ -136,9 +136,9 @@ void Wizard::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
-QString Wizard::handleDCOP(int, const QStringList&)
+QString Wizard::handleDCOP(int function, const QStringList& args)
 {
-  return QString::null;
+  return KommanderWidget::handleDCOP(function, args);
 }
 
 

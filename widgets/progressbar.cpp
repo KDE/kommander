@@ -100,7 +100,7 @@ QString ProgressBar::handleDCOP(int function, const QStringList& args)
       setTotalSteps(args[0].toUInt());
       break;
     default:
-      break;
+      return KommanderWidget::handleDCOP(function, args);
   }
   return QString::null;
 }

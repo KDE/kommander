@@ -166,6 +166,9 @@ QString Table::handleDCOP(int function, const QStringList& args)
       }
       break;
     }
+    default:
+      return KommanderWidget::handleDCOP(function, args);
+      
   }  
   return QString::null;
 }
