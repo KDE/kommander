@@ -1,0 +1,619 @@
+/***************************************************************************
+                    parser.cpp - Internal parser
+                             -------------------
+    copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
+    
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include "parser.h"
+#include "parserdata.h"
+
+using namespace Parse;
+
+QString unescape(QString s)
+{
+  return s.replace("\\\"", "\"").replace("\\t", "\t").replace("\\n", "\n").replace("\\\\", "\\");
+}
+
+Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(None), m_errorPosition(0)
+{
+}
+  
+Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), m_error(None), m_errorPosition(0)
+{
+  setString(expr);
+}
+
+void Parser::setString(const QString& s)
+{
+  reset();
+  m_parts.clear();
+  uint lines = 0;
+  uint start = 0;
+  uint i = 0;
+  while (start < s.length())
+  {
+    if (s[start].isSpace() && s[start] != '\n')
+      start++;
+    else if (s[start] == '\\' && start < s.length() - 1 && s[start+1] == '\n')
+      start += 2;
+    else if (s[start] == ';')
+    {
+      insertNode(Semicolon, lines);
+      start++;
+    }
+    else if (s[start] == '\n')
+    {
+      if (m_parts.count() && !m_parts.last().isKeyword(Semicolon))
+        insertNode(Semicolon, lines);
+      lines++;
+      start++;
+    }
+    else if (s[start] == '\"')       // quoted string: "abc"
+    {
+      bool escaped = false;
+      for (i = start + 1; i < s.length() && (s[i] != '\"' || s[i-1] == '\\'); i++)
+        if (!escaped) 
+          escaped = s[i] == '\\';
+      
+      if (escaped)
+        insertNode(unescape(s.mid(start + 1, i - start - 1)), lines);
+      else
+        insertNode(s.mid(start + 1, i - start - 1), lines);
+      start = i+1;
+    }
+    else if (s[start].isDigit())    // number: 1000 or 2.45
+    {
+      bool decimal = false;
+      for (i = start+1; s[i].isDigit() || (!decimal && s[i] == QChar('.')); i++)
+        if (s[i] == '.')
+          decimal = true;
+      if (decimal)
+        insertNode(s.mid(start, i - start).toDouble(), lines);
+      else
+        insertNode(s.mid(start, i - start).toInt(), lines);
+      start = i;
+    }
+    else if (s[start].isLetter() || s[start] == '_')
+    {
+      for (i = start+1; s[i].isLetterOrNumber() || s[i] == '_'; i++)
+        ;
+      QString name = s.mid(start, i - start);
+      insertNode(ParseNode(m_data->stringToKeyword(name), name), lines);
+      start = i;
+    }                               // comment
+    else if (s[start] == '/' && start < s.length() +1 && s[start+1] == '/')
+    {
+      while (start < s.length() && s[start] != '\n')
+        start++;
+    }                              // special keyword: <>
+    else if (m_data->stringToKeyword(s.mid(start, 2)) <= LastRealKeyword)
+    {
+      insertNode(m_data->stringToKeyword(s.mid(start, 2)), lines);
+      start += 2;
+    }                             // special keyword: <
+    else if (m_data->stringToKeyword(s.mid(start, 1)) <= LastRealKeyword)
+    {
+      insertNode(m_data->stringToKeyword(s.mid(start, 1)), lines);
+      start++;
+    }
+    else                          // Bad character
+    {
+      setError(Invalid);
+      return;
+    }
+  }
+  
+  /*
+  for (uint i=0; i<m_parts.count(); i++)
+  {
+    if (m_parts[i].isVariable())
+      qDebug("%d. variable/%s", i, m_parts[i].variableName().latin1()); 
+    else if (m_parts[i].isKeyword())
+  qDebug("%d. keyword/%s", i, m_data->keywordToString(m_parts[i].keyword()).latin1()); 
+    else qDebug("%d. %d/%s", i, m_parts[i].type(), m_parts[i].toString().latin1()); 
+   }
+  */
+}
+
+void Parser::insertNode(ParseNode p, int line)
+{
+  p.setContext(line);
+  m_parts.append(p);
+}
+  
+
+QString Parser::errorMessage()
+{
+  if (m_error <= LastRealKeyword)
+    return QString("Expected '%1'").arg(m_data->keywordToString(m_error));
+  else switch (m_error) {
+    case None:     
+      return QString::null;
+    case Variable: 
+      return "Expected variable";
+    case Value: 
+      return "Expected value";
+    case Invalid:
+      return "Invalid symbol";
+    case IncorrectParams:
+      return "Incorrect parameters";
+    default:      
+      return "Unknown error";
+  }  
+}
+
+
+
+
+  
+QString Parser::expression(Mode mode)
+{
+  reset();
+  ParseNode p = parseExpression(mode);
+  if (m_error == None)
+    return p.toString();
+  else
+    return QString::null;
+}
+
+bool Parser::command(Mode mode)
+{
+  reset();
+  parseCommand(mode);
+  return m_error == None;
+}
+
+bool Parser::parse(Mode mode)
+{
+  reset();
+  parseBlock(mode);
+  return m_error == None;
+}
+
+int Parser::errorLine()
+{
+  if (m_error == None)
+    return -1;
+  else return m_parts[m_errorPosition].context();
+}
+
+ParseNode Parser::parseValue(Mode mode)
+{
+  ParseNode p = next();
+  if (isFunction())
+    return parseFunction();
+  else if (tryVariable(CheckOnly))
+  {
+    if (tryKeyword(LeftBracket, CheckOnly))
+    {
+      QString index = parseValue(mode).toString();
+      tryKeyword(RightBracket);
+      return m_arrays[p.variableName()].contains(index) ? m_arrays[p.variableName()][index] : QString::null;
+    }
+    else
+      p = m_variables[p.variableName()];
+  }
+  else if (p.isKeyword())
+    setError(Value);
+  else // single value
+    m_start++;
+  return p;
+}
+
+ParseNode Parser::parseMultiply(Mode mode)
+{
+  ParseNode p = parseParenthesis(mode);
+  while (m_data->keywordGroup(next().keyword()) == GroupMultiply)
+  {
+    Keyword k = next().keyword();
+    m_start++;
+    ParseNode p2 = parseParenthesis(mode);
+    ValueType type = p.commonType(p2);
+    if (k == Multiply)
+      if (type == ValueDouble)
+        p = p.toDouble() * p2.toDouble();
+      else
+        p = p.toInt() * p2.toInt();
+    else if (k == Divide)
+      if (type == ValueDouble)
+        p = p.toDouble() / p2.toDouble();
+      else
+        p = p.toInt() / p2.toInt();
+    else  /* k == Mod */
+      p = p.toInt() % p2.toInt();
+  }
+  return p;
+}
+
+ParseNode Parser::parseAdd(Mode mode)
+{
+  ParseNode p = parseMultiply(mode);
+  while (m_data->keywordGroup(next().keyword()) == GroupAdd)
+  {
+    Keyword k = next().keyword();
+    m_start++;
+    ParseNode p2 = parseMultiply(mode);
+    ValueType type = p.commonType(p2);
+    if (k == Plus)
+      if (type == ValueString)
+        p = QString(p.toString() + p2.toString());
+      else if (type == ValueDouble)
+        p = p.toDouble() + p2.toDouble();
+      else
+        p = p.toInt() + p2.toInt();
+    else  /* k == Minus */
+      if (type == ValueDouble)
+        p = p.toDouble() - p2.toDouble();
+      else
+        p = p.toInt() - p2.toInt();
+  }
+  return p;
+}
+
+ParseNode Parser::parseSignedNumber(Mode mode)
+{
+  if (tryKeyword(Minus, CheckOnly))
+  {
+    ParseNode p = parseValue(mode);
+    if (p.type() == ValueDouble)
+      return ParseNode(-p.toDouble());
+    else
+      return ParseNode(-p.toInt());
+  }
+  else 
+    return parseValue(mode);
+}
+
+ParseNode Parser::parseComparison(Mode mode)
+{
+  ParseNode p1 = parseAdd(mode);
+  if (m_data->keywordGroup(next().keyword()) == GroupComparison)
+  {
+    Keyword k = next().keyword();
+    m_start++;
+    ParseNode p2 = parseAdd(mode);
+    switch (k) {
+      case Less:          return ParseNode(p1 < p2);
+      case LessEqual:     return ParseNode(p1 <= p2);
+      case Equal:         return ParseNode(p1 == p2);
+      case NotEqual:      return ParseNode(p1 != p2);
+      case GreaterEqual:  return ParseNode(p1 >= p2);
+      case Greater:       return ParseNode(p1 > p2);
+      default:            ;
+    }
+  }
+  return p1;
+}
+
+ParseNode Parser::parseParenthesis(Mode mode)
+{
+  if (tryKeyword(LeftParenthesis, CheckOnly))
+  {
+    ParseNode p = parseExpression(mode);
+    tryKeyword(RightParenthesis);
+    return p;
+  }
+  else 
+    return parseSignedNumber(mode);
+}
+
+
+ParseNode Parser::parseNot(Mode mode)
+{
+  if (tryKeyword(Not, CheckOnly))
+    return !parseComparison(mode).toBool();
+  else 
+    return parseComparison(mode);
+}
+
+ParseNode Parser::parseAnd(Mode mode)
+{
+  ParseNode p = parseNot(mode);
+  while (tryKeyword(And, CheckOnly))
+  {
+    if (p == false)
+      parseNot(CheckOnly);
+    else
+      p = parseNot(mode);
+  }
+  return p;
+}    
+
+ParseNode Parser::parseOr(Mode mode)
+{
+  ParseNode p = parseNot(mode);
+  while (tryKeyword(Or, CheckOnly))
+  {
+    if (p == true)
+      parseAnd(CheckOnly);
+    else
+      p = parseAnd(mode);
+  }
+  return p;
+}
+
+ParseNode Parser::parseCondition(Mode mode)
+{
+  return parseOr(mode);
+}
+  
+ParseNode Parser::parseExpression(Mode mode)
+{
+  return parseOr(mode);
+}
+
+ParseNode Parser::parseFunction(Mode mode)
+{
+  Function f = m_data->function(next().variableName());
+  m_start++;
+  ParameterList params;
+  if (tryKeyword(LeftParenthesis, CheckOnly) && !tryKeyword(RightParenthesis, CheckOnly))
+  {
+    do {
+      params.append(parseExpression(mode));
+    } while (tryKeyword(Comma, CheckOnly));
+    tryKeyword(RightParenthesis);
+  }
+  if (!f.isValid(params))
+    setError(IncorrectParams);
+  else if (mode == Execute)
+    return f.execute(params);
+  return ParseNode();
+}
+
+
+
+
+
+
+void Parser::parseAssignment(Mode mode)
+{
+  QString var = nextVariable();
+  if (tryKeyword(LeftBracket, CheckOnly))
+  {
+    QString index = parseValue(mode).toString();
+    tryKeyword(RightBracket);
+    tryKeyword(Assign);
+    ParseNode p = parseValue(mode);
+    m_arrays[var][index] = p;
+  }
+  else if (tryKeyword(Assign))
+  {
+    ParseNode p = parseExpression(mode);
+    if (mode == Execute)
+      m_variables[var] = p;
+  }
+}
+
+Flow Parser::parseIf(Mode mode)
+{
+  ParseNode p = next();
+  Flow flow = FlowStandard;
+  bool matched = false;
+  do {
+    m_start++;
+    p = parseCondition(mode);
+    tryKeyword(Then);
+    bool condition = !matched && p.toBool();
+    if (condition)
+      flow = parseBlock(mode);
+    else 
+      parseBlock(CheckOnly);
+    matched = matched || p.toBool();
+  } while (next().isKeyword(Elseif));
+  if (tryKeyword(Else, CheckOnly))
+  {
+    if (!matched)
+      flow = parseBlock(mode);
+    else
+      parseBlock(CheckOnly);
+  }
+  tryKeyword(Endif);
+  return flow;
+}
+
+void Parser::parseWhile(Mode mode)
+{
+  next();
+  m_start++;
+  int start = m_start;
+  bool running = true;
+  while (running)
+  {
+    m_start = start;
+    ParseNode p = parseCondition(mode);
+    if (!tryKeyword(Do))
+      break;
+    running = p.toBool();
+    if (parseBlock(running ? mode : CheckOnly) == FlowBreak)
+      break;
+  }
+  tryKeyword(End);
+}
+
+void Parser::parseFor(Mode mode)
+{
+  next();
+  m_start++;
+  QString var = nextVariable();
+  tryKeyword(Assign);
+  int start = parseExpression(mode).toInt();
+  tryKeyword(To);
+  int end = parseExpression(mode).toInt();
+  int step = 1;
+  if (tryKeyword(Step, CheckOnly))
+    step = parseExpression(mode).toInt();
+  tryKeyword(Do);
+  int block = m_start;
+  for (int i = start; i <= end; i+=step)
+  {
+    m_start = block;
+    m_variables[var] = ParseNode(i);
+    if (parseBlock(mode) == FlowBreak)
+      break;
+  }
+  tryKeyword(End);
+}
+  
+void Parser::parseForeach(Mode mode)
+{
+  next();
+  m_start++;
+  QString var = nextVariable();
+  tryKeyword(In);
+  QString array = nextVariable();
+  tryKeyword(Do);
+  int start = m_start;
+  if (m_arrays.contains(array) && m_arrays[array].count())
+  {
+    QMap<QString, ParseNode>& A = m_arrays[array];
+    for (QMapIterator<QString, ParseNode> It = A.begin(); It != A.end(); ++It)
+    {
+      m_start = start;
+      m_variables[var] = It.key();
+      Flow flow = parseBlock(mode);
+      if (flow == FlowBreak)
+        break;
+    }
+  }
+  else 
+    parseBlock(CheckOnly);
+  tryKeyword(End);
+}
+
+Flow Parser::parseCommand(Mode mode)
+{
+  ParseNode p = next();
+  if (next().isKeyword(If))
+    return parseIf(mode);
+  else if (next().isKeyword(While))
+    parseWhile(mode);
+  else if (next().isKeyword(For))
+    parseFor(mode);
+  else if (next().isKeyword(Foreach))
+    parseForeach(mode);
+  else if (tryKeyword(Continue, CheckOnly))
+    return FlowContinue;
+  else if (tryKeyword(Break, CheckOnly))
+    return FlowBreak;
+  else if (isFunction())
+    parseFunction(mode);
+  else if (next().isVariable()) 
+    parseAssignment(mode);
+  return FlowStandard;
+}
+  
+Flow Parser::parseBlock(Mode mode)
+{
+  Flow flow = parseCommand(mode);
+  while (tryKeyword(Semicolon, CheckOnly))
+  {
+    if (flow == FlowStandard)
+      flow = parseCommand(mode);
+    else
+      parseCommand(CheckOnly);
+  }    
+  return flow;
+}
+
+
+
+
+ParseNode Parser::next()
+{
+  if (m_error != None || m_start >= m_parts.count())
+    return ParseNode();
+  return m_parts[m_start];
+}
+
+bool Parser::tryKeyword(Keyword k, Mode mode)
+{
+  if (next().isKeyword(k))
+  {
+    m_start++;
+    return true;
+  }
+  if (mode == Execute)
+    setError(k);
+  return false;
+}
+
+bool Parser::tryVariable(Mode mode)
+{
+  if (next().isVariable())
+  {
+    QString name = next().variableName();
+    m_start++;
+    return true;
+  }
+  if (mode == Execute)
+    setError(Variable);
+  return false;
+}
+
+QString Parser::nextVariable()
+{
+  if (next().isVariable())
+  {
+    QString name = next().variableName();
+    m_start++;
+    return name;
+  }
+  else 
+    setError(Variable);
+  return QString::null;
+}
+
+
+bool Parser::isFunction()
+{
+  return next().isVariable() && m_data->isFunction(next().variableName());
+}
+
+void Parser::reset()
+{
+  m_start = 0;
+  m_error = None;
+  m_errorPosition = 0;
+}
+
+void Parser::setError(Keyword err)
+{
+  if (m_error == None)
+  {
+    m_errorPosition = m_start;
+    m_error = err;
+  } 
+}
+
+void Parser::setVariable(const QString& name, int value)
+{
+  m_variables[name] = ParseNode(value);
+}
+
+void Parser::setVariable(const QString& name, double value)
+{
+  m_variables[name] = ParseNode(value);
+}
+  
+void Parser::setVariable(const QString& name, const QString& value)
+{
+  m_variables[name] = ParseNode(value);  
+}
+  
+QString Parser::variable(const QString& name)
+{
+  return m_variables.contains(name) ? m_variables[name].toString() : QString::null;  
+}
+
+

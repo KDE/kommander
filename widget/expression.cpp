@@ -108,7 +108,7 @@ Expression::Type Expression::commonType(const QVariant v1, const QVariant v2) co
   return TypeInt;
 }
 
-int compareDouble(const double A, const double B)
+static int compareDouble(const double A, const double B)
 { 
   return A<B ? -1 : (A==B ? 0 : 1);
 }
