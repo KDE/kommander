@@ -19,7 +19,8 @@ ListBox::ListBox(QWidget *a_parent, const char *a_name)
 	setStates(states);
 	setDisplayStates(states);
 
-	connect(this, SIGNAL(highlighted(int)), this, SLOT(setActivatedText(int)));
+//FIXME: Do we need it?
+//	connect(this, SIGNAL(highlighted(int)), this, SLOT(setActivatedText(int)));
 
 }
 
@@ -57,7 +58,7 @@ void ListBox::setWidgetText(const QString &a_text)
 	clear();
 
 	insertStringList(strings);
-	
+
 	emit widgetTextChanged(a_text);
 }
 

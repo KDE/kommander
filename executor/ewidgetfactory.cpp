@@ -923,7 +923,13 @@ void EWidgetFactory::setProperty( QObject* obj, const QString &prop, const QDomE
     } else if ( e.tagName() == "image" ) {
 	v = QVariant( loadFromCollection( v.toString() ) );
     } else if ( e.tagName() == "string" ) {
-	v = QVariant( translate( v.asString(), comment ) );
+    if (v.asString().isEmpty())
+    {
+	    v = QVariant("");
+    } else
+    {
+      v = QVariant( translate( v.asString(), comment ) );
+    }
     }
 
     if ( !p ) {

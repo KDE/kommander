@@ -18,8 +18,8 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
-
-	connect(this, SIGNAL(activated(int)), this, SLOT(setActivatedText(int)));
+//FIXME: Do we need it?
+//	connect(this, SIGNAL(activated(int)), this, SLOT(setActivatedText(int)));
 }
 
 ComboBox::~ComboBox()
@@ -53,7 +53,7 @@ void ComboBox::setWidgetText(const QString &a_text)
 	clear();
 
 	insertStringList(strings);
-	
+
 	emit widgetTextChanged(a_text);
 }
 
