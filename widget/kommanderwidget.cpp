@@ -49,6 +49,7 @@
 #include "specialinformation.h"
 #include "parser.h"
 #include "parserdata.h"
+#include "kommanderwindow.h"
 
 KommanderWidget::KommanderWidget(QObject *a_thisObject)
 {
@@ -659,6 +660,15 @@ ParserData* KommanderWidget::internalParserData()
 {
   return m_parserData;
 }
+
+QString KommanderWidget::fileName()
+{
+  KommanderWindow* window = dynamic_cast<KommanderWindow*>(parentDialog());
+  if (window)
+    QString(window->fileName());
+  else
+    return QString::null;
+}  
 
 
 bool KommanderWidget::inEditor = false;

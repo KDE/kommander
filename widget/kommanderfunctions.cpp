@@ -27,7 +27,6 @@
 #include <kglobal.h>
 
 #include "kommanderwidget.h"
-#include "kommanderwindow.h"
 #include "specials.h"
 #include "expression.h"
  
@@ -66,22 +65,22 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return QString::null;
     case Kommander::readSetting:
     {
-      KommanderWindow* window = dynamic_cast<KommanderWindow*>(parentDialog());
-      if (window)
+      QString fname = fileName();
+      if (!fname.isEmpty())
       {
         KConfig cfg("kommanderrc", true);
-        cfg.setGroup(QString(window->fileName()));
+        cfg.setGroup(fname);
         return cfg.readEntry(args[0], args[1]);
       }
       return QString::null;
     }
     case Kommander::writeSetting:
     {
-      KommanderWindow* window = dynamic_cast<KommanderWindow*>(parentDialog());
-      if (window)
+      QString fname = fileName();
+      if (!fname.isEmpty())
       {
         KConfig cfg("kommanderrc", false);
-        cfg.setGroup(QString(window->fileName()));
+        cfg.setGroup(fname);
         cfg.writeEntry(args[0], args[1]);
       }
       return QString::null;

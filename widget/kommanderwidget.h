@@ -92,6 +92,8 @@ public:
   virtual bool isCommonFunction(int function);
   // Checks if the string is a valid widget name)
   virtual bool isWidget(const QString& a_name) const;
+  // Returns filename associated with the dialog
+  virtual QString fileName();
 
   
   // Recognizes editor vs executor mode

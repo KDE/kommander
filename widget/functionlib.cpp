@@ -19,6 +19,7 @@
 #include "specials.h"
 #include "specialinformation.h"
 #include "myprocess.h"
+#include "kommanderwidget.h"
 
 #include <iostream>
 #include <stdlib.h> 
@@ -518,6 +519,39 @@ static ParseNode f_message_question(Parser*, const ParameterList& params)
   }
 }
 
+static ParseNode f_read_setting(Parser* parser, const ParameterList& params)
+{
+  QString def;
+  if (params.count() > 1)
+    def = params[1].toString();
+  if (parser->currentWidget())
+  {
+    QString fname = parser->currentWidget()->fileName();
+    if (fname.isEmpty())
+      return ParseNode();
+    KConfig cfg("kommanderrc", true);
+    cfg.setGroup(fname);
+    return cfg.readEntry(params[0].toString(), def);
+  }
+  return ParseNode();
+}
+
+static ParseNode f_write_setting(Parser* parser, const ParameterList& params)
+{
+  if (parser->currentWidget())
+  {
+    QString fname = parser->currentWidget()->fileName();
+    if (fname.isEmpty())
+      return ParseNode();
+    KConfig cfg("kommanderrc", false);
+    cfg.setGroup(fname);
+    cfg.writeEntry(params[0].toString(), params[1].toString());
+  }
+  return ParseNode();
+}
+
+
+
   
 void ParserData::registerStandardFunctions()
 {
@@ -547,6 +581,8 @@ void ParserData::registerStandardFunctions()
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
   registerFunction("env", Function(&f_env, ValueString, ValueString));
+  registerFunction("readSetting", Function(&f_read_setting, ValueString, ValueString, ValueString, 1));
+  registerFunction("writeSetting", Function(&f_write_setting, ValueNone, ValueString, ValueString));
   registerFunction("array_clear", Function(&f_arrayClear, ValueNone, ValueString));
   registerFunction("array_count", Function(&f_arrayCount, ValueInt, ValueString));
   registerFunction("array_keys", Function(&f_arrayKeys, ValueString, ValueString));
