@@ -95,6 +95,9 @@ QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
     case DCOP::setText:
       setWidgetText(args[0]);
       break;
+    case DCOP::setMaximum:
+      setMaxValue(args[0].toUInt());
+      break;
     default:
       break;
   }
