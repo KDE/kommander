@@ -34,7 +34,7 @@ namespace Parse
   enum Mode{Execute, CheckOnly};
 
   enum Flow{FlowStandard, FlowContinue, FlowBreak};
-};
+}
 
 class ParseNode {
 public:
