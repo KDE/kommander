@@ -26,13 +26,15 @@
 #include <qfile.h>
 #include <qtextstream.h>
 
+#include <kmessagebox.h>
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kcolordialog.h>
-#include <kinputdialog.h>
 #include <kfiledialog.h>
 #include <kglobal.h>
+#include <kinputdialog.h>
 #include <klocale.h>
+
 
 using namespace Parse;
 
@@ -428,8 +430,93 @@ static ParseNode f_inputDirectory(Parser*, const ParameterList& params)
   return KFileDialog::getExistingDirectory(startdir, 0, caption);
 }
 
+static ParseNode f_message_info(Parser*, const ParameterList& params)
+{
+  QString text, caption;
+  if (params.count() > 0)
+    text = params[0].toString();
+  if (params.count() > 1)
+    caption = params[1].toString();
+  KMessageBox::information(0, text, caption);
+  return ParseNode();
+}
 
+static ParseNode f_message_error(Parser*, const ParameterList& params)
+{
+  QString text, caption;
+  if (params.count() > 0)
+    text = params[0].toString();
+  if (params.count() > 1)
+    caption = params[1].toString();
+  KMessageBox::error(0, text, caption);
+  return ParseNode();
+}
 
+static ParseNode f_message_warning(Parser*, const ParameterList& params)
+{
+  int result;
+  QString text, caption, button1, button2, button3;
+  if (params.count() > 0)
+    text = params[0].toString();
+  if (params.count() > 1)
+    caption = params[1].toString();
+  if (params.count() > 2)
+    button1 = params[2].toString();
+  if (params.count() > 3)
+    button2 = params[3].toString();
+  if (params.count() > 4)
+    button3 = params[4].toString();
+  if (button1.isNull())
+    result = KMessageBox::warningYesNo(0, text, caption);
+  else if (button3.isNull())
+    result = KMessageBox::warningYesNo(0, text, caption, button1, button2);
+  else 
+    result = KMessageBox::warningYesNoCancel(0, text, caption, button1, button2, button3);
+  switch(result)
+  {
+    case KMessageBox::Yes:  
+      return 1;
+    case KMessageBox::No:  
+      return 2;
+    case KMessageBox::Cancel:  
+      return 3;
+    default:
+      return 0;
+  }
+}
+
+static ParseNode f_message_question(Parser*, const ParameterList& params)
+{
+  int result;
+  QString text, caption, button1, button2, button3;
+  if (params.count() > 0)
+    text = params[0].toString();
+  if (params.count() > 1)
+    caption = params[1].toString();
+  if (params.count() > 2)
+    button1 = params[2].toString();
+  if (params.count() > 3)
+    button2 = params[3].toString();
+  if (params.count() > 4)
+    button3 = params[4].toString();
+  if (button1.isNull())
+    result = KMessageBox::questionYesNo(0, text, caption);
+  else if (button3.isNull())
+    result = KMessageBox::questionYesNo(0, text, caption, button1, button2);
+  else 
+    result = KMessageBox::questionYesNoCancel(0, text, caption, button1, button2, button3);
+  switch(result)
+  {
+    case KMessageBox::Yes:  
+      return 1;
+    case KMessageBox::No:  
+      return 2;
+    case KMessageBox::Cancel:  
+      return 3;
+    default:
+      return 0;
+  }
+}
 
   
 void ParserData::registerStandardFunctions()
@@ -475,5 +562,11 @@ void ParserData::registerStandardFunctions()
   registerFunction("input_openfiles", Function(&f_inputOpenFiles, ValueString, ValueString, ValueString, ValueString, 0));
   registerFunction("input_savefile", Function(&f_inputSaveFile, ValueString, ValueString, ValueString, ValueString, 0));
   registerFunction("input_directory", Function(&f_inputDirectory, ValueString, ValueString, ValueString, 0));
+  registerFunction("message_info", Function(&f_message_info, ValueNone, ValueString, ValueString, 1));
+  registerFunction("message_error", Function(&f_message_error, ValueNone, ValueString, ValueString, 1));
+  registerFunction("message_warning", Function(&f_message_warning, ValueInt, ValueString, ValueString, 
+                   ValueString, ValueString, ValueString, 1));
+  registerFunction("message_question", Function(&f_message_question, ValueInt, ValueString, ValueString, 
+                   ValueString, ValueString, ValueString, 1));
 }
 
