@@ -48,6 +48,7 @@
 #include <kommanderfactory.h>
 #include <fileselector.h>
 #include <dcopinformation.h>
+#include <specialinformation.h>
 
 Instance::Instance()
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0),
@@ -67,9 +68,9 @@ void Instance::addArgument(const QString& argument)
 {
   int pos = argument.find('=');
   if (pos == -1)
-    setGlobal(QString("ARG%1").arg(++m_cmdArguments), argument);
+    KommanderWidget::setGlobal(QString("ARG%1").arg(++m_cmdArguments), argument);
   else 
-    setGlobal(argument.left(pos), argument.mid(pos+1));
+    KommanderWidget::setGlobal(argument.left(pos), argument.mid(pos+1));
 }
 
 
@@ -143,14 +144,14 @@ bool Instance::run(QFile *a_file)
       if (i < m_cmdArguments) 
         args += " ";
     }
-    setGlobal("ARGS", args);
+    KommanderWidget::setGlobal("ARGS", args);
   }
-  setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
+  KommanderWidget::setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
     
   if (!m_uiFileName.isEmpty()) 
   {
-    setGlobal("_KDDIR", m_uiFileName.directory());
-    setGlobal("_NAME", m_uiFileName.fileName());
+    KommanderWidget::setGlobal("_KDDIR", m_uiFileName.directory());
+    KommanderWidget::setGlobal("_NAME", m_uiFileName.fileName());
   }
   
   if (!m_instance)
@@ -376,48 +377,13 @@ QStringList Instance::associatedText(const QString &widgetName)
 
 QString Instance::global(const QString& variableName)
 {
-  if (m_globals.contains(variableName))
-    return m_globals[variableName];
-  else
-    return QString::null;
+  return KommanderWidget::global(variableName);
 }
 
 void Instance::setGlobal(const QString& variableName, const QString& value)
 {
-  m_globals.insert(variableName, value); 
+  KommanderWidget::setGlobal(variableName, value); 
 }  
-
-QString Instance::arrayValue(const QString& arrayName, const QString& key) const
-{
-  if (!m_arrays.contains(arrayName) || !m_arrays[arrayName].contains(key))
-    return QString::null;     
-  else
-    return m_arrays[arrayName][key];
-}
-
-void Instance::setArrayValue(const QString& arrayName, const QString& key, const QString& value)
-{
-  if (m_arrays.contains(arrayName))
-    m_arrays[arrayName][key] = value;
-  else 
-  {
-    QMap<QString, QString> newArray;
-    newArray[key] = value;
-    m_arrays[arrayName] = newArray;
-  }
-}
-
-QString Instance::array(const QString& arrayName) const
-{
-   if (!m_arrays.contains(arrayName))
-     return QString::null;
-   else 
-   {
-     QStringList keys =  m_arrays[arrayName].keys();
-     return keys.join(" ");
-   }
-}
-
 
 QObjectList* Instance::stringToWidget(const QString& name)
 {
@@ -443,9 +409,29 @@ void Instance::registerDCOP()
   DCOPInformation::insert("associatedText(QString)");
   DCOPInformation::insert("global(QString)");
   DCOPInformation::insert("setGlobal(QString,QString)");
-  DCOPInformation::insert("arrayValue(QString,QString)");
-  DCOPInformation::insert("setArrayValue(QString,QString,QString)");
-  DCOPInformation::insert("array(QString arrayName)");
+  
+  SpecialInformation::insert("widgetText");
+  SpecialInformation::insert("selectedWidgetText");
+  SpecialInformation::insert("pid");
+  SpecialInformation::insert("dcopid");
+  SpecialInformation::insert("parentPid");
+  SpecialInformation::insert("execBegin", 0, 1);
+  SpecialInformation::insert("env", 1);
+  SpecialInformation::insert("exec", 1);
+  SpecialInformation::insert("global", 1);
+  SpecialInformation::insert("dialog", 1, 2);
+  SpecialInformation::insert("readSetting", 2);  
+  SpecialInformation::insert("setGlobal", 2);
+  SpecialInformation::insert("writeSetting", 2);
+  SpecialInformation::insert("dcop", 4, 10);
+  
+  SpecialInformation::setCurrentObject("Array");
+  SpecialInformation::insert("values", 1);
+  SpecialInformation::insert("keys", 1);
+  SpecialInformation::insert("clear", 1);
+  SpecialInformation::insert("value", 2);
+  SpecialInformation::insert("remove", 2);
+  SpecialInformation::insert("setValue", 3);
 }
 
   

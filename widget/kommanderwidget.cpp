@@ -1,8 +1,9 @@
-/***************************************************************************
-                          kommanderwidget.cpp - Text widget functionality class 
+ /***************************************************************************
+                    kommanderwidget.cpp - Text widget core functionality 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright          : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                         (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
+    
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,10 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-/* KDE INCLUDES */
+ 
+ 
+ /* KDE INCLUDES */
 #include <dcopclient.h>
 #include <kapplication.h>
-#include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -44,13 +46,12 @@
 #include "myprocess.h"
 #include "kommanderwidget.h"
 #include "dcopinformation.h"
-
+#include "specialinformation.h"
 
 
 KommanderWidget::KommanderWidget(QObject *a_thisObject)
 {
   m_thisObject = a_thisObject;
-  registerFunctions();
 }
 
 KommanderWidget::~KommanderWidget()
@@ -125,6 +126,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     evalText += a_text.mid(pos, ident - pos);
     pos = ident+1;
     
+    /* escaped @ */
     if (pos < baseTextLength-1 && a_text[pos] == ESCCHAR)
     {
       evalText += ESCCHAR;
@@ -133,7 +135,9 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     }
     
     QString identifier = parseIdentifier(a_text, pos);
-    if (identifier.isEmpty()) {
+    /* comment */
+    if (identifier.isEmpty()) 
+    {
       if (pos < baseTextLength && a_text[pos] == '#') {   // comment 
         int newpos = a_text.find('\n', pos+1);
         if (newpos == -1) 
@@ -147,137 +151,53 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
       continue;
     }
     
-    if (m_functions.contains(identifier)) {    // @function
-      bool ok = true;
-      QString arg = parseBrackets(a_text, pos, ok);
+    bool ok = true;
+    QStringList args;
+    
+    /* Standard, non-prefixed special */
+    if (SpecialInformation::isValid(identifier)) 
+    {    
+      args = parseFunction(QString::null, identifier, a_text, pos, ok);
       if (!ok)
-      {
-        printError(i18n("Unmatched parenthesis after \'%1\'.").arg(identifier));
         return QString::null;
-      }
-      const QStringList args = parseArgs(arg, ok);
-      if (!ok)
-      {
-        printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(identifier));
-        return QString::null;
-      }
-      if (args.count() < m_functions[identifier].first)
-      {
-        printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).")
-          .arg(identifier).arg(args.count()).arg(m_functions[identifier].first));
-        return QString::null;
-      }
-      if (args.count() > m_functions[identifier].second)
-      {
-        printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).")
-          .arg(identifier).arg(args.count()).arg(m_functions[identifier].second));
-        return QString::null;
-      }
-      if (identifier == "widgetText")
-        evalText += widgetText();
-      else if (identifier == "selectedWidgetText")
-        evalText += selectedWidgetText();
-      else if (identifier == "dcopid")
-        evalText += kapp->dcopClient()->appId();
-      else if (identifier == "pid")
-        evalText += QString().setNum(getpid());
-      else if (identifier == "exec")
-        evalText += execCommand(args[0]);
-      else if (identifier == "dcop")
-        evalText += dcopQuery(args);
-      else if (identifier == "parentPid")
-        evalText += parentPid();
-      else if (identifier == "env")
-        evalText += QString(getenv(args[0].latin1())); 
-      else if (identifier == "global")
-        evalText += localDcopQuery("global(QString)", args); 
-      else if (identifier == "setGlobal")
-        localDcopQuery("setGlobal(QString,QString)", args); 
-      else if (identifier == "array")
-        evalText += localDcopQuery("array(QString)", args);
-      else if (identifier == "arrayValue")
-        evalText += localDcopQuery("arrayValue(QString,QString)", args);
-      else if (identifier == "setArrayValue")
-        localDcopQuery("setArrayValue(QString,QString,QString)", args);
-      else if (identifier == "readSetting") 
-      {
-        KConfig cfg("kommanderrc", true);
-        cfg.setGroup(QString(parentDialog()->name()));
-        evalText += cfg.readEntry(args[0], args[1]);
-      }
-      else if (identifier == "writeSetting") 
-      {
-        KConfig cfg("kommanderrc", false);
-        cfg.setGroup(QString(parentDialog()->name()));
-        cfg.writeEntry(args[0], args[1]);
-      }
-      else if (identifier == "dialog")
-      {
-        if (args.count() > 1)
-          evalText += runDialog(args[0], args[1]); 
-        else
-          evalText += runDialog(args[0]); 
-      }
       else if (identifier == "execBegin")
-      {
-        int f = a_text.find("@execEnd", pos);  
-        if (f == -1)
-        {
-          printError(i18n("Unterminated @execBegin ... @execEnd block."));
-          return QString::null;
-        } 
-        else
-        {
-          QString shell = args.count() ? args[0] : QString::null;
-          evalText += execCommand(evalAssociatedText(a_text.mid(pos, f - pos)), shell);
-          pos = f + QString("@execEnd").length();
-        }
-      }
-    }
-    else                    // see if this is a widget
-    {
-      KommanderWidget* pWidget = parseWidget(identifier);
-      if (!pWidget) {
-        printError(i18n("Unknown special: @%1.").arg(identifier));
-        return QString::null;
-      }
-      else if (pWidget == this)
-      {
-        printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
-        return QString::null;
-      }
-      else if (a_text[pos] == '.')
-      {
-         pos++;
-         bool ok = true;
-         QString function = parseIdentifier(a_text, pos);
-         QString prototype = DCOPInformation::prototype(function);
-         if (prototype.isNull())
-         {
-            printError(i18n("Unknown DCOP function: '%1'.").arg(function));
-            return QString::null;
-         }
-         QString brackets = parseBrackets(a_text, pos, ok);
-         if (!ok)
-         {
-            printError(i18n("Unmatched parenthesis after \'@%1.%2\'.").arg(identifier)
-               .arg(function));
-            return QString::null;
-         }
-         QStringList args;
-         args.append(identifier);
-         args += parseArgs(brackets, ok);
-         if (!ok)
-         {
-           printError(i18n("Unmatched quotes in argument of \'@%1.%2\'.").arg(identifier)
-               .arg(function));
-           return QString::null;
-         }
-         evalText += localDcopQuery(prototype, args);
-      }
+        evalText += evalExecBlock(args, a_text, pos);  
       else
-        evalText += pWidget->evalAssociatedText();
+        evalText += evalFunction(identifier, args);
+      
+        
     }
+    /* Widget special */
+    else if (parseWidget(identifier))
+      evalText += evalWidgetFunction(identifier, args, a_text, pos);
+    else if (SpecialInformation::isObject(identifier) && a_text[pos] == '.')
+    {
+      pos++;
+      QString function = parseIdentifier(a_text, pos);
+      if (SpecialInformation::isValid(function, identifier))
+      {
+        args = parseFunction(identifier, function, a_text, pos, ok);
+        if (!ok)
+          return QString::null;
+        if (identifier == "Array")
+          evalText += evalArrayFunction(function, args);
+        else if (identifier == "String")
+          evalText += evalStringFunction(function, args);
+        else
+          return QString::null;
+      }
+      else 
+      {
+        printError(i18n("Unknown special: \'%1.%2\'.").arg(identifier).arg(function));
+          return QString::null;
+      }
+    }
+    else
+    {
+      printError(i18n("Unknown special: \'%1\'.").arg(identifier));
+      return QString::null;
+    }
+      
   }
           
   return evalText;
@@ -427,7 +347,7 @@ void KommanderWidget::printError(const QString& a_error, const QString& a_classN
 
 QString KommanderWidget::parentPid() const
 {
-  QString parentPid = localDcopQuery("global(QString)", "_PARENTPID"); 
+  QString parentPid = global("_PARENTPID"); 
   if (!parentPid.isEmpty())
     return parentPid;
   else
@@ -528,12 +448,34 @@ QString KommanderWidget::parseQuotes(const QString& s) const
   else return s;
 }
 
-
 KommanderWidget* KommanderWidget::parseWidget(const QString& name) const
 {
   QObject *childObj = parentDialog()->child(name.latin1());
   return dynamic_cast <KommanderWidget *>(childObj);
 }
+
+QStringList KommanderWidget::parseFunction(const QString objectName, const QString& function, 
+    const QString& s, int& from, bool& ok) const
+{
+  ok = true;
+  QString arg = parseBrackets(s, from, ok);
+  if (!ok)
+  {
+    printError(i18n("Unmatched parenthesis after \'%1\'.").arg(function));
+    return QString::null;
+  }
+  const QStringList args = parseArgs(arg, ok);
+  if (!ok)
+    printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
+  else if (args.count() < SpecialInformation::minArg(function, objectName))
+    printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).")
+        .arg(function).arg(args.count()).arg(SpecialInformation::minArg(function, objectName)));
+  else if (args.count() > SpecialInformation::maxArg(function, objectName))
+    printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).")
+      .arg(function).arg(args.count()).arg(SpecialInformation::maxArg(function, objectName)));
+  return args;
+}
+
 
 QObject* KommanderWidget::parentDialog() const
 {
@@ -547,45 +489,24 @@ QObject* KommanderWidget::parentDialog() const
   return superParent;
 }
 
-void KommanderWidget::registerFunctions()
+
+
+
+QString KommanderWidget::global(const QString& variableName)
 {
-  if (m_functions.count())
-    return;
-  
-  /* functions without arguments */
-  registerFunction("widgetText");
-  registerFunction("selectedWidgetText");
-  registerFunction("pid");
-  registerFunction("dcopid");
-  registerFunction("parentPid");
-  registerFunction("execBegin", 0, 1);
-  /* functions with one argument */
-  registerFunction("array", 1);
-  registerFunction("env", 1);
-  registerFunction("exec", 1);
-  registerFunction("global", 1);
-  registerFunction("dialog", 1, 2);
-  /* functions with two arguments */
-  registerFunction("arrayValue", 2);
-  registerFunction("readSetting", 2);  
-  registerFunction("setGlobal", 2);
-  registerFunction("writeSetting", 2);
-  /* functions with three arguments */
-  registerFunction("setArrayValue", 3);
-  /* functions with four arguments */
-  registerFunction("dcop", 4, 10);
+  if (m_globals.contains(variableName))
+    return m_globals[variableName];
+  else
+    return QString::null;
 }
 
-void KommanderWidget::registerFunction(const QString& name, uint minarg, uint maxarg)
+void KommanderWidget::setGlobal(const QString& variableName, const QString& value)
 {
-  if (maxarg < minarg)
-    maxarg = minarg;
-  m_functions.insert(name, QPair<uint, uint>(minarg, maxarg));
-}
+  m_globals.insert(variableName, value); 
+}  
 
-
-QMap<QString, QPair<uint, uint> > KommanderWidget::m_functions;
 
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
-
+QMap<QString, QString> KommanderWidget::m_globals;
+QMap<QString, QMap<QString, QString> > KommanderWidget::m_arrays;

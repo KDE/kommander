@@ -98,14 +98,6 @@ virtual QString global(const QString& variableName) = 0;
 /** Sets the value of global variable */ 
 virtual void setGlobal(const QString& variableName, const QString& value) = 0;
 
-/** Returns the value of array element */ 
-virtual QString arrayValue(const QString& arrayName, const QString& key) const = 0;
-
-/** Adds/modifies the value of array element */ 
-virtual void setArrayValue(const QString& arrayName, const QString& key, const QString& value) = 0;
-
-/** Returns spaces-separated list of array keys */ 
-virtual QString array(const QString& arrayName) const = 0;
 
 };
 

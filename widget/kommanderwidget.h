@@ -1,8 +1,9 @@
 /***************************************************************************
-                          kommanderwidget.cpp - Text widget core functionality 
+                    kommanderwidget.h - Text widget core functionality 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright          : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                         (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
+    
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,6 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+ 
 #ifndef _HAVE_KOMMANDERWIDGET_H_
 #define _HAVE_KOMMANDERWIDGET_H_
 
@@ -49,6 +51,11 @@ public:
   // Execute given script, expanding all @macros.
   virtual QString evalAssociatedText() const;
   virtual QString evalAssociatedText(const QString&) const;
+  virtual QString evalFunction(const QString&, const QStringList&) const;
+  virtual QString evalWidgetFunction(const QString&, const QStringList&, const QString& s, int& pos) const;
+  virtual QString evalArrayFunction(const QString&, const QStringList&) const;
+  virtual QString evalStringFunction(const QString&, const QStringList&) const;
+  virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos) const;
 
   // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
@@ -68,6 +75,10 @@ public:
   static bool inEditor;
   // Prints errors in message boxes, not in stderr
   static bool showErrors;
+  // Return global variable value
+  static QString global(const QString& variableName);
+  // Set global variable value
+  static void setGlobal(const QString& variableName, const QString& value);
 
 protected:
   virtual void setStates(const QStringList& a_states);
@@ -98,24 +109,24 @@ protected:
   QStringList parseArgs(const QString& s, bool &ok ) const;
   // Remove quotes from given identifier
   QString parseQuotes(const QString& s) const;
+  // Parse function
+  QStringList parseFunction(const QString objectName, const QString& function, 
+    const QString& s, int& from, bool& ok) const;
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
   // Return parent dialog of this widget
   QObject* parentDialog() const;
-  // Register all known functions with number of arguments
-  void registerFunctions();
-  // Register single function
-  void registerFunction(const QString& name, uint minarg = 0, uint maxarg = 0);
-
+  
   QObject *m_thisObject;
   QStringList m_states;
   QStringList m_displayStates;
   QStringList m_associatedText;
   QString m_populationText;
   
-  // List of functions with minimal and maximal arguments count
-  static QMap<QString, QPair<uint, uint> > m_functions;
-  
+  // Global variables 
+  static QMap<QString, QString> m_globals;
+  // Global arrays 
+  static QMap<QString, QMap<QString, QString> > m_arrays;
 };
 
 

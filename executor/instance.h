@@ -71,9 +71,6 @@ public:
   virtual QStringList associatedText(const QString &widgetName);
   virtual QString global(const QString& variableName);
   virtual void setGlobal(const QString& variableName, const QString& value);
-  virtual QString arrayValue(const QString& arrayName, const QString& key) const;
-  virtual void setArrayValue(const QString& arrayName, const QString& key, const QString& value);
-  virtual QString array(const QString& arrayName) const;
    
 public slots:
   /** Builds the instance then executes it */
@@ -99,10 +96,6 @@ protected:
   KURL m_uiFileName;
   /** The parent widget */
   QWidget *m_parent;
-  /* Global variables */
-  QMap<QString, QString> m_globals;
-  /* Global arrays */
-  QMap<QString, QMap<QString, QString> > m_arrays;
   /* Get object by name */
   QObjectList* stringToWidget(const QString& name);
   /* Number of global command-line arguments */
