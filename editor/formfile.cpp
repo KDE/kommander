@@ -325,11 +325,12 @@ bool FormFile::saveAs()
 	if ( fn.isEmpty() )
 	    return FALSE;
 	QFileInfo fi( fn );
-	if ( fi.extension() != "ui" )
 #ifndef KOMMANDER
+	if ( fi.extension() != "ui" )
 	    fn += ".ui";
 #else
-	fn += ".kmdr";
+	if ( fi.extension() != "kmdr" )
+	    fn += ".kmdr";
 #endif
 	fileNameTemp = FALSE;
 #ifndef KOMMANDER
