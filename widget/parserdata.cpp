@@ -66,6 +66,7 @@ ParserData::ParserData()
   m_keywords["do"] = Do;
   m_keywords["break"] = Break;
   m_keywords["continue"] = Continue;
+  m_keywords["exit"] = Exit;
   m_keywords["."] = Dot;
   m_keywords[";"] = Semicolon;
   m_keywords[","] = Comma;

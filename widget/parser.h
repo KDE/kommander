@@ -143,6 +143,8 @@ private:
   void reset();
   // set error state if no error was set before; err is expected symbol that wasn't found
   void setError(Parse::Keyword err);
+  // check whether parsing was successful
+  bool isError() const;
   
   // parsing data
   ParserData* m_data;

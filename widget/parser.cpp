@@ -148,6 +148,7 @@ QString Parser::errorMessage()
     return i18n("Expected '%1'").arg(m_data->keywordToString(m_error));
   else switch (m_error) {
     case None:     
+    case Exit:
       return QString::null;
     case Variable: 
       return i18n("Expected variable");
@@ -179,25 +180,33 @@ QString Parser::expression(Mode mode)
     return QString::null;
 }
 
+bool Parser::isError() const
+{
+  return m_error != None && m_error != Exit; 
+}
+
+
 bool Parser::command(Mode mode)
 {
   reset();
   parseCommand(mode);
-  return m_error == None;
+  return !isError();
 }
 
 bool Parser::parse(Mode mode)
 {
   reset();
   parseBlock(mode);
-  return m_error == None;
+  return !isError();
 }
 
 int Parser::errorLine() const
 {
-  if (m_error == None)
+  if (isError())
+    return m_parts[m_errorPosition].context();
+  else 
     return -1;
-  else return m_parts[m_errorPosition].context();
+  
 }
 
 ParseNode Parser::parseValue(Mode mode)
@@ -551,6 +560,12 @@ Flow Parser::parseCommand(Mode mode)
     parseWidget(mode);
   else if (next().isVariable()) 
     parseAssignment(mode);
+  else if (tryKeyword(Exit, CheckOnly))
+  {
+    if (mode == Execute)
+      setError(Exit);
+    return FlowBreak;
+  }
   return FlowStandard;
 }
   
@@ -572,7 +587,7 @@ Flow Parser::parseBlock(Mode mode)
 
 ParseNode Parser::next() const
 {
-  if (m_error != None || m_start >= m_parts.count())
+  if (isError() || m_start >= m_parts.count())
     return ParseNode();
   return m_parts[m_start];
 }
