@@ -43,13 +43,13 @@ uninstall-local:
 # kde_designerdir     Where Qt Designer plugins should go to (new in KDE 3).
 
 # set the include path for X, qt and KDE
-INCLUDES= $(all_includes) -I../widgets -I../editor
+INCLUDES= $(all_includes) -I$(top_srcdir)/kommander/editor -I$(top_srcdir)/kommander/widgets
 DEFINES=
 METASOURCES = AUTO
 
 
 # the library search path. 
-kmdr_executor_LDFLAGS = -L../widgets $(all_libraries) $(KDE_RPATH)
+kmdr_executor_LDFLAGS = -L$(top_builddir)/kommander/widgets $(all_libraries) $(KDE_RPATH)
 
 # Uncomment the following two lines if you add a ui.rc file for your application to make use of
 # KDE´s XML GUI builing

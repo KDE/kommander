@@ -7,10 +7,10 @@
 bin_PROGRAMS = kmdr-editor
 
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes) -Ishared -Iinterfaces -Ipics -I../widgets
+INCLUDES = $(all_includes) -Ishared -Iinterfaces -Ipics -I$(top_srcdir)/kommander/widgets
 
 # the library search path. 
-kmdr_editor_LDFLAGS = -L../widgets $(KDE_RPATH) $(all_libraries) 
+kmdr_editor_LDFLAGS = -L$(top_builddir)/kommander/widgets $(KDE_RPATH) $(all_libraries) 
 
 # the libraries to link against.
 kmdr_editor_LDADD   = -lkommanderwidgets $(LIB_KFILE)
