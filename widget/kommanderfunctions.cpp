@@ -78,8 +78,9 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
   else
   {
     QString shell = args.count() ? args[0] : QString::null;
-    return execCommand(evalAssociatedText(s.mid(pos, f - pos)), shell);
+    int size = f - pos;
     pos = f + QString("@execEnd").length();
+    return execCommand(evalAssociatedText(s.mid(pos, size)), shell);
   }
 }
  
