@@ -215,18 +215,47 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
 
 QString KommanderWidget::dcopQuery(const QStringList& a_query) const
 {
-  if (a_query.count() != 4)
-    return QString::null;
-  QCString appId = a_query[0].latin1(), object = a_query[1].latin1(), 
-     function = a_query[2].latin1(), data = a_query[3].local8Bit();
-  QCString replyType;
+  QCString appId = a_query[0].latin1(), object = a_query[1].latin1();
   
+  // parse function arguments
+  QString function = a_query[2], pTypes;
+  function.remove(' ');
+  int start = function.find('(');
+  bool ok = false;
+  if (start != -1)
+    pTypes = parseBrackets(function, start, ok);
+  if (!ok)
+  {
+    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'").arg(function));
+    return QString::null;
+  }
+  const QStringList argTypes = parseArgs(pTypes, ok);
+  if (!ok || argTypes.count() != a_query.count() - 3)
+  {
+    printError(i18n("Incorrect arguments in DCOP call \'%1\'").arg(function));
+    return QString::null;
+  }
+  
+  QCString replyType;
   QByteArray byteData, byteReply;
-  QDataStream byteDataStream(byteData, IO_ReadWrite);
-  byteDataStream << data;
+  QDataStream byteDataStream(byteData, IO_WriteOnly);
+  for (uint i=0 ; i<argTypes.count(); i++) {
+    if (argTypes[i] == "int")
+      byteDataStream << a_query[i+3].toInt();
+    else if (argTypes[i] == "long")
+      byteDataStream << a_query[i+3].toLong();
+    else if (argTypes[i] == "float")
+      byteDataStream << a_query[i+3].toFloat();
+    else if (argTypes[i] == "double")
+      byteDataStream << a_query[i+3].toDouble();
+    else if (argTypes[i] == "bool")
+      byteDataStream << (bool)(a_query[i+3] != "false" && a_query[i+3] != "FALSE" && a_query[i] != "0");
+    else 
+      byteDataStream << a_query[i+3];
+  }
 
   DCOPClient *cl = KApplication::dcopClient();
-  if (!cl || !cl->call(appId, object, function, byteData, replyType, byteReply))
+  if (!cl || !cl->call(appId, object, function.latin1(), byteData, replyType, byteReply))
   {
     printError(i18n("Tried to perform DCOP query, but failed"));
     return QString::null;
@@ -383,7 +412,7 @@ void KommanderWidget::registerFunctions()
   registerFunction("readSetting", 2);  
   registerFunction("writeSetting", 2);
   /* functions with four arguments */
-  registerFunction("dcop", 4);
+  registerFunction("dcop", 4, 10);
 }
 
 void KommanderWidget::registerFunction(const QString& name, uint minarg, uint maxarg)
