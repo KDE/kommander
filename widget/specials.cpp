@@ -123,7 +123,7 @@ void SpecialInformation::registerSpecials()
   insert(Array::values, "values(QString array)", 1, 
     i18n("Returns an EOL-separated list of all values in the array."));
   insert(Array::keys,"keys(QString array)", 1, 
-    i18n("Returns EOL-separated list of all keys in the array."));an 
+    i18n("Returns an EOL-separated list of all keys in the array."));
   insert(Array::clear,"clear(QString array)", 1, 
     i18n("Removes all elements from the array."));
   insert(Array::count,"count(QString array)", 1, 
