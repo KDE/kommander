@@ -101,8 +101,8 @@ void Dialog::destroy()
 
 void Dialog::setWidgetText(const QString& a_text)
 {
-	setCaption(a_text);
-	emit widgetTextChanged(a_text);
+  setCaption(a_text);
+  emit widgetTextChanged(a_text);
 }
 
 QString Dialog::widgetText() const
@@ -128,12 +128,14 @@ void Dialog::exec()
 void Dialog::show()
 {
   QDialog::show();
-  initialize();
+  if (!inEditor)
+    initialize();
 }
 
 void Dialog::done(int r)
 {
-  destroy();
+  if (!inEditor)
+    destroy();
   QDialog::done(r);  
 }
 

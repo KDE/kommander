@@ -467,3 +467,4 @@ void KommanderWidget::registerFunction(const QString& name, uint minarg, uint ma
 
 QMap<QString, QPair<uint, uint> > KommanderWidget::m_functions;
 
+bool KommanderWidget::inEditor = false;

@@ -29,10 +29,10 @@
 
 class KommanderWidget
 {
-	friend class MyProcess;
+  friend class MyProcess;
 public:
-	KommanderWidget(QObject *);
-	virtual ~KommanderWidget();
+  KommanderWidget(QObject *);
+  virtual ~KommanderWidget();
 
   //List of available states. Most widgets have only one state, but f. e. radiobutton has both 
   // 'checked' and 'unchecked'
@@ -63,6 +63,8 @@ public:
   virtual QString selectedWidgetText() const = 0;
   // Choose selected item(s). Only existing items can be selected.
   virtual void setSelectedWidgetText(const QString&) = 0;
+  // Recognizes editor vs executor mode
+  static bool inEditor;
   
 protected:
   virtual void setStates(const QStringList& a_states);
@@ -103,6 +105,7 @@ protected:
   
   // List of functions with minimal and maximal arguments count
   static QMap<QString, QPair<uint, uint> > m_functions;
+  
 };
 
 
