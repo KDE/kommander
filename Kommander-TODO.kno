@@ -1,4 +1,6 @@
-\NewEntry 0 Widgets
+\NewEntry 0 GUI
+
+\NewEntry 1 Widgets
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><li>Database widget (use hk_classes)</li>
@@ -12,17 +14,7 @@
 <li>Switch from using Qt widget to their KDE equivalents?</li></ul>
 </body></html>
 
-\NewEntry 0 Documentation
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<p><span style="font-weight:600">Kommander tutorials, documentation etc.</span></p>
-<ul type="disc"><li>Create documentation</li>
-<li>Create Kommander function reference</li>
-<li>Create tutorials with examples</li>
-<li>Allow documenting examples - requires changes in kmdr format? (it would be a good idea to automatically include some KDE information+author, date, license and version when dialog is created)</li>
-<li>Hints?</li></ul>
-</body></html>
-
-\NewEntry 0 Editor
+\NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Layout of Edit Kommander Text dialog</span></p>
 <ul type="disc"><li>use better editor (KWrite?)</li>
@@ -35,7 +27,7 @@
 <li>don't make window modal</li></ul>
 </body></html>
 
-\NewEntry 0 Usability
+\NewEntry 1 Usability
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Various GUI-related features</span></p>
 <ul type="disc"><li>clean up popup menus, remove disabled items</li>
@@ -54,25 +46,7 @@
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
 
-\NewEntry 0 Language
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<p><span style="font-weight:600">Language recognized by Kommander-Executor</span></p>
-<ul type="disc"><li>add string-handling functions (lowercase, uppercase, capitalize, substring)</li>
-<li>add @ldcop</li>
-<li>handle other values for DCOP (not only <span style="font-style:italic">string</span> and <span style="font-style:italic">int</span>)</li>
-<li>allow better handling of lists</li>
-<li>allow better handling of empty strings (see Quick Start - too many empty lines are created)</li>
-<li>@if (a, b, c)? - or is BASH enough?</li>
-<li>allow easy use of other script languages</li>
-<li>allow using other languages for scripts in @execBegin;<br />two versions suggested: @execBegin...#!/usr/bin/perl or @execBegin(/usr/bin/perl<br /><span style="font-weight:600">Problem: perl doesn't accept script as arguments, KProcess supports non-commandline arguments only for nonblocking processes</span></li>
-<li>add @include and @includelocal commands - to include external script or local (project script); that should make code more readable</li>
-<li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-weight:600">Naming: use @execlocal for consistency?</span></li>
-<div><br /></div></ul>
-<p></p>
-<ul type="disc"><div></div></ul>
-</body></html>
-
-\NewEntry 0 Run/debug
+\NewEntry 1 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Running/testing inside Editor</span></p>
 <ul type="disc"><li>add Run command to editor</li>
@@ -81,38 +55,7 @@
 <li>add Syntax checker</li></ul>
 </body></html>
 
-\NewEntry 0 Code
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<p><span style="font-weight:600">Kommander source code</span></p>
-<ul type="disc"><li>check if repeated Q_PROPERTY with calls to parent class can be removed somehow (derive KommanderWidget from QObject? use Q_OVERRIDE?)</li>
-<li>add comments</li>
-<li>resolve warnings</li>
-<li>resolve FIXME</li>
-<li>remove or accept commented pieces of code</li>
-<li>rewrite some parts more clearly</li></ul>
-</body></html>
-
-\NewEntry 0 Executor
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<p><span style="font-weight:600">Executing Kommander scripts</span></p>
-<ul type="disc"><li>check if messing with local DCOP functions doesn't break widgetText</li>
-<li>detect and handle missing plugin widgets</li>
-<li>detect and warn against unknown @specials </li>
-<li>optionally show all errors as message boxes, instead of writing them on stderr</li></ul>
-</body></html>
-
-\NewEntry 0 Scripts
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<p><span style="font-weight:600">Kommander scripts that can be useful</span></p>
-<ul type="disc"><li>improve script for Quick Start (Quanta)</li>
-<li>create script for Quick List (Quanta)</li>
-<li>create scripts for common command-line programs to demonstrate power of Kommander (it would be nice if those could be documented somehow)</li>
-<li>create scripts for HTML templates</li></ul>
-<p></p>
-<p></p>
-</body></html>
-
-\CurrentEntry 0 DCOP
+\NewEntry 1 DCOP browser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">DCOP browser (preliminary ideas)</span></p>
 <ul type="disc"><li>DCOP browser for both local and external DCOP calls</li>
@@ -124,6 +67,120 @@
 <li>add purpose (for example all editor-related functions, all file-management-related functions)</li>
 <li>merge trees for given window (f. e. Editor#2, File#2, Structure#2 etc.)</li>
 <li>standalone application mode</li></ul>
+</body></html>
+
+\NewEntry 0 Help
+
+\NewEntry 1 Documentation
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Kommander tutorials, documentation etc.</span></p>
+<ul type="disc"><li>Create documentation</li>
+<li>Create Kommander function reference</li>
+<li>Hints?</li></ul>
+</body></html>
+
+
+\NewEntry 1 Examples
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Examples to be used with tutorial</span></p>
+<ul type="disc"><li>add a way to comment *.kmdr file</li>
+<li>create examples for tutorial</li>
+<li>clean up examples: reomve obsolete or unclear ones, add some more instructive ones</li></ul>
+</body></html>
+
+
+\NewEntry 1 Scripts
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Kommander scripts that can be useful</span></p>
+<ul type="disc"><li>improve script for Quick Start (Quanta): handle indentation with, quotation character and tag case</li>
+<li>create script for Quick List (Quanta)</li>
+<li>create scripts for common command-line programs to demonstrate power of Kommander (it would be nice if those could be documented somehow)</li>
+<li>create scripts for HTML templates</li></ul>
+<p></p>
+<p></p>
+</body></html>
+
+
+\NewEntry 0 Language
+
+\NewEntry 1 Syntax
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<li><span style="font-weight:600">Syntax-related problems</span></li>
+<ul type="disc"><li>add @ldcop</li>
+<li>handle other values for DCOP (not only <span style="font-style:italic">string</span> and <span style="font-style:italic">int</span>)</li>
+<li>better handling of lists</li>
+<li>better handling of other structures (trees, arrays etc.)</li>
+<li>add alias for 'dcop @dcopid KommanderIf &lt;operation&gt; &lt;widget&gt; &lt;args&gt;'</li>
+<li>add alias for 'dcop @dcopid KommanderIf  global' and setGlobal</li>
+<li>clear arguments usage: what is the correct way to pass arguments to local functions? @function(arg1, arg2)? @function(&quot;arg1&quot;, &quot;arg2&quot;)?</li></ul>
+<p></p>
+</body></html>
+
+
+\NewEntry 1 New functions
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">New functions that could be useful</span></p>
+<ul type="disc"><li>add string-handling functions (lowercase, uppercase, capitalize, substring), perhaps in a way: @string(operation, string) - to avoid adding too many functions</li>
+<li>allow better handling of empty strings (see Quick Start - too many empty lines are created)</li>
+<li>@if (a, b, c)? - or is BASH enough?</li>
+<li>add @include and @includelocal commands - to include external script or local (project script); that should make code more readable</li>
+<li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-style:italic">Naming: use @execlocal for consistency?</span></li></ul>
+</body></html>
+
+
+\NewEntry 1 Script languages
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Using script languages other than Bash</span></p>
+<ul type="disc"><li>detect incorrect path at shebang, allow user to choose correct one and remeber that pair</li>
+<li>add option to pass shebang as argument of @execBegin, f. e. @execBegin(/usr/bin/perl)</li></ul>
+</body></html>
+
+
+\NewEntry 0 Executor
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Executing Kommander scripts</span></p>
+<ul type="disc"><li>detect and handle missing plugin widgets</li>
+<li>detect and warn against unknown @specials </li>
+<li>optionally show all errors as message boxes, instead of writing them on stderr</li></ul>
+</body></html>
+
+\NewEntry 0 Source code
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Kommander source code</span></p>
+<ul type="disc"><li>check if repeated Q_PROPERTY with calls to parent class can be removed somehow (derive KommanderWidget from QObject? use Q_OVERRIDE?)</li>
+<li>add comments</li>
+<li>resolve warnings</li>
+<li>resolve FIXME</li>
+<li>remove or accept commented pieces of code</li>
+<li>rewrite some parts more clearly</li></ul>
+</body></html>
+
+\CurrentEntry 0 ChangeLog
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">ChangeLog of TODO file</span></p>
+<p><span style="color:#0000ff">2004-04-29, 13:02</span></p>
+<ul type="disc"><li>file restructurization</li>
+<li>ChangeLog, Done, About: created</li>
+<li>New functions: Add string-handling functions</li>
+<li>Help: Examples</li>
+<li>Syntax: aliases, clear argument format</li></ul>
+</body></html>
+
+
+\NewEntry 0 Done
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<li type="disc"><span style="font-weight:600">ChangeLog of Kommander</span></li>
+<p><span style="color:#0000ff">2004-04-29, 13:01</span></p>
+<ul type="disc"><li>global variables added</li>
+<li>@parentPid added</li></ul>
+</body></html>
+
+
+\NewEntry 0 About this file
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p>This file should document both what should be done in Kommander and what was done.</p>
+<p>All enteries marked with a date without an author were made by Michal Rudolf</p>
+<p>When adding something important, please enter it in ChangeLog or Done and mark it with current date (in yyyy-MM-dd, hh:mm format) and your name.</p>
 </body></html>
 
 
