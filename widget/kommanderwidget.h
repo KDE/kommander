@@ -60,8 +60,6 @@ public:
   virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos);
   // Evaluate given array function using given args.
   virtual QString evalArrayFunction(const QString&, const QStringList&) const;
-  // Evaluate given string function using given args.
-  virtual QString evalStringFunction(const QString&, const QStringList&) const;
   // Parse and evaluate given execBegin..execEnd block.
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos);
   // Parse and evaluate given forEach..end block.
