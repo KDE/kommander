@@ -106,7 +106,7 @@ void WizardEditor::addClicked()
 {
     int index = listBox->currentItem() + 1;
     // update listbox
-    listBox->insertItem( i18n("Page"), index );
+    listBox->insertItem( "Page", index );
 
     // schedule add command
     AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n("Add Page to %1" ).arg( wizard->name() ),
