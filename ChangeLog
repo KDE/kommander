@@ -1,3 +1,7 @@
+wto 11 sty 2005 23:00:00 CET
+	o update and unify version number
+	o Kommander 1.1dev3 released
+
 Sun 09 Jan 2005 15:22:05 CET - Michal Rudolf <mrudolf@kdewebdev.org>
 	o add support for Kommander dialog templates in Editor
 
@@ -65,7 +69,6 @@ Sun 14 Nov 2004 22:39:38 CET - Michal Rudolf <mrudolf@kdewebdev.org>
 
 Wed 03 Nov 2004 14:28:39 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o fix some problems detected by kdetestsscripts
-	o Kommander 1.1dev2 released
 
 Tue 02 Nov 2004 07:53:20 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o Signals and slots: disallow unmatched (signal, slot) connections.
