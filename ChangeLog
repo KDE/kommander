@@ -1,3 +1,10 @@
+Sun 09 Jan 2005 15:22:05 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o add support for Kommander dialog templates in Editor
+
+Tue 04 Jan 2004 14:30:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o implement "Save All" files menu command
+	o implement SingleShot option of Timer widget
+
 Thu 30 Dec 2004 14:00:32 CET - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added setColumnCaption for TreeWidget
 
