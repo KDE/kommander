@@ -42,6 +42,7 @@
 #include <qdom.h>
 #include <qtextcodec.h>
 #include <qcheckbox.h>
+#include <qmessagebox.h>
 
 CustomWidgetEditor::CustomWidgetEditor( QWidget *parent, MainWindow *mw )
     : CustomWidgetEditorBase( parent, 0, TRUE ), mainWindow( mw )

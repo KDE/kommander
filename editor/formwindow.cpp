@@ -59,6 +59,7 @@
 #include <qaccel.h>
 #include <qpixmapcache.h>
 #include <qbitmap.h>
+#include <qapplication.h>
 
 #ifdef HAVE_KDE
 #include <kstatusbar.h>

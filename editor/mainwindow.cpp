@@ -38,6 +38,7 @@
 #include "multilineeditorimpl.h"
 #include "wizardeditorimpl.h"
 #include "outputwindow.h"
+#include "widgetfactory.h"
 #include <qinputdialog.h>
 #if defined(HAVE_KDE)
 #include <ktoolbar.h>

@@ -75,6 +75,7 @@
 #include <qmultilineedit.h>
 #include <qlabel.h>
 #include <qwidget.h>
+#include <qwidgetstack.h>
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qdialog.h>

@@ -30,6 +30,7 @@
 #include "iconvieweditorimpl.h"
 #include "multilineeditorimpl.h"
 #include "widgetinterface.h"
+#include "formwindow.h"
 #ifndef QT_NO_TABLE
 #include "tableeditorimpl.h"
 #endif
@@ -45,6 +46,7 @@
 #ifndef QT_NO_SQL
 #include <qdatatable.h>
 #endif
+#include <qwidgetstack.h>
 #include <qdatetimeedit.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
