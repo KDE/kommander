@@ -105,6 +105,8 @@ QString ExecButton::selectedWidgetText() const
 
 void ExecButton::startProcess()
 {
+//FIXME Move this functionality to MyProcess (adding a flag to mark non-blocking mode)  
+  
   QString at = evalAssociatedText().stripWhiteSpace();
   QString shellName = "/bin/sh";
   
@@ -128,7 +130,7 @@ void ExecButton::startProcess()
 
   if(!process->start(KProcess::NotifyOnExit, KProcess::All))
   {
-    KMessageBox::error(this, i18n("<qt>Failed to start shell process.<br><b>%1</b></qt>").arg(shellName));
+    KMessageBox::error(this, i18n("<qt>Failed to start shell process<br><b>%1</b></qt>").arg(shellName));
     delete process;
     return;
   }
