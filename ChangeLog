@@ -1,5 +1,6 @@
 Wed 13 Oct 2004 12:29:13 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added missing 'checked' function for RadioButton 
+	o added @String.findRev function for searching string backwards
 
 Tue 12 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o fix: don't add brackets to functions with no parameters 
@@ -15,7 +16,7 @@ Sat 09 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added new command 'cancel' to cancel script running in Konsole
 
 Tue 05 Oct 2004 11:19:41 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
-	o fix: use "\n" as file separator in multiselection mode
+	o fix: use "\n" as separator in multiselection mode of FileSelector
 	o preliminary version of Konsole widget
 
 Sat 02 Oct 2004 20:38:40 CEST - Michal Rudolf <mrudolf@kdewebdev.org>

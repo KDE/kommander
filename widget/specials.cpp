@@ -159,6 +159,8 @@ void SpecialInformation::registerSpecials()
     i18n("Checks if the the string contains the given substring."), 2);
   insert(String::find, "find(QString string, QString sought, int index)", 
     i18n("Returns the position of a substring in the string, or -1 if it is not found."), 2);
+  insert(String::findRev, "findRev(QString string, QString sought, int index)", 
+         i18n("Returns the position of a substring in the string, or -1 if it is not found. String is searched backwards"), 2);
   insert(String::left, "left(QString string, int n)", 
     i18n("Returns the first <i>n</i> chars of the string."), 2);
   insert(String::right, "right(QString string, int n)", 
