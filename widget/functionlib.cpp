@@ -27,78 +27,80 @@
 
 #include <dcopclient.h>
 #include <kapplication.h>
+#include <kglobal.h>
+#include <klocale.h>
 
 using namespace Parse;
 
 /******************* String function ********************************/
-ParseNode stringLength(Parser*, const ParameterList& params)
+static ParseNode f_stringLength(Parser*, const ParameterList& params)
 {
   return params[0].toString().length(); 
 }
 
-ParseNode stringContains(Parser*, const ParameterList& params)
+static ParseNode f_stringContains(Parser*, const ParameterList& params)
 {
   return params[0].toString().contains(params[1].toString());
 }
 
-ParseNode stringFind(Parser*, const ParameterList& params)
+static ParseNode f_stringFind(Parser*, const ParameterList& params)
 {
   return params[0].toString().find(params[1].toString(), params.count() == 3 ? params[2].toInt() : 0);
 }
 
-ParseNode stringFindRev(Parser*, const ParameterList& params)
+static ParseNode f_stringFindRev(Parser*, const ParameterList& params)
 {
   return params[0].toString().find(params[1].toString(), 
     params.count() == 3 ? params[2].toInt() : params[0].toString().length());
 }
 
-ParseNode stringLeft(Parser*, const ParameterList& params)
+static ParseNode f_stringLeft(Parser*, const ParameterList& params)
 {
   return params[0].toString().left(params[1].toInt());
 }
 
-ParseNode stringRight(Parser*, const ParameterList& params)
+static ParseNode f_stringRight(Parser*, const ParameterList& params)
 {
   return params[0].toString().right(params[1].toInt());
 }
 
-ParseNode stringMid(Parser*, const ParameterList& params)
+static ParseNode f_stringMid(Parser*, const ParameterList& params)
 {
   return params[0].toString().mid(params[1].toInt(), params.count() == 3 ? params[2].toInt() : 0xffffffff);
 }
 
-ParseNode stringRemove(Parser*, const ParameterList& params)
+static ParseNode f_stringRemove(Parser*, const ParameterList& params)
 {
   return params[0].toString().remove(params[1].toString());
 }
 
-ParseNode stringReplace(Parser*, const ParameterList& params)
+static ParseNode f_stringReplace(Parser*, const ParameterList& params)
 {
   return params[0].toString().replace(params[1].toString(), params[2].toString());
 }
 
-ParseNode stringLower(Parser*, const ParameterList& params)
+static ParseNode f_stringLower(Parser*, const ParameterList& params)
 {
   return params[0].toString().lower();
 }
     
-ParseNode stringUpper(Parser*, const ParameterList& params)
+static ParseNode f_stringUpper(Parser*, const ParameterList& params)
 {
   return params[0].toString().upper();
 }
   
-ParseNode stringIsEmpty(Parser*, const ParameterList& params)
+static ParseNode f_stringIsEmpty(Parser*, const ParameterList& params)
 {
   return params[0].toString().isEmpty();
 }
     
-ParseNode stringSection(Parser*, const ParameterList& params)
+static ParseNode f_stringSection(Parser*, const ParameterList& params)
 {
   return params[0].toString().section(params[1].toString(), params[2].toInt(), 
     params.count() == 4 ? params[3].toInt() : params[2].toInt());
 }
   
-ParseNode stringArgs(Parser*, const ParameterList& params)
+static ParseNode f_stringArgs(Parser*, const ParameterList& params)
 {
   if (params.count() == 2)
     return params[0].toString().arg(params[1].toString());
@@ -108,25 +110,25 @@ ParseNode stringArgs(Parser*, const ParameterList& params)
     return params[0].toString().arg(params[1].toString()).arg(params[2].toString()).arg(params[3].toString());
 }
 
-ParseNode stringIsNumber(Parser*, const ParameterList& params)    
+static ParseNode f_stringIsNumber(Parser*, const ParameterList& params)    
 {
   bool ok;
   params[0].toString().toDouble(&ok);
   return ok;
 }
   
-ParseNode stringToInt(Parser*, const ParameterList& params)
+static ParseNode f_stringToInt(Parser*, const ParameterList& params)
 {
   return params[0].toString().toInt();
 }
 
-ParseNode stringToDouble(Parser*, const ParameterList& params)
+static ParseNode f_stringToDouble(Parser*, const ParameterList& params)
 {
   return params[0].toString().toDouble();
 }
 
 /******************* Debug function ********************************/
-ParseNode debug(Parser*, const ParameterList& params)
+static ParseNode f_debug(Parser*, const ParameterList& params)
 {
   for (uint i=0; i<params.count(); i++)
     std::cerr << params[i].toString();
@@ -136,7 +138,7 @@ ParseNode debug(Parser*, const ParameterList& params)
 
 
 /******************* File function ********************************/
-ParseNode fileRead(Parser*, const ParameterList& params)
+static ParseNode f_fileRead(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
   if (!file.open(IO_ReadOnly))
@@ -145,7 +147,7 @@ ParseNode fileRead(Parser*, const ParameterList& params)
   return text.read();
 }
 
-ParseNode fileWrite(Parser*, const ParameterList& params)
+static ParseNode f_fileWrite(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
   if (!file.open(IO_WriteOnly))
@@ -156,7 +158,7 @@ ParseNode fileWrite(Parser*, const ParameterList& params)
   return 1;
 }
 
-ParseNode fileAppend(Parser*, const ParameterList& params)
+static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
   if (!file.open(IO_WriteOnly | IO_Append))
@@ -170,7 +172,7 @@ ParseNode fileAppend(Parser*, const ParameterList& params)
 
 
 /******************* DCOP function ********************************/
-ParseNode localDCOPQuery(Parser*, const ParameterList& params)
+static ParseNode f_dcop(Parser*, const ParameterList& params)
 {
   QCString appId = kapp->dcopClient()->appId();
   QCString object = "KommanderIf";
@@ -245,7 +247,7 @@ ParseNode localDCOPQuery(Parser*, const ParameterList& params)
 }
 
 
-ParseNode execCommand(Parser* P, const ParameterList& params)
+static ParseNode f_exec(Parser* P, const ParameterList& params)
 {
   MyProcess proc(P->currentWidget());
   QString text;
@@ -257,30 +259,37 @@ ParseNode execCommand(Parser* P, const ParameterList& params)
   return text;
 }
 
+ParseNode f_i18n(Parser* P, const ParameterList& params)
+{
+  return KGlobal::locale()->translate(params[0].toString()); 
+}
+ 
+    
   
 void ParserData::registerStandardFunctions()
 {
-  registerFunction("str_length", Function(&stringLength, ValueInt, ValueString));
-  registerFunction("str_contains", Function(&stringContains, ValueInt, ValueString, ValueString));
-  registerFunction("str_find", Function(&stringFind, ValueInt, ValueString, ValueString, ValueInt, 2));
-  registerFunction("str_findrev", Function(&stringFindRev, ValueInt, ValueString, ValueString, ValueInt, 2));
-  registerFunction("str_left", Function(&stringLeft, ValueString, ValueString, ValueInt));
-  registerFunction("str_right", Function(&stringRight, ValueString, ValueString, ValueInt));
-  registerFunction("str_mid", Function(&stringMid, ValueString, ValueString, ValueInt, ValueInt, 2));
-  registerFunction("str_remove", Function(&stringRemove, ValueString, ValueString, ValueString));
-  registerFunction("str_replace", Function(&stringReplace, ValueString, ValueString, ValueString, ValueString));
-  registerFunction("str_lower", Function(&stringLower, ValueString, ValueString));
-  registerFunction("str_upper", Function(&stringUpper, ValueString, ValueString));
-  registerFunction("str_section", Function(&stringSection, ValueString, ValueString, ValueString, ValueInt, ValueInt, 3));
-  registerFunction("str_args", Function(&stringArgs, ValueString, ValueString, 2, 4));
-  registerFunction("str_isnumber", Function(&stringArgs, ValueString, ValueInt, 1));
-  registerFunction("str_toint", Function(&stringArgs, ValueString, ValueInt, 1));
-  registerFunction("str_todouble", Function(&stringArgs, ValueString, ValueDouble, 1));
-  registerFunction("debug", Function(&debug, ValueNone, ValueString, 1, 100));
-  registerFunction("file_read", Function(&fileRead, ValueString, ValueString, 1, 1));
-  registerFunction("file_write", Function(&fileWrite, ValueInt, ValueString, ValueString, 2, 100));
-  registerFunction("file_append", Function(&fileAppend, ValueInt, ValueString, ValueString, 2, 100));
-  registerFunction("dcop", Function(&localDCOPQuery, ValueString, ValueString, 1, 100));
-  registerFunction("exec", Function(&execCommand, ValueString, ValueString, ValueString, 1, 2));
+  registerFunction("str_length", Function(&f_stringLength, ValueInt, ValueString));
+  registerFunction("str_contains", Function(&f_stringContains, ValueInt, ValueString, ValueString));
+  registerFunction("str_find", Function(&f_stringFind, ValueInt, ValueString, ValueString, ValueInt, 2));
+  registerFunction("str_findrev", Function(&f_stringFindRev, ValueInt, ValueString, ValueString, ValueInt, 2));
+  registerFunction("str_left", Function(&f_stringLeft, ValueString, ValueString, ValueInt));
+  registerFunction("str_right", Function(&f_stringRight, ValueString, ValueString, ValueInt));
+  registerFunction("str_mid", Function(&f_stringMid, ValueString, ValueString, ValueInt, ValueInt, 2));
+  registerFunction("str_remove", Function(&f_stringRemove, ValueString, ValueString, ValueString));
+  registerFunction("str_replace", Function(&f_stringReplace, ValueString, ValueString, ValueString, ValueString));
+  registerFunction("str_lower", Function(&f_stringLower, ValueString, ValueString));
+  registerFunction("str_upper", Function(&f_stringUpper, ValueString, ValueString));
+  registerFunction("str_section", Function(&f_stringSection, ValueString, ValueString, ValueString, ValueInt, ValueInt, 3));
+  registerFunction("str_args", Function(&f_stringArgs, ValueString, ValueString, 2, 4));
+  registerFunction("str_isnumber", Function(&f_stringArgs, ValueString, ValueInt, 1));
+  registerFunction("str_toint", Function(&f_stringArgs, ValueString, ValueInt, 1));
+  registerFunction("str_todouble", Function(&f_stringArgs, ValueString, ValueDouble, 1));
+  registerFunction("debug", Function(&f_debug, ValueNone, ValueString, 1, 100));
+  registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));
+  registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
+  registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
+  registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, 1, 100));
+  registerFunction("exec", Function(&f_i18n, ValueString, ValueString, ValueString, 1, 2));
+  registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
 }
 
