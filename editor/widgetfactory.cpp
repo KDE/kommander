@@ -101,6 +101,7 @@
 #include <subdialog.h>
 #include <listbox.h>
 #include <scriptobject.h>
+#include <richtexteditor.h>
 
 
 
@@ -1185,6 +1186,8 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 		return new ListBox(parent, name);
 	else if(className == "ScriptObject")
 		return new ScriptObject(parent, name);
+	else if(className == "RichTextEditor")
+		return new RichTextEditor(parent, name);
 #endif
 
     WidgetInterface *iface = 0;

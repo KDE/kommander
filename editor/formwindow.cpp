@@ -2032,7 +2032,6 @@ void FormWindow::layoutGridContainer( QWidget *w )
 
 void FormWindow::breakLayout( QWidget *w )
 {
-	fprintf(stderr, "FormWindow::breakLayout\n");
     if ( w == this )
 	w = mainContainer();
     w = WidgetFactory::containerOfWidget( w );
