@@ -20,23 +20,14 @@
 
 // KDE includes
 #include <klocale.h>
-
-// Qt includes
-#include <qlabel.h>
-#include <qobjectlist.h>
-#include <qsettings.h>
-#include <qtextstream.h>
+#include <kaboutdata.h>
+#include <kcmdlineargs.h>
+#include <kapplication.h>
 
 // Other includes
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include "mainwindow.h"
-#include "formwindow.h"
-#include "designerapp.h"
 #include "kommanderwidget.h"
-
+/*
 #if defined(Q_WS_X11)
 extern void qt_wait_for_window_manager( QWidget* );
 #endif
@@ -89,85 +80,74 @@ static void exitHandler( int )
     d.remove( ".designerpid" );
     exit( -1 );
 }
+*/
 
 
 
-int main( int argc, char *argv[] )
-{
-  KommanderWidget::inEditor = true;
-  QApplication::setColorSpec(QApplication::ManyColor);
-
-  KLocale::setMainCatalogue("kommander");
-  DesignerApplication a(argc, argv, "kommander");
-
-  DesignerApplication::setOverrideCursor(Qt::WaitCursor);
+/* FROM MAIN
 
   bool creatPid = FALSE;
   if (a.argc() > 1)
-  {
-    QString arg1 = a.argv()[1];
-    if (arg1 == "-client")
-    {
-      QFile pf(QDir::homeDirPath() + "/.designerpid");
-      if (pf.exists() && pf.open(IO_ReadOnly))
-      {
-        QString pidStr;
-        pf.readLine(pidStr, pf.size());
-        QFile f(QDir::homeDirPath() + "/.designerargs");
-        f.open(IO_WriteOnly);
-        QTextStream ts(&f);
-        for (int i = 1; i < a.argc(); ++i)
-          ts << a.argv()[i] << " ";
-        ts << endl;
-        f.close();
-        if (kill(pidStr.toInt(), SIGUSR1) == -1)
-          creatPid = TRUE;
-        else
-          return 0;
-      } else
-      {
-        creatPid = TRUE;
-      }
-    }
-  }
-
-  if (creatPid)
+{
+  QString arg1 = a.argv()[1];
+  if (arg1 == "-client")
   {
     QFile pf(QDir::homeDirPath() + "/.designerpid");
-    pf.open(IO_WriteOnly);
-    QTextStream ts(&pf);
-    signal(SIGUSR1, signalHandler);
-    ts << getpid() << endl;
-
-    pf.close();
-    signal(SIGABRT, exitHandler);
-    signal(SIGFPE, exitHandler);
-    signal(SIGILL, exitHandler);
-    signal(SIGINT, exitHandler);
-    signal(SIGSEGV, exitHandler);
-    signal(SIGTERM, exitHandler);
+    if (pf.exists() && pf.open(IO_ReadOnly))
+    {
+      QString pidStr;
+      pf.readLine(pidStr, pf.size());
+      QFile f(QDir::homeDirPath() + "/.designerargs");
+      f.open(IO_WriteOnly);
+      QTextStream ts(&f);
+      for (int i = 1; i < a.argc(); ++i)
+        ts << a.argv()[i] << " ";
+      ts << endl;
+      f.close();
+      if (kill(pidStr.toInt(), SIGUSR1) == -1)
+        creatPid = TRUE;
+      else
+        return 0;
+    } else
+    {
+      creatPid = TRUE;
+    }
   }
+}
+
+  if (creatPid)
+{
+  QFile pf(QDir::homeDirPath() + "/.designerpid");
+  pf.open(IO_WriteOnly);
+  QTextStream ts(&pf);
+  signal(SIGUSR1, signalHandler);
+  ts << getpid() << endl;
+
+  pf.close();
+  signal(SIGABRT, exitHandler);
+  signal(SIGFPE, exitHandler);
+  signal(SIGILL, exitHandler);
+  signal(SIGINT, exitHandler);
+  signal(SIGSEGV, exitHandler);
+  signal(SIGTERM, exitHandler);
+}
 
   QLabel *splash = a.showSplash();
 
-  MainWindow *mw = new MainWindow(creatPid);
-  a.setMainWidget(mw);
-  mw->setCaption(i18n( "Kommander Dialog Editor" ));
-
-  QSettings config;
+ QSettings config;
   config.insertSearchPath(QSettings::Windows, "/Trolltech");
 
   if (config.readBoolEntry(DesignerApplication::settingsKey() + "Geometries/MainwindowMaximized",
           FALSE))
-  {
+{
     int x = config.readNumEntry(DesignerApplication::settingsKey() + "Geometries/MainwindowX", 0);
     int y = config.readNumEntry(DesignerApplication::settingsKey() + "Geometries/MainwindowY", 0);
     mw->move(x, y);
     mw->showMaximized();
-  } else
-  {
+} else
+{
     mw->show();
-  }
+}
 #if defined(Q_WS_X11)
   qt_wait_for_window_manager(mw);
 #endif
@@ -175,11 +155,49 @@ int main( int argc, char *argv[] )
 
   QApplication::restoreOverrideCursor();
   for (int i = 1; i < a.argc(); ++i)
-  {
+{
     QString arg = a.argv()[i];
     if (arg[0] != '-')
       mw->fileOpen("", arg);
-  }
+}
+
+   
+*/
+
+
+#define VERSION "1.1dev1"
+
+static const char *description =
+  I18N_NOOP("Kommander is a graphical editor of scripted dialogs.");
+
+static KCmdLineOptions options[] =
+{
+  { "+file", I18N_NOOP("Dialog to open"), 0 },
+  { 0, 0, 0 }
+};
+
+int main( int argc, char *argv[] )
+{
+  KAboutData aboutData( "kommander", I18N_NOOP("Kommander"),
+                        VERSION, description, KAboutData::License_GPL,
+                        "(C) 2002-2004 Kommander authors", 0, 0, "mrudolf@kdewebdev.org");
+  aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
+  aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
+  aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
+  aboutData.setTranslator (I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"),
+                           I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
+  KCmdLineArgs::init(argc, argv, &aboutData);
+  KCmdLineArgs::addCmdLineOptions(options);
+
+  KommanderWidget::inEditor = true;
+
+  KLocale::setMainCatalogue("kommander");
+  KApplication a(true, true);
+  MainWindow *mw = new MainWindow(false);
+  a.setMainWidget(mw);
+  mw->setCaption(i18n("Kommander Dialog Editor"));
+  mw->show();
 
   return a.exec();
 }
+

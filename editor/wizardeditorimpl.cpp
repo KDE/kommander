@@ -27,7 +27,7 @@
 #include <qwizard.h>
 #include <qlistbox.h>
 #include <qpushbutton.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 
 #include <klocale.h>
 
@@ -197,7 +197,7 @@ void WizardEditor::itemSelected( int index )
     if ( index < 0 ) return;
 
     bool ok = FALSE;
-    QString text = KLineEditDlg::getText( i18n("Page Title"), i18n("New page title:" ), listBox->text( index ), &ok, this );
+    QString text = KInputDialog::getText( i18n("Page Title"), i18n("New page title:" ), listBox->text( index ), &ok, this );
     if ( ok ) {
 	QString pn( i18n("Rename page %1 of %2" ).arg( listBox->text( index ) ).arg( wizard->name() ) );
 	RenameWizardPageCommand *cmd = new RenameWizardPageCommand( pn, formwindow, wizard, index, text );

@@ -32,9 +32,10 @@ class PropertyEditor;
 class QWorkspace;
 class QMenuBar;
 class FormWindow;
-class QAction;
-class QActionGroup;
-class QPopupMenu;
+class KAction;
+class KToggleAction;
+class KActionCollection;
+class KPopupMenu;
 class HierarchyView;
 class QCloseEvent;
 class Workspace;
@@ -176,19 +177,12 @@ public slots:
     void runForm();
 
     void toolsCustomWidget();
-
-    void helpContents();
-    void helpManual();
-    void helpAbout();
-    void helpAboutKDE();
-    void helpAboutQt();
-    void helpReportBug();
     
 private slots:
     void activeWindowChanged( QWidget *w );
     void updateUndoRedo( bool, bool, const QString &, const QString & );
 
-    void toolSelected( QAction* );
+    void toolSelected();
 
     void clipboardChanged();
     void selectionChanged();
@@ -204,7 +198,6 @@ private slots:
 
 private:
     void setupMDI();
-    void setupMenuBar();
     void setupEditActions();
     void setupToolActions();
     void setupLayoutActions();
@@ -259,26 +252,19 @@ private:
     QString docPath;
     QString fileFilter;
 
-    QAction *actionEditUndo, *actionEditRedo, *actionEditCut, *actionEditCopy,
-    *actionEditPaste, *actionEditDelete,
-    *actionEditAdjustSize,
-    *actionEditHLayout, *actionEditVLayout, *actionEditGridLayout,
-    *actionEditSplitHorizontal, *actionEditSplitVertical,
-    *actionEditSelectAll, *actionEditBreakLayout, *actionEditConnections,
-    *actionEditLower, *actionEditRaise;
-    QActionGroup *actionGroupTools;
-    QAction* actionPointerTool, *actionConnectTool, *actionOrderTool;
-    QAction* actionCurrentTool;
-    QAction *actionHelpContents, *actionHelpAbout, *actionHelpAboutKDE, *actionHelpAboutQt, *actionHelpWhatsThis;
-    QAction *actionHelpManual;
-    QAction *actionHelpReportBug;
-#if defined(QT_NON_COMMERCIAL)
-    QAction *actionHelpRegister;
-#endif
-    QAction *actionToolsCustomWidget, *actionEditPreferences;
-    QAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
-    QAction *actionWindowNext, *actionWindowPrevious;
-    QAction *actionEditFormSettings, *actionEditAccels;
+    KAction *actionEditUndo, *actionEditRedo, *actionEditCut, *actionEditCopy,
+      *actionEditPaste, *actionEditDelete, *actionEditAdjustSize,
+      *actionEditHLayout, *actionEditVLayout, *actionEditGridLayout,
+      *actionEditSplitHorizontal, *actionEditSplitVertical,
+      *actionEditSelectAll, *actionEditBreakLayout, *actionEditConnections,
+      *actionEditLower, *actionEditRaise;
+    
+    KToggleAction* actionPointerTool, *actionConnectTool, *actionOrderTool;
+    KAction* actionCurrentTool;
+    KAction *actionToolsCustomWidget, *actionEditPreferences;
+    KAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
+    KAction *actionWindowNext, *actionWindowPrevious;
+    KAction *actionEditFormSettings, *actionEditAccels;
     
     QPopupMenu *rmbWidgets;
     QPopupMenu *rmbFormWindow;
