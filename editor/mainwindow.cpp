@@ -72,6 +72,7 @@
 
 #include <kaction.h>
 #include <kapplication.h>
+#include <kcmdlineargs.h>
 #include <kconfig.h>
 #include <kinputdialog.h>
 #include <klocale.h>
@@ -197,7 +198,6 @@ MainWindow::MainWindow( bool asClient )
     
     SpecialInformation::registerSpecials();
     
-    //createGUI();
 }
 
 MainWindow::~MainWindow()
@@ -1352,6 +1352,15 @@ void MainWindow::readConfig()
   actionCollection()->readShortcutSettings("Keys", config);
   
   actionRecent->loadEntries(config, "Recent Files");
+  
+  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+  for(int i = 0; i < args->count(); i++)
+  {
+    QFileInfo fi(args->url(i).path());
+    if (fi.exists() && openFormWindow(args->url(i).path()))
+      actionRecent->addURL(args->url(i));
+  }
+  args->clear();
 }
 
 
