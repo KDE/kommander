@@ -85,7 +85,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::selectedWidgetText, "selectedWidgetText", 0,
      i18n("Returns selected text or text of current item."));
   insert(Kommander::null, "null", 0,
-     i18n("Does nothing. This is useful if you request the @widgetText value from another widget for a CheckBox that returns nothing in it's unchecked state. The @null prevents an error indicating it is empty."));
+     i18n("Does nothing. This is useful if you request the @widgetText value from another widget for a CheckBox that returns nothing in its unchecked state. The @null prevents an error indicating it is empty."));
   insert(Kommander::pid, "pid", 0,
      i18n("Returns the pid (process ID) of the current process."));
   insert(Kommander::dcopid, "dcopid", 0,
@@ -147,7 +147,7 @@ void SpecialInformation::registerSpecials()
   insert(String::contains, "contains(QString string, QString substring)", 2, 
     i18n("Checks if the the string contains the given substring."));
   insert(String::find, "find(QString string, QString sought, int index)", 2, 
-    i18n("Returns the position of a substring in the string, or -1 if it isn't found."));
+    i18n("Returns the position of a substring in the string, or -1 if it is not found."));
   insert(String::left, "left(QString string, int n)", 2, 
     i18n("Returns the first <i>n</i> chars of the string."));
   insert(String::right, "right(QString string, int n)", 2, 
@@ -155,9 +155,9 @@ void SpecialInformation::registerSpecials()
   insert(String::mid, "mid(QString string, int start, int n)", 3, 
     i18n("Returns <i>n</i> chars of the string, starting from <i>start</i>."));
   insert(String::remove, "remove(QString string, QString substring)", 2, 
-    i18n("Removes all occurencies of given substring."));
+    i18n("Removes all occurrences of given substring."));
   insert(String::replace, "replace(QString string, QString substring, QString replacement)", 3, 
-    i18n("Replaces all occurencies of the given substring with the given replacement."));
+    i18n("Replaces all occurrences of the given substring with the given replacement."));
   insert(String::upper, "upper(QString string)", 1, 
     i18n("Converts the string to uppercase."));
   insert(String::lower, "lower(QString string)", 1, 
