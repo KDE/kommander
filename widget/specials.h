@@ -35,7 +35,7 @@ namespace Special
 
   namespace Kommander
   {   
-    enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, execBegin, 
+    enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, execBegin, forBegin,
     env, exec, global, dialog, readSetting, setGlobal, writeSetting, dcop};
   }
  

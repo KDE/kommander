@@ -17,6 +17,7 @@
 #include <stdlib.h> 
 
 #include <qfile.h>
+#include <qregexp.h>
 #include <qtextstream.h>
  
 #include <dcopclient.h>
@@ -104,8 +105,31 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
   }
 }
  
-
-
+QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s, int& pos) 
+{
+  int f = s.find("@forEnd", pos);  
+  if (f == -1)
+  {
+    printError(i18n("Unterminated @forBegin ... @forEnd block."));
+    return QString::null;
+  } 
+  else
+  {
+    int start = pos;
+    pos = f + QString("@forBegin").length() -1;
+    QString block = s.mid(start, f - start);
+    QString variable = args[0];
+    QStringList loop = QStringList::split("\n", args[1]);
+    QString output;
+    for (int i=0; i<loop.count(); i++)
+    {
+      QString blockText = block;
+      blockText.replace(QString("@%1").arg(variable), loop[i]);
+      output += evalAssociatedText(blockText);
+    }
+    return output;
+  }
+}
 
 QString KommanderWidget::evalArrayFunction(const QString& function, const QStringList& args) const
 {

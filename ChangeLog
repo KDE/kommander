@@ -1,5 +1,6 @@
 Fri 09 lip 2004 17:39:43 CEST
 	o TreeWidget optimized - it should be much faster for big trees now
+	o fixed bug in TreeWidget findItem function
 
 Thu 09 Jul 2004 13:27:47 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o StatusBar widget added

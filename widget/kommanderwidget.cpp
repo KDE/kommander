@@ -171,11 +171,12 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
         return QString::null;
       else if (identifier == "execBegin")
         evalText += evalExecBlock(args, a_text, pos);  
+      else if (identifier == "forBegin")
+        evalText += evalForBlock(args, a_text, pos);  
       else
         evalText += evalFunction(identifier, args);
-      
-        
     }
+    
     /* Widget special */
     else if (parseWidget(identifier))
       evalText += evalWidgetFunction(identifier, a_text, pos);
