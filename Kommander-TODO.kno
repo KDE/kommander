@@ -12,10 +12,16 @@
 <li>Make tree/detail widget usable</li>
 <li>Switch from using Qt widget to their KDE equivalents?</li>
 <li>Status bar</li>
-<li>make links work in rich text widget</li>
+<li>TextBrowser (rich text viewer with link clicking support)</li>
 <li>Menu</li>
-<li>Popup menu</li></ul>
+<li>Popup menu</li>
+<li>KHistoryCombo</li>
+<li>Tree widget (with appropriate DCOPs)</li>
+<li>Picture Viewer</li>
+<li>Table</li>
+<div></div></ul>
 </body></html>
+
 
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -28,8 +34,14 @@
 <li>replace widget class with widget pixmap in combos</li>
 <li>redesign layout</li>
 <li>don't make window modal</li>
-<li>cleanup Connections, not it is unusable, may be obsolete</li></ul>
+<li>cleanup Connections, not it is unusable, may be obsolete</li>
+<li>find in scripts</li>
+<li>list of non-empty scripts for current dialog</li>
+<li>allow using custom Kommander dialog to generate code</li>
+<li>add DCOP per widget display</li>
+<li>DCOP editor (similar to Tag editor in Quanta)</li></ul>
 </body></html>
+
 
 \NewEntry 1 Usability
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -46,20 +58,23 @@
 <li>better undo</li>
 <li>add WhatsThis for most items</li>
 <li>detect function name/widget name clash</li>
-<li>improve order of widget icons, add better icons if possible (CloseButton vs ExecButton)</li>
+<li>improve order of widget icons</li>
+<li>add better icons if possible (solve CloseButton vs ExecButton)</li>
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
+
 
 \NewEntry 1 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Running/testing inside Editor</span></p>
 <ul type="disc"><li>allow debugging</li>
 <li>add Message/Log window, catching output in editor</li>
-<li>add Syntax checker</li></ul>
+<li>save dialog in temporary file when running</li>
+<li>allow only one running dialog at the time</li></ul>
 </body></html>
 
 
-\NewEntry 1 DCOP browser
+\CurrentEntry 1 DCOP browser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">DCOP browser (preliminary ideas)</span></p>
 <ul type="disc"><li>DCOP browser for both local and external DCOP calls</li>
@@ -73,13 +88,25 @@
 <li>standalone application mode</li></ul>
 </body></html>
 
+\NewEntry 1 Other
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Other GUI-related issues</span></p>
+<ul type="disc"><li>get rid of unreadable splash messages</li>
+<li>use KSplash instead of local splash class</li>
+<li>cleanup slots/signals/connections interface</li>
+<li>find out why slots are shown only for current tab</li>
+<li>add standard KDE About dialog</li></ul>
+</body></html>
+
+
 \NewEntry 0 Bugs
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Various bugs to be fixed</span></p>
 <ul type="disc"><li>Charset is sometimes incorrectly converted from/to local charset</li>
-<li>Wizard widget locks up editor - find out why?</li></ul>
-<li type="disc"></li>
+<li>Wizard widget locks up editor - find out why?</li>
+<li>SubDialog crashes now</li></ul>
 </body></html>
+
 
 \NewEntry 0 Help
 
@@ -128,13 +155,16 @@
 <p><span style="font-weight:600">New functions that could be useful</span></p>
 <ul type="disc"><li>add string-handling functions (lowercase, uppercase, capitalize, substring), perhaps in a way: @string(operation, string) - to avoid adding too many functions</li>
 <li>allow better handling of empty strings (see Quick Start - too many empty lines are created)</li>
-<li>@if (a, b, c)? - or is BASH enough?</li>
+<li>@if (a, b, c)? - or is BASH enough?<br /><span style="font-style:italic">This will be solved by new parser.</span></li>
 <li>add @include and @includelocal commands - to include external script or local (project script); that should make code more readable</li>
 <li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-style:italic">Naming: use @execlocal for consistency?</span></li>
 <li>add @messageBox as an interface to KMessageBox (for both queries and messages)<br /><span style="font-style:italic">Question: use strings or int for flags and results?</span></li>
 <li>add @requireVersion(command, version)  that would detect version of program (presumably script language, like perl), compare it to given minimum and fail if it is not matched</li>
-<li>add <span style="font-style:italic">i18n</span> to allow locale handling</li></ul>
+<li>add <span style="font-style:italic">i18n</span> to allow locale handling</li>
+<li>add function for string conversion (@String.cvs2tab, @Stringcvs2eol ...)</li>
+<li>add @ldcop for calling local DCOP functions</li></ul>
 </body></html>
+
 
 \NewEntry 1 Script languages
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -143,15 +173,35 @@
 <p></p>
 </body></html>
 
-
 \NewEntry 1 Aliases
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Aliases - easier access to Kommander features</span></p>
 <ul type="disc"><li>add @String.&lt;function&gt;(&lt;args&gt;)  as alias to string-handling function</li>
 <li>add @&lt;widgetName&gt;.&lt;function&gt;(&lt;args&gt;) as alias to dcop @dcopid KommanderIf  &lt;widgetName&gt; &lt;args&gt;</li>
-<li>add alias @Global.set(&lt;variable&gt;, &lt;value&gt;) and @Global(&lt;variable&gt; as alias to global variables access</li>
 <li>add aliases to various widgets properties, f. e. text, selectedText, state, items etc.; syntax: @&lt;widgetName&gt;.&lt;attribute&gt;</li></ul>
 </body></html>
+
+
+\NewEntry 1 Signals
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">New signals for existing widgets</span></p>
+<ul type="disc"><li>add signals for D&amp;D<br /><span style="font-style:italic">Requires  dragContent and dragType, perhaps dragSource to be set.</span></li>
+<li></li></ul>
+</body></html>
+
+
+\NewEntry 1 Parser
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Features of new parser</span></p>
+<ul type="disc"><li>write it! ;-)</li>
+<li>add syntax checking</li>
+<li>add debugger</li>
+<li>add step-by-step running</li>
+<li>add code-completion</li>
+<li>add syntax highlighting</li>
+<li>add syntax hints</li></ul>
+</body></html>
+
 
 \NewEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -159,11 +209,12 @@
 <ul type="disc"><li>detect and handle missing plugin widgets</li>
 <li>detect and warn against unknown @specials </li>
 <li>optionally show all errors as message boxes, instead of writing them on stderr</li>
-<li>detect and avoid infinite loop caused by calling @widgetName in widgetName-&gt;default<br /><span style="font-style:italic">Marc suggested a warning when setting such text: this may be a good idea.</span></li>
 <li>cache @pid, @dcopid, @parentPid, perhasps calculate and cache @parentdcopid</li>
 <li>support passing variables via:<br /><span style="font-style:italic">kmdr-executor dialog.kmdr A=1 B=3 ...</span></li>
-<li>handle locale/i18n translations</li></ul>
+<li>handle locale/i18n translations</li>
+<li>handle multiple dialogs: they could be packaged in single *.tgz file, unpacked and executed internally</li></ul>
 </body></html>
+
 
 \NewEntry 0 Source code
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -176,9 +227,15 @@
 <li>rewrite some parts more clearly</li></ul>
 </body></html>
 
-\NewEntry 0 ChangeLog
+\NewEntry 0 Last changes
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<p><span style="font-weight:600">ChangeLog of TODO file</span></p>
+<p><span style="font-weight:600">Last changes in TODO file</span></p>
+<p><span style="color:#0000ff">2004-05-28, 17:35</span></p>
+<ul type="disc"><li>GUI/Widgets: Tree, History Combo, Picture Viewer, Table</li>
+<li>GUI/Other added</li>
+<li>Executor: handle multiple dialogs package</li>
+<li>Language/New functions: string conversion</li>
+<li>Language/Signals added</li></ul>
 <p><span style="color:#0000ff">2004-05-14, 12:44</span></p>
 <ul type="disc"><li>Bugs: added</li>
 <li>Language/New functions, Executor: added i18n</li></ul>
@@ -189,22 +246,13 @@
 <li>Editor: Connections</li>
 <li>New functions: @requireVersion</li>
 <li>Executor: detect loop, handle startup parameters, cache</li></ul>
-<p><span style="color:#0000ff">2004-05-01, 10:30</span></p>
-<ul type="disc"><li>Widgets: status bar</li>
-<li>New functions: messageBox</li></ul>
-<p><span style="color:#0000ff">2004-04-29, 13:02</span></p>
-<ul type="disc"><li>file restructurization</li>
-<li>ChangeLog, Done, About: created</li>
-<li>New functions: Add string-handling functions</li>
-<li>Help: Examples</li>
-<li>Syntax: aliases, clear argument format</li></ul>
 <p></p>
 </body></html>
 
-\CurrentEntry 0 Done
+
+\NewEntry 0 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <li type="disc"><span style="font-weight:600">ChangeLog of Kommander</span></li>
-<li type="disc"></li>
 <li type="disc"><span style="font-style:italic">See ChangeLog file for details and dates</span></li>
 <ul type="disc"><li>added @parentPid evaluated to parent process pid</li>
 <li>added @pid evaluated to current process pid</li>
@@ -221,6 +269,7 @@
 <li>handle other values for DCOP (not only <span style="font-style:italic">string</span> and <span style="font-style:italic">int</span>)</li>
 <li>add option to pass shebang as argument of @execBegin, f. e. @execBegin(/usr/bin/perl)</li>
 <li>add Run command to editor</li>
+<li>added global and setGlobal specials</li>
 <div></div></ul>
 </body></html>
 
