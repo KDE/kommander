@@ -662,7 +662,7 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
   menu.insertItem( i18n( "&Open Source File..." ), OPEN_SOURCE );
   menu.insertSeparator();
   menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
-       i18n( "&Remove source file from project" ), REMOVE_SOURCE );
+       i18n( "&Remove Source File From Project" ), REMOVE_SOURCE );
   break;
 #endif
     case WorkspaceItem::FormFileType:
