@@ -828,17 +828,17 @@ void MainWindow::setupPreviewActions()
     for ( QStringList::Iterator it = styles.begin(); it != styles.end(); ++it ) {
   QString info;
   if ( *it == "Motif" )
-      info = i18n("The preview will use the Motif look and feel which is used as the default style on most UNIX systems." );
+      info = i18n("The preview will use the Motif look-and-feel, which is used as the default style on most UNIX flavors." );
   else if ( *it == "Windows" )
-      info = i18n("The preview will use the Windows look and feel." );
+      info = i18n("The preview will use the Windows look-and-feel." );
   else if ( *it == "Platinum" )
-      info = i18n("The preview will use the Platinum look and feel which is similar to the Macinosh GUI style." );
+      info = i18n("The preview will use the Platinum look-and-feel, which is similar to the Macintosh GUI style." );
   else if ( *it == "CDE" )
-      info = i18n("The preview will use the CDE look and feel which is similar to some versions of the Common Desktop Environment." );
+      info = i18n("The preview will use the CDE look-and-feel, which is similar to some versions of the Common Desktop Environment." );
   else if ( *it == "SGI" )
-      info = i18n("The preview will use the Motif look and feel which is used as the default style on SGI systems." );
+      info = i18n("The preview will use the Motif look-and-feel, which is used as the default style on SGI systems." );
   else if ( *it == "MotifPlus" )
-      info = i18n("The preview will use the advanced Motif look and feel used by the GIMP toolkit (GTK) on Linux." );
+      info = i18n("The preview will use the advanced Motif look-and-feel used by the GIMP toolkit (GTK) on Linux." );
 
   a = new QAction( i18n("Preview Form in %1 Style" ).arg( *it ), createIconSet("previewform.xpm"),
            i18n("... in %1 Style" ).arg( *it ), 0, this, 0 );
