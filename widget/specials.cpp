@@ -72,7 +72,7 @@ void SpecialInformation::registerSpecials()
      i18n("Returns scripts associated with widget. This is an advanced feature that would not be commonly used."));
   insert(DCOP::type, "type(QString widget)", 2,
      i18n("Returns type(class) of widget."));
-  insert(DCOP::children, "children(QString parent, bool recursive)", 2,
+  insert(DCOP::children, "children(QString widget, bool recursive)", 2,
      i18n("Returns the list of child widgets contained in the parent widget. Set the <i>recursive</i> parameter to <i>true</i> to include widgets contained by child widgets."));
   insert(DCOP::global, "global(QString variable)", 1,
      i18n("Returns value of a global variable."));

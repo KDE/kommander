@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>539</width>
-            <height>378</height>
+            <width>694</width>
+            <height>385</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,9 +22,177 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget" row="0" column="2">
             <property name="name">
-                <cstring>layout2</cstring>
+                <cstring>layout7_2</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Description:</string>
+                    </property>
+                </widget>
+                <widget class="KTextBrowser">
+                    <property name="name">
+                        <cstring>descriptionText</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>200</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox" row="0" column="1">
+            <property name="name">
+                <cstring>groupBox1</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>250</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="title">
+                <string>&amp;Parameters:</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>widgetLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Widget:</string>
+                    </property>
+                </widget>
+                <widget class="KComboBox">
+                    <property name="name">
+                        <cstring>widgetComboBox</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>argLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Arg1</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>arg1Edit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>argLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Arg2</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>arg2Edit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>argLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Arg3</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>arg3Edit</cstring>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>110</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>copyButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>layout12</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>clearButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Inserted &amp;text:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>insertedText</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>insertedText</cstring>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>layout6</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -42,7 +210,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>40</width>
+                            <width>100</width>
                             <height>20</height>
                         </size>
                     </property>
@@ -90,7 +258,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>40</width>
+                            <width>100</width>
                             <height>20</height>
                         </size>
                     </property>
@@ -99,150 +267,67 @@
         </widget>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout6</cstring>
+                <cstring>layout7</cstring>
             </property>
             <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget">
+                <widget class="QLabel">
                     <property name="name">
-                        <cstring>layout4</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel1</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Group:</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>groupComboBox</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KComboBox">
-                            <property name="name">
-                                <cstring>groupComboBox</cstring>
-                            </property>
-                            <property name="minimumSize">
-                                <size>
-                                    <width>150</width>
-                                    <height>0</height>
-                                </size>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout3</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Function:</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>functionComboBox</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QComboBox">
-                            <property name="name">
-                                <cstring>functionComboBox</cstring>
-                            </property>
-                            <property name="minimumSize">
-                                <size>
-                                    <width>150</width>
-                                    <height>0</height>
-                                </size>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer4</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>140</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>copyButton</cstring>
+                        <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string></string>
+                        <string>&amp;Group:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>groupComboBox</cstring>
                     </property>
                 </widget>
-            </vbox>
-        </widget>
-        <widget class="KTextBrowser" row="0" column="1">
-            <property name="name">
-                <cstring>descriptionText</cstring>
-            </property>
-        </widget>
-        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>layout12</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KPushButton">
+                <widget class="KComboBox">
                     <property name="name">
-                        <cstring>clearButton</cstring>
+                        <cstring>groupComboBox</cstring>
                     </property>
-                    <property name="maximumSize">
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
                         <size>
-                            <width>32767</width>
-                            <height>20</height>
+                            <width>150</width>
+                            <height>0</height>
                         </size>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="flat">
-                        <bool>true</bool>
                     </property>
                 </widget>
                 <widget class="QLabel">
                     <property name="name">
-                        <cstring>textLabel4</cstring>
+                        <cstring>textLabel2</cstring>
                     </property>
                     <property name="text">
-                        <string>Inserted &amp;text:</string>
+                        <string>&amp;Function:</string>
                     </property>
                     <property name="buddy" stdset="0">
-                        <cstring>insertedText</cstring>
+                        <cstring>functionListBox</cstring>
                     </property>
                 </widget>
-                <widget class="KLineEdit">
+                <widget class="KListBox">
                     <property name="name">
-                        <cstring>insertedText</cstring>
+                        <cstring>functionListBox</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>7</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                 </widget>
-            </hbox>
+            </vbox>
         </widget>
     </grid>
 </widget>
@@ -264,7 +349,11 @@
 </connections>
 <tabstops>
     <tabstop>groupComboBox</tabstop>
-    <tabstop>functionComboBox</tabstop>
+    <tabstop>functionListBox</tabstop>
+    <tabstop>widgetComboBox</tabstop>
+    <tabstop>arg1Edit</tabstop>
+    <tabstop>arg2Edit</tabstop>
+    <tabstop>arg3Edit</tabstop>
     <tabstop>copyButton</tabstop>
     <tabstop>clearButton</tabstop>
     <tabstop>insertedText</tabstop>
@@ -274,8 +363,13 @@
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kcombobox.h</includehint>
     <includehint>ktextbrowser.h</includehint>
+    <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>klistbox.h</includehint>
 </includehints>
 </UI>

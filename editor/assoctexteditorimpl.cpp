@@ -175,7 +175,7 @@ QString AssocTextEditor::populationText() const
   return m_populationText;
 }
 
-void AssocTextEditor::buildWidgetList()
+QStringList AssocTextEditor::buildWidgetList()
 {
   QStringList widgetList;
   QObject* thisObject = m_formWindow->mainContainer();
@@ -212,6 +212,7 @@ void AssocTextEditor::buildWidgetList()
   widgetComboBox->insertStringList(widgetList);
   widgetsComboBox->clear();
   widgetsComboBox->insertStringList(widgetList);
+  return widgetList;
 }
 
 void AssocTextEditor::stateChanged(int a_index)
@@ -291,6 +292,7 @@ void AssocTextEditor::insertWidgetName(int index)
 void AssocTextEditor::insertFunction()
 {
   FunctionsDialog pDialog(this, 0);
+  pDialog.setWidgetList(buildWidgetList());
   if (pDialog.exec())
     insertAssociatedText(pDialog.functionText());
 }

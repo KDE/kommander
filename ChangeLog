@@ -1,4 +1,12 @@
-Tue 13 Jul 2004 13:33:00 CEST
+Wed 14 Jul 2004 12:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added @String.args (based on Qt QString("%1").arg()
+	o support parameters in function browser
+
+Tue 13 lip 2004 22:33:19 CEST
+	o added support for internationalizatiof Kommander dialogs
+	o added @i18n special for marking strings for translation
+
+Tue 13 Jul 2004 13:33:00 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o function browser: support for nested functions
 	o function browser: properly prefix function groups with @
 	o function browser: add information about obligatory and optional
@@ -6,7 +14,7 @@ Tue 13 Jul 2004 13:33:00 CEST
 	o function browser: add clear button
 	o Kommander Text Editor: change buttons order
 
-Tue 13 Jul 2004 01:10:34 CEST
+Tue 13 Jul 2004 01:10:34 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added function browser for editor
 
 Sat 10 Jul 2004 15:51:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>

@@ -91,7 +91,7 @@ private:
       
   // Create list of all widgets on the same dialog as current widget 
   // Set store to true, to update m_widgetList;
-  void buildWidgetList();
+  QStringList buildWidgetList();
   // Convert widget to string displayed in combos
   // If formatted, return formatted string, else just widget's name
   QString widgetToString(QWidget* widget, bool formatted = true);

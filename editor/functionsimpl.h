@@ -19,7 +19,7 @@
 #include <qwidget.h>
 
 #include "functions.h"
-
+#include "specials.h"
 
 class FunctionsDialog : public FunctionsDialogBase
 {
@@ -29,10 +29,15 @@ public:
   ~FunctionsDialog();
   QString functionText() const;
   QString currentFunctionText();
+  void setWidgetList(const QStringList& list);
 public slots:
   void groupChanged(int);
   void functionChanged(int);
   void copyText();
+  void showParameters();
+private:
+  QString params();
+  SpecialFunction m_function;
 };  
 
 
