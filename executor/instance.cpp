@@ -232,7 +232,7 @@ QString Instance::item(const QString &widgetName, int i)
       if (child->inherits("QListBox"))
         return (uint)i < ((QListBox*)child)->count() ? ((QListBox*)child)->item(i)->text() : QString::null;
       else if (child->inherits("QComboBox"))
-        return (uint)i < ((QComboBox*)child)->count() ? ((QComboBox*)child)->text(i) : QString::null;
+        return i < ((QComboBox*)child)->count() ? ((QComboBox*)child)->text(i) : QString::null;
     }
   delete children;
   return QString::null;
@@ -384,6 +384,38 @@ void Instance::setGlobal(const QString& variableName, const QString& value)
   m_globals.insert(variableName, value); 
 }  
 
+QString Instance::arrayValue(const QString& arrayName, const QString& key) const
+{
+  if (!m_arrays.contains(arrayName) || !m_arrays[arrayName].contains(key))
+    return QString::null;     
+  else
+    return m_arrays[arrayName][key];
+}
+
+void Instance::setArrayValue(const QString& arrayName, const QString& key, const QString& value)
+{
+  if (m_arrays.contains(arrayName))
+    m_arrays[arrayName][key] = value;
+  else 
+  {
+    QMap<QString, QString> newArray;
+    newArray[key] = value;
+    m_arrays[arrayName] = newArray;
+  }
+}
+
+QString Instance::array(const QString& arrayName) const
+{
+   if (!m_arrays.contains(arrayName))
+     return QString::null;
+   else 
+   {
+     QStringList keys =  m_arrays[arrayName].keys();
+     return keys.join(" ");
+   }
+}
+
+
 QObjectList* Instance::stringToWidget(const QString& name)
 {
   if (!m_instance)
@@ -391,5 +423,5 @@ QObjectList* Instance::stringToWidget(const QString& name)
   return m_instance->queryList(0, name, false);
 }
 
-
+  
 #include "instance.moc"

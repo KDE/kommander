@@ -188,6 +188,18 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
         evalText += dcopQuery(args);
       else if (identifier == "parentPid")
         evalText += parentPid();
+      else if (identifier == "env")
+        evalText += QString(getenv(args[0].latin1())); 
+      else if (identifier == "global")
+        evalText += localDcopQuery("global(QString)", args); 
+      else if (identifier == "setGlobal")
+        localDcopQuery("setGlobal(QString,QString)", args); 
+      else if (identifier == "array")
+        evalText += localDcopQuery("array(QString)", args);
+      else if (identifier == "arrayValue")
+        evalText += localDcopQuery("arrayValue(QString,QString)", args);
+      else if (identifier == "setArrayValue")
+        localDcopQuery("setArrayValue(QString,QString,QString)", args);
       else if (identifier == "readSetting") 
       {
         KConfig cfg("kommanderrc", true);
@@ -200,24 +212,12 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
         cfg.setGroup(QString(parentDialog()->name()));
         cfg.writeEntry(args[0], args[1]);
       }
-      else if (identifier == "env")
-      {
-        evalText += QString(getenv(args[0].latin1())); 
-      }
-      else if (identifier == "global")
-      {
-        evalText += localDcopQuery("global(QString)", args); 
-      }
       else if (identifier == "dialog")
       {
         if (args.count() > 1)
           evalText += runDialog(args[0], args[1]); 
         else
           evalText += runDialog(args[0]); 
-      }
-      else if (identifier == "setGlobal")
-      {
-        localDcopQuery("setGlobal(QString,QString)", args); 
       }
       else if (identifier == "execBegin")
       {
@@ -525,14 +525,18 @@ void KommanderWidget::registerFunctions()
   registerFunction("parentPid");
   registerFunction("execBegin", 0, 1);
   /* functions with one argument */
+  registerFunction("array", 1);
+  registerFunction("env", 1);
   registerFunction("exec", 1);
   registerFunction("global", 1);
-  registerFunction("env", 1);
   registerFunction("dialog", 1, 2);
   /* functions with two arguments */
+  registerFunction("arrayValue", 2);
   registerFunction("readSetting", 2);  
-  registerFunction("writeSetting", 2);
   registerFunction("setGlobal", 2);
+  registerFunction("writeSetting", 2);
+  /* functions with three arguments */
+  registerFunction("setArrayValue", 3);
   /* functions with four arguments */
   registerFunction("dcop", 4, 10);
 }
