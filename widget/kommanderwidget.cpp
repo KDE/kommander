@@ -516,12 +516,12 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
     printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).<p>"
        "Correct syntax is: %4")
         .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::minArg(gname, fname))
-        .arg(SpecialInformation::longPrototype(gname, fname)));
+        .arg(SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
   else if ((int)args.count() + extraArg > SpecialInformation::maxArg(gname, fname))
     printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).<p>"
        "Correct syntax is: %4")
       .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::maxArg(gname, fname))
-      .arg(SpecialInformation::longPrototype(gname, fname)));
+      .arg(SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
   else 
     success = true;
   ok = success;

@@ -88,11 +88,15 @@ void FunctionsDialog::functionChanged(int)
            "<p>Only first %1 arguments are obligatory.", 
            m_function.minArg()).arg(m_function.minArg());
   
+  uint pflags = SpecialFunction::ShowArgumentNames;
+  if (m_function.maxArg() && m_function.argumentName(0) == "widget")
+     pflags = pflags | SpecialFunction::SkipFirstArgument;
+  
   descriptionText->clear();
   descriptionText->setText(i18n("<qt><h3>%1</h3>"
      "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
      .arg(m_function.name()).arg(m_function.description())
-     .arg(m_function.longPrototype()).arg(defArgs));
+     .arg(m_function.prototype(pflags)).arg(defArgs));
   
   showParameters();
 }
