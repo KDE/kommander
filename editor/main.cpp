@@ -23,6 +23,7 @@
 
 #include "designerapp.h"
 
+#include <klocale.h>
 #include <qtextstream.h>
 #include <qobjectlist.h>
 #include <qlabel.h>
