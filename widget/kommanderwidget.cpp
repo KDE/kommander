@@ -220,6 +220,8 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
           evalText += evalStringFunction(function, args);
         case Group::File:
           evalText += evalFileFunction(function, args);
+        case Group::Message:
+          evalText += Parser::function(internalParserData(), "message_" + function, args);
           break;
         default:
           return QString::null;

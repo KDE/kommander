@@ -19,6 +19,7 @@
 
 #include "parsenode.h"
 #include <qvaluevector.h>
+#include <qstringlist.h>
 #include <qmap.h>
 
 class KommanderWidget;
@@ -38,6 +39,8 @@ public:
   QString expression(Parse::Mode mode = Parse::Execute);
   // execute single command; return true if ok
   bool command(Parse::Mode mode = Parse::Execute);
+  // special class method to execute single parser function without creating parser object
+  static QString function(ParserData* data, const QString& name, const QStringList& params);
   // execute whole block; return true if ok
   bool parse(Parse::Mode mode = Parse::Execute);
   // return line of errorneous node

@@ -166,8 +166,14 @@ QString Parser::errorMessage()
   
 }
 
-
-
+QString Parser::function(ParserData* data, const QString& name, const QStringList& params)
+{
+  ParameterList par;
+  for (QStringList::ConstIterator Iter = params.begin(); Iter != params.end(); ++Iter)
+    par.append(*Iter);
+  Function f = data->function(name);
+  return f.execute(0, par).toString();
+}
 
   
 QString Parser::expression(Mode mode)
