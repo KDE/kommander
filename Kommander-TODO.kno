@@ -22,7 +22,6 @@
 <div></div></ul>
 </body></html>
 
-
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Layout of Edit Kommander Text dialog</span></p>
@@ -41,7 +40,6 @@
 <li>add DCOP per widget display</li>
 <li>DCOP editor (similar to Tag editor in Quanta)</li></ul>
 </body></html>
-
 
 \NewEntry 1 Usability
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -63,7 +61,6 @@
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
 
-
 \NewEntry 1 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Running/testing inside Editor</span></p>
@@ -73,8 +70,7 @@
 <li>allow only one running dialog at the time</li></ul>
 </body></html>
 
-
-\CurrentEntry 1 DCOP browser
+\NewEntry 1 DCOP browser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">DCOP browser (preliminary ideas)</span></p>
 <ul type="disc"><li>DCOP browser for both local and external DCOP calls</li>
@@ -98,7 +94,6 @@
 <li>add standard KDE About dialog</li></ul>
 </body></html>
 
-
 \NewEntry 0 Bugs
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Various bugs to be fixed</span></p>
@@ -106,7 +101,6 @@
 <li>Wizard widget locks up editor - find out why?</li>
 <li>SubDialog crashes now</li></ul>
 </body></html>
-
 
 \NewEntry 0 Help
 
@@ -149,7 +143,6 @@
 <p></p>
 </body></html>
 
-
 \NewEntry 1 New functions
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">New functions that could be useful</span></p>
@@ -164,7 +157,6 @@
 <li>add function for string conversion (@String.cvs2tab, @Stringcvs2eol ...)</li>
 <li>add @ldcop for calling local DCOP functions</li></ul>
 </body></html>
-
 
 \NewEntry 1 Script languages
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -181,14 +173,12 @@
 <li>add aliases to various widgets properties, f. e. text, selectedText, state, items etc.; syntax: @&lt;widgetName&gt;.&lt;attribute&gt;</li></ul>
 </body></html>
 
-
 \NewEntry 1 Signals
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">New signals for existing widgets</span></p>
 <ul type="disc"><li>add signals for D&amp;D<br /><span style="font-style:italic">Requires  dragContent and dragType, perhaps dragSource to be set.</span></li>
 <li></li></ul>
 </body></html>
-
 
 \NewEntry 1 Parser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -202,15 +192,11 @@
 <li>add syntax hints</li></ul>
 </body></html>
 
-
 \NewEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Executing Kommander scripts</span></p>
 <ul type="disc"><li>detect and handle missing plugin widgets</li>
-<li>detect and warn against unknown @specials </li>
-<li>optionally show all errors as message boxes, instead of writing them on stderr</li>
 <li>cache @pid, @dcopid, @parentPid, perhasps calculate and cache @parentdcopid</li>
-<li>support passing variables via:<br /><span style="font-style:italic">kmdr-executor dialog.kmdr A=1 B=3 ...</span></li>
 <li>handle locale/i18n translations</li>
 <li>handle multiple dialogs: they could be packaged in single *.tgz file, unpacked and executed internally</li></ul>
 </body></html>
@@ -219,17 +205,18 @@
 \NewEntry 0 Source code
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Kommander source code</span></p>
-<ul type="disc"><li>check if repeated Q_PROPERTY with calls to parent class can be removed somehow (derive KommanderWidget from QObject? use Q_OVERRIDE?)</li>
-<li>add comments</li>
+<ul type="disc"><li>add comments</li>
 <li>resolve warnings</li>
 <li>resolve FIXME</li>
 <li>remove or accept commented pieces of code</li>
 <li>rewrite some parts more clearly</li></ul>
 </body></html>
 
+
 \NewEntry 0 Last changes
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Last changes in TODO file</span></p>
+<ul type="disc"><li>remove done items</li></ul>
 <p><span style="color:#0000ff">2004-05-28, 17:35</span></p>
 <ul type="disc"><li>GUI/Widgets: Tree, History Combo, Picture Viewer, Table</li>
 <li>GUI/Other added</li>
@@ -270,11 +257,12 @@
 <li>add option to pass shebang as argument of @execBegin, f. e. @execBegin(/usr/bin/perl)</li>
 <li>add Run command to editor</li>
 <li>added global and setGlobal specials</li>
+<li>added warnings for missing specials</li>
 <div></div></ul>
 </body></html>
 
 
-\NewEntry 0 About this file
+\CurrentEntry 0 About this file
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:11pt;font-family:helvetica">
 <p>This file should document both what should be done in Kommander and what was done.</p>
 <p>All entries marked with a date without an author were made by Michal Rudolf</p>
