@@ -156,3 +156,5 @@ void FunctionsDialog::setWidgetList(const QStringList& list)
   widgetComboBox->setCurrentItem(0);
 }
 
+
+#include "functionsimpl.moc"
