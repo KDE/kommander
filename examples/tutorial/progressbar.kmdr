@@ -1,0 +1,192 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>565</width>
+            <height>390</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>ProgressBar Demo</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>@ProgressBar1.setVisible(false)</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="ProgressBar" row="3" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>ProgressBar1</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="TreeWidget" row="2" column="0" rowspan="1" colspan="5">
+            <column>
+                <property name="text">
+                    <string>Source Tree</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizeable">
+                    <bool>true</bool>
+                </property>
+            </column>
+        <item>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap></pixmap>
+            </property>
+        </item>
+            <property name="name">
+                <cstring>TreeWidget1</cstring>
+            </property>
+            <property name="allColumnsShowFocus">
+                <bool>false</bool>
+            </property>
+            <property name="showSortIndicator">
+                <bool>true</bool>
+            </property>
+            <property name="rootIsDecorated">
+                <bool>true</bool>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="FileSelector" row="1" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>FileSelector1</cstring>
+            </property>
+            <property name="selectionType">
+                <enum>Directory</enum>
+            </property>
+        </widget>
+        <widget class="StatusBar" row="5" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>StatusBar1</cstring>
+            </property>
+        </widget>
+        <spacer row="4" column="0">
+            <property name="name">
+                <cstring>Spacer10</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>191</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="4" column="2">
+            <property name="name">
+                <cstring>Spacer11</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>191</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="ScriptObject" row="4" column="3">
+            <property name="name">
+                <cstring>progressLoop</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@# set up a loop using loop variable named "file"
+@forEach(file, @exec(cd @FileSelector1.text &amp;&amp; find * -maxdepth 0))
+  @# set the scale using the generated @[loopvar]_count
+  @ProgressBar1.setMaximum(@file_count)
+  @# show file name in statusbar
+  @StatusBar1.setText(@file)
+  @TreeWidget1.insertItems(@exec(cd @FileSelector1.text &amp;&amp; find @file -name "*"), -1)
+  @# use the generated @[loopvar]_index to update progressbar
+  @ProgressBar1.setText(@file_index)
+@end
+</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="ExecButton" row="4" column="1">
+            <property name="name">
+                <cstring>ExecButton25</cstring>
+            </property>
+            <property name="text">
+                <string>Get Source Tree</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@TreeWidget1.clear
+
+@if(@String.isEmpty(@FileSelector1.text))
+  @exec(kdialog --error "please select a directory, preferably not home as it will take time")
+@endif
+
+@if(!@String.isEmpty(@FileSelector1.text))
+  @ProgressBar1.setVisible(true)
+  @progressLoop.execute
+  @# this fails on kdewebdev 3.3.0 so leave off ".execute"
+  @ProgressBar1.setVisible(false)
+  @StatusBar1.setText("Source Tree Listed")
+@endif</string>
+                </stringlist>
+            </property>
+            <property name="blockGUI">
+                <enum>Button</enum>
+            </property>
+        </widget>
+        <widget class="Label" row="0" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>Label1</cstring>
+            </property>
+            <property name="text">
+                <string>Select a directory to list it's tree ($HOME NOT recommended for time reasons)</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
