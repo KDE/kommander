@@ -123,6 +123,15 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     }
     evalText += a_text.mid(pos, ident - pos);
     pos = ident+1;
+    
+    if (pos < baseTextLength-1 && a_text[pos] == ESCCHAR)
+    {
+      evalText += ESCCHAR;
+      pos++;
+      continue;
+    }
+    
+    
       
     QString identifier = parseIdentifier(a_text, pos);
     if (identifier.isEmpty()) {
