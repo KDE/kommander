@@ -49,7 +49,7 @@ static const char *description =
 static KCmdLineOptions options[] =
 {
   { "+[file]", I18N_NOOP("Dialog to open"), 0 },
-  { 0, 0, 0 }
+  KCmdLineLastOption
 };
 
 int main(int argc, char *argv[])
