@@ -1,12 +1,5 @@
 KDE_OPTIONS = nofinal
 
-# this has all of the subdirectories that make will recurse into.  if
-# there are none, comment this out
-#SUBDIRS =
-
-# this is the program that gets installed.  it's name is used for all
-# of the other Makefile.am variables
-SUBDIRS = .
 lib_LTLIBRARIES = libkommanderwidgets.la
 
 # set the include path for X, qt and KDE
@@ -17,8 +10,7 @@ INCLUDES = $(all_includes) -I$(top_srcdir)/kommander/editor
 libkommanderwidgets_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 # the libraries to link against.
-#widgets_LDADD   = $(LIB_KFILE) $(LIB_KIO)
-libkommanderwidgets_la_LIBADD  = $(LIB_KFILE) $(LIB_KIO)
+libkommanderwidgets_la_LIBADD  = $(LIB_KIO) 
 
 # which sources should be compiled for widgets
 libkommanderwidgets_la_SOURCES = assoctextwidget.cpp myprocess.cpp buttongroup.cpp ewidgetfactory.cpp subdialog.cpp checkbox.cpp closebutton.cpp combobox.cpp listbox.cpp wizard.cpp dialog.cpp tabwidget.cpp execbutton.cpp fileselector.cpp groupbox.cpp	lineedit.cpp radiobutton.cpp  spinboxint.cpp textedit.cpp
@@ -29,5 +21,3 @@ noinst_HEADERS = assoctextwidget.h  myprocess.h buttongroup.h  checkbox.h ewidge
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/widgets.pot

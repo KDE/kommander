@@ -146,6 +146,7 @@ int main( int argc, char *argv[] )
     QApplication::setColorSpec( QApplication::ManyColor );
 
 #if defined(HAVE_KDE)
+    KLocale::setMainCatalogue("kcommander");
     DesignerApplication a( argc, argv, "Qt Designer" );
 #else
     DesignerApplication a( argc, argv );

@@ -54,6 +54,7 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char *argv[])
 {
+  KLocale::setMainCatalogue("kcommander");
   KAboutData aboutData( "kmdr-executor", I18N_NOOP("Kommander Executor"),
     VERSION, description, KAboutData::License_GPL,
     "(c) 2002, Marc Britton", 0, 0, "consume@optushome.com.au");

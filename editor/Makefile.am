@@ -1,9 +1,5 @@
 KDE_OPTIONS = nofinal
 
-# this has all of the subdirectories that make will recurse into.  if
-# there are none, comment this out
-#SUBDIRS =
-
 # this is the program that gets installed.  it's name is used for all
 # of the other Makefile.am variables
 bin_PROGRAMS = kmdr-editor
@@ -12,10 +8,10 @@ bin_PROGRAMS = kmdr-editor
 INCLUDES = $(all_includes) -Ishared -Iinterfaces -Ipics -I$(top_srcdir)/kommander/widgets
 
 # the library search path. 
-kmdr_editor_LDFLAGS = -L$(top_builddir)/kommander/widgets $(KDE_RPATH) $(all_libraries) 
+kmdr_editor_LDFLAGS = $(KDE_RPATH) $(all_libraries) 
 
 # the libraries to link against.
-kmdr_editor_LDADD   = -lkommanderwidgets $(LIB_KFILE)
+kmdr_editor_LDADD   = $(top_builddir)/kommander/widgets/libkommanderwidgets.la 
 
 # which sources should be compiled for kmdr_editor
 kmdr_editor_SOURCES = actiondnd.cpp actioneditorimpl.cpp assoctexteditorimpl.cpp actionlistview.cpp asciivalidator.cpp assistproc.cpp command.cpp config.cpp	connectioneditorimpl.cpp  connectionviewerimpl.cpp  customwidgeteditorimpl.cpp defs.cpp designerapp.cpp designerappiface.cpp domtool.cpp editslotsimpl.cpp filechooser.cpp formfile.cpp formsettingsimpl.cpp formwindow.cpp hierarchyview.cpp iconvieweditorimpl.cpp layout.cpp listboxeditorimpl.cpp listvieweditorimpl.cpp main.cpp	mainwindow.cpp mainwindowactions.cpp  metadatabase.cpp multilineeditorimpl.cpp newformimpl.cpp orderindicator.cpp outputwindow.cpp paletteeditoradvancedimpl.cpp  paletteeditorimpl.cpp parser.cpp  pixmapchooser.cpp previewframe.cpp  previewwidgetimpl.cpp propertyeditor.cpp qcompletionedit.cpp	resource.cpp sizehandle.cpp sourceeditor.cpp sourcefile.cpp ewidgetfactory.cpp splashloader.cpp styledbutton.cpp tableeditorimpl.cpp timestamp.cpp widgetdatabase.cpp widgetfactory.cpp wizardeditorimpl.cpp workspace.cpp about.ui actioneditor.ui assoctexteditor.ui connectioneditor.ui connectionviewer.ui createtemplate.ui customwidgeteditor.ui editslots.ui formsettings.ui iconvieweditor.ui listboxeditor.ui listeditor.ui listvieweditor.ui multilineeditor.ui newform.ui paletteeditor.ui paletteeditoradvanced.ui pixmapfunction.ui preferences.ui previewwidget.ui tableeditor.ui wizardeditor.ui
@@ -25,9 +21,6 @@ noinst_HEADERS = actiondnd.h actioneditorimpl.h actioninterface.h  actionlistvie
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
-
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kmdr-editor.pot
 
 # this is where the desktop file will go 
 desktopdir   = $(kde_appsdir)/Editors
