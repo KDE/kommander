@@ -52,7 +52,6 @@ public slots:
   virtual void execute();
 signals:
   void widgetOpened();
-  void widgetTextChanged(const QString &);
 
 protected:
   virtual void executeProcess(bool blocking);
