@@ -49,6 +49,8 @@ public:
   /* add global variable; two forms are accepted:
      kdmr-executor file.kmdr COUNT=45 PATH=/tmp     - this adds global variables 45 and PATH
      kmdr-executor file.kmdr 45 /tmp                - this adds global variables ARG1 and ARG2
+     ARGS holds space-separated list of all second-type variables (like Bash $@)
+     ARGCOUNT holds number of second-type arguments
   */
   virtual void addArgument(const QString& argument);
 
