@@ -403,7 +403,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
 
     // try to create it using the loaded kommander widget plugins
     //find the widget plugin which can create className
-    for ( KommanderPlugin *p = widgetPlugins.first(); p ; p = widgetPlugins.next() ) 
+    for ( KommanderPlugin *p = widgetPlugins.first(); p ; p = widgetPlugins.next() )
     {
 	QWidget *w = p->create( className, parent, name );
 	if ( w )
@@ -457,7 +457,7 @@ int KommanderFactory::loadPlugins( bool force )
 FeatureList KommanderFactory::featureList()
 {
     FeatureList features;
-    for ( KommanderPlugin *p = widgetPlugins.first(); p ; p = widgetPlugins.next() ) 
+    for ( KommanderPlugin *p = widgetPlugins.first(); p ; p = widgetPlugins.next() )
     {
 	QStringList widgets = p->widgets();
 	QStringList::Iterator it;
