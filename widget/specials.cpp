@@ -85,7 +85,8 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::cancel, "cancel(QString widget)", i18n("Stops execution of the script associated with the widget."), 1);
   
   insertGroup(Group::Kommander, "Kommander");
-  insert(Kommander::widgetText, "widgetText", i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
+  insert(Kommander::widgetText, "widgetText", 
+    i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
   insert(Kommander::selectedWidgetText, "selectedWidgetText", 
     i18n("Returns selected text or text of current item. This is deprecated for <i>@mywidget.selected</i>."), 0);
   insert(Kommander::null, "null", 
