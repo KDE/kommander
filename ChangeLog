@@ -4,6 +4,7 @@ Fri 02 Jul 2004 23:33:46 CEST
 	o parser cleanup and fixes
 	o setPixmap(iconName, index) method for ListBoxes and TreeViews;
 	  use index = -1 to set pixmaps for all items
+	o Kommander 1.0alpha6 released
 
 Thu 01 Jul 2004 16:03:20 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o add children(QString widget) DCOP call, returning list of
