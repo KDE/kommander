@@ -297,3 +297,9 @@ QVariant Expression::value(bool* valid)
   return val;
 }
 
+QVariant Expression::value(const QString& s, bool* valid)
+{
+  setString(s);
+  return value(valid); 
+}
+
