@@ -450,8 +450,6 @@ int KommanderFactory::loadPlugins( bool force )
 	}
     }
     return num_plugins_loaded;
-    //get plugins to load from config file
-    //load them into widgetPlugins
 }
 
 FeatureList KommanderFactory::featureList()
