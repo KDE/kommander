@@ -1,0 +1,8 @@
+Sat Sep 28 23:18:08 EST 2002 - Marc Britton <consume@optushome.com.au>
+	o Cleaned up and reworked file overview window
+	o Removed 'Source File' tab from hierarchy view
+	o Removed more disabled source files
+	o Now searches for templates in custom directory (default $KDEDIR/templates) 
+
+Sun Sep 15 15:31:48 EST 2002 - Marc Britton <consume@optushome.com.au>
+    o Initial Creation

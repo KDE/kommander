@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Widgets
+Name[es]=
+Name[ven]=
+Name[xx]=xx
+Exec=widgets %i %m -caption "%c"
+Type=Application
+Terminal=0

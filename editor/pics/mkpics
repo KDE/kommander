@@ -1,0 +1,2 @@
+#!/bin/sh
+qembed small/filenew.xpm  small/fileopen.xpm  small/filesave.xpm small/print.xpm small/editcut.xpm small/editcopy.xpm small/editpaste.xpm small/searchfind.xpm small/undo.xpm small/redo.xpm > ../plugins/wizards/images.h

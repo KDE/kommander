@@ -1,0 +1,803 @@
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
+# KDE tags expanded automatically by am_edit - $Revision$ 
+
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+@SET_MAKE@
+
+# this has all of the subdirectories that make will recurse into.  if
+# there are none, comment this out
+#SUBDIRS =
+
+# this is the program that gets installed.  it's name is used for all
+# of the other Makefile.am variables
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+top_builddir = ..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_HEADER = $(INSTALL_DATA)
+transform = @program_transform_name@
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+build_alias = @build_alias@
+build_triplet = @build@
+host_alias = @host_alias@
+host_triplet = @host@
+target_alias = @target_alias@
+target_triplet = @target@
+AMTAR = @AMTAR@
+ARTSCCONFIG = @ARTSCCONFIG@
+AS = @AS@
+AUTODIRS = @AUTODIRS@
+AWK = @AWK@
+CC = @CC@
+CONF_FILES = @CONF_FILES@
+CPP = @CPP@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
+DCOPIDL = @DCOPIDL@
+DCOPIDL2CPP = @DCOPIDL2CPP@
+DCOP_DEPENDENCIES = @DCOP_DEPENDENCIES@
+DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
+DOXYGEN = @DOXYGEN@
+DOXYGEN_PROJECT_NAME = @DOXYGEN_PROJECT_NAME@
+DOXYGEN_PROJECT_NUMBER = @DOXYGEN_PROJECT_NUMBER@
+DPMSINC = @DPMSINC@
+DPMSLIB = @DPMSLIB@
+ECHO = @ECHO@
+EXEEXT = @EXEEXT@
+FRAMEWORK_COREAUDIO = @FRAMEWORK_COREAUDIO@
+GCJ = @GCJ@
+GCJFLAGS = @GCJFLAGS@
+GLINC = @GLINC@
+GLLIB = @GLLIB@
+GMSGFMT = @GMSGFMT@
+IDL = @IDL@
+IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+JAR = @JAR@
+JAVAC = @JAVAC@
+JAVAH = @JAVAH@
+JVMLIBS = @JVMLIBS@
+KDECONFIG = @KDECONFIG@
+KDE_EXTRA_RPATH = @KDE_EXTRA_RPATH@
+KDE_HAS_DOXYGEN = @KDE_HAS_DOXYGEN@
+KDE_HAVE_DOT = @KDE_HAVE_DOT@
+KDE_INCLUDES = @KDE_INCLUDES@
+KDE_LDFLAGS = @KDE_LDFLAGS@
+KDE_MT_LDFLAGS = @KDE_MT_LDFLAGS@
+KDE_MT_LIBS = @KDE_MT_LIBS@
+KDE_PLUGIN = @KDE_PLUGIN@
+KDE_RPATH = @KDE_RPATH@
+KDE_USE_CLOSURE_FALSE = @KDE_USE_CLOSURE_FALSE@
+KDE_USE_CLOSURE_TRUE = @KDE_USE_CLOSURE_TRUE@
+KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
+KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
+KDE_XSL_STYLESHEET = @KDE_XSL_STYLESHEET@
+LEX = @LEX@
+LEXLIB = @LEXLIB@
+LIBCOMPAT = @LIBCOMPAT@
+LIBCRYPT = @LIBCRYPT@
+LIBDL = @LIBDL@
+LIBGEN = @LIBGEN@
+LIBJPEG = @LIBJPEG@
+LIBMICO = @LIBMICO@
+LIBOBJS = @LIBOBJS@
+LIBPNG = @LIBPNG@
+LIBPTHREAD = @LIBPTHREAD@
+LIBPYTHON = @LIBPYTHON@
+LIBQIMGIO = @LIBQIMGIO@
+LIBRESOLV = @LIBRESOLV@
+LIBSHADOW = @LIBSHADOW@
+LIBSM = @LIBSM@
+LIBSOCKET = @LIBSOCKET@
+LIBTIFF = @LIBTIFF@
+LIBTOOL = @LIBTOOL@
+LIBUCB = @LIBUCB@
+LIBUTIL = @LIBUTIL@
+LIBXINERAMA = @LIBXINERAMA@
+LIBZ = @LIBZ@
+LIB_KAB = @LIB_KAB@
+LIB_KDECORE = @LIB_KDECORE@
+LIB_KDEPRINT = @LIB_KDEPRINT@
+LIB_KDEUI = @LIB_KDEUI@
+LIB_KFILE = @LIB_KFILE@
+LIB_KFM = @LIB_KFM@
+LIB_KHTML = @LIB_KHTML@
+LIB_KIMGIO = @LIB_KIMGIO@
+LIB_KIO = @LIB_KIO@
+LIB_KPARTS = @LIB_KPARTS@
+LIB_KSPELL = @LIB_KSPELL@
+LIB_KSYCOCA = @LIB_KSYCOCA@
+LIB_POLL = @LIB_POLL@
+LIB_QPE = @LIB_QPE@
+LIB_QT = @LIB_QT@
+LIB_QTOPIA = @LIB_QTOPIA@
+LIB_SMB = @LIB_SMB@
+LIB_X11 = @LIB_X11@
+LIB_XEXT = @LIB_XEXT@
+LN_S = @LN_S@
+MCOPIDL = @MCOPIDL@
+MEINPROC = @MEINPROC@
+MICO_INCLUDES = @MICO_INCLUDES@
+MICO_LDFLAGS = @MICO_LDFLAGS@
+MOC = @MOC@
+MSGFMT = @MSGFMT@
+NOOPT_CFLAGS = @NOOPT_CFLAGS@
+NOOPT_CXXFLAGS = @NOOPT_CXXFLAGS@
+NOREPO = @NOREPO@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
+PAMLIBS = @PAMLIBS@
+PASSWDLIBS = @PASSWDLIBS@
+PYTHONINC = @PYTHONINC@
+PYTHONLIB = @PYTHONLIB@
+PYTHONMODDIR = @PYTHONMODDIR@
+QTDOCDIR = @QTDOCDIR@
+QTE_NORTTI = @QTE_NORTTI@
+QTOPIA_INCLUDES = @QTOPIA_INCLUDES@
+QT_INCLUDES = @QT_INCLUDES@
+QT_LDFLAGS = @QT_LDFLAGS@
+RANLIB = @RANLIB@
+RC = @RC@
+REPO = @REPO@
+SETUIDFLAGS = @SETUIDFLAGS@
+STRIP = @STRIP@
+TOPSUBDIRS = @TOPSUBDIRS@
+UIC = @UIC@
+UIC_TR = @UIC_TR@
+USER_INCLUDES = @USER_INCLUDES@
+USER_LDFLAGS = @USER_LDFLAGS@
+USE_EXCEPTIONS = @USE_EXCEPTIONS@
+USE_RTTI = @USE_RTTI@
+USE_THREADS = @USE_THREADS@
+VERSION = @VERSION@
+WOVERLOADED_VIRTUAL = @WOVERLOADED_VIRTUAL@
+XGETTEXT = @XGETTEXT@
+XPMINC = @XPMINC@
+XPMLIB = @XPMLIB@
+X_EXTRA_LIBS = @X_EXTRA_LIBS@
+X_INCLUDES = @X_INCLUDES@
+X_LDFLAGS = @X_LDFLAGS@
+X_PRE_LIBS = @X_PRE_LIBS@
+all_includes = @all_includes@
+all_libraries = @all_libraries@
+am__include = @am__include@
+am__quote = @am__quote@
+idldir = @idldir@
+install_sh = @install_sh@
+jni_includes = @jni_includes@
+kde_appsdir = @kde_appsdir@
+kde_bindir = @kde_bindir@
+kde_confdir = @kde_confdir@
+kde_datadir = @kde_datadir@
+kde_htmldir = @kde_htmldir@
+kde_icondir = @kde_icondir@
+kde_includes = @kde_includes@
+kde_libraries = @kde_libraries@
+kde_libs_htmldir = @kde_libs_htmldir@
+kde_libs_prefix = @kde_libs_prefix@
+kde_locale = @kde_locale@
+kde_mimedir = @kde_mimedir@
+kde_moduledir = @kde_moduledir@
+kde_qtver = @kde_qtver@
+kde_servicesdir = @kde_servicesdir@
+kde_servicetypesdir = @kde_servicetypesdir@
+kde_sounddir = @kde_sounddir@
+kde_styledir = @kde_styledir@
+kde_templatesdir = @kde_templatesdir@
+kde_wallpaperdir = @kde_wallpaperdir@
+kde_widgetdir = @kde_widgetdir@
+micodir = @micodir@
+qt_includes = @qt_includes@
+qt_libraries = @qt_libraries@
+x_includes = @x_includes@
+x_libraries = @x_libraries@
+
+SUBDIRS = .
+lib_LTLIBRARIES = libkommanderwidgets.la
+
+# set the include path for X, qt and KDE
+INCLUDES = $(all_includes) -I../editor
+
+# the library search path. 
+#widgets_LDFLAGS = $(KDE_RPATH) $(all_libraries)
+libkommanderwidgets_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
+
+# the libraries to link against.
+#widgets_LDADD   = $(LIB_KFILE) $(LIB_KIO)
+libkommanderwidgets_la_LIBADD = $(LIB_KFILE) $(LIB_KIO)
+
+# which sources should be compiled for widgets
+libkommanderwidgets_la_SOURCES = assoctextwidget.cpp myprocess.cpp buttongroup.cpp ewidgetfactory.cpp subdialog.cpp checkbox.cpp closebutton.cpp combobox.cpp listbox.cpp wizard.cpp dialog.cpp tabwidget.cpp execbutton.cpp fileselector.cpp groupbox.cpp	lineedit.cpp radiobutton.cpp  spinboxint.cpp textedit.cpp
+
+# these are the headers for your project that won't be installed
+noinst_HEADERS = assoctextwidget.h  myprocess.h buttongroup.h  checkbox.h ewidgetfactory.h subdialog.h  closebutton.h  combobox.h listbox.h wizard.h dialog.h	   execbutton.h   fileselector.h  groupbox.h	 lineedit.h radiobutton.h	   spinboxint.h   textedit.h tabwidget.h
+
+# let automoc handle all of the meta source files (moc)
+#>- METASOURCES = AUTO
+subdir = widgets
+mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
+CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_CLEAN_FILES =
+LTLIBRARIES = $(lib_LTLIBRARIES)
+
+libkommanderwidgets_la_DEPENDENCIES =
+am_libkommanderwidgets_la_OBJECTS = assoctextwidget.lo myprocess.lo \
+	buttongroup.lo ewidgetfactory.lo subdialog.lo checkbox.lo \
+	closebutton.lo combobox.lo listbox.lo wizard.lo dialog.lo \
+	tabwidget.lo execbutton.lo fileselector.lo groupbox.lo \
+	lineedit.lo radiobutton.lo spinboxint.lo textedit.lo
+#>- libkommanderwidgets_la_OBJECTS = $(am_libkommanderwidgets_la_OBJECTS)
+#>+ 9
+libkommanderwidgets_la_final_OBJECTS = libkommanderwidgets_la.all_cpp.lo 
+libkommanderwidgets_la_nofinal_OBJECTS = assoctextwidget.lo myprocess.lo \
+	buttongroup.lo ewidgetfactory.lo subdialog.lo checkbox.lo \
+	closebutton.lo combobox.lo listbox.lo wizard.lo dialog.lo \
+	tabwidget.lo execbutton.lo fileselector.lo groupbox.lo \
+	lineedit.lo radiobutton.lo spinboxint.lo textedit.lo\
+	subdialog.moc.lo groupbox.moc.lo tabwidget.moc.lo buttongroup.moc.lo dialog.moc.lo execbutton.moc.lo radiobutton.moc.lo myprocess.moc.lo textedit.moc.lo combobox.moc.lo spinboxint.moc.lo lineedit.moc.lo fileselector.moc.lo listbox.moc.lo closebutton.moc.lo wizard.moc.lo checkbox.moc.lo 
+@KDE_USE_FINAL_FALSE@libkommanderwidgets_la_OBJECTS = $(libkommanderwidgets_la_nofinal_OBJECTS)
+@KDE_USE_FINAL_TRUE@libkommanderwidgets_la_OBJECTS = $(libkommanderwidgets_la_final_OBJECTS)
+
+DEFS = @DEFS@
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
+#>- @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/assoctextwidget.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/buttongroup.Plo $(DEPDIR)/checkbox.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/closebutton.Plo $(DEPDIR)/combobox.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/dialog.Plo $(DEPDIR)/ewidgetfactory.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/execbutton.Plo $(DEPDIR)/fileselector.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/groupbox.Plo $(DEPDIR)/lineedit.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/listbox.Plo $(DEPDIR)/myprocess.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/radiobutton.Plo $(DEPDIR)/spinboxint.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/subdialog.Plo $(DEPDIR)/tabwidget.Plo \
+#>- @AMDEP_TRUE@	$(DEPDIR)/textedit.Plo $(DEPDIR)/wizard.Plo
+#>+ 21
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/subdialog.moc.P $(DEPDIR)/groupbox.moc.P $(DEPDIR)/tabwidget.moc.P $(DEPDIR)/buttongroup.moc.P $(DEPDIR)/execbutton.moc.P $(DEPDIR)/radiobutton.moc.P $(DEPDIR)/myprocess.moc.P $(DEPDIR)/textedit.moc.P $(DEPDIR)/combobox.moc.P $(DEPDIR)/spinboxint.moc.P $(DEPDIR)/lineedit.moc.P $(DEPDIR)/fileselector.moc.P $(DEPDIR)/listbox.moc.P $(DEPDIR)/closebutton.moc.P $(DEPDIR)/wizard.moc.P $(DEPDIR)/checkbox.moc.P  $(DEPDIR)/libkommanderwidgets_la.all_cpp.P  $(DEPDIR)/assoctextwidget.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/buttongroup.Plo $(DEPDIR)/checkbox.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/closebutton.Plo $(DEPDIR)/combobox.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/dialog.Plo $(DEPDIR)/ewidgetfactory.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/execbutton.Plo $(DEPDIR)/fileselector.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/groupbox.Plo $(DEPDIR)/lineedit.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/listbox.Plo $(DEPDIR)/myprocess.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/radiobutton.Plo $(DEPDIR)/spinboxint.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/subdialog.Plo $(DEPDIR)/tabwidget.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/textedit.Plo $(DEPDIR)/wizard.Plo
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/subdialog.moc.P $(DEPDIR)/groupbox.moc.P $(DEPDIR)/tabwidget.moc.P $(DEPDIR)/buttongroup.moc.P $(DEPDIR)/execbutton.moc.P $(DEPDIR)/radiobutton.moc.P $(DEPDIR)/myprocess.moc.P $(DEPDIR)/textedit.moc.P $(DEPDIR)/combobox.moc.P $(DEPDIR)/spinboxint.moc.P $(DEPDIR)/lineedit.moc.P $(DEPDIR)/fileselector.moc.P $(DEPDIR)/listbox.moc.P $(DEPDIR)/closebutton.moc.P $(DEPDIR)/wizard.moc.P $(DEPDIR)/checkbox.moc.P  $(DEPDIR)/assoctextwidget.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/buttongroup.Plo $(DEPDIR)/checkbox.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/closebutton.Plo $(DEPDIR)/combobox.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/dialog.Plo $(DEPDIR)/ewidgetfactory.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/execbutton.Plo $(DEPDIR)/fileselector.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/groupbox.Plo $(DEPDIR)/lineedit.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/listbox.Plo $(DEPDIR)/myprocess.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/radiobutton.Plo $(DEPDIR)/spinboxint.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/subdialog.Plo $(DEPDIR)/tabwidget.Plo \
+	@AMDEP_TRUE@	$(DEPDIR)/textedit.Plo $(DEPDIR)/wizard.Plo
+
+#>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+#>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+#>+ 2
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
+#>- LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
+#>- $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+#>- $(AM_CXXFLAGS) $(CXXFLAGS)
+#>+ 3
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile --tag=CXX $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
+CXXLD = $(CXX)
+#>- CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+#>- $(AM_LDFLAGS) $(LDFLAGS) -o $@
+#>+ 2
+CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXFLAGS = @CXXFLAGS@
+DIST_SOURCES = $(libkommanderwidgets_la_SOURCES)
+HEADERS = $(noinst_HEADERS)
+
+
+RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
+	uninstall-info-recursive all-recursive install-data-recursive \
+	install-exec-recursive installdirs-recursive install-recursive \
+	uninstall-recursive check-recursive installcheck-recursive
+DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
+DIST_SUBDIRS = $(SUBDIRS)
+SOURCES = $(libkommanderwidgets_la_SOURCES)
+
+#>- all: all-recursive
+#>+ 1
+all: docs-am  all-recursive
+
+.SUFFIXES:
+.SUFFIXES: .cpp .lo .o .obj
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+	-rm -f libtool
+$(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+#>- 	cd $(top_srcdir) && \
+#>- $(AUTOMAKE) --gnu  widgets/Makefile
+#>+ 3
+	cd $(top_srcdir) && \
+	$(AUTOMAKE) --gnu  widgets/Makefile
+	cd $(top_srcdir) && perl admin/am_edit widgets/Makefile.in
+Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	CONFIG_HEADERS= CONFIG_LINKS= \
+	CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libdir)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	if test -f $$p; then \
+	echo " $(LIBTOOL) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$p"; \
+	$(LIBTOOL) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$p; \
+	else :; fi; \
+	done
+
+uninstall-libLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	echo " $(LIBTOOL) --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p"; \
+	$(LIBTOOL) --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
+	done
+
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+libkommanderwidgets.la: $(libkommanderwidgets_la_OBJECTS) $(libkommanderwidgets_la_DEPENDENCIES) 
+	$(CXXLINK) -rpath $(libdir) $(libkommanderwidgets_la_LDFLAGS) $(libkommanderwidgets_la_OBJECTS) $(libkommanderwidgets_la_LIBADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT) core *.core
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/assoctextwidget.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/buttongroup.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/checkbox.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/closebutton.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/combobox.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/dialog.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ewidgetfactory.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/execbutton.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/fileselector.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/groupbox.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lineedit.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/listbox.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/myprocess.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/radiobutton.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spinboxint.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/subdialog.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/tabwidget.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/textedit.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/wizard.Plo@am__quote@
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+.cpp.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+
+.cpp.lo:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+CXXDEPMODE = @CXXDEPMODE@
+uninstall-info-am:
+
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+$(RECURSIVE_TARGETS):
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	echo "Making $$target in $$subdir"; \
+	if test "$$subdir" = "."; then \
+	dot_seen=yes; \
+	local_target="$$target-am"; \
+	else \
+	local_target="$$target"; \
+	fi; \
+	(cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	|| case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	$(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
+mostlyclean-recursive clean-recursive distclean-recursive \
+	maintainer-clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	case "$@" in \
+	distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	*) list='$(SUBDIRS)' ;; \
+	esac; \
+	rev=''; for subdir in $$list; do \
+	if test "$$subdir" = "."; then :; else \
+	rev="$$subdir $$rev"; \
+	fi; \
+	done; \
+	rev="$$rev ."; \
+	target=`echo $@ | sed s/-recursive//`; \
+	for subdir in $$rev; do \
+	echo "Making $$target in $$subdir"; \
+	if test "$$subdir" = "."; then \
+	local_target="$$target-am"; \
+	else \
+	local_target="$$target"; \
+	fi; \
+	(cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	|| case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+	done
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	done | \
+	$(AWK) '    { files[$$0] = 1; } \
+	END { for (i in files) print i; }'`; \
+	mkid -fID $$unique $(LISP)
+
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+	$(TAGS_FILES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	if test "$$subdir" = .; then :; else \
+	test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+	fi; \
+	done; \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	done | \
+	$(AWK) '    { files[$$0] = 1; } \
+	END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	|| etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	&& cd $(top_srcdir) \
+	&& gtags -i $(GTAGS_ARGS) $$here
+
+distclean-tags:
+	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
+
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=widgets.desktop 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
+
+top_distdir = ..
+distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	$(mkinstalldirs) "$(distdir)/$$dir"; \
+	fi; \
+	if test -d $$d/$$file; then \
+	cp -pR $$d/$$file $(distdir) \
+	|| exit 1; \
+	else \
+	test -f $(distdir)/$$file \
+	|| cp -p $$d/$$file $(distdir)/$$file \
+	|| exit 1; \
+	fi; \
+	done
+	for subdir in $(SUBDIRS); do \
+	if test "$$subdir" = .; then :; else \
+	test -d $(distdir)/$$subdir \
+	|| mkdir $(distdir)/$$subdir \
+	|| exit 1; \
+	(cd $$subdir && \
+	$(MAKE) $(AM_MAKEFLAGS) \
+	top_distdir="$(top_distdir)" \
+	distdir=../$(distdir)/$$subdir \
+	distdir) \
+	|| exit 1; \
+	fi; \
+	done
+check-am: all-am
+check: check-recursive
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+installdirs: installdirs-recursive
+installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(libdir)
+
+install: install-recursive
+install-exec: install-exec-recursive
+install-data: install-data-recursive
+uninstall: uninstall-recursive
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+
+installcheck: installcheck-recursive
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	`test -z '$(STRIP)' || \
+	echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
+#>- clean: clean-recursive
+#>+ 1
+clean: kde-rpo-clean  clean-recursive
+
+#>- clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+#>- mostlyclean-am
+#>+ 2
+clean-am: clean-metasources clean-final  clean-generic clean-libLTLIBRARIES clean-libtool \
+	mostlyclean-am
+
+distclean: distclean-recursive
+
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-tags
+
+dvi: dvi-recursive
+
+dvi-am:
+
+info: info-recursive
+
+info-am:
+
+install-data-am:
+
+install-exec-am: install-libLTLIBRARIES
+
+install-info: install-info-recursive
+
+install-man:
+
+installcheck-am:
+
+maintainer-clean: maintainer-clean-recursive
+
+maintainer-clean-am: distclean-am maintainer-clean-generic
+
+mostlyclean: mostlyclean-recursive
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
+
+uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES
+
+uninstall-info: uninstall-info-recursive
+
+.PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
+	clean-generic clean-libLTLIBRARIES clean-libtool \
+	clean-recursive distclean distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-recursive \
+	distclean-tags distdir dvi dvi-am dvi-recursive info info-am \
+	info-recursive install install-am install-data install-data-am \
+	install-data-recursive install-exec install-exec-am \
+	install-exec-recursive install-info install-info-am \
+	install-info-recursive install-libLTLIBRARIES install-man \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	tags tags-recursive uninstall uninstall-am uninstall-info-am \
+	uninstall-info-recursive uninstall-libLTLIBRARIES \
+	uninstall-recursive
+
+
+messages: rc.cpp
+	$(XGETTEXT) *.cpp -o $(podir)/widgets.pot
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
+
+#>+ 3
+subdialog.moc.cpp: $(srcdir)/subdialog.h
+	$(MOC) $(srcdir)/subdialog.h -o subdialog.moc.cpp
+
+#>+ 3
+groupbox.moc.cpp: $(srcdir)/groupbox.h
+	$(MOC) $(srcdir)/groupbox.h -o groupbox.moc.cpp
+
+#>+ 3
+tabwidget.moc.cpp: $(srcdir)/tabwidget.h
+	$(MOC) $(srcdir)/tabwidget.h -o tabwidget.moc.cpp
+
+#>+ 3
+buttongroup.moc.cpp: $(srcdir)/buttongroup.h
+	$(MOC) $(srcdir)/buttongroup.h -o buttongroup.moc.cpp
+
+#>+ 3
+dialog.moc.cpp: $(srcdir)/dialog.h
+	$(MOC) $(srcdir)/dialog.h -o dialog.moc.cpp
+
+#>+ 3
+execbutton.moc.cpp: $(srcdir)/execbutton.h
+	$(MOC) $(srcdir)/execbutton.h -o execbutton.moc.cpp
+
+#>+ 3
+radiobutton.moc.cpp: $(srcdir)/radiobutton.h
+	$(MOC) $(srcdir)/radiobutton.h -o radiobutton.moc.cpp
+
+#>+ 3
+myprocess.moc.cpp: $(srcdir)/myprocess.h
+	$(MOC) $(srcdir)/myprocess.h -o myprocess.moc.cpp
+
+#>+ 3
+textedit.moc.cpp: $(srcdir)/textedit.h
+	$(MOC) $(srcdir)/textedit.h -o textedit.moc.cpp
+
+#>+ 3
+combobox.moc.cpp: $(srcdir)/combobox.h
+	$(MOC) $(srcdir)/combobox.h -o combobox.moc.cpp
+
+#>+ 3
+spinboxint.moc.cpp: $(srcdir)/spinboxint.h
+	$(MOC) $(srcdir)/spinboxint.h -o spinboxint.moc.cpp
+
+#>+ 3
+lineedit.moc.cpp: $(srcdir)/lineedit.h
+	$(MOC) $(srcdir)/lineedit.h -o lineedit.moc.cpp
+
+#>+ 3
+fileselector.moc.cpp: $(srcdir)/fileselector.h
+	$(MOC) $(srcdir)/fileselector.h -o fileselector.moc.cpp
+
+#>+ 3
+listbox.moc.cpp: $(srcdir)/listbox.h
+	$(MOC) $(srcdir)/listbox.h -o listbox.moc.cpp
+
+#>+ 3
+closebutton.moc.cpp: $(srcdir)/closebutton.h
+	$(MOC) $(srcdir)/closebutton.h -o closebutton.moc.cpp
+
+#>+ 3
+wizard.moc.cpp: $(srcdir)/wizard.h
+	$(MOC) $(srcdir)/wizard.h -o wizard.moc.cpp
+
+#>+ 3
+checkbox.moc.cpp: $(srcdir)/checkbox.h
+	$(MOC) $(srcdir)/checkbox.h -o checkbox.moc.cpp
+
+#>+ 3
+clean-metasources:
+	-rm -f  subdialog.moc.cpp groupbox.moc.cpp tabwidget.moc.cpp buttongroup.moc.cpp dialog.moc.cpp execbutton.moc.cpp radiobutton.moc.cpp myprocess.moc.cpp textedit.moc.cpp combobox.moc.cpp spinboxint.moc.cpp lineedit.moc.cpp fileselector.moc.cpp listbox.moc.cpp closebutton.moc.cpp wizard.moc.cpp checkbox.moc.cpp
+
+#>+ 2
+docs-am:
+
+#>+ 6
+force-reedit:
+		cd $(top_srcdir) && \
+	$(AUTOMAKE) --gnu  widgets/Makefile
+	cd $(top_srcdir) && perl admin/am_edit widgets/Makefile.in
+
+
+#>+ 11
+libkommanderwidgets_la.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/assoctextwidget.cpp $(srcdir)/myprocess.cpp $(srcdir)/buttongroup.cpp $(srcdir)/ewidgetfactory.cpp $(srcdir)/subdialog.cpp $(srcdir)/checkbox.cpp $(srcdir)/closebutton.cpp $(srcdir)/combobox.cpp $(srcdir)/listbox.cpp $(srcdir)/wizard.cpp $(srcdir)/dialog.cpp $(srcdir)/tabwidget.cpp $(srcdir)/execbutton.cpp $(srcdir)/fileselector.cpp $(srcdir)/groupbox.cpp $(srcdir)/lineedit.cpp $(srcdir)/radiobutton.cpp $(srcdir)/spinboxint.cpp $(srcdir)/textedit.cpp $(srcdir)/tabwidget.moc.cpp $(srcdir)/dialog.moc.cpp $(srcdir)/combobox.moc.cpp $(srcdir)/fileselector.moc.cpp $(srcdir)/lineedit.moc.cpp $(srcdir)/closebutton.moc.cpp listbox.moc.cpp $(srcdir)/subdialog.moc.cpp $(srcdir)/groupbox.moc.cpp $(srcdir)/buttongroup.moc.cpp $(srcdir)/execbutton.moc.cpp $(srcdir)/radiobutton.moc.cpp $(srcdir)/myprocess.moc.cpp $(srcdir)/textedit.moc.cpp $(srcdir)/spinboxint.moc.cpp $(srcdir)/wizard.moc.cpp $(srcdir)/checkbox.moc.cpp 
+	@echo 'creating libkommanderwidgets_la.all_cpp.cpp ...'; \
+	rm -f libkommanderwidgets_la.all_cpp.files libkommanderwidgets_la.all_cpp.final; \
+	echo "#define KDE_USE_FINAL 1" >> libkommanderwidgets_la.all_cpp.final; \
+	for file in assoctextwidget.cpp myprocess.cpp buttongroup.cpp ewidgetfactory.cpp subdialog.cpp checkbox.cpp closebutton.cpp combobox.cpp listbox.cpp wizard.cpp dialog.cpp tabwidget.cpp execbutton.cpp fileselector.cpp groupbox.cpp lineedit.cpp radiobutton.cpp spinboxint.cpp textedit.cpp tabwidget.moc.cpp dialog.moc.cpp combobox.moc.cpp fileselector.moc.cpp lineedit.moc.cpp closebutton.moc.cpp listbox.moc.cpp subdialog.moc.cpp groupbox.moc.cpp buttongroup.moc.cpp execbutton.moc.cpp radiobutton.moc.cpp myprocess.moc.cpp textedit.moc.cpp spinboxint.moc.cpp wizard.moc.cpp checkbox.moc.cpp ; do \
+	  echo "#include \"$$file\"" >> libkommanderwidgets_la.all_cpp.files; \
+	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> libkommanderwidgets_la.all_cpp.final; \
+	done; \
+	cat libkommanderwidgets_la.all_cpp.final libkommanderwidgets_la.all_cpp.files > libkommanderwidgets_la.all_cpp.cpp; \
+	rm -f libkommanderwidgets_la.all_cpp.final libkommanderwidgets_la.all_cpp.files
+
+#>+ 3
+clean-final:
+	-rm -f libkommanderwidgets_la.all_cpp.cpp
+
+#>+ 2
+final:
+	$(MAKE) libkommanderwidgets_la_OBJECTS="$(libkommanderwidgets_la_final_OBJECTS)" all-am
+#>+ 2
+final-install:
+	$(MAKE) libkommanderwidgets_la_OBJECTS="$(libkommanderwidgets_la_final_OBJECTS)" install-am
+#>+ 2
+no-final:
+	$(MAKE) libkommanderwidgets_la_OBJECTS="$(libkommanderwidgets_la_nofinal_OBJECTS)" all-am
+#>+ 2
+no-final-install:
+	$(MAKE) libkommanderwidgets_la_OBJECTS="$(libkommanderwidgets_la_nofinal_OBJECTS)" install-am
+#>+ 3
+cvs-clean:
+	$(MAKE) admindir=$(top_srcdir)/admin -f $(top_srcdir)/admin/Makefile.common cvs-clean
+
+#>+ 3
+kde-rpo-clean:
+	-rm -f *.rpo
