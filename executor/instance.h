@@ -70,6 +70,7 @@ public:
   virtual void clearList(const QString &widgetName);
   virtual int findItem(const QString &widgetName, const QString& item);
   virtual void addUniqueItem(const QString &widgetName, const QString &item);
+  virtual void setPixmap(const QString& widgetName, const QString& iconName, int index);
   virtual void setCurrentListItem(const QString& widgetName, const QString &name);
   virtual void setCurrentTab(const QString &widgetName, int index);
   virtual void setChecked(const QString &widgetName, bool checked);

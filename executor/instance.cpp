@@ -304,6 +304,17 @@ void Instance::addUniqueItem(const QString &widgetName, const QString &item)
     kommanderWidget(child)->handleDCOP(DCOP::addUniqueItem, item);
 }
 
+void Instance::setPixmap(const QString &widgetName, const QString& iconName, int index)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+  {
+    QStringList args(iconName);
+    args += QString::number(index);
+    kommanderWidget(child)->handleDCOP(DCOP::setPixmap, args);
+  }
+}
+
 void Instance::clearList(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  

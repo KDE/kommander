@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <kglobal.h>
+#include <kiconloader.h>
 
 /* QT INCLUDES */
 #include <qobject.h>
@@ -136,6 +138,19 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       if (!found) found = findItem(args[0], Qt::Contains);
       if (found)
         return QString::number(index(found));
+      break;
+    }
+    case DCOP::setPixmap:
+    {
+      QPixmap pixmap = KGlobal::iconLoader()->loadIcon(args[0], KIcon::Small);
+      uint index = args[1].toUInt();
+      if (index == -1)
+      {
+        for (int i=0; i<count(); i++)
+          changeItem(pixmap, text(i), i);
+      }
+      else if (index < count())
+        changeItem(pixmap, text(index), index);
       break;
     }
     case DCOP::text:

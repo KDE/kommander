@@ -30,7 +30,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::currentItem, "currentItem(QString widget)");
   insert(DCOP::setCurrentItem, "setCurrentTab(QString widget, int index)");
   insertAlias(DCOP::setCurrentItem, "setCurrentItem");
-  insert(DCOP::setPixmap, "setPixmap(sQString widget, int index)");
+  insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)");
   insert(DCOP::item, "item(QString widget, int index)");
   insert(DCOP::itemPath, "itemPath(QString widget, int index)");
   insert(DCOP::itemDepth, "itemPath(QString widget, int index)");

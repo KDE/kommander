@@ -16,6 +16,8 @@
 
 /* KDE INCLUDES */
 #include <klocale.h>
+#include <kglobal.h>
+#include <kiconloader.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -246,6 +248,20 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     {
       QListViewItem* item = indexToItem(args[0].toInt());
       return (item) ? QString::number(item->depth()) : "-1";
+    }
+    case DCOP::setPixmap:
+    {
+      QPixmap pixmap = KGlobal::iconLoader()->loadIcon(args[0], KIcon::Small);
+      if (args[1].toInt() == -1)
+        for (QListViewItemIterator it(this); it.current(); ++it)
+          it.current()->setPixmap(0, pixmap);
+      else 
+      { 
+        QListViewItem* item = indexToItem(args[1].toInt());
+        if (item)
+          item->setPixmap(0, pixmap);
+      }
+      break;
     }
     default:
       break;

@@ -1,7 +1,9 @@
-Fri 02 Jul 2004 12:33:46 CEST
+Fri 02 Jul 2004 23:33:46 CEST
 	o more TreeView methods: itemDepth(ndex) and itemPath(index)
 	o setText, text and populate work for TreeView
 	o parser cleanup and fixes
+	o setPixmap(iconName, index) method for ListBoxes and TreeViews;
+	  use index = -1 to set pixmaps for all items
 
 Thu 01 Jul 2004 16:03:20 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o add children(QString widget) DCOP call, returning list of
