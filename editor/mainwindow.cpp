@@ -2953,7 +2953,10 @@ void MainWindow::setupActionManager()
 
         if ( !( menu = (QPopupMenu*)child( grp.latin1(), "QPopupMenu" ) ) ) {
             menu = new QPopupMenu( this, grp.latin1() );
-            menuBar()->insertItem( i18n( grp ), menu );
+            if (grp.isEmpty())
+              menuBar()->insertItem( grp, menu );
+            else
+              menuBar()->insertItem( i18n( grp ), menu );
         }
         if ( !( tb = (QToolBar*)child( grp.latin1(), "QToolBar" ) ) ) {
 #if defined(HAVE_KDE)
