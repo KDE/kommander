@@ -107,7 +107,7 @@ void FunctionsDialog::groupChanged(int index)
       for (uint i=0; i<pFunctions.count(); i++)
       {
         int pFunction = SpecialInformation::function(pGroup, pFunctions[i]);
-        if (a_atw->isFunctionSupported(pFunction) or a_atw->isCommonFunction(pFunction))
+        if (a_atw->isFunctionSupported(pFunction) || a_atw->isCommonFunction(pFunction))
           functionListBox->insertItem(pFunctions[i]);
       }
   }
