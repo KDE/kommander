@@ -171,7 +171,9 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
         return QString::null;
       else if (identifier == "execBegin")
         evalText += evalExecBlock(args, a_text, pos);  
-      else if (identifier == "forBegin")
+      else if (identifier == "forEach")
+        evalText += evalForEachBlock(args, a_text, pos);  
+      else if (identifier == "for")
         evalText += evalForBlock(args, a_text, pos);  
       else
         evalText += evalFunction(identifier, args);
@@ -497,6 +499,29 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   ok = success;
   return args;
 }
+
+QString KommanderWidget::substituteVariable(QString text, QString variable, QString value) const
+{
+  QString var = QString("@%1").arg(variable);
+  QString newtext;
+  int newpos, pos = 0;
+  while (true)
+  {
+    newpos = text.find(var, pos);
+    if (newpos != -1)
+    {
+      newtext += text.mid(pos, newpos-pos);
+      newtext += value;
+      pos = newpos + var.length();
+    } else
+    {
+      newtext += text.mid(pos);
+      break;
+    }
+  }
+  return newtext;
+}
+
 
 
 QObject* KommanderWidget::parentDialog() const

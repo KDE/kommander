@@ -100,36 +100,63 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
   {
     QString shell = args.count() ? args[0] : QString::null;
     int start = pos;
-    pos = f + QString("@execBegin").length() -1;
+    pos = f + QString("@execEnd").length()+1;
     return execCommand(evalAssociatedText(s.mid(start, f - start)), shell);
   }
 }
  
-QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s, int& pos) 
+QString KommanderWidget::evalForEachBlock(const QStringList& args, const QString& s, int& pos) 
 {
-  int f = s.find("@forEnd", pos);  
+  int f = s.find("@end", pos);  
+//FIXME: better detection of block boundaries  
   if (f == -1)
   {
-    printError(i18n("Unterminated @forBegin ... @forEnd block."));
+    printError(i18n("Unterminated @forEach ... @end block."));
     return QString::null;
   } 
   else
   {
     int start = pos;
-    pos = f + QString("@forBegin").length() -1;
+    pos = f + QString("@end").length()+1;
     QString block = s.mid(start, f - start);
     QString variable = args[0];
     QStringList loop = QStringList::split("\n", args[1]);
     QString output;
-    for (int i=0; i<loop.count(); i++)
+    for (uint i=0; i<loop.count(); i++)
+      output += evalAssociatedText(substituteVariable(block, variable, loop[i]));
+    return output;
+  }
+}
+
+QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s, int& pos) 
+{
+  int f = s.find("@end", pos);  
+//FIXME: better detection of block boundaries  
+  if (f == -1)
+  {
+    printError(i18n("Unterminated @forEach ... @end block."));
+    return QString::null;
+  } 
+  else
+  {
+    int start = pos;
+    pos = f + QString("@end").length()+1;
+    QString block = s.mid(start, f - start);
+    QString variable = args[0];
+    int loopstart = args[1].toInt();
+    int loopend = args[2].toInt();
+    int loopstep = args.count() > 3 ? args[3].toInt() : 1;
+    if (!loopstep)
+      loopstep = 1;
+    QString output;
+    for (int i=loopstart; i<=loopend; i+=loopstep)
     {
-      QString blockText = block;
-      blockText.replace(QString("@%1").arg(variable), loop[i]);
-      output += evalAssociatedText(blockText);
+      output += evalAssociatedText(substituteVariable(block, variable, QString::number(i)));
     }
     return output;
   }
 }
+
 
 QString KommanderWidget::evalArrayFunction(const QString& function, const QStringList& args) const
 {

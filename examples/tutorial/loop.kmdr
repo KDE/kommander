@@ -1,0 +1,114 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Looooop!</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="ExecButton" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>ExecButton1</cstring>
+            </property>
+            <property name="text">
+                <string>Enter loop!</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@forEach(i, @exec(ls))
+   @TreeWidget1.insertItem(@i\t@exec(wc -c "@i" | cut -f 1 -d ' '), -1)
+@end
+
+@for(olymp, 1900, 2006, 4)
+   @ListBox1.insertItem(@olymp, -1)
+@end</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="TreeWidget" row="0" column="0">
+            <column>
+                <property name="text">
+                    <string>File</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizeable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Size</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizeable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <property name="name">
+                <cstring>TreeWidget1</cstring>
+            </property>
+            <property name="fullWidth">
+                <bool>true</bool>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Olympiads:</string>
+                    </property>
+                </widget>
+                <widget class="ListBox">
+                    <property name="name">
+                        <cstring>ListBox1</cstring>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

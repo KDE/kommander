@@ -93,3 +93,8 @@ Shows how to get widget information
 Shows how to use statusbar widget
 - statusbar widget
 - populate
+
+* LOOP.KMDR
+Shows how to use internal loops
+- for
+- forEach

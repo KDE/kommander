@@ -65,7 +65,8 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::execBegin, "execBegin(QString shell)", 0);
   insert(Kommander::env, "env(QString variable)");
   insert(Kommander::exec, "exec(QString command)");
-  insert(Kommander::forBegin, "forBegin(QString variable, QString items)");
+  insert(Kommander::forEachBlock, "forEach(QString variable, QString items)");
+  insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)", 3);
   insert(Kommander::global, "global(QString variable)");
   insert(Kommander::dialog, "dialog(QString file, QString args)", 1);
   insert(Kommander::readSetting, "readSetting(QString key, QString default)");

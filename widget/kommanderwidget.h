@@ -58,6 +58,7 @@ public:
   virtual QString evalStringFunction(const QString&, const QStringList&) const;
   virtual QString evalFileFunction(const QString&, const QStringList&) const;
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos);
+  virtual QString evalForEachBlock(const QStringList&, const QString& s, int& pos);
   virtual QString evalForBlock(const QStringList&, const QString& s, int& pos);
   
   // Population text. It will become widgetText after populate() is called
@@ -113,7 +114,8 @@ protected:
   KommanderWidget* parseWidget(const QString& name) const;
   // Return parent dialog of this widget
   QObject* parentDialog() const;
-  
+  QString substituteVariable(QString text, QString variable, QString value) const;
+      
   QObject *m_thisObject;
   QStringList m_states;
   QStringList m_displayStates;
