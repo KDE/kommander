@@ -208,7 +208,7 @@ QVariant Expression::parseAdd()
   while (next() == "+" || next() == "-")
   {
     m_start++;
-    QVariant value2 = parseBracket();
+    QVariant value2 = parseMultiply();
     Type mode = commonType(value, value2);
     if (op == "+")
       if (mode == Double)
