@@ -119,8 +119,7 @@ QString SubDialog::selectedWidgetText() const
 
 void SubDialog::showDialog()
 {
-  if(m_dialog)
-    delete m_dialog;
+  delete m_dialog;
 
   KommanderFactory::loadPlugins();
   m_dialog = (QDialog *)KommanderFactory::create(kmdrFile());

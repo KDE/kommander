@@ -58,19 +58,15 @@ Instance::Instance(QString a_uiFileName, QWidget *a_parent)
 
 Instance::~Instance()
 {
-  if(m_instance)
-    delete m_instance;
+  delete m_instance;
 }
 
 /** Builds the instance */
 bool Instance::build()
 {
-  if(m_instance)
-  {
-    delete m_instance;
-    m_instance = 0;
-  }
-
+  delete m_instance;
+  m_instance = 0;
+ 
   if(m_uiFileName.isEmpty())
     return FALSE;
 
@@ -101,11 +97,8 @@ bool Instance::build(QFile *a_file)
 	if(!(a_file->isOpen()))
 		return FALSE;
 
-	if(m_instance)
-	{
-		delete m_instance;
-		m_instance = 0;
-	}
+	delete m_instance;
+	m_instance = 0;
 
 	KommanderFactory::loadPlugins();
 	m_instance = (QDialog *)KommanderFactory::create(a_file);
