@@ -114,8 +114,8 @@ void FunctionsDialog::functionChanged(int)
         defArgs = i18n("<p>Parameters are not obligatory.");
      else    
         defArgs = i18n("<p>Only first argument is obligatory.", 
-           "<p>Only first %1 arguments are obligatory.", 
-           m_function.minArg()).arg(m_function.minArg());
+           "<p>Only first %n arguments are obligatory.", 
+           m_function.minArg());
   
   uint pflags = SpecialFunction::ShowArgumentNames;
   if (m_function.maxArg() && m_function.argumentName(0) == "widget")
@@ -167,7 +167,7 @@ QString FunctionsDialog::params()
   QStringList pars;
   bool params = false;
   for (int i=0; i<4; i++)
-    if (edits[i]->isShown())
+    if (edits[i]->isShown() && (i < m_function.minArg() || !edits[i]->text().isEmpty()))
     {
       pars.append(edits[i]->text());
       params = true;

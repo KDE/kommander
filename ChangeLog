@@ -4,6 +4,10 @@ Mon 01 Nov 2004 23:29:19 CET - Michal Rudolf <mrudolf@kdewebdev.org>
 	  actions are displayed together with widgets. Some rare crashes 
 	  were fixed. Connect/disconnect button should be properly 
 	  enabled/disabled now. 
+	o Some tooltips for Function browser added.
+	o In Function Browser, don't add alone comma when optional
+	  parameter is empty.
+	o Added missing %n in i18n() string in Function Browser.
 
 Sun 31 Oct 2004 22:14:13 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o Complete rewrite of Signals & slots editor. All connections 
