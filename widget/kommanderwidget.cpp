@@ -131,6 +131,8 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
           evalText += kapp->dcopClient()->appId();
         else if (identifier == "pid")
           evalText += QString().setNum(getpid());
+        else if (identifier == "parentPid")
+          evalText += QString().setNum(getppid());
         else if (identifier == "selectedWidgetText")
           evalText += selectedWidgetText();
         else                    // see if this is an identifier
