@@ -1,3 +1,14 @@
+Tue 24 Aug 2004 11:00:16 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o Function Browser: don't show unnecessary 'widget' parameter
+	o Function Browser: make widget functions default
+	o Kommander Text Editor: focus on script text
+	o re-add new i18n descriptions for some new functions
+	o added new 'checked' function for checkboxes and buttonboxes
+	o bool values returned from DCOP calls are now supported
+
+Wed 18 Jul 2004 18:19:21 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o Kommander 1.0 released together with KDE 3.3	
+
 Wed 04 Jul 2004 23:59:21 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @switch..@case..@end statement
 	o added @if()...@endif statement
