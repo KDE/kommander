@@ -436,6 +436,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
   return QString::null;
 }
 
+
 QStringList KommanderWidget::parseArgs(const QString& s, bool &ok) const
 {
   QStringList argList;
@@ -443,20 +444,25 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok) const
   uint i, start = 0, brackets=0;
   for (i = 0; i < s.length(); i++) 
   {
-    if (!quoteDouble && s[i] == '\'' && s[i-1] != '\\')
-      quoteSingle = not quoteSingle;
-    else if (!quoteSingle && s[i] == '\"' && s[i-1] != '\\')
-      quoteDouble = not quoteDouble;
-    else if (!quoteSingle && !quoteDouble && s[i] == '(')
+    /* Handle brackets */
+    if (s[i] == '(' && !quoteSingle && !quoteDouble)
       brackets++;
-    else if (!quoteSingle && !quoteDouble && s[i] == ')')
+    else if (s[i] == ')' && !quoteSingle && !quoteDouble)
       brackets--;
-    else if (!quoteDouble && !quoteSingle && !brackets && s[i] == ',')
+    /* Ignore everything in brackets */
+    else if (!brackets) 
     {
-      QString arg = s.mid(start, i - start).stripWhiteSpace();
-      if (!arg.isEmpty())
-        argList.append(evalAssociatedText(parseQuotes(arg)));
-      start = i+1;
+      if (s[i] == '\'' && s[i-1] != '\\' && !quoteDouble)
+         quoteSingle = not quoteSingle;
+      else if (s[i] == '\"' && s[i-1] != '\\' && !quoteSingle)
+         quoteDouble = not quoteDouble;
+      else if (s[i] == ',' && !quoteDouble && !quoteSingle)
+      {
+        QString arg = s.mid(start, i - start).stripWhiteSpace();
+        if (!arg.isEmpty())
+          argList.append(evalAssociatedText(parseQuotes(arg)));
+        start = i+1;
+      }  
     }
   }
   if (!quoteDouble && !quoteSingle) 
