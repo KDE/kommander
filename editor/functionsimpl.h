@@ -36,6 +36,7 @@ public slots:
   void copyText();
   void showParameters();
 private:
+  int m_DCOP;
   QString params();
   SpecialFunction m_function;
 };  

@@ -115,6 +115,7 @@
     <display>
       <staticmembers>false</staticmembers>
       <demanglenames>true</demanglenames>
+      <outputradix>10</outputradix>
     </display>
   </kdevdebugger>
   <kdevfilecreate>
@@ -143,8 +144,8 @@
     <configurations>
       <default>
         <configargs>--with-kommander --enable-debug=full --prefix=/opt/kde3</configargs>
-        <builddir>/home/ja/programming/kde/kdewebdev/kommander/</builddir>
-        <topsourcedir>/home/ja/programming/kde/kdewebdev/kommander</topsourcedir>
+        <builddir>/home/ja/programming/kde/cvs/3.3/kdewebdev/kommander/</builddir>
+        <topsourcedir>/home/ja/programming/kde/cvs/3.3/kdewebdev</topsourcedir>
         <cppflags/>
         <ldflags/>
         <ccompiler>kdevgccoptions</ccompiler>
@@ -156,6 +157,7 @@
         <cflags/>
         <cxxflags/>
         <f77flags/>
+        <envvars/>
       </default>
     </configurations>
     <run>

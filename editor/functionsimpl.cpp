@@ -42,7 +42,14 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, char* a_name, bool a_modal)
   connect(functionListBox, SIGNAL(highlighted(int)), SLOT(functionChanged(int)));
   connect(copyButton, SIGNAL(clicked()), SLOT(copyText()));
   connect(clearButton, SIGNAL(clicked()), insertedText, SLOT(clear()));
-  groupComboBox->setCurrentItem(0);
+  m_DCOP = -1;    // Select DCOP functions by default
+  for (int i=0; i<groupComboBox->count(); i++)
+    if (groupComboBox->text(i) == "DCOP")
+    {
+      m_DCOP = i; 
+      break;
+    }
+  groupComboBox->setCurrentItem(m_DCOP);
   groupChanged(groupComboBox->currentItem());
 }
 
@@ -58,12 +65,12 @@ QString FunctionsDialog::functionText() const
 QString FunctionsDialog::currentFunctionText()
 {
   if (groupComboBox->currentText() == "Kommander")
-    return QString("@%1(%2)").arg(functionListBox->currentText()).arg(params());
+    return QString("@%1%2").arg(functionListBox->currentText()).arg(params());
   else if (groupComboBox->currentText() == "DCOP")
-    return QString("@%1.%2(%3)").arg(widgetComboBox->currentText().section(' ', 0, 0))
+    return QString("@%1.%2%3").arg(widgetComboBox->currentText().section(' ', 0, 0))
       .arg(functionListBox->currentText()).arg(params());
   else 
-    return QString("@%1.%2(%3)").arg(groupComboBox->currentText())
+    return QString("@%1.%2%3").arg(groupComboBox->currentText())
       .arg(functionListBox->currentText()).arg(params());
 }
 
@@ -107,8 +114,8 @@ void FunctionsDialog::copyText()
 
 void FunctionsDialog::showParameters()
 {
-  KLineEdit* edits[3] = {arg1Edit, arg2Edit, arg3Edit};
-  QLabel* labels[3] = {argLabel1, argLabel2, argLabel3};
+  KLineEdit* edits[4] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit};
+  QLabel* labels[4] = {argLabel1, argLabel2, argLabel3, argLabel4};
   int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
   
   widgetComboBox->setShown(start);
@@ -118,7 +125,7 @@ void FunctionsDialog::showParameters()
     arg1Edit->setShown(false);
     argLabel1->setShown(false);
   }
-  for (int i=start; i<3; i++)
+  for (int i=start; i<4; i++)
   {
     edits[i]->setShown(i<m_function.argumentCount());
     edits[i]->clear();
@@ -130,12 +137,20 @@ void FunctionsDialog::showParameters()
 
 QString FunctionsDialog::params()
 {
-  KLineEdit* edits[3] = {arg1Edit, arg2Edit, arg3Edit};
+  KLineEdit* edits[4] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit};
   QStringList pars;
-  for (int i=0; i<3; i++)
+  bool params = false;
+  for (int i=0; i<4; i++)
     if (edits[i]->isShown())
-      pars.append(edits[i]->text());
-  return pars.join(", ");
+  {
+    pars.append(edits[i]->text());
+    params = true;
+  }
+  QString a_param = pars.join(", ");
+  if (params)
+    return QString("(%1)").arg(a_param);
+  else
+    return a_param;
 }
 
 void FunctionsDialog::setWidgetList(const QStringList& list)
