@@ -105,7 +105,7 @@ QString ExecButton::selectedWidgetText() const
 
 void ExecButton::startProcess()
 {
-  QString at = evalAssociatedText();
+  QString at = evalAssociatedText().stripWhiteSpace();
   QString shellName = "/bin/sh";
   
   if (at.isEmpty())
