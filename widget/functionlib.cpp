@@ -29,6 +29,7 @@
 #include <kapplication.h>
 #include <kcolordialog.h>
 #include <kinputdialog.h>
+#include <kfiledialog.h>
 #include <kglobal.h>
 #include <klocale.h>
 
@@ -343,6 +344,7 @@ static ParseNode f_arrayFromString(Parser* P, const ParameterList& params)
  
 
 
+/********** input functions *********************/
 static ParseNode f_inputColor(Parser*, const ParameterList& params)
 {
   QColor color;
@@ -352,8 +354,6 @@ static ParseNode f_inputColor(Parser*, const ParameterList& params)
   return color.name();
 }
 
-
-
 static ParseNode f_inputText(Parser*, const ParameterList& params)
 {
   QString value;
@@ -362,7 +362,59 @@ static ParseNode f_inputText(Parser*, const ParameterList& params)
   return KInputDialog::getText(params[0].toString(), params[1].toString(), value);
 }
     
+static ParseNode f_inputValue(Parser*, const ParameterList& params)
+{
+  return KInputDialog::getInteger(params[0].toString(), params[1].toString(), 
+                                  params[2].toInt(), params[3].toInt(), params[4].toInt(),
+                                  params.count() > 5 ? params[5].toInt() : 1,
+                                  (bool*)0);
+}
+  
+static ParseNode f_inputOpenFile(Parser*, const ParameterList& params)
+{
+  QString startdir, filter, caption;
+  if (params.count() > 0)
+    startdir = params[0].toString();
+  if (params.count() > 1)
+    filter = params[1].toString();
+  if (params.count() > 2)
+    caption = params[2].toString();
+  return KFileDialog::getOpenFileName(startdir, filter, 0, caption);
+}
 
+static ParseNode f_inputOpenFiles(Parser*, const ParameterList& params)
+{
+  QString startdir, filter, caption;
+  if (params.count() > 0)
+    startdir = params[0].toString();
+  if (params.count() > 1)
+    filter = params[1].toString();
+  if (params.count() > 2)
+    caption = params[2].toString();
+  return KFileDialog::getOpenFileNames(startdir, filter, 0, caption).join("\n");
+}
+
+static ParseNode f_inputSaveFile(Parser*, const ParameterList& params)
+{
+  QString startdir, filter, caption;
+  if (params.count() > 0)
+    startdir = params[0].toString();
+  if (params.count() > 1)
+    filter = params[1].toString();
+  if (params.count() > 2)
+    caption = params[2].toString();
+  return KFileDialog::getSaveFileName(startdir, filter, 0, caption);
+}
+
+static ParseNode f_inputDirectory(Parser*, const ParameterList& params)
+{
+  QString startdir, caption;
+  if (params.count() > 0)
+    startdir = params[0].toString();
+  if (params.count() > 1)
+    caption = params[1].toString();
+  return KFileDialog::getExistingDirectory(startdir, 0, caption);
+}
 
 
 
@@ -403,5 +455,11 @@ void ParserData::registerStandardFunctions()
   registerFunction("array_remove", Function(&f_arrayRemove, ValueNone, ValueString, ValueString));
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
+  registerFunction("input_value", Function(&f_inputValue, ValueInt, ValueString, ValueString, ValueInt, ValueInt, 
+                   ValueInt, ValueInt, 5));
+  registerFunction("input_openfile", Function(&f_inputOpenFile, ValueString, ValueString, ValueString, ValueString, 0));
+  registerFunction("input_openfiles", Function(&f_inputOpenFiles, ValueString, ValueString, ValueString, ValueString, 0));
+  registerFunction("input_savefile", Function(&f_inputSaveFile, ValueString, ValueString, ValueString, ValueString, 0));
+  registerFunction("input_directory", Function(&f_inputDirectory, ValueString, ValueString, ValueString, 0));
 }
 

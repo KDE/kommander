@@ -76,6 +76,20 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
   m_maxArgs = max >= m_minArgs ? max : 4;
 }
 
+Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
+                   ValueType param4, ValueType param5, uint min, uint max)
+{
+  m_function = fp;
+  m_returnValue = value;
+  m_params.append(param1);
+  m_params.append(param2);
+  m_params.append(param3);
+  m_params.append(param4);
+  m_params.append(param5);
+  m_minArgs = min <= 5 ? min : 5;
+  m_maxArgs = max >= m_minArgs ? max : 5;
+}
+
 bool Function::isVoid() const
 {
   return returnValue() == ValueNone;
