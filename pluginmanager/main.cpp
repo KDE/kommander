@@ -33,6 +33,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "mainwindow.h"
+#include <kommanderversion.h>
 
 
 using std::cout;
@@ -45,8 +46,6 @@ static const char *description =
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
 
-#define VERSION "1.0alpha7"
-
 static KCmdLineOptions options[] =
 {
   KCmdLineLastOption
@@ -56,7 +55,7 @@ int main(int argc, char *argv[])
 {
   KLocale::setMainCatalogue("kommander");
   KAboutData aboutData( "kmdr-plugins", I18N_NOOP("Kommander Plugin Manager"),
-    VERSION, description, KAboutData::License_GPL,
+    KOMMANDER_VERSION, description, KAboutData::License_GPL,
     "(c) 2004, Marc Britton", 0, 0, "consume@optushome.com.au");
   aboutData.addAuthor("Marc Britton",0, "consume@optushome.com.au");
   KCmdLineArgs::init( argc, argv, &aboutData );

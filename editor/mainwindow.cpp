@@ -72,7 +72,7 @@
 #include "formfile.h"
 #include "specials.h"
 
-
+#include <kommanderversion.h>
 #include <qvbox.h>
 #include <kprocess.h>
 #include <qsettings.h>
@@ -83,12 +83,13 @@
 #include "assistproc.h"
 
 #include <kommanderwidget.h>
-#include "assoctexteditorimpl.h"
-#include <dialog.h>
 #include <kaboutdata.h>
 #include <kaboutkde.h>
 #include <kbugreport.h>
 #include <klocale.h>
+
+#include "assoctexteditorimpl.h"
+#include <dialog.h>
 
 static bool mblockNewForms = FALSE;
 extern QMap<QWidget*, QString> *qwf_functions;
@@ -503,7 +504,7 @@ void MainWindow::helpAboutQt()
 
 void MainWindow::helpReportBug()
 {
-    KAboutData aboutData("Kommander", I18N_NOOP("Kommander Editor"), "1.0alpha7");
+    KAboutData aboutData("Kommander", I18N_NOOP("Kommander Editor"), KOMMANDER_VERSION);
     KBugReport dlg(this, true, &aboutData);
     dlg.exec();
 }

@@ -1,5 +1,11 @@
-Fri 23 lip 2004 15:54:26 CEST
-	o add hourclass cursor when invoking ExecButton script with blocked GUI
+Fri 23 lip 2004 19:54:26 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added hourclass cursor when invoking ExecButton script with blocked GUI
+	o added missing i18n strings for *.ui files
+	o changed editor to use included background
+	o release 1.0beta1
+
+Fri 23 lip 2004 18:34:26 CEST - Eric Laffoon <eric@kdewebdev.org>
+	o added new background
 
 Thu 22 Jul 2004 22:17:49 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o ExecButton now has three modes: no blocking, block only ExecButton,
@@ -34,7 +40,7 @@ Wed 14 Jul 2004 12:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @String.args (based on Qt QString("%1").arg()
 	o support parameters in function browser
 
-Tue 13 Jul 2004 22:33:19 CEST
+Tue 13 Jul 2004 22:33:19 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added support for internationalizatiof Kommander dialogs
 	o added @i18n special for marking strings for translation
 

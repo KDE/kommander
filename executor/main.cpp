@@ -35,6 +35,7 @@
 #include <cstdlib>
 #include "instance.h"
 #include <iostream>
+#include <kommanderversion.h>
 
 using std::cout;
 using std::endl;
@@ -44,9 +45,6 @@ using std::cerr;
 static const char *description =
 	I18N_NOOP("Executor is a component of the Kommander dialog system that executes .kmdr files given as arguments or via stdin");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
-
-
-#define VERSION "1.0alpha7"
 
 static KCmdLineOptions options[] =
 {
@@ -58,7 +56,7 @@ static KCmdLineOptions options[] =
 int main(int argc, char *argv[])
 {
   KAboutData aboutData( "kmdr-executor", I18N_NOOP("Kommander Executor"),
-    VERSION, description, KAboutData::License_GPL,
+    KOMMANDER_VERSION, description, KAboutData::License_GPL,
     "(c) 2002, Marc Britton", 0, 0, "consume@optushome.com.au");
   aboutData.addAuthor("Marc Britton", 0, "consume@optushome.com.au");
   aboutData.addAuthor("Michal Rudolf", 0, "mrudolf@kdewebdev.org");
