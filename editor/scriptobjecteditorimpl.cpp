@@ -122,3 +122,5 @@ QMap<QString, QString> ScriptObjectEditor::scriptObjects() const
 {
 	return m_objects;
 }
+
+#include "scriptobjecteditorimpl.moc"
