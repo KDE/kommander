@@ -271,7 +271,7 @@ void MainWindow::setupLayoutActions()
 void MainWindow::setupToolActions()
 {
   qDebug("Setup Tool Actions");
-  actionPointerTool = new KToggleAction(i18n("Pointer"), createIconSet("pointer.xpm"), Key_F2,
+  actionPointerTool = new KToggleAction(i18n("Pointer"), "arrow", Key_F2,
                                         this, SLOT(toolSelected()), actionCollection(), 
                                         QString::number(POINTER_TOOL).latin1());
   actionPointerTool->setToolTip(i18n("Selects the pointer tool"));
@@ -449,7 +449,8 @@ void MainWindow::setupFileActions()
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
   a->plug(fileMenu);
 
-  a = new KAction(i18n("Save All"), KShortcut::null(), this, SLOT(fileSaveAll()), actionCollection(), "file_close_all");
+  a = new KAction(i18n("Save All"), "save_all", KShortcut::null(), this, SLOT(fileSaveAll()), 
+                  actionCollection(), "file_close_all");
   a->setToolTip(i18n("Saves all open dialogs"));
   a->setWhatsThis(whatsThisFrom("File|Save All"));
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
@@ -476,7 +477,7 @@ void MainWindow::setupRunActions()
   QPopupMenu *menu = new QPopupMenu(this, "Run");
   menuBar()->insertItem(i18n("&Run"), menu);
 
-  KAction* a = new KAction(i18n("Run Dialog"), createIconSet("previewform.xpm"), CTRL + Key_R,
+  KAction* a = new KAction(i18n("Run Dialog"), "run", CTRL + Key_R,
                            this, SLOT(runForm()), actionCollection(), "run");
   a->setToolTip(i18n("Executes dialog"));
   a->setWhatsThis(whatsThisFrom("Run|Run dialog"));

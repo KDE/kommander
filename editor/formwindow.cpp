@@ -1742,22 +1742,6 @@ bool FormWindow::checkCustomWidgets()
         missingCustomWidgets << className;
     }
   }
-
-#if 0
-// FIXME: is that required?
-  if (!missingCustomWidgets.isEmpty())
-  {
-    QString txt = i18n("The following custom widgets are used in '%1',\n"
-        "but are not known to Qt Designer:\n").arg(name());
-    for (QStringList::Iterator sit = missingCustomWidgets.begin();
-        sit != missingCustomWidgets.end(); ++sit)
-      txt += "   " + *sit + "\n";
-    txt += i18n("If you save this form and generate code for it using uic, \n"
-        "the generated code will not compile.\n" "Do you want to save this dialog now?");
-    if (KMessageBox::information(mainWindow(), txt, i18n("Save dialog?")) == 1)
-      return false;
-  }
-#endif
   return true;
 }
 

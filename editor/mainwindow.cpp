@@ -364,7 +364,7 @@ void MainWindow::toolSelected()
 {
   if (!(sender())->inherits("KAction"))
     return;
-  actionCurrentTool = (KToggleAction*)sender();
+  actionCurrentTool = (KAction*)sender();
   emit currentToolChanged();
   if (formWindow())
       formWindow()->commandHistory()->emitUndoRedo();
@@ -423,7 +423,9 @@ void MainWindow::showProperties( QObject *o )
 
 void MainWindow::resetTool()
 {
-    actionPointerTool->setEnabled( TRUE );
+  actionPointerTool->setChecked(TRUE);
+  actionCurrentTool = actionPointerTool;
+  emit currentToolChanged();
 }
 
 void MainWindow::updateProperties( QObject * )
@@ -2051,3 +2053,4 @@ QString MainWindow::whatsThisFrom( const QString &key )
     return menuHelpFile.mid( start, end - start + 1 );
 }
 #include "mainwindow.moc"
+
