@@ -108,6 +108,8 @@ QString RadioButton::handleDCOP(int function, const QStringList& args)
     case DCOP::setChecked:
       setChecked(args[0] != "false");
       break;
+    case DCOP::checked:
+      return QString::number(isOn());
     default:
       break;
   }
