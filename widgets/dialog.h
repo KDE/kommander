@@ -27,8 +27,10 @@ public:
 	virtual QString currentState() const;
 public slots:
 	virtual void setWidgetText(const QString &);
+	virtual void exec();
 signals:
 	void widgetTextChanged(const QString &);
+	void finished();
 protected:
 private:
 };

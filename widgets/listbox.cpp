@@ -53,6 +53,8 @@ void ListBox::setWidgetText(const QString &a_text)
 	*/
 	QStringList strings = QStringList::split("\n", a_text); // note : doesn't allow empty entries
 
+	clear();
+
 	insertStringList(strings);
 	
 	emit widgetTextChanged(a_text);

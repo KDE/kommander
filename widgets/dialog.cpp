@@ -52,3 +52,10 @@ QString Dialog::widgetText() const
 {
 	return caption();
 }
+
+void Dialog::exec()
+{
+	QDialog::exec();
+
+	emit finished();
+}

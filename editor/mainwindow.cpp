@@ -87,6 +87,8 @@
 #include "ewidgetfactory.h"
 #endif
 #include "formfile.h"
+#include "widgetfactory.h"
+
 
 #include <qvbox.h>
 #include <qprocess.h>
@@ -105,6 +107,7 @@
 
 #include <assoctextwidget.h>
 #include "assoctexteditorimpl.h"
+#include <dialog.h>
 
 static bool mblockNewForms = FALSE;
 extern QMap<QWidget*, QString> *qwf_functions;
@@ -1751,6 +1754,18 @@ void MainWindow::setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, in
 {
     int id;
 
+    // AssocTextWidget doesn't derive from QObject
+    AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(fw->mainContainer());
+    if(atw)
+    {
+	    if(ids.isEmpty())
+		    ids << rmbFormWindow->insertSeparator(0);
+
+	    ids << (id = rmbFormWindow->insertItem( tr("Edit Text Associations..." ), -1, 0));
+
+	    commands.insert("assoc", id);
+    }
+
     if ( fw->mainContainer()->inherits( "QWizard" ) ) {
 	if ( ids.isEmpty() )
 	    ids << rmbFormWindow->insertSeparator( 0 );
@@ -1848,13 +1863,14 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 	 if(!atw)
 	     return;
 
-	 atw->associatedText();
-
 	 AssocTextEditor *editor = new AssocTextEditor(w, atw, this, "AssocTextEditor", TRUE);
+	 QString caption = QString("Edit text association for widget \'%1\'").arg(w->name());
+	 editor->setCaption(caption);
+
 	 if(editor->exec())
 	 {
+   	 	QString text = QString("Set the \'text association\' of \'%1\'").arg(w->name());
 
-   	     QString text = QString("Set the 'associated text' of '%2'").arg(((QObject *)atw)->name());
 	     SetPropertyCommand *cmd  = new SetPropertyCommand(text, 
 				    formWindow(), w, propertyEditor,
 				    "associations", atw->associatedText(),
@@ -1895,6 +1911,33 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 
 void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands, FormWindow *fw )
 {
+    if(id == commands["assoc"])
+    {
+	 AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(fw->mainContainer()); 
+	 if(!atw)
+	     return;
+
+	 AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), atw, this, "AssocTextEditor", TRUE);
+	 QString caption = QString("Edit text association for widget \'%1\'").arg(fw->mainContainer()->name());
+	 editor->setCaption(caption);
+
+	 if(editor->exec())
+	 {
+   	 	QString text = QString("Set the \'text association\' of \'%1\'").arg(fw->mainContainer()->name());
+
+	     SetPropertyCommand *cmd  = new SetPropertyCommand(text, 
+				    formWindow(), fw, propertyEditor,
+				    "associations", atw->associatedText(),
+				    editor->associatedText(), QString::null,
+				    QString::null, FALSE);
+
+	     cmd->execute();
+	     formWindow()->commandHistory()->addCommand(cmd);
+
+	     MetaDataBase::setPropertyChanged( fw, "associations", TRUE );
+	 }
+	 delete editor;
+    }
     if ( fw->mainContainer()->inherits( "QWizard" ) ) {
 	QWizard *wiz = (QWizard*)fw->mainContainer();
 	if ( id == commands[ "add" ] ) {

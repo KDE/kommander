@@ -37,6 +37,7 @@ public slots:
 	void setKmdrFile(QString);
 	virtual void setWidgetText(const QString &);
 	virtual void showDialog();
+	virtual void slotFinished();
 signals:
 	void widgetTextChanged(const QString &);
 protected:

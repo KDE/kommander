@@ -82,4 +82,17 @@ void SubDialog::showDialog()
 	m_dialog = (QDialog *)EWidgetFactory::create(kmdrFile());
 	if(!m_dialog)
 		qWarning("Creation of sub dialog failed ..");
+	connect(m_dialog, SIGNAL(finished()), this, SLOT(slotFinished()));
+
+	m_dialog->exec();
+}
+
+void SubDialog::slotFinished()
+{
+	if(m_dialog)
+	{
+		AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(m_dialog);
+		if(atw)
+			emit widgetTextChanged(atw->evalAssociatedText());
+	}
 }

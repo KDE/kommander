@@ -47,7 +47,12 @@ void ComboBox::setAssociatedText(QStringList a_at)
 
 void ComboBox::setWidgetText(const QString &a_text)
 {
-	// FIXME : you can't set the combo items dynamically for now
+	QStringList strings = QStringList::split("\n", a_text);
+
+	clear();
+
+	insertStringList(strings);
+	
 	emit widgetTextChanged(a_text);
 }
 
