@@ -79,28 +79,53 @@ void Table::setWidgetText(const QString& a_text)
 
 bool Table::isFunctionSupported(int f)
 {
-  return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn 
-      || f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText;
+  return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
+      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText ||
+      f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
+      f == DCOP::setRowCaption;
 }
 
 QString Table::handleDCOP(int function, const QStringList& args)
 {
-  switch (function) {
+  switch (function) 
+  {
     case DCOP::cellText:
       return text(args[0].toInt(), args[1].toInt());
     case DCOP::setCellText:
       setText(args[0].toInt(), args[1].toInt(), args[2]);
       break;
     case DCOP::insertRow:
-      insertRows(args[0].toInt(), args.count());
+      insertRows(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());
       break;
     case DCOP::insertColumn:
-      insertColumns(args[0].toInt(), args.count());
+      insertColumns(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());
       break;
     case DCOP::currentColumn:
       return QString::number(currentColumn());
     case DCOP::currentRow:
       return QString::number(currentRow());
+    case DCOP::removeColumn:
+    {
+      int column = args[0].toInt();
+      int lines = args[1].toInt();
+      for (int i = 0; i < lines; i++)
+        removeColumn(column);
+      break;
+    }  
+    case DCOP::removeRow:
+    {
+      int row = args[0].toInt();
+      int lines = args[1].toInt();
+      for (int i = 0; i < lines; i++)
+        removeRow(row);
+      break;
+    }
+    case DCOP::setColumnCaption:
+      horizontalHeader()->setLabel(args[0].toInt(), args[1]);
+      break;
+    case DCOP::setRowCaption:
+      verticalHeader()->setLabel(args[0].toInt(), args[1]);
+      break;
   }  
   return QString::null;
 }

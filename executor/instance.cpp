@@ -503,7 +503,49 @@ QString Instance::cellText(const QString &widgetName, int row, int column)
   else return QString::null;
 }
 
+void Instance::removeRow(const QString &widgetName, int row, int count)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+  {
+    QStringList args(QString::number(row));
+    args += QString::number(count);
+    kommanderWidget(child)->handleDCOP(DCOP::removeRow, args);
+  }
+}
 
+void Instance::removeColumn(const QString &widgetName, int column, int count)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+  {
+    QStringList args(QString::number(column));
+    args += QString::number(count);
+    kommanderWidget(child)->handleDCOP(DCOP::removeColumn, args);
+  }
+}
+
+void Instance::setRowCaption(const QString &widgetName, int row, const QString& text)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+  {
+    QStringList args(QString::number(row));
+    args += text;
+    kommanderWidget(child)->handleDCOP(DCOP::setRowCaption, args);
+  }
+}
+
+void Instance::setColumnCaption(const QString &widgetName, int column, const QString& text)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+  {
+    QStringList args(QString::number(column));
+    args += text;
+    kommanderWidget(child)->handleDCOP(DCOP::setColumnCaption, args);
+  }
+}
 
 
 

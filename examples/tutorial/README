@@ -110,3 +110,14 @@ Shows how to use PixmapLabel widget using populate() function
 - populate
 - FileSelector
 - slots/connections
+
+* TABLE.KMDR
+Shows how to use Table widget
+- insertRow
+- insertColumn
+- currentRow
+- currentColumn
+- setColumnCaption
+- setRowCaption
+- removeRow
+- removeColumn

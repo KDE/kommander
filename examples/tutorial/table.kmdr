@@ -1,0 +1,258 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>629</width>
+            <height>313</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Table Demo</string>
+    </property>
+    <widget class="Table">
+        <column>
+            <property name="text">
+                <string>0</string>
+            </property>
+        </column>
+        <column>
+            <property name="text">
+                <string>1</string>
+            </property>
+        </column>
+        <row>
+            <property name="text">
+                <string>0</string>
+            </property>
+        </row>
+        <row>
+            <property name="text">
+                <string>1</string>
+            </property>
+        </row>
+        <row>
+            <property name="text">
+                <string>2</string>
+            </property>
+        </row>
+        <row>
+            <property name="text">
+                <string>3</string>
+            </property>
+        </row>
+        <row>
+            <property name="text">
+                <string>4</string>
+            </property>
+        </row>
+        <property name="name">
+            <cstring>Table</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>400</width>
+                <height>240</height>
+            </rect>
+        </property>
+        <property name="resizePolicy">
+            <enum>AutoOneFit</enum>
+        </property>
+        <property name="numRows">
+            <number>5</number>
+        </property>
+        <property name="numCols">
+            <number>2</number>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>Layout3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>470</x>
+                <y>10</y>
+                <width>135</width>
+                <height>160</height>
+            </rect>
+        </property>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>AddRowButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Add row</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Table.insertRow(@Table.currentRow, 1)</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>AddColButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Add column</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Table.insertColumn(@Table.currentColumn, 1)</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>ExecButton5</cstring>
+                </property>
+                <property name="text">
+                    <string>Remove row</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Table.removeRow(@Table.currentRow, 1)</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>ExecButton6</cstring>
+                </property>
+                <property name="text">
+                    <string>Remove Column</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Table.removeColumn(@Table.currentColumn, 1)</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <spacer>
+                <property name="name">
+                    <cstring>Spacer1</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Vertical</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>0</width>
+                        <height>30</height>
+                    </size>
+                </property>
+            </spacer>
+        </vbox>
+    </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>Layout4</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>270</y>
+                <width>585</width>
+                <height>28</height>
+            </rect>
+        </property>
+        <hbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>GetButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Get text</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@CellText.setText(@Table.cellText(@Table.currentRow,
+   @Table.currentColumn))</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="LineEdit">
+                <property name="name">
+                    <cstring>CellText</cstring>
+                </property>
+            </widget>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>SetButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Set text</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Table.setCellText(@Table.currentRow, @Table.currentColumn,
+   @CellText.text)</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>ColumnCaptionButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Set column name</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Table.setColumnCaption(@Table.currentColumn, @CellText.text)</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>RowCaptionButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Set row name</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Table.setRowCaption(@Table.currentRow, @CellText.text)</string>
+                    </stringlist>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

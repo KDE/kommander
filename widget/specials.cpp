@@ -49,7 +49,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::findItem, "findItem(QString widget, QString item)",
          i18n("Returns the index of an item with the given text."), 2);
   insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
-         i18n("Inserts new column at <i>column</i> position."), 2);
+         i18n("Inserts new column (or <i>count</i> columns) at <i>column</i> position."), 2);
   insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)",
          i18n("Inserts item at <i>index</i> position."), 3);
   insertAlias(DCOP::insertItem, "addListItem");
@@ -64,8 +64,13 @@ void SpecialInformation::registerSpecials()
          i18n("Returns the depth of the current item in the tree. Root items have depth 0."), 2);
   insert(DCOP::itemPath, "itemPath(QString widget, int index)",
          i18n("Returns the slash-separated path to the given item in the tree."), 2);
+  insert(DCOP::removeColumn, "removeColumn(QString widget, int row, int count)",
+         i18n("Removes the column (or <i>count</i> consecutive columns) with the given index."), 3);
   insert(DCOP::removeItem, "removeItem(QString widget, int index)",
          i18n("Removes the item with the given index."), 2);
+  insertAlias(DCOP::removeItem, "removeListItem");
+  insert(DCOP::removeRow, "removeRow(QString widget, int row, int count)",
+         i18n("Removes the row (or <i>count</i> consecutive rows) with the given index."), 3);
   insertAlias(DCOP::removeItem, "removeListItem");
   insert(DCOP::selection, "selection(QString widget)", 
          i18n("Returns selected text or text of current item."), 1);
@@ -78,6 +83,8 @@ void SpecialInformation::registerSpecials()
          i18n("Sets text of a cell in a table."), 4);
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)",
          i18n("Sets/unsets checkbox."), 2);
+  insert(DCOP::setColumnCaption, "setColumnCaption(QString widget, int column, QString text)",
+         i18n("Sets caption of the column <i>column</i>."), 3);
   insert(DCOP::setCurrentItem, "setCurrentItem(QString widget, int index)",
          i18n("Selects the item at the specified index. Indexes are zero based."), 2);
   insertAlias(DCOP::setCurrentItem, "setCurrentTab");
@@ -85,6 +92,8 @@ void SpecialInformation::registerSpecials()
          i18n("Sets maximum numeric value"), 2);
   insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)",
          i18n("Sets pixmap at the given index to the specified icon. Use <i>index = -1</i> to set the pixmap for all items."), 3);
+  insert(DCOP::setRowCaption, "setRowCaption(QString widget, int row, QString text)",
+         i18n("Sets caption of the row <i>row</i>."), 3);
   insert(DCOP::setSelection, "setSelection(QString widget, QString text)", 
          i18n("Selects given text or select item containing given text."), 2);
   insertAlias(DCOP::setSelection, "setCurrentListItem");

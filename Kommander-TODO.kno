@@ -19,7 +19,6 @@
 <div></div></ul>
 </body></html>
 
-
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Layout of Edit Kommander Text dialog</span></p>
@@ -39,7 +38,8 @@
 <li>DCOP editor (similar to Tag editor in Quanta)</li></ul>
 </body></html>
 
-\CurrentEntry 1 Usability
+\NewEntry 1 Usability
+\Link knowit://Source code
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Various GUI-related features</span></p>
 <ul type="disc"><li>clean up popup menus, remove disabled items</li>
@@ -56,7 +56,6 @@
 <li>improve order of widget icons</li>
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
-
 
 \NewEntry 1 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -197,8 +196,7 @@
 <li>handle multiple dialogs: they could be packaged in single *.tgz file, unpacked and executed internally</li></ul>
 </body></html>
 
-
-\NewEntry 0 Source code
+\CurrentEntry 0 Source code
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Kommander source code</span></p>
 <ul type="disc"><li>add comments</li>

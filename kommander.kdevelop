@@ -142,7 +142,7 @@
     </make>
     <general>
       <useconfiguration>default</useconfiguration>
-      <activetarget>widgets/libkommanderwidgets.la</activetarget>
+      <activetarget>widget/libkommanderwidget.la</activetarget>
     </general>
     <configurations>
       <default>

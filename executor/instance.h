@@ -100,6 +100,10 @@ public:
   virtual void insertColumn(const QString &widgetName, int column, int count);
   virtual void setCellText(const QString &widgetName, int row, int column, const QString& text);
   virtual QString cellText(const QString &widgetName, int row, int column);
+  virtual void removeRow(const QString &widgetName, int row, int count);
+  virtual void removeColumn(const QString &widgetName, int column, int count);
+  virtual void setRowCaption(const QString &widgetName, int row, const QString& text);
+  virtual void setColumnCaption(const QString &widgetName, int column, const QString& text);
    
 public slots:
   /** Builds the instance then executes it */

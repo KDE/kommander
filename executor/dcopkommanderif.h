@@ -70,6 +70,11 @@ virtual void insertRow(const QString &widgetName, int row, int count) = 0;
 virtual void insertColumn(const QString &widgetName, int column, int count) = 0;
 virtual void setCellText(const QString &widgetName, int row, int column, const QString& text) = 0;
 virtual QString cellText(const QString &widgetName, int row, int column) = 0;
+virtual void removeRow(const QString &widgetName, int row, int count) = 0;
+virtual void removeColumn(const QString &widgetName, int column, int count) = 0;
+virtual void setRowCaption(const QString &widgetName, int row, const QString& text) = 0;
+virtual void setColumnCaption(const QString &widgetName, int column, const QString& text) = 0;
+
 };
 
 #endif
