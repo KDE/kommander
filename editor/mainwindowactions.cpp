@@ -73,11 +73,15 @@
 #include "customwidgeteditorimpl.h"
 #include "actioneditorimpl.h"
 #include "formfile.h"
+#ifndef KOMMANDER
 #include "sourcefile.h"
+#endif
 #ifndef QT_NO_SQL
 #include "dbconnectionsimpl.h"
 #include "dbconnectionimpl.h"
 #endif
+
+#include "scriptobjecteditorimpl.h"
 
 #ifdef HAVE_KDE
 #include <kstatusbar.h>
@@ -184,6 +188,13 @@ void MainWindow::setupEditActions()
     connect( actionEditAccels, SIGNAL( activated() ), this, SLOT( editAccels() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditAccels, SLOT( setEnabled(bool) ) );
 
+    //Script Objects Action
+    actionEditScriptObjects = new QAction(tr("Script Objects"), QPixmap(), tr("&Script Objects"), ALT + Key_S, this);
+    actionEditScriptObjects->setStatusTip(tr("Opens the script object editor."));
+    actionEditScriptObjects->setWhatsThis("Script Objects Editor.");
+    connect(actionEditScriptObjects, SIGNAL(activated()), this, SLOT(editScriptObjects()));
+    connect(this, SIGNAL(hasActiveForm(bool)), actionEditScriptObjects, SLOT(setEnabled(bool)));
+
 
     actionEditSlots = new QAction( tr( "Slots" ), createIconSet("editslots.xpm"),
            tr( "S&lots..." ), 0, this, 0 );
@@ -259,6 +270,7 @@ void MainWindow::setupEditActions()
     actionEditRaise->addTo( menu );
 #endif
     menu->insertSeparator();
+    actionEditScriptObjects->addTo(menu);
     actionEditSlots->addTo( menu );
     actionEditConnections->addTo( menu );
     actionEditFormSettings->addTo( menu );
@@ -266,9 +278,9 @@ void MainWindow::setupEditActions()
     actionEditPreferences->addTo( menu );
 }
 
+#ifndef KOMMANDER
 void MainWindow::setupSearchActions()
 {
-#ifndef KOMMANDER
     actionSearchFind = new QAction( tr( "Find" ), createIconSet( "searchfind.xpm" ),
             tr( "&Find..." ), CTRL + Key_F, this, 0 );
     connect( actionSearchFind, SIGNAL( activated() ), this, SLOT( searchFind() ) );
@@ -318,8 +330,8 @@ void MainWindow::setupSearchActions()
     actionSearchReplace->addTo( menu );
     menu->insertSeparator();
     actionSearchGotoLine->addTo( menu );
-#endif
 }
+#endif
 
 void MainWindow::setupLayoutActions()
 {
@@ -978,7 +990,7 @@ void MainWindow::setupHelpActions()
 
 void MainWindow::fileNew()
 {
-
+	qDebug(sender()->name());
     statusBar()->message( tr( "Create a new dialog...") );
 #if 1
     NewForm dlg( this, QString::null);
@@ -1055,8 +1067,10 @@ void MainWindow::fileClose()
       emit removedFormFile(((FormWindow *)w)->formFile());
       ( (FormWindow*)w )->formFile()->close();
   }
+  #ifndef KOMMANDER
   else if ( w->inherits( "SourceEditor" ) )
       ( (SourceEditor*)w )->close();
+      #endif
 #endif
 }
 
@@ -1165,7 +1179,9 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
 {
     statusBar()->message( tr( "Open a file...") );
 
+#ifndef KOMMANDER
     QPluginManager<ImportFilterInterface> manager( IID_ImportFilter, QApplication::libraryPaths(), "/designer" );
+#endif
 
 #ifndef KOMMANDER
     Project* project = inProject ? currentProject : eProject;
@@ -1368,14 +1384,17 @@ bool MainWindow::fileSave()
 
 bool MainWindow::fileSaveForm()
 {
+    FormWindow *fw = 0;
+#ifndef KOMMANDER
     for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() ) {
   if ( e->object() == formWindow() || e == qWorkspace()->activeWindow() ) {
       e->save();
   }
     }
+#endif
 
-    FormWindow *fw = 0;
 
+    #ifndef KOMMANDER
     QWidget *w = qWorkspace()->activeWindow();
     if ( w ) {
   if ( w->inherits( "SourceEditor" ) ) {
@@ -1388,6 +1407,7 @@ bool MainWindow::fileSaveForm()
       }
   }
     }
+    #endif
 
     if ( !fw )
   fw = formWindow();
@@ -1415,8 +1435,10 @@ bool MainWindow::fileSaveAs()
   return TRUE;
     if ( w->inherits( "FormWindow" ) )
   return ( (FormWindow*)w )->formFile()->saveAs();
+  #ifndef KOMMANDER
     else if ( w->inherits( "SourceEditor" ) )
   return ( (SourceEditor*)w )->saveAs();
+  #endif
     return FALSE;
 }
 
@@ -1551,55 +1573,65 @@ void MainWindow::createNewTemplate()
 
 void MainWindow::editUndo()
 {
+#ifndef KOMMANDER
     if ( qWorkspace()->activeWindow() &&
    qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
   ( (SourceEditor*)qWorkspace()->activeWindow() )->editUndo();
   return;
     }
+#endif
     if ( formWindow() )
   formWindow()->undo();
 }
 
 void MainWindow::editRedo()
 {
+#ifndef KOMMANDER
     if ( qWorkspace()->activeWindow() &&
    qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
   ( (SourceEditor*)qWorkspace()->activeWindow() )->editRedo();
   return;
     }
+#endif
     if ( formWindow() )
   formWindow()->redo();
 }
 
 void MainWindow::editCut()
 {
+#ifndef KOMMANDER
     if ( qWorkspace()->activeWindow() &&
    qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
   ( (SourceEditor*)qWorkspace()->activeWindow() )->editCut();
   return;
     }
+#endif
     editCopy();
     editDelete();
 }
 
 void MainWindow::editCopy()
 {
+#ifndef KOMMANDER
     if ( qWorkspace()->activeWindow() &&
    qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
   ( (SourceEditor*)qWorkspace()->activeWindow() )->editCopy();
   return;
     }
+#endif
     if ( formWindow() )
   qApp->clipboard()->setText( formWindow()->copy() );
 }
 
 void MainWindow::editPaste()
 {
+#ifndef KOMMANDER
     if ( qWorkspace()->activeWindow() &&
    qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
   ( (SourceEditor*)qWorkspace()->activeWindow() )->editPaste();
   return;
     }
+#endif
     if ( !formWindow() )
   return;
 
@@ -1634,11 +1666,13 @@ void MainWindow::editDelete()
 
 void MainWindow::editSelectAll()
 {
+#ifndef KOMMANDER
     if ( qWorkspace()->activeWindow() &&
    qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
   ( (SourceEditor*)qWorkspace()->activeWindow() )->editSelectAll();
   return;
     }
+    #endif
     if ( formWindow() )
   formWindow()->selectAll();
 }
@@ -1801,16 +1835,25 @@ void MainWindow::editConnections()
     statusBar()->clear();
 }
 
+void MainWindow::editScriptObjects()
+{
+	ScriptObjectEditor *ed = new ScriptObjectEditor(this);
+	ed->exec();
+	delete ed;
+}
+
+#ifndef KOMMANDER
 SourceEditor *MainWindow::editSource()
 {
     if ( !formWindow() )
   return 0;
     return formWindow()->formFile()->showEditor();
 }
+#endif
 
+#ifndef KOMMANDER
 SourceEditor *MainWindow::openSourceEdior()
 {
-#ifndef KOMMANDER
     if ( !formWindow() )
   return 0;
     SourceEditor *editor = 0;
@@ -1850,14 +1893,12 @@ SourceEditor *MainWindow::openSourceEdior()
     editor->setFocus();
     emit editorChanged();
     return editor;
-#else
-    return 0;
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 SourceEditor *MainWindow::editSource( SourceFile *f )
 {
-#ifndef KOMMANDER
     SourceEditor *editor = 0;
     QString lang = currentProject->language();
     if ( !MetaDataBase::hasEditor( lang ) ) {
@@ -1890,12 +1931,10 @@ SourceEditor *MainWindow::editSource( SourceFile *f )
     editor->show();
     editor->setFocus();
     emit editorChanged();
-    return editor;
-#else
     Q_UNUSED(f);
-    return 0;
-#endif
+    return editor;
 }
+#endif
 
 void MainWindow::editFormSettings()
 {
@@ -1925,6 +1964,7 @@ void MainWindow::editPixmapCollection()
 }
 #endif
 
+#ifndef KOMMANDER
 void MainWindow::editDatabaseConnections()
 {
 #ifndef QT_NO_SQL
@@ -1932,6 +1972,7 @@ void MainWindow::editDatabaseConnections()
     dia.exec();
 #endif
 }
+#endif
 
 void MainWindow::editPreferences()
 {
@@ -1961,7 +2002,8 @@ void MainWindow::editPreferences()
     dia->checkAutoEdit->setChecked( !databaseAutoEdit );
     connect( dia->buttonDocPath, SIGNAL( clicked() ),
        this, SLOT( chooseDocPath() ) );
-
+#ifndef KOMMANDER
+/* DITCH EVERYTHING TO DO WITH THE PREFERENCE INTERFACE - WE DON'T NEED IT FOR KOMMANDER */
     SenderObject *senderObject = new SenderObject( designerInterface() );
     QValueList<Tab>::Iterator it;
     for ( it = preferenceTabs.begin(); it != preferenceTabs.end(); ++it ) {
@@ -1975,6 +2017,7 @@ void MainWindow::editPreferences()
       disconnect( senderObject, SIGNAL( initSignal( QUnknownInterface * ) ), t.receiver, t.init_slot );
   }
     }
+#endif
 
     if ( dia->exec() == QDialog::Accepted ) {
   setSnapGrid( dia->checkBoxGrid->isChecked() );
@@ -1995,6 +2038,8 @@ void MainWindow::editPreferences()
   docPath = dia->editDocPath->text();
   databaseAutoEdit = !dia->checkAutoEdit->isChecked();
     }
+#ifndef KOMMANDER
+/* BYE BYE INTERFACES */
     delete senderObject;
     for ( it = preferenceTabs.begin(); it != preferenceTabs.end(); ++it ) {
   Tab t = *it;
@@ -2004,7 +2049,7 @@ void MainWindow::editPreferences()
 
     for ( SourceEditor *e = sourceEditors.first(); e; e = sourceEditors.next() )
   e->configChanged();
-
+#endif
     delete dia;
     prefDia = 0;
     statusBar()->clear();
@@ -2019,9 +2064,9 @@ void MainWindow::chooseDocPath()
   prefDia->editDocPath->setText( fn );
 }
 
+#ifndef KOMMANDER
 void MainWindow::searchFind()
 {
-#ifndef KOMMANDER
     if ( !qWorkspace()->activeWindow() ||
    !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
    return;
@@ -2034,44 +2079,44 @@ void MainWindow::searchFind()
          ( (SourceEditor*)qWorkspace()->activeWindow() )->object() );
     findDialog->comboFind->setFocus();
     findDialog->comboFind->lineEdit()->selectAll();
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void MainWindow::searchIncremetalFindMenu()
 {
-#ifndef KOMMANDER
     incrementalSearch->selectAll();
     incrementalSearch->setFocus();
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void MainWindow::searchIncremetalFind()
 {
-#ifndef KOMMANDER
     if ( !qWorkspace()->activeWindow() ||
    !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
    return;
 
     ( (SourceEditor*)qWorkspace()->activeWindow() )->editorInterface()->find( incrementalSearch->text(),
                        FALSE, FALSE, TRUE, FALSE );
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void MainWindow::searchIncremetalFindNext()
 {
-#ifndef KOMMANDER
     if ( !qWorkspace()->activeWindow() ||
    !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
    return;
 
     ( (SourceEditor*)qWorkspace()->activeWindow() )->editorInterface()->find( incrementalSearch->text(),
                        FALSE, FALSE, TRUE, TRUE );
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void MainWindow::searchReplace()
 {
-#ifndef KOMMANDER
     if ( !qWorkspace()->activeWindow() ||
    !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
    return;
@@ -2084,12 +2129,12 @@ void MainWindow::searchReplace()
          ( (SourceEditor*)qWorkspace()->activeWindow() )->object() );
     replaceDialog->comboFind->setFocus();
     replaceDialog->comboFind->lineEdit()->selectAll();
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void MainWindow::searchGotoLine()
 {
-#ifndef KOMMANDER
     if ( !qWorkspace()->activeWindow() ||
    !qWorkspace()->activeWindow()->inherits( "SourceEditor" ) )
    return;
@@ -2103,8 +2148,8 @@ void MainWindow::searchGotoLine()
     gotoLineDialog->spinLine->setMinValue( 1 );
     gotoLineDialog->spinLine->setMaxValue( ( (SourceEditor*)qWorkspace()->activeWindow() )->numLines() );
     gotoLineDialog->spinLine->selectAll();
-#endif
 }
+#endif
 
 void MainWindow::toolsCustomWidget()
 {

@@ -26,7 +26,9 @@
 #include <qtabwidget.h>
 #include <qguardedptr.h>
 #include <private/qcom_p.h>
+#ifndef KOMMANDER
 #include "classbrowserinterface.h"
+#endif
 
 class FormWindow;
 class QCloseEvent;
@@ -34,7 +36,9 @@ class QPopupMenu;
 class QKeyEvent;
 class QMouseEvent;
 class QWizard;
-class SourceEditor;
+#ifndef KOMMANDER
+    class SourceEditor;
+#endif
 
 class HierarchyItem : public QListViewItem
 {
@@ -139,11 +143,15 @@ public:
 
     void setFormWindow( FormWindow *fw, QWidget *w );
     FormWindow *formWindow() const;
+#ifndef KOMMANDER
     SourceEditor *sourceEditor() const { return editor; }
+#endif
     void clear();
 
+#ifndef KOMMANDER
     void showClasses( SourceEditor *se );
     void updateClassBrowsers();
+#endif
 
     void widgetInserted( QWidget *w );
     void widgetRemoved( QWidget *w );
@@ -157,8 +165,10 @@ public:
     void closed( FormWindow *fw );
 
 protected slots:
-    void jumpTo( const QString &func, const QString &clss,int type );
-    void showClassesTimeout();
+#ifndef KOMMANDER
+//    void jumpTo( const QString &func, const QString &clss,int type );
+//    void showClassesTimeout();
+#endif
 
 protected:
     void closeEvent( QCloseEvent *e );
@@ -167,6 +177,7 @@ signals:
     void hidden();
 
 private:
+#ifndef KOMMANDER
     struct ClassBrowser
     {
 	ClassBrowser( QListView * = 0, ClassBrowserInterface * = 0 );
@@ -174,11 +185,12 @@ private:
 	QListView *lv;
 	QInterfacePtr<ClassBrowserInterface> iface;
     };
+    SourceEditor *editor;
+    QGuardedPtr<SourceEditor> lastSourceEditor;
+    QMap<QString, ClassBrowser> *classBrowsers;
+    #endif
     FormWindow *formwindow;
     HierarchyList *listview;
-    SourceEditor *editor;
-    QMap<QString, ClassBrowser> *classBrowsers;
-    QGuardedPtr<SourceEditor> lastSourceEditor;
 
 };
 

@@ -201,10 +201,13 @@ int main( int argc, char *argv[] )
 	    } else {
 		creatPid = TRUE;
 	    }
-	} else if(arg1 == "-debug_stderr") {
+	} 
+	#ifndef KOMMANDER
+	else if(arg1 == "-debug_stderr") {
 	    extern bool debugToStderr; //outputwindow.cpp
 	    debugToStderr = TRUE;
 	}
+	#endif
     }
 
     if ( creatPid ) {

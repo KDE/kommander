@@ -25,9 +25,13 @@
 #endif
 #include "formwindow.h"
 #include "command.h"
+#ifndef KOMMANDER
 #include "sourceeditor.h"
+#endif
 #include "mainwindow.h"
+#ifndef KOMMANDER
 #include "languageinterface.h"
+#endif
 #include "resource.h"
 #include "workspace.h"
 #include <qmessagebox.h>
@@ -64,8 +68,7 @@ FormFile::FormFile( const QString &fn, bool temp, Project *p )
       timeStamp( 0, fn + codeExtension() ), codeEdited( FALSE ), cm( FALSE )
 #else
 FormFile::FormFile( const QString &fn, bool temp )
-    : filename( fn ), fileNameTemp( temp ), fw( 0 ), ed( 0 ),
-      timeStamp( 0, fn + codeExtension() ), codeEdited( FALSE ), cm( FALSE )
+    : filename( fn ), fileNameTemp( temp ), fw( 0 )
 #endif
 {
 #ifndef KOMMANDER
@@ -82,6 +85,8 @@ FormFile::FormFile( const QString &fn, bool temp )
   connect(this, SIGNAL(addedFormFile(FormFile *)), MainWindow::self->workspace(), SLOT(formFileAdded(FormFile *)));
   connect(this, SIGNAL(removedFormFile(FormFile *)), MainWindow::self->workspace(), SLOT(formFileRemoved(FormFile *)));
   emit addedFormFile(this);
+#endif
+#ifndef KOMMANDER
     seperateSource = FALSE;
 #endif
 
@@ -105,14 +110,18 @@ void FormFile::setFormWindow( FormWindow *f )
     fw = f;
     if ( fw )
   fw->setFormFile( this );
+  #ifndef KOMMANDER
     if ( seperateSource )
   parseCode( cod, FALSE );
+  #endif
 }
 
+#ifndef KOMMANDER
 void FormFile::setEditor( SourceEditor *e )
 {
     ed = e;
 }
+#endif
 
 void FormFile::setFileName( const QString &fn )
 {
@@ -125,25 +134,31 @@ void FormFile::setFileName( const QString &fn )
   return;
     }
     filename = fn;
+#ifndef KOMMANDER
     timeStamp.setFileName( filename + codeExtension() );
     cod = "";
     loadCode();
+#endif
 }
 
+#ifndef KOMMANDER
 void FormFile::setCode( const QString &c )
 {
     cod = c;
 }
+#endif
 
 FormWindow *FormFile::formWindow() const
 {
     return fw;
 }
 
+#ifndef KOMMANDER
 SourceEditor *FormFile::editor() const
 {
     return ed;
 }
+#endif
 
 QString FormFile::fileName() const
 {
@@ -159,6 +174,7 @@ QString FormFile::absFileName() const
 #endif
 }
 
+#ifndef KOMMANDER
 QString FormFile::codeFile() const
 {
     return filename + codeExtension();
@@ -200,6 +216,7 @@ QString FormFile::code()
     return QString::null;
 #endif
 }
+#endif
 
 bool FormFile::save( bool withMsgBox )
 {
@@ -209,35 +226,38 @@ bool FormFile::save( bool withMsgBox )
   return saveAs();
     if ( !isModified() )
   return TRUE;
+#ifndef KOMMANDER
     if ( ed )
   ed->save();
     else if ( !cm )
   loadCode();
-
+#endif
+#ifndef KOMMANDER
     if ( isModified( WFormWindow ) ) {
+#else
+    if(isModified()) {
+#endif
   if ( withMsgBox ) {
       if ( !formWindow()->checkCustomWidgets() )
     return FALSE;
+  }
   }
 
 #ifndef KOMMANDER
   if ( QFile::exists( pro->makeAbsolute( filename ) ) ) {
       QString fn( pro->makeAbsolute( filename ) );
-#else
+
   if(QFile::exists(filename))
   {
       QString fn(filename);
-#endif
 #if defined(Q_OS_WIN32)
       fn += ".bak";
 #else
       fn += "~";
 #endif
-#ifndef KOMMANDER
+
       QFile f( pro->makeAbsolute( filename ) );
-#else
       QFile f(filename);
-#endif
       if ( f.open( IO_ReadOnly ) ) {
     QFile f2( fn );
     if ( f2.open( IO_WriteOnly | IO_Translate ) ) {
@@ -250,6 +270,7 @@ bool FormFile::save( bool withMsgBox )
       }
   }
     }
+#endif
 
 #ifndef KOMMANDER
     cm = FALSE;
@@ -293,7 +314,9 @@ bool FormFile::save( bool withMsgBox )
     }
 #endif
     MainWindow::self->statusBar()->message( tr( "'%1' saved.").arg(filename), 3000);
+#ifndef KOMMANDER
     timeStamp.update();
+#endif
     setModified( FALSE );
     return TRUE;
 }
@@ -364,21 +387,23 @@ bool FormFile::saveAs()
 #ifndef KOMMANDER
     pro->setModified( TRUE );
     timeStamp.setFileName( pro->makeAbsolute( codeFile() ) );
-#else
-    timeStamp.setFileName(codeFile());
 #endif
+#ifndef KOMMANDER
     if ( ed )
   ed->setCaption( tr( "Edit %1" ).arg( formWindow()->name() ) );
+#endif
     setModified( TRUE );
     return save();
 }
 
 bool FormFile::close()
 {
+#ifndef KOMMANDER
     if ( editor() ) {
   editor()->save();
   editor()->close();
     }
+#endif
     if ( formWindow() )
   return formWindow()->close();
     return TRUE;
@@ -400,8 +425,10 @@ bool FormFile::closeEvent()
       return TRUE;
   }
 
+#ifndef KOMMANDER
     if ( editor() )
   editor()->save();
+  #endif
 
     switch ( QMessageBox::warning( MainWindow::self, tr( "Save Form" ),
            tr( "Save changes to form '%1'?" ).arg( filename ),
@@ -410,10 +437,10 @@ bool FormFile::closeEvent()
   if ( !save() )
       return FALSE;
     case 1: // don't save
+#ifndef KOMMANDER
   loadCode();
   if ( ed )
       ed->editorInterface()->setText( cod );
-#ifndef KOMMANDER
   if ( fileNameTemp )
       pro->removeFormFile( this );
 #endif
@@ -427,11 +454,14 @@ bool FormFile::closeEvent()
 
   emit removedFormFile(this);
     setModified( FALSE );
+    #ifndef KOMMANDER
     MainWindow::self->updateFunctionList(); // TODO
     setCodeEdited( FALSE );
+    #endif
     return TRUE;
 }
 
+#ifndef KOMMANDER
 void FormFile::setModified( bool m, int who )
 {
     if ( ( who & WFormWindow ) == WFormWindow )
@@ -439,14 +469,28 @@ void FormFile::setModified( bool m, int who )
     if ( ( who & WFormCode ) == WFormCode )
   setCodeModified( m );
 }
-
-bool FormFile::isModified( int who )
+#else
+void FormFile::setModified( bool m )
 {
+  setFormWindowModified( m );
+}
+#endif
+
+#ifndef KOMMANDER
+bool FormFile::isModified( int who )
+#else
+bool FormFile::isModified()
+#endif
+{
+#ifndef KOMMANDER
     if ( who == WFormWindow )
   return isFormWindowModified();
     if ( who == WFormCode )
   return isCodeModified();
     return isCodeModified() || isFormWindowModified();
+#else
+	return isFormWindowModified();
+#endif
 }
 
 bool FormFile::isFormWindowModified() const
@@ -456,12 +500,14 @@ bool FormFile::isFormWindowModified() const
     return formWindow()->commandHistory()->isModified();
 }
 
+#ifndef KOMMANDER
 bool FormFile::isCodeModified() const
 {
     if ( !editor() )
   return cm;
     return editor()->isModified();
 }
+#endif
 
 void FormFile::setFormWindowModified( bool m )
 {
@@ -474,6 +520,7 @@ void FormFile::setFormWindowModified( bool m )
     emit somethingChanged( this );
 }
 
+#ifndef KOMMANDER
 void FormFile::setCodeModified( bool m )
 {
     bool b = isCodeModified();
@@ -485,6 +532,7 @@ void FormFile::setCodeModified( bool m )
   return;
     editor()->setModified( m );
 }
+#endif
 
 void FormFile::showFormWindow()
 {
@@ -499,6 +547,7 @@ void FormFile::showFormWindow()
 #endif
 }
 
+#ifndef KOMMANDER
 SourceEditor *FormFile::showEditor()
 {
     showFormWindow();
@@ -512,6 +561,7 @@ SourceEditor *FormFile::showEditor()
   setModified( TRUE );
     return e;
 }
+#endif
 
 static int ui_counter = 0;
 QString FormFile::createUnnamedFileName()
@@ -523,6 +573,7 @@ QString FormFile::createUnnamedFileName()
 #endif
 }
 
+#ifndef KOMMANDER
 QString FormFile::codeExtension() const
 {
 #ifndef KOMMANDER
@@ -532,6 +583,7 @@ QString FormFile::codeExtension() const
 #endif
     return "";
 }
+#endif
 
 static const char * const comment =
 "/****************************************************************************\n"
@@ -543,16 +595,18 @@ static const char * const comment =
 "*****************************************************************************/\n";
 
 
+#ifndef KOMMANDER
 bool FormFile::hasFormCode() const
 {
     if ( seperateSource )
   return !cod.isEmpty() && cod != QString( comment );
     return TRUE;
 }
+#endif
 
+#ifndef KOMMANDER
 void FormFile::createFormCode()
 {
-#ifndef KOMMANDER
     if ( !formWindow() )
   return;
     LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
@@ -571,12 +625,12 @@ void FormFile::createFormCode()
          "\n" + iface->createEmptyFunction();
     }
     parseCode( cod, FALSE );
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 bool FormFile::loadCode()
 {
-#ifndef KOMMANDER
     QFile f( pro->makeAbsolute( codeFile() ) );
     if ( !f.open( IO_ReadOnly ) ) {
   cod = "";
@@ -587,24 +641,26 @@ bool FormFile::loadCode()
     parseCode( cod, FALSE );
     timeStamp.update();
     return TRUE;
-#else
-    return FALSE;
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 bool FormFile::isCodeEdited() const
 {
     return codeEdited;
 }
+#endif
 
+#ifndef KOMMANDER
 void FormFile::setCodeEdited( bool b )
 {
     codeEdited = b;
 }
+#endif
 
+#ifndef KOMMANDER
 void FormFile::parseCode( const QString& txt, bool allowModify )
 {
-#ifndef KOMMANDER
     if ( !formWindow() )
   return;
     LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
@@ -656,24 +712,24 @@ void FormFile::parseCode( const QString& txt, bool allowModify )
 
     MetaDataBase::setSlotList( formWindow(), newSlots );
     MetaDataBase::setFunctionBodies( formWindow(), funcs, pro->language(), QString::null );
-#else
    Q_UNUSED(txt);
    Q_UNUSED(allowModify);
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void FormFile::syncCode()
 {
-#ifndef KOMMANDER
     if ( !editor() )
   return;
     parseCode( editor()->editorInterface()->text(), TRUE );
     LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
     if ( iface && iface->supports( LanguageInterface::StoreFormCodeSeperate ) )
   cod = editor()->editorInterface()->text();
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void FormFile::checkTimeStamp()
 {
     if ( timeStamp.isUpToDate() || !seperateSource )
@@ -696,10 +752,11 @@ void FormFile::checkTimeStamp()
   loadCode();
     }
 }
+#endif
 
+#ifndef KOMMANDER
 void FormFile::addSlotCode( MetaDataBase::Slot slot )
 {
-#ifndef KOMMANDER
     if ( !hasFormCode() && !codeEdited )
   return;
     LanguageInterface *iface = MetaDataBase::languageInterface( pro->language() );
@@ -730,11 +787,11 @@ void FormFile::addSlotCode( MetaDataBase::Slot slot )
       emit somethingChanged( this );
   }
     }
-#else
   Q_UNUSED(slot);
-#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void FormFile::functionNameChanged( const QString &oldName, const QString &newName )
 {
     if ( !cod.isEmpty() ) {
@@ -746,6 +803,7 @@ void FormFile::functionNameChanged( const QString &oldName, const QString &newNa
   }
     }
 }
+#endif
 
 QString FormFile::formName() const
 {

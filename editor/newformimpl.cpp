@@ -34,7 +34,9 @@
 #ifndef KOMMANDER
 #include "projectsettingsimpl.h"
 #endif
+#ifndef KOMMANDER
 #include "sourcefile.h"
+#endif
 #include "formfile.h"
 
 #include <qiconview.h>
@@ -120,6 +122,7 @@ void FormItem::insert()
     fw->resize( 600, 480 );
     MainWindow::self->insertFormWindow( fw );
 
+#ifndef KOMMANDER
     TemplateWizardInterface *iface =
   MainWindow::self->templateWizardInterface( fw->mainContainer()->className() );
     if ( iface ) {
@@ -127,6 +130,7 @@ void FormItem::insert()
           fw->iFace(), MainWindow::self->designerInterface() );
   iface->release();
     }
+#endif
 
     // the wizard might have changed a lot, lets update everything
     MainWindow::self->actioneditor()->setFormWindow( fw );
@@ -288,8 +292,8 @@ NewForm::NewForm( QWidget *parent, const QString &templatePath )
     projectCombo->setCurrentText( currentProject );
 #endif
 
-    QStringList languages = MetaDataBase::languages();
 #ifndef KOMMANDER
+    QStringList languages = MetaDataBase::languages();
     QStringList::Iterator it;
     for ( it = languages.begin(); it != languages.end(); ++it ) {
   ProjectItem *pi = new ProjectItem( templateView, *it + " " + tr( "Project" ) );

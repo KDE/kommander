@@ -35,7 +35,9 @@ public:
     EditSlots( QWidget *parent, FormWindow *fw );
 
     void setCurrentSlot( const QString &slot );
+#ifndef KOMMANDER
     static void removeSlotFromCode( const QString &slot, FormWindow *formWindow );
+#endif
     void slotAdd( const QString& access = QString::null );
     void slotAdd() { slotAdd( "public" ); }
 

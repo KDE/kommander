@@ -3,6 +3,7 @@
 
 /* QT INCLUDES */
 #include <qstringlist.h>
+#include <qmetaobject.h>
 #include <qdict.h>
 #include <qcombobox.h>
 #include <qtextedit.h>
@@ -94,9 +95,23 @@ void AssocTextEditor::updateTextWidgets()
 
 		while(it.current() != 0)
 		{
-			QVariant flag = (it.current())->property("AssocTextWidget");
-			if(flag.isValid() && !(QString(it.current()->name()).startsWith("qt_")))
-				widgetComboBox->insertItem((it.current())->name());
+		/* There is a warning message with the property() function if it does not exist. Verify the property exists with the meta information first */
+			bool pExists = FALSE;
+
+			QMetaObject *metaObj = it.current()->metaObject();
+			if(metaObj)
+			{
+				int id = metaObj->findProperty("AssocTextWidget", TRUE);
+				const QMetaProperty *metaProp = metaObj->property(id, TRUE);
+				if(metaProp && metaProp->isValid()) pExists = TRUE;
+			}
+
+			if(pExists)
+			{
+				QVariant flag = (it.current())->property("AssocTextWidget");
+				if(flag.isValid() && !(QString(it.current()->name()).startsWith("qt_")))
+					widgetComboBox->insertItem((it.current())->name());
+			}
 			++it;
 		}
 		delete objectList;

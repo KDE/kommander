@@ -31,7 +31,9 @@
 #include "pixmapchooser.h"
 #include "orderindicator.h"
 #include "hierarchyview.h"
-#include "designerappiface.h"
+#ifndef KOMMANDER
+    #include "designerappiface.h"
+#endif
 #define NO_STATIC_COLORS
 #include "globaldefs.h"
 #include "formfile.h"
@@ -145,8 +147,8 @@ void FormWindow::init()
 {
     MetaDataBase::addEntry( this );
     ff->setFormWindow( this );
-    iface = 0;
 #ifndef KOMMANDER
+    iface = 0;
     proj = 0;
 #endif
     propertyWidget = 0;
@@ -242,7 +244,9 @@ FormWindow::~FormWindow()
     MetaDataBase::clear( this );
     if ( ff )
 	ff->setFormWindow( 0 );
+#ifndef KOMMANDER
     delete iface;
+#endif
 }
 
 void FormWindow::closeEvent( QCloseEvent *e )
@@ -468,11 +472,13 @@ void FormWindow::insertWidget()
 	cmd->execute();
     }
 
+#ifndef KOMMANDER
     TemplateWizardInterface *iface = mainWindow()->templateWizardInterface( w->className() );
     if ( iface ) {
 	iface->setup( w->className(), w, iFace(), mainWindow()->designerInterface() );
 	iface->release();
     }
+#endif
 }
 
 void FormWindow::insertWidget( QWidget *w, bool checkName )
@@ -1520,7 +1526,11 @@ void FormWindow::resizeEvent( QResizeEvent *e )
     if ( currTool == ORDER_TOOL )
 	repositionOrderIndicators();
     if ( isVisible() )
+    #ifndef KOMMANDER
 	formFile()->setModified( TRUE, FormFile::WFormWindow );
+    #else
+    	formFile()->setModified( TRUE );
+	#endif
 
 #if defined(Q_WS_WIN32)
     windowsRepaintWorkaroundTimer->start( 100, TRUE );
@@ -2583,12 +2593,14 @@ void FormWindow::killAccels( QObject *top )
     delete l;
 }
 
+#ifndef KOMMANDER
 DesignerFormWindow *FormWindow::iFace()
 {
     if ( !iface )
 	iface = new DesignerFormWindowImpl( this );
     return iface;
 }
+#endif
 
 bool FormWindow::isCentralWidget( QObject *w ) const
 {

@@ -18,8 +18,10 @@
 **
 **********************************************************************/
 
+#ifndef KOMMANDER
 #include "eventinterface.h"
 #include "languageinterface.h"
+#endif
 #include "metadatabase.h"
 #include "widgetfactory.h"
 #include "formwindow.h"
@@ -89,8 +91,10 @@ static QPtrList<MetaDataBase::CustomWidget> *cWidgets = 0;
 static bool doUpdate = TRUE;
 static QStringList langList;
 static QStringList editorLangList;
-static QPluginManager<EventInterface> *eventInterfaceManager = 0;
-static QPluginManager<LanguageInterface> *languageInterfaceManager = 0;
+#ifndef KOMMANDER
+//static QPluginManager<EventInterface> *eventInterfaceManager = 0;
+//static QPluginManager<LanguageInterface> *languageInterfaceManager = 0;
+#endif
 
 /*!
   \class MetaDataBase metadatabase.h
@@ -520,7 +524,9 @@ void MetaDataBase::addSlot( QObject *o, const QCString &slot, const QString& spe
     if ( it != r->slotList.end() )
         r->slotList.remove( it );
     r->slotList.append( s );
+#ifndef KOMMANDER
     ( (FormWindow*)o )->formFile()->addSlotCode( s );
+#endif
 }
 
 void MetaDataBase::setSlotList( QObject *o, const QValueList<Slot> &slotList )
@@ -870,6 +876,7 @@ QStringList MetaDataBase::forwards( QObject *o )
     return r->forwards;
 }
 
+#ifndef KOMMANDER
 void MetaDataBase::setVariables( QObject *o, const QStringList &vars )
 {
     setupDataBase();
@@ -895,6 +902,7 @@ QStringList MetaDataBase::variables( QObject *o )
 
     return r->variables;
 }
+#endif
 
 void MetaDataBase::setSignalList( QObject *o, const QStringList &sigs )
 {
@@ -1209,7 +1217,8 @@ QMap<QString, QString> MetaDataBase::columnFields( QObject *o )
     return r->columnFields;
 }
 
-bool MetaDataBase::hasEvents( const QString &lang )
+#ifndef KOMMANDER
+bool MetaDataBase::hasEvents( const QString & )
 {
     EventInterface* iface = 0;
     eventInterfaceManager->queryInterface( lang, &iface );
@@ -1217,6 +1226,7 @@ bool MetaDataBase::hasEvents( const QString &lang )
         iface->release();
     return iface != 0;
 }
+#endif
 
 static QStringList get_arguments( const QString &s )
 {
@@ -1225,6 +1235,7 @@ static QStringList get_arguments( const QString &s )
     return QStringList::split( ',', str );
 }
 
+#ifndef KOMMANDER
 QValueList<MetaDataBase::EventDescription> MetaDataBase::events( QObject *o, const QString &lang )
 {
     if ( !o )
@@ -1255,7 +1266,9 @@ QValueList<MetaDataBase::EventDescription> MetaDataBase::events( QObject *o, con
 
     return list;
 }
+#endif
 
+#ifndef KOMMANDER
 bool MetaDataBase::setEventFunctions( QObject *o, QObject *form, const QString &lang,
                                       const QString &e, const QStringList &functions,
                                       bool addIfNotExisting )
@@ -1332,7 +1345,9 @@ bool MetaDataBase::setEventFunctions( QObject *o, QObject *form, const QString &
     r->eventFunctions.insert( event, functions );
     return !slotExists;
 }
+#endif
 
+#ifndef KOMMANDER
 QStringList MetaDataBase::eventFunctions( QObject *o, const QString &e, const QString &lang )
 {
     if ( !o )
@@ -1369,7 +1384,9 @@ QStringList MetaDataBase::eventFunctions( QObject *o, const QString &e, const QS
 #endif
     return l;
 }
+#endif
 
+#ifndef KOMMANDER
 QMap<QString, QStringList> MetaDataBase::eventFunctions( QObject *o )
 {
     if ( !o )
@@ -1384,7 +1401,9 @@ QMap<QString, QStringList> MetaDataBase::eventFunctions( QObject *o )
 
     return r->eventFunctions;
 }
+#endif
 
+#ifndef KOMMANDER
 void MetaDataBase::setEditor( const QStringList &langs )
 {
     editorLangList = langs;
@@ -1523,18 +1542,21 @@ QStringList MetaDataBase::languages()
 {
     return langList;
 }
+#endif
 
 QString MetaDataBase::normalizeSlot( const QString &s )
 {
     return Parser::cleanArgs( s );
 }
 
+#ifndef KOMMANDER
 LanguageInterface *MetaDataBase::languageInterface( const QString &lang )
 {
     LanguageInterface* iface = 0;
     languageInterfaceManager->queryInterface( lang, &iface );
     return iface;
 }
+#endif
 
 void MetaDataBase::clear( QObject *o )
 {
@@ -1546,6 +1568,7 @@ void MetaDataBase::clear( QObject *o )
         db->remove( (void*)it.current() );
 }
 
+#ifndef KOMMANDER
 void MetaDataBase::setBreakPoints( QObject *o, const QValueList<int> &l )
 {
     if ( !o )
@@ -1590,6 +1613,7 @@ bool MetaDataBase::hasEventFunctions( QObject *o )
 
     return !r->eventFunctions.isEmpty();
 }
+#endif
 
 void MetaDataBase::setExportMacro( QObject *o, const QString &macro )
 {
@@ -1626,6 +1650,7 @@ bool MetaDataBase::hasObject( QObject *o )
     return !!db->find( o );
 }
 
+#ifndef KOMMANDER
 void MetaDataBase::functionNameChanged( QObject *o, const QString &oldName, const QString &newName )
 {
     if ( !o )
@@ -1646,4 +1671,4 @@ void MetaDataBase::functionNameChanged( QObject *o, const QString &oldName, cons
     r->functionBodies.insert( normalizeSlot( newName ), body );
     ( (FormWindow*)o )->formFile()->functionNameChanged( oldName, newName );
 }
-
+#endif

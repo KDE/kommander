@@ -29,19 +29,25 @@
 class Project;
 #endif
 class FormWindow;
+#ifndef KOMMANDER
 class SourceEditor;
+#endif
 
 class FormFile : public QObject
 {
     Q_OBJECT
+    #ifndef KOMMANDER
     friend class SourceEditor;
+    #endif
 
 public:
+#ifndef KOMMANDER
     enum Who {
 	WFormWindow = 1,
 	WFormCode = 2,
 	WAnyOrAll = WFormWindow | WFormCode
     };
+#endif
 #ifndef KOMMANDER
     FormFile( const QString &fn, bool temp, Project *p );
 #else
@@ -50,37 +56,53 @@ public:
     ~FormFile();
 
     void setFormWindow( FormWindow *f );
+    #ifndef KOMMANDER
     void setEditor( SourceEditor *e );
+    #endif
     void setFileName( const QString &fn );
+#ifndef KOMMANDER
     void setCode( const QString &c );
-    void setModified( bool m, int who = WAnyOrAll );
     void setCodeEdited( bool b );
+    void setModified( bool m, int who = WAnyOrAll );
+#else
+    void setModified(bool m);
+#endif
 
     FormWindow *formWindow() const;
+#ifndef KOMMANDER
     SourceEditor *editor() const;
+#endif
     QString fileName() const;
     QString absFileName() const;
 
+#ifndef KOMMANDER
     bool supportsCodeFile() const { return !codeExtension().isEmpty(); }
     QString codeFile() const;
     QString code();
     bool isCodeEdited() const;
 
     bool loadCode();
+#endif
     bool save( bool withMsgBox = TRUE );
     bool saveAs();
     bool close();
     bool closeEvent();
+#ifndef KOMMANDER
     bool isModified( int who = WAnyOrAll );
+#else
+    bool isModified();
+#endif
+#ifndef KOMMANDER
     bool hasFormCode() const;
     void createFormCode();
     void syncCode();
-    void checkTimeStamp();
     void addSlotCode( MetaDataBase::Slot slot );
     void functionNameChanged( const QString &oldName, const QString &newName );
+    SourceEditor *showEditor();
+    void checkTimeStamp();
+#endif
 
     void showFormWindow();
-    SourceEditor *showEditor();
 
     static QString createUnnamedFileName();
     QString formName() const;
@@ -97,11 +119,15 @@ private slots:
 
 private:
     bool isFormWindowModified() const;
+#ifndef KOMMANDER
     bool isCodeModified() const;
+#endif
     void setFormWindowModified( bool m );
+#ifndef KOMMANDER
     void setCodeModified( bool m );
     QString codeExtension() const;
     void parseCode( const QString &txt, bool allowModify );
+#endif
 #ifndef KOMMANDER
     bool checkFileName( bool allowBreak );
 #endif
@@ -111,15 +137,15 @@ private:
     bool fileNameTemp;
 #ifndef KOMMANDER
     Project *pro;
+    SourceEditor *ed;
+    bool codeEdited;
+    QString cod;
+    bool seperateSource;
+    TimeStamp timeStamp;
+    bool cm;
 #endif
     FormWindow *fw;
-    SourceEditor *ed;
-    QString cod;
-    TimeStamp timeStamp;
-    bool codeEdited;
-    bool seperateSource;
     QString cachedFormName;
-    bool cm;
 
 };
 

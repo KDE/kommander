@@ -44,15 +44,12 @@ EditSlots::EditSlots( QWidget *parent, FormWindow *fw )
 {
 #ifndef KOMMANDER
 	LanguageInterface *iface = MetaDataBase::languageInterface( fw->project()->language() );
-#else
-	LanguageInterface *iface = MetaDataBase::languageInterface( "C++" );
-#endif
     if ( iface && !iface->supports( LanguageInterface::ReturnType ) ) {
 	slotListView->removeColumn( 3 );
 	editType->hide();
 	labelType->hide();
     }
-
+#endif
     connect( helpButton, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );
     QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( fw );
     for ( QValueList<MetaDataBase::Slot>::Iterator it = slotList.begin(); it != slotList.end(); ++it ) {
@@ -135,10 +132,12 @@ void EditSlots::okClicked()
 #endif
 						 slot.returnType ) );
 	    QMap<QListViewItem*, QString>::Iterator sit = oldSlotNames.find( it.current() );
+	    #ifndef KOMMANDER
 	    if ( sit != oldSlotNames.end() ) {
 		if ( *sit != it.current()->text( 0 ) )
 		    MetaDataBase::functionNameChanged( formWindow, *sit, it.current()->text( 0 ) );
 	    }
+	    #endif
 	    lst.append( slot.slot );
 	}
 
@@ -169,8 +168,10 @@ void EditSlots::okClicked()
 	return;
     }
 
+#ifndef KOMMANDER
     for ( QStringList::Iterator rsit = removedSlots.begin(); rsit != removedSlots.end(); ++rsit )
 	removeSlotFromCode( *rsit, formWindow );
+#endif
 
     if ( rmSlt || addSlt ) {
 	QPtrList<Command> commands;
@@ -293,17 +294,14 @@ void EditSlots::currentTypeChanged( const QString &type )
     slotListView->currentItem()->setText( 1, type );
 }
 
+#ifndef KOMMANDER
 void EditSlots::removeSlotFromCode( const QString &slot, FormWindow *formWindow )
 {
     formWindow->formFile()->checkTimeStamp();
     QString code = formWindow->formFile()->code();
     if ( code.isEmpty() || !formWindow->formFile()->hasFormCode() )
 	return;
-#ifndef KOMMANDER
     LanguageInterface *iface = MetaDataBase::languageInterface( formWindow->project()->language() );
-#else
-    LanguageInterface *iface = MetaDataBase::languageInterface( "C++" );
-#endif
     if ( !iface )
 	return;
     QValueList<LanguageInterface::Function> functions;
@@ -341,6 +339,7 @@ void EditSlots::removeSlotFromCode( const QString &slot, FormWindow *formWindow 
 	}
     }
 }
+#endif
 
 void EditSlots::setCurrentSlot( const QString &slot )
 {

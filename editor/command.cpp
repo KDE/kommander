@@ -1000,16 +1000,26 @@ void AddConnectionCommand::execute()
 {
     MetaDataBase::addConnection( formWindow(), connection.sender,
 				 connection.signal, connection.receiver, connection.slot );
+#ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
+    {
+	qDebug("AddConnectionCommand::execute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
+    }
+#endif
 }
 
 void AddConnectionCommand::unexecute()
 {
     MetaDataBase::removeConnection( formWindow(), connection.sender,
 				    connection.signal, connection.receiver, connection.slot );
+#ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
+    {
+	qDebug("AddConnectionCommand::unexecute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
+    }
+#endif
 }
 
 // ------------------------------------------------------------
@@ -1024,30 +1034,44 @@ void RemoveConnectionCommand::execute()
 {
     MetaDataBase::removeConnection( formWindow(), connection.sender,
 				    connection.signal, connection.receiver, connection.slot );
+#ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
+    {
+        qDebug("RemoveConnectionCommand::execute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
+    }
+#endif
 }
 
 void RemoveConnectionCommand::unexecute()
 {
     MetaDataBase::addConnection( formWindow(), connection.sender,
 				 connection.signal, connection.receiver, connection.slot );
+#ifndef KOMMANDER
     if ( connection.receiver == formWindow()->mainContainer() )
+    {
+        qDebug("RemoveConnectionCommand::unexecute(): Would have called EventList::setup()");
 	formWindow()->mainWindow()->propertyeditor()->eventList()->setup();
+    }
+#endif
 }
 
 // ------------------------------------------------------------
 
+/* TODO : We don't need these commands. */
 AddSlotCommand::AddSlotCommand( const QString &name, FormWindow *fw, const QCString &s,
 				const QString& spec, const QString &a, const QString &l, const QString &rt )
     : Command( name, fw ), slot( s ), specifier( spec ), access( a ), language( l ), returnType( rt )
 {
+	qDebug("AddSlotCommand::AddSlotCommand()");
 }
 
 void AddSlotCommand::execute()
 {
     MetaDataBase::addSlot( formWindow(), slot, specifier, access, language, returnType );
+#ifndef KOMMANDER
     formWindow()->mainWindow()->slotsChanged();
+#endif
     if ( formWindow()->formFile() )
 	formWindow()->formFile()->setModified( TRUE );
 }
@@ -1055,7 +1079,9 @@ void AddSlotCommand::execute()
 void AddSlotCommand::unexecute()
 {
     MetaDataBase::removeSlot( formWindow(), slot, specifier, access, language, returnType );
+#ifndef KOMMANDER
     formWindow()->mainWindow()->slotsChanged();
+#endif
     if ( formWindow()->formFile() )
 	formWindow()->formFile()->setModified( TRUE );
 }
@@ -1066,12 +1092,15 @@ RemoveSlotCommand::RemoveSlotCommand( const QString &name, FormWindow *fw, const
 				      const QString& spec, const QString &a, const QString &l, const QString &rt )
     : Command( name, fw ), slot( s ), specifier( spec ), access( a ), language( l ), returnType( rt )
 {
+	qDebug("RemoveSlotCommand::RemoveSlotCommand()");
 }
 
 void RemoveSlotCommand::execute()
 {
     MetaDataBase::removeSlot( formWindow(), slot, specifier, access, language, returnType );
+#ifndef KOMMANDER
     formWindow()->mainWindow()->slotsChanged();
+#endif
     if ( formWindow()->formFile() )
 	formWindow()->formFile()->setModified( TRUE );
 }
@@ -1079,7 +1108,9 @@ void RemoveSlotCommand::execute()
 void RemoveSlotCommand::unexecute()
 {
     MetaDataBase::addSlot( formWindow(), slot, specifier, access, language, returnType );
+#ifndef KOMMANDER
     formWindow()->mainWindow()->slotsChanged();
+#endif
     if ( formWindow()->formFile() )
 	formWindow()->formFile()->setModified( TRUE );
 }

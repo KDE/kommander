@@ -3275,6 +3275,7 @@ void PropertyList::readPropertyDocs()
 
 // ------------------------------------------------------------
 
+#ifndef KOMMANDER
 EventList::EventList( QWidget *parent, FormWindow *fw, PropertyEditor *e )
     : HierarchyList( parent, fw, TRUE ), editor( e )
 {
@@ -3520,6 +3521,7 @@ void EventList::save( QListViewItem *p )
     }
 #endif
 }
+#endif
 
 // --------------------------------------------------------------
 
@@ -3541,8 +3543,10 @@ PropertyEditor::PropertyEditor( QWidget *parent )
     formwindow = 0;
     listview = new PropertyList( this );
     addTab( listview, tr( "P&roperties" ) );
+#ifndef KOMMANDER
     eList = new EventList( this, formWindow(), this );
     addTab( eList, tr( "S&ignal Handlers" ) );
+#endif
 }
 
 QObject *PropertyEditor::widget() const
@@ -3552,7 +3556,9 @@ QObject *PropertyEditor::widget() const
 
 void PropertyEditor::setWidget( QObject *w, FormWindow *fw )
 {
+#ifndef KOMMANDER
     eList->setFormWindow( fw );
+#endif
     if ( w && w == wid ) {
 	bool ret = TRUE;
 	if ( wid->isWidgetType() && WidgetFactory::layoutType( (QWidget*)wid ) != WidgetFactory::NoLayout ) {
@@ -3593,8 +3599,10 @@ void PropertyEditor::clear()
 {
     listview->setContentsPos( 0, 0 );
     listview->clear();
+#ifndef KOMMANDER
     eList->setContentsPos( 0, 0 );
     eList->clear();
+#endif
 }
 
 void PropertyEditor::setup()
@@ -3606,9 +3614,11 @@ void PropertyEditor::setup()
     listview->viewport()->setUpdatesEnabled( TRUE );
     listview->updateEditorSize();
 
+#ifndef KOMMANDER
     eList->viewport()->setUpdatesEnabled( FALSE );
     eList->setup();
     eList->viewport()->setUpdatesEnabled( TRUE );
+#endif
 }
 
 void PropertyEditor::refetchData()
@@ -3685,8 +3695,10 @@ void PropertyEditor::resetFocus()
 	( (PropertyItem*)listview->currentItem() )->showEditor();
 }
 
+#ifndef KOMMANDER
 EventList *PropertyEditor::eventList() const
 {
     return eList;
 }
+#endif
 #include "propertyeditor.moc"

@@ -191,6 +191,7 @@ void ConnectionEditor::signalChanged()
     }
 
 #ifndef KOMMANDER
+#ifndef KOMMANDER
     LanguageInterface *iface = MetaDataBase::languageInterface( formWindow->project()->language() );
 #else
     LanguageInterface *iface = MetaDataBase::languageInterface( "C++" );
@@ -210,6 +211,7 @@ void ConnectionEditor::signalChanged()
 	    }
 	}
     }
+#endif
 
     if ( receiver->inherits( "CustomWidget" ) ) {
 	MetaDataBase::CustomWidget *w = ( (CustomWidget*)receiver )->customWidget();

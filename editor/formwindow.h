@@ -48,8 +48,8 @@ class QPixmap;
 class QSizeGrip;
 #ifndef KOMMANDER
 class Project;
-#endif
 struct DesignerFormWindow;
+#endif
 class FormFile;
 
 #if defined(Q_CC_MSVC) || defined(Q_FULL_TEMPLATE_INSTANTIATION)
@@ -191,7 +191,9 @@ public:
 
     void killAccels( QObject *top );
 
+#ifndef KOMMANDER
     DesignerFormWindow *iFace();
+#endif
 
     int layoutDefaultSpacing() const;
     int layoutDefaultMargin() const;
@@ -305,8 +307,8 @@ private:
     QPtrList<QAction> actions;
 #ifndef KOMMANDER
     Project *proj;
-#endif
     DesignerFormWindow *iface;
+#endif
     QWidget* targetContainer;
     QPalette restorePalette;
     bool hadOwnPalette;

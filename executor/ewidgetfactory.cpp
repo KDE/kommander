@@ -23,10 +23,12 @@
 
 #include "ewidgetfactory.h"
 
-#include <eventinterface.h>
-#include <interpreterinterface.h>
-#include <languageinterface.h>
-#include <widgetinterface.h>
+#ifndef KOMMANDER
+#include "eventinterface.h"
+#include "interpreterinterface.h"
+#include "languageinterface.h"
+#endif
+#include "widgetinterface.h"
 
 #ifndef KOMMANDER
 #include <qwidgetfactory.h>
@@ -40,7 +42,7 @@
 #include <qdir.h>
 #include <qlayout.h>
 #include <qmetaobject.h>
-#include <domtool.h>
+#include "domtool.h"
 #include <qapplication.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
@@ -113,6 +115,7 @@
 #include <tabwidget.h>
 #include <subdialog.h>
 #include <listbox.h>
+#include <scriptobject.h>
 
 #include <stdlib.h>
 
@@ -121,9 +124,11 @@ static QPtrList<QWidgetFactory> widgetFactories;
 #else
 static QPtrList<EWidgetFactory> widgetFactories;
 #endif
+#ifndef KOMMANDER
 static QPluginManager<EventInterface> *eventInterfaceManager = 0;
 static QPluginManager<InterpreterInterface> *interpreterInterfaceManager = 0;
 static QPluginManager<LanguageInterface> *languageInterfaceManager = 0;
+#endif
 static QPluginManager<WidgetInterface> *widgetInterfaceManager = 0;
 
 QMap<QWidget*, QString> *qwf_functions = 0;
@@ -339,10 +344,12 @@ QWidget *EWidgetFactory::create( QIODevice *dev, QObject *connector, QWidget *pa
 	widgetFactory->loadTabOrder( tabOrder );
 
 
+#ifndef KOMMANDER
     if ( !functions.isNull() ) // compatibiliy with early 3.0 betas
 	widgetFactory->loadFunctions( functions );
+#endif
 
-
+#ifndef KOMMANDER
     if ( !languageInterfaceManager )
 	languageInterfaceManager = new QPluginManager<LanguageInterface>( IID_Language, QApplication::libraryPaths(), "" );
     if ( !interpreterInterfaceManager )
@@ -350,6 +357,7 @@ QWidget *EWidgetFactory::create( QIODevice *dev, QObject *connector, QWidget *pa
 	    new QPluginManager<InterpreterInterface>( IID_Interpreter, QApplication::libraryPaths(), "" );
 
     widgetFactory->loadExtraSource();
+#endif
 
     if ( widgetFactory->toplevel ) {
 #ifndef QT_NO_SQL
@@ -387,6 +395,7 @@ QWidget *EWidgetFactory::create( QIODevice *dev, QObject *connector, QWidget *pa
 	}
 #endif
 
+#ifndef KOMMANDER
 	if ( !eventInterfaceManager )
 	    eventInterfaceManager = new QPluginManager<EventInterface>( IID_Event, QApplication::libraryPaths(), "" );
 
@@ -430,6 +439,7 @@ QWidget *EWidgetFactory::create( QIODevice *dev, QObject *connector, QWidget *pa
 		}
 	    }
 	}
+#endif
 
     }
 
@@ -541,6 +551,8 @@ QWidget *EWidgetFactory::createWidget( const QString &literalClassName, QWidget 
 		return new SubDialog(parent, name);
 	else if(className == "ListBox")
 		return new ListBox(parent, name);
+	else if(className == "ScriptObject")
+		return new ScriptObject(parent, name);
 
     // create widgets we know
     if ( className == "QPushButton" ) {
@@ -647,6 +659,7 @@ QWidget *EWidgetFactory::createWidget( const QString &literalClassName, QWidget 
     }
 #endif
 
+/* Probably don't need this in Kommander. Widgets come from the factory. */
     // try to create it using the loaded widget plugins
     if ( !widgetInterfaceManager )
 	widgetInterfaceManager = new QPluginManager<WidgetInterface>( IID_Widget, QApplication::libraryPaths(), "" );
@@ -923,13 +936,7 @@ void EWidgetFactory::setProperty( QObject* obj, const QString &prop, const QDomE
     } else if ( e.tagName() == "image" ) {
 	v = QVariant( loadFromCollection( v.toString() ) );
     } else if ( e.tagName() == "string" ) {
-    if (v.asString().isEmpty())
-    {
-	    v = QVariant("");
-    } else
-    {
-      v = QVariant( translate( v.asString(), comment ) );
-    }
+	v = QVariant( translate( v.asString(), comment ) );
     }
 
     if ( !p ) {
@@ -1634,6 +1641,7 @@ void EWidgetFactory::loadMenuBar( const QDomElement &e )
 
 
 // compatibility with early 3.0 betas
+#ifndef KOMMANDER
 void EWidgetFactory::loadFunctions( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
@@ -1679,6 +1687,7 @@ void EWidgetFactory::loadFunctions( const QDomElement &e )
 	n = n.nextSibling().toElement();
     }
 }
+#endif
 
 QAction *EWidgetFactory::findAction( const QString &name )
 {
@@ -1712,6 +1721,7 @@ void EWidgetFactory::loadImages( const QString &dir )
 
 }
 
+#ifndef KOMMANDER
 void EWidgetFactory::loadExtraSource()
 {
     if ( !qwf_language || !languageInterfaceManager )
@@ -1791,6 +1801,7 @@ void EWidgetFactory::loadExtraSource()
     for ( vit = vars.begin(); vit != vars.end(); ++vit )
 	variables << *vit;
 }
+#endif
 
 QString EWidgetFactory::translate( const QString& sourceText, const QString& comment )
 {

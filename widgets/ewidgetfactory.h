@@ -50,9 +50,9 @@ public:
     static QWidget *create( const QString &uiFile, QObject *connector = 0, QWidget *parent = 0, const char *name = 0 );
     static QWidget *create( QIODevice *dev, QObject *connector = 0, QWidget *parent = 0, const char *name = 0 );
 #ifndef KOMMANDER
-static void addWidgetFactory( QWidgetFactory *factory );
+	static void addWidgetFactory( QWidgetFactory *factory );
 #else
-static void addWidgetFactory( EWidgetFactory *factory );
+	static void addWidgetFactory( EWidgetFactory *factory );
 #endif
     static void loadImages( const QString &dir );
 
@@ -78,9 +78,13 @@ private:
     void loadActions( const QDomElement &e );
     void loadToolBars( const QDomElement &e );
     void loadMenuBar( const QDomElement &e );
-    void loadFunctions( const QDomElement &e );
+#ifndef KOMMANDER
+//    void loadFunctions( const QDomElement &e );
+#endif
     QAction *findAction( const QString &name );
-    void loadExtraSource();
+#ifndef KOMMANDER
+ //   void loadExtraSource();
+#endif
     QString translate( const QString& sourceText, const QString& comment = "" );
 
 private:

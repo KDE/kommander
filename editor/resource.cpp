@@ -115,7 +115,9 @@ Resource::Resource()
     copying = FALSE;
     pasting = FALSE;
     hadGeometry = FALSE;
+#ifndef KOMMANDER
     langIface = 0;
+#endif
     hasFunctions = FALSE;
 }
 
@@ -127,14 +129,18 @@ Resource::Resource( MainWindow* mw )
     copying = FALSE;
     pasting = FALSE;
     hadGeometry = FALSE;
+#ifndef KOMMANDER
     langIface = 0;
+#endif
     hasFunctions = FALSE;
 }
 
 Resource::~Resource()
 {
+#ifndef KOMMANDER
     if ( langIface )
 	langIface->release();
+#endif
 }
 
 void Resource::setWidget( FormWindow *w )
@@ -183,15 +189,13 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
     formwindow->setMainWindow( mainwindow );
     MetaDataBase::addEntry( formwindow );
 
-    if (!langIface) {
 #ifndef KOMMANDER
+    if (!langIface) {
 	langIface = MetaDataBase::languageInterface( mainwindow->currProject()->language() );
-#else
-	langIface = MetaDataBase::languageInterface( "C++" );
-#endif
 	if ( langIface )
 	    langIface->addRef();
     }
+#endif
 
     QDomElement e = doc.firstChild().toElement().firstChild().toElement();
 
@@ -383,22 +387,29 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
 
     if ( !connections.isNull() )
 	loadConnections( connections );
+	#ifndef KOMMANDER
     if ( !functions.isNull() )
+
 	loadFunctions( functions );
+	#endif
     if ( !tabOrder.isNull() )
 	loadTabOrder( tabOrder );
 
     if ( formwindow ) {
 	MetaDataBase::setIncludes( formwindow, metaIncludes );
 	MetaDataBase::setForwards( formwindow, metaForwards );
-	MetaDataBase::setVariables( formwindow, metaVariables );
+#ifndef KOMMANDER
+    MetaDataBase::setVariables( formwindow, metaVariables );
+#endif
 	MetaDataBase::setSignalList( formwindow, metaSignals );
 	metaInfo.classNameChanged = metaInfo.className != QString( formwindow->name() );
 	MetaDataBase::setMetaInfo( formwindow, metaInfo );
 	MetaDataBase::setExportMacro( formwindow->mainContainer(), exportMacro );
     }
 
+#ifndef KOMMANDER
     loadExtraSource();
+#endif
 
     if ( mainwindow && formwindow )
     {
@@ -423,12 +434,9 @@ bool Resource::save( const QString& filename, bool formCodeOnly )
 {
     if ( !formwindow || filename.isEmpty() )
 	return FALSE;
-    if (!langIface) {
 #ifndef KOMMANDER
+    if (!langIface) {
 	    langIface = MetaDataBase::languageInterface( mainwindow->self->currProject()->language() );
-#else
-	    langIface = MetaDataBase::languageInterface( "C++" );
-#endif
 	if ( langIface )
 	    langIface->addRef();
     }
@@ -436,6 +444,7 @@ bool Resource::save( const QString& filename, bool formCodeOnly )
 	saveFormCode();
 	return TRUE; // missing error checking in saveFormCode ?
     }
+#endif
     currFileName = filename;
 
     QFile f( filename );
@@ -451,15 +460,13 @@ bool Resource::save( QIODevice* dev )
     if ( !formwindow )
 	return FALSE;
 
-    if (!langIface) {
 #ifndef KOMMANDER
+    if (!langIface) {
 	    langIface = MetaDataBase::languageInterface( mainwindow->self->currProject()->language() );
-#else
-	    langIface = MetaDataBase::languageInterface( "C++" );
-#endif
 	if ( langIface )
 	    langIface->addRef();
     }
+#endif
 
     QTextStream ts( dev );
     ts.setCodec( QTextCodec::codecForName( "UTF-8" ) );
@@ -482,7 +489,9 @@ bool Resource::save( QIODevice* dev )
     saveTabOrder( ts, 0 );
     saveMetaInfoAfter( ts, 0 );
     ts << "</UI>" << endl;
+#ifndef KOMMANDER
     saveFormCode();
+#endif
     images.clear();
 
     return TRUE;
@@ -1405,12 +1414,11 @@ QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout*
 	} else if ( n.tagName() == "column" || n.tagName() =="row" ) {
 	    createColumn( n, w );
 	} else if ( n.tagName() == "event" ) {
+	qDebug("Resource : Tag == event");
 #ifndef KOMMANDER
 	    MetaDataBase::setEventFunctions( obj, formwindow, MainWindow::self->currProject()->language(),
-#else
-	    MetaDataBase::setEventFunctions( obj, formwindow, "C++",
-#endif
 					     n.attribute( "name" ), QStringList::split( ',', n.attribute( "functions" ) ), FALSE );
+#endif
 	}
 
 	n = n.nextSibling().toElement();
@@ -1940,9 +1948,6 @@ void Resource::saveConnections( QTextStream &ts, int indent )
 
 #ifndef KOMMANDER
     QString lang = formwindow->project()->language();
-#else
-    QString lang = "C++";
-#endif
     LanguageInterface *iface = langIface;
     if ( iface && MetaDataBase::hasEvents( lang ) ) {
 	QObjectList *l = formwindow->queryList( "QWidget" );
@@ -1966,6 +1971,7 @@ void Resource::saveConnections( QTextStream &ts, int indent )
 	}
 	delete l;
     }
+#endif
 
     indent--;
     ts << makeIndent( indent ) << "</connections>" << endl;
@@ -2023,13 +2029,19 @@ void Resource::loadConnections( const QDomElement &e )
 		    conn.receiver = formwindow->mainContainer();
 	    }
 	    if ( conn.sender && conn.receiver ) {
+	    #ifndef KOMMANDER
 		if ( lang == "C++" ) {
 		    MetaDataBase::addConnection( formwindow ? formwindow : toplevel,
 						 conn.sender, conn.signal, conn.receiver, conn.slot );
-		} else if ( MetaDataBase::hasEvents( lang ) ) {
+		} 
+		else if ( MetaDataBase::hasEvents( lang ) ) {
 		    MetaDataBase::setEventFunctions( conn.sender, formwindow, lang, conn.signal,
 						     QStringList::split( ',', conn.slot ), FALSE );
 		}
+		#else
+		    MetaDataBase::addConnection( formwindow ? formwindow : toplevel,
+						 conn.sender, conn.signal, conn.receiver, conn.slot );
+		#endif
 	    }
 	} else if ( n.tagName() == "slot" ) { // compatibility with 2.x
 	    MetaDataBase::Slot slot;
@@ -2255,8 +2267,6 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
     MetaDataBase::MetaInfo info = MetaDataBase::metaInfo( formwindow );
 #ifndef KOMMANDER
     if ( !langIface || formwindow->project()->language() == "C++" ) {
-#else
-    if ( !langIface ) {
 #endif
 	QValueList<MetaDataBase::Include> includes = MetaDataBase::includes( formwindow );
 	QString extensionInclude;
@@ -2295,6 +2305,7 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 	    indent--;
 	    ts << makeIndent( indent ) << "</forwards>" << endl;
 	}
+	#ifndef KOMMANDER
 	QStringList vars = MetaDataBase::variables( formwindow );
 	if ( !vars.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<variables>" << endl;
@@ -2304,6 +2315,7 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 	    indent--;
 	    ts << makeIndent( indent ) << "</variables>" << endl;
 	}
+	#endif
 	QStringList sigs = MetaDataBase::signalList( formwindow );
 	if ( !sigs.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<signals>" << endl;
@@ -2312,15 +2324,13 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 		ts << makeIndent( indent ) << "<signal>" << entitize( *it3 ) << "</signal>" << endl;
 	    indent--;
 	    ts << makeIndent( indent ) << "</signals>" << endl;
-	}
+
 	QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formwindow );
 	if ( !slotList.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<slots>" << endl;
 	    indent++;
 #ifndef KOMMANDER
 	    QString lang = formwindow->project()->language();
-#else
-	    QString lang = "C++";
 #endif
 	    QValueList<MetaDataBase::Slot>::Iterator it = slotList.begin();
 	    for ( ; it != slotList.end(); ++it ) {
@@ -2450,13 +2460,12 @@ void Resource::loadChildAction( QObject *parent, const QDomElement &e )
 	    if ( n2.tagName() == "property" ) {
 		setObjectProperty( a, n2.attribute( "name" ), n2.firstChild().toElement() );
 	    } else if ( n2.tagName() == "event" ) {
+	    	qDebug("Resource::loadChildAction : Tag == Event");
 #ifndef KOMMANDER
 		MetaDataBase::setEventFunctions( a, formwindow, MainWindow::self->currProject()->language(),
-#else
-		MetaDataBase::setEventFunctions( a, formwindow, "C++",
-#endif
 						 n2.attribute( "name" ),
 						 QStringList::split( ',', n2.attribute( "functions" ) ), FALSE );
+#endif
 	    }
 	    n2 = n2.nextSibling().toElement();
 	}
@@ -2473,13 +2482,12 @@ void Resource::loadChildAction( QObject *parent, const QDomElement &e )
 			n2.tagName() == "actiongroup" ) {
 		loadChildAction( a, n2 );
 	    } else if ( n2.tagName() == "event" ) {
+	    	qDebug("Resource::loadChildAction : Tag == Event");
 #ifndef KOMMANDER
 		MetaDataBase::setEventFunctions( a, formwindow, MainWindow::self->currProject()->language(),
-#else
-		MetaDataBase::setEventFunctions( a, formwindow, "C++",
-#endif
 						 n2.attribute( "name" ),
 						 QStringList::split( ',', n2.attribute( "functions" ) ), FALSE );
+#endif
 	    }
 	    n2 = n2.nextSibling().toElement();
 	}
@@ -2646,6 +2654,7 @@ void Resource::loadMenuBar( const QDomElement &e )
     }
 }
 
+#ifndef KOMMANDER
 void Resource::saveFormCode()
 {
 #ifndef KOMMANDER
@@ -2703,6 +2712,7 @@ void Resource::saveFormCode()
 			     MetaDataBase::variables( formwindow ), conns );
     }
 }
+#endif
 
  // compatibility with early 3.0 betas
 
@@ -2721,6 +2731,7 @@ static QString make_function_pretty( const QString &s )
     return res;
 }
 
+#ifndef KOMMANDER
 void Resource::loadFunctions( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
@@ -2864,3 +2875,4 @@ void Resource::loadExtraSource()
     }
     MetaDataBase::setIncludes( formwindow, incls );
 }
+#endif

@@ -100,6 +100,7 @@
 #include <tabwidget.h>
 #include <subdialog.h>
 #include <listbox.h>
+#include <scriptobject.h>
 
 
 
@@ -1182,6 +1183,8 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 		return new SpinBoxInt(parent, name);
 	else if(className == "ListBox")
 		return new ListBox(parent, name);
+	else if(className == "ScriptObject")
+		return new ScriptObject(parent, name);
 #endif
 
     WidgetInterface *iface = 0;

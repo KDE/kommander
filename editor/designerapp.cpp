@@ -18,7 +18,9 @@
 **
 **********************************************************************/
 
+#ifndef KOMMANDER
 #include "designerappiface.h"
+#endif
 #include "designerapp.h"
 #include "mainwindow.h"
 #include "formwindow.h"

@@ -19,6 +19,7 @@
 **********************************************************************/
 
 #include <qvariant.h>  // HP-UX compiler needs this here
+#include <qlistview.h>
 #include "workspace.h"
 #include "formwindow.h"
 #include "mainwindow.h"
@@ -28,9 +29,9 @@
 #ifndef KOMMANDER
 #include "project.h"
 #include "pixmapcollection.h"
-#endif
 #include "sourcefile.h"
 #include "sourceeditor.h"
+#endif
 #include "formfile.h"
 
 #include <qheader.h>
@@ -115,6 +116,7 @@ WorkspaceItem::WorkspaceItem( QListView *parent )
     setExpandable( FALSE );
 }
 
+#ifndef KOMMANDER
 WorkspaceItem::WorkspaceItem( QListViewItem *parent, SourceFile* sf )
     : QListViewItem( parent )
 {
@@ -123,6 +125,7 @@ WorkspaceItem::WorkspaceItem( QListViewItem *parent, SourceFile* sf )
     t = SourceFileType;
     setPixmap( 0, *filePixmap );
 }
+#endif
 
 WorkspaceItem::WorkspaceItem( QListViewItem *parent, FormFile* ff, Type type )
     : QListViewItem( parent )
@@ -133,14 +136,15 @@ WorkspaceItem::WorkspaceItem( QListViewItem *parent, FormFile* ff, Type type )
     if ( type ==  FormFileType ) {
   setPixmap( 0, *formPixmap );
   QObject::connect( ff, SIGNAL( somethingChanged(FormFile*) ), listView(), SLOT( update(FormFile*) ) );
+  #ifndef KOMMANDER
   if ( formFile->supportsCodeFile() )
       (void) new WorkspaceItem( this, formFile, FormSourceType );
     } else if ( type == FormSourceType ) {
   setPixmap( 0, *filePixmap );
+  #endif
     }
 }
 
-#ifdef KOMMANDER
 WorkspaceItem::WorkspaceItem( QListView *parent, FormFile* ff, Type type )
     : QListViewItem( parent )
 {
@@ -150,13 +154,14 @@ WorkspaceItem::WorkspaceItem( QListView *parent, FormFile* ff, Type type )
     if ( type ==  FormFileType ) {
   setPixmap( 0, *formPixmap );
   QObject::connect( ff, SIGNAL( somethingChanged(FormFile*) ), listView(), SLOT( update(FormFile*) ) );
+  #ifndef KOMMANDER
   if ( formFile->supportsCodeFile() )
       (void) new WorkspaceItem( this, formFile, FormSourceType );
     } else if ( type == FormSourceType ) {
   setPixmap( 0, *filePixmap );
+    #endif
     }
 }
-#endif
 
 
 void WorkspaceItem::init()
@@ -165,8 +170,8 @@ void WorkspaceItem::init()
     useOddColor = FALSE;
 #ifndef KOMMANDER
     project = 0;
-#endif
     sourceFile = 0;
+#endif
     formFile = 0;
 }
 
@@ -176,12 +181,16 @@ void WorkspaceItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
     g.setColor( QColorGroup::Base, backgroundColor() );
     g.setColor( QColorGroup::Foreground, Qt::black );
 
+#ifndef KOMMANDER
     if ( type() == FormSourceType && !formFile->hasFormCode() ) {
   g.setColor( QColorGroup::Text, listView()->palette().disabled().color( QColorGroup::Text) );
   g.setColor( QColorGroup::HighlightedText, listView()->palette().disabled().color( QColorGroup::Text) );
     } else {
+    #endif
   g.setColor( QColorGroup::Text, Qt::black );
+  #ifndef KOMMANDER
     }
+    #endif
     p->save();
 
     if ( isModified() ) {
@@ -218,10 +227,12 @@ QString WorkspaceItem::text( int column ) const
 #endif
     case FormFileType:
   return formFile->formName() + ": " + formFile->fileName();
+  #ifndef KOMMANDER
     case FormSourceType:
   return formFile->codeFile();
     case SourceFileType:
   return sourceFile->fileName();
+  #endif
     }
 
     return QString::null; // shut up compiler
@@ -236,12 +247,14 @@ void WorkspaceItem::fillCompletionList( QStringList& completion )
   completion += formFile->formName();
   completion += formFile->fileName();
   break;
+  #ifndef KOMMANDER
     case FormSourceType:
   completion += formFile->codeFile();
   break;
     case SourceFileType:
   completion += sourceFile->fileName();
   break;
+  #endif
     }
 }
 
@@ -253,10 +266,12 @@ bool WorkspaceItem::checkCompletion( const QString& completion )
     case FormFileType:
   return  completion == formFile->formName()
      || completion == formFile->fileName();
+#ifndef KOMMANDER
     case FormSourceType:
   return completion == formFile->codeFile();
     case SourceFileType:
   return completion == sourceFile->fileName();
+#endif
     }
     return FALSE;
 }
@@ -264,11 +279,10 @@ bool WorkspaceItem::checkCompletion( const QString& completion )
 
 bool WorkspaceItem::isModified() const
 {
+#ifndef KOMMANDER
     switch( t ) {
     case ProjectType:
-#ifndef KOMMANDER
       return project->isModified();
-#endif
     case FormFileType:
   return formFile->isModified( FormFile::WFormWindow );
     case FormSourceType:
@@ -277,6 +291,9 @@ bool WorkspaceItem::isModified() const
   return sourceFile->isModified();
     }
     return FALSE; // shut up compiler
+#else
+    return formFile->isModified();
+#endif
 }
 
 QString WorkspaceItem::key( int column, bool ) const
@@ -423,21 +440,22 @@ void Workspace::makeConnections(MainWindow *)
 }
 #endif
 
+#ifndef KOMMANDER
 void Workspace::sourceFileAdded( SourceFile* sf )
 {
-#ifndef KOMMANDER
     (void) new WorkspaceItem( projectItem, sf );
-#else
     Q_UNUSED(sf);
-#endif
     updateColors();
 }
+#endif
 
+#ifndef KOMMANDER
 void Workspace::sourceFileRemoved( SourceFile* sf )
 {
     delete findItem( sf );
     updateColors();
 }
+#endif
 
 void Workspace::formFileAdded( FormFile* ff )
 {
@@ -487,6 +505,7 @@ void Workspace::activeFormChanged( FormWindow *fw )
 
 }
 
+#ifndef KOMMANDER
 void Workspace::activeEditorChanged( SourceEditor *se )
 {
     if ( !se->object() )
@@ -510,6 +529,7 @@ void Workspace::activeEditorChanged( SourceEditor *se )
 
     closeAutoOpenItems();
 }
+#endif
 
 WorkspaceItem *Workspace::findItem( FormFile* ff)
 {
@@ -521,6 +541,7 @@ WorkspaceItem *Workspace::findItem( FormFile* ff)
     return 0;
 }
 
+#ifndef KOMMANDER
 WorkspaceItem *Workspace::findItem( SourceFile *sf )
 {
     QListViewItemIterator it( this );
@@ -530,6 +551,7 @@ WorkspaceItem *Workspace::findItem( SourceFile *sf )
     }
     return 0;
 }
+#endif
 
 void Workspace::closeAutoOpenItems()
 {
@@ -566,6 +588,7 @@ void Workspace::itemClicked( int button, QListViewItem *i, const QPoint& )
     closeAutoOpenItems();
 
     WorkspaceItem* wi = (WorkspaceItem*)i;
+#ifndef KOMMANDER
     if ( wi->type() == WorkspaceItem::SourceFileType )
   mainWindow->editSource( wi->sourceFile );
     switch( wi->type() ) {
@@ -581,6 +604,9 @@ void Workspace::itemClicked( int button, QListViewItem *i, const QPoint& )
   mainWindow->editSource( wi->sourceFile );
   break;
     }
+#else
+    wi->formFile->showFormWindow();
+#endif
 }
 
 void Workspace::contentsDropEvent( QDropEvent *e )

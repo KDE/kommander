@@ -78,9 +78,13 @@ private:
     void loadActions( const QDomElement &e );
     void loadToolBars( const QDomElement &e );
     void loadMenuBar( const QDomElement &e );
-    void loadFunctions( const QDomElement &e );
+#ifndef KOMMANDER
+//    void loadFunctions( const QDomElement &e );
+#endif
     QAction *findAction( const QString &name );
-    void loadExtraSource();
+#ifndef KOMMANDER
+ //   void loadExtraSource();
+#endif
     QString translate( const QString& sourceText, const QString& comment = "" );
 
 private:

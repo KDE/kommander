@@ -41,7 +41,9 @@ class QDomElement;
 class QDesignerGridLayout;
 class QListViewItem;
 class QMainWindow;
+#ifndef KOMMANDER
 struct LanguageInterface;
+#endif
 class FormFile;
 
 class Resource
@@ -97,7 +99,9 @@ private:
     void saveChildActions( QAction *a, QTextStream &ts, int indent );
     void saveToolBars( QMainWindow *mw, QTextStream &ts, int indent );
     void saveMenuBar( QMainWindow *mw, QTextStream &ts, int indent );
-    void saveFormCode();
+#ifndef KOMMANDER
+//    void saveFormCode();
+#endif
 
     QObject *createObject( const QDomElement &e, QWidget *parent, QLayout* layout = 0 );
     QWidget *createSpacer( const QDomElement &e, QWidget *parent, QLayout *layout, Qt::Orientation o );
@@ -118,8 +122,10 @@ private:
     void loadMenuBar( const QDomElement &n );
     QColorGroup loadColorGroup( const QDomElement &e );
     QPixmap loadPixmap( const QDomElement &e, const QString &tagname = "pixmap" );
-    void loadFunctions( const QDomElement &e ); // compatibility with early 3.0 betas
-    void loadExtraSource();
+#ifndef KOMMANDER
+//    void loadFunctions( const QDomElement &e ); // compatibility with early 3.0 betas
+//    void loadExtraSource();
+#endif
 
 private:
     MainWindow *mainwindow;
@@ -143,7 +149,9 @@ private:
     bool hadGeometry;
     QMap<QString, QValueList<MetaDataBase::Connection> > langConnections;
     QString currFileName;
+#ifndef KOMMANDER
     LanguageInterface *langIface;
+#endif
     bool hasFunctions;
 
 };

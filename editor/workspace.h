@@ -32,11 +32,13 @@ class QDragEnterEvent;
 class MainWindow;
 #ifndef KOMMANDER
 class Project;
-#endif
 class SourceFile;
+#endif
 class FormFile;
 class QCompletionEdit;
-class SourceEditor;
+#ifndef KOMMANDER
+    class SourceEditor;
+#endif
 
 class WorkspaceItem : public QListViewItem
 {
@@ -48,11 +50,11 @@ public:
 #else
     WorkspaceItem(QListView *parent);
 #endif
-    WorkspaceItem( QListViewItem *parent, SourceFile* sf );
-    WorkspaceItem( QListViewItem *parent, FormFile* ff, Type t = FormFileType );
-#ifdef KOMMANDER
-    WorkspaceItem( QListView *parent, FormFile* ff, Type t = FormFileType );
+#ifndef KOMMANDER
+//    WorkspaceItem( QListViewItem *parent, SourceFile* sf );
 #endif
+    WorkspaceItem( QListViewItem *parent, FormFile* ff, Type t = FormFileType );
+    WorkspaceItem( QListView *parent, FormFile* ff, Type t = FormFileType );
 
     void paintCell( QPainter *p, const QColorGroup &cg, int column, int width, int align );
 
@@ -70,7 +72,9 @@ public:
 #ifndef KOMMANDER
     Project* project;
 #endif
+#ifndef KOMMANDER
     SourceFile* sourceFile;
+#endif
     FormFile* formFile;
 
     void setOpen( bool );
@@ -112,7 +116,9 @@ public slots:
     void update( FormFile* );
 
     void activeFormChanged( FormWindow *fw );
-    void activeEditorChanged( SourceEditor *se );
+#ifndef KOMMANDER
+//    void activeEditorChanged( SourceEditor *se );
+#endif
 
 protected:
     void closeEvent( QCloseEvent *e );
@@ -129,15 +135,19 @@ private slots:
 //    void projectDestroyed( QObject* );
 #endif
 
-    void sourceFileAdded( SourceFile* );
-    void sourceFileRemoved( SourceFile* );
+#ifndef KOMMANDER
+//    void sourceFileAdded( SourceFile* );
+ //   void sourceFileRemoved( SourceFile* );
+#endif
 
     void formFileAdded( FormFile* );
     void formFileRemoved( FormFile* );
 
 private:
     WorkspaceItem *findItem( FormFile *ff );
+#ifndef KOMMANDER
     WorkspaceItem *findItem( SourceFile *sf );
+#endif
 
     void closeAutoOpenItems();
 

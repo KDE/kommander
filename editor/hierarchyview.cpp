@@ -28,8 +28,8 @@
 #include "pixmapchooser.h"
 #ifndef KOMMANDER
 #include "project.h"
-#endif
 #include "sourceeditor.h"
+#endif
 #include "propertyeditor.h"
 #include "editslotsimpl.h"
 #include "listeditor.h"
@@ -45,7 +45,9 @@
 #include <qfeatures.h>
 #include <qapplication.h>
 #include <qtimer.h>
+#ifndef KOMMANDER
 #include "languageinterface.h"
+#endif
 #include <qworkspace.h>
 #include <qaccel.h>
 
@@ -82,7 +84,9 @@ static QPixmap *folderPixmap = 0;
 
 QListViewItem *newItem = 0;
 
-static QPluginManager<ClassBrowserInterface> *classBrowserInterfaceManager = 0;
+#ifndef KOMMANDER
+    static QPluginManager<ClassBrowserInterface> *classBrowserInterfaceManager = 0;
+#endif
 
 HierarchyItem::HierarchyItem( Type type, QListViewItem *parent,
             const QString &txt1, const QString &txt2, const QString &txt3 )
@@ -961,7 +965,9 @@ HierarchyView::HierarchyView( QWidget *parent )
       WStyle_Tool |WStyle_MinMax | WStyle_SysMenu )
 {
     formwindow = 0;
+#ifndef KOMMANDER
     editor = 0;
+#endif
     setIcon( PixmapChooser::loadPixmap( "logo" ) );
     listview = new HierarchyList( this, formWindow() );
     addTab( listview, tr( "Widgets" ) );
@@ -972,10 +978,13 @@ HierarchyView::HierarchyView( QWidget *parent )
   addTab( fView, tr( "Source" ) );
 #endif
 
+#ifndef KOMMANDER
     if ( !classBrowserInterfaceManager ) {
   classBrowserInterfaceManager = new QPluginManager<ClassBrowserInterface>( IID_ClassBrowser, QApplication::libraryPaths(), "/designer" );
     }
+#endif
 
+#ifndef KOMMANDER
     classBrowsers = new QMap<QString, ClassBrowser>();
     QStringList langs = MetaDataBase::languages();
     for ( QStringList::Iterator it = langs.begin(); it != langs.end(); ++it ) {
@@ -988,6 +997,7 @@ HierarchyView::HierarchyView( QWidget *parent )
       classBrowsers->insert( *it, cb );
   }
     }
+#endif
 }
 
 HierarchyView::~HierarchyView()
@@ -999,11 +1009,11 @@ void HierarchyView::clear()
     listview->clear();
 #ifndef KOMMANDER
   fView->clear();
-#endif
     for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
     it != classBrowsers->end(); ++it ) {
   (*it).iface->clear();
     }
+#endif
 }
 
 void HierarchyView::setFormWindow( FormWindow *fw, QWidget *w )
@@ -1016,9 +1026,9 @@ void HierarchyView::setFormWindow( FormWindow *fw, QWidget *w )
   listview->setFormWindow( fw );
 #ifndef KOMMANDER
   fView->setFormWindow( fw );
+  editor = 0;
 #endif
   formwindow = 0;
-  editor = 0;
     }
 
     if ( fw == formwindow ) {
@@ -1048,14 +1058,15 @@ void HierarchyView::setFormWindow( FormWindow *fw, QWidget *w )
 #ifndef KOMMANDER
     else
       showPage( fView );
-#endif
 
     for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
     it != classBrowsers->end(); ++it )
   (*it).iface->clear();
     editor = 0;
+#endif
 }
 
+#ifndef KOMMANDER
 void HierarchyView::showClasses( SourceEditor *se )
 {
     if ( !se->object() )
@@ -1063,7 +1074,9 @@ void HierarchyView::showClasses( SourceEditor *se )
     lastSourceEditor = se;
     QTimer::singleShot( 100, this, SLOT( showClassesTimeout() ) );
 }
+#endif
 
+#ifndef KOMMANDER
 void HierarchyView::showClassesTimeout()
 {
     if ( !lastSourceEditor )
@@ -1087,39 +1100,38 @@ void HierarchyView::showClassesTimeout()
   fView->clear();
 #endif
     MainWindow::self->propertyeditor()->setWidget( 0, 0 );
+#ifndef KOMMANDER
     editor = se;
 
     for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
     it != classBrowsers->end(); ++it ) {
-#ifndef KOMMANDER
   if ( it.key() == se->project()->language() ) {
-#else
   if ( it.key() == "C++" ) {
-#endif
       (*it).iface->update( se->text() );
       showPage( (*it).lv );
   } else {
       (*it).iface->clear();
   }
     }
+#endif
 }
+#endif
 
+#ifndef KOMMANDER
 void HierarchyView::updateClassBrowsers()
 {
     if ( !editor )
   return;
     for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
     it != classBrowsers->end(); ++it ) {
-#ifndef KOMMANDER
   if ( it.key() == editor->project()->language() )
-#else
   if ( it.key() == "C++" )
-#endif
       (*it).iface->update( editor->text() );
   else
       (*it).iface->clear();
     }
 }
+#endif
 
 FormWindow *HierarchyView::formWindow() const
 {
@@ -1205,6 +1217,7 @@ void HierarchyView::updateFormDefinitionView()
 }
 #endif
 
+#ifndef KOMMANDER
 void HierarchyView::jumpTo( const QString &func, const QString &clss, int type )
 {
     if ( !editor )
@@ -1214,7 +1227,9 @@ void HierarchyView::jumpTo( const QString &func, const QString &clss, int type )
     else
   editor->setFunction( func, clss );
 }
+#endif
 
+#ifndef KOMMANDER
 HierarchyView::ClassBrowser::ClassBrowser( QListView *l, ClassBrowserInterface *i )
     : lv( l ), iface( i )
 {
@@ -1223,4 +1238,5 @@ HierarchyView::ClassBrowser::ClassBrowser( QListView *l, ClassBrowserInterface *
 HierarchyView::ClassBrowser::~ClassBrowser()
 {
 }
+#endif
 #include "hierarchyview.moc"
