@@ -37,6 +37,7 @@ public:
 public slots:
 	virtual void setWidgetText(const QString &);
 signals:
+	void widgetOpened();
 	void widgetTextChanged(const QString &);
 protected:
 	QObjectList m_childList;

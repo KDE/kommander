@@ -24,6 +24,8 @@ ExecButton::ExecButton(QWidget *a_parent, const char *a_name)
 	setWriteStdout(false);
 
 	connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
+
+	emit widgetOpened();
 }
 
 ExecButton::~ExecButton()

@@ -39,6 +39,7 @@ public slots:
 	virtual void showDialog();
 	virtual void slotFinished();
 signals:
+	void widgetOpened();
 	void widgetTextChanged(const QString &);
 protected:
 	QDialog *m_dialog;

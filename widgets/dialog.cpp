@@ -17,6 +17,8 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
+
+	emit widgetOpened();
 }
 
 Dialog::~Dialog()

@@ -18,6 +18,8 @@ SpinBoxInt::SpinBoxInt(QWidget *a_parent, const char *a_name)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
+
+	emit widgetOpened();
 }
 
 SpinBoxInt::~SpinBoxInt()

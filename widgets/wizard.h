@@ -43,6 +43,7 @@ public slots:
 	virtual void exec();
 	virtual void runHelp();
 signals:
+	void widgetOpened();
 	void widgetTextChanged(const QString &);
 	void finished();
 protected:

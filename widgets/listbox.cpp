@@ -22,6 +22,8 @@ ListBox::ListBox(QWidget *a_parent, const char *a_name)
 //FIXME: Do we need it?
 //  connect(this, SIGNAL(highlighted(int)), this, SLOT(setActivatedText(int)));
 
+  emit widgetOpened();
+
 }
 
 ListBox::~ListBox()

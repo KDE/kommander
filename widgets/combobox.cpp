@@ -20,6 +20,8 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
 	setDisplayStates(states);
 //FIXME: Do we need it?
 //	connect(this, SIGNAL(activated(int)), this, SLOT(setActivatedText(int)));
+
+	emit widgetOpened();
 }
 
 ComboBox::~ComboBox()

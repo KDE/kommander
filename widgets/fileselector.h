@@ -54,6 +54,7 @@ public slots:
 	virtual void setWidgetText(const QString &);
 	virtual void makeSelection();
 signals:
+	void widgetOpened();
 	void widgetTextChanged(const QString &);
 protected:
 	bool m_openMultiple;

@@ -17,6 +17,8 @@ TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
+
+	emit widgetOpened();
 }
 
 TabWidget::~TabWidget()

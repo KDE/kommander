@@ -35,6 +35,7 @@ public slots:
 	virtual void setWidgetText(const QString &);
 	virtual void setActivated(int);
 signals:
+	void widgetOpened();
 	void widgetTextChanged(const QString &);
 protected:
 private:

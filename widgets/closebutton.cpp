@@ -33,6 +33,8 @@ CloseButton::CloseButton(QWidget *a_parent, const char *a_name)
 			break;
 	}
 	connect(this, SIGNAL(clicked()), parent, SLOT(reject()));
+
+	emit widgetOpened();
 }
 
 CloseButton::~CloseButton()

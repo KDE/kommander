@@ -25,6 +25,8 @@ CheckBox::CheckBox(QWidget *a_parent, const char *a_name)
 	displayStates << "semichecked";
 	displayStates << "unchecked";
 	setDisplayStates(displayStates);
+
+	emit widgetOpened();
 }
 
 CheckBox::~CheckBox()

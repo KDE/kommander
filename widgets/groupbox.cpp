@@ -20,6 +20,8 @@ GroupBox::GroupBox(QWidget *a_parent, const char *a_name)
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
+
+	emit widgetOpened();
 }
 
 GroupBox::~GroupBox()

@@ -40,6 +40,7 @@ public slots:
 	virtual void appendOutput(KProcess *, char *, int);
 	virtual void endProcess(KProcess *);
 signals:
+	void widgetOpened();
 	void widgetTextChanged(const QString &);
 protected:
 	bool m_writeStdout;

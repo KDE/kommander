@@ -22,6 +22,8 @@ Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 	setDisplayStates(states);
 
 	connect(this, SIGNAL(helpClicked()), SLOT(runHelp()));
+
+	emit widgetOpened();
 }
 
 Wizard::~Wizard()

@@ -22,6 +22,8 @@ RadioButton::RadioButton(QWidget *a_parent, const char *a_name)
 	displayStates << "checked";
 	displayStates << "unchecked";
 	setDisplayStates(displayStates);
+
+	emit widgetOpened();
 }
 
 RadioButton::~RadioButton()

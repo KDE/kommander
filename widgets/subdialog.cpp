@@ -22,6 +22,8 @@ SubDialog::SubDialog(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
 
   connect(this, SIGNAL(clicked()), this, SLOT(showDialog()));
+  
+  emit widgetOpened();
 }
 
 SubDialog::~SubDialog()

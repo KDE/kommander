@@ -17,6 +17,8 @@ TextEdit::TextEdit(QWidget *a_parent, const char *a_name)
 	setDisplayStates(states);
 
 	connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
+
+	emit widgetOpened();
 }
 
 QString TextEdit::currentState() const

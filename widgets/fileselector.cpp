@@ -37,6 +37,8 @@ FileSelector::FileSelector(QWidget *a_parent, const char *a_name)
 
 	setSelectionType(Open);
 	setSelectionOpenMultiple(FALSE);
+
+	emit widgetOpened();
 }
 
 FileSelector::~FileSelector()

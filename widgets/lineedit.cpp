@@ -17,6 +17,8 @@ LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
 	setDisplayStates(states);
 
 	connect(this, SIGNAL(textChanged(const QString &)), this, SIGNAL(widgetTextChanged(const QString &)));
+
+	emit widgetOpened();
 }
 
 QString LineEdit::currentState() const
