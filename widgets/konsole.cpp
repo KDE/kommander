@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 /* QT INCLUDES */
+#include <qcursor.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qwidget.h>
@@ -73,9 +74,9 @@ void Konsole::populate()
   setWidgetText(txt);
 }
 
-void Konsole::setWidgetText(const QString& a_text)
+void Konsole::setWidgetText(const QString&)
 {
-//  emit widgetTextChanged(a_text);
+//  FIXME: emit widgetTextChanged(a_text);
 }
 
 void Konsole::execute()
@@ -85,6 +86,7 @@ void Konsole::execute()
   process->setBlocking(false);
   connect(process, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
   connect(process, SIGNAL(processReceivedStdout(MyProcess*, char*, int)), SLOT(processReceivedStdout(MyProcess*, char*, int)));
+  setCursor(QCursor(Qt::WaitCursor));
   process->run(at);
 }
 
@@ -93,11 +95,14 @@ void Konsole::processReceivedStdout(MyProcess*, char* buffer, int buflen)
 {
   QString pBuf = QString::fromLocal8Bit(buffer, buflen);  
   QStringList items = QStringList::split("\n", pBuf);
-  insertStringList(items);  
+  insertStringList(items); 
+  setCurrentItem(count()-1); 
+  ensureCurrentVisible();
 }
 
 void Konsole::processExited(MyProcess* p)
 {
+  unsetCursor();
   delete p;
 }
 
