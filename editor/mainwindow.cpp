@@ -1890,48 +1890,9 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
     // we assume all widgets derive from KommanderWidget [MB02]
     if(id == commands["assoc"])
     {
-         KommanderWidget *atw = dynamic_cast<KommanderWidget *>(w);
-         if(!atw)
-             return;
-
-         AssocTextEditor *editor = new AssocTextEditor(w, atw, this, "AssocTextEditor", TRUE);
-         QString caption = i18n("Edit Kommander Text for Widget \'%1\'").arg(w->name());
-         editor->setCaption(caption);
-
-         if(editor->exec())
-         {
-	     //set both the population text and associated text if changed
-	     if( atw->associatedText() != editor->associatedText() )
-	     {
-		QString text = QString("Set the \'text association\' of \'%1\'").arg(w->name());
-
-             SetPropertyCommand *cmd  = new SetPropertyCommand(text,
-                                    formWindow(), w, propertyEditor,
-                                    "associations", atw->associatedText(),
-                                    editor->associatedText(), QString::null,
-                                    QString::null, FALSE);
-
-		 cmd->execute();
-		 formWindow()->commandHistory()->addCommand(cmd);
-
-		 MetaDataBase::setPropertyChanged( w, "associations", TRUE );
-	     }
-	     if( atw->populationText() != editor->populationText() )
-	     {
-		QString text = QString("Set the \'population text\' of \'%1\'").arg(w->name());
-
-             SetPropertyCommand *cmd  = new SetPropertyCommand(text,
-                                    formWindow(), w, propertyEditor,
-                                    "populationText", atw->populationText(),
-                                    editor->populationText(), QString::null,
-                                    QString::null, FALSE);
-
-		 cmd->execute();
-		 formWindow()->commandHistory()->addCommand(cmd);
-
-		 MetaDataBase::setPropertyChanged( w, "populationText", TRUE );
-	     }
-         }
+         AssocTextEditor *editor = new AssocTextEditor(w, formWindow(), propertyEditor, 
+             this, "AssocTextEditor", true);
+         editor->exec();
          delete editor;
     }
 
@@ -1961,6 +1922,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 
 void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands, FormWindow *fw )
 {
+    /*
     if(id == commands["assoc"])
     {
          KommanderWidget *atw = dynamic_cast<KommanderWidget *>(fw->mainContainer());
@@ -2006,7 +1968,17 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 	     }
          }
          delete editor;
+    }*/
+  
+    if(id == commands["assoc"])
+    {
+         AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), formWindow(), propertyEditor, 
+             this, "AssocTextEditor", true);
+         editor->exec();
+         delete editor;
     }
+
+
     if ( fw->mainContainer()->inherits( "QWizard" ) ) {
         QWizard *wiz = (QWizard*)fw->mainContainer();
         if ( id == commands[ "add" ] ) {
