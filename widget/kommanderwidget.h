@@ -63,9 +63,12 @@ public:
   virtual QString selectedWidgetText() const = 0;
   // Choose selected item(s). Only existing items can be selected.
   virtual void setSelectedWidgetText(const QString&) = 0;
+  
   // Recognizes editor vs executor mode
   static bool inEditor;
-  
+  // Prints errors in message boxes, not in stderr
+  static bool showErrors;
+
 protected:
   virtual void setStates(const QStringList& a_states);
   virtual void setDisplayStates(const QStringList& a_displayStates);

@@ -19,6 +19,7 @@
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <kprocess.h>
 
 /* QT INCLUDES */
@@ -103,7 +104,7 @@ QString KommanderWidget::evalAssociatedText() const // expands and returns assoc
   int index = ( states().findIndex( currentState()) );
   if (index == -1)
   {
-    printError(i18n("Invalid state for associated text"));
+    printError(i18n("Invalid state for associated text."));
     return QString::null;
   }
   return evalAssociatedText(m_associatedText[index]);
@@ -153,24 +154,24 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
       QString arg = parseBrackets(a_text, pos, ok);
       if (!ok)
       {
-        printError(i18n("Unmatched parenthesis after \'%1\'").arg(identifier));
+        printError(i18n("Unmatched parenthesis after \'%1\'.").arg(identifier));
         return QString::null;
       }
       const QStringList args = parseArgs(arg, ok);
       if (!ok)
       {
-        printError(i18n("Unmatched quotes in argument of \'%1\'").arg(identifier));
+        printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(identifier));
         return QString::null;
       }
       if (args.count() < m_functions[identifier].first)
       {
-        printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3)")
+        printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).")
           .arg(identifier).arg(args.count()).arg(m_functions[identifier].first));
         return QString::null;
       }
       if (args.count() > m_functions[identifier].second)
       {
-        printError(i18n("Too many arguments for \'%1\' (%2 instead of %3)")
+        printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).")
           .arg(identifier).arg(args.count()).arg(m_functions[identifier].second));
         return QString::null;
       }
@@ -224,7 +225,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
         int f = a_text.find("@execEnd", pos);  
         if (f == -1)
         {
-          printError(i18n("Unterminated @execBegin ... @execEnd block"));
+          printError(i18n("Unterminated @execBegin ... @execEnd block."));
           return QString::null;
         } 
         else
@@ -239,12 +240,12 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     {
       KommanderWidget* pWidget = parseWidget(identifier);
       if (!pWidget) {
-        printError(i18n("Unknown special: @%1").arg(identifier));
+        printError(i18n("Unknown special: @%1.").arg(identifier));
         return QString::null;
       }
       else if (pWidget == this)
       {
-        printError(i18n("Infinite loop: @%1 called inside @%2").arg(identifier).arg(identifier));
+        printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
         return QString::null;
       }
       else
@@ -269,13 +270,13 @@ QString KommanderWidget::dcopQuery(const QStringList& a_query) const
     pTypes = parseBrackets(function, start, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'").arg(function));
+    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.").arg(function));
     return QString::null;
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
-    printError(i18n("Incorrect arguments in DCOP call \'%1\'").arg(function));
+    printError(i18n("Incorrect arguments in DCOP call \'%1\'.").arg(function));
     return QString::null;
   }
   
@@ -305,7 +306,7 @@ QString KommanderWidget::dcopQuery(const QStringList& a_query) const
   DCOPClient *cl = KApplication::dcopClient();
   if (!cl || !cl->call(appId, object, function.latin1(), byteData, replyType, byteReply))
   {
-    printError(i18n("Tried to perform DCOP query, but failed"));
+    printError(i18n("Tried to perform DCOP query, but failed."));
     return QString::null;
   }
 
@@ -385,8 +386,16 @@ QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_par
 
 void KommanderWidget::printError(const QString& a_error, const QString& a_className) const
 {
-  kdError() << i18n("In widget %1:\n\t%2\n").arg( a_className.isNull() ? 
-    QString(m_thisObject->name()) : a_className ).arg(a_error);
+  if (showErrors) 
+  {
+    KMessageBox::error(0, i18n("<qt>Error in script for widget <b>%1:</b><p><i>%2</i></qt>")
+       .arg(a_className.isNull() ? QString(m_thisObject->name()) : a_className).arg(a_error)); 
+  }
+  else 
+  {
+    kdError() << i18n("In widget %1:\n\t%2\n").arg( a_className.isNull() ? 
+       QString(m_thisObject->name()) : a_className ).arg(a_error);
+  }
 }
 
 QString KommanderWidget::parentPid() const
@@ -551,3 +560,5 @@ void KommanderWidget::registerFunction(const QString& name, uint minarg, uint ma
 QMap<QString, QPair<uint, uint> > KommanderWidget::m_functions;
 
 bool KommanderWidget::inEditor = false;
+bool KommanderWidget::showErrors = true;
+
