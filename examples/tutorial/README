@@ -1,0 +1,24 @@
+Those example illustrate various Kommander features.
+
+In the future they would be used togother with Kommander tutorials. 
+For now, only short information is available
+
+
+* GLOBALS.KMDR
+Shows using global and setGlobal DCOP calls to provide global
+variables for script.
+Function/concepts:
+- global
+- setGlobal
+- changeWidgetText
+
+* DCOP.KMDR
+Show how to use both local and external DCOP calls to communicate 
+with external application (here: KMail). 
+Function/concepts:
+- external DCOP
+- addListItem
+- enableWidget
+- @selectedWidgetText
+- @widgetText
+
