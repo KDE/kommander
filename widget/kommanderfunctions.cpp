@@ -37,6 +37,8 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
     return kapp->dcopClient()->appId();
   else if (function == "pid")
     return QString().setNum(getpid());
+  else if (function == "null")
+    return QString::null;
   else if (function == "exec")
     return execCommand(args[0]);
   else if (function == "dcop")

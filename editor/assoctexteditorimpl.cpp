@@ -216,6 +216,7 @@ void AssocTextEditor::buildFunctionList()
   functionComboBox->insertItem("@env()");
   functionComboBox->insertItem("@exec()");
   functionComboBox->insertItem("@global()");
+  functionComboBox->insertItem("@null");
   functionComboBox->insertItem("@parentPid");
   functionComboBox->insertItem("@pid");
   functionComboBox->insertItem("@readSetting()");

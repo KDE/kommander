@@ -44,6 +44,7 @@ void Instance::registerSpecials()
   /* global specials */
   SpecialInformation::insert("widgetText", 0, 0);
   SpecialInformation::insert("selectedWidgetText", 0, 0);
+  SpecialInformation::insert("null", 0, 0);
   SpecialInformation::insert("pid", 0, 0);
   SpecialInformation::insert("dcopid", 0, 0);
   SpecialInformation::insert("parentPid", 0, 0);
