@@ -35,6 +35,7 @@ public:
   QString run(const QString& a_command, const QString& a_shell = "/bin/sh");
   void setBlocking(bool blocking);
   bool isBlocking();
+  QString output();
 signals:
   void processExited(MyProcess*);
 private slots:

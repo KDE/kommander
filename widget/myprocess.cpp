@@ -40,6 +40,11 @@ void MyProcess::setBlocking(bool blocking)
   m_blocking = blocking;
 }
 
+QString MyProcess::output()
+{
+  return m_output;  
+}    
+    
 bool MyProcess::isBlocking()
 {
   return m_blocking;

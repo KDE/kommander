@@ -31,7 +31,9 @@
 #include <specials.h>
 #include "execbutton.h"
 #include <myprocess.h>
-#include <cstdio>
+#include <iostream>
+
+using namespace std;
 
 ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   : KPushButton(a_parent, a_name), KommanderWidget(this)
@@ -103,11 +105,13 @@ void ExecButton::startProcess()
   MyProcess* process = new MyProcess(this);
   process->setBlocking(m_blockGUI == GUI);
   connect(process, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
-  m_output = process->run(at);
+  process->run(at);
   if (m_blockGUI == GUI)
   {
     setEnabled(true);
     KApplication::restoreOverrideCursor();
+    if (writeStdout())
+      cout << process->output();
   }
 }
 
@@ -136,6 +140,8 @@ void ExecButton::processExited(MyProcess* p)
 {
   if (blockGUI() != None)
     setEnabled(true);
+  if (writeStdout())
+    cout << p->output();
   delete p;
 }
 
