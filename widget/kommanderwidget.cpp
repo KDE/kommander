@@ -43,7 +43,7 @@
 /* OTHER INCLUDES */
 #include "myprocess.h"
 #include "kommanderwidget.h"
-
+#include "dcopinformation.h"
 
 
 
@@ -132,8 +132,6 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
       continue;
     }
     
-    
-      
     QString identifier = parseIdentifier(a_text, pos);
     if (identifier.isEmpty()) {
       if (pos < baseTextLength && a_text[pos] == '#') {   // comment 
@@ -247,6 +245,35 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
       {
         printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
         return QString::null;
+      }
+      else if (a_text[pos] == '.')
+      {
+         pos++;
+         bool ok = true;
+         QString function = parseIdentifier(a_text, pos);
+         QString prototype = DCOPInformation::prototype(function);
+         if (prototype.isNull())
+         {
+            printError(i18n("Unknown DCOP function: '%1'.").arg(function));
+            return QString::null;
+         }
+         QString brackets = parseBrackets(a_text, pos, ok);
+         if (!ok)
+         {
+            printError(i18n("Unmatched parenthesis after \'@%1.%2\'.").arg(identifier)
+               .arg(function));
+            return QString::null;
+         }
+         QStringList args;
+         args.append(identifier);
+         args += parseArgs(brackets, ok);
+         if (!ok)
+         {
+           printError(i18n("Unmatched quotes in argument of \'@%1.%2\'.").arg(identifier)
+               .arg(function));
+           return QString::null;
+         }
+         evalText += localDcopQuery(prototype, args);
       }
       else
         evalText += pWidget->evalAssociatedText();

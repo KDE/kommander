@@ -88,6 +88,8 @@ public slots:
   bool build();
   /** Builds the instance from an input file */
   bool build(QFile*);
+  /** Registers all known DCOP functions */
+  void registerDCOP();
 protected:
   /* Dialog Instance */
   QDialog *m_instance;

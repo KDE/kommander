@@ -47,17 +47,20 @@
 #include <kommanderwidget.h>
 #include <kommanderfactory.h>
 #include <fileselector.h>
+#include <dcopinformation.h>
 
 Instance::Instance()
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0),
   m_cmdArguments(0)
 {
+  registerDCOP();
 }
 
 Instance::Instance(const KURL& a_uiFileName, QWidget *a_parent)
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
   m_parent(a_parent), m_cmdArguments(0)
 {
+  registerDCOP();
 }
 
 void Instance::addArgument(const QString& argument)
@@ -421,6 +424,28 @@ QObjectList* Instance::stringToWidget(const QString& name)
   if (!m_instance)
     return 0;
   return m_instance->queryList(0, name, false);
+}
+
+void Instance::registerDCOP()
+{
+  DCOPInformation::insert("enableWidget(QString,bool)");
+  DCOPInformation::insert("changeWidgetText(QString,QString)");
+  DCOPInformation::insert("currentItem(QString)");
+  DCOPInformation::insert("item(QString,int)");
+  DCOPInformation::insert("removeListItem(QString,int)");
+  DCOPInformation::insert("addListItem(QString,QString,int)");
+  DCOPInformation::insert("addListItems(QString,QStringList,int)");
+  DCOPInformation::insert("clearList(QString)");
+  DCOPInformation::insert("setCurrentListItem(QString,QString)");
+  DCOPInformation::insert("setCurrentTab(QString,int)");
+  DCOPInformation::insert("setChecked(QString, bool)");
+  DCOPInformation::insert("setAssociatedText(QString,QString)");
+  DCOPInformation::insert("associatedText(QString)");
+  DCOPInformation::insert("global(QString)");
+  DCOPInformation::insert("setGlobal(QString,QString)");
+  DCOPInformation::insert("arrayValue(QString,QString)");
+  DCOPInformation::insert("setArrayValue(QString,QString,QString)");
+  DCOPInformation::insert("array(QString arrayName)");
 }
 
   
