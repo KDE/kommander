@@ -7,18 +7,28 @@ For now, only short information is available
 * GLOBALS.KMDR
 Shows using global and setGlobal DCOP calls to provide global
 variables for script.
-Function/concepts:
+Functions/concepts:
 - global
 - setGlobal
 - changeWidgetText
 
 * DCOP.KMDR
-Show how to use both local and external DCOP calls to communicate 
+Shows how to use both local and external DCOP calls to communicate 
 with external application (here: KMail). 
-Function/concepts:
+Functions/concepts:
 - external DCOP
 - addListItem
 - enableWidget
 - @selectedWidgetText
 - @widgetText
+
+* SETTINGS.KMDR
+Shows how to use @readSetting and @writeSetting functions to write/restore
+widget content. Also, shows how to use populate() slot to initialize widget
+content.
+Functions/concepts:
+- @readSetting
+- @writeSetting
+- populate()
+- slots/connections
 
