@@ -1198,7 +1198,7 @@ void MainWindow::fileOpen( const QString &filter, const QString &fn )
 #ifndef KOMMANDER
       if ( !inProject )
     filterlist << tr( "Designer Files (*.ui *.pro)" );
-      filterlist << tr( "Qt User-Interface Files (*.ui)" );
+      filterlist << tr( "DQt User-Interface Files (*.ui)" );
 #else
       filterlist << tr("*.kmdr|Kommander Files");
 #endif

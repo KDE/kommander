@@ -340,9 +340,9 @@ bool FormFile::saveAs()
     while ( !saved ) {
   QString fn = KFileDialog::getSaveFileName( QString::null,
 #ifndef KOMMANDER
-      tr( "*.ui|Qt User-Interface Files" ), MainWindow::self,
+      tr( "*.ui|AQt User-Interface Files" ), MainWindow::self,
 #else
-      tr( "*.kmdr|Qt User-Interface Files" ), MainWindow::self,
+      tr( "*.kmdr|Kommander Files" ), MainWindow::self,
 #endif
                  tr( "Save Form '%1' As ...").arg( formWindow()->name() ));
 
@@ -871,7 +871,7 @@ bool FormFile::checkFileName( bool allowBreak )
   while ( fn.isEmpty() ) {
       fn = QFileDialog::getSaveFileName( pro->makeAbsolute( fileName() ),
 #ifndef KOMMANDER
-          tr( "Qt User-Interface Files (*nameui)" ) + ";;" +
+          tr( "BQt User-Interface Files (*nameui)" ) + ";;" +
 #else
           tr( "Kommander Files (*nameui)" ) + ";;" +
 #endif
