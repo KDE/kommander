@@ -1,9 +1,8 @@
 /***************************************************************************
-			treewidget.cpp - A tree widget
+                  treewidget.cpp - Tree/detailed list widget
                              -------------------
-		begin			: 03/08/2003
-		copyright		: (C) Marc Britton
-		email			: consume@optusnet.com.au
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -119,6 +118,35 @@ QString TreeWidget::itemText(QListViewItem* item)
   return items.join("\t");
 }
   
+QString TreeWidget::itemsText() 
+{
+  QStringList items;
+  QListViewItemIterator it(this);
+  while (it.current()) 
+  {
+    QString path = itemPath(it.current());
+    if (path.isEmpty())
+      items.append(itemText(it.current()));
+    else 
+      items.append(QString("%1/%2").arg(path).arg(itemText(it.current())));
+    ++it;
+  }
+  return items.join("\n");
+}
+
+QString TreeWidget::itemPath(QListViewItem* item)
+{
+  if (!item) 
+    return QString::null;
+  item = item->parent();
+  QStringList path;
+  while (item) 
+  {
+    path.prepend(item->text(0));
+    item = item->parent();
+  } 
+  return path.join("/");
+}
 
 QString TreeWidget::currentState() const
 {
@@ -159,13 +187,12 @@ QString TreeWidget::populationText() const
 
 void TreeWidget::populate()
 {
-  QString txt = KommanderWidget::evalAssociatedText( populationText() );
-//FIXME: implement me
+  setWidgetText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
 void TreeWidget::setWidgetText(const QString &a_text)
 {
-//FIXME: implement  
+  handleDCOP(DCOP::setText, a_text);
   emit widgetTextChanged(a_text);
 }
 
@@ -181,6 +208,10 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::insertItem:
       addItemFromString(args[0]);
       break;
+    case DCOP::text:
+      return itemsText();
+    case DCOP::setText:
+      clear();       /* break omitted: setText is equivalent to clear and insertItems */
     case DCOP::insertItems:
     {
       QStringList items(QStringList::split("\n", args[0]));
@@ -209,6 +240,13 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::item:
       return itemText(indexToItem(args[0].toInt()));
+    case DCOP::itemPath:
+      return itemPath(indexToItem(args[0].toInt()));
+    case DCOP::itemDepth:
+    {
+      QListViewItem* item = indexToItem(args[0].toInt());
+      return (item) ? QString::number(item->depth()) : "-1";
+    }
     default:
       break;
   }

@@ -1,9 +1,8 @@
 /***************************************************************************
-				treewidget.h - A tree widget
+                  treewidget.h - Tree/detailed list widget
                              -------------------
-		begin			: 03/08/2003
-		copyright		: (C) Marc Britton
-		email			: consume@optusnet.com.au
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -62,7 +61,9 @@ protected:
   void showEvent(QShowEvent *e);
   int itemToIndex(QListViewItem* item);
   QString itemText(QListViewItem* item);
+  QString itemsText();
   QListViewItem* indexToItem(int index);
+  QString itemPath(QListViewItem* item);
 private:
   void addItemFromString(const QString& s);
   QListViewItem* itemFromString(QListViewItem* parent, const QString& s);

@@ -18,8 +18,9 @@
     <property name="associations" stdset="0">
         <stringlist>
             <string></string>
-            <string>@FileSelector1.setText(@env(HOME))</string>
-            <string></string>
+            <string>@FileSelector1.setText(@env(HOME))
+@TreeWidget1.setText(@readSetting(FileTree, ""))</string>
+            <string>@writeSetting(FileTree, @TreeWidget1.text)</string>
         </stringlist>
     </property>
     <grid>
