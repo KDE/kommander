@@ -23,10 +23,10 @@
 
 #include "ewidgetfactory.h"
 
-#include <eventinterface.h>
-#include <interpreterinterface.h>
-#include <languageinterface.h>
-#include <widgetinterface.h>
+#include "eventinterface.h"
+#include "interpreterinterface.h"
+#include "languageinterface.h"
+#include "widgetinterface.h"
 
 #ifndef KOMMANDER
 #include <qwidgetfactory.h>
@@ -40,7 +40,7 @@
 #include <qdir.h>
 #include <qlayout.h>
 #include <qmetaobject.h>
-#include <domtool.h>
+#include "domtool.h"
 #include <qapplication.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
@@ -94,8 +94,6 @@
 #include <qaction.h>
 #include <qpopupmenu.h>
 #include <qmenubar.h>
-#include <qpopupmenu.h>
-#include <qwidgetstack.h>
 #include <qdatetimeedit.h>
 
 /* KOMMANDER INCLUDES */

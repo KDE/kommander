@@ -27,7 +27,7 @@
 #include "resource.h"
 #include "layout.h"
 #include "connectioneditorimpl.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "pixmapchooser.h"
 #include "orderindicator.h"
 #include "hierarchyview.h"
@@ -48,7 +48,6 @@
 #include <qlayout.h>
 #include <qspinbox.h>
 #include <qstatusbar.h>
-#include <qapplication.h>
 #include <qpalette.h>
 #include <qmessagebox.h>
 #include <qpopupmenu.h>

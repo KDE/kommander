@@ -22,7 +22,7 @@
 #include "widgetfactory.h"
 #include "propertyeditor.h"
 #include "metadatabase.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "mainwindow.h"
 #include "hierarchyview.h"
 #include "workspace.h"

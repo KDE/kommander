@@ -20,7 +20,7 @@
 
 #include <qvariant.h> // HP-UX compiler need this here
 #include "widgetfactory.h"
-#include <widgetdatabase.h>
+#include "widgetdatabase.h"
 #include "metadatabase.h"
 #include "mainwindow.h"
 #include "formwindow.h"
@@ -29,7 +29,6 @@
 #include "listboxeditorimpl.h"
 #include "listvieweditorimpl.h"
 #include "iconvieweditorimpl.h"
-#include "formwindow.h"
 #include "multilineeditorimpl.h"
 #include "widgetinterface.h"
 #ifndef QT_NO_TABLE
@@ -68,7 +67,6 @@
 #include <qtextbrowser.h>
 #include <qframe.h>
 #include <qmetaobject.h>
-#include <qwidgetstack.h>
 #include <qwizard.h>
 #include <qvaluelist.h>
 #include <qtimer.h>
@@ -82,7 +80,7 @@
 #endif
 
 #define NO_STATIC_COLORS
-#include <globaldefs.h>
+#include "globaldefs.h"
 
 /* KOMMANDER INCLUDES */
 #include <lineedit.h>

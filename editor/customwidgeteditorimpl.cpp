@@ -35,7 +35,6 @@
 #include <qlabel.h>
 #include <qmessagebox.h>
 #include <qfiledialog.h>
-#include <qmessagebox.h>
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qlistview.h>

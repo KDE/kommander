@@ -94,8 +94,6 @@
 #include <qaction.h>
 #include <qpopupmenu.h>
 #include <qmenubar.h>
-#include <qpopupmenu.h>
-#include <qwidgetstack.h>
 #include <qdatetimeedit.h>
 
 /* KOMMANDER INCLUDES */

@@ -66,7 +66,6 @@
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qwizard.h>
-#include <qdir.h>
 #include <qtimer.h>
 #include <qlistbox.h>
 #include <stdlib.h>
@@ -87,7 +86,6 @@
 #include "ewidgetfactory.h"
 #endif
 #include "formfile.h"
-#include "widgetfactory.h"
 
 
 #include <qvbox.h>
