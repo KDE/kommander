@@ -1,6 +1,13 @@
+Wed 27 Oct 2004 23:58:56 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added <> and != for 'not equal to' condition in expressions
+
+Sun 24 Oct 2004 19:04:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added missing setMaximum for Slider
+
 Fri 22 Oct 2004 22:27:05 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added 'no-editor' FileSelector (only a button with configurable
 	  caption)
+	o added warning for unmatched @if and @switch
 
 Tue 19 Oct 2004 23:23:28 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o Konsole now uses TextEdit widget

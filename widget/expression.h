@@ -36,7 +36,7 @@ public:
   bool isTrue(const QString& s, bool* valid = 0);
   
 private:
-  enum Type {Int, Double, String};
+  enum Type {TypeInt, TypeDouble, TypeString};
   
   /* parsing function - top-down approach */
     

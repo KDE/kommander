@@ -97,10 +97,10 @@ bool Expression::validate()
 Expression::Type Expression::commonType(const QVariant v1, const QVariant v2) const
 {
   if (v1.type() == QVariant::String || v2.type() == QVariant::String)
-    return String;
+    return TypeString;
   else if (v1.type() == QVariant::Double || v2.type() == QVariant::Double)
-    return Double;
-  return Int;
+    return TypeDouble;
+  return TypeInt;
 }
 
 int compareDouble(const double A, const double B)
@@ -112,9 +112,9 @@ int compareDouble(const double A, const double B)
 int Expression::compare(const QVariant v1, const QVariant v2) const
 {
   switch (commonType(v1, v2))  {
-    case String: return v1.toString().compare(v2.toString());
-    case Double: return compareDouble(v1.toDouble(), v2.toDouble());
-    case Int:    return v1.toInt() - v2.toInt();
+    case TypeString: return v1.toString().compare(v2.toString());
+    case TypeDouble: return compareDouble(v1.toDouble(), v2.toDouble());
+    case TypeInt:    return v1.toInt() - v2.toInt();
     default:	 return 0;
   }
 }
@@ -181,17 +181,17 @@ QVariant Expression::parseMultiply()
     QVariant value2 = parseBracket();
     Type mode = commonType(value, value2);
     if (op == "*")
-      if (mode == Double)
+      if (mode == TypeDouble)
         value = value.toDouble() * value2.toDouble();
       else
         value = value.toInt() * value2.toInt();
     else if (op == "/")
-      if (mode == Double)
+      if (mode == TypeDouble)
         value = value.toDouble() / value2.toDouble();
       else
         value = value.toInt() / value2.toInt();
     else 
-      if (mode == Double)
+      if (mode == TypeDouble)
         value = value.toDouble() / value2.toInt();
       else
         value = value.toInt() / value2.toInt();
@@ -211,12 +211,12 @@ QVariant Expression::parseAdd()
     QVariant value2 = parseMultiply();
     Type mode = commonType(value, value2);
     if (op == "+")
-      if (mode == Double)
+      if (mode == TypeDouble)
         value = value.toDouble() + value2.toDouble();
       else
         value = value.toInt() + value2.toInt();
     else
-      if (mode == Double)
+      if (mode == TypeDouble)
         value = value.toDouble() - value2.toDouble();
       else
         value = value.toInt() - value2.toInt();
@@ -308,6 +308,7 @@ QVariant Expression::value(const QString& s, bool* valid)
 bool Expression::isTrue(const QString& s, bool* valid)
 {
   QVariant v = value(s, valid);
-  return (v.type() == String && v != QString::null) || (v.type() != String && v.toInt() != 0);
+  return (v.type() == QVariant::String && v != QString::null) || 
+      (v.type() != QVariant::String && v.toInt() != 0);
 }
 
