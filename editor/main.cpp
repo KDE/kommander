@@ -98,7 +98,7 @@ int main( int argc, char *argv[] )
   QApplication::setColorSpec(QApplication::ManyColor);
   
   KLocale::setMainCatalogue("kommander");
-  DesignerApplication a(argc, argv, "Qt Designer");
+  DesignerApplication a(argc, argv, "kommander");
 
   DesignerApplication::setOverrideCursor(Qt::WaitCursor);
 
