@@ -38,7 +38,7 @@ class GotoLineDialog;
 class HierarchyView;
 class KAction;
 class KActionCollection;
-class KPopupMenu;
+class KProcess;
 class KRecentFilesAction;
 class KToggleAction;
 class KURL;
@@ -48,8 +48,8 @@ class QMenuBar;
 class QTimer;
 class QWidget;
 class QWorkspace;
+class MessageLog;
 class ReplaceDialog;
-class SourceFile;
 class Workspace;
 
 #if defined(Q_FULL_TEMPLATE_INSTANTIATION)
@@ -179,7 +179,7 @@ public slots:
     void editShortcuts();
 
     void runForm();
-
+    
 private slots:
     void activeWindowChanged( QWidget *w );
     void updateUndoRedo( bool, bool, const QString &, const QString & );
@@ -193,6 +193,8 @@ private slots:
     void windowsMenuActivated( int id );
     void setupWindowActions();
     void createNewTemplate();
+    
+    void closeRunningForm(KProcess* process);
     
 private:
     void setupMDI();
@@ -209,6 +211,7 @@ private:
     void setupHierarchyView();
     void setupWorkspace();
     void setupActionEditor();
+    void setupMessageLog();
     void setupPlugins();
 
     QWidget* previewFormInternal( QStyle* style = 0, QPalette* pal = 0 );
@@ -271,16 +274,17 @@ private:
     bool client;
     QString templPath;
     ActionEditor *actionEditor;
-    bool previewing;
 
     bool databaseAutoEdit;
     QTimer *updateSlotsTimer;
     bool inDebugMode;
     QObjectList debuggingForms;
     QString lastOpenFilter;
-    QGuardedPtr<QWidget> previewedForm;
     QString menuHelpFile;
     AssistProc *assistant;
+    
+    bool previewing;
+    MessageLog* messageLog;
 
 public:
     QString lastSaveFilter;

@@ -16,6 +16,7 @@
 #ifndef _HAVE_ASSOCTEXTEDITORIMPL_H_
 #define _HAVE_ASSOCTEXTEDITORIMPL_H_
 
+#include <qdict.h>
 #include <qstringlist.h>
 #include <qstring.h>
 #include <qwidget.h>
@@ -23,6 +24,7 @@
 #include <qmap.h>
 #include <qptrvector.h>
 #include <qpixmap.h>
+
 
 #include "assoctexteditor.h"
 #include <kommanderwidget.h>
