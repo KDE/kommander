@@ -35,12 +35,12 @@ public:
 	virtual QString widgetText() const;
 
 	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(QStringList);
+	virtual void setAssociatedText(const QStringList&);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
 	virtual QString populationText() const;
-	virtual void setPopulationText( QString );
+	virtual void setPopulationText(const QString&);
 public slots:
 	virtual void setWidgetText(const QString &);
 	virtual void populate();
@@ -204,14 +204,11 @@ With the line edit example, if we had komlineedit.h, komlineedit.cpp and
 mykomplugin.cpp, compiling and installing your plugin would involve
 something similar to the following commands:
 
-FIXME : THIS DOESN'T WORK, KOMMANDER NEEDS LIBTOOL GENERATED LIBRARIES (KDE)
-#generate moc output
-moc komlineedit.h > komlineedit.moc
-#compile sources into object files
-g++ -I$KDEDIR/include -I$QTDIR/include  -fPIC -c komlineedit.cpp mykomplugin.cpp
-#archive object files into shared library
-g++ -shared -L$KDEDIR/lib -lkdeui -lkommanderwidget -lkommanderplugin komlineedit.o mykomplugin.o -o libmykomplugin.so
-#copy to kde library directory
+libtool --mode=compile g++ -I/usr/include/kde -I/usr/share/qt3/include \
+   -I. -fPIC -c komlineedit.cpp
+libtool --mode=compile g++ -I/usr/include/kde -I/usr/share/qt3/include \
+   -I. -fPIC -c mykomplugin.cpp
+
 su -c "cp libmykomplugin.so $KDEDIR/lib"
 
 Now that the plugin is installed, run the kmdr-plugins program which is an 
