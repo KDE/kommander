@@ -22,16 +22,16 @@
 #define MAINWINDOW_H
 
 #include "metadatabase.h"
-#include "interfaces/actioninterface.h" // for GCC 2.7.* compatibility
-#include "interfaces/editorinterface.h"
-#include "interfaces/templatewizardiface.h"
-#include "interfaces/eventinterface.h"
-#include "interfaces/languageinterface.h"
-#include "interfaces/filterinterface.h"
-#include "interfaces/programinterface.h"
-#include "interfaces/interpreterinterface.h"
-#include "interfaces/preferenceinterface.h"
-#include "interfaces/sourcetemplateiface.h"
+#include "actioninterface.h" // for GCC 2.7.* compatibility
+#include "editorinterface.h"
+#include "templatewizardiface.h"
+#include "eventinterface.h"
+#include "languageinterface.h"
+#include "filterinterface.h"
+#include "programinterface.h"
+#include "interpreterinterface.h"
+#include "preferenceinterface.h"
+#include "sourcetemplateiface.h"
 #include "sourceeditor.h"
 
 #if defined(HAVE_KDE)

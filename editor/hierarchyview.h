@@ -26,7 +26,7 @@
 #include <qtabwidget.h>
 #include <qguardedptr.h>
 #include <private/qcom_p.h>
-#include "interfaces/classbrowserinterface.h"
+#include "classbrowserinterface.h"
 
 class FormWindow;
 class QCloseEvent;

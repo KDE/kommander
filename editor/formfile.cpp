@@ -27,7 +27,7 @@
 #include "command.h"
 #include "sourceeditor.h"
 #include "mainwindow.h"
-#include "interfaces/languageinterface.h"
+#include "languageinterface.h"
 #include "resource.h"
 #include "workspace.h"
 #include <qmessagebox.h>

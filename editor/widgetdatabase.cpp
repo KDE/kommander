@@ -21,7 +21,7 @@
 #if !defined(UIC)
 #include "pixmapchooser.h"
 #endif
-#include "interfaces/widgetinterface.h"
+#include "widgetinterface.h"
 #include "widgetdatabase.h"
 
 #include <qapplication.h>

@@ -26,7 +26,7 @@
 #include "project.h"
 #endif
 #include "mainwindow.h"
-#include "interfaces/languageinterface.h"
+#include "languageinterface.h"
 #include <qregexp.h>
 #ifndef KOMMANDER
 #include "project.h"

@@ -18,8 +18,8 @@
 **
 **********************************************************************/
 
-#include "interfaces/eventinterface.h"
-#include "interfaces/languageinterface.h"
+#include "eventinterface.h"
+#include "languageinterface.h"
 #include "metadatabase.h"
 #include "widgetfactory.h"
 #include "formwindow.h"

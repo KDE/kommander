@@ -45,7 +45,7 @@
 #include <qfeatures.h>
 #include <qapplication.h>
 #include <qtimer.h>
-#include "interfaces/languageinterface.h"
+#include "languageinterface.h"
 #include <qworkspace.h>
 #include <qaccel.h>
 

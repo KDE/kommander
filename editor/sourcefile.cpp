@@ -24,7 +24,7 @@
 #include "designerappiface.h"
 #include "sourceeditor.h"
 #include "metadatabase.h"
-#include "interfaces/languageinterface.h"
+#include "languageinterface.h"
 #include <qfiledialog.h>
 #include <qmessagebox.h>
 #include "mainwindow.h"

@@ -21,7 +21,7 @@
 #ifndef SOURCEEDITOR_H
 #define SOURCEEDITOR_H
 
-#include "interfaces/editorinterface.h"
+#include "editorinterface.h"
 #include <qvbox.h>
 #include <qguardedptr.h>
 

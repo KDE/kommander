@@ -21,7 +21,7 @@
 #ifndef DESIGNERAPPIFACE_H
 #define DESIGNERAPPIFACE_H
 
-#include "interfaces/designerinterface.h"
+#include "designerinterface.h"
 #ifndef KOMMANDER
 #include "project.h"
 #endif

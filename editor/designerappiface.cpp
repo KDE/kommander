@@ -30,7 +30,7 @@
 #include "widgetfactory.h"
 #include "command.h"
 #include "outputwindow.h"
-#include "shared/widgetdatabase.h"
+#include "widgetdatabase.h"
 #include <qvariant.h>
 #include <qlistview.h>
 #include <qtextedit.h>

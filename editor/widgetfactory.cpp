@@ -31,7 +31,7 @@
 #include "iconvieweditorimpl.h"
 #include "formwindow.h"
 #include "multilineeditorimpl.h"
-#include "interfaces/widgetinterface.h"
+#include "widgetinterface.h"
 #ifndef QT_NO_TABLE
 #include "tableeditorimpl.h"
 #endif

@@ -23,7 +23,7 @@
 
 #include <qiconset.h>
 #include <qstring.h>
-#include "interfaces/widgetinterface.h" // up here for GCC 2.7.* compatibility
+#include "widgetinterface.h" // up here for GCC 2.7.* compatibility
 #include <private/qpluginmanager_p.h>
 
 
