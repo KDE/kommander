@@ -1,6 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
 Comment=Kommander File
+Comment[ca]=Fitxer de Kommander
+Comment[cs]=Soubor Kommanderu
+Comment[da]=Kommander-fil
+Comment[it]=File di Kommander
+Comment[sv]=Kommander-fil
 Icon=widget_doc
 Type=MimeType
 MimeType=application/x-kommander
