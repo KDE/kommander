@@ -35,15 +35,15 @@ class FileSelector : public QWidget, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 
-	Q_PROPERTY(SelectionType selectionType READ selectionType WRITE setSelectionType);
-	Q_ENUMS(SelectionType);
+	Q_PROPERTY(SelectionType selectionType READ selectionType WRITE setSelectionType)
+	Q_ENUMS(SelectionType)
 
-	Q_PROPERTY(bool selectionOpenMultiple READ selectionOpenMultiple WRITE setSelectionOpenMultiple);
-	Q_PROPERTY(QString selectionFilter READ selectionFilter WRITE setSelectionFilter);
-	Q_PROPERTY(QString selectionCaption READ selectionCaption WRITE setSelectionCaption);
+	Q_PROPERTY(bool selectionOpenMultiple READ selectionOpenMultiple WRITE setSelectionOpenMultiple)
+	Q_PROPERTY(QString selectionFilter READ selectionFilter WRITE setSelectionFilter)
+	Q_PROPERTY(QString selectionCaption READ selectionCaption WRITE setSelectionCaption)
 public:
 	FileSelector(QWidget *a_parent, const char *a_name);
 	~FileSelector();

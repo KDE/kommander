@@ -31,7 +31,7 @@
 class LineEdit : public QLineEdit, public AssocTextWidget
 {
 	Q_OBJECT
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 public:
 	LineEdit(QWidget *, const char *);

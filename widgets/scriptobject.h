@@ -28,9 +28,9 @@ class ScriptObject : public QWidget, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget);
-	Q_PROPERTY(QString script READ widgetText WRITE setWidgetText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
+	Q_PROPERTY(QString script READ widgetText WRITE setWidgetText DESIGNABLE false)
 public:
 	ScriptObject(QWidget *a_parent, const char *a_name);
 	~ScriptObject();

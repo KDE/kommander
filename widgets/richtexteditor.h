@@ -35,7 +35,7 @@ class QHButtonGroup;
 class RichTextEditor : public QWidget, public AssocTextWidget
 {
 	Q_OBJECT
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 public:
 	RichTextEditor(QWidget *, const char *);

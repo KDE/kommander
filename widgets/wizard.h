@@ -28,13 +28,13 @@ class Wizard : public QWizard, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 
-	Q_PROPERTY(HelpAction helpAction READ helpAction WRITE setHelpAction);
-	Q_ENUMS(HelpAction);
+	Q_PROPERTY(HelpAction helpAction READ helpAction WRITE setHelpAction)
+	Q_ENUMS(HelpAction)
 
-	Q_PROPERTY(QString helpActionText READ helpActionText WRITE setHelpActionText);
+	Q_PROPERTY(QString helpActionText READ helpActionText WRITE setHelpActionText)
 public:
 	Wizard(QWidget *, const char *, bool=TRUE, int=0);
 	~Wizard();

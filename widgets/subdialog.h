@@ -34,9 +34,9 @@ class SubDialog : public QPushButton, public AssocTextWidget
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QString kmdrFile READ kmdrFile WRITE setKmdrFile);
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget);
+	Q_PROPERTY(QString kmdrFile READ kmdrFile WRITE setKmdrFile)
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
 public:
 	SubDialog(QWidget *a_parent, const char *a_name);
 	~SubDialog();
