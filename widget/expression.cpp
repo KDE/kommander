@@ -266,8 +266,9 @@ QVariant Expression::parseAnd()
   while (next() == "&&" || next() == "and")
   {
     m_start++;    
-    value == parseNot().toBool() && value.toBool();
+    value = parseNot().toBool() && value.toBool();
   }
+  
   return value;
 }
 
