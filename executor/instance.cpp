@@ -216,6 +216,22 @@ int Instance::currentItem(const QString &widgetName)
   return -1;
 }
 
+QString Instance::item(const QString &widgetName, int i)
+{
+  QObjectList* children = stringToWidget(widgetName);  
+  if (children && i>=0)
+    for (QObject* child = children->first(); child; child = children->next())
+    {
+      if (child->inherits("QListBox"))
+        return i < ((QListBox*)child)->count() ? ((QListBox*)child)->item(i)->text() : QString::null;
+      else if (child->inherits("QComboBox"))
+        return i < ((QComboBox*)child)->count() ? ((QComboBox*)child)->text(i) : QString::null;
+    }
+  delete children;
+  return QString::null;
+}
+
+
 void Instance::removeListItem(const QString &widgetName, int index)
 {
   QObjectList* children = stringToWidget(widgetName);  

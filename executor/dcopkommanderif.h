@@ -42,6 +42,12 @@ class DCOPKommanderIf : virtual public DCOPObject
       QComboBox  */  
 virtual int currentItem(const QString &widgetName) = 0;  
   
+/** Returns text of given item. Works for:
+      QListBox
+      QComboBox  */  
+virtual QString item(const QString &widgetName, int index) = 0;  
+
+
 /** Removes the item at position index. Works for:
       QListBox  
       QComboBox  */            
