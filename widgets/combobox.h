@@ -33,13 +33,12 @@ class QWidget;
 class QShowEvent;
 class ComboBox : public KComboBox, public KommanderWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-	
-//	Q_PROPERTY(QStringList items READ items WRITE setItems RESET resetItems);
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  
 public:
   ComboBox(QWidget *a_parent, const char *a_name);
   ~ComboBox();

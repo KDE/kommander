@@ -616,14 +616,10 @@ void WidgetDatabase::setupDataBase( int id )
     append( r );
 
     r = new WidgetDatabaseRecord;
-	r->iconSet = "pushbutton.xpm";
-//    r->iconSet = "closebutton.png";
+    r->iconSet = "closebutton.png";
     r->name = "CloseButton";
- //   r->includeFile = "closebutton.h";
     r->group = widgetGroup( "Kommander" );
     r->toolTip = "A button that closes the dialog it's in";
-  //  r->isContainer = FALSE;
-
     append( r );
 
     r = new WidgetDatabaseRecord;
@@ -640,7 +636,7 @@ void WidgetDatabase::setupDataBase( int id )
     r = new WidgetDatabaseRecord;
  //   r->iconSet = "textedit.png";
     r->name = "TextEdit";
-	r->iconSet = "textedit.xpm";
+	r->iconSet = "textedit.png";
  //   r->includeFile = "textedit.h";
     r->group = widgetGroup( "Kommander" );
     r->toolTip = "A rich text edit";
@@ -708,18 +704,19 @@ void WidgetDatabase::setupDataBase( int id )
 
     append( r );
 
+#if 0
     r = new WidgetDatabaseRecord;
     r->iconSet = "";
     r->name = "ScriptObject";
-//    r->group = widgetGroup( "Kommander" );
- //   r->toolTip = "";
-//    r->isContainer = FALSE;
-
+    r->group = widgetGroup( "Kommander" );
+    r->toolTip = "";
+    r->isContainer = FALSE;
     append( r );
+#endif    
 
     r = new WidgetDatabaseRecord;
     r->name = "RichTextEditor";
-	r->iconSet = "textedit.xpm";
+	r->iconSet = "richtextedit.png";
     r->group = widgetGroup( "Kommander" );
     r->toolTip = "A small rich text editor";
 
@@ -732,6 +729,14 @@ void WidgetDatabase::setupDataBase( int id )
     r->toolTip = "A tree widget";
 
     append( r );
+
+    r = new WidgetDatabaseRecord;
+    r->name = "StatusBar";
+  	r->iconSet = "statusbar.png";
+    r->group = widgetGroup( "Kommander" );
+    r->toolTip = "A status bar";
+    append( r );
+
 
 
 #endif
