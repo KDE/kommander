@@ -85,6 +85,11 @@ Shows how to use tree widget
 - env
 
 * WIDGETS.KMDR
-Show how to get widget information
+Shows how to get widget information
 - type method
 - children method
+
+* STATUSBAR.KMDR
+Shows how to use statusbar widget
+- statusbar widget
+- populate
