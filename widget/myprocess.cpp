@@ -40,15 +40,17 @@ void MyProcess::setBlocking(bool blocking)
   m_blocking = blocking;
 }
 
-QString MyProcess::output()
+QString MyProcess::output() const
 {
   return m_output;  
 }    
     
-bool MyProcess::isBlocking()
+bool MyProcess::isBlocking() const
 {
   return m_blocking;
 }
+
+  
 
 QString MyProcess::run(const QString& a_command, const QString& a_shell)
 {
@@ -98,17 +100,18 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
     qt_enter_modal(&dummy);
     qApp->enter_loop();
     qt_leave_modal(&dummy);
+  
+    if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
+      return m_output.left(m_output.length()-1);
+    else
+      return m_output;
   }
-
-  if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
-    return m_output.left(m_output.length()-1);
-  else
-    return m_output;
 }
 
 void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
 {
   m_output += QString::fromLocal8Bit(a_buffer, a_len);
+  emit processReceivedStdout(this, a_buffer, a_len);
 }
 
 void MyProcess::slotProcessExited(KProcess* process)

@@ -44,7 +44,6 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   setDisplayStates(states);
   setWriteStdout(true);
   setBlockGUI(Button);
-  bufferStdin = 0;
   connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 }
 
@@ -105,13 +104,13 @@ void ExecButton::startProcess()
   MyProcess* process = new MyProcess(this);
   process->setBlocking(m_blockGUI == GUI);
   connect(process, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
-  process->run(at);
+  m_output = process->run(at);
   if (m_blockGUI == GUI)
   {
     setEnabled(true);
     KApplication::restoreOverrideCursor();
     if (writeStdout())
-      cout << process->output();
+      cout << m_output;
   }
 }
 
@@ -140,9 +139,13 @@ void ExecButton::processExited(MyProcess* p)
 {
   if (blockGUI() != None)
     setEnabled(true);
-  if (writeStdout())
-    cout << p->output();
-  delete p;
+  if (p)
+  {
+    m_output = p->output();
+    if (writeStdout())
+      cout << m_output;
+    delete p;
+  }
 }
 
 void ExecButton::showEvent(QShowEvent* e)

@@ -541,6 +541,13 @@ void WidgetDatabase::setupDataBase( int id )
   append(r);
 
   r = new WidgetDatabaseRecord;
+  r->name = "Konsole";
+  r->iconSet = "konsole.png";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = i18n("A listbox showing output of a script");
+  append(r);
+  
+  r = new WidgetDatabaseRecord;
   r->name = "FileSelector";
   r->iconSet = "lineedit.xpm";
   r->group = widgetGroup("Kommander");

@@ -95,7 +95,7 @@ void ScriptObject::executeProcess(bool blocking)
 {
   MyProcess process(this);
   process.setBlocking(blocking);
-  process.run(evalAssociatedText()); 
+  process.run(evalAssociatedText());
 }
 
 void ScriptObject::execute()

@@ -9,6 +9,7 @@
 #include "execbutton.h"
 #include "fileselector.h"
 #include "groupbox.h"
+#include "konsole.h"
 #include "label.h"
 #include "lineedit.h"
 #include "listbox.h"
@@ -45,6 +46,7 @@ KomStdPlugin::KomStdPlugin()
   addWidget("Dialog", group, "");
   addWidget("ExecButton", group, "");
   addWidget("CloseButton", group, "");
+  addWidget("Konsole", group, "");
   addWidget("TextEdit", group, "");
   addWidget("RadioButton", group, "");
   // addWidget("", group, "");
@@ -117,6 +119,8 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
     return new ProgressBar(parent, name);
   else if (key == "Slider")
     return new Slider(parent, name);
+  else if (key == "Konsole")
+    return new Konsole(parent, name);
   return 0;
 }
 

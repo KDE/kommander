@@ -34,10 +34,11 @@ public:
   // Process is run in blocking mode.
   QString run(const QString& a_command, const QString& a_shell = "/bin/sh");
   void setBlocking(bool blocking);
-  bool isBlocking();
-  QString output();
+  bool isBlocking() const;
+  QString output() const;
 signals:
   void processExited(MyProcess*);
+  void processReceivedStdout(MyProcess*, char*, int);
 private slots:
   void slotReceivedStdout(KProcess*, char*, int);
   void slotProcessExited(KProcess*);
@@ -47,6 +48,7 @@ protected:
   QCString m_input;
   bool m_loopStarted;
   bool m_blocking;
+  bool m_handleOutput;
 };
 
 #endif
