@@ -273,7 +273,10 @@ static ParseNode f_arrayClear(Parser* P, const ParameterList& params)
 
 static ParseNode f_arrayCount(Parser* P, const ParameterList& params)
 {
-  return P->isArray(params[0].toString()) ? P->array(params[0].toString()).count() : 0;
+  if (P->isArray(params[0].toString()))
+    return (uint)(P->array(params[0].toString()).count());
+  else
+    return (uint)0;
 }
 
 static ParseNode f_arrayKeys(Parser* P, const ParameterList& params)
