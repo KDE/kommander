@@ -1,3 +1,20 @@
+Fri 04 cze 2004 23:33:35 CEST
+	o added @env(variable) special to get environment variable value
+	o added @dialog(dialog) that would call child dialog, setting
+	  _PARENTPID and _PARENTDCOPID variables for it
+	o check for global variable _PARENTPID when getting @parentPid
+	o added _KMDIR and _NAME global variables that return
+	  path/filename of current dialog
+
+Fri 04 cze 2004 00:40:59 CEST
+	o fixed: don't execute Initialization/Executor in Editor
+	o changed DCOP id of Editor to kmdr-editor
+	o version numbers unified
+
+Thu 02 cze 2004 15:08:32 CEST
+	o KDE widgets are now used for lists, buttons and combos
+	o added file completion to FileSelector
+
 Fri 28 maj 2004 22:40:10 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o support for Kommander comments (in @# <comment> format)
 	o added two new specials: global(var) and setGlobal(var, value)
