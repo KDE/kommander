@@ -70,7 +70,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::readSetting, "readSetting(QString key, QString default)");
   insert(Kommander::setGlobal, "setGlobal(QString variable, QString value)");
   insert(Kommander::writeSetting, "writeSetting(QString key, QString value)");
-  insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)");
+  insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)", 3);
   
   
   insertGroup(Group::Array, "Array");
