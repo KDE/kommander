@@ -1,6 +1,9 @@
 /* KDE INCLUDES */
+#include <kmessagebox.h>
+#include <klocale.h>
 
 /* QT INCLUDES */
+#include <qdialog.h>
 #include <qobject.h>
 #include <qstring.h>
 #include <qwidget.h>
@@ -17,6 +20,8 @@ CloseButton::CloseButton(QWidget *a_parent, const char *a_name)
 	QStringList states;
 	states << "default";
 	setStates(states);
+
+	connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 
 	QObject *parent = this;
 	while(parent->parent() != 0)
@@ -59,5 +64,66 @@ void CloseButton::setWidgetText(const QString &a_text)
 
 QString CloseButton::widgetText() const
 {
-	return QString::null;
+	return m_output;
+}
+
+void CloseButton::startProcess()
+{
+	QString at = evalAssociatedText();
+
+	if(!at.isEmpty())
+	{
+		KShellProcess *process = new KShellProcess;
+
+		*process << at;
+
+		connect(process, SIGNAL(processExited(KProcess *)), SLOT(endProcess(KProcess *)));
+		connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
+		connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), SLOT(appendOutput(KProcess *, char *, int)));
+
+		if(!process->start(KProcess::NotifyOnExit, KProcess::Stdout))
+		{
+			KMessageBox::error(this, i18n("Failed to start shell process"));
+			endProcess(process);
+			return;
+		}
+	}
+	else
+		endProcess(0);
+}
+
+void CloseButton::appendOutput(KProcess *, char *a_buffer, int a_len)
+{
+	char *buffer = new char[a_len+1];
+	buffer[a_len] = 0;
+	for(int i = 0;i < a_len;++i)
+		buffer[i] = a_buffer[i];
+
+	QString bufferString(buffer);
+	m_output += bufferString;
+	if(writeStdout())
+	{
+		printf(buffer);
+	}
+	delete buffer;
+}
+
+void CloseButton::endProcess(KProcess *a_process)
+{
+	emit widgetTextChanged(m_output);
+	m_output = "";
+
+	if(a_process)
+		delete a_process;
+
+}
+
+bool CloseButton::writeStdout() const
+{
+	return m_writeStdout;
+}
+
+void CloseButton::setWriteStdout(bool a_enable)
+{
+	m_writeStdout = a_enable;
 }

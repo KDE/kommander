@@ -18,6 +18,7 @@ class CloseButton : public QPushButton, public AssocTextWidget
 
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false);
 	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
+	Q_PROPERTY(bool writeStdout READ writeStdout WRITE setWriteStdout);
 public:
 	CloseButton(QWidget *a_parent, const char *a_name);
 	~CloseButton();
@@ -28,11 +29,18 @@ public:
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
+	bool writeStdout() const;
 public slots:
+	virtual void setWriteStdout(bool);
 	virtual void setWidgetText(const QString &);
+	virtual void startProcess();
+	virtual void appendOutput(KProcess *, char *, int);
+	virtual void endProcess(KProcess *);
 signals:
 	void widgetTextChanged(const QString &);
 protected:
+	bool m_writeStdout;
+	QString m_output;
 private:
 };
 
