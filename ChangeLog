@@ -1,3 +1,8 @@
+Fri 28 maj 2004 12:40:10 CEST
+	o Kommander comments in @# <comment> format
+	o two new specials: global(var) and setGlobal(var, value)
+	o remove obsolete Preview menu commands
+
 Wed 26 maj 2004 23:22:46 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o handle changeWidgetText for FileSelector class
 	o add currentItem(QString) DCOP call for lists and combos
