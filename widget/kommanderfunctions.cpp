@@ -29,6 +29,7 @@
 #include "kommanderwidget.h"
 #include "kommanderwindow.h"
 #include "specials.h"
+#include "expression.h"
  
 QString KommanderWidget::evalFunction(const QString& function, const QStringList& args)
 { 
@@ -85,6 +86,13 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
         return runDialog(args[0], args[1]); 
       else
         return runDialog(args[0]); 
+    case Kommander::expr:
+    {
+      Expression expr(args[0]);
+      bool ok;
+      int value = expr.value(&ok);
+      return ok ? QString::number(value) : QString::null;
+    }
     default:
       return QString::null;
   }

@@ -35,8 +35,9 @@ namespace Special
 
   namespace Kommander
   {   
-    enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, execBegin, forBlock, forEachBlock,
-    env, exec, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop};
+    enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, 
+    env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
+    caseBlock, execBegin, forBlock, forEachBlock, ifBlock};
   }
  
   namespace Array

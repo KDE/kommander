@@ -1,15 +1,28 @@
-sob 24 lip 2004 10:15:10 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Fri 30 Jul 2004 14:59:12 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added support for math expressions
+	o added @expr(string) function that parses and evaluates string
+
+Wed 28 Jul 2004 00:14:28 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fixed about.ui which caused problems due to some Designer 
+	  incompatibility
+	o fixed i18n: tab pages and wizard pages titles were not
+	  translated
+	o added some missing i18n strings
+	o added option to specify i18n catalogue from command-line
+	  (useful for application-related dialogs)
+
+Sat 24 Jul 2004 10:15:10 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o bug fixed: crash with non-existing item in ListBox
 	o bug fixed: blocking button with no script was not unblocked
 	o automatically set tree mode for Tree Widget when adding nestes items
     	o release 1.0beta1
 
-Fri 23 lip 2004 19:54:26 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Fri 23 Jul 2004 19:54:26 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added hourclass cursor when invoking ExecButton script with blocked GUI
 	o added missing i18n strings for *.ui files
 	o changed editor to use included background
 
-Fri 23 lip 2004 18:34:26 CEST - Eric Laffoon <eric@kdewebdev.org>
+Fri 23 Jul 2004 18:34:26 CEST - Eric Laffoon <eric@kdewebdev.org>
 	o added new background
 
 Thu 22 Jul 2004 22:17:49 CEST - Michal Rudolf <mrudolf@kdewebdev.org>

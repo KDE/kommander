@@ -108,6 +108,8 @@ void SpecialInformation::registerSpecials()
      i18n("Returns value of an environment (shell) variable. Do not use <i>$</i> in the name. For example, <i>@env(PATH)</i>."), 1);
   insert(Kommander::exec, "exec(QString command)",
      i18n("Executes an external command."), 1);
+  insert(Kommander::expr, "expr(QString expression)",
+     NEW_STRING("Parses an expression and returns computed value."), 1);
   insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",
      i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned "
         "to the variable."), 2);
