@@ -69,6 +69,8 @@ public:
   virtual void addListItems(const QString &widgetName, const QStringList &items, int index);
   virtual void clearList(const QString &widgetName);
   virtual int findItem(const QString &widgetName, const QString& item);
+  virtual int itemDepth(const QString &widgetName, int index);
+  virtual QString itemPath(const QString &widgetName, int index);
   virtual void addUniqueItem(const QString &widgetName, const QString &item);
   virtual void setPixmap(const QString& widgetName, const QString& iconName, int index);
   virtual void setCurrentListItem(const QString& widgetName, const QString &name);

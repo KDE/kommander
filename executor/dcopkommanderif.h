@@ -59,9 +59,15 @@ virtual int currentItem(const QString &widgetName) = 0;
   
 /** Returns text of given item. Works for:
       ListBox
-      ComboBox  */  
+      ComboBox  
+      TreeWidget */  
 virtual QString item(const QString &widgetName, int index) = 0;  
 
+/** Returns depth of given item. Works for:  TreeWidget  */  
+virtual int itemDepth(const QString &widgetName, int index) = 0;  
+
+/** Returns path of given item. Works for:  TreeWidget  */  
+virtual QString itemPath(const QString &widgetName, int index) = 0;  
 
 /** Removes the item at position index. Works for:
       ListBox  

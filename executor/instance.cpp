@@ -314,6 +314,23 @@ void Instance::addUniqueItem(const QString &widgetName, const QString &item)
     kommanderWidget(child)->handleDCOP(DCOP::addUniqueItem, item);
 }
 
+int Instance::itemDepth(const QString &widgetName, int index)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::itemDepth, QString::number(index)).toInt();
+  return -1;
+}
+
+QString Instance::itemPath(const QString &widgetName, int index)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::itemPath, QString::number(index));
+  return QString::null;
+}
+  
+
 void Instance::setPixmap(const QString &widgetName, const QString& iconName, int index)
 {
   QObject* child = stringToWidget(widgetName);  

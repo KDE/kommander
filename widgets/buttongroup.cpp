@@ -95,8 +95,8 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
     {
       QString text;
       for (int i = 0; i < count(); i++)
-        if (find(i)->inherits("KommanderWidget"))
-          text += ((KommanderWidget *) find(i))->evalAssociatedText();
+        if (dynamic_cast<KommanderWidget*>(find(i)))
+          text += (dynamic_cast<KommanderWidget*>(find(i)))->evalAssociatedText();
       return text;
     }
     case DCOP::setChecked:

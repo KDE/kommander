@@ -33,7 +33,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)");
   insert(DCOP::item, "item(QString widget, int index)");
   insert(DCOP::itemPath, "itemPath(QString widget, int index)");
-  insert(DCOP::itemDepth, "itemPath(QString widget, int index)");
+  insert(DCOP::itemDepth, "itemDepth(QString widget, int index)");
   insert(DCOP::removeItem, "removeListItem(QString widget, int index)");
   insertAlias(DCOP::removeItem, "removeListItem");
   insert(DCOP::insertItem, "addListItem(QString widget, QString item, int index)");
