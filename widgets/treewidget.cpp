@@ -57,17 +57,19 @@ void TreeWidget::setPathSeparator(const QString& a_pathSep)
   
 void TreeWidget::addItemFromString(const QString& s)
 {
-  QStringList elements = QStringList::split(m_pathSeparator, s);
+  QStringList elements = QStringList::split(m_pathSeparator, s, true);
   if (elements.count() > 1)
     setRootIsDecorated(true);
   QListViewItem* parent = 0;
   if (m_lastPath.size() < elements.count())
     m_lastPath.resize(elements.count());
-  for (uint i=0; i<elements.count(); i++)
+  uint i = 0;
+  for (QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) 
   {
     if (m_lastPath[i] && m_lastPath[i]->text(0) == elements[i])
     {
       parent = m_lastPath[i];
+      i++;
       continue;
     }
     else 
@@ -75,17 +77,17 @@ void TreeWidget::addItemFromString(const QString& s)
       QListViewItem* item = (i>0) ? parent->firstChild() : firstChild();
       while (item)
       {
-        if (item->text(0) == elements[i])
+        if (item->text(0) == *it)
           break;
         item = item->nextSibling(); 
       }
       if (item)
         parent = item;
       else 
-        parent = itemFromString(parent, elements[i]);
+        parent = itemFromString(parent, *it);
       m_lastPath.insert(i, parent); 
+      i++;
     }
-    
   }
 }
 
@@ -93,9 +95,9 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
 {
   QStringList elements;
   if (s.contains("\t"))
-    elements = QStringList::split("\t", s);
+    elements = QStringList::split("\t", s, true);
   else
-    elements = QStringList::split("\\t", s);
+    elements = QStringList::split("\\t", s, true);
   int cols = elements.count();
   if (cols >= columns())
     cols = columns();
@@ -253,7 +255,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       m_lastPath.clear();
     case DCOP::insertItems:
     {
-      QStringList items(QStringList::split("\n", args[0]));
+      QStringList items(QStringList::split("\n", args[0], true));
       for (QStringList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) 
         addItemFromString(*it);
       break;
