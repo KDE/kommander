@@ -96,7 +96,7 @@ void Parser::setString(const QString& s)
       insertNode(ParseNode(m_data->stringToKeyword(name), name), lines);
       start = i;
     }                               // comment
-    else if (s[start] == '/' && start < s.length() +1 && s[start+1] == '/')
+    else if (s[start] == '#' || (s[start] == '/' && start < s.length() +1 && s[start+1] == '/'))
     {
       while (start < s.length() && s[start] != '\n')
         start++;
