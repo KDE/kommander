@@ -474,7 +474,7 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   if (!ok)
     printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
   else if (gname == -1)
-    printError(i18n("Unknown function group: \'%1\'.").arg(group));
+    printError(i18n("Unknown widget or function group: \'%1\'.").arg(group));
   else if (fname == -1)
     printError(i18n("Unknown function: \'%1\' in group '%2'.").arg(function).arg(group));
   else if ((int)args.count() < SpecialInformation::minArg(gname, fname))
