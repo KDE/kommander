@@ -239,9 +239,8 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     {
       KommanderWidget* pWidget = parseWidget(identifier);
       if (!pWidget) {
-        evalText += QChar(ESCCHAR);
-        evalText += identifier;
-        continue;
+        printError(i18n("Unknown special: @%1").arg(identifier));
+        return QString::null;
       }
       else if (pWidget == this)
       {
