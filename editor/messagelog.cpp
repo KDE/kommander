@@ -35,7 +35,6 @@ MessageLog::~MessageLog()
   
 void MessageLog::insertItem(InfoType i, QString text)
 {
-  qDebug("Got it");
   bool seenEOL = text.endsWith("\n");
   if (seenEOL)
     text.truncate(text.length() - 1);
