@@ -363,6 +363,14 @@ void Instance::setChecked(const QString &widgetName, bool checked)
     kommanderWidget(child)->handleDCOP(DCOP::setChecked, checked ? "true" : "false");
 }
 
+bool Instance::checked(const QString &widgetName)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::checked, widgetName) == "1";
+  return false;
+}
+
 void Instance::setAssociatedText(const QString &widgetName, const QString& text)
 {
   QObject* child = stringToWidget(widgetName);  

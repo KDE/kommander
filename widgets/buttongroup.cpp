@@ -99,6 +99,8 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
           text += (dynamic_cast<KommanderWidget*>(find(i)))->evalAssociatedText();
       return text;
     }
+    case DCOP::checked:
+      return QString::number(isChecked());
     case DCOP::setChecked:
       setCheckable(true);
       setChecked(args[0] != "false");

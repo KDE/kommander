@@ -108,6 +108,8 @@ QString CheckBox::handleDCOP(int function, const QStringList& args)
     case DCOP::setText:
       setWidgetText(args[0]);
       break;
+    case DCOP::checked:
+      return QString::number(isChecked());
     case DCOP::setChecked:
       setChecked(args[0] != "false");
       break;

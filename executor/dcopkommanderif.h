@@ -52,6 +52,7 @@ virtual void clear(const QString &widgetName) = 0;
 virtual void clearList(const QString &widgetName) = 0;  /* DEPRECATED */
 virtual void setCurrentItem(const QString &widgetName, int index) = 0;
 virtual void setCurrentTab(const QString &widgetName, int index) = 0; /* DEPRECATED */
+virtual bool checked(const QString &widgetName) = 0;
 virtual void setChecked(const QString &widgetName, bool checked) = 0;
 virtual void setAssociatedText(const QString &widgetName, const QString &text) = 0;
 virtual QStringList associatedText(const QString &widgetName) = 0;

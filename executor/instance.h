@@ -83,6 +83,7 @@ public:
   virtual void setCurrentItem(const QString &widgetName, int index);
   virtual void setCurrentTab(const QString &widgetName, int index); /* DEPRECATED */
   virtual void setChecked(const QString &widgetName, bool checked);
+  virtual bool checked(const QString &widgetName);
   virtual void setAssociatedText(const QString &widgetName, const QString &text);
   virtual QStringList associatedText(const QString &widgetName);
   virtual QString type(const QString& widget);

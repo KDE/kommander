@@ -284,6 +284,12 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     byteReplyStream >> i;
     return QString::number(i);
   }
+  else if(replyType == "bool")
+  {
+    bool b;
+    byteReplyStream >> b;
+    return QString::number(b);
+  }
   else if (replyType == "QStringList")
   {
     QStringList text;

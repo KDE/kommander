@@ -68,6 +68,8 @@ void SpecialInformation::registerSpecials()
   insertAlias(DCOP::clear, "clearList");
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)",
      i18n("Sets/unsets checkbox."), 2);
+  insert(DCOP::checked, "checked(QString widget)",
+     i18n("Returns 1 for checked boxes, 0 for unchecked."), 1);
   insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)",
      i18n("Sets scripts associated with widget. This is an advanced feature that would not be commonly used."), 2);
   insert(DCOP::associatedText, "associatedText(QString widget)",
