@@ -175,6 +175,10 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
         evalText += evalForEachBlock(args, a_text, pos);  
       else if (identifier == "for")
         evalText += evalForBlock(args, a_text, pos);  
+      else if (identifier == "switch")
+        evalText += evalSwitchBlock(args, a_text, pos);  
+      else if (identifier == "if")
+        evalText += evalIfBlock(args, a_text, pos);  
       else
         evalText += evalFunction(identifier, args);
     }
@@ -523,6 +527,20 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   ok = success;
   return args;
 }
+
+int KommanderWidget::parseBlockBoundary(const QString& s, int from, const QStringList& args) const
+{
+  int shortest = -1;
+  for (uint i=0; i<args.count(); i++)
+  {
+    int match = s.find(args[i], from);
+    if (shortest > match || shortest == -1) 
+      shortest = match;
+  }
+  return shortest;
+}
+
+
 
 QString KommanderWidget::substituteVariable(QString text, QString variable, QString value) const
 {

@@ -1,3 +1,20 @@
+Wed 04 Jul 2004 23:59:21 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added @switch..@case..@end statement
+	o added @if()...@endif statement
+
+Wed 04 Jul 2004 18:20:21 CEST - Eric Laffoon <eric@kdewebdev.org>
+	o fixed missing @ for Kommander functions in function browser
+
+Tue 03 Jul 2004 11:06:26 CEST - Eric Laffoon <eric@kdewebdev.org>
+	o added new background
+
+Mon 02 Aug 2004 23:58:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added DCOP-enabled Label and PixmapLabel widgets
+
+Sun 01 Aug 2004 17:32:11 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added support for string comparisons in @expr
+	o added support for floats in @expr
+
 Fri 30 Jul 2004 14:59:12 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added support for math expressions
 	o added @expr(string) function that parses and evaluates string
@@ -23,7 +40,7 @@ Fri 23 Jul 2004 19:54:26 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o changed editor to use included background
 
 Fri 23 Jul 2004 18:34:26 CEST - Eric Laffoon <eric@kdewebdev.org>
-	o added new background
+	o added new background and splash
 
 Thu 22 Jul 2004 22:17:49 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o ExecButton now has three modes: no blocking, block only ExecButton,

@@ -303,3 +303,9 @@ QVariant Expression::value(const QString& s, bool* valid)
   return value(valid); 
 }
 
+bool Expression::isTrue(const QString& s, bool* valid)
+{
+  QVariant v = value(s, valid);
+  return (v.type() == String && v != QString::null) || (v.type() != String && v.toInt() != 0);
+}
+

@@ -32,6 +32,8 @@ public:
   QVariant value(bool* valid = 0);
   /* equivalent of setString(s) and value(valid) */
   QVariant value(const QString& s, bool* valid = 0);
+  /* equivalent of setString(s) and checking if value(valid) is true */
+  bool isTrue(const QString& s, bool* valid = 0);
   
 private:
   enum Type {Int, Double, String};

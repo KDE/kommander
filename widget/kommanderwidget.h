@@ -49,17 +49,31 @@ public:
   virtual QStringList associatedText() const;
   virtual bool hasAssociatedText();
   
+  // Execute default script, expanding all @macros.
+    virtual QString evalAssociatedText();
   // Execute given script, expanding all @macros.
-  virtual QString evalAssociatedText();
   virtual QString evalAssociatedText(const QString&);
-  virtual QString evalFunction(const QString&, const QStringList&);
+  // Evaluate given Kommander function using given args.
+  virtual QString evalFunction(const QString& function, const QStringList& args);
+  // Parse and evaluate function for given widget, converting it to appropriate DCOP call.
   virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos);
+  // Evaluate given array function using given args.
   virtual QString evalArrayFunction(const QString&, const QStringList&) const;
+  // Evaluate given string function using given args.
   virtual QString evalStringFunction(const QString&, const QStringList&) const;
+  // Evaluate given file function using given args.
   virtual QString evalFileFunction(const QString&, const QStringList&) const;
+  // Parse and evaluate given execBegin..execEnd block.
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos);
+  // Parse and evaluate given forEach..end block.
   virtual QString evalForEachBlock(const QStringList&, const QString& s, int& pos);
+  // Parse and evaluate given for..end block.
   virtual QString evalForBlock(const QStringList&, const QString& s, int& pos);
+  // Parse and evaluate given switch..case..end block.
+  virtual QString evalSwitchBlock(const QStringList&, const QString& s, int& pos);
+  // Parse and evaluate given if..endif block.
+  virtual QString evalIfBlock(const QStringList&, const QString& s, int& pos);
+  
   
   // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
@@ -68,7 +82,7 @@ public:
 
   
   
-  /* Handles all widget-specific DCOP calls */
+  // Handles all widget-specific DCOP calls 
   virtual QString handleDCOP(int function, const QStringList& args = QStringList());
   
   // Recognizes editor vs executor mode
@@ -99,9 +113,9 @@ protected:
   void printError(const QString& a_error) const;
   
   // Auxiliary functions for parser
-  // Return identifier: the longest string of letters and numbers starting from i
-  QString parseBrackets(const QString& s, int& from, bool& ok) const;
   // Find matching brackets starting from current position
+  QString parseBrackets(const QString& s, int& from, bool& ok) const;
+  // Return identifier: the longest string of letters and numbers starting from i
   QString parseIdentifier(const QString& s, int& from) const;
   // Parse arguments for given function. Returns list of arguments without quotations
   QStringList parseArgs(const QString& s, bool &ok );
@@ -110,6 +124,9 @@ protected:
   // Parse function
   QStringList parseFunction(const QString group, const QString& function,
     const QString& s, int& from, bool& ok);
+  // Detect and return block boundary
+  int parseBlockBoundary(const QString& s, int from, const QStringList& args) const;
+    
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
   // Return parent dialog of this widget

@@ -171,6 +171,64 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
   }
 }
 
+QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, int& pos) 
+{
+  int f = s.find("@endif", pos);
+//FIXME: better detection of block boundaries; add error message
+  if (f == -1)
+  {
+    pos = s.length()+1;
+    return QString::null;
+  }
+  else
+  {
+    QString block = s.mid(pos, f - pos);
+    pos = f + QString("@endif").length()+1;
+    Expression expr;
+    if (expr.isTrue(args[0]))
+      return evalAssociatedText(block);
+    return QString::null;
+  }
+}
+
+QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString& s, int& pos) 
+{
+  int f = s.find("@end", pos);
+//FIXME: better detection of block boundaries; add error message
+  if (f == -1)
+  {
+    pos = s.length()+1;
+    return QString::null;
+  }
+  else
+  {
+    QString block = s.mid(pos, f - pos);
+    pos = f + QString("@end").length()+1;
+    f = parseBlockBoundary(block, 0, "@case");
+    bool finished = f == -1;
+    while (!finished)
+    {
+      f += 5;
+      int end = parseBlockBoundary(block, f, "@case");
+      if (end == -1) 
+      {
+        end = block.length();
+        finished = true;
+      }
+      bool ok;
+      QString value = parseBrackets(block, f, ok);
+      if (!ok) 
+        break;
+      if (value == args[0] || value == "*")
+        return evalAssociatedText(block.mid(f, end-f));
+      f = end;
+    }
+    return QString::null;
+  }
+}
+
+
+  
 
 QString KommanderWidget::evalArrayFunction(const QString& function, const QStringList& args) const
 {
