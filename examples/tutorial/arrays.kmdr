@@ -18,10 +18,11 @@
     <property name="associations" stdset="0">
         <stringlist>
             <string></string>
-            <string>@setArrayValue(Programs, kcalc, KDE calculator)
-@setArrayValue(Programs, kwrite, Advanced editor)
-@setArrayValue(Programs, ark, Archive tool)
-@setArrayValue(Programs, kdict, Interface to online dictonaries)</string>
+            <string>@Array.setValue(Programs, kcalc, KDE calculator)
+@Array.setValue(Programs, kwrite, Advanced editor)
+@Array.setValue(Programs, ark, Archive tool)
+@Array.setValue(Programs, kdict, Interface to online dictonaries)
+</string>
             <string></string>
         </stringlist>
     </property>
@@ -84,7 +85,7 @@
                 <bool>true</bool>
             </property>
             <property name="populationText">
-                <string>@arrayValue(Programs, @ListBox1)</string>
+                <string>@Array.value(Programs, @ListBox1)</string>
             </property>
             <property name="associations" stdset="0">
                 <stringlist>
@@ -140,7 +141,9 @@
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>@exec(@ListBox1)</string>
+                            <string>@exec(ListBox1)
+
+</string>
                         </stringlist>
                     </property>
                 </widget>
@@ -159,11 +162,12 @@
                     <property name="text">
                         <string>Run &amp;All</string>
                     </property>
+                    <property name="populationText">
+                        <string></string>
+                    </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>for i in @array(Programs); do
-   $i &amp;
-done</string>
+                            <string>@Array.keys(Programs)</string>
                         </stringlist>
                     </property>
                 </widget>
