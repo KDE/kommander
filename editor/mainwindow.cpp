@@ -117,84 +117,77 @@ MainWindow::MainWindow( bool asClient )
       docPath( "$QTDIR/doc/html" ), fileFilter( i18n("Kommander Files (*.kmdr)" ) ), client( asClient ),
       previewing( FALSE ), databaseAutoEdit( FALSE )
 {
-    init_colors();
+  init_colors();
 
-    inDebugMode = TRUE; //debugging kommander
+  inDebugMode = TRUE;           //debugging kommander
 
-    setupPlugins();
+  setupPlugins();
 
-    kapp->setMainWidget( this );
-    self = this;
+  kapp->setMainWidget(this);
+  self = this;
 
-    prefDia = 0;
-    windowMenu = 0;
-    hierarchyView = 0;
-    actionEditor = 0;
-    wspace = 0;
+  prefDia = 0;
+  windowMenu = 0;
+  hierarchyView = 0;
+  actionEditor = 0;
+  wspace = 0;
 
-    statusBar()->clear();
-    statusBar()->addWidget(new QLabel(i18n("Welcome to the Kommander Editor"), statusBar()), 1);
+  statusBar()->clear();
+  statusBar()->addWidget(new QLabel(i18n("Welcome to the Kommander Editor"), statusBar()), 1);
 
-    setupMDI();
-    setupFileActions();
-    setupEditActions();
-    layoutToolBar = new KToolBar( this, "Layout" );
-    ( (KToolBar*)layoutToolBar )->setFullSize( FALSE );
-    addToolBar( layoutToolBar, i18n("Layout" ) );
-    setupToolActions();
-    setupLayoutActions();
-    setupWorkspace();
-    setupHierarchyView();
-    setupPropertyEditor();
-    setupActionEditor();
-    setupRunActions();
-    setupWindowActions();
-    setupSettingsActions();
-    setupHelpActions();
-    setupRMBMenus();
+  setupMDI();
+  setupFileActions();
+  setupEditActions();
+  layoutToolBar = new KToolBar(this, "Layout");
+  ((KToolBar *) layoutToolBar)->setFullSize(FALSE);
+  addToolBar(layoutToolBar, i18n("Layout"));
+  setupToolActions();
+  setupLayoutActions();
+  setupWorkspace();
+  setupHierarchyView();
+  setupPropertyEditor();
+  setupActionEditor();
+  setupRunActions();
+  setupWindowActions();
+  setupSettingsActions();
+  setupHelpActions();
+  setupRMBMenus();
 
-    emit hasActiveForm( FALSE );
-    emit hasActiveWindow( FALSE );
+  emit hasActiveForm(FALSE);
+  emit hasActiveWindow(FALSE);
 
-    lastPressWidget = 0;
-    kapp->installEventFilter( this );
+  lastPressWidget = 0;
+  kapp->installEventFilter(this);
 
-    QSize as( kapp->desktop()->size() );
-    as -= QSize( 30, 30 );
-    resize( QSize( 1200, 1000 ).boundedTo( as ) );
+  QSize as(kapp->desktop()->size());
+  as -= QSize(30, 30);
+  resize(QSize(1200, 1000).boundedTo(as));
 
-    connect( kapp->clipboard(), SIGNAL( dataChanged() ),
-             this, SLOT( clipboardChanged() ) );
-    clipboardChanged();
-    layoutChilds = FALSE;
-    layoutSelected = FALSE;
-    breakLayout = FALSE;
-    backPix = TRUE;
+  connect(kapp->clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardChanged()));
+  clipboardChanged();
+  layoutChilds = FALSE;
+  layoutSelected = FALSE;
+  breakLayout = FALSE;
+  backPix = TRUE;
 
-    readConfig();
+  readConfig();
 
-    // hack to make WidgetFactory happy (so it knows QWidget and QDialog for resetting properties)
-    QWidget *w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QWidget" ), this, 0, FALSE );
-    delete w;
-    w = WidgetFactory::create( WidgetDatabase::idFromClassName( "Dialog" ), this, 0, FALSE );
+  // hack to make WidgetFactory happy (so it knows QWidget and QDialog for resetting properties)
+  QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("QWidget"), this, 0, FALSE);
+  delete w;
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("Dialog"), this, 0, FALSE);
 
-    delete w;
-    w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QLabel" ), this, 0, FALSE );
-    delete w;
-    w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QTabWidget" ), this, 0, FALSE );
-    delete w;
-    w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QFrame" ), this, 0, FALSE );
-    delete w;
+  delete w;
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QLabel"), this, 0, FALSE);
+  delete w;
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QTabWidget"), this, 0, FALSE);
+  delete w;
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QFrame"), this, 0, FALSE);
+  delete w;
 
-    //FIXME    setAppropriate( (KDockWidget*)actionEditor->parentWidget(), FALSE );
-    actionEditor->parentWidget()->hide();
-
-    assistant = new AssistProc( this, "Internal Assistant", assistantPath() );
-
-    statusBar()->setSizeGripEnabled( TRUE );
-
-    SpecialInformation::registerSpecials();
-
+  assistant = new AssistProc(this, "Internal Assistant", assistantPath());
+  statusBar()->setSizeGripEnabled(TRUE);
+  SpecialInformation::registerSpecials();
 }
 
 MainWindow::~MainWindow()
@@ -204,7 +197,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupMDI()
 {
-  qDebug("Setup MDI");
   KDockWidget* toolDock = createDockWidget("Workspace", QPixmap(), 0L, "main_workspace");
   QVBox *vbox = new QVBox(toolDock);
   vbox->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
@@ -220,18 +212,17 @@ void MainWindow::setupMDI()
   qworkspace = new QWorkspace(vbox);
   qworkspace->setBackgroundMode(PaletteDark);
   qworkspace->setBackgroundPixmap(PixmapChooser::loadPixmap("background.png",
-          PixmapChooser::NoSize));
+                                  PixmapChooser::NoSize));
   qworkspace->setPaletteBackgroundColor(QColor(238, 238, 238));
   qworkspace->setScrollBarsEnabled(TRUE);
   connect(qworkspace, SIGNAL(windowActivated(QWidget *)),
-      this, SLOT(activeWindowChanged(QWidget *)));
+          this, SLOT(activeWindowChanged(QWidget *)));
   lastActiveFormWindow = 0;
   qworkspace->setAcceptDrops(TRUE);
 }
 
 void MainWindow::setupPropertyEditor()
 {
-  qDebug("Setup properties editor");
   KDockWidget *dw = createDockWidget("Property Editor", QPixmap(), 0, i18n("Properties"));
   propertyEditor = new PropertyEditor(dw);
   //addToolBar(dw, Qt::DockLeft);
@@ -239,28 +230,27 @@ void MainWindow::setupPropertyEditor()
   dw->manualDock(getMainDockWidget(), KDockWidget::DockLeft, 20);
   dw->setCaption(i18n("Property Editor" ));
   QWhatsThis::add( propertyEditor,
-                     i18n("<h2>The Property Editor</h2>"
-                        "<p>You can change the appearance and behavior of the selected widget in the "
-                        "property editor.</p>"
-                        "<p>You can set properties for components and forms at design time and see the "
-                        "immediately see the effects of the changes. "
-                        "Each property has its own editor which (depending on the property) can be used "
-                        "to enter "
-                        "new values, open a special dialog, or to select values from a predefined list. "
-                        "Click <b>F1</b> to get detailed help for the selected property.</p>"
-                        "<p>You can resize the columns of the editor by dragging the separators in the "
-                        "list's header.</p>"
-                        "<p><b>Signal Handlers</b></p>"
-                        "<p>In the Signal Handlers tab you can define connections between "
-                        "the signals emitted by widgets and the slots in the form. "
-                        "(These connections can also be made using the connection tool.)" ) );
+                   i18n("<h2>The Property Editor</h2>"
+                       "<p>You can change the appearance and behavior of the selected widget in the "
+                       "property editor.</p>"
+                       "<p>You can set properties for components and forms at design time and see the "
+                       "immediately see the effects of the changes. "
+                       "Each property has its own editor which (depending on the property) can be used "
+                       "to enter "
+                       "new values, open a special dialog, or to select values from a predefined list. "
+                       "Click <b>F1</b> to get detailed help for the selected property.</p>"
+                       "<p>You can resize the columns of the editor by dragging the separators in the "
+                       "list's header.</p>"
+                       "<p><b>Signal Handlers</b></p>"
+                       "<p>In the Signal Handlers tab you can define connections between "
+                       "the signals emitted by widgets and the slots in the form. "
+                       "(These connections can also be made using the connection tool.)" ) );
 
 }
 
 
 void MainWindow::setupHierarchyView()
 {
-  qDebug("Setup hierarchy view");
   if (hierarchyView)
     return;
   KDockWidget *dw = createDockWidget("Object Explorer", QPixmap(), 0, i18n("Widgets"));
@@ -268,18 +258,17 @@ void MainWindow::setupHierarchyView()
   dw->setWidget(hierarchyView);
   dw->setCaption(i18n("Object Explorer"));
   QWhatsThis::add(hierarchyView,
-      i18n("<h2>The Object Explorer</h2>"
-          "<p>The Object Explorer provides an overview of the relationships "
-          "between the widgets in a form. You can use the clipboard functions using "
-          "a context menu for each item in the view. It is also useful for selecting widgets "
-          "in forms that have complex layouts.</p>"
-          "<p>The columns can be resized by dragging the separator in the list's header.</p>"
-          "<p>The second tab shows all the form's slots, class variables, includes, etc.</p>"));
+                  i18n("<h2>The Object Explorer</h2>"
+                      "<p>The Object Explorer provides an overview of the relationships "
+                      "between the widgets in a form. You can use the clipboard functions using "
+                      "a context menu for each item in the view. It is also useful for selecting widgets "
+                      "in forms that have complex layouts.</p>"
+                      "<p>The columns can be resized by dragging the separator in the list's header.</p>"
+                      "<p>The second tab shows all the form's slots, class variables, includes, etc.</p>"));
 }
 
 void MainWindow::setupWorkspace()
 {
-  qDebug("Setup file list");
   KDockWidget *dw = createDockWidget("Dialogs", QPixmap(), 0, i18n("Dialogs"));
   QVBox *vbox = new QVBox(dw);
   QCompletionEdit *edit = new QCompletionEdit(vbox);
@@ -291,20 +280,19 @@ void MainWindow::setupWorkspace()
   dw->setWidget(vbox);
   dw->setCaption(i18n("Dialogs"));
   QWhatsThis::add(wspace, i18n("<h2>The File Overview Window</h2>"
-          "<p>The File Overview Window displays all open dialogs.</p>"));
+      "<p>The File Overview Window displays all open dialogs.</p>"));
 
 }
 
 void MainWindow::setupActionEditor()
 {
-  qDebug("Setup action editor");
   KDockWidget *dw = createDockWidget("Action Editor", QPixmap(), 0, i18n("Actions"));
   actionEditor = new ActionEditor(dw);
   //addToolBar(dw, Qt::DockLeft);
   dw->setWidget(actionEditor);
   dw->setCaption(i18n("Action Editor"));
   QWhatsThis::add(actionEditor, i18n("<b>The Action Editor</b>"
-          "<p>The Action Editor is used to add actions and action groups to "
+      "<p>The Action Editor is used to add actions and action groups to "
           "a form, and to connect actions to slots. Actions and action "
           "groups can be dragged into menus and into toolbars, and may "
           "feature keyboard shortcuts and tooltips. If actions have pixmaps "
@@ -313,36 +301,36 @@ void MainWindow::setupActionEditor()
 
 void MainWindow::setupRMBMenus()
 {
-    rmbWidgets = new QPopupMenu( this );
-    actionEditCut->plug( rmbWidgets );
-    actionEditCopy->plug( rmbWidgets );
-    actionEditPaste->plug( rmbWidgets );
-    actionEditDelete->plug( rmbWidgets );
+  rmbWidgets = new QPopupMenu( this );
+  actionEditCut->plug( rmbWidgets );
+  actionEditCopy->plug( rmbWidgets );
+  actionEditPaste->plug( rmbWidgets );
+  actionEditDelete->plug( rmbWidgets );
 
-    rmbWidgets->insertSeparator();
-    actionEditAdjustSize->plug( rmbWidgets );
-    actionEditHLayout->plug( rmbWidgets );
-    actionEditVLayout->plug( rmbWidgets );
-    actionEditGridLayout->plug( rmbWidgets );
-    actionEditSplitHorizontal->plug( rmbWidgets );
-    actionEditSplitVertical->plug( rmbWidgets );
-    actionEditBreakLayout->plug( rmbWidgets );
-    rmbWidgets->insertSeparator();
-    actionEditConnections->plug( rmbWidgets );
-    rmbFormWindow = new QPopupMenu( this );
-    actionEditPaste->plug( rmbFormWindow );
-    actionEditSelectAll->plug( rmbFormWindow );
-    actionEditAccels->plug( rmbFormWindow );
-    rmbFormWindow->insertSeparator();
-    actionEditAdjustSize->plug( rmbFormWindow );
-    actionEditHLayout->plug( rmbFormWindow );
-    actionEditVLayout->plug( rmbFormWindow );
-    actionEditGridLayout->plug( rmbFormWindow );
-    actionEditBreakLayout->plug( rmbFormWindow );
-    rmbFormWindow->insertSeparator();
-    actionEditConnections->plug( rmbFormWindow );
-    rmbFormWindow->insertSeparator();
-    actionEditFormSettings->plug( rmbFormWindow );
+  rmbWidgets->insertSeparator();
+  actionEditAdjustSize->plug( rmbWidgets );
+  actionEditHLayout->plug( rmbWidgets );
+  actionEditVLayout->plug( rmbWidgets );
+  actionEditGridLayout->plug( rmbWidgets );
+  actionEditSplitHorizontal->plug( rmbWidgets );
+  actionEditSplitVertical->plug( rmbWidgets );
+  actionEditBreakLayout->plug( rmbWidgets );
+  rmbWidgets->insertSeparator();
+  actionEditConnections->plug( rmbWidgets );
+  rmbFormWindow = new QPopupMenu( this );
+  actionEditPaste->plug( rmbFormWindow );
+  actionEditSelectAll->plug( rmbFormWindow );
+  actionEditAccels->plug( rmbFormWindow );
+  rmbFormWindow->insertSeparator();
+  actionEditAdjustSize->plug( rmbFormWindow );
+  actionEditHLayout->plug( rmbFormWindow );
+  actionEditVLayout->plug( rmbFormWindow );
+  actionEditGridLayout->plug( rmbFormWindow );
+  actionEditBreakLayout->plug( rmbFormWindow );
+  rmbFormWindow->insertSeparator();
+  actionEditConnections->plug( rmbFormWindow );
+  rmbFormWindow->insertSeparator();
+  actionEditFormSettings->plug( rmbFormWindow );
 }
 
 void MainWindow::toolSelected()
@@ -352,14 +340,14 @@ void MainWindow::toolSelected()
   actionCurrentTool = (KAction*)sender();
   emit currentToolChanged();
   if (formWindow())
-      formWindow()->commandHistory()->emitUndoRedo();
+    formWindow()->commandHistory()->emitUndoRedo();
 }
 
 int MainWindow::currentTool() const
 {
-    if (!actionCurrentTool)
-      return POINTER_TOOL;
-    return QString::fromLatin1(actionCurrentTool->name()).toInt();
+  if (!actionCurrentTool)
+    return POINTER_TOOL;
+  return QString::fromLatin1(actionCurrentTool->name()).toInt();
 }
 
 
@@ -382,28 +370,28 @@ void MainWindow::runForm()
 
 void MainWindow::showProperties( QObject *o )
 {
-    if ( !o->isWidgetType() ) {
-        propertyEditor->setWidget( o, lastActiveFormWindow );
-        if ( lastActiveFormWindow )
-            hierarchyView->setFormWindow( lastActiveFormWindow, lastActiveFormWindow->mainContainer() );
-        else
-            hierarchyView->setFormWindow( 0, 0 );
-        return;
-    }
-    QWidget *w = (QWidget*)o;
-    setupHierarchyView();
-    FormWindow *fw = (FormWindow*)isAFormWindowChild( w );
-    if ( fw ) {
-        propertyEditor->setWidget( w, fw );
-        hierarchyView->setFormWindow( fw, w );
-    } else {
-        propertyEditor->setWidget( 0, 0 );
-        hierarchyView->setFormWindow( 0, 0 );
-    }
+  if ( !o->isWidgetType() ) {
+    propertyEditor->setWidget( o, lastActiveFormWindow );
+    if ( lastActiveFormWindow )
+      hierarchyView->setFormWindow( lastActiveFormWindow, lastActiveFormWindow->mainContainer() );
+    else
+      hierarchyView->setFormWindow( 0, 0 );
+    return;
+  }
+  QWidget *w = (QWidget*)o;
+  setupHierarchyView();
+  FormWindow *fw = (FormWindow*)isAFormWindowChild( w );
+  if ( fw ) {
+    propertyEditor->setWidget( w, fw );
+    hierarchyView->setFormWindow( fw, w );
+  } else {
+    propertyEditor->setWidget( 0, 0 );
+    hierarchyView->setFormWindow( 0, 0 );
+  }
 
-    if ( currentTool() == POINTER_TOOL && fw &&
-         ( !qworkspace->activeWindow() || !qworkspace->activeWindow()->inherits( "SourceEditor" ) ) )
-        fw->setFocus();
+  if ( currentTool() == POINTER_TOOL && fw &&
+       ( !qworkspace->activeWindow() || !qworkspace->activeWindow()->inherits( "SourceEditor" ) ) )
+    fw->setFocus();
 }
 
 void MainWindow::resetTool()
@@ -415,318 +403,316 @@ void MainWindow::resetTool()
 
 void MainWindow::updateProperties( QObject * )
 {
-    if ( propertyEditor )
-        propertyEditor->refetchData();
+  if ( propertyEditor )
+    propertyEditor->refetchData();
 }
 
 bool MainWindow::eventFilter( QObject *o, QEvent *e )
 {
-    if ( !o || !e || !o->isWidgetType() )
-        return QMainWindow::eventFilter( o, e );
+  if ( !o || !e || !o->isWidgetType() )
+    return QMainWindow::eventFilter( o, e );
 
-    QWidget *w = 0;
-    bool passiveInteractor = WidgetFactory::isPassiveInteractor( o );
-    switch ( e->type() ) {
+  QWidget *w = 0;
+  bool passiveInteractor = WidgetFactory::isPassiveInteractor( o );
+  switch ( e->type() ) {
     case QEvent::AccelOverride:
-        if ( ( (QKeyEvent*)e )->key() == Key_F1 &&
-             ( ( (QKeyEvent*)e )->state() & ShiftButton ) != ShiftButton ) {
-            w = (QWidget*)o;
-            while ( w ) {
-                if ( w->inherits( "PropertyList" ) )
-                    break;
-                w = w->parentWidget( TRUE );
-            }
-            if ( w ) {
-                propertyEditor->propertyList()->showCurrentWhatsThis();
-                ( (QKeyEvent*)e )->accept();
-                return TRUE;
-            }
+      if ( ( (QKeyEvent*)e )->key() == Key_F1 &&
+              ( ( (QKeyEvent*)e )->state() & ShiftButton ) != ShiftButton ) {
+        w = (QWidget*)o;
+        while ( w ) {
+          if ( w->inherits( "PropertyList" ) )
+            break;
+          w = w->parentWidget( TRUE );
         }
-        break;
+        if ( w ) {
+          propertyEditor->propertyList()->showCurrentWhatsThis();
+          ( (QKeyEvent*)e )->accept();
+          return TRUE;
+        }
+              }
+              break;
     case QEvent::Accel:
-        if ( ( ( (QKeyEvent*)e )->key() == Key_A ||
-               ( (QKeyEvent*)e )->key() == Key_E ) &&
-             ( (QKeyEvent*)e )->state() & ControlButton ) {
-            if ( qWorkspace()->activeWindow() &&
-                 qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
-                ( (QKeyEvent*)e )->ignore();
-                return TRUE;
-            }
-        }
-        break;
+      if ( ( ( (QKeyEvent*)e )->key() == Key_A ||
+                ( (QKeyEvent*)e )->key() == Key_E ) &&
+                ( (QKeyEvent*)e )->state() & ControlButton ) {
+        if ( qWorkspace()->activeWindow() &&
+             qWorkspace()->activeWindow()->inherits( "SourceEditor" ) ) {
+          ( (QKeyEvent*)e )->ignore();
+          return TRUE;
+             }
+                }
+                break;
     case QEvent::ContextMenu:
     case QEvent::MouseButtonPress:
-        if ( o->inherits( "QDesignerPopupMenu" ) )
-            break;
-        if ( o && currentTool() == POINTER_TOOL && ( o->inherits( "QDesignerMenuBar" ) ||
-                    o->inherits( "QDesignerToolBar" ) ||
-                    ( o->inherits( "QComboBox") || o->inherits( "QToolButton" ) || o->inherits( "QDesignerToolBarSeparator" ) ) &&
-                    o->parent() && o->parent()->inherits( "QDesignerToolBar" ) ) ) {
-            QWidget *w = (QWidget*)o;
-            if ( w->inherits( "QToolButton" ) || w->inherits( "QComboBox" ) || w->inherits( "QDesignerToolBarSeparator" ) )
-                w = w->parentWidget();
-            QWidget *pw = w->parentWidget();
-            while ( pw ) {
-                if ( pw->inherits( "FormWindow" ) ) {
-                    ( (FormWindow*)pw )->emitShowProperties( w );
-                    if ( !o->inherits( "QDesignerToolBar" ) )
-                        return !o->inherits( "QToolButton" ) && !o->inherits( "QMenuBar" ) &&
-                            !o->inherits( "QComboBox" ) && !o->inherits( "QDesignerToolBarSeparator" );
-                }
-                pw = pw->parentWidget();
-            }
+      if ( o->inherits( "QDesignerPopupMenu" ) )
+        break;
+      if ( o && currentTool() == POINTER_TOOL && ( o->inherits( "QDesignerMenuBar" ) ||
+           o->inherits( "QDesignerToolBar" ) ||
+           ( o->inherits( "QComboBox") || o->inherits( "QToolButton" ) || o->inherits( "QDesignerToolBarSeparator" ) ) &&
+           o->parent() && o->parent()->inherits( "QDesignerToolBar" ) ) ) {
+        QWidget *w = (QWidget*)o;
+        if ( w->inherits( "QToolButton" ) || w->inherits( "QComboBox" ) || w->inherits( "QDesignerToolBarSeparator" ) )
+          w = w->parentWidget();
+        QWidget *pw = w->parentWidget();
+        while ( pw ) {
+          if ( pw->inherits( "FormWindow" ) ) {
+            ( (FormWindow*)pw )->emitShowProperties( w );
+            if ( !o->inherits( "QDesignerToolBar" ) )
+              return !o->inherits( "QToolButton" ) && !o->inherits( "QMenuBar" ) &&
+                  !o->inherits( "QComboBox" ) && !o->inherits( "QDesignerToolBarSeparator" );
+          }
+          pw = pw->parentWidget();
         }
-        if ( o && ( o->inherits( "QDesignerToolBar" ) || o->inherits( "QDockWindowHandle" ) )
-             && e->type() == QEvent::ContextMenu )
-            break;
-        if ( isAToolBarChild( o ) && currentTool() != CONNECT_TOOL )
-            break;
-        if ( o && o->inherits( "QSizeGrip" ) )
-            break;
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
-            break;
-        if ( !w->hasFocus() )
-            w->setFocus();
-        if ( !passiveInteractor || currentTool() != ORDER_TOOL ) {
-            if( e->type() == QEvent::ContextMenu ) {
-                ( (FormWindow*)w )->handleContextMenu( (QContextMenuEvent*)e,
-                                                       ( (FormWindow*)w )->designerWidget( o ) );
-                return TRUE;
-            } else {
-                ( (FormWindow*)w )->handleMousePress( (QMouseEvent*)e,
-                                                      ( (FormWindow*)w )->designerWidget( o ) );
-            }
-        }
-        lastPressWidget = (QWidget*)o;
-        if ( passiveInteractor )
-            QTimer::singleShot( 0, formWindow(), SLOT( visibilityChanged() ) );
-        if ( currentTool() == CONNECT_TOOL )
-            return TRUE;
-        return !passiveInteractor;
+           }
+           if ( o && ( o->inherits( "QDesignerToolBar" ) || o->inherits( "QDockWindowHandle" ) )
+                && e->type() == QEvent::ContextMenu )
+             break;
+           if ( isAToolBarChild( o ) && currentTool() != CONNECT_TOOL )
+             break;
+           if ( o && o->inherits( "QSizeGrip" ) )
+             break;
+           if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
+             break;
+           if ( !w->hasFocus() )
+             w->setFocus();
+           if ( !passiveInteractor || currentTool() != ORDER_TOOL ) {
+             if( e->type() == QEvent::ContextMenu ) {
+               ( (FormWindow*)w )->handleContextMenu( (QContextMenuEvent*)e,
+               ( (FormWindow*)w )->designerWidget( o ) );
+               return TRUE;
+             } else {
+               ( (FormWindow*)w )->handleMousePress( (QMouseEvent*)e,
+               ( (FormWindow*)w )->designerWidget( o ) );
+             }
+           }
+           lastPressWidget = (QWidget*)o;
+           if ( passiveInteractor )
+             QTimer::singleShot( 0, formWindow(), SLOT( visibilityChanged() ) );
+           if ( currentTool() == CONNECT_TOOL )
+             return TRUE;
+           return !passiveInteractor;
     case QEvent::MouseButtonRelease:
-        lastPressWidget = 0;
-        if ( isAToolBarChild( o )  && currentTool() != CONNECT_TOOL )
-            break;
-        if ( o && o->inherits( "QSizeGrip" ) )
-            break;
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
-            break;
-        if ( !passiveInteractor )
-            ( (FormWindow*)w )->handleMouseRelease( (QMouseEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
-        if ( passiveInteractor ) {
-            selectionChanged();
-            QTimer::singleShot( 0, formWindow(), SLOT( visibilityChanged() ) );
-        }
-        return !passiveInteractor;
+      lastPressWidget = 0;
+      if ( isAToolBarChild( o )  && currentTool() != CONNECT_TOOL )
+        break;
+      if ( o && o->inherits( "QSizeGrip" ) )
+        break;
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
+        break;
+      if ( !passiveInteractor )
+        ( (FormWindow*)w )->handleMouseRelease( (QMouseEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
+      if ( passiveInteractor ) {
+        selectionChanged();
+        QTimer::singleShot( 0, formWindow(), SLOT( visibilityChanged() ) );
+      }
+      return !passiveInteractor;
     case QEvent::MouseMove:
-        if ( isAToolBarChild( o ) && currentTool() != CONNECT_TOOL )
-            break;
-        w = isAFormWindowChild( o );
-        if ( lastPressWidget != (QWidget*)o && w &&
-             !o->inherits( "SizeHandle" ) && !o->inherits( "OrderIndicator" ) &&
-             !o->inherits( "QPopupMenu" ) && !o->inherits( "QMenuBar" ) &&
-             !o->inherits( "QSizeGrip" ) )
-            return TRUE;
-        if ( o && o->inherits( "QSizeGrip" ) )
-            break;
-        if ( lastPressWidget != (QWidget*)o ||
-             ( !w || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) ) )
-            break;
-        if ( !passiveInteractor )
-            ( (FormWindow*)w )->handleMouseMove( (QMouseEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
-        return !passiveInteractor;
-    case QEvent::KeyPress:
-        if ( ( (QKeyEvent*)e )->key() == Key_Escape && currentTool() != POINTER_TOOL ) {
-            resetTool();
-            return FALSE;
-        }
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
-            break;
-        ( (FormWindow*)w )->handleKeyPress( (QKeyEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
-        if ( ((QKeyEvent*)e)->isAccepted() )
-            return TRUE;
+      if ( isAToolBarChild( o ) && currentTool() != CONNECT_TOOL )
         break;
-    case QEvent::MouseButtonDblClick:
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) ) {
-            if ( o && o->inherits( "QToolButton" ) && ( ( QToolButton*)o )->isOn() &&
-                 o->parent() && o->parent()->inherits( "QToolBar" ) && formWindow() )
-                formWindow()->setToolFixed();
-            break;
-        }
-        if ( currentTool() == ORDER_TOOL ) {
-            ( (FormWindow*)w )->handleMouseDblClick( (QMouseEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
-            return TRUE;
-        }
-        if ( !WidgetFactory::isPassiveInteractor( o ) )
-            return openEditor( ( (FormWindow*)w )->designerWidget( o ), (FormWindow*)w );
+      w = isAFormWindowChild( o );
+      if ( lastPressWidget != (QWidget*)o && w &&
+           !o->inherits( "SizeHandle" ) && !o->inherits( "OrderIndicator" ) &&
+           !o->inherits( "QPopupMenu" ) && !o->inherits( "QMenuBar" ) &&
+           !o->inherits( "QSizeGrip" ) )
         return TRUE;
+      if ( o && o->inherits( "QSizeGrip" ) )
+        break;
+      if ( lastPressWidget != (QWidget*)o ||
+           ( !w || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) ) )
+        break;
+      if ( !passiveInteractor )
+        ( (FormWindow*)w )->handleMouseMove( (QMouseEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
+      return !passiveInteractor;
+    case QEvent::KeyPress:
+      if ( ( (QKeyEvent*)e )->key() == Key_Escape && currentTool() != POINTER_TOOL ) {
+        resetTool();
+        return FALSE;
+      }
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
+        break;
+      ( (FormWindow*)w )->handleKeyPress( (QKeyEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
+      if ( ((QKeyEvent*)e)->isAccepted() )
+        return TRUE;
+      break;
+    case QEvent::MouseButtonDblClick:
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) ) {
+        if ( o && o->inherits( "QToolButton" ) && ( ( QToolButton*)o )->isOn() &&
+             o->parent() && o->parent()->inherits( "QToolBar" ) && formWindow() )
+          formWindow()->setToolFixed();
+        break;
+      }
+      if ( currentTool() == ORDER_TOOL ) {
+        ( (FormWindow*)w )->handleMouseDblClick( (QMouseEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
+        return TRUE;
+      }
+      if ( !WidgetFactory::isPassiveInteractor( o ) )
+        return openEditor( ( (FormWindow*)w )->designerWidget( o ), (FormWindow*)w );
+      return TRUE;
     case QEvent::KeyRelease:
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
-            break;
-        ( (FormWindow*)w )->handleKeyRelease( (QKeyEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
-        if ( ((QKeyEvent*)e)->isAccepted() )
-            return TRUE;
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
         break;
+      ( (FormWindow*)w )->handleKeyRelease( (QKeyEvent*)e, ( (FormWindow*)w )->designerWidget( o ) );
+      if ( ((QKeyEvent*)e)->isAccepted() )
+        return TRUE;
+      break;
     case QEvent::Hide:
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
-            break;
-        if ( ( (FormWindow*)w )->isWidgetSelected( (QWidget*)o ) )
-            ( (FormWindow*)w )->selectWidget( (QWidget*)o, FALSE );
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
         break;
+      if ( ( (FormWindow*)w )->isWidgetSelected( (QWidget*)o ) )
+        ( (FormWindow*)w )->selectWidget( (QWidget*)o, FALSE );
+      break;
     case QEvent::Enter:
     case QEvent::Leave:
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) || o->inherits( "QDesignerMenuBar" ) )
-            break;
-        return TRUE;
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) || o->inherits( "QDesignerMenuBar" ) )
+        break;
+      return TRUE;
     case QEvent::Resize:
     case QEvent::Move:
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
-            break;
-        if ( WidgetFactory::layoutType( (QWidget*)o->parent() ) != WidgetFactory::NoLayout ) {
-            ( (FormWindow*)w )->updateSelection( (QWidget*)o );
-            if ( e->type() != QEvent::Resize )
-                ( (FormWindow*)w )->updateChildSelections( (QWidget*)o );
-        }
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
         break;
+      if ( WidgetFactory::layoutType( (QWidget*)o->parent() ) != WidgetFactory::NoLayout ) {
+        ( (FormWindow*)w )->updateSelection( (QWidget*)o );
+        if ( e->type() != QEvent::Resize )
+          ( (FormWindow*)w )->updateChildSelections( (QWidget*)o );
+      }
+      break;
     case QEvent::Close:
-        break;
+      break;
     case QEvent::DragEnter:
-        if ( o == qWorkspace() || o == workspace() || o == workspace()->viewport() ) {
-            workspace()->contentsDragEnterEvent( (QDragEnterEvent*)e );
-            return TRUE;
-        }
-        break;
+      if ( o == qWorkspace() || o == workspace() || o == workspace()->viewport() ) {
+        workspace()->contentsDragEnterEvent( (QDragEnterEvent*)e );
+        return TRUE;
+      }
+      break;
     case QEvent::DragMove:
-        if ( o == qWorkspace() || o == workspace() || o == workspace()->viewport() ) {
-            workspace()->contentsDragMoveEvent( (QDragMoveEvent*)e );
-            return TRUE;
-        }
-        break;
+      if ( o == qWorkspace() || o == workspace() || o == workspace()->viewport() ) {
+        workspace()->contentsDragMoveEvent( (QDragMoveEvent*)e );
+        return TRUE;
+      }
+      break;
     case QEvent::Drop:
-        if ( o == qWorkspace() || o == workspace() || o == workspace()->viewport() ) {
-            workspace()->contentsDropEvent( (QDropEvent*)e );
-            return TRUE;
-        }
-        break;
+      if ( o == qWorkspace() || o == workspace() || o == workspace()->viewport() ) {
+        workspace()->contentsDropEvent( (QDropEvent*)e );
+        return TRUE;
+      }
+      break;
     case QEvent::Show:
-        if ( o != this )
-            break;
-        if ( ((QShowEvent*)e)->spontaneous() )
-            break;
-        QApplication::sendPostedEvents( qworkspace, QEvent::ChildInserted );
-        showEvent( (QShowEvent*)e );
-        checkTempFiles();
-        return TRUE;
+      if ( o != this )
+        break;
+      if ( ((QShowEvent*)e)->spontaneous() )
+        break;
+      QApplication::sendPostedEvents( qworkspace, QEvent::ChildInserted );
+      showEvent( (QShowEvent*)e );
+      checkTempFiles();
+      return TRUE;
     case QEvent::Wheel:
-        if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
-            break;
-        return TRUE;
+      if ( !( w = isAFormWindowChild( o ) ) || o->inherits( "SizeHandle" ) || o->inherits( "OrderIndicator" ) )
+        break;
+      return TRUE;
     case QEvent::FocusIn:
-	if ( !o->inherits( "FormWindow" ) && isAFormWindowChild( o ) )
-	    return TRUE;
-        break;
+      if ( !o->inherits( "FormWindow" ) && isAFormWindowChild( o ) )
+        return TRUE;
+      break;
     case QEvent::FocusOut:
-        if ( !o->inherits( "FormWindow" ) && isAFormWindowChild( o ) )
-            return TRUE;
-        break;
+      if ( !o->inherits( "FormWindow" ) && isAFormWindowChild( o ) )
+        return TRUE;
+      break;
     default:
-        return QMainWindow::eventFilter( o, e );
-    }
+      return QMainWindow::eventFilter( o, e );
+  }
 
-    return QMainWindow::eventFilter( o, e );
+  return QMainWindow::eventFilter( o, e );
 }
 
 QWidget *MainWindow::isAFormWindowChild( QObject *o ) const
 {
-    if ( o->parent() && o->parent()->inherits( "QWizard" ) && !o->inherits( "QPushButton" ) )
-        return 0;
-    while ( o ) {
-        if ( o->inherits( "FormWindow" ) )
-            return (QWidget*)o;
-        o = o->parent();
-    }
+  if ( o->parent() && o->parent()->inherits( "QWizard" ) && !o->inherits( "QPushButton" ) )
     return 0;
+  while ( o ) {
+    if ( o->inherits( "FormWindow" ) )
+      return (QWidget*)o;
+    o = o->parent();
+  }
+  return 0;
 }
 
 QWidget *MainWindow::isAToolBarChild( QObject *o ) const
 {
-    while ( o ) {
-        if ( o->inherits( "QDesignerToolBar" ) )
-            return (QWidget*)o;
-        if ( o->inherits( "FormWindow" ) )
-            return 0;
-        o = o->parent();
-    }
-    return 0;
+  while ( o ) {
+    if ( o->inherits( "QDesignerToolBar" ) )
+      return (QWidget*)o;
+    if ( o->inherits( "FormWindow" ) )
+      return 0;
+    o = o->parent();
+  }
+  return 0;
 }
 
 FormWindow *MainWindow::formWindow()
 {
-    if ( qworkspace->activeWindow() ) {
-        FormWindow *fw = 0;
-        if ( qworkspace->activeWindow()->inherits( "FormWindow" ) )
-            fw = (FormWindow*)qworkspace->activeWindow();
-        else if ( lastActiveFormWindow &&
-                    qworkspace->windowList().find( lastActiveFormWindow ) != -1)
-            fw = lastActiveFormWindow;
-        return fw;
-    }
-    return 0;
+  if ( qworkspace->activeWindow() ) {
+    FormWindow *fw = 0;
+    if ( qworkspace->activeWindow()->inherits( "FormWindow" ) )
+      fw = (FormWindow*)qworkspace->activeWindow();
+    else if ( lastActiveFormWindow &&
+              qworkspace->windowList().find( lastActiveFormWindow ) != -1)
+      fw = lastActiveFormWindow;
+    return fw;
+  }
+  return 0;
 }
 
 void MainWindow::insertFormWindow( FormWindow *fw )
 {
-    if ( fw )
-        QWhatsThis::add( fw, i18n("<b>The Form Window</b>"
-                               "<p>Use the various tools to add widgets or to change the layout "
-                               "and behavior of the components in the form. Select one or multiple "
-                               "widgets to move them or lay them out. If a single widget is chosen it can "
-                               "be resized using the resize handles.</p>"
-                               "<p>Changes in the <b>Property Editor</b> are visible at design time, "
-                               "and you can preview the form in different styles.</p>"
-                               "<p>You can change the grid resolution, or turn the grid off in the "
-                               "<b>Preferences</b> dialog from the <b>Edit</b> menu."
-                               "<p>You can have several forms open, and all open forms are listed "
-                               "in the <b>Form List</b>.") );
+  if ( fw )
+    QWhatsThis::add( fw, i18n("<b>The Form Window</b>"
+        "<p>Use the various tools to add widgets or to change the layout "
+            "and behavior of the components in the form. Select one or multiple "
+            "widgets to move them or lay them out. If a single widget is chosen it can "
+            "be resized using the resize handles.</p>"
+            "<p>Changes in the <b>Property Editor</b> are visible at design time, "
+            "and you can preview the form in different styles.</p>"
+            "<p>You can change the grid resolution, or turn the grid off in the "
+            "<b>Preferences</b> dialog from the <b>Edit</b> menu."
+            "<p>You can have several forms open, and all open forms are listed "
+            "in the <b>Form List</b>.") );
 
-    connect( fw, SIGNAL( showProperties( QObject * ) ),
-             this, SLOT( showProperties( QObject * ) ) );
-    connect( fw, SIGNAL( updateProperties( QObject * ) ),
-             this, SLOT( updateProperties( QObject * ) ) );
-    connect( this, SIGNAL( currentToolChanged() ),
-             fw, SLOT( currentToolChanged() ) );
-    connect( fw, SIGNAL( selectionChanged() ),
-             this, SLOT( selectionChanged() ) );
-    connect( fw, SIGNAL( undoRedoChanged( bool, bool, const QString &, const QString & ) ),
-             this, SLOT( updateUndoRedo( bool, bool, const QString &, const QString & ) ) );
+  connect( fw, SIGNAL( showProperties( QObject * ) ),
+           this, SLOT( showProperties( QObject * ) ) );
+  connect( fw, SIGNAL( updateProperties( QObject * ) ),
+           this, SLOT( updateProperties( QObject * ) ) );
+  connect( this, SIGNAL( currentToolChanged() ),
+           fw, SLOT( currentToolChanged() ) );
+  connect( fw, SIGNAL( selectionChanged() ),
+           this, SLOT( selectionChanged() ) );
+  connect( fw, SIGNAL( undoRedoChanged( bool, bool, const QString &, const QString & ) ),
+           this, SLOT( updateUndoRedo( bool, bool, const QString &, const QString & ) ) );
 
-    fw->show();
-    fw->currentToolChanged();
-    if ( fw->caption().isEmpty() && qstrlen( fw->name() )  )
-        fw->setCaption( fw->name() );
-    fw->mainContainer()->setCaption( fw->caption() );
-    WidgetFactory::saveDefaultProperties( fw->mainContainer(),
+  fw->show();
+  fw->currentToolChanged();
+  if ( fw->caption().isEmpty() && qstrlen( fw->name() )  )
+    fw->setCaption( fw->name() );
+  fw->mainContainer()->setCaption( fw->caption() );
+  WidgetFactory::saveDefaultProperties( fw->mainContainer(),
                                           WidgetDatabase::
-                                          idFromClassName( WidgetFactory::classNameOf( fw->mainContainer() ) ) );
-    activeWindowChanged( fw );
-    emit formWindowsChanged();
+                                              idFromClassName( WidgetFactory::classNameOf( fw->mainContainer() ) ) );
+  activeWindowChanged( fw );
+  emit formWindowsChanged();
 }
 
 
 
-bool MainWindow::unregisterClient( FormWindow *w )
+bool MainWindow::unregisterClient(FormWindow *w)
 {
-    propertyEditor->closed( w );
-    objectHierarchy()->closed( w );
-    if ( w == lastActiveFormWindow )
-        lastActiveFormWindow = 0;
+  propertyEditor->closed( w );
+  objectHierarchy()->closed( w );
+  if ( w == lastActiveFormWindow )
+    lastActiveFormWindow = 0;
 
-    if ( actionEditor->form() == w ) {
-        actionEditor->setFormWindow( 0 );
-        actionEditor->parentWidget()->hide();
-    }
-
-    return TRUE;
+  if (actionEditor->form() == w) 
+    actionEditor->setFormWindow(0);
+    
+  return TRUE;
 }
 
 void MainWindow::activeWindowChanged( QWidget *w )
@@ -746,14 +732,6 @@ void MainWindow::activeWindowChanged( QWidget *w )
         formWindow()->clearSelection();
     }
     workspace()->activeFormChanged(fw);
-/*FIXME
-    setAppropriate((QDockWindow *) actionEditor->parentWidget(),
-        lastActiveFormWindow->mainContainer()->inherits("QMainWindow"));
-    if (appropriate((QDockWindow *) actionEditor->parentWidget()))
-      actionEditor->parentWidget()->show();
-    else
-      actionEditor->parentWidget()->hide();
-  */
     actionEditor->setFormWindow(lastActiveFormWindow);
     emit formWindowChanged();
 
