@@ -1,5 +1,19 @@
+Tue 16 Nov 2004 23:28:16 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
+	o Editor shortcuts can be configured and remembered
+	o Editor Recent files submenu is now KDE based
+	o Editor configuration file is a standard KDE config file
+	o Editor has now Settings menu
+	o some obsolete Editor options were removed
+
+Sun 14 Nov 2004 22:39:38 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
+	o massive cleanup and KDE-ification of Editor
+	o most actions converted to KActions, some were standarized 
+	o some obsolete dialogs removed
+	o About dialog changed to use KAboutDialog
+
 Wed 03 Nov 2004 14:28:39 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o fix some problems detected by kdetestsscripts
+	o Kommander 1.1dev2 released
 
 Tue 02 Nov 2004 07:53:20 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o Signals and slots: disallow unmatched (signal, slot) connections.
