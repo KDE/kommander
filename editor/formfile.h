@@ -36,9 +36,9 @@ class SourceEditor;
 class FormFile : public QObject
 {
     Q_OBJECT
-    #ifndef KOMMANDER
+#ifndef KOMMANDER
     friend class SourceEditor;
-    #endif
+#endif
 
 public:
 #ifndef KOMMANDER
@@ -56,9 +56,9 @@ public:
     ~FormFile();
 
     void setFormWindow( FormWindow *f );
-    #ifndef KOMMANDER
+#ifndef KOMMANDER
     void setEditor( SourceEditor *e );
-    #endif
+#endif
     void setFileName( const QString &fn );
 #ifndef KOMMANDER
     void setCode( const QString &c );

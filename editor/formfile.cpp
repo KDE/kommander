@@ -113,10 +113,10 @@ void FormFile::setFormWindow( FormWindow *f )
     fw = f;
     if ( fw )
   fw->setFormFile( this );
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
     if ( seperateSource )
   parseCode( cod, FALSE );
-  #endif
+#endif
 }
 
 #ifndef KOMMANDER
@@ -433,7 +433,7 @@ bool FormFile::closeEvent()
 #ifndef KOMMANDER
     if ( editor() )
   editor()->save();
-  #endif
+#endif
 
     switch ( QMessageBox::warning( MainWindow::self, i18n( "Save Form" ),
            i18n( "Save changes to form '%1'?" ).arg( filename ),
@@ -460,10 +460,10 @@ bool FormFile::closeEvent()
 
   emit removedFormFile(this);
     setModified( FALSE );
-    #ifndef KOMMANDER
+#ifndef KOMMANDER
     MainWindow::self->updateFunctionList(); // TODO
     setCodeEdited( FALSE );
-    #endif
+#endif
     return TRUE;
 }
 

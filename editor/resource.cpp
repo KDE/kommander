@@ -389,11 +389,11 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
 
     if ( !connections.isNull() )
 	loadConnections( connections );
-	#ifndef KOMMANDER
+#ifndef KOMMANDER
     if ( !functions.isNull() )
 
 	loadFunctions( functions );
-	#endif
+#endif
     if ( !tabOrder.isNull() )
 	loadTabOrder( tabOrder );
 
@@ -1586,7 +1586,7 @@ void Resource::createItem( const QDomElement &e, QWidget *widget, QListViewItem 
 			pixmaps << pix;
 		    }
 		}
-		    
+
 	    } else if ( n.tagName() == "item" ) {
 		item->setOpen( TRUE );
 		createItem( n, widget, item );
@@ -2032,7 +2032,7 @@ void Resource::loadConnections( const QDomElement &e )
 		    conn.receiver = formwindow->mainContainer();
 	    }
 	    if ( conn.sender && conn.receiver ) {
-	    #ifndef KOMMANDER
+#ifndef KOMMANDER
 		if ( lang == "C++" ) {
 		    MetaDataBase::addConnection( formwindow ? formwindow : toplevel,
 						 conn.sender, conn.signal, conn.receiver, conn.slot );
@@ -2041,10 +2041,10 @@ void Resource::loadConnections( const QDomElement &e )
 		    MetaDataBase::setEventFunctions( conn.sender, formwindow, lang, conn.signal,
 						     QStringList::split( ',', conn.slot ), FALSE );
 		}
-		#else
+#else
 		    MetaDataBase::addConnection( formwindow ? formwindow : toplevel,
 						 conn.sender, conn.signal, conn.receiver, conn.slot );
-		#endif
+#endif
 	    }
 	} else if ( n.tagName() == "slot" ) { // compatibility with 2.x
 	    MetaDataBase::Slot slot;
@@ -2308,7 +2308,7 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 	    indent--;
 	    ts << makeIndent( indent ) << "</forwards>" << endl;
 	}
-	#ifndef KOMMANDER
+#ifndef KOMMANDER
 	QStringList vars = MetaDataBase::variables( formwindow );
 	if ( !vars.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<variables>" << endl;
@@ -2318,7 +2318,7 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 	    indent--;
 	    ts << makeIndent( indent ) << "</variables>" << endl;
 	}
-	#endif
+#endif
 	QStringList sigs = MetaDataBase::signalList( formwindow );
 	if ( !sigs.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<signals>" << endl;

@@ -137,12 +137,12 @@ WorkspaceItem::WorkspaceItem( QListViewItem *parent, FormFile* ff, Type type )
     if ( type ==  FormFileType ) {
   setPixmap( 0, *formPixmap );
   QObject::connect( ff, SIGNAL( somethingChanged(FormFile*) ), listView(), SLOT( update(FormFile*) ) );
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
   if ( formFile->supportsCodeFile() )
       (void) new WorkspaceItem( this, formFile, FormSourceType );
     } else if ( type == FormSourceType ) {
   setPixmap( 0, *filePixmap );
-  #endif
+#endif
     }
 }
 
@@ -155,12 +155,12 @@ WorkspaceItem::WorkspaceItem( QListView *parent, FormFile* ff, Type type )
     if ( type ==  FormFileType ) {
   setPixmap( 0, *formPixmap );
   QObject::connect( ff, SIGNAL( somethingChanged(FormFile*) ), listView(), SLOT( update(FormFile*) ) );
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
   if ( formFile->supportsCodeFile() )
       (void) new WorkspaceItem( this, formFile, FormSourceType );
     } else if ( type == FormSourceType ) {
   setPixmap( 0, *filePixmap );
-    #endif
+#endif
     }
 }
 
@@ -187,11 +187,11 @@ void WorkspaceItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
   g.setColor( QColorGroup::Text, listView()->palette().disabled().color( QColorGroup::Text) );
   g.setColor( QColorGroup::HighlightedText, listView()->palette().disabled().color( QColorGroup::Text) );
     } else {
-    #endif
+#endif
   g.setColor( QColorGroup::Text, Qt::black );
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
     }
-    #endif
+#endif
     p->save();
 
     if ( isModified() ) {
@@ -228,12 +228,12 @@ QString WorkspaceItem::text( int column ) const
 #endif
     case FormFileType:
   return formFile->formName() + ": " + formFile->fileName();
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
     case FormSourceType:
   return formFile->codeFile();
     case SourceFileType:
   return sourceFile->fileName();
-  #endif
+#endif
     }
 
     return QString::null; // shut up compiler
@@ -248,14 +248,14 @@ void WorkspaceItem::fillCompletionList( QStringList& completion )
   completion += formFile->formName();
   completion += formFile->fileName();
   break;
-  #ifndef KOMMANDER
+#ifndef KOMMANDER
     case FormSourceType:
   completion += formFile->codeFile();
   break;
     case SourceFileType:
   completion += sourceFile->fileName();
   break;
-  #endif
+#endif
     }
 }
 
