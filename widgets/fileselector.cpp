@@ -155,7 +155,7 @@ void FileSelector::makeSelection()
 {
   QString text;
   if (m_selectionType == Open && m_openMultiple)
-    text = KFileDialog::getOpenFileNames(m_lineEdit->text(), m_filter, this, m_caption).join(" ");
+    text = KFileDialog::getOpenFileNames(m_lineEdit->text(), m_filter, this, m_caption).join("\n");
   else if (m_selectionType == Open && !m_openMultiple)
     text = KFileDialog::getOpenFileName(m_lineEdit->text(), m_filter, this, m_caption);
   else if (m_selectionType == Save)
