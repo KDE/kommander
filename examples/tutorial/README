@@ -67,10 +67,18 @@ Functions/concepts:
 * ARRAY.KMDR
 Shows how to use assocative arrays to store and restore information
 associated with container items.
-Function/concept:
+Functions/concepts:
 - @Array function
 
 * STRINGS.KMDR
-Shows how to use string-handlingfunctions
-- @String function
+Shows how to use string-handling functions
+Functions/concepts:
+- @String functions
 - rich text editor
+
+* TREE.KMDR
+Shows how to use tree widget
+- tree widget
+- FileSelector
+- initialization
+- env

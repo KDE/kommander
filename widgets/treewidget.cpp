@@ -130,6 +130,13 @@ bool TreeWidget::isKommanderWidget() const
   return TRUE;
 }
 
+void TreeWidget::setCurrentItem(QListViewItem* item)
+{
+  KListView::setCurrentItem(item);
+  setSelected(item, true);
+  ensureItemVisible(item);
+}
+
 QStringList TreeWidget::associatedText() const
 {
   return KommanderWidget::associatedText();
@@ -196,6 +203,9 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       return QString::number(itemToIndex(currentItem()));
     case DCOP::setCurrentItem:
       setCurrentItem(indexToItem(args[0].toInt()));
+      break;
+    case DCOP::findItem:
+      setCurrentItem(findItem(args[0], 0));
       break;
     case DCOP::item:
       return itemText(indexToItem(args[0].toInt()));

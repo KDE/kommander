@@ -42,6 +42,7 @@ class TreeWidget : public KListView, public KommanderWidget
 public:
   TreeWidget(QWidget *a_parent, const char *a_name);
   ~TreeWidget();
+  virtual void setCurrentItem(QListViewItem* item);  
   
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
