@@ -21,7 +21,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::setEnabled, "enableWidget(QString widget, bool enabled)");
   insertAlias(DCOP::setEnabled, "setEnabled");
   insert(DCOP::setVisible, "setVisible(QString widget, bool visible)");
-  insert(DCOP::setText, "changeWidgetText(QString widget, QString, text)");
+  insert(DCOP::setText, "changeWidgetText(QString widget, QString text)");
   insertAlias(DCOP::setText, "setText");
   insert(DCOP::text, "text(QString widget)");
   insert(DCOP::selection, "selection(QString widget)");
