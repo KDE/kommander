@@ -307,6 +307,15 @@ QString KommanderWidget::evalStringFunction(const QString& function, const QStri
       args[0].toInt(&ok);
       return QString::number(ok);
     }
+    case String::args:
+    {
+      if (args.count() == 2)
+        return args[0].arg(args[1]);
+      else if (args.count() == 3)
+        return args[0].arg(args[1]).arg(args[2]);
+      else 
+        return args[0].arg(args[1]).arg(args[2]).arg(args[3]);
+    }
     default:
       return QString::null;
   }
