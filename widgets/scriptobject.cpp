@@ -14,8 +14,9 @@
  *                                                                         *
  ***************************************************************************/
 /* QT INCLUDES */
-#include <qstringlist.h>
 #include <qevent.h>
+#include <qstringlist.h>
+#include <qwidget.h>
 
 /* KDE INCLUDES */
 #include <kglobal.h>
@@ -40,6 +41,7 @@ ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
     setPixmap(KGlobal::iconLoader()->loadIcon("exec", KIcon::Small));
     setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
+    setFixedSize(pixmap()->size());
   }
   else
     setHidden(true);

@@ -43,8 +43,7 @@ public:
   virtual QString currentState() const;
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
-  virtual QString script() const  {return QString::null;}
-
+  
   virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
   virtual void setWidgetText(const QString &);
@@ -53,6 +52,7 @@ public slots:
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString &);
+
 protected:
 };
 

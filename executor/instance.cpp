@@ -403,6 +403,13 @@ QStringList Instance::children(const QString& parent, bool recursive)
   return matching;
 } 
   
+void Instance::setMaximum(const QString &widgetName, int value)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::setMaximum, QString::number(value));
+}
+
 QString Instance::global(const QString& variableName)
 {
   return KommanderWidget::global(variableName);

@@ -1,4 +1,13 @@
-Fri 16 lip 2004 15:37:41 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Tue 20 Jul 2004 19:51:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o bug fixed: @dcop with more than 4 arguments
+	o bug fixed: in @forEach, @var_count has incorrect value
+	o in @forEach, @var_index has now 1-based index, not 0-based
+	o setMaximum for ProgressBar
+
+Mon 19 Jul 2004 11:47:58 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o ScriptObject widget - hidden widget for
+
+Fri 16 Jul 2004 15:37:41 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added Slider widget
 	o removed some obsolete code from editor
 	o added ScriptObject - hidden script container

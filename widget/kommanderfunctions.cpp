@@ -125,10 +125,10 @@ QString KommanderWidget::evalForEachBlock(const QStringList& args, const QString
     QStringList loop = QStringList::split("\n", args[1]);
     QString output;
     QString block = substituteVariable(s.mid(start, f - start), QString("%1_count").arg(var),
-      QString::number(args.count()));
+      QString::number(loop.count()));
     QString varidx = QString("%1_index").arg(var);
     for (uint i=0; i<loop.count(); i++)
-      output += evalAssociatedText(substituteVariable(substituteVariable(block, varidx, QString::number(i)),
+      output += evalAssociatedText(substituteVariable(substituteVariable(block, varidx, QString::number(i+1)),
         var, loop[i]));
     return output;
   }

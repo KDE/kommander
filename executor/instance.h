@@ -89,6 +89,7 @@ public:
   virtual QStringList children(const QString& parent, bool recursive);
   virtual QString global(const QString& variableName);
   virtual void setGlobal(const QString& variableName, const QString& value);
+  virtual void setMaximum(const QString &widgetName, int value);
    
 public slots:
   /** Builds the instance then executes it */

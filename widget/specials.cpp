@@ -77,6 +77,9 @@ void SpecialInformation::registerSpecials()
      i18n("Returns value of a global variable."), 1);
   insert(DCOP::setGlobal, "setGlobal(QString variable, QString value)",
      i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
+  /* functions with missing description - to be added after string freeze */
+  insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
+     QString::null, 2);
   
   insertGroup(Group::Kommander, "Kommander");
   insert(Kommander::widgetText, "widgetText", i18n("Returns current widget's content."), 0);

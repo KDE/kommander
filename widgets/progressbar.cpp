@@ -91,6 +91,9 @@ QString ProgressBar::handleDCOP(int function, const QStringList& args)
     case DCOP::clear:
       setProgress(0);
       break;
+    case DCOP::setMaximum:
+      setTotalSteps(args[0].toUInt());
+      break;
     default:
       break;
   }

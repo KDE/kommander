@@ -59,6 +59,7 @@ virtual QString type(const QString& widget) = 0;
 virtual QStringList children(const QString& parent, bool recursive) = 0;
 virtual QString global(const QString& variableName) = 0;
 virtual void setGlobal(const QString& variableName, const QString& value) = 0;
+virtual void setMaximum(const QString &widgetName, int value) = 0;
   
 };
 
