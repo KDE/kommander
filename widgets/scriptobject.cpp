@@ -1,5 +1,5 @@
 /***************************************************************************
-                          ScriptObject.cpp - Widget for holding scripts 
+                          scriptobject.cpp - Widget for holding scripts 
                              -------------------
     copyright            : (C) 2002 by Marc Britton
     email                : consume@optusnet.com.au
@@ -14,7 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 /* QT INCLUDES */
-#include <qevent.h>
 #include <qstringlist.h>
 #include <qwidget.h>
 
@@ -38,7 +37,7 @@ ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KGlobal::iconLoader()->loadIcon("exec", KIcon::Small));
+    setPixmap(KGlobal::iconLoader()->loadIcon("exec", KIcon::NoGroup, KIcon::SizeMedium));
     setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
