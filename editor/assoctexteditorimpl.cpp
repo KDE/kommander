@@ -34,11 +34,12 @@
 /* OTHER INCLUDES */
 #include <cstdio>
 #include "assoctexteditorimpl.h"
-#include <kommanderwidget.h>
-#include <formwindow.h>
-#include <propertyeditor.h>
-#include <command.h>
-#include <metadatabase.h>
+#include "kommanderwidget.h"
+#include "formwindow.h"
+#include "propertyeditor.h"
+#include "command.h"
+#include "metadatabase.h"
+#include "choosewidgetimpl.h"
 
 AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form, 
     PropertyEditor* a_property, QWidget *a_parent, const char *a_name, bool a_modal)
@@ -69,6 +70,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   connect(filePushButton, SIGNAL(clicked()), SLOT(insertFile()));
   connect(widgetComboBox, SIGNAL(activated(int)), SLOT(insertWidgetName(int)));
   connect(functionComboBox, SIGNAL(activated(int)), SLOT(insertFunction(int)));
+  connect(treeWidgetButton, SIGNAL(clicked()), SLOT(selectWidget()));
 }
 
 AssocTextEditor::~AssocTextEditor()
@@ -238,6 +240,21 @@ void AssocTextEditor::widgetChanged(int index)
 {
   save();
   setWidget( widgetFromString( widgetsComboBox->text(index)) ) ;
+}
+
+void AssocTextEditor::selectWidget()
+{
+  ChooseWidget cDialog(this);
+  cDialog.setWidget(m_formWindow->mainContainer());
+  if (cDialog.exec()) {
+    QString newWidget = cDialog.selection();
+    for (int i = 0; i<widgetsComboBox->count(); i++)
+      if (widgetsComboBox->text(i) == newWidget) {
+        widgetsComboBox->setCurrentItem(i);
+        widgetChanged(i);
+        break;
+      }
+  }
 }
 
 

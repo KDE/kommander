@@ -34,7 +34,7 @@ class AssocTextEditor : public AssocTextEditorBase
 {
   Q_OBJECT
 public:
-  AssocTextEditor(QWidget*, FormWindow*, PropertyEditor*, QWidget*, const char*, bool=true);
+  AssocTextEditor(QWidget*, FormWindow*, PropertyEditor*, QWidget*, const char* = 0, bool = true);
   ~AssocTextEditor();
   // Set interface for given widget. 
   void setWidget(QWidget *);
@@ -52,6 +52,8 @@ public slots:
   void widgetChanged(int);
   // Current widget has changed - store script and show new script
   void stateChanged(int);
+  // Select widget via widget tree dialog
+  void selectWidget();
   
   // Functions for script editing:
   

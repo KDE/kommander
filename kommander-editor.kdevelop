@@ -1,8 +1,8 @@
 <!DOCTYPE kdevelop>
 <kdevelop>
   <general>
-    <author>Marc Britton</author>
-    <email>consume@optushome.com.au</email>
+    <author>Michal Rudolf</author>
+    <email>mrudolf@kdewebdev.org</email>
     <version>$VERSION$</version>
     <projectmanagement>KDevKDEAutoProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
@@ -87,6 +87,7 @@
     </make>
     <general>
       <useconfiguration>default</useconfiguration>
+      <activetarget>editor/kmdr-editor</activetarget>
     </general>
     <configurations>
       <default>
@@ -113,6 +114,7 @@
       <envvars/>
       <autocompile>true</autocompile>
       <directoryradio>executable</directoryradio>
+      <customdirectory>/</customdirectory>
     </run>
   </kdevautoproject>
   <cppsupportpart>
