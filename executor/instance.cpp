@@ -355,7 +355,10 @@ QStringList Instance::associatedText(const QString &widgetName)
 
 QString Instance::global(const QString& variableName)
 {
-  return m_globals[variableName];  
+  if (m_globals.contains(variableName))
+    return m_globals[variableName];
+  else
+    return QString::null;
 }
 
 void Instance::setGlobal(const QString& variableName, const QString& value)
