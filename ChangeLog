@@ -16,6 +16,8 @@ Thu 29 cze 2004 00:44:39 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	  setting it to @widgetText)
 	o clear for LineEdit and TextEdit
 	o text/setText works for spinbox
+	o basic TreeView support (use insertItem, separate path with / and
+	  columns with \t)
 
 Mon 21 Jun 2004 13:36:52 CEST - Eric Laffoon <eric@kdewebdev.org>
 	o added documentation
