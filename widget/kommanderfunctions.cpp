@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <cstdlib>
+  
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kconfig.h>
