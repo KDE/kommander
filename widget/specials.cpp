@@ -222,7 +222,7 @@ void SpecialInformation::registerSpecials()
   insert(File::append, "append(QString file, QString string)", 
     i18n("Appends given string to the end of a file."), 2);
   
-  insertGroup(Group::File, "Input", "input");
+  insertGroup(Group::Input, "Input", "input");
   insert(Input::color, "color", i18n("Shows color dialog. Returns color in #RRGGBB format."));
   insert(Input::text, "text(QString caption, QString label, QString default)", 
          i18n("Shows text selection dialog. Returns entered text."), 0);
@@ -237,7 +237,7 @@ void SpecialInformation::registerSpecials()
   insert(Input::openfiles, "openfiles(QString startdir, QString filter, QString caption)", 
          i18n("Shows multiple files selection dialog. Returns EOL-separated list of selected files."), 0);
   
-  insertGroup(Group::File, "Message", "message");
+  insertGroup(Group::Message, "Message", "message");
   insert(Message::info, "info(QString text, QString caption)", 
          i18n("Shows an information dialog."));
   insert(Message::error, "error(QString text, QString caption)", 
