@@ -37,6 +37,7 @@
 
 /* UNIX INCLUDES */
 #include <unistd.h>
+#include <stdlib.h>
 
 /* OTHER INCLUDES */
 #include "myprocess.h"
