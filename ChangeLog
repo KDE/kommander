@@ -1,29 +1,51 @@
-Sat 19 cze 2004 00:47:42 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Thu 29 cze 2004 00:44:39 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o all DCOP functions are handled in appropriate widgets
+	o DCOP and specials are now registered together in single class
+	o it is now possible to create new methods for new (plugin) widgets
+	o new DCOP methods added - see below
+	o setVisible method added (show/hide widgets)
+	o setText alias for changeWidgetText
+	o insertItem alias for addListItem
+	o insertItems alias for addListItems
+	o setEnabled alias for enableWidget
+	o setCurrentItem for setting current item on index base
+	o selection for getting selected text/text of selected item
+	o setSelection for setting selected text/text of selected item
+	  (for ListBoxes: alias for setCurrentListItem)
+	o text for most widgets (makes @SomeWidget obsolete when
+	  setting it to @widgetText)
+	o clear for LineEdit and TextEdit
+	o text/setText works for spinbox
+
+Mon 21 Jun 2004 13:36:52 CEST - Eric Laffoon <eric@kdewebdev.org>
+	o added documentation
+
+Sat 19 Jun 2004 00:47:42 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added changeWidgetText support for listboxes and combos
 	o security fix: warning when running from /tmp directory
 	o added @null special
 	o Kommander 1.0alpha5 released
 
-Thu 17 cze 2004 23:13:18 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Thu 17 Jun 2004 23:13:18 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @String.find
 	o added specials descriptions
 	o fix: crash when opening main-window dialog (created in Designer)
 	  in executor
 
-Wed 16 cze 2004 13:04:30 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Wed 16 Jun 2004 13:04:30 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @Array.count
 	o added @Array.read/write
 
-Tue 15 cze 2004 23:24:52 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Tue 15 Jun 2004 23:24:52 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added file functions (@File: read, write, append)
 	o added warning for empty @Widget text
 
-Mon 15 cze 2004 18:32:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Mon 15 Jun 2004 18:32:01 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added string-handling functions (@String: left, right,
 	  contains, left, right, mid, compare, isEmpty, isNumber,
 	  remove, replace, lower, upper)
 
-Mon 14 cze 2004 10:23:12 CEST - Eric Laffoon <eric@kdewebdev.org>
+Mon 14 Jun 2004 10:23:12 CEST - Eric Laffoon <eric@kdewebdev.org>
 	o fix: parentPid bug
 	o fix: execBegin bug
 

@@ -24,6 +24,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include <specials.h>
 #include "tabwidget.h"
 
 TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
@@ -81,24 +82,24 @@ void TabWidget::setWidgetText(const QString &a_text)
   emit widgetTextChanged(a_text);
 }
 
-QString TabWidget::widgetText() const
-{
-  return caption();
-}
-
-void TabWidget::setSelectedWidgetText(const QString &)
-{
-}
-
-QString TabWidget::selectedWidgetText() const
-{
-  return QString::null;
-}
-
 void TabWidget::showEvent(QShowEvent* e)
 {
   QTabWidget::showEvent(e);
   emit widgetOpened();
+}
+
+QString TabWidget::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return caption();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    default:
+      break;
+  }
+  return QString::null;
 }
 
 #include "tabwidget.moc"

@@ -44,20 +44,16 @@ public:
   ComboBox(QWidget *a_parent, const char *a_name);
   ~ComboBox();
 
-  virtual QString widgetText() const;
-  virtual QString selectedWidgetText() const;
-
-  virtual bool isKommanderWidget() const;
+   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;
-
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
 
+  virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
   virtual void setWidgetText(const QString&);
-  virtual void setSelectedWidgetText(const QString & a_text);
   virtual void populate();
   
   virtual void emitWidgetTextChanged(int);

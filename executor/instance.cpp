@@ -50,22 +50,21 @@
 #include "instance.h"
 #include <kommanderwidget.h>
 #include <kommanderfactory.h>
+#include <specials.h>
 #include <fileselector.h>
 
 Instance::Instance()
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0),
   m_cmdArguments(0)
 {
-  registerDCOP();
-  registerSpecials();
+  SpecialInformation::registerSpecials();
 }
 
 Instance::Instance(const KURL& a_uiFileName, QWidget *a_parent)
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
   m_parent(a_parent), m_cmdArguments(0)
 {
-  registerDCOP();
-  registerSpecials();
+  SpecialInformation::registerSpecials();
 }
 
 void Instance::addArgument(const QString& argument)
@@ -201,250 +200,158 @@ void Instance::setParent(QWidget *a_parent)
   m_parent = a_parent;
 }
 
+
 void Instance::enableWidget(const QString& widgetName, bool enable)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-      ((QWidget*)child)->setEnabled(enable);
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (child && child->inherits("QWidget"))
+    ((QWidget*)child)->setEnabled(enable);
+}
+
+void Instance::setVisible(const QString& widgetName, bool visible)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (child && child->inherits("QWidget"))
+    ((QWidget*)child)->setShown(visible);
 }
 
 void Instance::changeWidgetText(const QString& widgetName, const QString& text)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QButton"))
-        ((QButton*)child)->setText(text);
-      else if (child->inherits("QLabel"))
-        ((QLabel*)child)->setText(text);
-      else if (child->inherits("QGroupBox"))
-        ((QGroupBox*)child)->setTitle(text);
-      else if (child->inherits("QLineEdit"))
-        ((QLineEdit*)child)->setText(text);
-      else if (child->inherits("QTextEdit"))
-        ((QTextEdit*)child)->setText(text);
-      else if (child->inherits("FileSelector"))
-        ((FileSelector*)child)->setWidgetText(text);
-      else if (child->inherits("QSpinBox"))
-        ((QSpinBox*)child)->setValue(text.toInt());
-      else if (child->inherits("QListBox"))
-      {
-        ((QListBox*)child)->clear();
-        ((QListBox*)child)->insertStringList(QStringList::split("\n", text));
-      }
-      else if (child->inherits("QComboBox"))
-      {
-        ((QComboBox*)child)->clear();
-        ((QComboBox*)child)->insertStringList(QStringList::split("\n", text));
-      }
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::setText, text);
+  else if (child && child->inherits("QLabel"))
+    ((QLabel*)child)->setText(text);
+}
+
+QString Instance::text(const QString& widgetName)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::text);
+  else if (child && child->inherits("QLabel"))
+    return ((QLabel*)child)->text();  
+  return QString::null;
+}
+
+void Instance::setSelection(const QString& widgetName, const QString& text)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::setSelection, text);
+  else if (child && child->inherits("QLabel"))
+    ((QLabel*)child)->setText(text);  
+}
+
+QString Instance::selection(const QString& widgetName)
+{
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::selection);
+  return QString::null;
 }
 
 int Instance::currentItem(const QString &widgetName)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-        return ((QListBox*)child)->currentItem();
-      else if (child->inherits("QComboBox"))
-        return ((QComboBox*)child)->currentItem();
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::currentItem).toInt();
   return -1;
 }
 
 QString Instance::item(const QString &widgetName, int i)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children && i>=0)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-        return (uint)i < ((QListBox*)child)->count() ? ((QListBox*)child)->item(i)->text() : QString::null;
-      else if (child->inherits("QComboBox"))
-        return i < ((QComboBox*)child)->count() ? ((QComboBox*)child)->text(i) : QString::null;
-    }
-  delete children;
-  return QString::null;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::item, QString::number(i));
+  return QString::null;      
 }
-
 
 void Instance::removeListItem(const QString &widgetName, int index)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-        ((QListBox*)child)->removeItem(index);
-      else if (child->inherits("QComboBox"))
-        ((QComboBox*)child)->removeItem(index);
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::removeItem, QString::number(index));
 }
 
 void Instance::addListItem(const QString &widgetName, const QString &item, int index)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-        ((QListBox*)child)->insertItem(item, index);
-      else if (child->inherits("QComboBox"))
-        ((QComboBox*)child)->insertItem(item, index);
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+  {
+    QStringList args(item);
+    args += QString::number(index);
+    kommanderWidget(child)->handleDCOP(DCOP::insertItem, args);
+  }
 }
 
 void Instance::addListItems(const QString &widgetName, const QStringList &items, int index)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-        ((QListBox*)child)->insertStringList(items, index);
-      else if (child->inherits("QComboBox"))
-        ((QComboBox*)child)->insertStringList(items, index);
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+  {
+    QStringList args(items.join("\n"));
+    args += QString::number(index);
+    kommanderWidget(child)->handleDCOP(DCOP::insertItems, args);
+  }
 }
 
 int Instance::findItem(const QString &widgetName, const QString& item)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  int value = -1;
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-      {
-        QListBox* list = (QListBox*)child;
-        QListBoxItem* found = list->findItem(item, Qt::ExactMatch);
-        if (!found) 
-          found = list->findItem(item, Qt::BeginsWith);
-        if (!found) 
-          found = list->findItem(item, Qt::Contains);
-        if (found)
-          value = list->index(found);
-      }
-    }
-  delete children;
-  return value;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    return kommanderWidget(child)->handleDCOP(DCOP::findItem, item).toInt();
+  return -1;
 }
 
 void Instance::addUniqueItem(const QString &widgetName, const QString &item)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox") && !((QListBox*)child)->findItem(item, Qt::ExactMatch))
-        ((QListBox*)child)->insertItem(item);
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::addUniqueItem, item);
 }
 
 void Instance::clearList(const QString &widgetName)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-        ((QListBox*)child)->clear();
-      else if (child->inherits("QComboBox"))
-        ((QComboBox*)child)->clear();
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::clear);
 }
 
-void Instance::setCurrentListItem(const QString& widgetName, const QString& name)
+void Instance::setCurrentListItem(const QString& widgetName, const QString& item)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QListBox"))
-      {
-        QListBox *box = (QListBox*)child;
-        for (uint i = 0; i < box->count(); i++)
-          if (box->text(i) == name)
-            box->setCurrentItem(i);
-      }
-      else if (child->inherits("QComboBox"))
-      {
-        QComboBox *box = (QComboBox*)child;
-        for (int i = 0; i < box->count(); i++)
-          if (box->text(i) == name)
-            box->setCurrentItem(i);
-      }
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::setSelection, item);
 }
 
 void Instance::setCurrentTab(const QString &widgetName, int index)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-     ((QTabWidget*)child)->setCurrentPage(index);
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (child && child->inherits("QTabWidget"))
+    ((QTabWidget*)child)->setCurrentPage(index);
 }
 
 void Instance::setChecked(const QString &widgetName, bool checked)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next())
-    {
-      if (child->inherits("QCheckBox"))
-        ((QCheckBox*)child)->setChecked(checked);
-      else if (child->inherits("QRadioButton"))
-        ((QRadioButton*)child)->setChecked(checked);
-      else if (child->inherits("QButtonGroup"))
-      {
-        ((QButtonGroup*)child)->setCheckable(true);
-        ((QButtonGroup*)child)->setChecked(checked);
-      }
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::setChecked, checked ? "true" : "false");
 }
 
-void Instance::setAssociatedText(const QString &widgetName, const QString &text)
+void Instance::setAssociatedText(const QString &widgetName, const QString& text)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-    for (QObject* child = children->first(); child; child = children->next()) 
-    {
-      KommanderWidget* kommanderwidget = dynamic_cast<KommanderWidget*>(child);
-      if (kommanderwidget)
-        kommanderwidget->setAssociatedText(QStringList::split('\n', text, true));
-    }
-  delete children;
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->setAssociatedText(QStringList::split('\n', text, true));
 }
 
 QStringList Instance::associatedText(const QString &widgetName)
 {
-  QObjectList* children = stringToWidget(widgetName);  
-  if (children)
-  for (QObject* child = children->first(); child; child = children->next())
-  {
-    KommanderWidget* kommanderwidget = dynamic_cast<KommanderWidget*>(child);
-    if (kommanderwidget)
-    {
-      delete children;
-      return kommanderwidget->associatedText();
-    }
-  }
-  return QStringList();
+  QObject* child = stringToWidget(widgetName);  
+  if (kommanderWidget(child))
+    kommanderWidget(child)->associatedText();  
+  return QString::null;
 }
 
 QString Instance::global(const QString& variableName)
@@ -457,12 +364,14 @@ void Instance::setGlobal(const QString& variableName, const QString& value)
   KommanderWidget::setGlobal(variableName, value); 
 }  
 
-QObjectList* Instance::stringToWidget(const QString& name)
+QObject* Instance::stringToWidget(const QString& name)
 {
-  if (!m_instance)
-    return 0;
-  return m_instance->queryList(0, name, false);
+  return m_instance->child(name);
 }
 
+KommanderWidget* Instance::kommanderWidget(QObject* object)
+{
+  return dynamic_cast<KommanderWidget*>(object);  
+}
   
 #include "instance.moc"

@@ -24,21 +24,20 @@
 #include <qradiobutton.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "radiobutton.h"
 
 RadioButton::RadioButton(QWidget *a_parent, const char *a_name)
-	: QRadioButton(a_parent, a_name), KommanderWidget(this)
+  : QRadioButton(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "unchecked";
-	states << "checked";
-	setStates(states);
-	QStringList displayStates;
-	displayStates << "checked";
-	displayStates << "unchecked";
-	setDisplayStates(displayStates);
-
+  QStringList states;
+  states << "unchecked";
+  states << "checked";
+  setStates(states);
+  QStringList displayStates;
+  displayStates << "checked";
+  displayStates << "unchecked";
+  setDisplayStates(displayStates);
 }
 
 RadioButton::~RadioButton()
@@ -47,58 +46,44 @@ RadioButton::~RadioButton()
 
 QString RadioButton::currentState() const
 {
-	return (isChecked() ? "checked" : "unchecked");
+  return (isChecked() ? "checked" : "unchecked");
 }
 
 bool RadioButton::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList RadioButton::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void RadioButton::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void RadioButton::setWidgetText(const QString &a_text)
 {
-    setText(a_text);
-	emit widgetTextChanged(a_text);
+  setText(a_text);
+  emit widgetTextChanged(a_text);
 }
 
 void RadioButton::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText( a_text );
 }
 
 QString RadioButton::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void RadioButton::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
-}
-
-QString RadioButton::widgetText() const
-{
-	return QString::null;
-}
-
-void RadioButton::setSelectedWidgetText( const QString &)
-{
-}
-
-QString RadioButton::selectedWidgetText() const
-{
-    return QString::null;
+  QString txt = KommanderWidget::evalAssociatedText( populationText() );
+  setWidgetText( txt );
 }
 
 void RadioButton::showEvent( QShowEvent *e )
@@ -106,5 +91,24 @@ void RadioButton::showEvent( QShowEvent *e )
     QRadioButton::showEvent( e );
     emit widgetOpened();
 }
+
+QString RadioButton::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return text();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::setChecked:
+      setChecked(args[0] != "false");
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
+
+
 
 #include "radiobutton.moc"

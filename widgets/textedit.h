@@ -36,28 +36,27 @@ class TextEdit: public KTextEdit, public KommanderWidget
 public:
   TextEdit(QWidget *, const char *);
   virtual ~TextEdit();
-  virtual QString widgetText() const;
-  virtual QString selectedWidgetText() const;
 
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList &);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;
-
   virtual QString populationText() const;
   virtual void setPopulationText(const QString &);
+  
+  virtual QString handleDCOP(int function, const QStringList& args);
 
 public slots:
   virtual void setTextChanged();
   virtual void setWidgetText(const QString &);
-  virtual void setSelectedWidgetText(const QString & a_text);
   virtual void populate();
 
-signals: void widgetOpened();
-  void widgetTextChanged(const QString &);
+signals: 
+  void widgetOpened();
+  void widgetTextChanged(const QString&);
 
 protected:
-  void showEvent(QShowEvent * e);
+  void showEvent(QShowEvent* e);
 };
 
 #endif

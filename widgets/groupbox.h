@@ -33,38 +33,34 @@ class QWidget;
 class QShowEvent;
 class GroupBox : public QGroupBox, public KommanderWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
-	GroupBox(QWidget *a_parent, const char *a_name);
-	~GroupBox();
+  GroupBox(QWidget *a_parent, const char *a_name);
+  ~GroupBox();
 
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
 
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(const QStringList&);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
-
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
-
-	virtual void insertChild(QObject *);
-	virtual void removeChild(QObject *);
+  virtual void insertChild(QObject*);
+  virtual void removeChild(QObject*);
+  
+  virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
-	virtual void setWidgetText(const QString&);
-	virtual void setSelectedWidgetText(const QString& a_text);
-	virtual void populate();
+  virtual void populate();
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString &);
+  void widgetOpened();
+  void widgetTextChanged(const QString &);
 protected:
-	QObjectList m_childList;
-    void showEvent( QShowEvent *e );
+  QObjectList m_childList;
+  void showEvent(QShowEvent *e);
 private:
 };
 

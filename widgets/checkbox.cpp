@@ -25,22 +25,22 @@
 #include <qbutton.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "checkbox.h"
 
 CheckBox::CheckBox(QWidget *a_parent, const char *a_name)
-	: QCheckBox(a_parent, a_name), KommanderWidget(this)
+  : QCheckBox(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "unchecked";
-	states << "semichecked";
-	states << "checked";
-	setStates(states);
-	QStringList displayStates;
-	displayStates << "checked";
-	displayStates << "semichecked";
-	displayStates << "unchecked";
-	setDisplayStates(displayStates);
+  QStringList states;
+  states << "unchecked";
+  states << "semichecked";
+  states << "checked";
+  setStates(states);
+  QStringList displayStates;
+  displayStates << "checked";
+  displayStates << "semichecked";
+  displayStates << "unchecked";
+  setDisplayStates(displayStates);
 }
 
 CheckBox::~CheckBox()
@@ -49,11 +49,11 @@ CheckBox::~CheckBox()
 
 QString CheckBox::currentState() const
 {
-  if(state() == QButton::Off)
+  if (state() == QButton::Off)
     return "unchecked";
-  else if(state() == QButton::NoChange)
+  else if (state() == QButton::NoChange)
     return "semichecked";
-  else if(state() == QButton::On)
+  else if (state() == QButton::On)
     return "checked";
   return QString::null;
 }
@@ -63,55 +63,59 @@ bool CheckBox::isKommanderWidget() const
   return TRUE;
 }
 
-QStringList CheckBox::associatedText() const
+QStringList CheckBox::associatedText() const 
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
-void CheckBox::setAssociatedText(const QStringList& a_at)
+void CheckBox::setAssociatedText(const QStringList & a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
-void CheckBox::setPopulationText(const QString& a_text)
+void CheckBox::setPopulationText(const QString & a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString CheckBox::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void CheckBox::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+  setWidgetText(KommanderWidget::evalAssociatedText(populationText()));
 }
 
 void CheckBox::setWidgetText(const QString& a_text)
 {
-    setText(a_text);
-    emit widgetTextChanged(a_text);
-}
-
-QString CheckBox::widgetText() const
-{
-    return text();
-}
-
-void CheckBox::setSelectedWidgetText(const QString&)
-{
-}
-
-QString CheckBox::selectedWidgetText() const
-{
-    return QString::null;
+  setText(a_text);
+  emit widgetTextChanged(a_text);
 }
 
 void CheckBox::showEvent(QShowEvent* e)
 {
-    QCheckBox::showEvent( e );
-    emit widgetOpened();
+  QCheckBox::showEvent(e);
+  emit widgetOpened();
 }
+
+QString CheckBox::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return text();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::setChecked:
+      setChecked(args[0] != "false");
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
+
+
 #include "checkbox.moc"

@@ -24,57 +24,60 @@
 #include <kconfig.h>
 #include <klocale.h>
 
-#include "dcopinformation.h"
 #include "kommanderwidget.h"
+#include "specials.h"
  
-QString KommanderWidget::evalFunction(const QString& function, const QStringList& args) const
+QString KommanderWidget::evalFunction(const QString& function, const QStringList& args)
 { 
-  if (function == "widgetText")
-    return widgetText();
-  else if (function == "selectedWidgetText")
-    return selectedWidgetText();
-  else if (function == "dcopid")
-    return kapp->dcopClient()->appId();
-  else if (function == "pid")
-    return QString().setNum(getpid());
-  else if (function == "null")
-    return QString::null;
-  else if (function == "exec")
-    return execCommand(args[0]);
-  else if (function == "dcop")
-    return dcopQuery(args);
-  else if (function == "parentPid")
-    return global("_PARENTPID").isEmpty() ? QString().setNum(getppid()) : global("_PARENTPID");
-  else if (function == "env")
-    return QString(getenv(args[0].latin1())); 
-  else if (function == "global")
-    return global(args[0]);
-  else if (function == "setGlobal")
-    setGlobal(args[0], args[1]); 
-  else if (function == "readSetting") 
-  {
-    KConfig cfg("kommanderrc", true);
-    cfg.setGroup(QString(parentDialog()->name()));
-    return cfg.readEntry(args[0], args[1]);
+  switch (SpecialInformation::function(Group::Kommander, function)) {
+    case Kommander::widgetText:
+      return handleDCOP(DCOP::text);
+    case Kommander::selectedWidgetText:
+      return handleDCOP(DCOP::selection);
+    case Kommander::dcopid:
+      return kapp->dcopClient()->appId();
+    case Kommander::pid:
+      return QString().setNum(getpid());
+    case Kommander::null:
+      return QString::null;
+    case Kommander::exec:
+      return execCommand(args[0]);
+    case Kommander::dcop:
+      return DCOPQuery(args);
+    case Kommander::parentPid:
+      return global("_PARENTPID").isEmpty() ? QString().setNum(getppid()) : global("_PARENTPID");
+    case Kommander::env:
+      return QString(getenv(args[0].latin1())); 
+    case Kommander::global:
+      return global(args[0]);
+    case Kommander::setGlobal:
+      setGlobal(args[0], args[1]); 
+      return QString::null;
+    case Kommander::readSetting:
+    {
+      KConfig cfg("kommanderrc", true);
+      cfg.setGroup(QString(parentDialog()->name()));
+      return cfg.readEntry(args[0], args[1]);
+    }
+    case Kommander::writeSetting:
+    {
+      KConfig cfg("kommanderrc", false);
+      cfg.setGroup(QString(parentDialog()->name()));
+      cfg.writeEntry(args[0], args[1]);
+      return QString::null;
+    }
+    case Kommander::dialog:
+      if (args.count() > 1)
+        return runDialog(args[0], args[1]); 
+      else
+        return runDialog(args[0]); 
+    default:
+      return QString::null;
   }
-  else if (function == "writeSetting") 
-  {
-    KConfig cfg("kommanderrc", false);
-    cfg.setGroup(QString(parentDialog()->name()));
-    cfg.writeEntry(args[0], args[1]);
-  }
-  else if (function == "dialog")
-  {
-    if (args.count() > 1)
-      return runDialog(args[0], args[1]); 
-    else
-      return runDialog(args[0]); 
-  }
-  return QString::null;
 }
 
 
-QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s, int& pos) const
+QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s, int& pos) 
 {
   int f = s.find("@execEnd", pos);  
   if (f == -1)
@@ -96,58 +99,67 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
 
 QString KommanderWidget::evalArrayFunction(const QString& function, const QStringList& args) const
 {
-  if (function == "setValue")
+  int fname = SpecialInformation::function(Group::Array, function);
+  if (fname == Array::setValue)
     m_arrays[args[0]][args[1]] = args[2];
-  else if (function == "fromString")
+  else if (fname == Array::fromString)
   {
-     QStringList lines = QStringList::split("\n", args[1]);
-     for (uint i=0; i<lines.count(); i++)
-     {
+    QStringList lines = QStringList::split("\n", args[1]);
+    for (uint i=0; i<lines.count(); i++)
+    {
         QString key = lines[i].section('\t', 0, 0).stripWhiteSpace();
         if (!key.isEmpty())
           m_arrays[args[0]][key] = lines[i].section('\t', 1);
-     }
+    }
   }
   else if (!m_arrays.contains(args[0]))
     return QString::null;
-  else if (function == "value")
-    return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString::null;
-  else if (function == "keys")
-    return QStringList(m_arrays[args[0]].keys()).join("\n");
-  else if (function == "values")
-    return QStringList(m_arrays[args[0]].values()).join("\n");
-  else if (function == "clear") 
-    m_arrays[args[0]].clear();
-  else if (function == "remove")
-    m_arrays[args[0]].remove(args[1]);
-  else if (function == "count")
-    return QString::number(m_arrays[args[0]].count());
-  else if (function == "toString")
-  {
-     QStringList keys = m_arrays[args[0]].keys();
-     QStringList values = m_arrays[args[0]].values();
-     QString array;
-     for (uint i=0; i<keys.count(); i++)
-        array += QString("%1\t%2\n").arg(keys[i]).arg(values[i]);
-     return array;
+  else switch (fname) {
+    case Array::value:
+      return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString::null;
+    case Array::keys:
+      return QStringList(m_arrays[args[0]].keys()).join("\n");
+    case Array::values:
+      return QStringList(m_arrays[args[0]].values()).join("\n");
+    case Array::clear:
+      m_arrays[args[0]].clear();
+      return QString::null;
+    case Array::remove:
+      m_arrays[args[0]].remove(args[1]);
+      return QString::null;
+    case Array::count:
+      return QString::number(m_arrays[args[0]].count());
+    case Array::toString:
+    {
+      QStringList keys = m_arrays[args[0]].keys();
+      QStringList values = m_arrays[args[0]].values();
+      QString array;
+      for (uint i=0; i<keys.count(); i++)
+          array += QString("%1\t%2\n").arg(keys[i]).arg(values[i]);
+      return array;
+    }
+    default: 
+      return QString::null;
   }
   return QString::null;
 }
 
 QString KommanderWidget::evalFileFunction(const QString& function, const QStringList& args) const
 {
+  int fname = SpecialInformation::function(Group::File, function);
   QFile file(args[0]);
-  if (function == "read" && file.open(IO_ReadOnly))
+  
+  if (fname == File::read && file.open(IO_ReadOnly))
   {
     QTextStream text(&file);
     return text.read();
   }
-  else if (function == "write" && file.open(IO_WriteOnly))
+  else if (fname == File::write && file.open(IO_WriteOnly))
   {
     QTextStream text(&file);
     text << args[1];
   }
-  else if (function == "append" && file.open(IO_Append))
+  else if (fname == File::append && file.open(IO_Append))
   {
     QTextStream text(&file);
     text << args[1];
@@ -158,7 +170,7 @@ QString KommanderWidget::evalFileFunction(const QString& function, const QString
 
 
 
-QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QString& s, int& pos) const
+QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QString& s, int& pos)
 {
   KommanderWidget* pWidget = parseWidget(identifier);
   if (!pWidget) 
@@ -176,7 +188,8 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
     pos++;
     bool ok = true;
     QString function = parseIdentifier(s, pos);
-    QString prototype = DCOPInformation::prototype(function);
+    QString prototype = SpecialInformation::prototype(Group::DCOP,
+      SpecialInformation::function(Group::DCOP, function));
     if (prototype.isNull())
     {
       printError(i18n("Unknown DCOP function: '%1'.").arg(function));
@@ -198,7 +211,7 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
             .arg(function));
         return QString::null;
       }
-      return localDcopQuery(prototype, args);
+      return localDCOPQuery(prototype, args);
   }
   else if (!pWidget->hasAssociatedText())
   {
@@ -211,39 +224,42 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
 
 QString KommanderWidget::evalStringFunction(const QString& function, const QStringList& args) const
 {
-  if (function == "length")
-    return QString::number(args[0].length());
-  else if (function == "contains")
-    return QString::number(args[0].contains(args[1]));
-  else if (function == "find")
-    return QString::number(args[0].find(args[1]));
-  else if (function == "left")
-    return args[0].left(args[1].toInt());
-  else if (function == "right")
-    return args[0].right(args[1].toInt());
-  else if (function == "mid")
-    return args[0].mid(args[1].toInt(), args[2].toInt());
-  else if (function == "remove")
-    return QString(args[0]).remove(args[1]);
-  else if (function == "replace")
-    return QString(args[0]).replace(args[1], args[2]);
-  else if (function == "lower")
-    return args[0].lower();
-  else if (function == "upper")
-    return args[0].upper();
-  else if (function == "isEmpty")
-    return QString::number(args[0].isEmpty());
-  else if (function == "compare")
-  {
-    int compare = args[0].compare(args[1]);
-    return compare < 0 ? "-1" : (compare == 0 ? "0" : "1");
+  switch (SpecialInformation::function(Group::String, function)) {
+    case String::length:
+      return QString::number(args[0].length());
+    case String::contains:
+      return QString::number(args[0].contains(args[1]));
+    case String::find:
+      return QString::number(args[0].find(args[1]));
+    case String::left:
+      return args[0].left(args[1].toInt());
+    case String::right:
+      return args[0].right(args[1].toInt());
+    case String::mid:
+      return args[0].mid(args[1].toInt(), args[2].toInt());
+    case String::remove:
+      return QString(args[0]).remove(args[1]);
+    case String::replace:
+      return QString(args[0]).replace(args[1], args[2]);
+    case String::lower:
+      return args[0].lower();
+    case String::upper:
+      return args[0].upper();
+    case String::isEmpty:
+      return QString::number(args[0].isEmpty());
+    case String::compare:
+    {
+      int compare = args[0].compare(args[1]);
+      return compare < 0 ? "-1" : (compare == 0 ? "0" : "1");
+    }
+    case String::isNumber:
+    {
+      bool ok;
+      args[0].toInt(&ok);
+      return QString::number(ok);
+    }
+    default:
+      return QString::null;
   }
-  else if (function == "isNumber")
-  {
-    bool ok;
-    args[0].toInt(&ok);
-    return QString::number(ok);
-  }
-  return QString::null;
 }
 

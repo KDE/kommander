@@ -24,17 +24,16 @@
 #include <qspinbox.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "spinboxint.h"
 
 SpinBoxInt::SpinBoxInt(QWidget *a_parent, const char *a_name)
-	: QSpinBox(a_parent, a_name), KommanderWidget(this)
+  : QSpinBox(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
-
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 }
 
 SpinBoxInt::~SpinBoxInt()
@@ -43,63 +42,63 @@ SpinBoxInt::~SpinBoxInt()
 
 QString SpinBoxInt::currentState() const
 {
-	return "default";
+  return "default";
 }
 
 bool SpinBoxInt::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList SpinBoxInt::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void SpinBoxInt::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void SpinBoxInt::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText(a_text);
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString SpinBoxInt::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void SpinBoxInt::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    //implement me
+  setWidgetText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
 void SpinBoxInt::setWidgetText(const QString &a_text)
 {
-	emit widgetTextChanged(a_text);
-}
-
-QString SpinBoxInt::widgetText() const
-{
-	return text();
-}
-
-void SpinBoxInt::setSelectedWidgetText( const QString & )
-{
-}
-
-QString SpinBoxInt::selectedWidgetText() const
-{
-    return QString::null;
+  setValue(a_text.toInt());
+  emit widgetTextChanged(a_text);
 }
 
 void SpinBoxInt::showEvent( QShowEvent *e )
 {
-    QSpinBox::showEvent( e );
-    emit widgetOpened();
+  QSpinBox::showEvent(e);
+  emit widgetOpened();
+}
+
+QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return cleanText();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    default:
+      break;
+  }
+  return QString::null;
 }
 
 #include "spinboxint.moc"

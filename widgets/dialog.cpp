@@ -23,19 +23,19 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
-#include "kommanderwidget.h"
+#include <specials.h>
 #include "dialog.h"
 #include "myprocess.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-	: QDialog(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
+  : QDialog(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	states << "initialization";
-	states << "destroy";
+  QStringList states;
+  states << "default";
+  states << "initialization";
+  states << "destroy";
   setStates(states);
-	setDisplayStates(states);
+  setDisplayStates(states);
 }
 
 Dialog::~Dialog()
@@ -74,8 +74,7 @@ QString Dialog::populationText() const
 
 void Dialog::populate()
 {
-  QString txt = KommanderWidget::evalAssociatedText( populationText() );
-  setWidgetText( txt );
+  setWidgetText(KommanderWidget::evalAssociatedText(populationText()));
 }
 
 void Dialog::initialize()
@@ -105,20 +104,6 @@ void Dialog::setWidgetText(const QString& a_text)
   emit widgetTextChanged(a_text);
 }
 
-QString Dialog::widgetText() const
-{
-  return caption();
-}
-
-void Dialog::setSelectedWidgetText(const QString &)
-{
-}
-
-QString Dialog::selectedWidgetText() const
-{
-  return QString::null;
-}
-
 void Dialog::exec()
 {
   QDialog::exec();
@@ -139,13 +124,25 @@ void Dialog::done(int r)
   QDialog::done(r);  
 }
 
-void Dialog::showEvent( QShowEvent *e )
+void Dialog::showEvent(QShowEvent *e)
 {
   QDialog::showEvent( e );
   emit widgetOpened();
 }
 
-
+QString Dialog::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return caption();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
 
 
 #include "dialog.moc"

@@ -2539,7 +2539,7 @@ QMap<QString, QString> FormWindow::scriptObjects() const
       if(QString(it.current()->className()) == "ScriptObject")
       {
         ScriptObject *sObj = (ScriptObject *)it.current();
-        objects[QString(sObj->name())] = sObj->widgetText();
+        objects[QString(sObj->name())] = sObj->script();
       }
       ++it;
     }

@@ -49,6 +49,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   // text editor
   associatedTextEdit->setFont(KGlobalSettings::fixedFont());
   associatedTextEdit->setTabStopWidth(associatedTextEdit->fontMetrics().maxWidth() * 3);
+  associatedTextEdit->setTextFormat(Qt::PlainText);
   
   // icon for non-empty scripts
   scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);

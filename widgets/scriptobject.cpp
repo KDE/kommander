@@ -23,18 +23,16 @@
 #include "scriptobject.h"
 
 ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
-	: QWidget(a_parent, a_name), KommanderWidget(this)
+  : QWidget(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
+  setHidden(TRUE);
 
-	setHidden(TRUE);
-
-	QStringList at("@widgetText");
-	setAssociatedText(at);
-
+  QStringList at("@widgetText");
+  setAssociatedText(at);
 }
 
 ScriptObject::~ScriptObject()
@@ -43,7 +41,7 @@ ScriptObject::~ScriptObject()
 
 QString ScriptObject::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 bool ScriptObject::isKommanderWidget() const
@@ -53,61 +51,34 @@ bool ScriptObject::isKommanderWidget() const
 
 QStringList ScriptObject::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void ScriptObject::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void ScriptObject::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText( a_text );
 }
 
 QString ScriptObject::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void ScriptObject::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+  QString txt = KommanderWidget::evalAssociatedText( populationText() );
+  setWidgetText( txt );
 }
 
 void ScriptObject::setWidgetText(const QString &a_text)
 {
-	m_script = a_text;
-	emit widgetTextChanged(a_text);
-}
-
-QString ScriptObject::widgetText() const
-{
-	return m_script;
-}
-
-void ScriptObject::setSelectedWidgetText(const QString &)
-{
-}
-
-QString ScriptObject::selectedWidgetText() const
-{
-    return QString::null;
-}
-
-void ScriptObject::show()
-{
-	return; // widget is never shown
-}
-
-
-
-void ScriptObject::showEvent( QShowEvent *e )
-{
-    QWidget::showEvent( e );
-    emit widgetOpened();
+  m_script = a_text;
+  emit widgetTextChanged(a_text);
 }
 
 #include "scriptobject.moc"

@@ -50,20 +50,16 @@ public:
   FileSelector(QWidget *a_parent, const char *a_name);
   ~FileSelector();
 
-  virtual QString widgetText() const;
-  virtual QString selectedWidgetText() const;
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;
-
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
 
   enum SelectionType { Open, Save, Directory };
   SelectionType selectionType() const;
   void setSelectionType(SelectionType);
-
   bool selectionOpenMultiple() const;
   void setSelectionOpenMultiple(bool);
   QString selectionFilter() const;
@@ -71,9 +67,10 @@ public:
   QString selectionCaption() const;
   void setSelectionCaption(const QString&);
 
+  virtual QString handleDCOP(int function, const QStringList& args);
+
 public slots:
   virtual void setWidgetText(const QString&);
-  virtual void setSelectedWidgetText(const QString& a_text);
   virtual void makeSelection();
   virtual void populate();
 

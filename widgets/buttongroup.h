@@ -32,34 +32,31 @@ class QWidget;
 class QShowEvent;
 class ButtonGroup : public QButtonGroup, public KommanderWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget DESIGNABLE false)
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget DESIGNABLE false)
 public:
-	ButtonGroup(QWidget *a_parent, const char *a_name);
-	~ButtonGroup();
-
-  virtual QString widgetText() const;
-  virtual QString selectedWidgetText() const;
+  ButtonGroup(QWidget *a_parent, const char *a_name);
+  ~ButtonGroup();
 
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;
-
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
+  
+  virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
-  virtual void setWidgetText(const QString&);
-  virtual void setSelectedWidgetText(const QString& a_text);
   virtual void populate();
+  
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
 protected:
-    void showEvent(QShowEvent* e);
+  void showEvent(QShowEvent* e);
 private:
 };
 

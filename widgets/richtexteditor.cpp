@@ -31,6 +31,7 @@
 #include <qevent.h>
 
 /* OTHER INCLUDES */
+#include "specials.h"
 #include "richtexteditor.h"
 
 /* Pixmaps */
@@ -151,82 +152,83 @@ void RichTextEditor::populate()
     setWidgetText( txt );
 }
 
-QString RichTextEditor::widgetText() const
-{
-	return m_textedit->text();
-}
-
-void RichTextEditor::setSelectedWidgetText( const QString & )
-{
-    //possible but probably not worth the effort
-}
-
-QString RichTextEditor::selectedWidgetText() const
-{
-    return m_textedit->selectedText();
-}
-
 void RichTextEditor::setWidgetText(const QString &a_text)
 {
-	m_textedit->setText(a_text);
+  m_textedit->setText(a_text);
+  emit widgetTextChanged(a_text);
 }
 
 void RichTextEditor::setTextChanged()
 {
-	emit widgetTextChanged(m_textedit->text());
+  emit widgetTextChanged(m_textedit->text());
 }
 
 void RichTextEditor::textBold(bool a_isOn)
 {
-	m_textedit->setBold(a_isOn);
+  m_textedit->setBold(a_isOn);
 }
 
 void RichTextEditor::textUnder(bool a_isOn)
 {
-	m_textedit->setUnderline(a_isOn);
+  m_textedit->setUnderline(a_isOn);
 }
 
 void RichTextEditor::textItalic(bool a_isOn)
 {
-	m_textedit->setItalic(a_isOn);
+  m_textedit->setItalic(a_isOn);
 }
 
 void RichTextEditor::textAlign(int a_id)
 {
-	//determine what alignment to do basedon which button has been clicked 
-	QToolButton *b = (QToolButton *)m_alignGroup->find(a_id);
-	if(b == m_buttonTextLeft)
-	{
-		m_textedit->setAlignment(Qt::AlignLeft);
-	}
-	else if(b == m_buttonTextCenter)
-	{
-		m_textedit->setAlignment(Qt::AlignCenter);
-	}
-	else if(b == m_buttonTextRight)
-	{
-		m_textedit->setAlignment(Qt::AlignRight);
-	}
+  QToolButton *b = (QToolButton *)m_alignGroup->find(a_id);
+  if(b == m_buttonTextLeft)
+    m_textedit->setAlignment(Qt::AlignLeft);
+  else if(b == m_buttonTextCenter)
+    m_textedit->setAlignment(Qt::AlignCenter);
+  else if(b == m_buttonTextRight)
+    m_textedit->setAlignment(Qt::AlignRight);
 }
 
 void RichTextEditor::fontChanged(const QFont &a_font)
 {
-	m_buttonTextBold->setOn(a_font.bold());
-	m_buttonTextItalic->setOn(a_font.italic());
-	m_buttonTextUnder->setOn(a_font.underline());
+  m_buttonTextBold->setOn(a_font.bold());
+  m_buttonTextItalic->setOn(a_font.italic());
+  m_buttonTextUnder->setOn(a_font.underline());
 }
 
 void RichTextEditor::alignmentChanged(int a_alignment)
 {
-	if((a_alignment == AlignAuto) || (a_alignment & AlignLeft)) m_buttonTextLeft->setOn(TRUE);
-	else if(a_alignment & AlignHCenter) m_buttonTextCenter->setOn(TRUE);
-	else if(a_alignment & AlignRight) m_buttonTextRight->setOn(TRUE);
+  if((a_alignment == AlignAuto) || (a_alignment & AlignLeft)) 
+    m_buttonTextLeft->setOn(TRUE);
+  else if(a_alignment & AlignHCenter) 
+    m_buttonTextCenter->setOn(TRUE);
+  else if(a_alignment & AlignRight) 
+    m_buttonTextRight->setOn(TRUE);
 }
 
 void RichTextEditor::showEvent( QShowEvent *e )
 {
-    QWidget::showEvent( e );
+    QWidget::showEvent(e);
     emit widgetOpened();
+}
+
+QString RichTextEditor::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return m_textedit->text();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::selection:
+      return m_textedit->selectedText();
+    case DCOP::clear:
+      setWidgetText("");
+      break;
+    default:
+      break;
+  }      
+  return QString::null;
 }
 
 #include "richtexteditor.moc"

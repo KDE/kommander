@@ -24,19 +24,18 @@
 #include <qevent.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "combobox.h"
 
 ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
-	: KComboBox(a_parent, a_name), KommanderWidget(this)
+  : KComboBox(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 
-	connect(this, SIGNAL(activated(int)), this, SLOT(emitWidgetTextChanged(int)));
-
+  connect(this, SIGNAL(activated(int)), this, SLOT(emitWidgetTextChanged(int)));
 }
 
 ComboBox::~ComboBox()
@@ -45,107 +44,49 @@ ComboBox::~ComboBox()
 
 QString ComboBox::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 bool ComboBox::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList ComboBox::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void ComboBox::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void ComboBox::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString ComboBox::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void ComboBox::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+  setWidgetText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
 void ComboBox::setWidgetText(const QString& a_text)
 {
-	QStringList strings = QStringList::split("\n", a_text);
-
-	clear();
-
-	insertStringList(strings);
-
-	emit widgetTextChanged(a_text);
+  clear();
+  insertStringList(QStringList::split("\n", a_text));
+  emit widgetTextChanged(a_text);
 }
-
-QString ComboBox::widgetText() const
-{
-	return currentText();
-}
-
-void ComboBox::setSelectedWidgetText(const QString& a_text)
-{
-    for( int i = 0 ; i < count() ; ++i )
-    {
-	if( text( i ) == a_text )
-	{
-	    setCurrentItem( i );
-	    break;
-	}
-    }
-}
-
-QString ComboBox::selectedWidgetText() const
-{
-    QString t;
-    if( currentItem() != -1 )
-	t = text( currentItem() );
-    return t;
-}
-
-#if 0
-QStringList ComboBox::items() const
-{
-	QStringList itemList;
-	int i = 0;
-	for(;i < count();++i)
-		itemList += text(i);
-	return itemList;
-}
-
-void ComboBox::setItems(QStringList a_items)
-{
-	int i = 0;
-	for(;i < count();++i)
-		removeItem(i);
-
-	insertStringList(a_items);
-}
-
-void ComboBox::resetItems()
-{
-	int i = 0;
-	for(;i < count();++i)
-		removeItem(i);
-}
-#endif
 
 void ComboBox::emitWidgetTextChanged(int a_index)
 {
-	QString currentText = text(a_index);
-	emit widgetTextChanged(currentText);
+  emit widgetTextChanged(text(a_index));
 }
 
 void ComboBox::showEvent(QShowEvent *e)
@@ -153,4 +94,52 @@ void ComboBox::showEvent(QShowEvent *e)
     QComboBox::showEvent( e );
     emit widgetOpened();
 }
+
+QString ComboBox::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return currentText();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::selection:
+      return currentText();
+    case DCOP::currentItem:
+      return QString::number(currentItem());
+    case DCOP::item:
+    {
+      int i = args[0].toInt();
+      if (i >= 0 && i < count()) 
+        return text(i);
+      break;
+    }
+    case DCOP::removeItem:
+      removeItem(args[0].toInt());
+      break;
+    case DCOP::insertItem:
+      insertItem(args[0], args[1].toInt());
+      break;
+    case DCOP::insertItems:
+      insertStringList(QStringList::split("\n", args[0]), args[1].toInt());
+      break;
+    case DCOP::clear:
+      clear();
+      break;
+    case DCOP::setSelection:
+    {
+      for (int i = 0; i < count(); i++)
+        if (text(i) == args[0])
+        {
+          setCurrentItem(i);
+          break;
+        }
+      break;
+    }
+    default:
+      break;
+  }
+  return QString::null;
+}
+
 #include "combobox.moc"

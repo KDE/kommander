@@ -15,68 +15,147 @@
  
 #include "specialinformation.h" 
 
-SpecialFunction::SpecialFunction(const QString& name, int minArgs, int maxArgs, 
-  const QString& description) : m_function(name), m_description(description)
+SpecialFunction::SpecialFunction(const QString& name, int minArgs, 
+  const QString& description) : m_description(description)
 {
-  m_args.first = minArgs;
-  m_args.second = maxArgs > minArgs ? maxArgs : minArgs;
+  m_minArgs = minArgs;
+  int lbracket = name.find('(');
+  int rbracket = name.find(')');
+  m_function = (lbracket != -1) ? name.left(lbracket) : name;
+  if (lbracket != -1 && rbracket != -1)
+  {
+    QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
+    QStringList args = QStringList::split(",", part);
+    for (uint i=0; i<args.count(); i++)
+    {
+      m_types.append(args[i].stripWhiteSpace().section(' ', 0, 0));
+      m_args.append(args[i].stripWhiteSpace().section(' ', 1, 1));
+    }
+  }
+}
+
+QString SpecialFunction::prototype() const
+{
+  if (!m_types.count())
+    return m_function;
+  else return QString("%1(%2)").arg(m_function).arg(m_types.join(","));
+}
+
+QString SpecialFunction::argumentName(uint i) const
+{
+  if (i < m_args.count())
+    return m_args[i];
+  return QString::null;
+}
+
+QString SpecialFunction::argumentType(uint i) const
+{
+  if (i < m_types.count())
+    return m_types[i];
+  return QString::null;
 }
 
 
 
-bool SpecialInformation::isValid(const QString& function, const QString& objectName)
+
+int SpecialInformation::function(int group, const QString& fname) 
 {
-  if (!m_specials.contains(objectName))
-    return false;
-  return m_specials[objectName].contains(function);  
+  if (m_functions.contains(group) && m_functions[group].contains(fname))
+    return m_functions[group][fname];
+  return -1;
 }
-
-bool SpecialInformation::isObject(const QString& objectName)
-{
-  return m_specials.contains(objectName);
-}
-
-
-int SpecialInformation::minArg(const QString& function, const QString& objectName)
-{
-  if (isValid(function, objectName))
-    return m_specials[objectName][function].minArg();
-  return -1;  
-}
-
-int SpecialInformation::maxArg(const QString& function, const QString& objectName)
-{
-  if (isValid(function, objectName))
-    return m_specials[objectName][function].maxArg();
-  return -1;  
-}
-
-bool SpecialInformation::validArg(const QString& function, int arg, const QString& objectName)
-{
-  if (isValid(function, objectName))
-    return m_specials[objectName][function].validArg(arg);
-  return -1;  
-}
-
-QString SpecialInformation::description(const QString& function, const QString& objectName)
-{
-  if (isValid(function, objectName))
-    return m_specials[objectName][function].description();
-  return QString::null;  
-}
-
-void SpecialInformation::insert(const SpecialFunction& function)
-{
-  m_specials[m_currentObject][function.function()] = function;
-}
-
-void SpecialInformation::insert(const QString& function, int minArgs, int maxArgs,
-    const QString description)
-{    
-  m_specials[m_currentObject][function] = SpecialFunction(function, minArgs,
-    maxArgs, description);
-}   
   
-QMap<QString, QMap<QString, SpecialFunction> > SpecialInformation::m_specials;
-QString SpecialInformation::m_currentObject;
+int SpecialInformation::group(const QString& gname) 
+{
+ if (m_groups.contains(gname))
+    return m_groups[gname];
+  return -1;  
+}
+
+bool SpecialInformation::isValid(int gname, int fname) 
+{
+  return m_specials.contains(gname) && m_specials[gname].contains(fname);
+}
+
+bool SpecialInformation::isValid(const QString& gname, const QString& fname) 
+{
+  return function(group(gname), fname) != -1;
+}
+
+int SpecialInformation::minArg(int gname, int fname) 
+{
+  if (isValid(gname, fname))
+    return m_specials[gname][fname].minArg();
+  return -1;
+}
+
+int SpecialInformation::maxArg(int gname, int fname) 
+{
+  if (isValid(gname, fname))
+    return m_specials[gname][fname].maxArg();
+  return -1;
+}
+
+bool SpecialInformation::isValidArg(int gname, int fname, int args) 
+{
+  if (isValid(gname, fname))
+    return m_specials[gname][fname].isValidArg(args);
+  return -1;
+}
+
+QString SpecialInformation::description(int gname, int fname)
+{
+ if (isValid(gname, fname))
+    return m_specials[gname][fname].description();
+  return QString::null;
+}
+
+QString SpecialInformation::prototype(int gname, int fname)
+{
+ if (isValid(gname, fname))
+    return m_specials[gname][fname].prototype();
+  return QString::null;
+}
+
+
+bool SpecialInformation::insert(int id, const QString& function, int minArgs, 
+    const QString description)
+{
+  if (isValid(m_defaultGroup, id))  /* function already defined */
+    return false;
+  if (m_functions[m_defaultGroup].contains(function))
+    return false;                   /* function name already in use */
+  SpecialFunction sf(function, minArgs, description);
+  m_specials[m_defaultGroup][id] = sf;
+  m_functions[m_defaultGroup][sf.name()] = id;
+  return true;
+}
+  
+bool SpecialInformation::insertAlias(int id, const QString& alias)
+{
+  if (!isValid(m_defaultGroup, id))  /* function doesn't exists */
+    return false;
+  if (m_functions[m_defaultGroup].contains(alias))
+    return false;
+  m_functions[m_defaultGroup][alias] = id;
+  return true;
+}
+
+void SpecialInformation::setDefaultGroup(int gname)  
+{
+  m_defaultGroup = gname;
+}
+
+void SpecialInformation::insertGroup(int id, const QString& name)
+{
+  if (group(name) == -1) {
+    m_groups[name] = id;
+    m_defaultGroup = id;
+  }
+}
+
+QMap<int, QMap<int, SpecialFunction> > SpecialInformation::m_specials;
+QMap<QString, int> SpecialInformation::m_groups;
+QMap<int, QMap<QString, int> > SpecialInformation::m_functions;
+int SpecialInformation::m_defaultGroup;
 

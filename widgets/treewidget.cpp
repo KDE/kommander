@@ -26,78 +26,99 @@
 #include <qlistview.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "treewidget.h"
 
-TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
-	: QListView(a_parent, a_name), KommanderWidget(this)
-{
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
 
+TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
+  : KListView(a_parent, a_name), KommanderWidget(this)
+{
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 }
 
 TreeWidget::~TreeWidget()
 {
 }
 
+void TreeWidget::addItemFromString(const QString& s)
+{
+  QStringList elements = QStringList::split("/", s);
+  QListViewItem* parent = 0;
+  for (uint i=0; i<elements.count(); i++)
+  {
+//FIXME: don't find first only     
+     QListViewItem* current = findItem(elements[i], 0);
+     if (!current || current->depth() != (int)i)
+       current  = itemFromString(parent, elements[i]);
+     parent = current;
+  }
+}
+
+QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& s) 
+{
+  QStringList elements;
+  if (s.contains("\t"))
+    elements = QStringList::split("\t", s);
+  else
+    elements = QStringList::split("\\t", s);
+  int cols = elements.count();
+  if (cols >= columns())
+    cols = columns();
+  QListViewItem* item;
+  if (parent)
+    item = new QListViewItem(parent);
+  else
+    item = new QListViewItem(this);
+  for (int i=0; i<cols; i++)
+    item->setText(i, elements[i]);
+  return item;
+}
+
+
+
 QString TreeWidget::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 bool TreeWidget::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList TreeWidget::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void TreeWidget::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void TreeWidget::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText( a_text );
 }
 
 QString TreeWidget::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void TreeWidget::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    //implement me
+  QString txt = KommanderWidget::evalAssociatedText( populationText() );
+//FIXME: implement me
 }
 
 void TreeWidget::setWidgetText(const QString &a_text)
 {
-	//set the widget text of your widget here
-	emit widgetTextChanged(a_text);
-}
-
-QString TreeWidget::widgetText() const
-{
-	// implement your widget text here
-	return QString::null;
-}
-
-void TreeWidget::setSelectedWidgetText( const QString & )
-{
-}
-
-QString TreeWidget::selectedWidgetText() const
-{
-    return QString::null;
+//FIXME: implement  
+  emit widgetTextChanged(a_text);
 }
 
 void TreeWidget::showEvent( QShowEvent *e )
@@ -106,5 +127,30 @@ void TreeWidget::showEvent( QShowEvent *e )
     emit widgetOpened();
 }
 
+QString TreeWidget::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::insertItem:
+      addItemFromString(args[0]);
+      break;
+    case DCOP::selection:
+      if (currentItem())
+        return currentItem()->text(0);
+      break;
+    case DCOP::setSelection:
+    {
+      QListViewItem* item = findItem(args[0], 0);
+      if (item)
+        setCurrentItem(item);
+      break;
+    }
+    case DCOP::clear:
+      clear();
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
 
 #include "treewidget.moc"

@@ -30,15 +30,14 @@
 #include "wizard.h"
 
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-	: QWizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
+  : QWizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 
-	connect(this, SIGNAL(helpClicked()), SLOT(runHelp()));
-
+  connect(this, SIGNAL(helpClicked()), SLOT(runHelp()));
 }
 
 Wizard::~Wizard()
@@ -47,71 +46,56 @@ Wizard::~Wizard()
 
 QString Wizard::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 bool Wizard::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList Wizard::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void Wizard::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void Wizard::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText(a_text);
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString Wizard::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void Wizard::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    //implement me
+  QString txt = KommanderWidget::evalAssociatedText(populationText());
+//FIXME: implement me
 }
 
 void Wizard::setWidgetText(const QString &a_text)
 {
-	setCaption(a_text);
-	emit widgetTextChanged(a_text);
-}
-
-QString Wizard::widgetText() const
-{
-	return caption();
-}
-
-void Wizard::setSelectedWidgetText( const QString & )
-{
-}
-
-QString Wizard::selectedWidgetText() const
-{
-    return QString::null;
+  setCaption(a_text);
+  emit widgetTextChanged(a_text);
 }
 
 void Wizard::exec()
 {
-	QWizard::exec();
-
-	emit finished();
+  QWizard::exec();
+  emit finished();
 }
 
 void Wizard::runHelp()
 {
-	if (helpAction() == Command)
-	{
+  if (helpAction() == Command)
+  {
     KProcess proc;
     proc << helpActionText();
     proc.start(KProcess::DontCare, KProcess::NoCommunication);
@@ -132,24 +116,30 @@ Wizard::HelpAction Wizard::helpAction() const
 
 void Wizard::setHelpAction(HelpAction a_helpAction)
 {
-	m_helpAction = a_helpAction;
+  m_helpAction = a_helpAction;
 }
 
 QString Wizard::helpActionText() const
 {
-	return m_helpActionText;
+  return m_helpActionText;
 }
 
 void Wizard::setHelpActionText(const QString& a_helpActionText)
 {
-	m_helpActionText = a_helpActionText;
+  m_helpActionText = a_helpActionText;
 }
 
 
-void Wizard::showEvent( QShowEvent *e )
+void Wizard::showEvent(QShowEvent *e)
 {
-    QWizard::showEvent( e );
-    emit widgetOpened();
+  QWizard::showEvent( e );
+  emit widgetOpened();
 }
+
+QString Wizard::handleDCOP(int, const QStringList&)
+{
+  return QString::null;
+}
+
 
 #include "wizard.moc"

@@ -27,6 +27,7 @@
 /* OTHER INCLUDES */
 #include <kommanderfactory.h>
 #include <kommanderwidget.h>
+#include <specials.h>
 #include "subdialog.h"
 
 SubDialog::SubDialog(QWidget *a_parent, const char *a_name)
@@ -78,12 +79,9 @@ QString SubDialog::populationText() const
 void SubDialog::populate()
 {
     QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+//FIXME    
 }
 
-void SubDialog::setWidgetText(const QString &/*a_text*/)
-{
-}
 
 void SubDialog::setKmdrFile(QString a_kmdrFile)
 {
@@ -93,28 +91,6 @@ void SubDialog::setKmdrFile(QString a_kmdrFile)
 QString SubDialog::kmdrFile() const
 {
   return m_kmdrFile;
-}
-
-QString SubDialog::widgetText() const
-{
-  if(m_dialog)
-  {
-    KommanderWidget *atw = dynamic_cast<KommanderWidget *>(m_dialog);
-    if(atw)
-    {
-      return atw->evalAssociatedText();
-    }
-  }
-  return QString::null;
-}
-
-void SubDialog::setSelectedWidgetText( const QString & )
-{
-}
-
-QString SubDialog::selectedWidgetText() const
-{
-    return QString::null;
 }
 
 void SubDialog::showDialog()
@@ -145,5 +121,22 @@ void SubDialog::showEvent( QShowEvent *e )
     QPushButton::showEvent( e );
     emit widgetOpened();
 }
+
+QString SubDialog::handleDCOP(int function, const QStringList&)
+{
+  switch (function) {
+    case DCOP::text:
+    {
+      if (!m_dialog)
+        return QString::null;
+      KommanderWidget *atw = dynamic_cast<KommanderWidget *>(m_dialog);
+      if(atw)
+        return atw->evalAssociatedText();
+    }
+    default:
+      return QString::null;
+  }
+}
+
 
 #include "subdialog.moc"

@@ -25,19 +25,32 @@ class DCOPKommanderIf : virtual public DCOPObject
   
   k_dcop:
 /** Enable or disable the widget. Works for all widgets based on QWidget.*/
-  virtual void enableWidget(const QString& widgetName, bool enable) = 0;  
+virtual void enableWidget(const QString& widgetName, bool enable) = 0;  
+
+  /** Shows or hides the widget. Works for all widgets based on QWidget.*/
+virtual void setVisible(const QString& widgetName, bool enable) = 0;  
 
 /** Set the current text/value of the widget. Works for:
       QLabel
-      QButton
+      QButton: sets button title
       QGroupBox: changes the group title
       QLineEdit: changes the lineedit text
       QTextEdit: changes the content of the edit widget
       QSpinBox: changes the value of the spinbox.
       FileSelector: changes value of current file  
-      QListBox:  sets content of list 
-      QComboBox: sets coontent of combo */
-  virtual void changeWidgetText(const QString& widgetName, const QString& text) = 0;
+      QListBox:  sets content of list (items are EOL-separated)
+      QComboBox: sets content of combo (items are EOL-separated) */
+virtual void changeWidgetText(const QString& widgetName, const QString& text) = 0;
+
+/** Returns the current text/value of the widget. Works for all Kommander widgets - implemented in widget */
+virtual QString text(const QString& widgetName) = 0;
+
+/** Selects given text in the widget. Works for all Kommander widgets - implemented in widget */
+virtual void setSelection(const QString& widgetName, const QString& text) = 0;
+
+/** Returns the selected text/value of the widget. Works for all Kommander widgets - implemented in widget */
+virtual QString selection(const QString& widgetName) = 0;
+
 
 /** Returns current item or -1 if there is no item selected. Works for:
       QListBox

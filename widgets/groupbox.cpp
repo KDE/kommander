@@ -25,18 +25,16 @@
 #include <qobjectlist.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
-#include "fileselector.h"
+#include <specials.h>
 #include "groupbox.h"
 
 GroupBox::GroupBox(QWidget *a_parent, const char *a_name)
-	: QGroupBox(a_parent, a_name), KommanderWidget(this)
+  : QGroupBox(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
-
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 }
 
 GroupBox::~GroupBox()
@@ -76,79 +74,46 @@ QString GroupBox::populationText() const
 void GroupBox::populate()
 {
     QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
-}
-
-void GroupBox::setWidgetText(const QString &)
-{
-}
-
-QString GroupBox::widgetText() const
-{
-#if 1
-	QString text;
-	QObjectList childList = m_childList;
-	QObjectListIt it(childList);
-	while(it.current() != 0)
-	{
-		KommanderWidget *atw = dynamic_cast<KommanderWidget *>(it.current());
-		if(atw)
-		{
-			text += atw->evalAssociatedText();
-		}
-		++it;
-	}
-	return text;
-#else
-	QString text;
-	const QObjectList *list = children();
-	if(!list)
-		return QString::null;
-
-	QObjectListIt it(*list);
-	while(it.current() != 0)
-	{
-		// FIXME : will these be in the right order?
-		KommanderWidget *atw = dynamic_cast<KommanderWidget *>(*it);
-		if(atw)
-		{
-			text += atw->evalAssociatedText();
-		}
-		++it;
-	}
-	delete list; // qt allocates memory for the list
-
-	return text;
-#endif
-}
-
-void GroupBox::setSelectedWidgetText( const QString &)
-{
-}
-
-QString GroupBox::selectedWidgetText() const
-{
-    // return al lthe selectedWidgetText()s of the groupbox children?
-    return QString::null;
+//FIXME:    setWidgetText( txt );
 }
 
 /* We need to keep track of all widgets created as a child of a groupbox, in order of creation. */
 void GroupBox::insertChild(QObject *a_child)
 {
-	m_childList.append(a_child);
-	QObject::insertChild(a_child);
+  m_childList.append(a_child);
+  QObject::insertChild(a_child);
 }
  
 void GroupBox::removeChild(QObject *a_child)
 {
-	m_childList.remove(a_child);
-	QObject::removeChild(a_child);
+  m_childList.remove(a_child);
+  QObject::removeChild(a_child);
 }
 
 void GroupBox::showEvent( QShowEvent *e )
 {
-    QGroupBox::showEvent( e );
-    emit widgetOpened();
+  QGroupBox::showEvent(e);
+  emit widgetOpened();
+}
+
+QString GroupBox::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+    {
+      QString text;
+      for (QObjectListIt it(m_childList); it.current(); ++it)
+        if (it.current()->inherits("KommanderWidget"))
+          text += ((KommanderWidget*)it.current())->evalAssociatedText();
+      return text;
+    }
+    case DCOP::setText:
+      setTitle(args[0]);
+      break;
+    default:
+      break;
+  }
+  return QString::null;
 }
 
 #include "groupbox.moc"

@@ -22,6 +22,7 @@
 #include <qevent.h>
 
 /* OTHER INCLUDES */
+#include <specials.h>
 #include "textedit.h"
 
 TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent, a_name),
@@ -75,24 +76,10 @@ void TextEdit::populate()
   setWidgetText(txt);
 }
 
-QString TextEdit::widgetText() const
-{
-  return text();
-}
-
-void TextEdit::setSelectedWidgetText(const QString &)
-{
-//FIXME: possible but cbf :)
-}
-
-QString TextEdit::selectedWidgetText() const
-{
-  return selectedText();
-}
-
 void TextEdit::setWidgetText(const QString & a_text)
 {
   setText(a_text);
+  emit widgetTextChanged(text());
 }
 
 void TextEdit::setTextChanged()
@@ -105,5 +92,25 @@ void TextEdit::showEvent(QShowEvent * e)
   QTextEdit::showEvent(e);
   emit widgetOpened();
 }
+
+QString TextEdit::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return text();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::selection:
+      return selectedText();
+    case DCOP::clear:
+      setWidgetText("");
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
+
 
 #include "textedit.moc"

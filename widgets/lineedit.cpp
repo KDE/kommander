@@ -19,6 +19,7 @@
 #include <qevent.h>
 
 /* OTHER INCLUDES */
+#include <specials.h>
 #include "lineedit.h"
 
 LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
@@ -79,11 +80,6 @@ void LineEdit::populate()
   setWidgetText(txt);
 }
 
-QString LineEdit::widgetText() const
-{
-  return text();
-}
-
 void LineEdit::setSelectedWidgetText(const QString& a_text)
 {
   int f = text().find(a_text);
@@ -91,14 +87,34 @@ void LineEdit::setSelectedWidgetText(const QString& a_text)
     setSelection(f, a_text.length());
 }
 
-QString LineEdit::selectedWidgetText() const
-{
-  return selectedText();
-}
-
 void LineEdit::setWidgetText(const QString& a_text)
 {
   setText(a_text);
   emit widgetTextChanged(a_text);
 }
+
+QString LineEdit::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return text();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::selection:
+      return selectedText();
+    case DCOP::setSelection:
+      setSelectedWidgetText(args[0]);
+      break;
+    case DCOP::clear:
+      setWidgetText("");
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
+
+
+
 #include "lineedit.moc"

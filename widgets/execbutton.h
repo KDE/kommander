@@ -44,9 +44,6 @@ public:
   ExecButton(QWidget *a_parent, const char *a_name);
   ~ExecButton();
 
-  virtual QString widgetText() const;
-  virtual QString selectedWidgetText() const;
-
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
@@ -58,10 +55,11 @@ public:
   // Handle stdout setting
   virtual void setWriteStdout(bool);
   bool writeStdout() const;
+  
+  virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
   virtual void populate();
   virtual void setWidgetText(const QString &);
-  virtual void setSelectedWidgetText(const QString &a_text);
   
   // Execute script from associastedText
   virtual void startProcess();

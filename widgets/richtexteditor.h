@@ -41,42 +41,40 @@ class RichTextEditor : public QWidget, public KommanderWidget
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
-	RichTextEditor(QWidget *, const char *);
-	virtual ~RichTextEditor();
-	QString widgetText() const;
-	virtual QString selectedWidgetText() const;
-
-	bool isKommanderWidget() const;
-	void setAssociatedText(const QStringList&);
-	QStringList associatedText() const;
-	QString currentState() const;
-
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
-
+  RichTextEditor(QWidget *, const char *);
+  virtual ~RichTextEditor();
+  
+  bool isKommanderWidget() const;
+  void setAssociatedText(const QStringList&);
+  QStringList associatedText() const;
+  QString currentState() const;
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
+  
+  virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
-	void setTextChanged();
-	void setWidgetText(const QString &);
-		virtual void setSelectedWidgetText(const QString &a_text);
-	void textAlign(int);
-	void textBold(bool);
-	void textUnder(bool);
-	void textItalic(bool);
-	void fontChanged(const QFont &);
-	void alignmentChanged(int);
-	virtual void populate();
+  void setTextChanged();
+  void setWidgetText(const QString &);
+  void textAlign(int);
+  void textBold(bool);
+  void textUnder(bool);
+  void textItalic(bool);
+  void fontChanged(const QFont &);
+  void alignmentChanged(int);
+  virtual void populate();
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString &);
+  void widgetOpened();
+  void widgetTextChanged(const QString&);
 protected:
     void showEvent( QShowEvent *e );
 private:
-	QFrame *m_toolbar;
-	QTextEdit *m_textedit;
+  QFrame *m_toolbar;
+  QTextEdit *m_textedit;
 
-	QToolButton *m_buttonTextBold, *m_buttonTextUnder, *m_buttonTextItalic, *m_buttonTextLeft, *m_buttonTextCenter, *m_buttonTextRight;
+  QToolButton *m_buttonTextBold, *m_buttonTextUnder, *m_buttonTextItalic, 
+    *m_buttonTextLeft,  *m_buttonTextCenter, *m_buttonTextRight;
 
-	QHButtonGroup *m_formatGroup, *m_alignGroup;
+  QHButtonGroup *m_formatGroup, *m_alignGroup;
 
 };
 

@@ -30,7 +30,7 @@
 #include <qsizepolicy.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "fileselector.h"
 
 FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
@@ -105,24 +105,6 @@ void FileSelector::setWidgetText(const QString& a_text)
   emit widgetTextChanged(a_text);
 }
 
-QString FileSelector::widgetText() const
-{
-  return m_lineEdit->text();
-}
-
-void FileSelector::setSelectedWidgetText(const QString& a_text)
-{
-  QString curText = m_lineEdit->text();
-  int f = curText.find(a_text);
-  if (f != -1)
-    m_lineEdit->setSelection(f, a_text.length());
-}
-
-QString FileSelector::selectedWidgetText() const
-{
-  return m_lineEdit->selectedText();
-}
-
 FileSelector::SelectionType FileSelector::selectionType() const
 {
   return m_selectionType;
@@ -171,15 +153,11 @@ void FileSelector::setSelectionOpenMultiple(bool a_openMultiple)
 
 void FileSelector::makeSelection()
 {
-  // Depending on the SelectionType property we need to show either a save, open or directory dialog.
   QString text;
-  if (m_selectionType == Open)
-  {
-    if (m_openMultiple)
-      text = KFileDialog::getOpenFileNames(m_lineEdit->text(), m_filter, this, m_caption).join(" ");
-    else
-      text = KFileDialog::getOpenFileName(m_lineEdit->text(), m_filter, this, m_caption);
-  }
+  if (m_selectionType == Open && m_openMultiple)
+    text = KFileDialog::getOpenFileNames(m_lineEdit->text(), m_filter, this, m_caption).join(" ");
+  else if (m_selectionType == Open && !m_openMultiple)
+    text = KFileDialog::getOpenFileName(m_lineEdit->text(), m_filter, this, m_caption);
   else if (m_selectionType == Save)
     text = KFileDialog::getSaveFileName(m_lineEdit->text(), m_filter, this, m_caption);
   else if (m_selectionType == Directory)
@@ -194,5 +172,29 @@ void FileSelector::showEvent(QShowEvent * e)
   QWidget::showEvent(e);
   emit widgetOpened();
 }
+
+QString FileSelector::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return m_lineEdit->text();
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::selection:
+      return m_lineEdit->selectedText();
+    case DCOP::setSelection:
+    { 
+      int f = m_lineEdit->text().find(args[0]);
+      if (f != -1)
+        m_lineEdit->setSelection(f, args[0].length());
+      break;
+    }
+    default:
+      break;
+  }
+  return QString::null;
+}
+
 
 #include "fileselector.moc"

@@ -33,41 +33,37 @@ class QDialog;
 class QShowEvent;
 class SubDialog : public QPushButton, public KommanderWidget
 {
-	Q_OBJECT
-
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QString kmdrFile READ kmdrFile WRITE setKmdrFile)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_OBJECT
+  
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QString kmdrFile READ kmdrFile WRITE setKmdrFile)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
-	SubDialog(QWidget *a_parent, const char *a_name);
-	~SubDialog();
+  SubDialog(QWidget *a_parent, const char *a_name);
+  ~SubDialog();
+  
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
+  QString kmdrFile() const;
 
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
-
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(const QStringList&);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
-
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
-	QString kmdrFile() const;
+  virtual QString handleDCOP(int function, const QStringList& args);  
 public slots:
-	void setKmdrFile(QString);
-	virtual void setWidgetText(const QString &);
-		virtual void setSelectedWidgetText(const QString &a_text);
-	virtual void showDialog();
-	virtual void slotFinished();
-	virtual void populate();
+  void setKmdrFile(QString);
+  virtual void showDialog();
+  virtual void slotFinished();
+  virtual void populate();
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString &);
+  void widgetOpened();
+  void widgetTextChanged(const QString &);
 protected:
-	QDialog *m_dialog;
-	QString m_kmdrFile;
-    void showEvent( QShowEvent *e );
+  QDialog *m_dialog;
+  QString m_kmdrFile;
+  void showEvent( QShowEvent *e );
 private:
 };
 

@@ -45,7 +45,7 @@
 /* OTHER INCLUDES */
 #include "myprocess.h"
 #include "kommanderwidget.h"
-#include "dcopinformation.h"
+#include "specials.h"
 #include "specialinformation.h"
 
 
@@ -109,7 +109,7 @@ void KommanderWidget::setDisplayStates(const QStringList& a_displayStates)
   m_displayStates = a_displayStates;
 }
 
-QString KommanderWidget::evalAssociatedText() const // expands and returns associated text as a string
+QString KommanderWidget::evalAssociatedText() // expands and returns associated text as a string
 {
   int index = ( states().findIndex( currentState()) );
   if (index == -1)
@@ -120,7 +120,7 @@ QString KommanderWidget::evalAssociatedText() const // expands and returns assoc
   return evalAssociatedText(m_associatedText[index]);
 }
 
-QString KommanderWidget::evalAssociatedText(const QString& a_text) const
+QString KommanderWidget::evalAssociatedText(const QString& a_text)
 {
   QString evalText;
   
@@ -164,7 +164,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     QStringList args;
     
     /* Standard, non-prefixed special */
-    if (SpecialInformation::isValid(identifier)) 
+    if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
     {    
       args = parseFunction(QString::null, identifier, a_text, pos, ok);
       if (!ok)
@@ -179,27 +179,24 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     /* Widget special */
     else if (parseWidget(identifier))
       evalText += evalWidgetFunction(identifier, a_text, pos);
-    else if (SpecialInformation::isObject(identifier) && a_text[pos] == '.')
+    else if (a_text[pos] == '.')
     {
       pos++;
       QString function = parseIdentifier(a_text, pos);
-      if (SpecialInformation::isValid(function, identifier))
+      args = parseFunction(identifier, function, a_text, pos, ok);
+      if (!ok)
+        return QString::null;
+      switch (SpecialInformation::group(identifier))
       {
-        args = parseFunction(identifier, function, a_text, pos, ok);
-        if (!ok)
-          return QString::null;
-        if (identifier == "Array")
+        case Group::Array:
           evalText += evalArrayFunction(function, args);
-        else if (identifier == "File")
-          evalText += evalFileFunction(function, args);
-        else if (identifier == "String")
+          break;
+        case Group::String:
           evalText += evalStringFunction(function, args);
-        else
-          return QString::null;
-      }
-      else 
-      {
-        printError(i18n("Unknown special: \'%1.%2\'.").arg(identifier).arg(function));
+        case Group::File:
+          evalText += evalFileFunction(function, args);
+          break;
+        default:
           return QString::null;
       }
     }
@@ -214,7 +211,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
 }
 
 
-QString KommanderWidget::dcopQuery(const QStringList& a_query) const
+QString KommanderWidget::DCOPQuery(const QStringList& a_query)
 {
   QCString appId = a_query[0].latin1(), object = a_query[1].latin1();
   
@@ -288,7 +285,7 @@ QString KommanderWidget::dcopQuery(const QStringList& a_query) const
   return QString::null;
 }
 
-QString KommanderWidget::localDcopQuery(const QString function, const QStringList& args) const
+QString KommanderWidget::localDCOPQuery(const QString function, const QStringList& args)
 {
   QStringList pArgs;
   pArgs.append(kapp->dcopClient()->appId());
@@ -296,11 +293,11 @@ QString KommanderWidget::localDcopQuery(const QString function, const QStringLis
   pArgs.append(function);
   for (uint i=0; i<args.count(); i++)
     pArgs.append(args[i]);
-  return dcopQuery(pArgs);
+  return DCOPQuery(pArgs);
 }
   
-QString KommanderWidget::localDcopQuery(const QString function, const QString& arg1, 
-     const QString& arg2, const QString& arg3, const QString& arg4) const
+QString KommanderWidget::localDCOPQuery(const QString function, const QString& arg1, 
+     const QString& arg2, const QString& arg3, const QString& arg4)
 {
   QStringList pArgs;
   pArgs.append(kapp->dcopClient()->appId());
@@ -312,7 +309,7 @@ QString KommanderWidget::localDcopQuery(const QString function, const QString& a
     pArgs.append(arg3);
   if (arg4 != QString::null)
     pArgs.append(arg4);
-  return dcopQuery(pArgs);
+  return DCOPQuery(pArgs);
 }
 
 
@@ -324,9 +321,9 @@ QString KommanderWidget::execCommand(const QString& a_command, const QString& a_
   return text;
 }
 
-QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_params) const
+QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_params)
 {
-  QString pFileName = localDcopQuery("global(QString)", "_KDDIR") + QString("/") + a_dialog;
+  QString pFileName = localDCOPQuery("global(QString)", "_KDDIR") + QString("/") + a_dialog;
   QFileInfo pDialogFile(pFileName);
   if (!pDialogFile.exists()) 
   {
@@ -400,7 +397,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
 }
 
 
-QStringList KommanderWidget::parseArgs(const QString& s, bool &ok) const
+QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
 {
   QStringList argList;
   bool quoteDouble = false, quoteSingle = false;
@@ -452,8 +449,8 @@ KommanderWidget* KommanderWidget::parseWidget(const QString& name) const
   return dynamic_cast <KommanderWidget *>(childObj);
 }
 
-QStringList KommanderWidget::parseFunction(const QString objectName, const QString& function, 
-    const QString& s, int& from, bool& ok) const
+QStringList KommanderWidget::parseFunction(const QString group, const QString& function, 
+    const QString& s, int& from, bool& ok)
 {
   ok = true;
   QString arg = parseBrackets(s, from, ok);
@@ -463,14 +460,21 @@ QStringList KommanderWidget::parseFunction(const QString objectName, const QStri
     return QString::null;
   }
   const QStringList args = parseArgs(arg, ok);
+  int gname = SpecialInformation::group(group);
+  int fname = SpecialInformation::function(gname, function);
+  
   if (!ok)
     printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
-  else if (args.count() < SpecialInformation::minArg(function, objectName))
+  else if (gname == -1)
+    printError(i18n("Unknown function group: \'%1\'.").arg(group));
+  else if (fname == -1)
+    printError(i18n("Unknown function: \'%1\' in group '%2'.").arg(function).arg(group));
+  else if ((int)args.count() < SpecialInformation::minArg(gname, fname))
     printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).")
-        .arg(function).arg(args.count()).arg(SpecialInformation::minArg(function, objectName)));
-  else if (args.count() > SpecialInformation::maxArg(function, objectName))
+        .arg(function).arg(args.count()).arg(SpecialInformation::minArg(gname, fname)));
+  else if ((int)args.count() > SpecialInformation::maxArg(gname, fname))
     printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).")
-      .arg(function).arg(args.count()).arg(SpecialInformation::maxArg(function, objectName)));
+      .arg(function).arg(args.count()).arg(SpecialInformation::maxArg(gname, fname)));
   return args;
 }
 
@@ -502,6 +506,11 @@ void KommanderWidget::setGlobal(const QString& variableName, const QString& valu
 {
   m_globals.insert(variableName, value); 
 }  
+
+QString KommanderWidget::handleDCOP(const int, const QStringList&)
+{
+  return QString::null;
+}
 
 
 bool KommanderWidget::inEditor = false;

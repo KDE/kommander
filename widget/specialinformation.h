@@ -19,24 +19,31 @@
 
 /* QT INCLUDES */
 #include <qstring.h>
+#include <qstringlist.h>
 #include <qmap.h>
 #include <qpair.h>
+
 
 class SpecialFunction
 {
 public:
-   SpecialFunction(const QString& function, int minArgs = 0, int maxArgs = 0, const QString& description
+   SpecialFunction(const QString& function, int minArgs = 0, const QString& description
      = QString::null);
-   SpecialFunction()   {m_args = QPair<int, int>(0,0);}
-   int minArg() const    {return m_args.first;}
-   int maxArg() const    {return m_args.second;}
-   bool validArg(int args) const    {return args >= m_args.first && args <= m_args.second;}
+   SpecialFunction()   {m_minArgs = 0;}
+   int minArg() const    {return m_minArgs;}
+   int maxArg() const    {return m_types.count();}
+   bool isValidArg(int args) const    {return args >= minArg() && args <= maxArg();}
    QString description() const {return m_description;}
-   QString function() const {return m_function;}
+   QString name() const {return m_function;}
+   QString prototype() const;
+   QString argumentName(uint i) const;
+   QString argumentType(uint i) const;
 protected:
    QString m_function;
    QString m_description;
-   QPair<int, int> m_args;
+   int m_minArgs;
+   QStringList m_args;
+   QStringList m_types;
 };
 
 
@@ -45,19 +52,27 @@ protected:
 class SpecialInformation
 {
 public:
-  static bool isValid(const QString& function, const QString& objectName = QString::null);
-  static bool isObject(const QString& objectName);
-  static int minArg(const QString& function, const QString& objectName = QString::null);
-  static int maxArg(const QString& function, const QString& objectName = QString::null);
-  static bool validArg(const QString& name, int arg, const QString& objectName = QString::null);
-  static QString description(const QString& name, const QString& objectName = QString::null);
-  static void insert(const SpecialFunction& function);
-  static void insert(const QString& function, int minArgs = 0, int maxArgs = 0,
+  SpecialInformation()  {m_defaultGroup = -1;}
+  static int function(int group, const QString& fname);
+  static int group(const QString& gname);
+  static bool isValid(int gname, int fname);
+  static bool isValid(const QString& gname, const QString& fname);
+  static int minArg(int gname, int fname);
+  static int maxArg(int gname, int fname);
+  static bool isValidArg(int gname, int fname, int args);
+  static QString description(int gname, int fname);
+  static QString prototype(int gname, int fname);
+  static bool insert(int id, const QString& function, int minArgs = 0, 
     const QString description = QString::null);
-  static void setCurrentObject(const QString& s)  {m_currentObject = s;}
+  static bool insertAlias(int id, const QString& alias);
+  static void insertGroup(int id, const QString& name);
+  static void setDefaultGroup(int gname);
+  static void registerSpecials();
 protected:
-  static QMap<QString, QMap<QString, SpecialFunction> > m_specials;
-  static QString m_currentObject;
+  static QMap<int, QMap<int, SpecialFunction> > m_specials;
+  static QMap<QString, int> m_groups;
+  static QMap<int, QMap<QString, int> > m_functions;
+  static int m_defaultGroup;
 };
 
 

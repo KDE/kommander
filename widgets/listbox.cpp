@@ -25,6 +25,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include <specials.h>
 #include "listbox.h"
 
 ListBox::ListBox(QWidget *a_parent, const char *a_name)
@@ -34,11 +35,6 @@ ListBox::ListBox(QWidget *a_parent, const char *a_name)
   states << "default";
   setStates(states);
   setDisplayStates(states);
-
-//FIXME: Do we need it?
-//  connect(this, SIGNAL(highlighted(int)), this, SLOT(setActivatedText(int)));
-
-
 }
 
 ListBox::~ListBox()
@@ -67,98 +63,92 @@ void ListBox::setAssociatedText(const QStringList& a_at)
 
 void ListBox::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString ListBox::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void ListBox::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+  QString txt = KommanderWidget::evalAssociatedText(populationText());
+  setWidgetText(txt);
 }
 
-void ListBox::setWidgetText(const QString &a_text)
+void ListBox::setWidgetText(const QString& a_text)
 {
-  /*
-     a_text is a set of strings delimited by \n to insert into the list box
-  */
-  QStringList strings = QStringList::split("\n", a_text); // note : doesn't allow empty entries
   clear();
-  insertStringList(strings);
+  insertStringList(QStringList::split("\n", a_text));
   emit widgetTextChanged(a_text);
 }
 
-QString ListBox::widgetText() const
+void ListBox::showEvent(QShowEvent *e)
 {
-  QStringList strings;
-
-  //int I = 0, length = count();
-  //for(;I < length;++I)
-  // {
-  //  if(isSelected(I))
-  //    strings += item(I)->text();
-  //}
-  //only returning selected is something difdferent to widget text
-  //probably @selectedWidgetText
-  for( uint i = 0 ; i < count() ; ++i )
-      strings += item(i)->text();
-  return strings.join("\n");
+  QListBox::showEvent(e);
+  emit widgetOpened();
 }
 
-void ListBox::setSelectedWidgetText(const QString &a_text)
+QString ListBox::handleDCOP(int function, const QStringList& args)
 {
-  QStringList selectedItems = QStringList::split( "\n", a_text);
-  for( int i = 0 ; i < (int)count() ; ++i )
+  switch (function) {
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    case DCOP::selection:
+      return currentText();
+    case DCOP::setSelection:
     {
-    if(!selectedItems.count())
-	    break;
-	  QStringList::Iterator j = selectedItems.begin();
-	while( j != selectedItems.end() )
-	{
-	    //only allow an item in text to cause one selection.
-	    if( text( i ) == *j )
-	    {
-		setSelected( i, TRUE );
-		selectedItems.remove( j );
-	    }
-	    else
-	    {
-		++j;
-	    }
-	}
+      QListBoxItem* found = findItem(args[0], Qt::ExactMatch);
+      if (found)
+        setCurrentItem(index(found));
+      break;
     }
-}
-
-QString ListBox::selectedWidgetText() const
-{
-    QStringList selectedItems;
-    for( int i = 0 ; i < (int)count() ; ++i )
-	if( isSelected( i ) )
-	    selectedItems += text( i );
-    return selectedItems.join( "\n" );
-}
-
-void ListBox::setActivated(int /*a_item*/)
-{
-  QStringList strings;
-
-  int I = 0, length = count();
-  for(;I < length;++I)
-  {
-    if(isSelected(I))
-      strings += item(I)->text();
+    case DCOP::insertItems:
+      insertStringList(QStringList::split("\n", args[0]), args[1].toInt());
+      break;
+    case DCOP::insertItem:
+      insertItem(args[0], args[1].toInt());
+      break;
+    case DCOP::removeItem:
+      removeItem(args[0].toInt());
+      break;
+    case DCOP::clear:
+      clear();
+      break;
+    case DCOP::currentItem:
+      return QString::number(currentItem());
+    case DCOP::setCurrentItem:
+      if (args[0].toUInt() < count())
+        setCurrentItem(args[0].toUInt());
+      break;
+    case DCOP::item:
+      return (args[0].toUInt() < count()) ? item(args[0].toInt())->text() : QString::null;
+    case DCOP::addUniqueItem:
+      if (!findItem(args[0], Qt::ExactMatch))
+        insertItem(args[0]);
+      break;
+    case DCOP::findItem:
+    {
+      QListBoxItem* found = findItem(args[0], Qt::ExactMatch);
+      if (!found) found = findItem(args[0], Qt::BeginsWith);
+      if (!found) found = findItem(args[0], Qt::Contains);
+      if (found)
+        return QString::number(index(found));
+      break;
+    }
+    case DCOP::text:
+    {
+      QStringList strings;
+      for(uint i=0; i < count() ; ++i)
+        strings += item(i)->text();
+      return strings.join("\n");
+    }
+    default:
+      break;
   }
-  emit widgetTextChanged(strings.join("\n"));
-}
-
-void ListBox::showEvent( QShowEvent *e )
-{
-    QListBox::showEvent( e );
-    emit widgetOpened();
+  return QString::null;
 }
 
 #include "listbox.moc"

@@ -27,6 +27,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include <specials.h>
 #include "execbutton.h"
 #include <cstdio>
 
@@ -86,20 +87,6 @@ void ExecButton::setWidgetText(const QString& a_text)
 {
   setText(a_text);
   emit widgetTextChanged(a_text);
-}
-
-QString ExecButton::widgetText() const
-{
-  return m_output;
-}
-
-void ExecButton::setSelectedWidgetText(const QString&)
-{
-}
-
-QString ExecButton::selectedWidgetText() const
-{
-  return QString::null;
 }
 
 void ExecButton::startProcess()
@@ -192,5 +179,20 @@ void ExecButton::showEvent(QShowEvent* e)
   KPushButton::showEvent(e);
   emit widgetOpened();
 }
+
+QString ExecButton::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return m_output;
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
+
 
 #include "execbutton.moc"

@@ -42,21 +42,18 @@ public:
   CloseButton(QWidget* a_parent, const char* a_name);
   ~CloseButton();
 
-  virtual QString widgetText() const;
-  virtual QString selectedWidgetText() const;
-
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;
-
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   bool writeStdout() const;
+  
+  virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
   virtual void setWriteStdout(bool);
   virtual void setWidgetText(const QString &);
-  virtual void setSelectedWidgetText(const QString& a_text);
   virtual void startProcess();
   virtual void appendOutput(KProcess*, char*, int);
   virtual void endProcess(KProcess*);

@@ -24,7 +24,7 @@
 #include <qevent.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "buttongroup.h"
 
 #include "radiobutton.h" // include a button header for the compiler with dynamic cast below
@@ -54,66 +54,59 @@ QString ButtonGroup::currentState() const
 
 bool ButtonGroup::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList ButtonGroup::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
 void ButtonGroup::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
 void ButtonGroup::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText( a_text );
 }
 
 QString ButtonGroup::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void ButtonGroup::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    //implement me
-}
-
-void ButtonGroup::setWidgetText(const QString&)
-{
-}
-
-QString ButtonGroup::widgetText() const
-{
-	int i = 0;
-	QString text;
-	for(;i < count();++i)
-	{
-		QButton *button = find(i);
-		KommanderWidget *textWidget = dynamic_cast<KommanderWidget *>(button);
-		if(textWidget)
-			text += textWidget->evalAssociatedText();
-	}
-	return text;
-}
-
-void ButtonGroup::setSelectedWidgetText(const QString&)
-{
-}
-
-QString ButtonGroup::selectedWidgetText() const
-{
-  return QString::null;
+//FIXME: implement
 }
 
 void ButtonGroup::showEvent(QShowEvent* e)
 {
-  QButtonGroup::showEvent( e );
+  QButtonGroup::showEvent(e);
   emit widgetOpened();
 }
+
+QString ButtonGroup::handleDCOP(int function, const QStringList& args) 
+{
+  switch (function) {
+    case DCOP::text:
+    {
+      QString text;
+      for (int i = 0; i < count(); i++)
+        if (find(i)->inherits("KommanderWidget"))
+          text += ((KommanderWidget *) find(i))->evalAssociatedText();
+      return text;
+    }
+    case DCOP::setChecked:
+      setCheckable(true);
+      setChecked(args[0] != "false");
+      return QString::null;
+    default:
+      return QString::null;
+  }
+}
+
 
 #include "buttongroup.moc"

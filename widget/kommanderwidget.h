@@ -50,28 +50,24 @@ public:
   virtual bool hasAssociatedText();
   
   // Execute given script, expanding all @macros.
-  virtual QString evalAssociatedText() const;
-  virtual QString evalAssociatedText(const QString&) const;
-  virtual QString evalFunction(const QString&, const QStringList&) const;
-  virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos) const;
+  virtual QString evalAssociatedText();
+  virtual QString evalAssociatedText(const QString&);
+  virtual QString evalFunction(const QString&, const QStringList&);
+  virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos);
   virtual QString evalArrayFunction(const QString&, const QStringList&) const;
   virtual QString evalStringFunction(const QString&, const QStringList&) const;
   virtual QString evalFileFunction(const QString&, const QStringList&) const;
-  virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos) const;
+  virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos);
   
   // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   virtual void populate() = 0;
 
-  // Text of all item(s). Multiple items are separated by \n
-  virtual QString widgetText() const = 0;
-  virtual void setWidgetText(const QString&) = 0;
   
-  // Text of selected item(s). Multiple items are separated by \n
-  virtual QString selectedWidgetText() const = 0;
-  // Choose selected item(s). Only existing items can be selected.
-  virtual void setSelectedWidgetText(const QString&) = 0;
+  
+  /* Handles all widget-specific DCOP calls */
+  virtual QString handleDCOP(int function, const QStringList& args = QStringList());
   
   // Recognizes editor vs executor mode
   static bool inEditor;
@@ -88,15 +84,15 @@ protected:
   
   // Execute DCOP query and return its result or null on failure
   // Only QString and int are now handled
-  QString dcopQuery(const QStringList& args) const;
-  QString localDcopQuery(const QString function, const QStringList& args) const;
-  QString localDcopQuery(const QString function, const QString& arg1, 
+  QString DCOPQuery(const QStringList& args);
+  QString localDCOPQuery(const QString function, const QStringList& args = QStringList());
+  QString localDCOPQuery(const QString function, const QString& arg1, 
      const QString& arg2, const QString& arg3 = QString::null,
-     const QString& arg4 = QString::null) const;
+     const QString& arg4 = QString::null);
   // Execute given command, return its result
   QString execCommand(const QString& a_command, const QString& a_shell = QString::null) const;
   // Find and run dialog (with optional parameters)
-  QString runDialog(const QString& a_dialog, const QString& a_params = QString::null) const;
+  QString runDialog(const QString& a_dialog, const QString& a_params = QString::null);
   // Display error message a_error; display current class name if no other is given
   void printError(const QString& a_error) const;
   
@@ -106,12 +102,12 @@ protected:
   // Find matching brackets starting from current position
   QString parseIdentifier(const QString& s, int& from) const;
   // Parse arguments for given function. Returns list of arguments without quotations
-  QStringList parseArgs(const QString& s, bool &ok ) const;
+  QStringList parseArgs(const QString& s, bool &ok );
   // Remove quotes from given identifier
   QString parseQuotes(const QString& s) const;
   // Parse function
-  QStringList parseFunction(const QString objectName, const QString& function, 
-    const QString& s, int& from, bool& ok) const;
+  QStringList parseFunction(const QString group, const QString& function,
+    const QString& s, int& from, bool& ok);
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
   // Return parent dialog of this widget

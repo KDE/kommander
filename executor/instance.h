@@ -57,7 +57,11 @@ public:
 
 //DCOP methods. The documentation is in the dcopkommanderif.h file.
   virtual void enableWidget(const QString& widgetName, bool enable);  
+  virtual void setVisible(const QString& widgetName, bool visible);
   virtual void changeWidgetText(const QString& widgetName, const QString& text);      
+  virtual QString text(const QString& widgetName);
+  virtual void setSelection(const QString& widgetName, const QString& text);
+  virtual QString selection(const QString& widgetName);
   virtual int currentItem(const QString &widgetName);
   virtual QString item(const QString &widgetName, int index);
   virtual void removeListItem(const QString &widgetName, int index);
@@ -87,10 +91,6 @@ public slots:
   bool build();
   /** Builds the instance from an input file */
   bool build(QFile*);
-  /** Registers all known DCOP functions */
-  void registerDCOP();
-  /** Registers all known specials */
-  void registerSpecials();
 protected:
   /* Dialog Instance */
   QWidget *m_instance;
@@ -101,7 +101,9 @@ protected:
   /** The parent widget */
   QWidget *m_parent;
   /* Get object by name */
-  QObjectList* stringToWidget(const QString& name);
+  QObject* stringToWidget(const QString& name);
+  /* Cast to Kommander widget if possible */
+  KommanderWidget* kommanderWidget(QObject* object);
   /* Number of global command-line arguments */
   uint m_cmdArguments;
 };

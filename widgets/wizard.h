@@ -27,50 +27,47 @@
 class QShowEvent;
 class Wizard : public QWizard, public KommanderWidget
 {
-	Q_OBJECT
-
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-	Q_PROPERTY(HelpAction helpAction READ helpAction WRITE setHelpAction)
-	Q_ENUMS(HelpAction)
-	Q_PROPERTY(QString helpActionText READ helpActionText WRITE setHelpActionText)
+  Q_OBJECT
+  
+  Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_PROPERTY(HelpAction helpAction READ helpAction WRITE setHelpAction)
+  Q_ENUMS(HelpAction)
+  Q_PROPERTY(QString helpActionText READ helpActionText WRITE setHelpActionText)
 
 public:
-	Wizard(QWidget *, const char *, bool=TRUE, int=0);
-	~Wizard();
+  Wizard(QWidget *, const char *, bool=TRUE, int=0);
+  ~Wizard();
 
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
-
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(const QStringList&);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
-
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
-
-	enum HelpAction { None, Command, Dialog };
-	HelpAction helpAction() const;
-	void setHelpAction(HelpAction);
-	QString helpActionText() const;
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
+  
+  virtual QString handleDCOP(int function, const QStringList& args);
+    
+  enum HelpAction { None, Command, Dialog };
+  HelpAction helpAction() const;
+  void setHelpAction(HelpAction);
+  QString helpActionText() const;
   void setHelpActionText(const QString&);
 
 public slots:
-	virtual void setWidgetText(const QString &);
-	virtual void setSelectedWidgetText(const QString &a_text);
-	virtual void exec();
-	virtual void runHelp();
-	virtual void populate();
+  virtual void setWidgetText(const QString &);
+  virtual void exec();
+  virtual void runHelp();
+virtual void populate();
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString &);
-	void finished();
+  void widgetOpened();
+  void widgetTextChanged(const QString &);
+  void finished();
 protected:
-	HelpAction m_helpAction;
-	QString m_helpActionText;
-    void showEvent( QShowEvent *e );
+  HelpAction m_helpAction;
+  QString m_helpActionText;
+  void showEvent( QShowEvent *e );
 private:
 };
 

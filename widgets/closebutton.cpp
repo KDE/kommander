@@ -27,7 +27,7 @@
 #include <qwidget.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <specials.h>
 #include "closebutton.h"
 
 CloseButton::CloseButton(QWidget* a_parent, const char* a_name)
@@ -87,28 +87,13 @@ QString CloseButton::populationText() const
 
 void CloseButton::populate()
 {
-  QString txt = KommanderWidget::evalAssociatedText(populationText());
-  setWidgetText(txt);
+  setWidgetText(KommanderWidget::evalAssociatedText(populationText()));
 }
 
 void CloseButton::setWidgetText(const QString& a_text)
 {
   setText(a_text);
   emit widgetTextChanged(a_text);
-}
-
-QString CloseButton::widgetText() const
-{
-  return m_output;
-}
-
-void CloseButton::setSelectedWidgetText(const QString&)
-{
-}
-
-QString CloseButton::selectedWidgetText() const
-{
-  return QString::null;
 }
 
 void CloseButton::startProcess()
@@ -118,7 +103,6 @@ void CloseButton::startProcess()
   if (!at.isEmpty())
   {
     KShellProcess *process = new KShellProcess("/bin/sh");
-
     *process << at;
 
     connect(process, SIGNAL(processExited(KProcess *)), SLOT(endProcess(KProcess *)));
@@ -176,4 +160,19 @@ void CloseButton::showEvent(QShowEvent *e)
   QPushButton::showEvent(e);
   emit widgetOpened();
 }
+
+QString CloseButton::handleDCOP(int function, const QStringList& args)
+{
+  switch (function) {
+    case DCOP::text:
+      return m_output;
+    case DCOP::setText:
+      setWidgetText(args[0]);
+      break;
+    default:
+      break;
+  }
+  return QString::null;
+}
+
 #include "closebutton.moc"
