@@ -1,0 +1,198 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>DialogTest</class>
+<comment>This is my program</comment>
+<author>Michał Rudolf</author>
+<license>GPL</license>
+<version>0.1</version>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>DialogTest</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>428</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Test of Dialogs</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string></string>
+            <string></string>
+        </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="ExecButton" row="1" column="0">
+            <property name="name">
+                <cstring>ExecButton1</cstring>
+            </property>
+            <property name="text">
+                <string>Run dialogs...</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>message_info("This is a demonstration of various KDE dialogs", "Demo")
+message_error("Cannot enter 3D mode")
+if message_question("Do you want to continue?") &lt;&gt; 1 then
+   debug("Cancelled")
+endif
+if message_warning("Are you sure you want to continue?") &lt;&gt; 1 then
+   debug("Aborted")
+endif
+
+
+echo("Hello world!")
+a = input_text("Input text", "Text", "Default text")
+LineEdit1.setText(a)
+
+a = input_color
+LineEdit2.setText(a)
+
+a = input_value("Input value", "Value", 10, 1, 100)
+LineEdit3.setText(a)
+
+a = input_openfile
+LineEdit4.setText(a)
+
+echo("This is a test too")
+a = input_savefile
+LineEdit5.setText(a)
+
+a = input_directory
+LineEdit6.setText(a)
+
+a = input_openfiles
+ListBox1.setText(a)
+
+</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="Label" row="4" column="0">
+                    <property name="name">
+                        <cstring>Label6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>File to save:</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="1" column="0">
+                    <property name="name">
+                        <cstring>Label2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Color:</string>
+                    </property>
+                </widget>
+                <widget class="ListBox" row="6" column="1">
+                    <property name="name">
+                        <cstring>ListBox1</cstring>
+                    </property>
+                </widget>
+                <widget class="Label" row="6" column="0">
+                    <property name="name">
+                        <cstring>Label5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Files to open:</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="5" column="0">
+                    <property name="name">
+                        <cstring>Label7</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Directory:</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="2" column="0">
+                    <property name="name">
+                        <cstring>Label3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Value:</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>LineEdit1</cstring>
+                    </property>
+                </widget>
+                <widget class="Label" row="3" column="0">
+                    <property name="name">
+                        <cstring>Label4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>File to open:</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="2" column="1">
+                    <property name="name">
+                        <cstring>LineEdit3</cstring>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="3" column="1">
+                    <property name="name">
+                        <cstring>LineEdit4</cstring>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="4" column="1">
+                    <property name="name">
+                        <cstring>LineEdit5</cstring>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>LineEdit2</cstring>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="5" column="1">
+                    <property name="name">
+                        <cstring>LineEdit6</cstring>
+                    </property>
+                </widget>
+                <widget class="Label" row="0" column="0">
+                    <property name="name">
+                        <cstring>Label1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Text:</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
