@@ -1,7 +1,8 @@
 /***************************************************************************
                           textedit.cpp - Rich text editing widget 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
     email                : consume@optusnet.com.au
  ***************************************************************************/
 
@@ -13,6 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 /* QT INCLUDES */
 #include <qlayout.h>
 #include <qlineedit.h>
@@ -22,22 +24,20 @@
 /* OTHER INCLUDES */
 #include "textedit.h"
 
-TextEdit::TextEdit(QWidget *a_parent, const char *a_name)
-	: QTextEdit(a_parent, a_name), KommanderWidget((QObject *)this)
+TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent, a_name),
+KommanderWidget((QObject *) this)
 {
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
-
-	connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
-
+  connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
 }
 
 QString TextEdit::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 TextEdit::~TextEdit()
@@ -46,64 +46,64 @@ TextEdit::~TextEdit()
 
 bool TextEdit::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList TextEdit::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
-void TextEdit::setAssociatedText(const QStringList& a_at)
+void TextEdit::setAssociatedText(const QStringList & a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
-void TextEdit::setPopulationText(const QString& a_text)
+void TextEdit::setPopulationText(const QString & a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString TextEdit::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void TextEdit::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    setWidgetText( txt );
+  QString txt = KommanderWidget::evalAssociatedText(populationText());
+  setWidgetText(txt);
 }
 
 QString TextEdit::widgetText() const
 {
-	return text();
+  return text();
 }
 
-void TextEdit::setSelectedWidgetText( const QString & )
+void TextEdit::setSelectedWidgetText(const QString &)
 {
 //FIXME: possible but cbf :)
 }
 
 QString TextEdit::selectedWidgetText() const
 {
-    return selectedText();
+  return selectedText();
 }
 
-void TextEdit::setWidgetText(const QString &a_text)
+void TextEdit::setWidgetText(const QString & a_text)
 {
-	setText(a_text);
+  setText(a_text);
 }
 
 void TextEdit::setTextChanged()
 {
-	emit widgetTextChanged(text());
+  emit widgetTextChanged(text());
 }
 
-void TextEdit::showEvent( QShowEvent *e )
+void TextEdit::showEvent(QShowEvent * e)
 {
-    QTextEdit::showEvent( e );
-    emit widgetOpened();
+  QTextEdit::showEvent(e);
+  emit widgetOpened();
 }
 
 #include "textedit.moc"

@@ -1,8 +1,8 @@
 /***************************************************************************
                           textedit.h - Rich text editing widget 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,13 +13,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #ifndef _HAVE_TEXTEDIT_H_
 #define _HAVE_TEXTEDIT_H_
 
 /* KDE INCLUDES */
+#include <ktextedit.h>
 
 /* QT INCLUDES */
-#include <qtextedit.h>
 #include <qstringlist.h>
 #include <qstring.h>
 
@@ -27,38 +28,36 @@
 #include <kommanderwidget.h>
 
 class QShowEvent;
-class TextEdit : public QTextEdit, public KommanderWidget
+class TextEdit: public KTextEdit, public KommanderWidget
 {
-	Q_OBJECT
-
-	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
-	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+  Q_OBJECT Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget) 
 public:
-	TextEdit(QWidget *, const char *);
-	virtual ~TextEdit();
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
+  TextEdit(QWidget *, const char *);
+  virtual ~TextEdit();
+  virtual QString widgetText() const;
+  virtual QString selectedWidgetText() const;
 
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(const QStringList&);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList &);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
 
-	virtual QString populationText() const;
-	virtual void setPopulationText(const QString&);
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString &);
 
 public slots:
-	virtual void setTextChanged();
-	virtual void setWidgetText(const QString &);
-		virtual void setSelectedWidgetText(const QString &a_text);
-	virtual void populate();
-signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString &);
+  virtual void setTextChanged();
+  virtual void setWidgetText(const QString &);
+  virtual void setSelectedWidgetText(const QString & a_text);
+  virtual void populate();
+
+signals: void widgetOpened();
+  void widgetTextChanged(const QString &);
+
 protected:
-    void showEvent( QShowEvent *e );
-private:
+  void showEvent(QShowEvent * e);
 };
 
 #endif
