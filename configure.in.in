@@ -3,7 +3,7 @@ CPPFLAGS="$CPPFLAGS -DKOMMANDER -DDESIGNER -DQT_NO_SQL -DHAVE_KDE"
 # Process user input to configure
 build_kommander="yes"
 AC_ARG_WITH(kommander,
-[  --with-kommander     build Kommander (default=yes)],
+[  --without-kommander     don't build Kommander],
 [if test "$withval" = "no" ; then
   build_kommander="no"
 fi])
