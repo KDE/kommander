@@ -14,23 +14,20 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <klocale.h>
 #include <kfiledialog.h>
+#include <kmessagebox.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
 #include <qmetaobject.h>
-#include <qdict.h>
 #include <qcombobox.h>
 #include <qtextedit.h>
 #include <qstring.h>
 #include <qfile.h>
-#include <qtextstream.h>
 #include <qobject.h>
 #include <qobjectlist.h>
 #include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qbuttongroup.h>
-#include <qradiobutton.h>
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -246,7 +243,7 @@ void AssocTextEditor::insertFile()
   QFile insertFile(fileName);
   if(!insertFile.open(IO_ReadOnly))
   {
-    qWarning("Failed to open '%s' for insertion", fileName.local8Bit().data());
+    KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt").arg( fileName.local8Bit().data() ) );
     return;
   }
   QTextStream insertStream(&insertFile);
