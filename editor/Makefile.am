@@ -24,3 +24,5 @@ METASOURCES = AUTO
 # this is where the desktop file will go
 desktopdir = $(kde_appsdir)/Editors
 desktop_DATA = kmdr-editor.desktop
+
+KDE_ICON = AUTO
