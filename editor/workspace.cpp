@@ -34,7 +34,6 @@
 #include "formfile.h"
 
 #include <qheader.h>
-#include <qdragobject.h>
 #include <qfileinfo.h>
 #include <qapplication.h>
 #include <qpainter.h>
@@ -44,6 +43,8 @@
 #include <qpopupmenu.h>
 #include <qtextstream.h>
 #include "qcompletionedit.h"
+
+#include <kurldrag.h>
 
 static const char * const folder_xpm[]={
     "16 16 6 1",
@@ -582,14 +583,17 @@ void Workspace::itemClicked( int button, QListViewItem *i, const QPoint& )
 
 void Workspace::contentsDropEvent( QDropEvent *e )
 {
-    if ( !QUriDrag::canDecode( e ) ) {
+    if ( !KURLDrag::canDecode( e ) ) {
 	e->ignore();
     } else {
-	QStringList files;
-	QUriDrag::decodeLocalFiles( e, files );
+	KURL::List files;
+	KURLDrag::decode( e, files );
 	if ( !files.isEmpty() ) {
-	    for ( QStringList::Iterator it = files.begin(); it != files.end(); ++it ) {
-		QString fn = *it;
+	    for ( KURL::List::Iterator it = files.begin(); it != files.end(); ++it ) {
+	        if (!(*it).isLocalFile())
+	           continue;
+
+		QString fn = (*it).path();
 #ifndef KOMMANDER
 		mainWindow->fileOpen( "", "", fn );
 #else
@@ -602,7 +606,7 @@ void Workspace::contentsDropEvent( QDropEvent *e )
 
 void Workspace::contentsDragEnterEvent( QDragEnterEvent *e )
 {
-    if ( !QUriDrag::canDecode( e ) )
+    if ( !KURLDrag::canDecode( e ) )
 	e->ignore();
     else
 	e->accept();
@@ -610,7 +614,7 @@ void Workspace::contentsDragEnterEvent( QDragEnterEvent *e )
 
 void Workspace::contentsDragMoveEvent( QDragMoveEvent *e )
 {
-    if ( !QUriDrag::canDecode( e ) )
+    if ( !KURLDrag::canDecode( e ) )
 	e->ignore();
     else
 	e->accept();

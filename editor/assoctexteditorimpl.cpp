@@ -141,7 +141,7 @@ void AssocTextEditor::insertFile()
 		QFile insertFile(fileName);
 		if(!insertFile.open(IO_ReadOnly))
 		{
-			qWarning(QString("Failed to open '") + fileName + "' for insertion");
+			qWarning("Failed to open '%s' for insertion", fileName.local8Bit().data());
 			return;
 		}
 
