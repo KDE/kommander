@@ -110,7 +110,7 @@ void ExecButton::startProcess()
     setEnabled(true);
     KApplication::restoreOverrideCursor();
     if (writeStdout())
-      cout << m_output;
+      cout << m_output << flush;
   }
 }
 
@@ -143,7 +143,7 @@ void ExecButton::processExited(MyProcess* p)
   {
     m_output = p->output();
     if (writeStdout())
-      cout << m_output;
+      cout << m_output << flush;
     delete p;
   }
 }
