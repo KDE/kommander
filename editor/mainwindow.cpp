@@ -373,7 +373,7 @@ void MainWindow::runForm()
   {
     KProcess* process = new KProcess;
     process->setUseShell(true);
-    (*process) << "kmdr-executor" << form->formFile()->fileName();
+    (*process) << "kmdr-executor" << QString("\"%1\"").arg(form->formFile()->fileName());
     connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), messageLog,
             SLOT(receivedStdout(KProcess*, char*, int)));
     connect(process, SIGNAL(receivedStderr(KProcess*, char*, int)), messageLog,
