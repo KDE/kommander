@@ -26,9 +26,6 @@
 #include <qtabwidget.h>
 #include <qguardedptr.h>
 #include <private/qcom_p.h>
-#ifndef KOMMANDER
-#include "classbrowserinterface.h"
-#endif
 
 class FormWindow;
 class QCloseEvent;
@@ -36,101 +33,90 @@ class QPopupMenu;
 class QKeyEvent;
 class QMouseEvent;
 class QWizard;
-#ifndef KOMMANDER
-    class SourceEditor;
-#endif
 
-class HierarchyItem : public QListViewItem
+class HierarchyItem:public QListViewItem
 {
 public:
-    enum Type {
-	Widget,
-	SlotParent,
-	Public,
-	Protected,
-	Private,
-	Slot,
-	DefinitionParent,
-	Definition,
-	Event,
-	EventFunction
-    };
+  enum Type
+  {
+    Widget,
+    SlotParent,
+    Public,
+    Protected,
+    Private,
+    Slot,
+    DefinitionParent,
+    Definition,
+    Event,
+    EventFunction
+  };
 
-    HierarchyItem( Type type, QListViewItem *parent,
-		   const QString &txt1, const QString &txt2, const QString &txt3 );
-    HierarchyItem( Type type, QListView *parent,
-		   const QString &txt1, const QString &txt2, const QString &txt3 );
+    HierarchyItem(Type type, QListViewItem * parent,
+      const QString & txt1, const QString & txt2, const QString & txt3);
+    HierarchyItem(Type type, QListView * parent,
+      const QString & txt1, const QString & txt2, const QString & txt3);
 
-    void paintCell( QPainter *p, const QColorGroup &cg, int column, int width, int align );
-    void updateBackColor();
+  void paintCell(QPainter * p, const QColorGroup & cg, int column, int width, int align);
+  void updateBackColor();
 
-    void setWidget( QWidget *w );
-    QWidget *widget() const;
+  void setWidget(QWidget * w);
+  QWidget *widget() const;
 
-    void setText( int col, const QString &txt ) { if ( !txt.isEmpty() ) QListViewItem::setText( col, txt ); }
-
-    int rtti() const { return (int)typ; }
-
-private:
-    void okRename( int col );
-    void cancelRename( int col );
+  void setText(int col, const QString & txt)    {if (!txt.isEmpty()) QListViewItem::setText(col, txt);}
+  int rtti() const                              { return (int) typ;}
 
 private:
-    QColor backgroundColor();
-    QColor backColor;
-    QWidget *wid;
-    Type typ;
+  void okRename(int col);
+  void cancelRename(int col);
 
+private:
+  QColor backgroundColor();
+  QColor backColor;
+  QWidget *wid;
+  Type typ;
 };
 
-class HierarchyList : public QListView
+class HierarchyList:public QListView
 {
-    Q_OBJECT
-
+  Q_OBJECT 
 public:
-    HierarchyList( QWidget *parent, FormWindow *fw, bool doConnects = TRUE );
+  HierarchyList(QWidget * parent, FormWindow * fw, bool doConnects = TRUE);
 
-    virtual void setup();
-    virtual void setCurrent( QWidget *w );
-    void setOpen( QListViewItem *i, bool b );
-    void changeNameOf( QWidget *w, const QString &name );
-    void changeDatabaseOf( QWidget *w, const QString &info );
-    void setFormWindow( FormWindow *fw ) { formWindow = fw; }
-    void drawContentsOffset( QPainter *p, int ox, int oy,
-			     int cx, int cy, int cw, int ch ) {
-	setUpdatesEnabled( FALSE );
-	triggerUpdate();
-	setUpdatesEnabled( TRUE );
-	QListView::drawContentsOffset( p, ox, oy, cx, cy, cw, ch );
-    }
-
-    void insertEntry( QListViewItem *i, const QPixmap &pix = QPixmap(), const QString &s = QString::null );
+  virtual void setup();
+  virtual void setCurrent(QWidget * w);
+  void setOpen(QListViewItem * i, bool b);
+  void changeNameOf(QWidget * w, const QString & name);
+  void changeDatabaseOf(QWidget * w, const QString & info);
+  void setFormWindow(FormWindow * fw)   {formWindow = fw;}
+  void drawContentsOffset(QPainter * p, int ox, int oy, int cx, int cy, int cw, int ch)
+        { setUpdatesEnabled(FALSE);  triggerUpdate();  setUpdatesEnabled(TRUE);
+         QListView::drawContentsOffset(p, ox, oy, cx, cy, cw, ch); }
+  void insertEntry(QListViewItem * i, const QPixmap & pix = QPixmap(), const QString & s =
+      QString::null);
 
 protected:
-    void keyPressEvent( QKeyEvent *e );
-    void keyReleaseEvent( QKeyEvent *e );
-    void viewportMousePressEvent( QMouseEvent *e );
-    void viewportMouseReleaseEvent( QMouseEvent *e );
+  void keyPressEvent(QKeyEvent * e);
+  void keyReleaseEvent(QKeyEvent * e);
+  void viewportMousePressEvent(QMouseEvent * e);
+  void viewportMouseReleaseEvent(QMouseEvent * e);
 
-public slots:
-    void addTabPage();
-    void removeTabPage();
+public slots: 
+  void addTabPage();
+  void removeTabPage();
 
 private:
-    void insertObject( QObject *o, QListViewItem *parent );
-    QWidget *findWidget( QListViewItem *i );
-    QListViewItem *findItem( QWidget *w );
-    QWidget *current() const;
+  void insertObject(QObject * o, QListViewItem * parent);
+  QWidget *findWidget(QListViewItem * i);
+  QListViewItem *findItem(QWidget * w);
+  QWidget *current() const;
 
-private slots:
-    virtual void objectClicked( QListViewItem *i );
-    virtual void showRMBMenu( QListViewItem *, const QPoint & );
+  private slots: virtual void objectClicked(QListViewItem * i);
+  virtual void showRMBMenu(QListViewItem *, const QPoint &);
 
 protected:
-    FormWindow *formWindow;
-    QPopupMenu *normalMenu, *tabWidgetMenu;
-    bool deselect;
-
+  FormWindow * formWindow;
+  QPopupMenu *normalMenu, *tabWidgetMenu;
+  bool deselect;
 };
 
 class HierarchyView : public QTabWidget
@@ -143,16 +129,7 @@ public:
 
     void setFormWindow( FormWindow *fw, QWidget *w );
     FormWindow *formWindow() const;
-#ifndef KOMMANDER
-    SourceEditor *sourceEditor() const { return editor; }
-#endif
     void clear();
-
-#ifndef KOMMANDER
-    void showClasses( SourceEditor *se );
-    void updateClassBrowsers();
-#endif
-
     void widgetInserted( QWidget *w );
     void widgetRemoved( QWidget *w );
     void widgetsInserted( const QWidgetList &l );
@@ -165,10 +142,6 @@ public:
     void closed( FormWindow *fw );
 
 protected slots:
-#ifndef KOMMANDER
-//    void jumpTo( const QString &func, const QString &clss,int type );
-//    void showClassesTimeout();
-#endif
 
 protected:
     void closeEvent( QCloseEvent *e );
@@ -177,18 +150,6 @@ signals:
     void hidden();
 
 private:
-#ifndef KOMMANDER
-    struct ClassBrowser
-    {
-	ClassBrowser( QListView * = 0, ClassBrowserInterface * = 0 );
-	~ClassBrowser();
-	QListView *lv;
-	QInterfacePtr<ClassBrowserInterface> iface;
-    };
-    SourceEditor *editor;
-    QGuardedPtr<SourceEditor> lastSourceEditor;
-    QMap<QString, ClassBrowser> *classBrowsers;
-#endif
     FormWindow *formwindow;
     HierarchyList *listview;
 

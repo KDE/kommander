@@ -22,25 +22,16 @@
 #define DESIGNERAPP_H
 
 #include <qdatetime.h>
+#include <kapplication.h>
 
 class QLabel;
 
-#if defined(HAVE_KDE)
-#include <kapplication.h>
 class DesignerApplication : public KApplication
-#else
-#include <qapplication.h>
-class DesignerApplication : public QApplication
-#endif
 {
 public:
     const char *className() const { return "DesignerApplication"; }
 
-#if defined(HAVE_KDE)
     DesignerApplication( int &argc, char **argv, const QCString &rAppName );
-#else
-    DesignerApplication( int &argc, char **argv );
-#endif
 
     QLabel *showSplash();
     static void closeSplash();
@@ -50,10 +41,6 @@ public:
 protected:
     QDateTime lastMod;
 
-#if defined(Q_WS_WIN)
-    bool winEventFilter( MSG *msg );
-    uint DESIGNER_OPENFILE;
-#endif
 
 };
 

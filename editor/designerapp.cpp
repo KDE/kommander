@@ -18,9 +18,6 @@
 **
 **********************************************************************/
 
-#ifndef KOMMANDER
-#include "designerappiface.h"
-#endif
 #include "designerapp.h"
 #include "mainwindow.h"
 #include "formwindow.h"
@@ -32,15 +29,8 @@
 #include <qpainter.h>
 #include <qpixmap.h>
 
-#ifdef Q_WS_WIN
-#include <qt_windows.h>
-#include <process.h>
-#endif
-
-#ifdef HAVE_KDE
 #include <kapplication.h>
 #include <klocale.h>
-#endif
 
 #include <cstdlib>
 

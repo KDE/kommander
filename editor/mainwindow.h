@@ -168,7 +168,6 @@ public slots:
     void editLayoutContainerGrid();
     void editBreakLayout();
     void editAccels();
-    void editSlots();
     void editConnections();
     
     void editFormSettings();
@@ -265,7 +264,7 @@ private:
     *actionEditAdjustSize,
     *actionEditHLayout, *actionEditVLayout, *actionEditGridLayout,
     *actionEditSplitHorizontal, *actionEditSplitVertical,
-    *actionEditSelectAll, *actionEditBreakLayout, *actionEditSlots, *actionEditConnections,
+    *actionEditSelectAll, *actionEditBreakLayout, *actionEditConnections,
     *actionEditLower, *actionEditRaise;
     QActionGroup *actionGroupTools;
     QAction* actionPointerTool, *actionConnectTool, *actionOrderTool;

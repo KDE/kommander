@@ -22,7 +22,6 @@
 #include "mainwindow.h"
 #include "command.h"
 #include "widgetfactory.h"
-#include "editslotsimpl.h"
 #include "pixmapchooser.h"
 #include <qmetaobject.h>
 #include <qlabel.h>
@@ -93,9 +92,9 @@ static const char *const ignore_signals[] = {
 ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr, FormWindow* fw)
   : ConnectionEditorBase(parent, 0, true), m_formWindow(fw)
 {
-  if (rcvr == m_formWindow)
+  if (!rcvr || rcvr == m_formWindow)
     rcvr = m_formWindow->mainContainer();
-  if (sndr == m_formWindow)
+  if (!sndr || sndr == m_formWindow)
     sndr = m_formWindow->mainContainer();
   m_sender = sndr;
   m_receiver = rcvr;

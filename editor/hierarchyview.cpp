@@ -26,12 +26,7 @@
 #include "widgetfactory.h"
 #include "widgetdatabase.h"
 #include "pixmapchooser.h"
-#ifndef KOMMANDER
-#include "project.h"
-#include "sourceeditor.h"
-#endif
 #include "propertyeditor.h"
-#include "editslotsimpl.h"
 #include "listeditor.h"
 
 #include <qpalette.h>
@@ -45,9 +40,6 @@
 #include <qfeatures.h>
 #include <qapplication.h>
 #include <qtimer.h>
-#ifndef KOMMANDER
-#include "languageinterface.h"
-#endif
 #include <qworkspace.h>
 #include <qaccel.h>
 
@@ -80,15 +72,7 @@ static const char * const folder_xpm[]={
     ".dddddddddddddd.",
     "................"};
 
-#ifndef KOMMANDER
-static QPixmap *folderPixmap = 0;
-#endif
-
 QListViewItem *newItem = 0;
-
-#ifndef KOMMANDER
-    static QPluginManager<ClassBrowserInterface> *classBrowserInterfaceManager = 0;
-#endif
 
 HierarchyItem::HierarchyItem( Type type, QListViewItem *parent,
             const QString &txt1, const QString &txt2, const QString &txt3 )
@@ -110,9 +94,6 @@ void HierarchyItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
     g.setColor( QColorGroup::Text, Qt::black );
     QString txt = text( 0 );
     if ( rtti() == Slot &&
-#ifndef KOMMANDER
-   MainWindow::self->currProject()->language() == "C++" &&
-#endif
    ( txt == "init()" || txt == "destroy()" ) ) {
   listView()->setUpdatesEnabled( FALSE );
   if ( txt == "init()" )
@@ -567,363 +548,6 @@ void HierarchyList::removeTabPage()
 
 // ------------------------------------------------------------
 
-#ifndef KOMMANDER
-FormDefinitionView::FormDefinitionView( QWidget *parent, FormWindow *fw )
-    : HierarchyList( parent, fw, TRUE )
-{
-    header()->hide();
-    removeColumn( 1 );
-    connect( this, SIGNAL( itemRenamed( QListViewItem *, int, const QString & ) ),
-       this, SLOT( renamed( QListViewItem * ) ) );
-    popupOpen = FALSE;
-    QAccel *a = new QAccel( MainWindow::self );
-    a->connectItem( a->insertItem( ALT + Key_V ), this, SLOT( editVars() ) );
-}
-
-void FormDefinitionView::setup()
-{
-    if ( popupOpen || !formWindow )
-  return;
-    if ( !folderPixmap ) {
-  folderPixmap = new QPixmap( folder_xpm );
-    }
-
-    clear();
-
-#ifndef KOMMANDER
-    LanguageInterface *lIface = MetaDataBase::languageInterface( formWindow->project()->language() );
-#else
-    LanguageInterface *lIface = MetaDataBase::languageInterface( "C++" );
-#endif
-    if ( lIface ) {
-  QStringList defs = lIface->definitions();
-  for ( QStringList::Iterator dit = defs.begin(); dit != defs.end(); ++dit ) {
-      HierarchyItem *itemDef = new HierarchyItem( HierarchyItem::DefinitionParent,
-              this, *dit, QString::null, QString::null );
-      itemDef->setPixmap( 0, *folderPixmap );
-      itemDef->setOpen( TRUE );
-      QStringList entries = lIface->definitionEntries( *dit, formWindow->mainWindow()->designerInterface() );
-      for ( QStringList::Iterator eit = entries.begin(); eit != entries.end(); ++eit ) {
-    HierarchyItem *item = new HierarchyItem( HierarchyItem::Definition,
-               itemDef, *eit, QString::null, QString::null );
-    item->setRenameEnabled( 0, TRUE );
-      }
-  }
-  lIface->release();
-    }
-
-    refresh( FALSE );
-}
-
-void FormDefinitionView::refresh( bool doDelete )
-{
-    if ( popupOpen )
-  return;
-    if ( !formWindow )
-  return;
-    QListViewItem *i = firstChild();
-    while ( i ) {
-  if ( doDelete && i->rtti() == HierarchyItem::SlotParent ) {
-      QListViewItem* a = i;
-      i = i->nextSibling();
-      delete a;
-      continue;
-  }
-  i = i->nextSibling();
-    }
-
-    QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formWindow );
-    HierarchyItem *itemSlots = new HierarchyItem( HierarchyItem::SlotParent,
-              this, i18n("Slots" ), QString::null, QString::null );
-    itemSlots->moveItem( i );
-    itemSlots->setPixmap( 0, *folderPixmap );
-    HierarchyItem *itemPrivate = new HierarchyItem( HierarchyItem::Private, itemSlots, "private",
-                QString::null, QString::null );
-    HierarchyItem *itemProtected = new HierarchyItem( HierarchyItem::Protected, itemSlots, "protected",
-                  QString::null, QString::null );
-    HierarchyItem *itemPublic = new HierarchyItem( HierarchyItem::Public, itemSlots, "public",
-               QString::null, QString::null );
-    QValueList<MetaDataBase::Slot>::Iterator it = --( slotList.end() );
-    if ( !slotList.isEmpty() ) {
-  for (;;) {
-      QListViewItem *item = 0;
-      if ( (*it).access == "protected" )
-    item = new HierarchyItem( HierarchyItem::Slot,
-            itemProtected, (*it).slot, QString::null, QString::null );
-      else if ( (*it).access == "private" )
-    item = new HierarchyItem( HierarchyItem::Slot,
-            itemPrivate, (*it).slot, QString::null, QString::null );
-      else // default is public
-    item = new HierarchyItem( HierarchyItem::Slot,
-            itemPublic, (*it).slot, QString::null, QString::null );
-      item->setPixmap( 0, PixmapChooser::loadPixmap( "editslots.xpm" ) );
-      if ( it == slotList.begin() )
-    break;
-      --it;
-  }
-    }
-    itemPrivate->setOpen( TRUE );
-    itemProtected->setOpen( TRUE );
-    itemPublic->setOpen( TRUE );
-    itemSlots->setOpen( TRUE );
-}
-
-
-void FormDefinitionView::setCurrent( QWidget * )
-{
-}
-
-void FormDefinitionView::objectClicked( QListViewItem *i )
-{
-    if ( !i )
-  return;
-    if ( i->rtti() == HierarchyItem::Slot )
-  formWindow->mainWindow()->editFunction( i->text( 0 ) );
-}
-
-
-void FormDefinitionView::contentsMouseDoubleClickEvent( QMouseEvent *e )
-{
-    QListViewItem *i = itemAt( contentsToViewport( e->pos() ) );
-    if ( !i )
-  return;
-    if ( i->rtti() == HierarchyItem::SlotParent )
-  return;
-    HierarchyItem::Type t = getChildType( i->rtti() );
-    if ( (int)t == i->rtti() )
-  i = i->parent();
-#ifndef KOMMANDER
-    if ( formWindow->project()->language() == "C++" &&
-#else
-    if (
-#endif
-   ( i->rtti() == HierarchyItem::Public ||
-     i->rtti() == HierarchyItem::Protected ||
-     i->rtti() == HierarchyItem::Private ) ) {
-  EditSlots dlg( this, formWindow );
-  QString access = "public";
-  if ( i->rtti() == HierarchyItem::Protected )
-      access = "protected";
-  else if  ( i->rtti() == HierarchyItem::Private )
-      access = "private";
-  dlg.slotAdd( access );
-  dlg.exec();
-    } else {
-  insertEntry( i );
-    }
-}
-
-
-void FormDefinitionView::showRMBMenu( QListViewItem *i, const QPoint &pos )
-{
-    if ( !i )
-  return;
-    if ( i->rtti() == HierarchyItem::SlotParent ) {
-  QPopupMenu menu;
-  menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n("Edit..." ) );
-  if ( menu.exec( pos ) != -1 ) {
-      EditSlots dlg( this, formWindow );
-      dlg.exec();
-  }
-  return;
-    }
-
-    if ( i->rtti() == HierarchyItem::Slot ) {
-  QPopupMenu menu;
-  const int PROPS = 1;
-  const int EDIT = 2;
-  const int REMOVE = 3;
-  const int NEW_ITEM = 4;
-  menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), i18n("New" ), NEW_ITEM );
-#ifndef KOMMANDER
-  if ( formWindow->project()->language() == "C++" )
-#endif
-      menu.insertItem( PixmapChooser::loadPixmap( "editslots" ), i18n("Properties" ), PROPS );
-#ifndef KOMMANDER
-        if ( MetaDataBase::hasEditor( formWindow->project()->language() ) )
-      menu.insertItem( i18n("Go to Implementation" ), EDIT );
-#endif
-  menu.insertSeparator();
-  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n("Delete" ), REMOVE );
-  popupOpen = TRUE;
-  int res = menu.exec( pos );
-  popupOpen = FALSE;
-  if ( res == NEW_ITEM ) {
-#ifndef KOMMANDER
-      if ( formWindow->project()->language() == "C++" ) {
-#endif
-    EditSlots dlg( this, formWindow );
-    QString access = "public";
-    if ( i->parent() && i->parent()->rtti() == HierarchyItem::Protected )
-        access = "protected";
-    else if  ( i->parent() && i->parent()->rtti() == HierarchyItem::Private )
-        access = "private";
-    dlg.slotAdd( access );
-    dlg.exec();
-#ifndef KOMMANDER
-      } else {
-    insertEntry( i->parent() );
-      }
-#endif
-  }
-  else if ( res == PROPS ) {
-      EditSlots dlg( this, formWindow );
-      dlg.setCurrentSlot( MetaDataBase::normalizeSlot( i->text( 0 ) ) );
-      dlg.exec();
-  } else if ( res == EDIT ) {
-      formWindow->mainWindow()->editFunction( i->text( 0 ) );
-  } else if ( res == REMOVE ) {
-      MetaDataBase::removeSlot( formWindow, i->text( 0 ) );
-      EditSlots::removeSlotFromCode( i->text( 0 ), formWindow );
-      formWindow->mainWindow()->objectHierarchy()->updateFormDefinitionView();
-      MainWindow::self->slotsChanged();
-  }
-  return;
-    }
-
-    QPopupMenu menu;
-    const int NEW_ITEM = 1;
-    const int DEL_ITEM = 2;
-    const int EDIT_ITEM = 3;
-    menu.insertItem( PixmapChooser::loadPixmap( "filenew" ), i18n("New" ), NEW_ITEM );
-    if ( i->rtti() == HierarchyItem::Definition || i->rtti() == HierarchyItem::DefinitionParent ) {
-  if ( i->text( 0 ) == "Class Variables" ||
-       i->parent() && i->parent()->text( 0 ) == "Class Variables" )
-      menu.insertItem( i18n("Edit...\tAlt+V" ), EDIT_ITEM );
-  else
-  {
-    qWarning("[MB02] Edit");
-      menu.insertItem( i18n("Edit..." ), EDIT_ITEM );
-  }
-    }
-    if ( i->parent() && i->rtti() != HierarchyItem::Public &&
-   i->rtti() != HierarchyItem::Protected &&
-   i->rtti() != HierarchyItem::Private ) {
-  menu.insertSeparator();
-  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ), i18n("Delete" ), DEL_ITEM );
-    }
-    popupOpen = TRUE;
-    int res = menu.exec( pos );
-    popupOpen = FALSE;
-    if ( res == NEW_ITEM ) {
-  HierarchyItem::Type t = getChildType( i->rtti() );
-  if ( (int)t == i->rtti() )
-      i = i->parent();
-#ifndef KOMMANDER
-  if ( formWindow->project()->language() == "C++" &&
-#else
-  if (
-#endif
-       ( i->rtti() == HierarchyItem::Public ||
-         i->rtti() == HierarchyItem::Protected ||
-         i->rtti() == HierarchyItem::Private ) ) {
-      EditSlots dlg( this, formWindow );
-      QString access = "public";
-      if ( i->rtti() == HierarchyItem::Protected )
-    access = "protected";
-      else if  ( i->rtti() == HierarchyItem::Private )
-    access = "private";
-      dlg.slotAdd( access );
-      dlg.exec();
-  } else {
-      insertEntry( i );
-  }
-    } else if ( res == DEL_ITEM ) {
-  QListViewItem *p = i->parent();
-  delete i;
-  save( p, 0 );
-    } else if ( res == EDIT_ITEM ) {
-#ifndef KOMMANDER
-  LanguageInterface *lIface = MetaDataBase::languageInterface( formWindow->project()->language() );
-#else
-  LanguageInterface *lIface = MetaDataBase::languageInterface( "C++" );
-#endif
-  if ( !lIface )
-      return;
-  if ( i->rtti() == HierarchyItem::Definition )
-      i = i->parent();
-  ListEditor dia( this, 0, TRUE );
-  dia.setCaption( i18n("Edit %1" ).arg( i->text( 0 ) ) );
-  QStringList entries = lIface->definitionEntries( i->text( 0 ), MainWindow::self->designerInterface() );
-  dia.setList( entries );
-  dia.exec();
-  lIface->setDefinitionEntries( i->text( 0 ), dia.items(), MainWindow::self->designerInterface() );
-  refresh( TRUE );
-  formWindow->commandHistory()->setModified( TRUE );
-    }
-}
-
-void FormDefinitionView::renamed( QListViewItem *i )
-{
-    if ( newItem == i )
-  newItem = 0;
-    if ( !i->parent() )
-  return;
-    save( i->parent(), i );
-}
-
-void FormDefinitionView::save( QListViewItem *p, QListViewItem *i )
-{
-    if ( i && i->text( 0 ).isEmpty() ) {
-  delete i;
-  return;
-    }
-    if ( i && i->rtti() == HierarchyItem::Slot ) {
-  MetaDataBase::addSlot( formWindow, i->text( 0 ).latin1(), "virtual", p->text( 0 ),
-#ifndef KOMMANDER
-             formWindow->project()->language(), "void" );
-#else
-             "C++", "void" );
-#endif
-  MainWindow::self->editFunction( i->text( 0 ).left( i->text( 0 ).find( "(" ) ),
-#ifndef KOMMANDER
-          formWindow->project()->language(), TRUE );
-#else
-          "C++", TRUE );
-#endif
-  MainWindow::self->objectHierarchy()->updateFormDefinitionView();
-  return;
-    }
-#ifndef KOMMANDER
-    LanguageInterface *lIface = MetaDataBase::languageInterface( formWindow->project()->language() );
-#else
-    LanguageInterface *lIface = MetaDataBase::languageInterface( "C++" );
-#endif
-    if ( !lIface )
-  return;
-    QStringList lst;
-    i = p->firstChild();
-    while ( i ) {
-  lst << i->text( 0 );
-  i = i->nextSibling();
-    }
-    lIface->setDefinitionEntries( p->text( 0 ), lst, formWindow->mainWindow()->designerInterface() );
-    lIface->release();
-    setup();
-    formWindow->commandHistory()->setModified( TRUE );
-}
-
-void FormDefinitionView::editVars()
-{
-    if ( !formWindow )
-  return;
-#ifndef KOMMANDER
-    LanguageInterface *lIface = MetaDataBase::languageInterface( formWindow->project()->language() );
-#else
-    LanguageInterface *lIface = MetaDataBase::languageInterface( "C++" );
-#endif
-    if ( !lIface )
-  return;
-    ListEditor dia( this, 0, TRUE );
-    dia.setCaption( i18n("Edit Class Variables" ) );
-    QStringList entries = lIface->definitionEntries( "Class Variables", MainWindow::self->designerInterface() );
-    dia.setList( entries );
-    dia.exec();
-    lIface->setDefinitionEntries( "Class Variables", dia.items(), MainWindow::self->designerInterface() );
-    refresh( TRUE );
-    formWindow->commandHistory()->setModified( TRUE );
-}
-#endif
 
 // ------------------------------------------------------------
 static HierarchyItem::Type getChildType( int type )
@@ -967,39 +591,9 @@ HierarchyView::HierarchyView( QWidget *parent )
       WStyle_Tool |WStyle_MinMax | WStyle_SysMenu )
 {
     formwindow = 0;
-#ifndef KOMMANDER
-    editor = 0;
-#endif
     setIcon( PixmapChooser::loadPixmap( "logo" ) );
     listview = new HierarchyList( this, formWindow() );
     addTab( listview, i18n("Widgets" ) );
-#ifndef KOMMANDER
-  fView = new FormDefinitionView( this, formWindow() );
-#endif
-#ifndef KOMMANDER
-  addTab( fView, i18n("Source" ) );
-#endif
-
-#ifndef KOMMANDER
-    if ( !classBrowserInterfaceManager ) {
-  classBrowserInterfaceManager = new QPluginManager<ClassBrowserInterface>( IID_ClassBrowser, QApplication::libraryPaths(), "/designer" );
-    }
-#endif
-
-#ifndef KOMMANDER
-    classBrowsers = new QMap<QString, ClassBrowser>();
-    QStringList langs = MetaDataBase::languages();
-    for ( QStringList::Iterator it = langs.begin(); it != langs.end(); ++it ) {
-  QInterfacePtr<ClassBrowserInterface> ciface = 0;
-  classBrowserInterfaceManager->queryInterface( *it, &ciface );
-  if ( ciface ) {
-      ClassBrowser cb( ciface->createClassBrowser( this ), ciface );
-      addTab( cb.lv, *it + i18n(" Classes" ) );
-      ciface->onClick( this, SLOT( jumpTo( const QString &, const QString &, int ) ) );
-      classBrowsers->insert( *it, cb );
-  }
-    }
-#endif
 }
 
 HierarchyView::~HierarchyView()
@@ -1009,131 +603,33 @@ HierarchyView::~HierarchyView()
 void HierarchyView::clear()
 {
     listview->clear();
-#ifndef KOMMANDER
-  fView->clear();
-    for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
-    it != classBrowsers->end(); ++it ) {
-  (*it).iface->clear();
-    }
-#endif
 }
 
 void HierarchyView::setFormWindow( FormWindow *fw, QWidget *w )
 {
-    if ( fw == 0 || w == 0 ) {
-  listview->clear();
-#ifndef KOMMANDER
-  fView->clear();
-#endif
-  listview->setFormWindow( fw );
-#ifndef KOMMANDER
-  fView->setFormWindow( fw );
-  editor = 0;
-#endif
-  formwindow = 0;
-    }
-
-    if ( fw == formwindow ) {
-  listview->setCurrent( w );
-  if ( MainWindow::self->qWorkspace()->activeWindow() == fw )
-      showPage( listview );
-#ifndef KOMMANDER
-  else
-      showPage( fView );
-#endif
-  return;
-    }
-
-    formwindow = fw;
-    listview->setFormWindow( fw );
-#ifndef KOMMANDER
-  fView->setFormWindow( fw );
-#endif
-    listview->setup();
-    listview->setCurrent( w );
-#ifndef KOMMANDER
-  fView->setup();
-#endif
-
-    if ( MainWindow::self->qWorkspace()->activeWindow() == fw )
-  showPage( listview );
-#ifndef KOMMANDER
-    else
-      showPage( fView );
-
-    for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
-    it != classBrowsers->end(); ++it )
-  (*it).iface->clear();
-    editor = 0;
-#endif
-}
-
-#ifndef KOMMANDER
-void HierarchyView::showClasses( SourceEditor *se )
-{
-    if ( !se->object() )
-  return;
-    lastSourceEditor = se;
-    QTimer::singleShot( 100, this, SLOT( showClassesTimeout() ) );
-}
-#endif
-
-#ifndef KOMMANDER
-void HierarchyView::showClassesTimeout()
-{
-    if ( !lastSourceEditor )
-  return;
-    SourceEditor *se = (SourceEditor*)lastSourceEditor;
-    if ( !se->object() )
-  return;
-    if ( se->formWindow() ) {
-  setFormWindow( se->formWindow(), se->formWindow()->currentWidget() );
-  MainWindow::self->propertyeditor()->setWidget( se->formWindow()->currentWidget(),
-                   se->formWindow() );
-  return;
-    }
-    formwindow = 0;
-    listview->setFormWindow( 0 );
-#ifndef KOMMANDER
-  fView->setFormWindow( 0 );
-#endif
+  if (fw == 0 || w == 0)
+  {
     listview->clear();
-#ifndef KOMMANDER
-  fView->clear();
-#endif
-    MainWindow::self->propertyeditor()->setWidget( 0, 0 );
-#ifndef KOMMANDER
-    editor = se;
-
-    for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
-    it != classBrowsers->end(); ++it ) {
-  if ( it.key() == se->project()->language() ) {
-  if ( it.key() == "C++" ) {
-      (*it).iface->update( se->text() );
-      showPage( (*it).lv );
-  } else {
-      (*it).iface->clear();
+    listview->setFormWindow(fw);
+    formwindow = 0;
   }
-    }
-#endif
-}
-#endif
 
-#ifndef KOMMANDER
-void HierarchyView::updateClassBrowsers()
-{
-    if ( !editor )
-  return;
-    for ( QMap<QString, ClassBrowser>::Iterator it = classBrowsers->begin();
-    it != classBrowsers->end(); ++it ) {
-  if ( it.key() == editor->project()->language() )
-  if ( it.key() == "C++" )
-      (*it).iface->update( editor->text() );
-  else
-      (*it).iface->clear();
-    }
+  if (fw == formwindow)
+  {
+    listview->setCurrent(w);
+    if (MainWindow::self->qWorkspace()->activeWindow() == fw)
+      showPage(listview);
+    return;
+  }
+
+  formwindow = fw;
+  listview->setFormWindow(fw);
+  listview->setup();
+  listview->setCurrent(w);
+
+  if (MainWindow::self->qWorkspace()->activeWindow() == fw)
+    showPage(listview);
 }
-#endif
 
 FormWindow *HierarchyView::formWindow() const
 {
@@ -1142,8 +638,8 @@ FormWindow *HierarchyView::formWindow() const
 
 void HierarchyView::closeEvent( QCloseEvent *e )
 {
-    emit hidden();
-    e->accept();
+  emit hidden();
+  e->accept();
 }
 
 void HierarchyView::widgetInserted( QWidget * )
@@ -1204,41 +700,8 @@ void HierarchyView::rebuild()
 
 void HierarchyView::closed( FormWindow *fw )
 {
-    if ( fw == formwindow ) {
-  listview->clear();
-#ifndef KOMMANDER
-  fView->clear();
-#endif
-    }
+  if ( fw == formwindow ) 
+    listview->clear();
 }
 
-#ifndef KOMMANDER
-void HierarchyView::updateFormDefinitionView()
-{
-    fView->setup();
-}
-#endif
-
-#ifndef KOMMANDER
-void HierarchyView::jumpTo( const QString &func, const QString &clss, int type )
-{
-    if ( !editor )
-  return;
-    if ( type == ClassBrowserInterface::Class )
-  editor->setClass( func );
-    else
-  editor->setFunction( func, clss );
-}
-#endif
-
-#ifndef KOMMANDER
-HierarchyView::ClassBrowser::ClassBrowser( QListView *l, ClassBrowserInterface *i )
-    : lv( l ), iface( i )
-{
-}
-
-HierarchyView::ClassBrowser::~ClassBrowser()
-{
-}
-#endif
 #include "hierarchyview.moc"

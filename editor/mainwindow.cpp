@@ -364,7 +364,6 @@ void MainWindow::setupRMBMenus()
     actionEditGridLayout->addTo( rmbFormWindow );
     actionEditBreakLayout->addTo( rmbFormWindow );
     rmbFormWindow->insertSeparator();
-    actionEditSlots->addTo( rmbFormWindow );
     actionEditConnections->addTo( rmbFormWindow );
     rmbFormWindow->insertSeparator();
     actionEditFormSettings->addTo( rmbFormWindow );

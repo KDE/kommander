@@ -48,11 +48,10 @@
 #include "workspace.h"
 #include "createtemplate.h"
 #include "hierarchyview.h"
-#include "editslotsimpl.h"
-#include "connectionviewerimpl.h"
 #include "formsettingsimpl.h"
 #include "styledbutton.h"
 #include "customwidgeteditorimpl.h"
+#include "connectioneditorimpl.h"
 #include "actioneditorimpl.h"
 #include "formfile.h"
 #ifndef QT_NO_SQL
@@ -145,13 +144,6 @@ void MainWindow::setupEditActions()
     connect( actionEditAccels, SIGNAL( activated() ), this, SLOT( editAccels() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditAccels, SLOT( setEnabled(bool) ) );
 
-    actionEditSlots = new QAction( i18n("Slots" ), createIconSet("editslots.xpm"),
-           i18n("S&lots..." ), 0, this, 0 );
-    actionEditSlots->setStatusTip( i18n("Opens a dialog for editing slots") );
-    actionEditSlots->setWhatsThis( whatsThisFrom( "Edit|Slots" ) );
-    connect( actionEditSlots, SIGNAL( activated() ), this, SLOT( editSlots() ) );
-    connect( this, SIGNAL( hasActiveForm(bool) ), actionEditSlots, SLOT( setEnabled(bool) ) );
-
     actionEditConnections = new QAction( i18n("Connections" ), createIconSet("connecttool.xpm"),
            i18n("Co&nnections..." ), 0, this, 0 );
     actionEditConnections->setStatusTip( i18n("Opens a dialog for editing connections") );
@@ -195,7 +187,6 @@ void MainWindow::setupEditActions()
     actionEditSelectAll->addTo( menu );
     actionEditAccels->addTo( menu );
     menu->insertSeparator();
-    actionEditSlots->addTo( menu );
     actionEditConnections->addTo( menu );
     actionEditFormSettings->addTo( menu );
     menu->insertSeparator();
@@ -1155,25 +1146,14 @@ void MainWindow::editAccels()
     formWindow()->checkAccels();
 }
 
-void MainWindow::editSlots()
-{
-  if (!formWindow())
-    return;
-
-  statusBar()->message(i18n("Edit the current form's slots..."));
-  EditSlots dlg(this, formWindow());
-  dlg.exec();
-  statusBar()->clear();
-}
-
 void MainWindow::editConnections()
 {
   if (!formWindow())
     return;
 
-  statusBar()->message(i18n("Edit the current form's connections..."));
-  ConnectionViewer dlg(this, formWindow());
-  dlg.exec();
+  statusBar()->message(i18n("Edit connections..."));
+  ConnectionEditor editor(this, 0, 0, formWindow());
+  editor.exec();
   statusBar()->clear();
 }
 

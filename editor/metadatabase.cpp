@@ -1,27 +1,22 @@
 /**********************************************************************
-** Copyright (C) 2000 Trolltech AS.  All rights reserved.
-**
-** This file is part of Qt Designer.
-**
-** This file may be distributed and/or modified under the terms of the
-** GNU General Public License version 2 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** See http://www.trolltech.com/gpl/ for GPL licensing information.
-**
-** Contact info@trolltech.com if any conditions of this licensing are
-** not clear to you.
-**
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. All rights reserved.
+
+ This file may be distributed and/or modified under the terms of the
+ GNU General Public License version 2 as published by the Free Software
+ Foundation and appearing in the file LICENSE.GPL included in the
+ packaging of this file.
+
+ This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+ See http://www.trolltech.com/gpl/ for GPL licensing information.
+
+ Modified for Kommander:
+  (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+  (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+
 **********************************************************************/
 
-#ifndef KOMMANDER
-#include "eventinterface.h"
-#include "languageinterface.h"
-#endif
 #include "metadatabase.h"
 #include "widgetfactory.h"
 #include "formwindow.h"
@@ -47,19 +42,6 @@
 
 #include <stdlib.h>
 
-static QString make_pretty( const QString &s )
-{
-    QString res = s;
-    if ( res.find( ")" ) - res.find( "(" ) == 1 )
-        return res;
-    res.replace( QRegExp( "[(]" ), "( " );
-    res.replace( QRegExp( "[)]" ), " )" );
-    res.replace( QRegExp( "&" ), " &" );
-    res.replace( QRegExp( "[*]" ), " *" );
-    res.replace( QRegExp( "," ), ", " );
-    res = res.simplifyWhiteSpace();
-    return res;
-}
 
 class MetaDataBaseRecord
 {
@@ -91,10 +73,6 @@ static QPtrList<MetaDataBase::CustomWidget> *cWidgets = 0;
 static bool doUpdate = TRUE;
 static QStringList langList;
 static QStringList editorLangList;
-#ifndef KOMMANDER
-//static QPluginManager<EventInterface> *eventInterfaceManager = 0;
-//static QPluginManager<LanguageInterface> *languageInterfaceManager = 0;
-#endif
 
 /*!
   \class MetaDataBase metadatabase.h
@@ -876,34 +854,6 @@ QStringList MetaDataBase::forwards( QObject *o )
     return r->forwards;
 }
 
-#ifndef KOMMANDER
-void MetaDataBase::setVariables( QObject *o, const QStringList &vars )
-{
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return;
-    }
-
-    r->variables = vars;
-}
-
-QStringList MetaDataBase::variables( QObject *o )
-{
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return QStringList();
-    }
-
-    return r->variables;
-}
-#endif
-
 void MetaDataBase::setSignalList( QObject *o, const QStringList &sigs )
 {
     setupDataBase();
@@ -1217,346 +1167,10 @@ QMap<QString, QString> MetaDataBase::columnFields( QObject *o )
     return r->columnFields;
 }
 
-#ifndef KOMMANDER
-bool MetaDataBase::hasEvents( const QString & )
-{
-    EventInterface* iface = 0;
-    eventInterfaceManager->queryInterface( lang, &iface );
-    if ( iface )
-        iface->release();
-    return iface != 0;
-}
-#endif
-
-static QStringList get_arguments( const QString &s )
-{
-    QString str = s.mid( s.find( "(" ) + 1, s.find( ")" ) - 1 - s.find( "(" ) );
-    str = str.simplifyWhiteSpace();
-    return QStringList::split( ',', str );
-}
-
-#ifndef KOMMANDER
-QValueList<MetaDataBase::EventDescription> MetaDataBase::events( QObject *o, const QString &lang )
-{
-    if ( !o )
-        return QValueList<EventDescription>();
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return QValueList<EventDescription>();
-    }
-
-    if ( !eventInterfaceManager || langList.count() == 1 )
-        return QValueList<EventDescription>();
-    EventInterface *iface = 0;
-    eventInterfaceManager->queryInterface( lang, &iface );
-    QValueList<EventDescription> list;
-    if ( !iface )
-        return list;
-    QStringList lst = iface->events( o );
-    for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
-        EventDescription d;
-        d.name = *it;
-        d.args = get_arguments( *it );
-        list << d;
-    }
-    iface->release();
-
-    return list;
-}
-#endif
-
-#ifndef KOMMANDER
-bool MetaDataBase::setEventFunctions( QObject *o, QObject *form, const QString &lang,
-                                      const QString &e, const QStringList &functions,
-                                      bool addIfNotExisting )
-{
-    if ( !o )
-        return FALSE;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return FALSE;
-    }
-
-    if ( !form )
-        return FALSE;
-    MetaDataBaseRecord *r2 = db->find( (void*)form );
-    if ( !r2 ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  form, form->name(), form->className() );
-        return FALSE;
-    }
-
-    QString event = e;
-    event = event.simplifyWhiteSpace();
-    LanguageInterface *liface = languageInterface( lang );
-    if ( liface )
-        event = liface->cleanSignature( event );
-
-    r->eventFunctions.remove( event );
-    EventDescription ed;
-    ed.name = "<none>";
-    QValueList<EventDescription> eds = events( o, lang );
-    for ( QValueList<EventDescription>::Iterator eit = eds.begin(); eit != eds.end(); ++eit ) {
-        if ( (*eit).name == e ) {
-            ed = *eit;
-            break;
-        }
-    }
-
-    bool slotExists = TRUE;
-
-    for ( QStringList::ConstIterator fit = functions.begin(); fit != functions.end(); ++fit ) {
-        QString fName = *fit + "(";
-        if ( ed.name != "<none>" ) {
-            QStringList args;
-            for ( QStringList::Iterator it = ed.args.begin(); it != ed.args.end(); ++it )
-                args << *it;
-            LanguageInterface *iface = languageInterface( lang );
-            if ( iface )
-                fName += iface->createArguments( args );
-        }
-        fName += ")";
-        fName = normalizeSlot( fName );
-
-        bool needAddSlot = TRUE;
-        for ( QValueList<Slot>::Iterator it = r2->slotList.begin(); it != r2->slotList.end(); ++it ) {
-            Slot s = *it;
-            QString sName = normalizeSlot( s.slot );
-            if ( sName.left( sName.find( '(' ) ) == fName.left( fName.find( '(' ) ) &&
-                 liface->canConnect( sName, fName ) ) {
-                needAddSlot = FALSE;
-                break;
-            }
-        }
-
-        if ( needAddSlot )
-            slotExists = FALSE;
-
-        if ( needAddSlot && addIfNotExisting )
-            addSlot( form, fName.latin1(), "virtual", "public", lang, "void" );
-    }
-
-    r->eventFunctions.insert( event, functions );
-    return !slotExists;
-}
-#endif
-
-#ifndef KOMMANDER
-QStringList MetaDataBase::eventFunctions( QObject *o, const QString &e, const QString &lang )
-{
-    if ( !o )
-        return QStringList();
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return QString::null;
-    }
-
-    QString event = e;
-    event = event.simplifyWhiteSpace();
-    QStringList l = *r->eventFunctions.find( event );
-    if ( l.isEmpty() ) {
-        LanguageInterface *liface = languageInterface( lang );
-        if ( liface ) {
-            QString cleanSig = liface->cleanSignature( event );
-            for ( QMap<QString, QStringList>::Iterator it = r->eventFunctions.begin();
-                  it != r->eventFunctions.end(); ++it ) {
-                if ( liface->cleanSignature( it.key() ) == cleanSig )
-                    return *it;
-            }
-        }
-    }
-#if 0 // ### for conversation from old to new
-    if ( l.isEmpty() ) {
-        int i = event.find( "(" );
-        if ( i != -1 )
-            event = event.left( i );
-        l = *r->eventFunctions.find( event );
-    }
-#endif
-    return l;
-}
-#endif
-
-#ifndef KOMMANDER
-QMap<QString, QStringList> MetaDataBase::eventFunctions( QObject *o )
-{
-    if ( !o )
-        return QMap<QString, QStringList>();
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return QMap<QString, QStringList>();
-    }
-
-    return r->eventFunctions;
-}
-#endif
-
-#ifndef KOMMANDER
-void MetaDataBase::setEditor( const QStringList &langs )
-{
-    editorLangList = langs;
-}
-
-bool MetaDataBase::hasEditor( const QString &lang )
-{
-    return editorLangList.find( lang ) != editorLangList.end();
-}
-
-void MetaDataBase::setFunctionComments( QObject *o, const QString &func, const QString &comments )
-{
-    if ( !o )
-        return;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return;
-    }
-    r->functionComments.replace( func, comments );
-}
-
-QString MetaDataBase::functionComments( QObject *o, const QString &func )
-{
-    if ( !o )
-        return QString::null;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return QString::null;
-    }
-    return *r->functionComments.find( func );
-}
-
-void MetaDataBase::addFunctionBody( QObject *o, const QString &func, const QString &body )
-{
-    if ( !o )
-        return;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return;
-    }
-
-    r->functionBodies.insert( func, body );
-}
-
-void MetaDataBase::setFunctionBodies( QObject *o, const QMap<QString, QString> &bodies, const QString &lang, const QString &returnType )
-{
-    if ( !o )
-        return;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return;
-    }
-
-    if ( !lang.isEmpty() ) {
-        r->functionBodies.clear();
-        for ( QMap<QString, QString>::ConstIterator it = bodies.begin(); it != bodies.end(); ++it ) {
-            r->functionBodies.insert( normalizeSlot( it.key() ), *it );
-            bool foundSlot = FALSE;
-            int idx = 0;
-            for ( QValueList<Slot>::Iterator sit = r->slotList.begin(); sit != r->slotList.end(); ++sit, ++idx ) {
-                Slot s = *sit;
-                if ( normalizeSlot( s.slot ) == normalizeSlot( it.key() ) ) {
-                    foundSlot = TRUE;
-                    if ( QString( s.slot ) != it.key() ) {
-                        s.slot = make_pretty( it.key() ).latin1();
-                        r->slotList[idx] = s;
-                    }
-                    break;
-                }
-            }
-            if ( !foundSlot ) {
-                Slot sl;
-                sl.slot = make_pretty( it.key() ).latin1();
-                sl.specifier = "virtual";
-                sl.access = "public";
-                sl.language = lang;
-                sl.returnType = returnType;
-                r->slotList.append( sl );
-            }
-        }
-    } else {
-        r->functionBodies = bodies;
-    }
-}
-
-QMap<QString, QString> MetaDataBase::functionBodies( QObject *o )
-{
-    if ( !o )
-        return QMap<QString, QString>();
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return QMap<QString, QString>();
-    }
-
-    return r->functionBodies;
-}
-
-void MetaDataBase::setupInterfaceManagers()
-{
-    if ( !eventInterfaceManager )
-#ifndef KOMMANDER
-        eventInterfaceManager = new QPluginManager<EventInterface>( IID_Event, QApplication::libraryPaths(), "/designer" );
-#else
-        eventInterfaceManager = new QPluginManager<EventInterface>( IID_Event, QApplication::libraryPaths(), "" );
-#endif
-
-    if ( !languageInterfaceManager ) {
-#ifndef KOMMANDER
-        languageInterfaceManager = new QPluginManager<LanguageInterface>( IID_Language, QApplication::libraryPaths(), "/designer" );
-#else
-        languageInterfaceManager = new QPluginManager<LanguageInterface>( IID_Language, QApplication::libraryPaths(), "" );
-#endif
-
-        langList = languageInterfaceManager->featureList();
-        langList.remove( "C++" );
-        langList << "C++";
-    }
-}
-
-QStringList MetaDataBase::languages()
-{
-    return langList;
-}
-#endif
-
 QString MetaDataBase::normalizeSlot( const QString &s )
 {
     return Parser::cleanArgs( s );
 }
-
-#ifndef KOMMANDER
-LanguageInterface *MetaDataBase::languageInterface( const QString &lang )
-{
-    LanguageInterface* iface = 0;
-    languageInterfaceManager->queryInterface( lang, &iface );
-    return iface;
-}
-#endif
 
 void MetaDataBase::clear( QObject *o )
 {
@@ -1567,53 +1181,6 @@ void MetaDataBase::clear( QObject *o )
     for ( QPtrDictIterator<QWidget> it( *( (FormWindow*)o )->widgets() ); it.current(); ++it )
         db->remove( (void*)it.current() );
 }
-
-#ifndef KOMMANDER
-void MetaDataBase::setBreakPoints( QObject *o, const QValueList<int> &l )
-{
-    if ( !o )
-        return;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return;
-    }
-
-    r->breakPoints = l;
-}
-
-QValueList<int> MetaDataBase::breakPoints( QObject *o )
-{
-    if ( !o )
-        return QValueList<int>();
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return QValueList<int>();
-    }
-
-    return r->breakPoints;
-}
-
-bool MetaDataBase::hasEventFunctions( QObject *o )
-{
-    if ( !o )
-        return FALSE;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return FALSE;
-    }
-
-    return !r->eventFunctions.isEmpty();
-}
-#endif
 
 void MetaDataBase::setExportMacro( QObject *o, const QString &macro )
 {
@@ -1650,25 +1217,3 @@ bool MetaDataBase::hasObject( QObject *o )
     return !!db->find( o );
 }
 
-#ifndef KOMMANDER
-void MetaDataBase::functionNameChanged( QObject *o, const QString &oldName, const QString &newName )
-{
-    if ( !o )
-        return;
-    setupDataBase();
-    MetaDataBaseRecord *r = db->find( (void*)o );
-    if ( !r ) {
-        qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
-                  o, o->name(), o->className() );
-        return;
-    }
-
-    QMap<QString, QString>::Iterator it = r->functionBodies.find( normalizeSlot( oldName ) );
-    if ( it == r->functionBodies.end() )
-        return;
-    QString body = *it;
-    r->functionBodies.remove( it );
-    r->functionBodies.insert( normalizeSlot( newName ), body );
-    ( (FormWindow*)o )->formFile()->functionNameChanged( oldName, newName );
-}
-#endif
