@@ -1,0 +1,122 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>InitializationDemo</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>InitializationDemo</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>461</width>
+            <height>108</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Initialization and Destroy</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>echo Initialization `date` &gt;&gt; test
+dcop @dcopid KommanderIf changeWidgetText OpenLabel "Opened: `date`"
+CLOSE="@readSetting("CloseLabel", "Previously closed: never")"
+dcop @dcopid KommanderIf changeWidgetText CloseLabel "$CLOSE"
+   </string>
+            <string>echo Destroy `date` &gt;&gt; test
+@writeSetting("CloseLabel", "Previously closed: @exec("date")")</string>
+        </stringlist>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="CloseButton">
+                    <property name="name">
+                        <cstring>CloseButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Close</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string></string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>OpenLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Opened:</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>CloseLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Previously closed:</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
