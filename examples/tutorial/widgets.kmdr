@@ -1,0 +1,133 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>483</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Widgets and types</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="GroupBox" row="0" column="1" rowspan="3" colspan="1">
+            <property name="name">
+                <cstring>GroupBox1</cstring>
+            </property>
+            <property name="title">
+                <string>Widgets</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="SpinBoxInt" row="1" column="0">
+                    <property name="name">
+                        <cstring>SpinBoxInt1</cstring>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="0" column="0">
+                    <property name="name">
+                        <cstring>LineEdit1</cstring>
+                    </property>
+                </widget>
+                <widget class="RichTextEditor" row="2" column="0">
+                    <property name="name">
+                        <cstring>RichTextEditor1</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="ExecButton" row="2" column="0">
+            <property name="name">
+                <cstring>WidgetShow</cstring>
+            </property>
+            <property name="text">
+                <string>Show widgets</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@WidgetList.setText(@Form1.children(true))</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="ListBox" row="0" column="0">
+            <property name="name">
+                <cstring>WidgetList</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Type:</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>WidgetType</cstring>
+                    </property>
+                    <property name="populationText">
+                        <string>@exec(dcop @dcopid KommanderIf type "@WidgetList.selection")</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string></string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>WidgetList</sender>
+        <signal>highlighted(int)</signal>
+        <receiver>WidgetType</receiver>
+        <slot>populate()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
