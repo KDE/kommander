@@ -44,3 +44,14 @@ formatted text.
 Functions/concepts:
 - changeWidetText
 - RichTextEdit
+
+* CMDLINE.KMDR
+Shows how you can pass parameters to Kommander dialog via command-line.
+Also, shows how to change list content and button text.
+Functions/concepts:
+- command-line arguments
+- global
+- changeWidgetText
+- addListItem
+- clearList
+
