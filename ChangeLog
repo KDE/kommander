@@ -1,3 +1,48 @@
+Thu 30 Dec 2004 14:00:32 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added setColumnCaption for TreeWidget
+
+Wed 29 Dec 2004 09:58:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added some new function for Table widget: removeRow, 
+	  removeColumn, setColumnCaption, setRowCaption
+	o fixed a bug with insertRow/insertColumn (incorrect number 
+	  of rows/columns inserted)
+	o added example of using Table widget to examples/tutorial
+
+Mon 20 Dec 2004 22:02:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added basic Table widget
+	o more Editor cleanup - remove obsolete code
+
+Sat 18 Dec 2004 22:17:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o remove obsolete include files and switch Editor to use
+	  KMessageBox instead of QMessageBox
+
+Mon 13 Dec 2004 13:58:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o more flexible error handling: now you can continue, continue 
+	  ignoring next error, or stop application
+
+Fri 10 Dec 2004 19:00:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o compilation fix (solved problems with missing kmdrpligins link)
+
+Thu 09 Dec 2004 22:59:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fixed problems with hiding ActionEditor
+
+Thu 02 Dec 2004 21:54:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o bug fixed: accept 0 as false value. 
+	o significant speedup of TreeWidget.setText/insertItem for large trees
+
+Sun 28 Nov 2004 19:48:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o remove obsolete CustomWidget code
+	o fixed a nasty bug in && evaluation
+
+Sun 21 Nov 2004 18:19:49 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+	o bug fixed: opening files from
+	o granted addUniqueItem for Combos
+	o use KDE-based tools layout (KDockWidget) in Editor
+
+Fri 19 Nov 2004 13:48:45 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
+	o added signal finished(), emitted when Konsole process finishes
+	o remove obsolete signal from ScriptObject
+
 Tue 16 Nov 2004 23:28:16 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
 	o Editor shortcuts can be configured and remembered
 	o Editor Recent files submenu is now KDE based
