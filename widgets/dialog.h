@@ -34,6 +34,7 @@ class Dialog : public QDialog, public KommanderWindow
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   Q_PROPERTY(bool useInternalParser READ useInternalParser WRITE setUseInternalParser)
+  Q_OVERRIDE(bool modal DESIGNABLE false)
   
 public:
   Dialog(QWidget *, const char *, bool=TRUE, int=0);
