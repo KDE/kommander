@@ -11,6 +11,10 @@ Tue 12 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 Mon 11 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o improved 'cancel'
 
+Sat 09 Oct 2004 16:54 PDT - Eric Laffoon <sequitur@kde.org>
+	o Edited specials text and added comment @# to function browser
+	o fixed function browser to support a fourth parameter
+
 Sat 09 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o fix: bug in @File.append
 	o In Function Browser show common widget functions for each widget
