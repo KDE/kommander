@@ -18,7 +18,7 @@
 <li>Hints?</li></ul>
 </body></html>
 
-\CurrentEntry 0 Editor
+\NewEntry 0 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <ul type="disc"><li>use better editor (KWrite?)</li>
 <li>better layout</li>
@@ -29,7 +29,6 @@
 <li>redesign layout</li>
 <li>don't make window modal</li></ul>
 </body></html>
-
 
 \NewEntry 0 Usability
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -48,7 +47,6 @@
 <li>improve order of widget icons, add better icons if possible (CloseButton vs ExecButton)</li>
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
-
 
 \NewEntry 0 Language
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -85,12 +83,14 @@
 <li>detect and handle missing plugin widgets</li></ul>
 </body></html>
 
-\NewEntry 0 Scripts
+\CurrentEntry 0 Scripts
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <ul type="disc"><li>improve script for Quick Start (Quanta)</li>
 <li>create script for Quick List (Quanta)</li>
 <li>create scripts for common command-line programs to demonstrate power of Kommander (it would be nice if those could be documented somehow)</li>
-<li>create scripts for HTML templates</li></ul>
+<li>create scripts for HTML templates</li>
+<li>allow using other languages for scripts (use SCRIPT tag)</li></ul>
 <p></p>
 </body></html>
+
 
