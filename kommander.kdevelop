@@ -90,7 +90,7 @@
     </general>
     <configurations>
       <default>
-        <configargs>--with-kommander --enable-debug=full</configargs>
+        <configargs>--with-kommander --enable-debug=full --prefix=/opt/kde3</configargs>
         <builddir>/home/andris/development/build/kde-head/kdewebdev</builddir>
         <topsourcedir>/home/andris/development/quanta/quanta</topsourcedir>
         <cppflags></cppflags>

@@ -47,7 +47,7 @@ public:
   Instance(QString, QWidget *);
   ~Instance();
 
-//DCOP methods  
+//DCOP methods. The documentation is in the dcopkommanderif.h file.
   virtual void enableWidget(const QString& widgetName, bool enable);  
   virtual void changeWidgetText(const QString& widgetName, const QString& text);      
   virtual void removeListItem(const QString &widgetName, int index);
