@@ -27,15 +27,20 @@ class KommanderWidget;
 
 class MyProcess : QObject
 {
-	Q_OBJECT
+  Q_OBJECT
 public:
-	MyProcess(const KommanderWidget *);
-public slots:
-	QString run(const QString &);
-	void receivedStdout(KProcess *, char *, int);
+  MyProcess(const KommanderWidget *);
+  // Run given command, using a_shell as a shell (this can be overriden by shebang in the first line)
+  // Process is run in blocking mode.
+  QString run(const QString& a_command, const QString& a_shell = "/bin/sh");
+private slots:
+  void slotReceivedStdout(KProcess*, char*, int);
+  void slotProcessExited(KProcess*);
 protected:
-	const KommanderWidget *m_atw;
-	QString m_output;
+  const KommanderWidget *m_atw;
+  QString m_output;
+  QCString m_input;
+  bool m_loopStarted;
 };
 
 #endif

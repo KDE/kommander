@@ -17,43 +17,79 @@
 #include <kprocess.h>
 
 /* QT INCLUDES */
+#include <qapplication.h>
 #include <qobject.h>
 #include <qstring.h>
 
 /* OTHER INCLUDES */
 #include "myprocess.h"
-#include <kommanderwidget.h>
-#include <cstdio>
-#include <cstdlib>
+#include "kommanderwidget.h"
 
 MyProcess::MyProcess(const KommanderWidget *a_atw)
-	: m_atw(a_atw)
+  : m_atw(a_atw), m_loopStarted(false)
 {
 }
 
-QString MyProcess::run(const QString & a_command)
+void qt_enter_modal(QWidget *widget);
+void qt_leave_modal(QWidget *widget);
+
+QString MyProcess::run(const QString& a_command, const QString& a_shell)
 {
-	KShellProcess proc("/bin/sh");
+  QString at = a_command.stripWhiteSpace();
+  QString shellName = a_shell;
+  
+  if (at.isEmpty())
+    return QString::null;
+  
+  // Look for shell
+  if (at.startsWith("#!")) {
+    int eol = at.find("\n");
+    if (eol == -1)
+      eol = at.length();
+    shellName = at.mid(2, eol-1).stripWhiteSpace();
+    at = at.mid(eol+1);
+  } 
+  m_input = at.local8Bit();
+  
+  KProcess* process = new KProcess;
+  (*process) << shellName;
+  
+  connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), 
+      SLOT(slotReceivedStdout(KProcess*, char*, int)));
+  connect(process, SIGNAL(processExited(KProcess*)), SLOT(slotProcessExited(KProcess*)));
 
-	proc << a_command;
+  if(!process->start(KProcess::NotifyOnExit, KProcess::All))
+  {
+    m_atw->printError(QString("Unable to start shell process %1").arg(shellName));
+    return QString::null;
+  }
+  process->writeStdin(m_input, m_input.length());
+  process->closeStdin();
 
-	connect(&proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(receivedStdout(KProcess *, char *, int)));
-	if(!proc.start(KProcess::Block, KProcess::Stdout))
-	{
-		m_atw->printError("Unable to start shell process");
-		return QString::null;
-	}
-	return m_output;
+  // Enter loop, waiting for process to exit  
+  QWidget dummy(0, 0, WType_Dialog | WShowModal);
+  dummy.setFocusPolicy(QWidget::NoFocus);
+  m_loopStarted = true;
+  qt_enter_modal(&dummy);
+  qApp->enter_loop();
+  qt_leave_modal(&dummy);
+  
+  return m_output;
 }
 
-void MyProcess::receivedStdout(KProcess *, char *a_buffer, int a_len)
+void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
 {
-	char *buffer = new char[a_len+1];
-	memcpy(buffer, a_buffer, a_len);
-	buffer[a_len] = 0;
-
-	QString output(buffer);
-	m_output += output;
-	delete buffer;
+  m_output += QString::fromLatin1(a_buffer, a_len);
 }
+
+void MyProcess::slotProcessExited(KProcess* process)
+{
+  if (m_loopStarted)
+  {
+    qApp->exit_loop();
+    m_loopStarted = false;
+  }
+  delete process;
+}
+
 #include "myprocess.moc"
