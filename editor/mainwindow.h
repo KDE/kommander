@@ -177,6 +177,9 @@ public slots:
     void editFormSettings();
     void editPreferences();
     void editShortcuts();
+    void editExternalTool(int id);
+    void editToolExited(KProcess*);
+    void editToolOutput(KProcess*, char*, int);
 
     void runForm();
     
@@ -285,6 +288,10 @@ private:
     
     bool previewing;
     MessageLog* messageLog;
+    
+    // Paths of external Kommander tools for Editor
+    QStringList m_editorTools;
+    QString m_toolOutput;
 
 public:
     QString lastSaveFilter;

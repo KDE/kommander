@@ -21,6 +21,7 @@
 
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qfileinfo.h>
 #include <qlineedit.h>
 #include <qlistbox.h>
 #include <qsignalmapper.h>
@@ -52,15 +53,19 @@
 #endif
 #include "command.h"
 
+
 #include <kaction.h>
 #include <kapplication.h>
 #include <kfiledialog.h>
+#include <kglobal.h>
 #include <kiconloader.h>
 #include <kkeydialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kpopupmenu.h>
+#include <kprocess.h>
+#include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <kstdguiitem.h>
 #include <kurl.h>
@@ -357,11 +362,31 @@ void MainWindow::setupToolActions()
     }
   }
 
-//  FIXME: parse external Kommander dialogs
-  QPopupMenu *editmenu = new QPopupMenu(this);
-  if (editmenu->count())
-    mmenu->insertItem(i18n("Editor"), editmenu);
-  
+  // add external Kommander dialogs for Editor
+  m_editorTools.clear();
+  QPopupMenu* editMenu = new QPopupMenu(this);
+  QStringList searchPaths = KGlobal::dirs()->findDirs("data", "kmdr-editor/editor");
+  for (QStringList::ConstIterator it = searchPaths.begin(); it != searchPaths.end(); ++it)
+  {
+    if (!QFile::exists(*it))
+      continue;
+    QDir dir(*it);
+    const QFileInfoList* fileList = dir.entryInfoList(QDir::DefaultFilter, QDir::DirsFirst | QDir::Name);
+    if (fileList)
+      for (QFileInfoListIterator fit(*fileList); fit.current(); ++fit)
+      {
+        QFileInfo* fi = fit.current();
+        if (!fi->isFile() || fi->extension() != "kmdr")
+          continue;
+        QString name = fi->baseName();
+        name = name.replace("_", " ");
+        editMenu->insertItem(name, this, SLOT(editExternalTool(int)), 0, m_editorTools.count());
+        m_editorTools.append(fi->filePath());
+      }
+  }
+  if (editMenu->count())
+    mmenu->insertItem(i18n("Editor"), editMenu);
+
   resetTool();
 }
 
@@ -1089,6 +1114,25 @@ void MainWindow::editShortcuts()
   K.configure(actionCollection());
 }
     
+void MainWindow::editExternalTool(int id)
+{
+  KProcess* process = new KProcess;
+  (*process) << "kmdr-executor" << m_editorTools[id];
+  connect(process, SIGNAL(processExited(KProcess*)), SLOT(editToolExited(KProcess*)));
+  connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(editToolOutput(KProcess*, char*, int)));
+  m_toolOutput = '\0';
+  process->start(KProcess::NotifyOnExit, KProcess::Stdout);
+}
+
+void MainWindow::editToolExited(KProcess* process)
+{
+  delete process;
+}
+
+void MainWindow::editToolOutput(KProcess*, char* buffer, int buflen)
+{
+  m_toolOutput += QString::fromLocal8Bit(buffer, buflen);  
+}
 
 void MainWindow::chooseDocPath()
 {
