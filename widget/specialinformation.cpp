@@ -192,6 +192,14 @@ void SpecialInformation::insertGroup(int id, const QString& name, const QString&
   }
 }
 
+QString SpecialInformation::parserGroupName(const QString& name)
+{
+  if (m_parserGroups.contains(name))
+    return m_parserGroups[name];
+  else
+    return name;
+}
+
 QStringList SpecialInformation::groups()
 {
   return m_groups.keys();
