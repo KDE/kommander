@@ -42,10 +42,10 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::setCurrentItem, "setCurrentTab(QString widget, int index)");
   insertAlias(DCOP::setCurrentItem, "setCurrentItem");
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)");
-  insert(DCOP::setAssociatedText, "setAssociatedText(QString,QString)");
-  insert(DCOP::associatedText, "associatedText(QString)");
-  insert(DCOP::global, "global(QString)");
-  insert(DCOP::setGlobal, "setGlobal(QString,QString)");
+  insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)");
+  insert(DCOP::associatedText, "associatedText(QString widget)");
+  insert(DCOP::global, "global(QString variable)");
+  insert(DCOP::setGlobal, "setGlobal(QString variable, QString value)");
   
   
   insertGroup(Group::Kommander, QString::null);
