@@ -359,11 +359,11 @@ QString KommanderWidget::execCommand(const QString& a_command, const QString& a_
 
 QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_params) const
 {
-  QString pFileName = a_dialog;
+  QString pFileName = localDcopQuery("global(QString)", "_KDDIR") + QString("/") + a_dialog;
   QFileInfo pDialogFile(pFileName);
   if (!pDialogFile.exists()) 
   {
-    pFileName = localDcopQuery("global(QString)", "_KDDIR") + QString("/") + a_dialog;
+    pFileName = a_dialog;
     pDialogFile.setFile(pFileName);
     if (!pDialogFile.exists())
       return QString::null;
