@@ -285,6 +285,41 @@ void Instance::addListItems(const QString &widgetName, const QStringList &items,
   delete children;
 }
 
+int Instance::findItem(const QString &widgetName, const QString& item)
+{
+  QObjectList* children = stringToWidget(widgetName);  
+  int value = -1;
+  if (children)
+    for (QObject* child = children->first(); child; child = children->next())
+    {
+      if (child->inherits("QListBox"))
+      {
+        QListBox* list = (QListBox*)child;
+        QListBoxItem* found = list->findItem(item, Qt::ExactMatch);
+        if (!found) 
+          found = list->findItem(item, Qt::BeginsWith);
+        if (!found) 
+          found = list->findItem(item, Qt::Contains);
+        if (found)
+          value = list->index(found);
+      }
+    }
+  delete children;
+  return value;
+}
+
+void Instance::addUniqueItem(const QString &widgetName, const QString &item)
+{
+  QObjectList* children = stringToWidget(widgetName);  
+  if (children)
+    for (QObject* child = children->first(); child; child = children->next())
+    {
+      if (child->inherits("QListBox") && !((QListBox*)child)->findItem(item, Qt::ExactMatch))
+        ((QListBox*)child)->insertItem(item);
+    }
+  delete children;
+}
+
 void Instance::clearList(const QString &widgetName)
 {
   QObjectList* children = stringToWidget(widgetName);  
@@ -401,6 +436,8 @@ void Instance::registerDCOP()
   DCOPInformation::insert("removeListItem(QString,int)");
   DCOPInformation::insert("addListItem(QString,QString,int)");
   DCOPInformation::insert("addListItems(QString,QStringList,int)");
+  DCOPInformation::insert("addUniqueItem(QString,QString)");
+  DCOPInformation::insert("findItem(QString,QString)");
   DCOPInformation::insert("clearList(QString)");
   DCOPInformation::insert("setCurrentListItem(QString,QString)");
   DCOPInformation::insert("setCurrentTab(QString,int)");

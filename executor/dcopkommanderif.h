@@ -65,6 +65,15 @@ virtual void addListItem(const QString &widgetName, const QString &item, int ind
       QComboBox  */        
 virtual void addListItems(const QString &widgetName, const QStringList &items, int index) = 0;
 
+/** Inserts a text item with text item if it is not present now. Works for:
+      QListBox */        
+virtual void addUniqueItem(const QString &widgetName, const QString &item) = 0;
+
+/** Returns index of item with text 'item' or -1. Search is done in following order:
+ 1. exact, 2. begins with 3. contains. Works for:
+      QListBox */        
+virtual int findItem(const QString &widgetName, const QString &item) = 0;
+
 /** Remove all items from the list. Works for:  
       QListBox
       QComboBox */        
