@@ -1,5 +1,3 @@
-KDE_OPTIONS = nofinal
-
 SUBDIRS = widgets editor executor
 
 mesages:

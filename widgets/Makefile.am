@@ -1,5 +1,3 @@
-KDE_OPTIONS = nofinal
-
 lib_LTLIBRARIES = libkommanderwidgets.la
 
 # set the include path for X, qt and KDE

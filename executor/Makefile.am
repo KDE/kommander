@@ -1,5 +1,3 @@
-KDE_OPTIONS = nofinal
-
 ####### kdevelop will overwrite this part!!! (begin)##########
 bin_PROGRAMS = kmdr-executor
 

@@ -1,5 +1,3 @@
-KDE_OPTIONS = nofinal
-
 # this is the program that gets installed.  it's name is used for all
 # of the other Makefile.am variables
 bin_PROGRAMS = kmdr-editor

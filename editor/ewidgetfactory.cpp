@@ -230,8 +230,6 @@ QWidget *EWidgetFactory::create( const QString &uiFile, QObject *connector, QWid
     return w;
 }
 
-#undef slots
-
 /*!  \overload
     Loads the user interface description from device \a dev.
  */
@@ -257,9 +255,9 @@ QWidget *EWidgetFactory::create( QIODevice *dev, QObject *connector, QWidget *pa
     while ( variables.tagName() != "variables" && !variables.isNull() )
 	variables = variables.nextSibling().toElement();
 
-    QDomElement slots = e;
-    while ( slots.tagName() != "slots" && !slots.isNull() )
-	slots = slots.nextSibling().toElement();
+    QDomElement eltSlots = e;
+    while ( eltSlots.tagName() != "slots" && !eltSlots.isNull() )
+	eltSlots = eltSlots.nextSibling().toElement();
 
     QDomElement connections = e;
     while ( connections.tagName() != "connections" && !connections.isNull() )
@@ -319,8 +317,8 @@ QWidget *EWidgetFactory::create( QIODevice *dev, QObject *connector, QWidget *pa
 	    if ( n.tagName() == "variable" )
 		widgetFactory->variables << n.firstChild().toText().data();
     }
-    if ( !slots.isNull() ) {
-	for ( QDomElement n = slots.firstChild().toElement(); !n.isNull(); n = n.nextSibling().toElement() )
+    if ( !eltSlots.isNull() ) {
+	for ( QDomElement n = eltSlots.firstChild().toElement(); !n.isNull(); n = n.nextSibling().toElement() )
 	    if ( n.tagName() == "slot" ) {
 		QString s = n.firstChild().toText().data();
 		widgetFactory->languageSlots.insert( s.left( s.find( "(" ) ) , n.attribute( "language", "C++" ) );

@@ -165,9 +165,6 @@ bool Resource::load( FormFile *ff )
     return b;
 }
 
-#undef signals
-#undef slots
-
 bool Resource::load( FormFile *ff, QIODevice* dev )
 {
     QDomDocument doc;
@@ -211,13 +208,13 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
     while ( variables.tagName() != "variables" && !variables.isNull() )
 	variables = variables.nextSibling().toElement();
 
-    QDomElement signals = e;
-    while ( signals.tagName() != "signals" && !signals.isNull() )
-	signals = signals.nextSibling().toElement();
+    QDomElement eltSignals = e;
+    while ( eltSignals.tagName() != "signals" && !eltSignals.isNull() )
+	eltSignals = eltSignals.nextSibling().toElement();
 
-    QDomElement slots = e;
-    while ( slots.tagName() != "slots" && !slots.isNull() )
-	slots = slots.nextSibling().toElement();
+    QDomElement eltSlots = e;
+    while ( eltSlots.tagName() != "slots" && !eltSlots.isNull() )
+	eltSlots = eltSlots.nextSibling().toElement();
 
     QDomElement connections = e;
     while ( connections.tagName() != "connections" && !connections.isNull() )
@@ -349,13 +346,13 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
 	    if ( n.tagName() == "variable" )
 		metaVariables << n.firstChild().toText().data();
     }
-    if ( !signals.isNull() ) {
-	for ( QDomElement n = signals.firstChild().toElement(); !n.isNull(); n = n.nextSibling().toElement() )
+    if ( !eltSignals.isNull() ) {
+	for ( QDomElement n = eltSignals.firstChild().toElement(); !n.isNull(); n = n.nextSibling().toElement() )
 	    if ( n.tagName() == "signal" )
 		metaSignals << n.firstChild().toText().data();
     }
-    if ( !slots.isNull() ) {
-	for ( QDomElement n = slots.firstChild().toElement(); !n.isNull(); n = n.nextSibling().toElement() )
+    if ( !eltSlots.isNull() ) {
+	for ( QDomElement n = eltSlots.firstChild().toElement(); !n.isNull(); n = n.nextSibling().toElement() )
 	    if ( n.tagName() == "slot" ) {
 		MetaDataBase::Slot slot;
 		slot.specifier = n.attribute( "specifier", "virtual" );
