@@ -665,7 +665,7 @@ QString KommanderWidget::fileName()
 {
   KommanderWindow* window = dynamic_cast<KommanderWindow*>(parentDialog());
   if (window)
-    QString(window->fileName());
+    return QString(window->fileName());
   else
     return QString::null;
 }  
