@@ -1,8 +1,8 @@
 /***************************************************************************
                           execbutton.h - Button that runs its text association 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,13 +13,15 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+
 #ifndef _HAVE_EXECBUTTON_H_
 #define _HAVE_EXECBUTTON_H_
 
 /* KDE INCLUDES */
+#include <kpushbutton.h>
 
 /* QT INCLUDES */
-#include <qpushbutton.h>
 #include <qobject.h>
 
 /* OTHER INCLUDES */
@@ -29,7 +31,7 @@ class QWidget;
 class KProcess;
 
 class QShowEvent;
-class ExecButton : public QPushButton, public KommanderWidget
+class ExecButton : public KPushButton, public KommanderWidget
 {
   Q_OBJECT
 
