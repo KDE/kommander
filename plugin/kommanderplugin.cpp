@@ -62,3 +62,5 @@ bool KommanderPlugin::isContainer( const QString &name ) const
 {
     return m_widgets[name].isContainer;
 }
+
+#include "kommanderplugin.moc"
