@@ -104,7 +104,7 @@ void ScriptObject::execute()
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DCOP::setText or f == DCOP::clear or f == DCOP::execute;
+  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute;
 }
 
 QString ScriptObject::handleDCOP(int function, const QStringList& args)

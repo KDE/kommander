@@ -89,7 +89,7 @@ void SpinBoxInt::showEvent( QShowEvent *e )
 
 bool SpinBoxInt::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText or f == DCOP::setMaximum;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::setMaximum;
 }
 
 QString SpinBoxInt::handleDCOP(int function, const QStringList& args)

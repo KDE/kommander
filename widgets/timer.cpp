@@ -131,7 +131,7 @@ void Timer::cancel()
 
 bool Timer::isFunctionSupported(int f)
 {
-  return f == DCOP::setText or f == DCOP::execute or f == DCOP::cancel;
+  return f == DCOP::setText || f == DCOP::execute || f == DCOP::cancel;
 }
 
 QString Timer::handleDCOP(int function, const QStringList& args)

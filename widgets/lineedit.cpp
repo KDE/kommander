@@ -95,7 +95,7 @@ void LineEdit::setWidgetText(const QString& a_text)
 
 bool LineEdit::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText or f == DCOP::selection or f == DCOP::setSelection or
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection or
     f == DCOP::clear;
 }
 

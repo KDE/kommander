@@ -132,7 +132,7 @@ void Dialog::showEvent(QShowEvent *e)
 
 bool Dialog::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText;
+  return f == DCOP::text || f == DCOP::setText;
 }
 
 QString Dialog::handleDCOP(int function, const QStringList& args)

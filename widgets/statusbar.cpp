@@ -84,7 +84,7 @@ void StatusBar::showEvent(QShowEvent *e)
 
 bool StatusBar::isFunctionSupported(int f)
 {
-  return f == DCOP::setText or f == DCOP::insertItem or f == DCOP::removeItem or f == DCOP::clear;
+  return f == DCOP::setText || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear;
 }
 
 QString StatusBar::handleDCOP(int function, const QStringList& args)

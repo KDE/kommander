@@ -102,7 +102,7 @@ void CheckBox::showEvent(QShowEvent* e)
 
 bool CheckBox::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText or f == DCOP::checked or f == DCOP::setChecked;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::checked || f == DCOP::setChecked;
 }
 
 QString CheckBox::handleDCOP(int function, const QStringList& args)

@@ -93,10 +93,10 @@ void ListBox::showEvent(QShowEvent *e)
 
 bool ListBox::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText or f == DCOP::selection or f == DCOP::setSelection or
-    f == DCOP::insertItems or f == DCOP::insertItem or f == DCOP::removeItem or f == DCOP::clear or 
-    f == DCOP::currentItem or f == DCOP::setCurrentItem or f == DCOP::item or f == DCOP::addUniqueItem or
-      f == DCOP::findItem or f == DCOP::setPixmap or f == DCOP::text;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
+    f == DCOP::insertItems || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear ||
+    f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || f == DCOP::addUniqueItem ||
+      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::text;
 }
 
 

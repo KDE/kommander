@@ -88,7 +88,7 @@ void Label::showEvent(QShowEvent *e)
 
 bool Label::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear;
 }
 
 QString Label::handleDCOP(int function, const QStringList& args)

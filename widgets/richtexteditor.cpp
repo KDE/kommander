@@ -214,7 +214,7 @@ void RichTextEditor::showEvent( QShowEvent *e )
 
 bool RichTextEditor::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear or f == DCOP::selection;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::selection;
 }
 
 QString RichTextEditor::handleDCOP(int function, const QStringList& args)

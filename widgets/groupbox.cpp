@@ -98,7 +98,7 @@ void GroupBox::showEvent( QShowEvent *e )
 
 bool GroupBox::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText;
+  return f == DCOP::text || f == DCOP::setText;
 }
 
 QString GroupBox::handleDCOP(int function, const QStringList& args)

@@ -91,7 +91,7 @@ void ButtonGroup::showEvent(QShowEvent* e)
 
 bool ButtonGroup::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::checked or f == DCOP::setChecked;
+  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked;
 }
     
 

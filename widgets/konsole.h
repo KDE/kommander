@@ -18,7 +18,7 @@
 #define _HAVE_KONSOLE_H_
 
 /* KDE INCLUDES */
-#include <klistbox.h>
+#include <ktextedit.h>
 
 /* QT INCLUDES */
 #include <qobject.h>
@@ -29,12 +29,13 @@
 class QWidget;
 class MyProcess;
 
-class Konsole : public KListBox, public KommanderWidget
+class Konsole : public KTextEdit, public KommanderWidget
 {
   Q_OBJECT
 
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+  Q_OVERRIDE(bool readOnly DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 
   public:

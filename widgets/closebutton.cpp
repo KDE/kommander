@@ -163,7 +163,7 @@ void CloseButton::showEvent(QShowEvent *e)
 
 bool CloseButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText;
+  return f == DCOP::text || f == DCOP::setText;
 }
 
 QString CloseButton::handleDCOP(int function, const QStringList& args)

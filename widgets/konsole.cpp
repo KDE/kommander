@@ -26,7 +26,7 @@
 #include <myprocess.h>
 
 Konsole::Konsole(QWidget* a_parent, const char* a_name)
-  : KListBox(a_parent, a_name), KommanderWidget(this), mSeenEOL(true), mProcess(false)
+  : KTextEdit(a_parent, a_name), KommanderWidget(this), mSeenEOL(false), mProcess(false)
 {
   QStringList states;
   states << "default";
@@ -84,6 +84,7 @@ void Konsole::execute()
   QString at = evalAssociatedText().stripWhiteSpace();
   if (mProcess)
     cancel();
+  mSeenEOL = false;
   mProcess = new MyProcess(this);
   mProcess->setBlocking(false);
   connect(mProcess, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
@@ -94,7 +95,6 @@ void Konsole::execute()
 
 void Konsole::cancel()
 {
-  qDebug("Cancelled!!!");
   if (!mProcess) 
     return;
   mProcess->cancel();
@@ -105,15 +105,16 @@ void Konsole::cancel()
 void Konsole::processReceivedStdout(MyProcess*, char* buffer, int buflen)
 {
   QString pBuf = QString::fromLocal8Bit(buffer, buflen);  
-  QStringList items = QStringList::split("\n", pBuf);
-  insertStringList(items); 
-  setCurrentItem(count()-1); 
-  ensureCurrentVisible();
+  if (mSeenEOL)
+    pBuf = "\n" + pBuf;
+  mSeenEOL = pBuf[pBuf.length()-1] == '\n';
+  if (mSeenEOL)
+    pBuf = pBuf.left(pBuf.length()-2);
+  insert(pBuf);
 }
 
-void Konsole::processExited(MyProcess* p)
+void Konsole::processExited(MyProcess*)
 {
-  qDebug("Exited!");
   unsetCursor();
   delete mProcess;
   mProcess = 0;
@@ -121,7 +122,7 @@ void Konsole::processExited(MyProcess* p)
 
 bool Konsole::isFunctionSupported(int f)
 {
-  return f == DCOP::setText or f == DCOP::clear or f == DCOP::execute or f == DCOP::cancel;
+  return f == DCOP::setText || f == DCOP::text || f == DCOP::clear || f == DCOP::execute || f == DCOP::cancel;
 }
 
 QString Konsole::handleDCOP(int function, const QStringList& args)
@@ -130,6 +131,8 @@ QString Konsole::handleDCOP(int function, const QStringList& args)
     case DCOP::setText:
       setWidgetText(args[0]);
       break;
+    case DCOP::text:
+      return text();
     case DCOP::clear:
       clear();
       break;

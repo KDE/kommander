@@ -82,7 +82,7 @@ void ProgressBar::showEvent(QShowEvent *e)
 
 bool ProgressBar::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText or f == DCOP::clear or f == DCOP::setMaximum;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::setMaximum;
 }
 
 QString ProgressBar::handleDCOP(int function, const QStringList& args)

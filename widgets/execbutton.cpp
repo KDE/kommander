@@ -156,7 +156,7 @@ void ExecButton::showEvent(QShowEvent* e)
 
 bool ExecButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text or f == DCOP::setText;
+  return f == DCOP::text || f == DCOP::setText;
 }
 
 QString ExecButton::handleDCOP(int function, const QStringList& args)
