@@ -92,8 +92,7 @@ public:
     QPopupMenu *setupTabWidgetHierarchyMenu( QWidget *parent, const char *addSlot, const char *removeSlot );
 
     FormWindow *openFormWindow( const QString &fn, bool validFileName = TRUE, FormFile *ff = 0 );
-    bool isCustomWidgetUsed( MetaDataBase::CustomWidget *w );
-
+    
     void setGrid( const QPoint &p );
     void setShowGrid( bool b );
     void setSnapGrid( bool b );
@@ -181,8 +180,6 @@ public slots:
 
     void runForm();
 
-    void toolsCustomWidget();
-    
 private slots:
     void activeWindowChanged( QWidget *w );
     void updateUndoRedo( bool, bool, const QString &, const QString & );
@@ -226,7 +223,6 @@ private:
     void setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, int> &commands, FormWindow *w );
     void handleRMBSpecialCommands( int id, QMap<QString, int> &commands, FormWindow *w );
     bool openEditor( QWidget *w, FormWindow *fw );
-    void rebuildCustomWidgetGUI();
     void checkTempFiles();
 
     void addRecentlyOpened(const QString &fn);
@@ -262,7 +258,6 @@ private:
     
     KToggleAction* actionPointerTool, *actionConnectTool, *actionOrderTool;
     KAction* actionCurrentTool;
-    KAction *actionToolsCustomWidget;
     KAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
     KAction *actionWindowNext, *actionWindowPrevious;
     KAction *actionEditFormSettings, *actionEditAccels;
@@ -270,9 +265,9 @@ private:
     
     QPopupMenu *rmbWidgets;
     QPopupMenu *rmbFormWindow;
-    QPopupMenu *customWidgetMenu, *windowMenu, *fileMenu;
+    QPopupMenu *windowMenu, *fileMenu;
 
-    QToolBar *customWidgetToolBar, *layoutToolBar;
+    QToolBar *layoutToolBar;
 
     Preferences *prefDia;
     QMap<QString,QString> propertyDocumentation;

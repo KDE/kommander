@@ -47,7 +47,6 @@
 #include "hierarchyview.h"
 #include "formsettingsimpl.h"
 #include "styledbutton.h"
-#include "customwidgeteditorimpl.h"
 #include "connectioneditorimpl.h"
 #include "actioneditorimpl.h"
 #include "formfile.h"
@@ -303,14 +302,6 @@ void MainWindow::setupToolActions()
   actionOrderTool->plug(mmenu);
   mmenu->insertSeparator();
 
-  customWidgetToolBar = 0;
-  customWidgetMenu = 0;
-
-  actionToolsCustomWidget = new KAction(i18n("Custom Widgets"), createIconSet("customwidget.xpm"), 
-                                        KShortcut::null(), this, SLOT(toolsCustomWidget()), 0);
-  actionToolsCustomWidget->setToolTip(i18n("Opens a dialog to add and change custom widgets"));
-  actionToolsCustomWidget->setWhatsThis(whatsThisFrom("Tools|Custom|Edit Custom Widgets"));
-
   for (int j = 0; j < WidgetDatabase::numWidgetGroups(); ++j)
   {
     QString grp = WidgetDatabase::widgetGroup(j);
@@ -333,16 +324,6 @@ void MainWindow::setupToolActions()
     addToolBar(tb, grp);
     QPopupMenu *menu = new QPopupMenu(this, grp.latin1());
     mmenu->insertItem(grp, menu);
-
-    if (grp == "Custom")
-    {
-      if (!customWidgetMenu)
-        actionToolsCustomWidget->plug(menu);
-      else
-        menu->insertSeparator();
-      customWidgetMenu = menu;
-      customWidgetToolBar = tb;
-    }
 
     for (int i = 0; i < WidgetDatabase::count(); ++i)
     {
@@ -375,25 +356,6 @@ void MainWindow::setupToolActions()
         a->plug(tb);
       a->plug(menu);
     }
-  }
-
-  if (!customWidgetToolBar)
-  {
-    KToolBar *tb = new KToolBar(this, "Custom Widgets");
-    tb->setFullSize(false);
-    QWhatsThis::add(tb, i18n("<b>The Custom Widgets toolbar</b>%1"
-        "<p>Click <b>Edit Custom Widgets...</b> in the <b>Tools|Custom</b> menu to "
-            "add and change custom widgets</p>").arg(toolbarHelp).
-            arg(i18n(" Click on the buttons to insert a single widget, "
-            "or double click to insert multiple widgets.")));
-    addToolBar(tb, i18n("Custom"));
-    customWidgetToolBar = tb;
-    QPopupMenu *menu = new QPopupMenu(this, "Custom Widgets");
-    mmenu->insertItem(i18n("Custom"), menu);
-    customWidgetMenu = menu;
-    customWidgetToolBar->hide();
-    actionToolsCustomWidget->plug(customWidgetMenu);
-    customWidgetMenu->insertSeparator();
   }
 
   resetTool();
@@ -668,7 +630,6 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
       QApplication::restoreOverrideCursor();
       if (b)
       {
-        rebuildCustomWidgetGUI();
         statusBar()->message(i18n("Loaded file '%1'").arg(filename), 3000);
       } else
       {
@@ -768,13 +729,6 @@ void MainWindow::fileCreateTemplate()
     {
       dia.listClass->insertItem(WidgetDatabase::className(i));
     }
-  }
-
-  QPtrList < MetaDataBase::CustomWidget > *lst = MetaDataBase::customWidgets();
-  for (MetaDataBase::CustomWidget * w = lst->first(); w; w = lst->next())
-  {
-    if (w->isContainer)
-      dia.listClass->insertItem(w->className);
   }
 
   dia.editName->setText(i18n("NewTemplate"));
@@ -1147,11 +1101,3 @@ void MainWindow::chooseDocPath()
 }
 
 
-void MainWindow::toolsCustomWidget()
-{
-  statusBar()->message(i18n("Edit custom widgets..."));
-  CustomWidgetEditor edit(this, this);
-  edit.exec();
-  rebuildCustomWidgetGUI();
-  statusBar()->clear();
-}

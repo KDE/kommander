@@ -1484,52 +1484,6 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
     return TRUE;
 }
 
-void MainWindow::rebuildCustomWidgetGUI()
-{
-    customWidgetToolBar->clear();
-    customWidgetMenu->clear();
-    int count = 0;
-    QPtrList<MetaDataBase::CustomWidget> *lst = MetaDataBase::customWidgets();
-
-    actionToolsCustomWidget->plug( customWidgetMenu );
-    customWidgetMenu->insertSeparator();
-
-    for ( MetaDataBase::CustomWidget *w = lst->first(); w; w = lst->next() )
-    {
-      KAction* a = new KAction(actionCollection(), QString::number(w->id).latin1());
-      a->setText(w->className);
-      a->setIconSet(*w->pixmap);
-      a->setToolTip( i18n("Insert a %1 (custom widget)" ).arg(w->className) );
-      a->setWhatsThis( i18n("<b>%1 (custom widget)</b>"
-                            "<p>Click <b>Edit Custom Widgets...</b> in the <b>Tools|Custom</b> menu to "
-                            "add and change custom widgets. You can add properties as well as "
-                            "signals and slots to integrate them into Qt Designer, "
-                            "and provide a pixmap which will be used to represent the widget on the form.</p>")
-                         .arg(w->className) );
-
-      a->plug( customWidgetToolBar );
-      a->plug( customWidgetMenu);
-      count++;
-    }
-
-    if (count == 0)
-      customWidgetToolBar->hide();
-    else
-      customWidgetToolBar->show();
-}
-
-bool MainWindow::isCustomWidgetUsed( MetaDataBase::CustomWidget *wid )
-{
-    QWidgetList windows = qWorkspace()->windowList();
-    for ( QWidget *w = windows.first(); w; w = windows.next() ) {
-        if ( w->inherits( "FormWindow" ) ) {
-            if ( ( (FormWindow*)w )->isCustomWidgetUsed( wid ) )
-                return TRUE;
-        }
-    }
-    return FALSE;
-}
-
 void MainWindow::setGrid( const QPoint &p )
 {
     if ( p == grd )
@@ -1646,8 +1600,6 @@ void MainWindow::showDialogHelp()
         link += "dialog-go-to-line";
     else if ( w->inherits( "ConnectionEditorBase" ) )
         link += "dialog-edit-connections";
-    else if ( w->inherits( "CustomWidgetEditorBase" ) )
-        link += "dialog-edit-custom-widgets";
     else if ( w->inherits( "PaletteEditorBase" ) )
         link += "dialog-edit-palette";
     else if ( w->inherits( "ListBoxEditorBase" ) )
