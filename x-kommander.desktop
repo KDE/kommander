@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Comment=Kommander File
+Icon=widget_doc
+Type=MimeType
+MimeType=application/x-kommander
+Patterns=*.kmdr;
+
+[Property::X-KDE-text]
+Type=bool
+Value=true
+
