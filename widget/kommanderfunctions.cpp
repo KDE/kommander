@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <stdlib.h>
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kconfig.h>
@@ -186,3 +187,4 @@ QString KommanderWidget::evalStringFunction(const QString& function, const QStri
   }
   return QString::null;
 }
+
