@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+/* KDE INCLUDES */
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
@@ -23,24 +24,27 @@
 #include <qobject.h>
 #include <kapp.h>
 
+/* QT INCLUDES */
 #include <qptrlist.h>
+#include <qfile.h>
 
+/* OTHER INCLUDES */
 #include <cstdio>
 #include <iostream>
 #include <cstdlib>
+#include "instance.h"
 
 using std::cout;
 using std::endl;
 using std::cerr;
 
-#include "instance.h"
 
 static const char *description =
-	I18N_NOOP("Executor");
+	I18N_NOOP("Executor is a component of the Kommander dialog system that executes .kmdr files given as arguments or via stdin");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
 
-#define VERSION "demo"
+#define VERSION "beta3"
 
 static KCmdLineOptions options[] =
 {
@@ -62,16 +66,27 @@ int main(int argc, char *argv[])
   KApplication app;
 
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-  // load dialog specified on the command line
-  QString dlgFileName;
-  for(int i = 0;i < args->count();++i)
+  if(args->count() == 0) // read from stdin
   {
-    KURL url = args->url(i);
-    if(url.isLocalFile())                 // FIXME : Pointless repitition
-    {
-      Instance *instance = new Instance(url.path(), 0);
-      instance->run();
-    }
+	 QFile inputFile;
+	 inputFile.open(IO_ReadOnly, stdin);
+
+	 Instance *instance = new Instance;
+	 instance->run(&inputFile);
+  }
+  else
+  {
+	 // load dialog specified on the command line
+	  QString dlgFileName;
+	  for(int i = 0;i < args->count();++i)
+	  {
+		KURL url = args->url(i);
+		if(url.isLocalFile())                 // FIXME : Pointless repitition
+		{
+		  Instance *instance = new Instance(url.path(), 0);
+		  instance->run();
+		}
+	  }
   }
   return 0;
 }

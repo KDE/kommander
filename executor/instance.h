@@ -29,6 +29,7 @@
 class QWidget;
 class AssocTextWidget;
 class QDialog;
+class QFile;
 
 /**
   *@author Marc Britton
@@ -45,15 +46,17 @@ public:
 	~Instance();
 public slots:
   /** Builds the instance then runs*/
-  bool run();
+  bool run(QFile * =0);
   /** Sets the instance's parent */
   void setParent(QWidget *);
   /** Sets the UI file name */
   void setUIFileName(QString);
   /** Returns whether the instance is built */
   bool isBuilt();
-  /** Build's the instance */
+  /** Builds the instance */
   bool build();
+  /** Builds the instance from an input file */
+  bool build(QFile *);
 protected:
   /* Dialog Instance */
   QDialog *m_instance;

@@ -23,6 +23,8 @@
 #include <qwidget.h>
 #include <qstring.h>
 #include <qfileinfo.h>
+#include <qfile.h>
+#include <qiodevice.h>
 
 /* OTHER INCLUDES */
 #include "instance.h"
@@ -78,13 +80,43 @@ bool Instance::build()
   return TRUE;
 }
 
+bool Instance::build(QFile *a_file)
+{
+	if(!(a_file->isOpen()))
+		return FALSE;
+
+	if(m_instance)
+	{
+		delete m_instance;
+		m_instance = 0;
+	}
+
+	m_instance = (QDialog *)EWidgetFactory::create(a_file);
+	if(!m_instance)
+	{
+    	KMessageBox::sorry(0, QString("Unable to create dialog from input")); 
+		return FALSE;
+	}
+
+	m_textInstance = dynamic_cast<AssocTextWidget *>(m_instance);
+	return TRUE;
+}
+
 /** Builds the instance then executes it */
-bool Instance::run()
+bool Instance::run(QFile *a_file)
 {
   if(!m_instance)
   {
-    if(!build())
-      return FALSE;
+	if(!a_file)
+	{
+    	if(!build())
+            return FALSE;
+	}
+	else
+	{
+		if(!build(a_file))
+			return FALSE;
+	}
   }
  
 #if 0
