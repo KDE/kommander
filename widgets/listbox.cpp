@@ -18,7 +18,8 @@ ListBox::ListBox(QWidget *a_parent, const char *a_name)
 	states << "default";
 	setStates(states);
 
-	connect(this, SIGNAL(clicked(QListBoxItem *)), this, SLOT(setActivatedText(QListBoxItem *)));
+	connect(this, SIGNAL(highlighted(int)), this, SLOT(setActivatedText(int)));
+
 }
 
 ListBox::~ListBox()
@@ -47,17 +48,38 @@ void ListBox::setAssociatedText(QStringList a_at)
 
 void ListBox::setWidgetText(const QString &a_text)
 {
-		//FIXME
+	/*
+	   a_text is a set of strings delimited by \n to insert into the list box
+	*/
+	QStringList strings = QStringList::split("\n", a_text); // note : doesn't allow empty entries
+
+	insertStringList(strings);
+	
 	emit widgetTextChanged(a_text);
 }
 
 QString ListBox::widgetText() const
 {
-	return currentText();
+	QStringList strings;
+
+	int I = 0, length = count();
+	for(;I < length;++I)
+	{
+		if(isSelected(I))
+			strings += item(I)->text();
+	}
+	return strings.join("\n");
 }
 
-void ListBox::setActivated(QListBoxItem *a_item)
+void ListBox::setActivated(int a_item)
 {
-	if(a_item)
-		emit widgetTextChanged(a_item->text());
+	QStringList strings;
+
+	int I = 0, length = count();
+	for(;I < length;++I)
+	{
+		if(isSelected(I))
+			strings += item(I)->text();
+	}
+	emit widgetTextChanged(strings.join("\n"));
 }

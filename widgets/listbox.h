@@ -33,7 +33,7 @@ public:
 
 public slots:
 	virtual void setWidgetText(const QString &);
-	virtual void setActivated(QListBoxItem *);
+	virtual void setActivated(int);
 signals:
 	void widgetTextChanged(const QString &);
 protected:
