@@ -22,5 +22,5 @@ noinst_HEADERS = domtool.h actiondnd.h actioneditorimpl.h actionlistview.h ascii
 METASOURCES = AUTO
 
 # this is where the desktop file will go
-desktopdir = $(kde_appsdir)/Editors
+desktopdir = $(kde_appsdir)/Development
 desktop_DATA = kmdr-editor.desktop
