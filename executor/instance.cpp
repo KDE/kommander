@@ -155,11 +155,11 @@ bool Instance::run(QFile *a_file)
   if (m_uiFileName.directory().startsWith(locateLocal("tmp", "") + "/") ||
       m_uiFileName.directory().startsWith("/tmp/"))
   {
-     if (KMessageBox::warningYesNo(0, "<qt>This dialog is running from your <i>/tmp</i> directory. "
+     if (KMessageBox::warningYesNo(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
          " This may mean that it was run from a KMail attachment or from a webpage. "
          "<p>Any script contained in this dialog will have write access to all of your home directory! "
          "<b>Running such dialogs may be dangerous!</b>"
-         "<p>Are you sure you want to continue?</qt>") == KMessageBox::No)
+         "<p>Are you sure you want to continue?</qt>")) == KMessageBox::No)
        return false;
   }
   
