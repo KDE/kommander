@@ -25,7 +25,7 @@ namespace Parse
     Break, Continue, Dot, Semicolon, Comma, Assign, Less, LessEqual, Greater, GreaterEqual, Equal, NotEqual, 
     Not, And, Or, LeftParenthesis, RightParenthesis, LeftBracket, RightBracket,
     Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod,
-    Variable, None, Value, Invalid, IncorrectParams};
+    Variable, None, Value, Invalid, IncorrectParams, UndefinedVariable};
 
   enum KeywordGroup {GroupComparison, GroupAdd, GroupMultiply, GroupMisc};
     

@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <klocale.h> 
+ 
 #include "parser.h"
 #include "parserdata.h"
 #include "kommanderwidget.h"
@@ -143,21 +145,24 @@ void Parser::insertNode(ParseNode p, int line)
 QString Parser::errorMessage()
 {
   if (m_error <= LastRealKeyword)
-    return QString("Expected '%1'").arg(m_data->keywordToString(m_error));
+    return i18n("Expected '%1'").arg(m_data->keywordToString(m_error));
   else switch (m_error) {
     case None:     
       return QString::null;
     case Variable: 
-      return "Expected variable";
+      return i18n("Expected variable");
     case Value: 
-      return "Expected value";
+      return i18n("Expected value");
     case Invalid:
-      return "Invalid symbol";
+      return i18n("Invalid symbol");
     case IncorrectParams:
-      return "Incorrect parameters";
+      return i18n("Incorrect parameters");
+    case UndefinedVariable:
+      return i18n("Undefined variable");
     default:      
-      return "Unknown error";
+      return i18n("Unknown error");
   }  
+  
 }
 
 
