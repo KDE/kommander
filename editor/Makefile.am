@@ -21,8 +21,6 @@ noinst_HEADERS = actiondnd.h actioneditorimpl.h actionlistview.h asciivalidator.
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
 
-# this is where the desktop file will go
-desktopdir = $(kde_appsdir)/Editors
-desktop_DATA = kmdr-editor.desktop
+xdg_apps_DATA = kmdr-editor.desktop
 
 KDE_ICON = AUTO
