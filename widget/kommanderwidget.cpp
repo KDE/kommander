@@ -189,6 +189,10 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
         cfg.setGroup(QString(parentDialog()->name()));
         cfg.writeEntry(args[0], args[1]);
       }
+      else if (identifier == "env")
+      {
+        evalText += QString(getenv(args[0].latin1())); 
+      }
       else if (identifier == "global")
       {
         evalText += localDcopQuery("global(QString)", args); 
@@ -448,6 +452,7 @@ void KommanderWidget::registerFunctions()
   /* functions with one argument */
   registerFunction("exec", 1);
   registerFunction("global", 1);
+  registerFunction("env", 1);
   /* functions with two arguments */
   registerFunction("readSetting", 2);  
   registerFunction("writeSetting", 2);
