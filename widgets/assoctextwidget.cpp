@@ -105,7 +105,7 @@ QString AssocTextWidget::evalAssociatedText(const QString &a_text) const
 		{
 			QString identifier;
 
-			for(++pos;pos < baseTextLength && baseText[pos].isLetterOrNumber();++pos)
+			for(++pos;pos < baseTextLength && (baseText[pos].isLetterOrNumber() || baseText[pos] == '_');++pos)
 				identifier += baseText[pos];
 
 			if(identifier.isEmpty())
