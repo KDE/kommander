@@ -17,7 +17,6 @@
 <li>Popup menu</li></ul>
 </body></html>
 
-
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Layout of Edit Kommander Text dialog</span></p>
@@ -82,7 +81,6 @@
 <li type="disc"></li>
 </body></html>
 
-
 \NewEntry 0 Help
 
 \NewEntry 1 Documentation
@@ -140,7 +138,6 @@
 <li>add <span style="font-style:italic">i18n</span> to allow locale handling</li></ul>
 </body></html>
 
-
 \NewEntry 1 Script languages
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Using script languages other than Bash</span></p>
@@ -169,7 +166,6 @@
 <li>handle locale/i18n translations</li></ul>
 </body></html>
 
-
 \NewEntry 0 Source code
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Kommander source code</span></p>
@@ -181,7 +177,7 @@
 <li>rewrite some parts more clearly</li></ul>
 </body></html>
 
-\CurrentEntry 0 ChangeLog
+\NewEntry 0 ChangeLog
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">ChangeLog of TODO file</span></p>
 <p><span style="color:#0000ff">2004-05-14, 12:44</span></p>
@@ -206,15 +202,22 @@
 <p></p>
 </body></html>
 
-
-\NewEntry 0 Done
+\CurrentEntry 0 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <li><span style="font-weight:600">ChangeLog of Kommander</span></li>
-<p><span style="color:#0000ff">2004-05-14, 12:24</span></p>
-<ul type="disc"><li>added <span style="font-style:italic">initialization</span> and <span style="font-style:italic">destroy</span> scripts for main dialog</li></ul>
-<li><span style="color:#0000ff">2004-04-29, 13:01</span></li>
-<ul type="disc"><li>global variables added</li>
-<li>@parentPid added</li></ul>
+<ul type="disc"><li>added @parentPid evaluated to parent process pid</li>
+<li>added @pid evaluated to current process pid</li>
+<li>added @dcopid evaluated to current process DCOP id</li>
+<li>significantly improved Kommander Text editor usability</li>
+<li>added <span style="font-style:italic">initialization</span> and <span style="font-style:italic">destroy</span> scripts for main dialog</li>
+<li>global variables added (setGlobal and global DCOP calls)</li>
+<li>added support for shebang (#!/bin/sh) for both ExecButton  script and @execBegin scripts</li>
+<li>added command-line parameters (<span style="font-style:italic">kmdr-executor dialog.kmdr VAR=VALUE ARG1 ARG2...)</span></li>
+<li>dialog setting are now stored with full path</li>
+<li>completely rebuilt @dcop() parser: check number of arguments, handle various types etc.</li>
+<li>support for @execBegin(&lt;program-name&gt;)</li>
+<li>avoid infinite loop when trying to run @&lt;widget&gt; inside &lt;widget&gt;:&lt;state&gt;</li>
+<div></div></ul>
 </body></html>
 
 
