@@ -1,2 +1,3 @@
 #!/bin/sh
-qembed *.xbm *.xpm small/*.xbm small/*.xpm small/*.png small/disabled/*.xpm small/disabled/*.xbm small/disabled/*.png mini/*.xpm mini/*.xbm background.png qtlogo.png > images.h
+#qembed *.xbm *.xpm small/*.xbm small/*.xpm small/*.png small/disabled/*.xpm small/disabled/*.xbm small/disabled/*.png mini/*.xpm mini/*.xbm background.png qtlogo.png > images.h
+qembed *.xbm small/*.xpm small/*.png small/disabled/*.xpm small/disabled/*.png mini/*.xpm background.png qtlogo.png > images.h
