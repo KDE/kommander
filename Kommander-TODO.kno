@@ -53,11 +53,11 @@
 \NewEntry 1 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Running/testing inside Editor</span></p>
-<ul type="disc"><li>add Run command to editor</li>
-<li>allow debugging</li>
+<ul type="disc"><li>allow debugging</li>
 <li>add Message/Log window, catching output in editor</li>
 <li>add Syntax checker</li></ul>
 </body></html>
+
 
 \NewEntry 1 DCOP browser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -115,15 +115,13 @@
 \NewEntry 1 Syntax
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <li type="disc"><span style="font-weight:600">Syntax-related problems</span></li>
-<ul type="disc"><li>handle other values for DCOP (not only <span style="font-style:italic">string</span> and <span style="font-style:italic">int</span>)</li>
-<li>better handling of lists</li>
+<ul type="disc"><li>better handling of lists</li>
 <li>better handling of other structures (trees, arrays etc.)</li>
-<li>clear arguments usage: what is the correct way to pass arguments to local functions? @function(arg1, arg2)? @function(&quot;arg1&quot;, &quot;arg2&quot;)?</li>
-<li>remove @dcop() function<br /><span style="font-style:italic">Reason: arguments are not evaluated and this can be confusing.</span></li>
 <li>add some way to define and use macros/aliases</li></ul>
 <p></p>
 <p></p>
 </body></html>
+
 
 \NewEntry 1 New functions
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -141,9 +139,10 @@
 \NewEntry 1 Script languages
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Using script languages other than Bash</span></p>
-<ul type="disc"><li>detect incorrect path at shebang, allow user to choose correct one and remeber that pair</li>
-<li>add option to pass shebang as argument of @execBegin, f. e. @execBegin(/usr/bin/perl)</li></ul>
+<ul type="disc"><li>detect incorrect path at shebang, allow user to choose correct one and remeber that pair</li></ul>
+<p></p>
 </body></html>
+
 
 \NewEntry 1 Aliases
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -204,7 +203,9 @@
 
 \CurrentEntry 0 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<li><span style="font-weight:600">ChangeLog of Kommander</span></li>
+<li type="disc"><span style="font-weight:600">ChangeLog of Kommander</span></li>
+<li type="disc"></li>
+<li type="disc"><span style="font-style:italic">See ChangeLog file for details and dates</span></li>
 <ul type="disc"><li>added @parentPid evaluated to parent process pid</li>
 <li>added @pid evaluated to current process pid</li>
 <li>added @dcopid evaluated to current process DCOP id</li>
@@ -217,6 +218,9 @@
 <li>completely rebuilt @dcop() parser: check number of arguments, handle various types etc.</li>
 <li>support for @execBegin(&lt;program-name&gt;)</li>
 <li>avoid infinite loop when trying to run @&lt;widget&gt; inside &lt;widget&gt;:&lt;state&gt;</li>
+<li>handle other values for DCOP (not only <span style="font-style:italic">string</span> and <span style="font-style:italic">int</span>)</li>
+<li>add option to pass shebang as argument of @execBegin, f. e. @execBegin(/usr/bin/perl)</li>
+<li>add Run command to editor</li>
 <div></div></ul>
 </body></html>
 
