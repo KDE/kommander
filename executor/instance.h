@@ -45,6 +45,12 @@ public:
   Instance();
   Instance(QString, QWidget *);
   ~Instance();
+  
+  /* add global variable; two forms are accepted:
+     kdmr-executor file.kmdr COUNT=45 PATH=/tmp     - this adds global variables 45 and PATH
+     kmdr-executor file.kmdr 45 /tmp                - this adds global variables ARG1 and ARG2
+  */
+  virtual void addArgument(const QString& argument);
 
 //DCOP methods. The documentation is in the dcopkommanderif.h file.
   virtual void enableWidget(const QString& widgetName, bool enable);  
@@ -87,6 +93,8 @@ protected:
   QMap<QString, QString> m_globals;
   /* Get object by name */
   QObjectList* stringToWidget(const QString& name);
+  /* Number of global command-line arguments */
+  uint m_cmdArguments;
 };
 
 #endif

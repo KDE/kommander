@@ -12,7 +12,7 @@
     </keywords>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
+    <description></description>
     <ignoreparts/>
     <secondaryLanguages/>
   </general>
@@ -39,6 +39,35 @@
       <toc>python</toc>
       <toc>php</toc>
       <toc>perl</toc>
+      <toc>ada</toc>
+      <toc>ada_bugs_gcc</toc>
+      <toc>bash_bugs</toc>
+      <toc>bash</toc>
+      <toc>c++_bugs_gcc</toc>
+      <toc>clanlib</toc>
+      <toc>w3c-dom-level2-html</toc>
+      <toc>fortran_bugs_gcc</toc>
+      <toc>gnome1</toc>
+      <toc>gtk_bugs</toc>
+      <toc>haskell</toc>
+      <toc>haskell_bugs_ghc</toc>
+      <toc>java_bugs_gcc</toc>
+      <toc>java_bugs_sun</toc>
+      <toc>kde2book</toc>
+      <toc>kdev3api</toc>
+      <toc>libc</toc>
+      <toc>libstdc++</toc>
+      <toc>opengl</toc>
+      <toc>pascal_bugs_fp</toc>
+      <toc>perl_bugs</toc>
+      <toc>php_bugs</toc>
+      <toc>python_bugs</toc>
+      <toc>w3c-svg</toc>
+      <toc>sdl</toc>
+      <toc>stl</toc>
+      <toc>sw</toc>
+      <toc>w3c-uaag10</toc>
+      <toc>wxwidgets_bugs</toc>
     </ignoretocs>
     <projectdoc>
       <userdocDir>/home/andris/cvs-developement/head/quanta/kommander/html/</userdocDir>
@@ -47,20 +76,40 @@
     <ignoreqt_xml/>
     <ignoredoxygen/>
     <ignorekdocs/>
-    <ignoredevhelp/>
+    <ignoredevhelp>
+      <toc>atk</toc>
+      <toc>bonobo-activation</toc>
+      <toc>gdk</toc>
+      <toc>libgimpbase</toc>
+      <toc>libgimpcolor</toc>
+      <toc>libgimp</toc>
+      <toc>libgimpmath</toc>
+      <toc>libgimpmodule</toc>
+      <toc>libgimpthumb</toc>
+      <toc>libgimpwidgets</toc>
+      <toc>glib</toc>
+      <toc>gobject</toc>
+      <toc>libgnome</toc>
+      <toc>gtk</toc>
+      <toc>libbonobo</toc>
+      <toc>libbonoboui</toc>
+      <toc>ORBit2</toc>
+      <toc>pango</toc>
+      <toc>gdk-pixbuf</toc>
+    </ignoredevhelp>
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
       <dbgshell>../libtool</dbgshell>
-      <programargs/>
-      <gdbpath/>
+      <programargs></programargs>
+      <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
     </general>
     <display>
       <staticmembers>false</staticmembers>

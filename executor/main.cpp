@@ -16,17 +16,18 @@
  ***************************************************************************/
 
 /* KDE INCLUDES */
-#include <kcmdlineargs.h>
 #include <kaboutdata.h>
+#include <kapplication.h>
+#include <kcmdlineargs.h>
 #include <klocale.h>
 #include <kurl.h>
-#include <qapplication.h>
-#include <qobject.h>
-#include <kapplication.h>
 
 /* QT INCLUDES */
-#include <qptrlist.h>
+#include <qapplication.h>
 #include <qfile.h>
+#include <qobject.h>
+#include <qptrlist.h>
+#include <qstring.h>
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -48,6 +49,7 @@ static const char *description =
 
 static KCmdLineOptions options[] =
 {
+  { "!stdin", I18N_NOOP("Read dialog from standard input"), 0},
   { "+[file]", I18N_NOOP("Dialog to open"), 0 },
   KCmdLineLastOption
 };
@@ -61,33 +63,37 @@ int main(int argc, char *argv[])
   aboutData.addAuthor("Marc Britton",0, "consume@optushome.com.au");
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
-
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
   KApplication app;
-
+  
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-  if(args->count() == 0) // read from stdin
+  Instance* instance = 0;
+  QFile inputFile;
+  
+  if (args->isSet("stdin"))
   {
-	 QFile inputFile;
-	 inputFile.open(IO_ReadOnly, stdin);
-
-	 Instance *instance = new Instance;
-	 instance->run(&inputFile);
+    inputFile.open(IO_ReadOnly, stdin);
+    instance = new Instance;
+  }
+  else if (!args->count())
+  {
+    qFatal("Error: no dialog given. Use --stdin option to read dialog from standard input.\n");
+    return -1;
   }
   else
   {
-	 // load dialog specified on the command line
-	  QString dlgFileName;
-	  for(int i = 0;i < args->count();++i)
-	  {
-            KURL url = args->url(i);
-            if(url.isLocalFile())                 // FIXME : Pointless repitition
-            {
-              Instance *instance = new Instance(url.path(), 0);
-              instance->run();
-            }
-	  }
+    KURL url = args->url(0);
+    instance = new Instance(url.path(), 0);
   }
+  
+  // Read command-line variables
+  for (int i=!args->isSet("stdin"); i<args->count(); i++)
+    instance->addArgument(args->arg(i));
+  
+  if (args->isSet("stdin"))
+    instance->run(&inputFile);
+  else
+    instance->run();
   return 0;
 }

@@ -47,14 +47,27 @@
 #include <kommanderfactory.h>
 
 Instance::Instance()
-  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(""), m_parent(0)
+  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(""), m_parent(0),
+  m_cmdArguments(0)
 {
 }
 
 Instance::Instance(QString a_uiFileName, QWidget *a_parent)
-  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName), m_parent(a_parent)
+  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
+  m_parent(a_parent), m_cmdArguments(0)
 {
 }
+
+void Instance::addArgument(const QString& argument)
+{
+  int pos = argument.find('=');
+  if (pos == -1)
+    setGlobal(QString("ARG%1").arg(++m_cmdArguments), argument);
+  else 
+    setGlobal(argument.left(pos), argument.mid(pos+1));
+}
+
+
 
 Instance::~Instance()
 {
@@ -115,6 +128,19 @@ bool Instance::build(QFile *a_file)
 
 bool Instance::run(QFile *a_file)
 {
+  /* add runtime arguments */
+  if (m_cmdArguments) {
+    QString args;
+    for (uint i=1; i<=m_cmdArguments; i++)
+    {
+      args += global(QString("ARG%1").arg(i));
+      if (i < m_cmdArguments) 
+        args += " ";
+    }
+    setGlobal("ARGS", args);
+  }
+  setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
+    
   if (!m_instance)
     if (!a_file && !build())
       return false;
