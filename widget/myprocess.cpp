@@ -101,6 +101,11 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
     return m_output;
 }
 
+QString MyProcess::output() const
+{
+  return m_output;  
+}
+  
 void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
 {
   m_output += QString::fromLocal8Bit(a_buffer, a_len);
