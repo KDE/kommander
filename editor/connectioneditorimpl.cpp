@@ -103,25 +103,23 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   /* Create widget list */
   QStringList lst;
   lst << m_formWindow->name();
-  for (QPtrDictIterator <QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
+  for (QPtrDictIterator<QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
   {
-   /* if (lst.find(it.current()->name()) != lst.end())
-    {
-      ++it;
-      continue;
-  }*/
     if (it.current()->isVisibleTo(this) &&
         !it.current()->inherits("QLayoutWidget") &&
         !it.current()->inherits("Spacer") &&
-        qstrcmp(it.current()->name(), "central widget") != 0 &&
+        qstrcmp(it.current()->name(), "central widget") &&
         !m_formWindow->isMainContainer(it.current()))
       lst << it.current()->name();
   }
   
-  // Fill combos with widget list    
-  fillWidgetList(comboSender, lst, m_sender->name());
+  // Fill receiver combos with widget list    
   fillWidgetList(comboReceiver, lst, m_receiver->name());
-  receiverChanged(m_receiver->name());
+  
+  // Fill receiver combos with widget and action list    
+  for (QPtrListIterator<QAction> it(m_formWindow->actionList()); it.current(); ++it)
+    lst << it.current()->name();
+  fillWidgetList(comboSender, lst, m_sender->name());
   senderChanged(m_sender->name());
   fillConnectionsList();
   updateConnectButton();
@@ -136,8 +134,6 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   connect(disconnectButton, SIGNAL(clicked()), SLOT(disconnectClicked()));
   connect(okButton, SIGNAL(clicked()), SLOT(okClicked()));
   connect(cancelButton, SIGNAL(clicked()), SLOT(cancelClicked()));
-  connect(connectionView, SIGNAL(currentChanged(QListViewItem*)), SLOT(updateDisconnectButton()));
-  connect(connectionView, SIGNAL(selectionChanged(QListViewItem*)), SLOT(updateDisconnectButton()));
   connect(signalBox, SIGNAL(doubleClicked(QListBoxItem*)), SLOT(connectClicked()));
   connect(slotBox, SIGNAL(doubleClicked(QListBoxItem*)), SLOT(connectClicked()));
 }
@@ -146,8 +142,15 @@ ConnectionEditor::~ConnectionEditor()
 {
 }
 
+bool ConnectionEditor::isSignalIgnored(const char *signal) const
+{
+  for (int i = 0; ignore_signals[i]; i++)
+    if (!qstrcmp(signal, ignore_signals[i]))
+      return true;
+  return false;
+}
 
-bool ConnectionEditor::isSlotIgnored(const QMetaData* md) const
+bool ConnectionEditor::isSlotIgnored(const QMetaData* md) 
 {
   if (md->access != QMetaData::Public && (md->access != QMetaData::Protected ||
       !m_formWindow->isMainContainer((QWidget*)m_receiver)))
@@ -160,26 +163,22 @@ bool ConnectionEditor::isSlotIgnored(const QMetaData* md) const
   if (!qstrcmp(md->name, "setFocus()") && m_receiver->isWidgetType() && 
      ((QWidget*)m_receiver)->focusPolicy() == QWidget::NoFocus)
     return true;
-  return false;
+  for (int i = 0; i<comboSender->count(); i++)
+    if (checkConnectArgs(MetaDataBase::normalizeSlot(signalBox->text(i)).latin1(), m_receiver, md->name))
+      return false;
+  return true;
 }
 
-bool ConnectionEditor::isSignalIgnored(const char *signal) const
+QObject* ConnectionEditor::objectByName(const QString& s) const
 {
-  for (int i = 0; ignore_signals[i]; i++)
-    if (!qstrcmp(signal, ignore_signals[i]))
-      return true;
-  return false;
-}
-
-QObject* ConnectionEditor::objectByName(const QString& s)
-{
-  QPtrDictIterator <QWidget> it(*m_formWindow->widgets());
-  while (it.current())
-  {
+  for (QPtrDictIterator <QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
     if (QString(it.current()->name()) == s)
       return it.current();
-    ++it;
-  }
+  
+  for (QPtrListIterator<QAction> it(m_formWindow->actionList()); it.current(); ++it)
+    if (QString(it.current()->name()) == s)
+      return it.current();
+  
   return 0;
 }
 
@@ -282,6 +281,8 @@ void ConnectionEditor::senderChanged(const QString& s)
     signalBox->insertStringList(MetaDataBase::signalList(m_formWindow));
   signalBox->sort();
   signalBox->setCurrentItem(signalBox->firstItem());
+  // Update slots - some may (not) have their signal equivalents now.
+  receiverChanged(m_receiver->name());
 }
 
 void ConnectionEditor::receiverChanged(const QString& s)
@@ -315,7 +316,7 @@ void ConnectionEditor::updateDisconnectButton()
 }
 
 bool ConnectionEditor::hasConnection(const QString& snder, const QString& signal,
-    const QString& rcvr, const QString& slot)
+    const QString& rcvr, const QString& slot) const
 {
   for (QListViewItemIterator it(connectionView); it.current(); ++it)
     if (it.current()->text(0) == snder &&
@@ -345,6 +346,9 @@ void ConnectionEditor::fillConnectionsList()
       m_connections.insert(i, conn);
     }
   }
+  connectionView->setCurrentItem(connectionView->firstChild());
+  if (connectionView->currentItem())
+    connectionView->setSelected(connectionView->currentItem(), true);
 }
 
 void ConnectionEditor::fillWidgetList(KComboBox* a_combo, const QStringList& items, const QString& defaultWidget)
@@ -357,6 +361,8 @@ void ConnectionEditor::fillWidgetList(KComboBox* a_combo, const QStringList& ite
       a_combo->setCurrentItem(i);
       return;
     }
+  if (a_combo->count())
+    a_combo->setCurrentItem(0);
 }
     
 #include "connectioneditorimpl.moc"

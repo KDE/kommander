@@ -61,11 +61,11 @@ private:
   // Whether given signal should appear in the signal list
   bool isSignalIgnored(const char*) const;
   // Whether given slot should appear in the slot list
-  bool isSlotIgnored(const QMetaData* md) const;
+  bool isSlotIgnored(const QMetaData* md);
   // Finds widget by name
-  QObject* objectByName(const QString& s);
+  QObject* objectByName(const QString& s) const;
   bool hasConnection(const QString & snder, const QString & signal,
-      const QString & rcvr, const QString & slot);
+      const QString & rcvr, const QString & slot)  const;
   QMap <QListViewItem*, MetaDataBase::Connection> m_connections;
   QValueList <MetaDataBase::Connection> m_oldConnections;
   QObject* m_sender;
