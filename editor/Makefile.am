@@ -12,7 +12,7 @@ kmdr_editor_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 # the libraries to link against.
 kmdr_editor_LDADD = $(top_builddir)/kommander/widget/libkommanderwidget.la \
 	$(top_builddir)/kommander/widgets/libkommanderwidgets.la $(top_builddir)/kommander/plugin/libkommanderplugin.la \
-	$(top_builddir)/kommander/factory/libkommanderfactory.la $(top_builddir)/kommander/editor/pics/libsplash.la
+	$(top_builddir)/kommander/factory/libkommanderfactory.la
 
 # which sources should be compiled for kmdr_editor
 kmdr_editor_SOURCES = actiondnd.cpp actioneditorimpl.cpp \

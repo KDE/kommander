@@ -1,13 +1,3 @@
-noinst_LTLIBRARIES = libsplash.la
+kmdr_editordir = ${kde_datadir}/kmdr-editor/pics
 
-# set the include path for X, qt and KDE
-AM_CPPFLAGS = $(all_includes)
-
-# the library search path. 
-libsplash_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-
-# which sources should be compiled for factory
-libsplash_la_SOURCES = splashloader.cpp
-
-# let automoc handle all of the meta source files (moc)
-METASOURCES = AUTO
+kmdr_editor_DATA = kommandersplash.png
