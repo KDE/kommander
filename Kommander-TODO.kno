@@ -1,7 +1,7 @@
 \NewEntry 0 GUI
 
 \NewEntry 1 Widgets
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:11pt;font-family:helvetica">
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><li>Database widget (use hk_classes)</li>
 <li>Improve script widget (how?)</li>
@@ -12,7 +12,8 @@
 <li>QTimer widget</li>
 <li>Make tree/detail widget usable</li>
 <li>Switch from using Qt widget to their KDE equivalents?</li>
-<li>Status bar</li></ul>
+<li>Status bar</li>
+<li>make links work in rich text widget</li></ul>
 </body></html>
 
 
@@ -115,7 +116,7 @@
 <p></p>
 </body></html>
 
-\CurrentEntry 1 New functions
+\NewEntry 1 New functions
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">New functions that could be useful</span></p>
 <ul type="disc"><li>add string-handling functions (lowercase, uppercase, capitalize, substring), perhaps in a way: @string(operation, string) - to avoid adding too many functions</li>
@@ -125,7 +126,6 @@
 <li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-style:italic">Naming: use @execlocal for consistency?</span></li>
 <li>add @messageBox as an interface to KMessageBox (for both queries and messages)<br /><span style="font-style:italic">Question: use strings or int for flags and results?</span></li></ul>
 </body></html>
-
 
 \NewEntry 1 Script languages
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -167,7 +167,6 @@
 <p></p>
 </body></html>
 
-
 \NewEntry 0 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <li type="disc"><span style="font-weight:600">ChangeLog of Kommander</span></li>
@@ -176,10 +175,11 @@
 <li>@parentPid added</li></ul>
 </body></html>
 
-\NewEntry 0 About this file
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+\CurrentEntry 0 About this file
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:11pt;font-family:helvetica">
 <p>This file should document both what should be done in Kommander and what was done.</p>
-<p>All enteries marked with a date without an author were made by Michal Rudolf</p>
+<p>All entries marked with a date without an author were made by Michal Rudolf</p>
 <p>When adding something important, please enter it in ChangeLog or Done and mark it with current date (in yyyy-MM-dd, hh:mm format) and your name.</p>
 </body></html>
+
 
