@@ -91,15 +91,21 @@ void ScriptObject::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText(populationText()));
 }
 
+void ScriptObject::executeProcess(bool blocking)
+{
+  MyProcess process(this);
+  process.setBlocking(blocking);
+  process.run(evalAssociatedText()); 
+}
+
 void ScriptObject::execute()
 {
-   MyProcess process(this);
-   process.run(evalAssociatedText()); 
+  executeProcess(true);
 }
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DCOP::setText or f == DCOP::clear;
+  return f == DCOP::setText or f == DCOP::clear or f == DCOP::execute;
 }
 
 QString ScriptObject::handleDCOP(int function, const QStringList& args)
@@ -110,6 +116,9 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::clear:
       setAssociatedText(QString::null);
+      break;
+    case DCOP::execute:
+      executeProcess(true);
       break;
     default:
       break;

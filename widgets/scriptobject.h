@@ -32,7 +32,7 @@ class ScriptObject : public QLabel, public KommanderWidget
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-  Q_PROPERTY(QString script READ script WRITE setWidgetText DESIGNABLE false)
+      
 public:
   ScriptObject(QWidget *a_parent, const char *a_name);
   ~ScriptObject();
@@ -55,6 +55,7 @@ signals:
   void widgetTextChanged(const QString &);
 
 protected:
+  virtual void executeProcess(bool blocking);
 };
 
 #endif

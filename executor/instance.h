@@ -91,6 +91,7 @@ public:
   virtual QString global(const QString& variableName);
   virtual void setGlobal(const QString& variableName, const QString& value);
   virtual void setMaximum(const QString &widgetName, int value);
+  virtual void execute(const QString &widgetName);
    
 public slots:
   /** Builds the instance then executes it */
