@@ -61,7 +61,7 @@
                         <cstring>ExecButton1</cstring>
                     </property>
                     <property name="text">
-                        <string>Save</string>
+                        <string>&amp;Save</string>
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
@@ -110,7 +110,7 @@ class @className : public @inheritClassName, public KommanderWidget
 	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-	
+
 public:
 	@className(QWidget *a_parent, const char *a_name);
 	~@className();
@@ -252,7 +252,7 @@ echo "$cppContent" &gt; @directory/$classNameLower.cpp</string>
                         <cstring>CloseButton1</cstring>
                     </property>
                     <property name="text">
-                        <string>Close</string>
+                        <string>&amp;Close</string>
                     </property>
                 </widget>
                 <spacer>
@@ -317,7 +317,7 @@ echo "$cppContent" &gt; @directory/$classNameLower.cpp</string>
                         <cstring>TextLabel3</cstring>
                     </property>
                     <property name="text">
-                        <string>Date Started:</string>
+                        <string>Date started:</string>
                     </property>
                 </widget>
                 <widget class="QLabel">
@@ -325,7 +325,7 @@ echo "$cppContent" &gt; @directory/$classNameLower.cpp</string>
                         <cstring>TextLabel4</cstring>
                     </property>
                     <property name="text">
-                        <string>Class Name:</string>
+                        <string>Class name:</string>
                     </property>
                 </widget>
                 <widget class="QLabel">
@@ -333,7 +333,7 @@ echo "$cppContent" &gt; @directory/$classNameLower.cpp</string>
                         <cstring>TextLabel7</cstring>
                     </property>
                     <property name="text">
-                        <string>Base Class Name</string>
+                        <string>Base class name:</string>
                     </property>
                 </widget>
                 <widget class="QLabel">
@@ -341,7 +341,7 @@ echo "$cppContent" &gt; @directory/$classNameLower.cpp</string>
                         <cstring>TextLabel5</cstring>
                     </property>
                     <property name="text">
-                        <string>Directory to Save In:</string>
+                        <string>Directory to save in:</string>
                     </property>
                 </widget>
             </vbox>

@@ -137,7 +137,7 @@ fi
                         </font>
                     </property>
                     <property name="text">
-                        <string>Note:  This will not work well if you have multiple 
+                        <string>Note:  This will not work well if you have multiple
 instances of Quanta running.</string>
                     </property>
                 </widget>
@@ -199,7 +199,7 @@ instances of Quanta running.</string>
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Path to tidy (required)</string>
+                    <string>Path to tidy (required):</string>
                 </property>
             </widget>
             <widget class="FileSelector">
@@ -236,7 +236,7 @@ instances of Quanta running.</string>
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Input from file instead of stdin</string>
+                    <string>Input from file instead of stdin:</string>
                 </property>
                 <property name="associations" stdset="0">
                     <stringlist>
@@ -259,7 +259,7 @@ instances of Quanta running.</string>
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Write errors to file instead of stderr</string>
+                    <string>Write errors to file instead of stderr:</string>
                 </property>
                 <property name="associations" stdset="0">
                     <stringlist>
@@ -282,7 +282,7 @@ instances of Quanta running.</string>
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Use configuration from file</string>
+                    <string>Use configuration from file:</string>
                 </property>
                 <property name="associations" stdset="0">
                     <stringlist>
@@ -305,7 +305,7 @@ instances of Quanta running.</string>
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Output to file instead of stdout</string>
+                    <string>Output to file instead of stdout:</string>
                 </property>
                 <property name="associations" stdset="0">
                     <stringlist>
@@ -457,7 +457,7 @@ instances of Quanta running.</string>
                             <cstring>ParseAsHTML</cstring>
                         </property>
                         <property name="text">
-                            <string>force XHTML to well formed HTML</string>
+                            <string>Force XHTML to well formed HTML</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -472,7 +472,7 @@ instances of Quanta running.</string>
                             <cstring>ParseAsXHTML</cstring>
                         </property>
                         <property name="text">
-                            <string>convert HTML to well formed XHTML</string>
+                            <string>Convert HTML to well formed XHTML</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -487,7 +487,7 @@ instances of Quanta running.</string>
                             <cstring>ParseClean</cstring>
                         </property>
                         <property name="text">
-                            <string>replace FONT, NOBR and CENTER tags by CSS</string>
+                            <string>Replace FONT, NOBR and CENTER tags by CSS</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -517,7 +517,7 @@ instances of Quanta running.</string>
                             <cstring>ParseXML</cstring>
                         </property>
                         <property name="text">
-                            <string>specify the input is well formed XML</string>
+                            <string>Specify the input is well formed XML</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -532,7 +532,7 @@ instances of Quanta running.</string>
                             <cstring>ParseOmit</cstring>
                         </property>
                         <property name="text">
-                            <string>omit optional end tags</string>
+                            <string>Omit optional end tags</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -547,7 +547,7 @@ instances of Quanta running.</string>
                             <cstring>TextLabel1_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Do extra accessibility checks &lt;level&gt;</string>
+                            <string>Do extra accessibility checks &lt;level&gt;:</string>
                         </property>
                     </widget>
                     <widget class="SpinBoxInt" row="1" column="1">
@@ -571,7 +571,7 @@ instances of Quanta running.</string>
                             <cstring>ParseNumeric</cstring>
                         </property>
                         <property name="text">
-                            <string>output numeric rather than named entities</string>
+                            <string>Output numeric rather than named entities</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -586,7 +586,7 @@ instances of Quanta running.</string>
                             <cstring>ParseErrors</cstring>
                         </property>
                         <property name="text">
-                            <string>only show errors</string>
+                            <string>Only show errors</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -611,7 +611,7 @@ instances of Quanta running.</string>
                             <cstring>TextLabel2</cstring>
                         </property>
                         <property name="text">
-                            <string>Wrap text at column</string>
+                            <string>Wrap text at column:</string>
                         </property>
                     </widget>
                     <widget class="CheckBox" row="11" column="0">
@@ -619,7 +619,7 @@ instances of Quanta running.</string>
                             <cstring>ParseAsXML</cstring>
                         </property>
                         <property name="text">
-                            <string>convert HTML to well formed XML</string>
+                            <string>Convert HTML to well formed XML</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -649,7 +649,7 @@ instances of Quanta running.</string>
                             <cstring>ParseBare</cstring>
                         </property>
                         <property name="text">
-                            <string>strip out smart quotes and em dashes, etc.</string>
+                            <string>Strip out smart quotes and em dashes, etc.</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -664,7 +664,7 @@ instances of Quanta running.</string>
                             <cstring>ParseQuiet</cstring>
                         </property>
                         <property name="text">
-                            <string>suppress nonessential output</string>
+                            <string>Suppress nonessential output</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>
@@ -837,7 +837,7 @@ instances of Quanta running.</string>
                             <cstring>CElangcode</cstring>
                         </property>
                         <property name="text">
-                            <string>set the two-letter language code &lt;lang&gt; (for future use)</string>
+                            <string>Set the two-letter language code &lt;lang&gt; (for future use):</string>
                         </property>
                         <property name="associations" stdset="0">
                             <stringlist>

@@ -82,7 +82,7 @@
                 <cstring>ExecButton1</cstring>
             </property>
             <property name="text">
-                <string>start</string>
+                <string>&amp;Start</string>
             </property>
             <property name="associations" stdset="0">
                 <stringlist>

@@ -66,7 +66,7 @@
                         <cstring>RadioButton2</cstring>
                     </property>
                     <property name="text">
-                        <string>Create Archive</string>
+                        <string>Create archive</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -150,7 +150,7 @@
                         <cstring>ButtonGroup2</cstring>
                     </property>
                     <property name="title">
-                        <string>Read options</string>
+                        <string>Read Options</string>
                     </property>
                     <vbox>
                         <property name="name">
@@ -204,7 +204,7 @@
                         <number>1</number>
                     </property>
                     <property name="title">
-                        <string>Write options</string>
+                        <string>Write Options</string>
                     </property>
                     <vbox>
                         <property name="name">
@@ -348,7 +348,7 @@
                         <cstring>TextLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>Archive Name</string>
+                        <string>Archive name:</string>
                     </property>
                 </widget>
                 <widget class="FileSelector">
@@ -377,7 +377,7 @@
                         <cstring>TextLabel2</cstring>
                     </property>
                     <property name="text">
-                        <string>Files</string>
+                        <string>Files:</string>
                     </property>
                 </widget>
                 <widget class="LineEdit">
@@ -426,7 +426,7 @@
                         <cstring>ExecButton1</cstring>
                     </property>
                     <property name="text">
-                        <string>Execute</string>
+                        <string>&amp;Execute</string>
                     </property>
                 </widget>
                 <spacer>
@@ -451,7 +451,7 @@
                         <cstring>CloseButton1</cstring>
                     </property>
                     <property name="text">
-                        <string>Close</string>
+                        <string>&amp;Close</string>
                     </property>
                 </widget>
                 <spacer>

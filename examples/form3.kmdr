@@ -30,7 +30,7 @@
                 <cstring>CheckBox1</cstring>
             </property>
             <property name="text">
-                <string>Check Me</string>
+                <string>Check me</string>
             </property>
             <property name="tristate">
                 <bool>true</bool>
@@ -48,7 +48,7 @@
                 <cstring>ExecButton1</cstring>
             </property>
             <property name="text">
-                <string>Run</string>
+                <string>&amp;Run</string>
             </property>
             <property name="associations" stdset="0">
                 <stringlist>

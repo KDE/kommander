@@ -70,7 +70,7 @@
                         <cstring>TextLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>Source Dir:</string>
+                        <string>Source directory:</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">
@@ -78,7 +78,7 @@
                         <cstring>TextLabel2</cstring>
                     </property>
                     <property name="text">
-                        <string>Destination Dir:</string>
+                        <string>Destination directory:</string>
                     </property>
                 </widget>
             </grid>
@@ -188,7 +188,7 @@
                         <cstring>ExecButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Resize</string>
+                        <string>&amp;Resize</string>
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>

@@ -28,7 +28,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Title</string>
+            <string>Title:</string>
         </property>
     </widget>
     <widget class="QLabel">
@@ -67,7 +67,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>CVS Tag in Comment</string>
+            <string>CVS tag in comment</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -90,7 +90,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>HTML Tag</string>
+            <string>HTML tag</string>
         </property>
         <property name="checked">
             <bool>true</bool>
@@ -160,14 +160,14 @@
             </rect>
         </property>
         <property name="text">
-            <string>Style Area</string>
+            <string>Style area</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
                 <string></string>
                 <string></string>
                 <string>  &lt;style&gt;
-    
+
   &lt;/style&gt;</string>
             </stringlist>
         </property>
@@ -185,7 +185,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Meta Character Set</string>
+            <string>Meta character set:</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -208,7 +208,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Linked Style Sheet</string>
+            <string>Linked style sheet:</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -396,7 +396,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Meta Keywords</string>
+            <string>Meta keywords:</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -419,7 +419,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Meta Author</string>
+            <string>Meta author:</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -442,7 +442,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Base Directory</string>
+            <string>Base directory:</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -465,7 +465,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Head Area</string>
+            <string>Head area</string>
         </property>
         <property name="checked">
             <bool>true</bool>
@@ -605,14 +605,14 @@
             </rect>
         </property>
         <property name="text">
-            <string>Javascript Area</string>
+            <string>JavaScript area</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
                 <string></string>
                 <string></string>
                 <string>  &lt;script language="javascript"&gt;
-    
+
   &lt;/script&gt;</string>
             </stringlist>
         </property>
@@ -630,7 +630,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Body Tag</string>
+            <string>Body tag</string>
         </property>
         <property name="checked">
             <bool>true</bool>
@@ -656,7 +656,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>test</string>
+            <string>&amp;Test</string>
         </property>
         <property name="on">
             <bool>false</bool>
@@ -692,7 +692,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Ok</string>
+            <string>&amp;OK</string>
         </property>
         <property name="flat">
             <bool>false</bool>
@@ -764,7 +764,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>PHP Header Include</string>
+            <string>PHP header include:</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -788,7 +788,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>PHP Footer Include</string>
+            <string>PHP footer include:</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>

@@ -92,7 +92,7 @@
                                 <cstring>ExecButton1</cstring>
                             </property>
                             <property name="text">
-                                <string>Run</string>
+                                <string>&amp;Run</string>
                             </property>
                             <property name="associations" stdset="0">
                                 <stringlist>
@@ -105,7 +105,7 @@
                                 <cstring>CloseButton1</cstring>
                             </property>
                             <property name="text">
-                                <string>Close</string>
+                                <string>&amp;Close</string>
                             </property>
                         </widget>
                     </hbox>

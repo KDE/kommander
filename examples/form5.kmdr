@@ -29,7 +29,7 @@
         </property>
         <property name="text">
             <string>du -h</string>
-            <comment>test</comment>
+            <comment>Test</comment>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -77,7 +77,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Enter command</string>
+            <string>Enter command:</string>
         </property>
     </widget>
     <widget class="FileSelector">
@@ -165,7 +165,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Select a file</string>
+            <string>Select a file:</string>
         </property>
     </widget>
     <widget class="ExecButton">
@@ -292,7 +292,7 @@ Ha ha. We got it all with Kommander!</string>
             </rect>
         </property>
         <property name="text">
-            <string>count files</string>
+            <string>Count Files</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
@@ -316,7 +316,7 @@ Ha ha. We got it all with Kommander!</string>
             </rect>
         </property>
         <property name="text">
-            <string>change str</string>
+            <string>Change Str</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>
