@@ -27,8 +27,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>714</width>
-            <height>514</height>
+            <width>830</width>
+            <height>532</height>
         </rect>
     </property>
     <property name="caption">
@@ -153,6 +153,9 @@
             </property>
             <property name="text">
                 <string>&amp;Disconnect</string>
+            </property>
+            <property name="accel">
+                <string>Alt+D</string>
             </property>
             <property name="autoDefault">
                 <bool>true</bool>
