@@ -1,4 +1,5 @@
-Marc Britton <consume@optusnet.com.au>
-Eric Laffoon <sequitur@kde.org>
-Michal Rudolf <mrudolf@kdewebdev.org>
-Andras Mantia <amantia@kde.org>
+Derived from Qt Designer by Trolltech
+Original author:    Marc Britton  <consume@optusnet.com.au>
+Design team leader: Eric Laffoon  <sequitur@kde.org>
+Current maintainer: Michal Rudolf <mrudolf@kdewebdev.org>
+Contributor:        Andras Mantia <amantia@kde.org>
