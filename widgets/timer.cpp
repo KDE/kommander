@@ -47,6 +47,7 @@ Timer::Timer(QWidget *a_parent, const char *a_name)
   
   mTimer = new QTimer(this);
   setInterval(5000);
+  setSingleShot(false);
   connect(mTimer, SIGNAL(timeout()), SLOT(timeout()));
 }
 
@@ -59,12 +60,21 @@ int Timer::interval() const
   return mInterval;
 }
 
-
 void Timer::setInterval(int a_interval)
 {
   mInterval = a_interval;
 }
       
+bool Timer::singleShot() const
+{
+  return mSingleShot;
+}
+
+void Timer::setSingleShot(bool a_shot)
+{
+  mSingleShot = a_shot;
+}
+
 QString Timer::currentState() const
 {
   return QString("default");
@@ -110,6 +120,8 @@ void Timer::executeProcess(bool blocking)
   MyProcess process(this);
   process.setBlocking(blocking);
   process.run(evalAssociatedText());
+  if (blocking)
+    emit finished();
 }
 
 void Timer::timeout()
@@ -119,7 +131,10 @@ void Timer::timeout()
 
 void Timer::execute()
 {
-  mTimer->start(mInterval);
+  if (mSingleShot)
+    QTimer::singleShot(mInterval, this, SLOT(timeout()));
+  else
+    mTimer->start(mInterval);
 }
 
 void Timer::cancel()

@@ -32,7 +32,8 @@ class Timer : public QLabel, public KommanderWidget
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   Q_PROPERTY(int interval READ interval WRITE setInterval)
-      
+  Q_PROPERTY(bool singleShot READ singleShot WRITE setSingleShot)
+            
   public:
     Timer(QWidget *a_parent, const char *a_name);
     ~Timer();
@@ -45,7 +46,8 @@ class Timer : public QLabel, public KommanderWidget
     virtual void setPopulationText(const QString&);
     virtual int interval() const;
     virtual void setInterval(int a_interval);
-  
+    virtual bool singleShot() const;
+    virtual void setSingleShot(bool a_shot);
     virtual QString handleDCOP(int function, const QStringList& args);
     virtual bool isFunctionSupported(int function);
   public slots:
@@ -56,14 +58,14 @@ class Timer : public QLabel, public KommanderWidget
   protected slots:
     virtual void timeout();
   signals:
-    void widgetOpened();
-    void widgetTextChanged(const QString &);
+    void finished();
 
   protected:
     virtual void executeProcess(bool blocking);
     QTimer* mTimer;
     int mInterval;
-    
+    bool mSingleShot;
+  
 };
 
 #endif
