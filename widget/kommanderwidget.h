@@ -31,23 +31,34 @@ public:
 	KommanderWidget(QObject *);
 	virtual ~KommanderWidget();
 
+  //List of available states. Most widgets have only one state, but f. e. radiobutton has both 
+  // 'checked' and 'unchecked'
   virtual QStringList states() const;
   virtual QStringList displayStates() const;
   virtual QString currentState() const = 0;
 
   virtual bool isKommanderWidget() const = 0;
+  
+  // Associated script
   virtual void setAssociatedText(const QStringList& a_associations);
   virtual QStringList associatedText() const;
+  
+  // Execute given script, expanding all @macros.
   virtual QString evalAssociatedText() const;
   virtual QString evalAssociatedText(const QString&) const;
 
+  // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   virtual void populate() = 0;
 
+  // Text of all item(s). Multiple items are separated by \n
   virtual QString widgetText() const = 0;
   virtual void setWidgetText(const QString&) = 0;
+  
+  // Text of selected item(s). Multiple items are separated by \n
   virtual QString selectedWidgetText() const = 0;
+  // Choose selected item(s). Only existing items can be selected.
   virtual void setSelectedWidgetText(const QString&) = 0;
   
 protected:
