@@ -58,7 +58,7 @@
                                 <cstring>TextLabel1</cstring>
                             </property>
                             <property name="text">
-                                <string>State</string>
+                                <string>State:</string>
                             </property>
                         </widget>
                         <widget class="QComboBox">
@@ -175,7 +175,7 @@
                                                 </sizepolicy>
                                             </property>
                                             <property name="text">
-                                                <string>File</string>
+                                                <string>File:</string>
                                             </property>
                                         </widget>
                                         <widget class="QPushButton">
@@ -221,7 +221,7 @@
                                                 </sizepolicy>
                                             </property>
                                             <property name="text">
-                                                <string>Other Widgets</string>
+                                                <string>Other widgets:</string>
                                             </property>
                                         </widget>
                                         <widget class="QComboBox">

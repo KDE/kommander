@@ -102,7 +102,7 @@
                         <number>0</number>
                     </property>
                     <property name="text">
-                        <string>&amp;3-D Effects:</string>
+                        <string>&amp;3-D effects:</string>
                     </property>
                     <property name="alignment">
                         <set>AlignAuto|AlignVCenter</set>
@@ -261,7 +261,7 @@
                                 <cstring>TextLabel1</cstring>
                             </property>
                             <property name="text">
-                                <string>Select &amp;Palette:</string>
+                                <string>Select &amp;palette:</string>
                             </property>
                             <property name="buddy" stdset="0">
                                 <cstring>paletteCombo</cstring>

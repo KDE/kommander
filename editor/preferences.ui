@@ -178,7 +178,7 @@
                             <cstring>checkBoxShowGrid</cstring>
                         </property>
                         <property name="text">
-                            <string>Show &amp;Grid</string>
+                            <string>Show &amp;grid</string>
                         </property>
                         <property name="checked">
                             <bool>true</bool>
@@ -215,7 +215,7 @@
                                     <cstring>checkBoxGrid</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Sn&amp;ap to Grid</string>
+                                    <string>Sn&amp;ap to grid</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -349,7 +349,7 @@
                                     <cstring>checkBoxWorkspace</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Restore Last &amp;Workspace on Startup</string>
+                                    <string>Restore last &amp;workspace on startup</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -366,7 +366,7 @@
                                     <cstring>checkBoxSplash</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show &amp;Splash Screen on Startup</string>
+                                    <string>Show &amp;splash screen on startup</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -383,7 +383,7 @@
                                     <cstring>checkAutoEdit</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Disable Data&amp;base Auto-Edit in Preview</string>
+                                    <string>Disable data&amp;base auto-edit in preview</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -394,7 +394,7 @@
                                     <cstring>Label3</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>&amp;Documentation Path:</string>
+                                    <string>&amp;Documentation path:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>editDocPath</cstring>
@@ -465,7 +465,7 @@
                                     <cstring>checkBoxBigIcons</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show &amp;Big Icons</string>
+                                    <string>Show &amp;big icons</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
                                     <string>Big Icons</string>
@@ -479,7 +479,7 @@
                                     <cstring>checkBoxTextLabels</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show Text Lab&amp;els</string>
+                                    <string>Show text lab&amp;els</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
                                     <string>Text Labels</string>

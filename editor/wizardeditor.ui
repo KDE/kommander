@@ -58,7 +58,7 @@
                                 <cstring>pagesLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Wizard Pages:</string>
+                                <string>Wizard pages:</string>
                             </property>
                         </widget>
                         <widget class="QListBox">
