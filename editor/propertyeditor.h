@@ -550,35 +550,6 @@ private:
 
 };
 
-#ifndef KOMMANDER
-//class EventList : public HierarchyList
-//{
-//    Q_OBJECT
-//
-//public:
-//    EventList( QWidget *parent, FormWindow *fw, PropertyEditor *e );
-//
-//    void setup();
-//    void setCurrent( QWidget *w );
-//
-//protected:
-//    void contentsMouseDoubleClickEvent( QMouseEvent *e );
-//
-//private:
-//    void save( QListViewItem *p );
-//
-//private slots:
-//    void objectClicked( QListViewItem *i );
-//    void showRMBMenu( QListViewItem *, const QPoint & );
-//    void renamed( QListViewItem *i );
-//
-//private:
-//    PropertyEditor *editor;
-//
-//};
-#endif
-
-
 class PropertyEditor : public QTabWidget
 {
     Q_OBJECT

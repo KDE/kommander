@@ -85,7 +85,6 @@ int forms = 0;
 
 void MainWindow::setupEditActions()
 {
-  qDebug("Setup Edit Actions");
   actionEditUndo = KStdAction::undo(this, SLOT(editUndo()), actionCollection());
   actionEditUndo->setText(i18n("&Undo: Not Available"));
   actionEditUndo->setToolTip(i18n("Undoes the last action"));
@@ -185,7 +184,6 @@ void MainWindow::setupEditActions()
 
 void MainWindow::setupLayoutActions()
 {
-  qDebug("Setup Layout Actions");
   actionEditAdjustSize = new KAction(i18n("Adjust Size"), createIconSet("adjustsize.xpm"),
                                      CTRL + Key_J, this, SLOT(editAdjustSize()), actionCollection(), "edit_adjust_size");
   actionEditAdjustSize->setToolTip(i18n("Adjusts the size of the selected widget"));
@@ -268,7 +266,6 @@ void MainWindow::setupLayoutActions()
 
 void MainWindow::setupToolActions()
 {
-  qDebug("Setup Tool Actions");
   actionPointerTool = new KToggleAction(i18n("Pointer"), "arrow", Key_F2,
                                         this, SLOT(toolSelected()), actionCollection(), 
                                         QString::number(POINTER_TOOL).latin1());
@@ -404,7 +401,6 @@ void MainWindow::setupToolActions()
 
 void MainWindow::setupFileActions()
 {
-  qDebug("Setup File Actions");
   KToolBar *tb = new KToolBar(this, "File");
   tb->setFullSize(false);
 
@@ -469,7 +465,6 @@ void MainWindow::setupFileActions()
 
 void MainWindow::setupRunActions()
 {
-  qDebug("Setup Run Actions");
   QPopupMenu *menu = new QPopupMenu(this, "Run");
   menuBar()->insertItem(i18n("&Run"), menu);
 
@@ -483,7 +478,6 @@ void MainWindow::setupRunActions()
 
 void MainWindow::setupWindowActions()
 {
-  qDebug("Setup Window Actions");
   static bool windowActionsSetup = false;
   if (!windowActionsSetup)
   {
@@ -538,7 +532,7 @@ void MainWindow::setupWindowActions()
   actionWindowTile->plug(windowMenu);
   actionWindowCascade->plug(windowMenu);
   windowMenu->insertSeparator();
-  windowMenu->insertItem(i18n("Vie&ws"), createDockWindowMenu(NoToolBars));
+  windowMenu->insertItem(i18n("Vie&ws"), dockHideShowMenu());
   windowMenu->insertItem(i18n("Tool&bars"), createDockWindowMenu(OnlyToolBars));
   
   QWidgetList windows = qworkspace->windowList();
@@ -634,7 +628,7 @@ void MainWindow::fileOpen(const QString & filter, const QString & fn)
     if (!filename.isEmpty())
     {
       QFileInfo fi(filename);
-      if (openFormWindow(filename))
+      if (fi.exists() && openFormWindow(filename))
         actionRecent->addURL(filename);
     }
   }

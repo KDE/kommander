@@ -20,7 +20,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "config.h"
 #include "defs.h"
 #include "formwindow.h"
 #include "globaldefs.h"
@@ -48,7 +47,6 @@
 #include <qbuffer.h>
 #include <qclipboard.h>
 #include <qdir.h>
-#include <qdockwindow.h>
 #include <qfeatures.h>
 #include <qfile.h>
 #include <qlabel.h>
@@ -113,7 +111,7 @@ static QString textNoAccel( const QString& text)
 
 
 MainWindow::MainWindow( bool asClient )
-    : KMainWindow( 0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader ),
+    : KDockMainWindow( 0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader ),
       grd( 10, 10 ), sGrid( TRUE ), snGrid( TRUE ), restoreConfig( TRUE ), splashScreen( TRUE ),
       docPath( "$QTDIR/doc/html" ), fileFilter( i18n("Kommander Files (*.kmdr)" ) ), client( asClient ),
       previewing( FALSE ), databaseAutoEdit( FALSE )
@@ -137,7 +135,6 @@ MainWindow::MainWindow( bool asClient )
     statusBar()->addWidget(new QLabel(i18n("Welcome to the Kommander Editor"), statusBar()), 1);
 
     setupMDI();
-    
     setupFileActions();
     setupEditActions();
     layoutToolBar = new KToolBar( this, "Layout" );
@@ -153,7 +150,6 @@ MainWindow::MainWindow( bool asClient )
     setupWindowActions();
     setupSettingsActions();
     setupHelpActions();
-    
     setupRMBMenus();
 
     emit hasActiveForm( FALSE );
@@ -189,7 +185,7 @@ MainWindow::MainWindow( bool asClient )
     w = WidgetFactory::create( WidgetDatabase::idFromClassName( "QFrame" ), this, 0, FALSE );
     delete w;
 
-    setAppropriate( (QDockWindow*)actionEditor->parentWidget(), FALSE );
+    //FIXME    setAppropriate( (KDockWidget*)actionEditor->parentWidget(), FALSE );
     actionEditor->parentWidget()->hide();
 
     assistant = new AssistProc( this, "Internal Assistant", assistantPath() );
@@ -207,34 +203,42 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupMDI()
 {
-    QVBox *vbox = new QVBox( this );
-    setCentralWidget( vbox );
-    vbox->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
-    vbox->setMargin( 1 );
-    vbox->setLineWidth( 1 );
-    qworkspace = new QWorkspace( vbox );
-    qworkspace->setBackgroundMode( PaletteDark );
-    qworkspace->setBackgroundPixmap( PixmapChooser::loadPixmap( "background.png", PixmapChooser::NoSize ) );
-    qworkspace->setPaletteBackgroundColor(QColor(238, 238, 238));
-    qworkspace->setScrollBarsEnabled( TRUE );
-    connect( qworkspace, SIGNAL( windowActivated( QWidget * ) ),
-             this, SLOT( activeWindowChanged( QWidget * ) ) );
-    lastActiveFormWindow = 0;
-    qworkspace->setAcceptDrops( TRUE );
+  qDebug("Setup MDI");
+  KDockWidget* toolDock = createDockWidget("Workspace", QPixmap(), 0L, "main_workspace");
+  QVBox *vbox = new QVBox(toolDock);
+  vbox->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+  vbox->setMargin(1);
+  vbox->setLineWidth(1);
+  
+  toolDock->setWidget(vbox);
+  toolDock->setDockSite(KDockWidget::DockCorner);
+  toolDock->setEnableDocking(KDockWidget::DockNone);
+  setView(toolDock);            
+  setMainDockWidget(toolDock);
+  
+  qworkspace = new QWorkspace(vbox);
+  qworkspace->setBackgroundMode(PaletteDark);
+  qworkspace->setBackgroundPixmap(PixmapChooser::loadPixmap("background.png",
+          PixmapChooser::NoSize));
+  qworkspace->setPaletteBackgroundColor(QColor(238, 238, 238));
+  qworkspace->setScrollBarsEnabled(TRUE);
+  connect(qworkspace, SIGNAL(windowActivated(QWidget *)),
+      this, SLOT(activeWindowChanged(QWidget *)));
+  lastActiveFormWindow = 0;
+  qworkspace->setAcceptDrops(TRUE);
 }
 
 void MainWindow::setupPropertyEditor()
 {
-    QDockWindow *dw = new QDockWindow;
-    dw->setResizeEnabled( TRUE );
-    dw->setCloseMode( QDockWindow::Always );
-    propertyEditor = new PropertyEditor( dw );
-    addToolBar( dw, Qt::DockLeft );
-    dw->setWidget( propertyEditor );
-    dw->setFixedExtentWidth( 300 );
-    dw->setCaption( i18n("Property Editor/Signal Handlers" ) );
-    QWhatsThis::add( propertyEditor,
-                     i18n("<b>The Property Editor</b>"
+  qDebug("Setup properties editor");
+  KDockWidget *dw = createDockWidget("Property Editor", QPixmap(), 0, i18n("Properties"));
+  propertyEditor = new PropertyEditor(dw);
+  //addToolBar(dw, Qt::DockLeft);
+  dw->setWidget(propertyEditor);
+  dw->manualDock(getMainDockWidget(), KDockWidget::DockLeft, 20);
+  dw->setCaption(i18n("Property Editor" ));
+  QWhatsThis::add( propertyEditor,
+                     i18n("<h2>The Property Editor</h2>"
                         "<p>You can change the appearance and behavior of the selected widget in the "
                         "property editor.</p>"
                         "<p>You can set properties for components and forms at design time and see the "
@@ -249,79 +253,61 @@ void MainWindow::setupPropertyEditor()
                         "<p>In the Signal Handlers tab you can define connections between "
                         "the signals emitted by widgets and the slots in the form. "
                         "(These connections can also be made using the connection tool.)" ) );
-    dw->show();
+  
 }
 
 
 void MainWindow::setupHierarchyView()
 {
-    if ( hierarchyView )
-        return;
-    QDockWindow *dw = new QDockWindow;
-    dw->setResizeEnabled( TRUE );
-    dw->setCloseMode( QDockWindow::Always );
-    hierarchyView = new HierarchyView( dw );
-    addToolBar( dw, Qt::DockLeft );
-    dw->setWidget( hierarchyView );
-
-    dw->setCaption( i18n("Object Explorer" ) );
-    dw->setFixedExtentWidth( 300 );
-    QWhatsThis::add( hierarchyView,
-                     i18n("<b>The Object Explorer</b>"
-                        "<p>The Object Explorer provides an overview of the relationships "
-                        "between the widgets in a form. You can use the clipboard functions using "
-                        "a context menu for each item in the view. It is also useful for selecting widgets "
-                        "in forms that have complex layouts.</p>"
-                        "<p>The columns can be resized by dragging the separator in the list's header.</p>"
-                        "<p>The second tab shows all the form's slots, class variables, includes, etc.</p>") );
-    dw->show();
+  qDebug("Setup hierarchy view");
+  if (hierarchyView)
+    return;
+  KDockWidget *dw = createDockWidget("Object Explorer", QPixmap(), 0, i18n("Widgets"));
+  hierarchyView = new HierarchyView(dw);
+  dw->setWidget(hierarchyView);
+  dw->setCaption(i18n("Object Explorer"));
+  QWhatsThis::add(hierarchyView,
+      i18n("<h2>The Object Explorer</h2>"
+          "<p>The Object Explorer provides an overview of the relationships "
+          "between the widgets in a form. You can use the clipboard functions using "
+          "a context menu for each item in the view. It is also useful for selecting widgets "
+          "in forms that have complex layouts.</p>"
+          "<p>The columns can be resized by dragging the separator in the list's header.</p>"
+          "<p>The second tab shows all the form's slots, class variables, includes, etc.</p>"));
 }
 
 void MainWindow::setupWorkspace()
 {
-    QDockWindow *dw = new QDockWindow;
-    dw->setResizeEnabled( TRUE );
-    dw->setCloseMode( QDockWindow::Always );
-    QVBox *vbox = new QVBox( dw );
-    QCompletionEdit *edit = new QCompletionEdit( vbox );
-    QToolTip::add( edit, i18n("Start typing the buffer you want to switch to here (ALT+B)" ) );
-    QAccel *a = new QAccel( this );
-    a->connectItem( a->insertItem( ALT + Key_B ), edit, SLOT( setFocus() ) );
-
-    wspace = new Workspace( vbox, this );
-    wspace->setBufferEdit( edit );
-
-    addToolBar( dw, Qt::DockLeft );
-    dw->setWidget( vbox );
-
-    dw->setCaption( i18n("File Overview" ) );
-    QWhatsThis::add( wspace, i18n("<b>The File Overview Window</b>"
-                                "<p>The File Overview Window displays all the files, "
-                                "including forms and source files.</p>"
-                                "<p>Use the search field to rapidly switch between files.</p>"));
-    dw->setFixedExtentHeight( 100 );
-    dw->show();
+  qDebug("Setup file list");
+  KDockWidget *dw = createDockWidget("Dialogs", QPixmap(), 0, i18n("Dialogs"));
+  QVBox *vbox = new QVBox(dw);
+  QCompletionEdit *edit = new QCompletionEdit(vbox);
+  QToolTip::add(edit, i18n("Start typing the buffer you want to switch to here (ALT+B)"));
+  QAccel *a = new QAccel(this);
+  a->connectItem(a->insertItem(ALT + Key_B), edit, SLOT(setFocus()));
+  wspace = new Workspace(vbox, this);
+  wspace->setBufferEdit(edit);
+  dw->setWidget(vbox);
+  dw->setCaption(i18n("Dialogs"));
+  QWhatsThis::add(wspace, i18n("<h2>The File Overview Window</h2>"
+          "<p>The File Overview Window displays all open dialogs.</p>"));
+  
 }
 
 void MainWindow::setupActionEditor()
 {
-    QDockWindow *dw = new QDockWindow( QDockWindow::OutsideDock, this, 0 );
-    addDockWindow( dw, Qt::DockTornOff );
-    dw->setResizeEnabled( TRUE );
-    dw->setCloseMode( QDockWindow::Always );
-    actionEditor = new ActionEditor( dw );
-    dw->setWidget( actionEditor );
-    actionEditor->show();
-    dw->setCaption( i18n("Action Editor" ) );
-    QWhatsThis::add( actionEditor, i18n("<b>The Action Editor</b>"
-                                      "<p>The Action Editor is used to add actions and action groups to "
-                                      "a form, and to connect actions to slots. Actions and action "
-                                      "groups can be dragged into menus and into toolbars, and may "
-                                      "feature keyboard shortcuts and tooltips. If actions have pixmaps "
-                                      "these are displayed on toolbar buttons and beside their names in "
-                                      "menus.</p>" ) );
-    dw->hide();
-    setAppropriate( dw, FALSE );
+  qDebug("Setup action editor");
+  KDockWidget *dw = createDockWidget("Action Editor", QPixmap(), 0, i18n("Actions"));
+  actionEditor = new ActionEditor(dw);
+  //addToolBar(dw, Qt::DockLeft);
+  dw->setWidget(actionEditor);
+  dw->setCaption(i18n("Action Editor"));
+  QWhatsThis::add(actionEditor, i18n("<b>The Action Editor</b>"
+          "<p>The Action Editor is used to add actions and action groups to "
+          "a form, and to connect actions to slots. Actions and action "
+          "groups can be dragged into menus and into toolbars, and may "
+          "feature keyboard shortcuts and tooltips. If actions have pixmaps "
+          "these are displayed on toolbar buttons and beside their names in " "menus.</p>"));
 }
 
 void MainWindow::setupRMBMenus()
@@ -759,13 +745,14 @@ void MainWindow::activeWindowChanged( QWidget *w )
         formWindow()->clearSelection();
     }
     workspace()->activeFormChanged(fw);
+/*FIXME    
     setAppropriate((QDockWindow *) actionEditor->parentWidget(),
         lastActiveFormWindow->mainContainer()->inherits("QMainWindow"));
     if (appropriate((QDockWindow *) actionEditor->parentWidget()))
       actionEditor->parentWidget()->show();
     else
       actionEditor->parentWidget()->hide();
-
+  */
     actionEditor->setFormWindow(lastActiveFormWindow);
     emit formWindowChanged();
 
@@ -1293,12 +1280,12 @@ void MainWindow::writeConfig()
   config->writeEntry("UsePixmap", backPix);
   config->writeEntry("Color", qworkspace->backgroundColor().name());
     
+  /*
   config->setGroup("Geometry");
   config->writeEntry("MainWindow", size());
   config->writeEntry("MainWindowMax", isMaximized());
-  config->writeEntry("PropertyEditor", propertyEditor->parentWidget()->rect());
-  config->writeEntry("HierarchyView", hierarchyView->parentWidget()->rect());
-  config->writeEntry("Workspace", wspace->parentWidget()->rect());
+  */
+  writeDockConfig(config, "Docks");
   
   config->setGroup("View");
   config->writeEntry("TextLabels", usesTextLabel());
@@ -1333,17 +1320,15 @@ void MainWindow::readConfig()
   else 
     qworkspace->setBackgroundColor(QColor(config->readEntry("Color", "#f0f0f0")).rgb());
     
+  /*
   config->setGroup("Geometry");
   QSize winSize = size();
   resize(config->readSizeEntry("MainWindow", &winSize));
-  QRect defSize = propertyEditor->parentWidget()->rect();
   if (config->readBoolEntry("MainWindowMax", false))
     showMaximized();
-  propertyEditor->parentWidget()->setGeometry(config->readRectEntry("PropertyEditor", &defSize));
-  defSize = hierarchyView->parentWidget()->rect();
-  hierarchyView->parentWidget()->setGeometry(config->readRectEntry("HierarchyView", &defSize));
-  defSize = wspace->parentWidget()->rect();
-  wspace->parentWidget()->setGeometry(config->readRectEntry("Workspace", &defSize));
+  */
+  readDockConfig(config, "Docks");
+  
   
   config->setGroup("View");
   setUsesTextLabel(config->readBoolEntry("TextLabels", false));

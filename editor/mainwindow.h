@@ -23,6 +23,7 @@
 #include "metadatabase.h"
 
 #include <kmainwindow.h>
+#include <kdockwidget.h>
 
 #include <qmap.h>
 #include <qguardedptr.h>
@@ -59,7 +60,7 @@ class QToolBar;
 class Preferences;
 
 
-class MainWindow : public KMainWindow
+class MainWindow : public KDockMainWindow
 {
     Q_OBJECT
 
@@ -272,7 +273,6 @@ private:
     QPopupMenu *customWidgetMenu, *windowMenu, *fileMenu;
 
     QToolBar *customWidgetToolBar, *layoutToolBar;
-
 
     Preferences *prefDia;
     QMap<QString,QString> propertyDocumentation;
