@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -872,7 +872,7 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
                       "In order to insert the widget, the layout of '%1'\n"
                       "must first be broken.\n"
                       "Break the layout or cancel the operation?").
-                  arg(wa->name()).arg(wa->name()), i18n("Inserting a Widget"),
+                  arg(wa->name()).arg(wa->name()), i18n("Inserting Widget"),
                   i18n("&Break Layout"), i18n("&Cancel")) == KMessageBox::No)
             goto make_move_command; // cancel
           breakLayout(wa);
@@ -962,7 +962,7 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
                     "must first be broken.\n"
                     "Break the layout or cancel the operation?").
                 arg(insertParent->name()).
-                arg(insertParent->name()), i18n("Inserting a Widget"),
+                arg(insertParent->name()), i18n("Inserting Widget"),
                 i18n("&Break Layout"), i18n("&Cancel")) == KMessageBox::Yes)
         {
           breakLayout(insertParent);

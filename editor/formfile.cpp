@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -128,7 +128,7 @@ bool FormFile::saveAs()
   while (!saved) {
     QString fn = KFileDialog::getSaveFileName(QString::null,
       i18n("*.kmdr|Kommander Files"), MainWindow::self,
-      i18n("Save Form '%1' As...").arg(formWindow()->name()));
+      i18n("Save Form '%1' As").arg(formWindow()->name()));
     if (fn.isEmpty())
       return false;
     QFileInfo fi(fn);
@@ -141,7 +141,7 @@ bool FormFile::saveAs()
     if (relfi.exists()) {
       if (KMessageBox::warningYesNo(MainWindow::self, 
          i18n("The file already exists. Do you wish to overwrite it?"),
-         i18n("Overwrite file?")) == KMessageBox::Yes) 
+         i18n("Overwrite File?")) == KMessageBox::Yes) 
         saved = true;
       else 
         filename = f;
@@ -169,7 +169,7 @@ bool FormFile::closeEvent()
   }
 
   switch (KMessageBox::warningYesNoCancel(MainWindow::self, i18n("Dialog '%1' was modified."
-  "Do you want to save it?").arg(filename), i18n("Save file?"))) {
+  "Do you want to save it?").arg(filename), i18n("Save File?"))) {
     case KMessageBox::Yes:
       if (!save())
         return false;

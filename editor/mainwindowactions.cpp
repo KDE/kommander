@@ -149,7 +149,7 @@ void MainWindow::setupEditActions()
     //Script Objects Action
     actionEditScriptObjects = new QAction(i18n("Script Objects"), QPixmap(), i18n("&Script Objects"), ALT + Key_S, this);
     actionEditScriptObjects->setStatusTip(i18n("Opens the script object editor."));
-    actionEditScriptObjects->setWhatsThis(i18n("Script Objects Editor"));
+    actionEditScriptObjects->setWhatsThis(i18n("Script objects editor"));
     connect(actionEditScriptObjects, SIGNAL(activated()), this, SLOT(editScriptObjects()));
     connect(this, SIGNAL(hasActiveForm(bool)), actionEditScriptObjects, SLOT(setEnabled(bool)));
 
@@ -549,7 +549,7 @@ void MainWindow::setupRunActions()
     QPopupMenu *menu = new QPopupMenu( this, "Run" );
     menubar->insertItem( i18n("&Run" ), menu );
 
-    a = new QAction( i18n("Run dialog" ), createIconSet("previewform.xpm"),
+    a = new QAction( i18n("Run Dialog" ), createIconSet("previewform.xpm"),
              i18n("Run &Dialog" ), 0, this, 0 );
     a->setAccel( CTRL + Key_R );
     a->setStatusTip( i18n("Executes dialog") );
@@ -646,7 +646,7 @@ void MainWindow::setupHelpActions()
     connect( actionHelpContents, SIGNAL( activated() ), this, SLOT( helpContents() ) );
 
     actionHelpManual = new QAction( i18n("Kommander Handbook" ), i18n("Kommander &Handbook" ), 0, this, 0 );
-    actionHelpManual->setStatusTip( i18n("Opens the Kommander Handbook") );
+    actionHelpManual->setStatusTip( i18n("Opens the Kommander handbook") );
     actionHelpManual->setWhatsThis( whatsThisFrom( "Help|Kommander Handbook" ) );
     actionHelpManual->setIconSet(SmallIconSet("contents"));
     connect( actionHelpManual, SIGNAL( activated() ), this, SLOT( helpManual() ) );
