@@ -43,7 +43,7 @@
 #include "choosewidgetimpl.h"
 #include "functionsimpl.h"
 
-AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form, 
+AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     PropertyEditor* a_property, QWidget *a_parent, const char *a_name, bool a_modal)
     : AssocTextEditorBase(a_parent, a_name, a_modal)
 {
@@ -54,12 +54,12 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   
   // icon for non-empty scripts
   scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);
-  
+
   // signals and slots connections
   m_formWindow = a_form;
   m_propertyEditor = a_property;
   m_widget = a_widget;
-  
+
   // list of widgets that can be edited
   buildWidgetList();
   for (int i=0; i<widgetsComboBox->count(); i++)
@@ -69,7 +69,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
       break;
     }
   setWidget(a_widget);
-    
+
   connect(associatedTextEdit, SIGNAL(textChanged()), SLOT(textEditChanged()));
   connect(widgetsComboBox, SIGNAL(activated(int)), SLOT(widgetChanged(int)));
   connect(stateComboBox, SIGNAL(activated(int)), SLOT(stateChanged(int)));
@@ -89,7 +89,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   KommanderWidget *a_atw = dynamic_cast<KommanderWidget *>(a_widget);
   if (!a_widget || !a_atw)
     return;
-  
+
   m_widget = a_widget;
   m_states = a_atw->states();
   m_populationText = a_atw->populationText();
@@ -98,7 +98,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   stateComboBox->clear();
   stateComboBox->insertStringList(a_atw->displayStates());
   stateComboBox->insertItem("population");
-  
+
   // set states and population scripts
   QStringList at = a_atw->associatedText();
   m_atdict.clear();
@@ -114,22 +114,22 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
       m_atdict[(*s_it)] = QString::null;
   }
   m_populationText = a_atw->populationText();
-    
+
   // show pixmaps for nonempty scripts
-  int p_population = stateComboBox->count()-1; 
+  int p_population = stateComboBox->count()-1;
   for (int i=0; i<p_population; i++)
     if (!m_atdict[stateComboBox->text(i)].isEmpty())
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(i), i);
   if (!m_populationText.isEmpty())
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(p_population), p_population);
-  
-  
+
+
     // initial text for initial state
   stateComboBox->setCurrentItem(0);
   m_currentState = stateComboBox->currentText();
-  
+
   stateChanged(0);
-  
+
 }
 
 void AssocTextEditor::save() const
@@ -141,8 +141,8 @@ void AssocTextEditor::save() const
 
   if (atw->associatedText() != associatedText())
   {
-    QString text = QString("Set the \'text association\' of \'%1\'").arg(m_widget->name());
-    SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow, 
+    QString text = i18n("Set the \'text association\' of \'%1\'").arg(m_widget->name());
+    SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow,
         m_widget, m_propertyEditor, "associations", atw->associatedText(),
         associatedText(), QString::null, QString::null, false);
     cmd->execute();
@@ -151,8 +151,8 @@ void AssocTextEditor::save() const
   }
   if (atw->populationText() != populationText())
   {
-    QString text = QString("Set the \'population text\' of \'%1\'").arg(m_widget->name());
-    SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow, m_widget, 
+    QString text = i18n("Set the \'population text\' of \'%1\'").arg(m_widget->name());
+    SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow, m_widget,
         m_propertyEditor, "populationText", atw->populationText(),
         populationText(), QString::null, QString::null, false);
     cmd->execute();
@@ -181,10 +181,10 @@ QStringList AssocTextEditor::buildWidgetList()
   QObject* thisObject = m_formWindow->mainContainer();
   QObjectList *objectList = thisObject->queryList();
   objectList->prepend(thisObject);
-  
+
   for (QObjectListIt it(*objectList); it.current(); ++it)
   {
-    // There is a warning message with the property() function if it does not exist. 
+    // There is a warning message with the property() function if it does not exist.
     // Verify the property exists with the meta information first */
     bool pExists = false;
     QMetaObject *metaObj = it.current()->metaObject();
@@ -192,13 +192,13 @@ QStringList AssocTextEditor::buildWidgetList()
     {
       int id = metaObj->findProperty("KommanderWidget", true);
       const QMetaProperty *metaProp = metaObj->property(id, true);
-      if(metaProp && metaProp->isValid()) 
+      if(metaProp && metaProp->isValid())
         pExists = true;
     }
     if(pExists)
     {
       QVariant flag = (it.current())->property("KommanderWidget");
-      if(flag.isValid() && !(QString(it.current()->name()).startsWith("qt_"))) 
+      if(flag.isValid() && !(QString(it.current()->name()).startsWith("qt_")))
       {
         widgetList.append( widgetToString( (QWidget*)it.current()) );
         m_widgetList.insert(it.current()->name(), (QWidget*)it.current());
@@ -270,11 +270,11 @@ void AssocTextEditor::insertFile()
 
   if(fileName.isEmpty())
     return;
-  
+
   QFile insertFile(fileName);
   if(!insertFile.open(IO_ReadOnly))
   {
-    KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt").arg( fileName.local8Bit().data() ) );
+    KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt").arg( fileName ) );
     return;
   }
   QTextStream insertStream(&insertFile);
@@ -302,17 +302,17 @@ QString AssocTextEditor::widgetToString(QWidget* widget, bool formatted)
    if (!widget)
      return QString::null;
    else if (formatted)
-     return QString("%1 (%2)").arg(widget->name()).arg(widget->className());  
+     return QString("%1 (%2)").arg(widget->name()).arg(widget->className());
    else
      return widget->name();
 }
-  
+
 QWidget* AssocTextEditor::widgetFromString(const QString& name)
 {
   QString realname = name;
   int i = realname.find(' ');
   if (i != -1)
-    realname.truncate(i); 
+    realname.truncate(i);
   return m_widgetList[realname];
 }
 
@@ -356,7 +356,7 @@ void AssocTextEdit::insert(const QString &a_text, bool a_indent, bool a_checkNew
 {
     QString text = a_text;
     QString escapedText;
-    
+
     int textLength = a_text.length();
     int i = 0;
     while(i < textLength)

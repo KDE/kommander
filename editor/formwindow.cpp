@@ -71,8 +71,8 @@ static void setCursorToAll(const QCursor &c, QWidget *start)
 {
   start->setCursor(c);
   QObjectList *l = (QObjectList*)start->children();
-  if (l) 
-    for (QObject *o = l->first(); o; o = l->next()) 
+  if (l)
+    for (QObject *o = l->first(); o; o = l->next())
     {
       if (o->isWidgetType() && !o->inherits("SizeHandle"))
         setCursorToAll(c, ((QWidget*)o));
@@ -86,8 +86,8 @@ static void restoreCursors(QWidget *start, FormWindow *fw)
   else
     start->setCursor(Qt::ArrowCursor);
   QObjectList *l = (QObjectList*)start->children();
-  if (l) 
-    for (QObject *o = l->first(); o; o = l->next()) 
+  if (l)
+    for (QObject *o = l->first(); o; o = l->next())
     {
       if (o->isWidgetType() && !o->inherits("SizeHandle"))
         restoreCursors(((QWidget*)o), fw);
@@ -217,8 +217,8 @@ void FormWindow::paintGrid(QWidget *w, QPaintEvent *e)
     mask.fill(color0);
     QPainter p(&mask);
     p.setPen(color1);
-    for (int y = 0; y < grid.width(); y += mainWindow()->grid().y()) 
-      for (int x = 0; x < grid.height(); x += mainWindow()->grid().x()) 
+    for (int y = 0; y < grid.width(); y += mainWindow()->grid().y())
+      for (int x = 0; x < grid.height(); x += mainWindow()->grid().x())
         p.drawPoint(x, y);
     grid.setMask(mask);
     QPixmapCache::insert(grid_name, grid);
@@ -243,7 +243,7 @@ void FormWindow::beginUnclippedPainter(bool doNot)
   unclippedPainter->begin(this);
   if (!unclipped)
     clearWFlags(WPaintUnclipped);
-  if (doNot) 
+  if (doNot)
   {
     unclippedPainter->setPen(QPen(color0, 2));
     unclippedPainter->setRasterOp(NotROP);
@@ -259,7 +259,7 @@ void FormWindow::endUnclippedPainter()
 }
 
 QPoint FormWindow::gridPoint(const QPoint &p)
-{  
+{
   return QPoint((p.x() / grid().x()) * grid().x(),
       (p.y() / grid().y()) * grid().y());
 }
@@ -322,13 +322,13 @@ void FormWindow::insertWidget()
           "the widget on the form.</p>")
           .arg(WidgetDatabase::toolTip(id)));
     QToolTip::add(w, i18n("A %1 (custom widget)").arg(WidgetDatabase::toolTip(id)));
-    } 
-  else 
+    }
+  else
   {
     QString tt = WidgetDatabase::toolTip(id);
     QString wt = WidgetDatabase::whatsThis(id);
     if (!wt.isEmpty() && !tt.isEmpty())
-        QWhatsThis::add(w, QString("<b>A %1</b><p>%2</p>").arg(tt).arg(wt));
+        QWhatsThis::add(w, i18n("<b>A %1</b><p>%2</p>").arg(tt).arg(wt));
   }
 
   QString s = w->name();
@@ -343,7 +343,7 @@ void FormWindow::insertWidget()
   p = mapToGlobal(p);
   p = insertParent->mapFromGlobal(p);
   r = QRect(p, r.size());
-  if (useSizeHint) 
+  if (useSizeHint)
   {
     r.setWidth(w->sizeHint().width());
     r.setHeight(w->sizeHint().height());
@@ -357,24 +357,24 @@ void FormWindow::insertWidget()
   const QObjectList *l = insertParent->children();
   QObjectListIt it(*l);
   QWidgetList lst;
-  if (WidgetDatabase::isContainer(WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w)))) 
+  if (WidgetDatabase::isContainer(WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w))))
     for (; it.current();) {
       QObject *o = it.current();
       ++it;
       if (o->isWidgetType() && ((QWidget*)o)->isVisibleTo(this) &&
-          insertedWidgets.find((QWidget*)o) && o != w) 
+          insertedWidgets.find((QWidget*)o) && o != w)
       {
         QRect r2(((QWidget*)o)->pos(), ((QWidget*)o)->size());
         if (r.contains(r2))
           lst.append((QWidget*)o);
       }
     }
-  
-  if (!lst.isEmpty()) 
+
+  if (!lst.isEmpty())
   {
     QWidget *pw = WidgetFactory::containerOfWidget(w);
     QValueList<QPoint> op, np;
-    for (QWidget *i = lst.first(); i; i = lst.next()) 
+    for (QWidget *i = lst.first(); i; i = lst.next())
     {
       op.append(i->pos());
       QPoint pos = pw->mapFromGlobal(i->mapToGlobal(QPoint(0, 0)));
@@ -396,8 +396,8 @@ void FormWindow::insertWidget()
     MacroCommand *mc = new MacroCommand(i18n("Insert %1").arg(w->name()), this, commands);
     commandHistory()->addCommand(mc);
     mc->execute();
-  } 
-  else 
+  }
+  else
   {
     if (!toolFixed)
       mainwindow->resetTool();
@@ -420,7 +420,7 @@ void FormWindow::insertWidget(QWidget *w, bool checkName)
 
   MetaDataBase::addEntry(w);
   int id = WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w));
-  if (WidgetDatabase::isCustomWidget(id)) 
+  if (WidgetDatabase::isCustomWidget(id))
   {
     QWhatsThis::add(w, i18n("<b>A %1 (custom widget)</b> "
             "<p>Click <b>Edit Custom Widgets...</b> in the <b>Tools|Custom</b> "
@@ -430,13 +430,13 @@ void FormWindow::insertWidget(QWidget *w, bool checkName)
             "the widget on the form.</p>")
             .arg(WidgetDatabase::toolTip(id)));
     QToolTip::add(w, i18n("A %1 (custom widget)").arg(WidgetDatabase::toolTip(id)));
-  } 
-  else 
+  }
+  else
   {
     QString tt = WidgetDatabase::toolTip(id);
     QString wt = WidgetDatabase::whatsThis(id);
     if (!wt.isEmpty() && !tt.isEmpty())
-      QWhatsThis::add(w, QString("<b>A %1</b><p>%2</p>").arg(tt).arg(wt));
+      QWhatsThis::add(w, i18n("<b>A %1</b><p>%2</p>").arg(tt).arg(wt));
   }
 
   restoreCursors(w, this);
@@ -453,8 +453,8 @@ void FormWindow::removeWidget(QWidget *w)
 void FormWindow::handleContextMenu(QContextMenuEvent *e, QWidget *w)
 {
   switch (currTool) {
-    case POINTER_TOOL: 
-      if (!isMainContainer(w) && qstrcmp(w->name(), "central widget")) 
+    case POINTER_TOOL:
+      if (!isMainContainer(w) && qstrcmp(w->name(), "central widget"))
       { // press on a child widget
         raiseChildSelections(w); // raise selections and select widget
         selectWidget(w);
@@ -464,24 +464,24 @@ void FormWindow::handleContextMenu(QContextMenuEvent *e, QWidget *w)
            WidgetFactory::NoLayout || !insertedWidgets.find(w)))
           w = w->parentWidget();
         if (mainContainer()->inherits("QMainWindow") &&
-          ((QMainWindow*)mainContainer())->centralWidget() == realWidget) 
+          ((QMainWindow*)mainContainer())->centralWidget() == realWidget)
         {
           e->accept();
           mainwindow->popupFormWindowMenu(e->globalPos(), this);
-        } 
-        else 
+        }
+        else
         {
           e->accept();
           mainwindow->popupWidgetMenu(e->globalPos(), this, realWidget);
         }
-      } 
-      else 
+      }
+      else
       {
         e->accept();
         clearSelection();
         mainwindow->popupFormWindowMenu(e->globalPos(), this);
       }
-    break; 
+    break;
   default:
     break;
   }
@@ -500,33 +500,33 @@ void FormWindow::handleMousePress(QMouseEvent *e, QWidget *w)
 
   switch (currTool) {
     case POINTER_TOOL:
-        if (!isMainContainer(w) && qstrcmp(w->name(), "central widget") != 0) 
+        if (!isMainContainer(w) && qstrcmp(w->name(), "central widget") != 0)
         { // press on a child widget
             // if the clicked widget is not in a layout, raise it
           if (!w->parentWidget() || WidgetFactory::layoutType(w->parentWidget()) == WidgetFactory::NoLayout)
             w->raise();
-          if ((e->state() & ControlButton)) 
+          if ((e->state() & ControlButton))
           { // with control pressed, always start rubber band selection
             drawRubber = true;
             currRect = QRect(0, 0, -1, -1);
             startRectDraw(mapFromGlobal(e->globalPos()), e->globalPos(), this, Rubber);
             break;
           }
-      
+
           bool sel = isWidgetSelected(w);
-          if (!((e->state() & ControlButton) || (e->state() & ShiftButton))) 
+          if (!((e->state() & ControlButton) || (e->state() & ShiftButton)))
           { // control not pressed...
             if (!sel)  // ...and widget no selectted: unselect all
                 clearSelection(false);
-            else 
+            else
             { // ...widget selected
-              // only if widget has a layout (it is a layout meta widget or a laid out container!), 
+              // only if widget has a layout (it is a layout meta widget or a laid out container!),
               // unselect its childs
-              if (WidgetFactory::layoutType(w) != WidgetFactory::NoLayout) 
+              if (WidgetFactory::layoutType(w) != WidgetFactory::NoLayout)
               {
                 QObjectList *l = w->queryList("QWidget");
                 setPropertyShowingBlocked(true);
-                for (QObject *o = l->first(); o; o = l->next()) 
+                for (QObject *o = l->first(); o; o = l->next())
                 {
                   if (!o->isWidgetType())
                     continue;
@@ -540,22 +540,22 @@ void FormWindow::handleMousePress(QMouseEvent *e, QWidget *w)
             qApp->processEvents();
           }
           if (((e->state() & ControlButton) || (e->state() & ShiftButton)) &&
-            sel && e->button() == LeftButton) 
+            sel && e->button() == LeftButton)
           { // control pressed and selected, unselect widget
             selectWidget(w, false);
             break;
           }
-      
+
           raiseChildSelections(w); // raise selections and select widget
           selectWidget(w);
-      
+
           // if widget is laid out, find the first non-laid out super-widget
           while (w->parentWidget() &&
             (WidgetFactory::layoutType(w->parentWidget()) != WidgetFactory::NoLayout
                 || !insertedWidgets.find(w)))
             w = w->parentWidget();
-      
-          if (e->button() == LeftButton) 
+
+          if (e->button() == LeftButton)
           { // left button: store original geometry and more as the widget might start moving
             widgetPressed = true;
             widgetGeom = QRect(w->pos(), w->size());
@@ -564,20 +564,20 @@ void FormWindow::handleMousePress(QMouseEvent *e, QWidget *w)
             checkedSelectionsForMove = false;
             moving.clear();
             if (w->parentWidget() && !isMainContainer(w->parentWidget()) &&
-               !isCentralWidget(w->parentWidget())) 
+               !isCentralWidget(w->parentWidget()))
             {
               targetContainer = w->parentWidget();
               hadOwnPalette = w->parentWidget()->ownPalette();
               restorePalette = w->parentWidget()->palette();
             }
           }
-        } 
-        else 
+        }
+        else
         { // press was on the formwindow
-          if (e->button() == LeftButton) 
+          if (e->button() == LeftButton)
           { // left button: start rubber selection and show formwindow properties
             drawRubber = true;
-            if (!((e->state() & ControlButton) || (e->state() & ShiftButton))) 
+            if (!((e->state() & ControlButton) || (e->state() & ShiftButton)))
             {
               clearSelection(false);
               QObject *opw = propertyWidget;
@@ -603,21 +603,21 @@ void FormWindow::handleMousePress(QMouseEvent *e, QWidget *w)
         drawConnectLine();
         break;
     case ORDER_TOOL:
-        if (!isMainContainer(w)) 
+        if (!isMainContainer(w))
         { // press on a child widget
           orderedWidgets.removeRef(w);
           orderedWidgets.append(w);
-          for (QWidget *wid = orderedWidgets.last(); wid; wid = orderedWidgets.prev()) 
+          for (QWidget *wid = orderedWidgets.last(); wid; wid = orderedWidgets.prev())
           {
             int i = stackedWidgets.findRef(wid);
-            if (i != -1) 
+            if (i != -1)
             {
               stackedWidgets.removeRef(wid);
               stackedWidgets.insert(0, wid);
             }
           }
           QWidgetList oldl = MetaDataBase::tabOrder(this);
-          TabOrderCommand *cmd = new TabOrderCommand(i18n("Change Tab Order"), this, 
+          TabOrderCommand *cmd = new TabOrderCommand(i18n("Change Tab Order"), this,
               oldl, stackedWidgets);
           cmd->execute();
           commandHistory()->addCommand(cmd, true);
@@ -625,23 +625,23 @@ void FormWindow::handleMousePress(QMouseEvent *e, QWidget *w)
         }
         break;
     default: // any insert widget tool
-        if (e->button() == LeftButton) 
+        if (e->button() == LeftButton)
         {
           insertParent = WidgetFactory::containerOfWidget(mainContainer());
           // default parent for new widget is the formwindow
-          if (!isMainContainer(w)) 
+          if (!isMainContainer(w))
           { // press was not on formwindow, check if we can find another parent
             QWidget *wid = w;
-            for (;;) 
+            for (;;)
             {
               int id = WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(wid));
               if ((WidgetDatabase::isContainer(id) || wid == mainContainer()) &&
-                !wid->inherits("QLayoutWidget") && !wid->inherits("QSplitter")) 
+                !wid->inherits("QLayoutWidget") && !wid->inherits("QSplitter"))
               {
                 insertParent = WidgetFactory::containerOfWidget(wid); // found another parent, store it
                 break;
-              } 
-              else 
+              }
+              else
               {
                 wid = wid->parentWidget();
                 if (!wid)
@@ -659,14 +659,14 @@ void FormWindow::handleMouseDblClick(QMouseEvent *, QWidget *w)
 {
   switch (currTool) {
     case ORDER_TOOL:
-      if (!isMainContainer(w)) 
+      if (!isMainContainer(w))
       { // press on a child widget
         orderedWidgets.clear();
         orderedWidgets.append(w);
-        for (QWidget *wid = orderedWidgets.last(); wid; wid = orderedWidgets.prev()) 
+        for (QWidget *wid = orderedWidgets.last(); wid; wid = orderedWidgets.prev())
         {
           int i = stackedWidgets.findRef(wid);
-          if (i != -1) 
+          if (i != -1)
           {
             stackedWidgets.removeRef(wid);
             stackedWidgets.insert(0, wid);
@@ -692,7 +692,7 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
   bool drawRecRect;
   switch (currTool) {
     case POINTER_TOOL:
-      if (widgetPressed && allowMove(w)) 
+      if (widgetPressed && allowMove(w))
       { // we are prepated for a move
         // if widget is laid out, find the first non-laid out super-widget
         while (w->parentWidget() && (WidgetFactory::layoutType(w->parentWidget()) !=
@@ -719,12 +719,12 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
         widgetGeom.setY(y);
         y = (y / grid().y()) * grid().y();
         QPoint p = w->pos();
-        
-        if (x - p.x() || y - p.y()) 
+
+        if (x - p.x() || y - p.y())
         { // if we actually have to move
-          if (!checkedSelectionsForMove) 
+          if (!checkedSelectionsForMove)
           { // if not checked yet, check if the correct widget are selected...
-            if (!isWidgetSelected(w)) 
+            if (!isWidgetSelected(w))
             { // and unselect others. Only siblings can be moved at the same time
               setPropertyShowingBlocked(true);
               selectWidget(w);
@@ -732,18 +732,18 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
             }
             checkSelectionsForMove(w);
           }
-          // check whether we would have to reparent the selection and 
+          // check whether we would have to reparent the selection and
           // highlight the possible new parent container
           QMapConstIterator<ulong, QPoint> it = moving.begin();
           QWidget* wa = containerAt(e->globalPos(), ((QWidget*)it.key()));
-          if (wa  && !isMainContainer(wa) && !isCentralWidget(wa)) 
+          if (wa  && !isMainContainer(wa) && !isCentralWidget(wa))
           {
             wa = WidgetFactory::containerOfWidget(wa);
             // ok, looks like we moved onto a container
 
-            if (wa != targetContainer) 
+            if (wa != targetContainer)
             {
-              if (targetContainer) 
+              if (targetContainer)
               {
                 if (hadOwnPalette)
                   targetContainer->setPalette(restorePalette);
@@ -756,7 +756,7 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
               wa->setPaletteBackgroundColor(wa->colorGroup().midlight());
             }
           }
-          else if (targetContainer) 
+          else if (targetContainer)
           {
             if(hadOwnPalette)
               targetContainer->setPalette(restorePalette);
@@ -774,8 +774,8 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
           sizePreviewLabel->setGeometry(lg);
           sizePreviewLabel->raise();
           sizePreviewLabel->show();
-      } 
-      else 
+      }
+      else
       { // if we don't need to move, do some indication
         QRect lg(mapFromGlobal(e->globalPos()) + QPoint(16, 16), sizePreviewLabel->size());
         checkPreviewGeometry(lg);
@@ -783,8 +783,8 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
       }
 
       oldPressPos += (p - w->pos());
-    } 
-    else if (drawRubber) 
+    }
+    else if (drawRubber)
       // draw rubber if we are in rubber-selection mode
       continueRectDraw(mapFromGlobal(e->globalPos()), e->globalPos(), this, Rubber);
     break;
@@ -795,19 +795,19 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
       wid = designerWidget(wid);
     if (wid && (isMainContainer(wid) || insertedWidgets.find(wid)) && wid->isVisibleTo(this))
       newReceiver = wid;
-    if (newReceiver && (newReceiver->inherits("QLayoutWidget") 
+    if (newReceiver && (newReceiver->inherits("QLayoutWidget")
         || newReceiver->inherits("Spacer")))
       newReceiver = (QWidget*)connectReceiver;
     drawRecRect = newReceiver != connectReceiver;
     currentConnectPos = mapFromGlobal(e->globalPos());
-    if (newReceiver && (isMainContainer(newReceiver) 
+    if (newReceiver && (isMainContainer(newReceiver)
         || insertedWidgets.find(newReceiver)) && !isCentralWidget(newReceiver))
       connectReceiver = connectableObject(newReceiver, connectReceiver);
     mainWindow()->statusBar()->message(i18n("Connect '%1' to '%2'").arg(connectSender->name()).
         arg(connectReceiver->name()));
     qApp->processEvents();
     if (drawRecRect)
-      restoreRect(QRect(mapToForm(((QWidget*)oldReceiver)->parentWidget(), 
+      restoreRect(QRect(mapToForm(((QWidget*)oldReceiver)->parentWidget(),
           ((QWidget*)oldReceiver)->pos()), ((QWidget*)oldReceiver)->size()));
     drawConnectLine();
     break;
@@ -864,7 +864,7 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
         // break layout if necessary
         if (WidgetFactory::layoutType(wa) != WidgetFactory::NoLayout)
         {
-          if (KMessageBox::questionYesNo(mainWindow(), 
+          if (KMessageBox::questionYesNo(mainWindow(),
                   i18n("You tried to insert a widget into the "
                       "layout Container Widget '%1'.\n"
                       "This is not possible. "
@@ -953,7 +953,7 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
       endRectDraw();
       if (WidgetFactory::layoutType(insertParent) != WidgetFactory::NoLayout)
       {
-        if (KMessageBox::questionYesNo(mainWindow(), 
+        if (KMessageBox::questionYesNo(mainWindow(),
                 i18n("You tried to insert a widget into the "
                     "layout Container Widget '%1'.\n"
                     "This is not possible. "
@@ -1483,7 +1483,7 @@ void FormWindow::widgetChanged(QObject *w)
 
 QLabel *FormWindow::sizePreview() const
 {
-  if (!sizePreviewLabel) 
+  if (!sizePreviewLabel)
   {
     ((FormWindow*)this)->sizePreviewLabel = new QLabel((FormWindow*)this);
     ((FormWindow*)this)->sizePreviewLabel->hide();
@@ -1743,7 +1743,7 @@ bool FormWindow::checkCustomWidgets()
     }
   }
 
-#if 0  
+#if 0
 // FIXME: is that required?
   if (!missingCustomWidgets.isEmpty())
   {
@@ -1757,7 +1757,7 @@ bool FormWindow::checkCustomWidgets()
     if (KMessageBox::information(mainWindow(), txt, i18n("Save dialog?")) == 1)
       return false;
   }
-#endif  
+#endif
   return true;
 }
 
@@ -1853,7 +1853,7 @@ void FormWindow::checkAccels()
     if ((*it).count() > 1)
     {
       ok = false;
-      if (KMessageBox::questionYesNo(mainWindow(), 
+      if (KMessageBox::questionYesNo(mainWindow(),
               i18n("Accelerator '%1' is used %2 times.").arg(it.key().upper()).arg((*it).count()),
               i18n("Check Accelerators"), i18n("&Select"), i18n("&Cancel")) == KMessageBox::Yes)
       {
@@ -2104,15 +2104,15 @@ bool FormWindow::hasInsertedChildren(QWidget *w) const
   if (!w)
     return false;
   QObjectList *l = w->queryList("QWidget");
-  if (!l || !l->first()) 
+  if (!l || !l->first())
   {
     delete l;
     return false;
   }
 
-  for (QObject *o = l->first(); o; o = l->next()) 
+  for (QObject *o = l->first(); o; o = l->next())
     if (o->isWidgetType() && ((QWidget*)o)->isVisibleTo((FormWindow*)this) &&
-        insertedWidgets.find((QWidget*)o)) 
+        insertedWidgets.find((QWidget*)o))
     {
       delete l;
       return true;
@@ -2124,7 +2124,7 @@ bool FormWindow::hasInsertedChildren(QWidget *w) const
 bool FormWindow::allowMove(QWidget *w)
 {
   w = w->parentWidget();
-  while (w) 
+  while (w)
   {
     if ((isMainContainer(w) || insertedWidgets.find(w)) && WidgetFactory::layoutType(w) ==
         WidgetFactory::NoLayout)
@@ -2166,7 +2166,7 @@ void FormWindow::restoreConnectionLine()
   int b = QABS(connectStartPos.y() - currentConnectPos.y());
   QRect r(connectStartPos, currentConnectPos);
 
-  if (a < 32 || b < 32) 
+  if (a < 32 || b < 32)
   { // special case: vertical or horizontal line
     r = r.normalize();
     unclippedPainter->drawPixmap(r.x() - 2, r.y() - 2, *buffer,
@@ -2179,12 +2179,12 @@ void FormWindow::restoreConnectionLine()
   if (b <= 0)
     b = 1;
   int w, h;
-  if (b > a) 
+  if (b > a)
   {
     h = 64;
     w = (a * h) / b;
-  } 
-  else 
+  }
+  else
   {
     w = 64;
     h = (b * w) / a;
@@ -2193,7 +2193,7 @@ void FormWindow::restoreConnectionLine()
   int dy = 2 * h / 3;
   QPoint p(connectStartPos);
 
-  if (r.x() > r.right()) 
+  if (r.x() > r.right())
   {
     dx = dx * -1;
     p.setX(p.x() - 64);
@@ -2207,7 +2207,7 @@ void FormWindow::restoreConnectionLine()
 
   w = h = 64;
   r = r.normalize();
-  while (r.contains(p)) 
+  while (r.contains(p))
   {
     unclippedPainter->drawPixmap(p, *buffer, QRect(p, QSize(w, h)));
     unclippedPainter->setPen(red);
@@ -2228,9 +2228,9 @@ void FormWindow::restoreRect(const QRect &rect)
   r = QRect(r.x() + 2, r.y() + 2, r.width() - 4, r.height() - 4);
   unclippedPainter->drawPixmap(r.x() - 2, r.y() - 2, *buffer, r.x() - 2, r.y() - 2, r.width() + 4, 4);
   unclippedPainter->drawPixmap(r.x() - 2, r.y() - 2, *buffer, r.x() - 2, r.y() - 2, 4, r.height() + 4);
-  unclippedPainter->drawPixmap(r.x() - 2, r.y() + r.height() - 3, *buffer, r.x() - 2, 
+  unclippedPainter->drawPixmap(r.x() - 2, r.y() + r.height() - 3, *buffer, r.x() - 2,
     r.y() + r.height() - 3, r.width() + 4, 5);
-  unclippedPainter->drawPixmap(r.x() + r.width() - 2, r.y(), *buffer, r.x() + r.width() - 2, 
+  unclippedPainter->drawPixmap(r.x() + r.width() - 2, r.y(), *buffer, r.x() + r.width() - 2,
     r.y(), 4, r.height() + 4);
 }
 
@@ -2250,7 +2250,7 @@ void FormWindow::drawConnectLine()
     QPoint p = mapToForm(w, QPoint(0,0));
     unclippedPainter->drawRect(QRect(p + QPoint(2, 2), w->size() - QSize(4, 4)));
   }
-  if (connectReceiver) 
+  if (connectReceiver)
   {
     QWidget *w = (QWidget*)connectReceiver;
     QPoint p = mapToForm(w, QPoint(0,0));
@@ -2278,28 +2278,28 @@ void FormWindow::modificationChanged(bool m)
 bool FormWindow::unify(QObject *w, QString &s, bool changeIt)
 {
   bool found = !isMainContainer(w) && !qstrcmp(name(), s.latin1());
-  if (!found) 
+  if (!found)
   {
     QString orig = s;
     int num  = 1;
     QPtrDictIterator<QWidget> it(insertedWidgets);
-    for (; it.current();) 
-      if (it.current() != w && !qstrcmp(it.current()->name(), s.latin1())) 
+    for (; it.current();)
+      if (it.current() != w && !qstrcmp(it.current()->name(), s.latin1()))
       {
         found = true;
         if (!changeIt)
           break;
         s = orig + "_" + QString::number(++num);
         it.toFirst();
-      } 
-      else 
+      }
+      else
         ++it;
-    
-    if (!found) 
+
+    if (!found)
     {
       QPtrList<QAction> al;
       QAction *a = 0;
-      for (a = actions.first(); a; a = actions.next()) 
+      for (a = actions.first(); a; a = actions.next())
       {
         QObjectList *l = a->queryList("QAction");
         al.append(a);
@@ -2307,9 +2307,9 @@ bool FormWindow::unify(QObject *w, QString &s, bool changeIt)
           al.append((QAction*)ao);
         delete l;
       }
-      for (a = al.first(); a; a = al.next()) 
+      for (a = al.first(); a; a = al.next())
       {
-        if (a != w && !qstrcmp(a->name(), s.latin1())) 
+        if (a != w && !qstrcmp(a->name(), s.latin1()))
         {
           found = true;
           if (!changeIt)
@@ -2319,14 +2319,14 @@ bool FormWindow::unify(QObject *w, QString &s, bool changeIt)
         }
       }
     }
-  
-    if (mainContainer()->inherits("QMainWindow")) 
+
+    if (mainContainer()->inherits("QMainWindow"))
     {
-      if (!found) 
+      if (!found)
       {
         QObjectList *l = mainContainer()->queryList("QDockWindow", 0, true);
-        for (QObject *o = l->first(); o; o = l->next()) 
-          if (o != w && !qstrcmp(o->name(), s.latin1())) 
+        for (QObject *o = l->first(); o; o = l->next())
+          if (o != w && !qstrcmp(o->name(), s.latin1()))
           {
             found = true;
             if (!changeIt)
@@ -2336,11 +2336,11 @@ bool FormWindow::unify(QObject *w, QString &s, bool changeIt)
           }
       delete l;
       }
-      if (!found) 
+      if (!found)
       {
         QObjectList *l = mainContainer()->queryList("QDesignerPopupMenu", 0, true);
-        for (QObject *o = l->first(); o; o = l->next()) 
-          if (o != w && !qstrcmp(o->name(), s.latin1())) 
+        for (QObject *o = l->first(); o; o = l->next())
+          if (o != w && !qstrcmp(o->name(), s.latin1()))
           {
             found = true;
             if (!changeIt)
@@ -2360,7 +2360,7 @@ bool FormWindow::unify(QObject *w, QString &s, bool changeIt)
 bool FormWindow::isCustomWidgetUsed(MetaDataBase::CustomWidget *w)
 {
   QPtrDictIterator<QWidget> it(insertedWidgets);
-  for (; it.current(); ++it) 
+  for (; it.current(); ++it)
     if (it.current()->isA("CustomWidget") && !qstrcmp(WidgetFactory::classNameOf(it.current()),
         w->className.utf8()))
       return true;
@@ -2373,10 +2373,10 @@ bool FormWindow::isDatabaseWidgetUsed() const
   QStringList dbClasses;
   dbClasses << "QDataTable"; // add more here
   QPtrDictIterator<QWidget> it(insertedWidgets);
-  for (; it.current(); ++it) 
+  for (; it.current(); ++it)
   {
     QString c(it.current()->className());
-    if (dbClasses.contains(c) > 0) 
+    if (dbClasses.contains(c) > 0)
       return true;
   }
 #endif
@@ -2386,7 +2386,7 @@ bool FormWindow::isDatabaseWidgetUsed() const
 bool FormWindow::isDatabaseAware() const
 {
 #ifndef QT_NO_SQL
-  if (QString(mContainer->className()) == "QDesignerDataBrowser" || 
+  if (QString(mContainer->className()) == "QDesignerDataBrowser" ||
       QString(mContainer->className()) == "QDesignerDataView")
     return true;
   return isDatabaseWidgetUsed();
@@ -2397,9 +2397,9 @@ bool FormWindow::isDatabaseAware() const
 
 void FormWindow::visibilityChanged()
 {
-  if (currTool != ORDER_TOOL) 
+  if (currTool != ORDER_TOOL)
     emitUpdateProperties(currentWidget());
-  else 
+  else
   {
     updateOrderIndicators();
     repositionOrderIndicators();
@@ -2417,7 +2417,7 @@ QPoint FormWindow::mapToForm(const QWidget* w, const QPoint&  pos) const
 {
   QPoint p = pos;
   const QWidget* i = w;
-  while (i && !i->isTopLevel() && !isMainContainer((QWidget*)i)) 
+  while (i && !i->isTopLevel() && !isMainContainer((QWidget*)i))
   {
     p = i->mapToParent(p);
     i = i->parentWidget();
@@ -2428,7 +2428,7 @@ QPoint FormWindow::mapToForm(const QWidget* w, const QPoint&  pos) const
 static int widgetDepth(QWidget *w)
 {
   int d = -1;
-  while (w && !w->isTopLevel()) 
+  while (w && !w->isTopLevel())
   {
     d++;
     w = w->parentWidget();
@@ -2439,7 +2439,7 @@ static int widgetDepth(QWidget *w)
 
 static bool isChildOf(QWidget *c, QWidget *p)
 {
-  while (c && !c->isTopLevel()) 
+  while (c && !c->isTopLevel())
   {
     if (c == p)
       return true;
@@ -2454,7 +2454,7 @@ QWidget *FormWindow::containerAt(const QPoint &pos, QWidget *notParentOf)
   QWidget *container = 0;
   int depth = -1;
   QWidgetList selected = selectedWidgets();
-  if (rect().contains(mapFromGlobal(pos))) 
+  if (rect().contains(mapFromGlobal(pos)))
   {
     container = mainContainer();
     depth = widgetDepth(container);
@@ -2475,7 +2475,7 @@ QWidget *FormWindow::containerAt(const QPoint &pos, QWidget *notParentOf)
 
     // the rectangles of all ancestors of the container must contain the insert position
     QWidget *w = it.current();
-    while (w && !w->isTopLevel()) 
+    while (w && !w->isTopLevel())
     {
       if (!w->rect().contains((w->mapFromGlobal(pos))))
         break;
@@ -2485,7 +2485,7 @@ QWidget *FormWindow::containerAt(const QPoint &pos, QWidget *notParentOf)
 
     int wd = widgetDepth(it.current());
     if (wd == depth && container &&  ((QObjectList*)it.current()->parentWidget()->
-      children())->find(it.current()) > 
+      children())->find(it.current()) >
       ((QObjectList*)container->parentWidget()->children())->find(container))
       wd++;
     if (wd > depth && !isChildOf(it.current(), notParentOf)) {
@@ -2515,7 +2515,7 @@ void FormWindow::setMainContainer(QWidget *w)
   delete layout();
   QHBoxLayout *l = new QHBoxLayout(this);
   l->addWidget(w);
-  if (resetPropertyWidget) 
+  if (resetPropertyWidget)
   {
     QObject *opw = propertyWidget;
     propertyWidget = mContainer;
@@ -2552,7 +2552,7 @@ void FormWindow::setActiveObject(QObject *o)
 
 QAction *FormWindow::findAction(const QString &name)
 {
-  for (QAction *a = actionList().first(); a; a = actionList().next()) 
+  for (QAction *a = actionList().first(); a; a = actionList().next())
   {
     if (QString(a->name()) == name)
       return a;

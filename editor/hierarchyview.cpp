@@ -116,9 +116,9 @@ void HierarchyItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
    ( txt == "init()" || txt == "destroy()" ) ) {
   listView()->setUpdatesEnabled( FALSE );
   if ( txt == "init()" )
-      setText( 0, txt + " " + "(Constructor)" );
+      setText( 0, txt + " " + i18n( "(Constructor)" ) );
   else
-      setText( 0, txt + " " + "(Destructor)" );
+      setText( 0, txt + " " + i18n( "(Destructor)" ) );
   QListViewItem::paintCell( p, g, column, width, align );
   setText( 0, txt );
   listView()->setUpdatesEnabled( TRUE );

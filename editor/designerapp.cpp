@@ -39,6 +39,7 @@
 
 #ifdef HAVE_KDE
 #include <kapplication.h>
+#include <klocale.h>
 #endif
 
 #include <cstdlib>
@@ -93,7 +94,7 @@ QLabel *DesignerApplication::showSplash()
     splash->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
     splash->setPixmap(splashScreen());
     splash->adjustSize();
-    splash->setCaption("Kommander Editor");
+    splash->setCaption(i18n("Kommander Editor"));
     splash->move(screen.center() - QPoint(splash->width() / 2, splash->height() / 2));
     splash->show();
     splash->repaint(FALSE);

@@ -223,7 +223,7 @@ QString WorkspaceItem::text( int column ) const
 #ifndef KOMMANDER
     case ProjectType:
   if ( project->isDummy() )
-      return Project::i18n("<No Project>" );
+      return i18n("<No Project>" );
   return project->makeRelative( project->fileName() );
 #endif
     case FormFileType:

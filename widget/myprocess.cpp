@@ -1,5 +1,5 @@
 /***************************************************************************
-                         myprocess.cpp  - Wrapper class for running shell processes 
+                         myprocess.cpp  - Wrapper class for running shell processes
                              -------------------
     copyright            : (C) 2002 by Marc Britton
     email                : consume@optusnet.com.au
@@ -16,6 +16,7 @@
 /* KDE INCLUDES */
 #include <klocale.h>
 #include <kprocess.h>
+#include <klocale.h>
 
 /* QT INCLUDES */
 #include <qapplication.h>
@@ -56,7 +57,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   QString shellName = a_shell;
   if (shellName.isEmpty())
     shellName = "/bin/sh";
-  
+
   // Look for shell
   if (at.startsWith("#!")) {
     int eol = at.find("\n");
@@ -64,13 +65,13 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
       eol = at.length();
     shellName = at.mid(2, eol-1).stripWhiteSpace();
     at = at.mid(eol+1);
-  } 
+  }
   m_input = at.local8Bit();
-  
+
   KProcess* process = new KProcess;
   (*process) << shellName.latin1();
-  
-  connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), 
+
+  connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)),
       SLOT(slotReceivedStdout(KProcess*, char*, int)));
   connect(process, SIGNAL(processExited(KProcess*)), SLOT(slotProcessExited(KProcess*)));
 

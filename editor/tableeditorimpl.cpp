@@ -52,7 +52,7 @@ TableEditor::TableEditor( QWidget* parent,  QWidget *editWidget, FormWindow *fw,
 	QStringList lst = MetaDataBase::fakeProperty( editTable, "database" ).toStringList();
 	if ( lst.count() == 2 && !lst[ 0 ].isEmpty() && !lst[ 1 ].isEmpty() ) {
 	    QStringList fields;
-	    fields << "<no field>";
+	    fields << i18n( "<no field>" );
 	    fields += formWindow->project()->databaseFieldList( lst[ 0 ], lst[ 1 ] );
 	    comboFields->insertStringList( fields );
 	}

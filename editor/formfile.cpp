@@ -106,7 +106,7 @@ bool FormFile::save(bool withMsgBox)
     return true;
   else if (withMsgBox && !formWindow()->checkCustomWidgets())
     return false;
-  
+
   Resource resource(MainWindow::self);
   resource.setWidget(formWindow());
   if (!resource.save(filename, false))
@@ -139,14 +139,14 @@ bool FormFile::saveAs()
 
     QFileInfo relfi(filename);
     if (relfi.exists()) {
-      if (KMessageBox::warningYesNo(MainWindow::self, 
+      if (KMessageBox::warningYesNo(MainWindow::self,
          i18n("The file already exists. Do you wish to overwrite it?"),
-         i18n("Overwrite File?")) == KMessageBox::Yes) 
+         i18n("Overwrite File?")) == KMessageBox::Yes)
         saved = true;
-      else 
+      else
         filename = f;
-    } 
-    else 
+    }
+    else
       saved = true;
   }
   setModified(true);
@@ -173,7 +173,7 @@ bool FormFile::closeEvent()
     case KMessageBox::Yes:
       if (!save())
         return false;
-    case KMessageBox::No: 
+    case KMessageBox::No:
       MainWindow::self->workspace()->update();
       break;
     case KMessageBox::Cancel:
@@ -214,7 +214,7 @@ void FormFile::setFormWindowModified(bool m)
 
 void FormFile::showFormWindow()
 {
-  if (formWindow()) 
+  if (formWindow())
   {
     formWindow()->setFocus();
     return;
@@ -226,7 +226,7 @@ void FormFile::showFormWindow()
 static int ui_counter = 0;
 QString FormFile::createUnnamedFileName()
 {
-  return QString("unnamed") + QString::number(++ui_counter) + QString(".kmdr");
+  return i18n("unnamed") + QString::number(++ui_counter) + QString(".kmdr");
 }
 
 QString FormFile::formName() const
@@ -239,20 +239,20 @@ QString FormFile::formName() const
   if (!cachedFormName.isNull())
     return cachedFormName;
   QFile f(filename);
-  if (f.open(IO_ReadOnly)) 
+  if (f.open(IO_ReadOnly))
   {
     QTextStream ts(&f);
     QString line;
     QString className;
-    while (!ts.eof()) 
+    while (!ts.eof())
     {
       line = ts.readLine();
-      if (!className.isEmpty()) 
+      if (!className.isEmpty())
       {
         int end = line.find("</class>");
-        if (end == -1) 
+        if (end == -1)
           className += line;
-        else 
+        else
         {
           className += line.left(end);
           break;
@@ -260,12 +260,12 @@ QString FormFile::formName() const
         continue;
       }
       int start;
-      if ((start = line.find("<class>")) != -1) 
+      if ((start = line.find("<class>")) != -1)
       {
         int end = line.find("</class>");
-        if (end == -1) 
+        if (end == -1)
           className = line.mid(start + 7);
-        else 
+        else
         {
           className = line.mid(start + 7, end - (start + 7));
           break;

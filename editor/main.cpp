@@ -96,7 +96,7 @@ int main( int argc, char *argv[] )
 {
   KommanderWidget::inEditor = true;
   QApplication::setColorSpec(QApplication::ManyColor);
-  
+
   KLocale::setMainCatalogue("kommander");
   DesignerApplication a(argc, argv, "kommander");
 
@@ -152,7 +152,7 @@ int main( int argc, char *argv[] )
 
   MainWindow *mw = new MainWindow(creatPid);
   a.setMainWidget(mw);
-  mw->setCaption("Kommander Dialog Editor");
+  mw->setCaption(i18n( "Kommander Dialog Editor" ));
 
   QSettings config;
   config.insertSearchPath(QSettings::Windows, "/Trolltech");

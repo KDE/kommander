@@ -45,6 +45,8 @@
 #include <qpushbutton.h>
 #include <qiconview.h>
 
+#include <klocale.h>
+
 #if defined(DESIGNER)
 #include "pics/images.h"
 
@@ -942,15 +944,16 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	    QFileDialog::setIconProvider( ( imageIconProvider = new ImageIconProvider ) );
 
 	QString filter;
-	QString all = qApp->translate( "qChoosePixmap", "All Pixmaps (" );
+	QString all = i18n( "All Pixmaps" );
+	all += " (";
 	for ( uint i = 0; i < QImageIO::outputFormats().count(); i++ ) {
-	    filter += qApp->translate( "qChoosePixmap", "%1-Pixmaps (%2)\n" ).
+	    filter += i18n( "%1-Pixmaps (%2)\n" ).
 		     arg( QImageIO::outputFormats().at( i ) ).
 		     arg( "*." + QString( QImageIO::outputFormats().at( i ) ).lower() );
 	    all += "*." + QString( QImageIO::outputFormats().at( i ) ).lower() + ";";
 	}
-	filter.prepend( all + qApp->translate( "qChoosePixmap", ")\n" ) );
-	filter += qApp->translate( "qChoosePixmap", "All Files (*)" );
+	filter.prepend( all + ")\n" );
+	filter += i18n( "All Files (*)" );
 
 	QFileDialog fd( QString::null, filter, parent, 0, TRUE );
 	fd.setContentsPreviewEnabled( TRUE );
@@ -958,7 +961,7 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	fd.setContentsPreview( pw, pw );
 	fd.setViewMode( QFileDialog::List );
 	fd.setPreviewMode( QFileDialog::Contents );
-	fd.setCaption( qApp->translate( "qChoosePixmap", "Choose Pixmap" ) );
+	fd.setCaption( i18n( "Choose Pixmap" ) );
 	if ( fd.exec() == QDialog::Accepted ) {
 	    QPixmap pix( fd.selectedFile() );
 	    if ( fn )
@@ -966,7 +969,7 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	    MetaDataBase::setPixmapArgument( fw, pix.serialNumber(), fd.selectedFile() );
 	    return pix;
 	}
-    } 
+    }
 #ifndef KOMMANDER
     else if ( fw && fw->savePixmapInProject() ) {
 	PixmapCollectionEditor dia( parent, 0, TRUE );
@@ -978,7 +981,7 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	    MetaDataBase::setPixmapKey( fw, pix.serialNumber(), dia.viewPixmaps->currentItem()->text() );
 	    return pix;
 	}
-    } 
+    }
 #endif
     else {
 	PixmapFunction dia( parent, 0, TRUE );
