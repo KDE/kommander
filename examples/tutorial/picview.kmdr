@@ -1,0 +1,148 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>618</width>
+            <height>436</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Picture viewer</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="Label" row="0" column="0">
+            <property name="name">
+                <cstring>Label1</cstring>
+            </property>
+            <property name="text">
+                <string>Directory:</string>
+            </property>
+        </widget>
+        <widget class="Label" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Label2</cstring>
+            </property>
+            <property name="text">
+                <string>Images:</string>
+            </property>
+        </widget>
+        <widget class="FileSelector" row="0" column="1">
+            <property name="name">
+                <cstring>FileSelector1</cstring>
+            </property>
+            <property name="selectionType">
+                <enum>Directory</enum>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="ListBox">
+                    <property name="name">
+                        <cstring>ListBox1</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>7</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>200</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>200</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="populationText">
+                        <string>@exec(cd @FileSelector1.text &amp;&amp; find * -name "*.jpg" -o -name "*.png" -o -name "*.gif" -o -name "*.bmp")</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string></string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="PixmapLabel">
+                    <property name="name">
+                        <cstring>PixmapLabel1</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>2</hsizetype>
+                            <vsizetype>2</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="frameShape">
+                        <enum>Box</enum>
+                    </property>
+                    <property name="scaledContents">
+                        <bool>true</bool>
+                    </property>
+                    <property name="populationText">
+                        <string>@FileSelector1.text/@ListBox1.selection</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string></string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>FileSelector1</sender>
+        <signal>widgetTextChanged(const QString&amp;)</signal>
+        <receiver>ListBox1</receiver>
+        <slot>populate()</slot>
+    </connection>
+    <connection>
+        <sender>ListBox1</sender>
+        <signal>highlighted(int)</signal>
+        <receiver>PixmapLabel1</receiver>
+        <slot>populate()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

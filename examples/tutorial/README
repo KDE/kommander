@@ -103,3 +103,10 @@ Shows how to use internal loops
 Shows how to use @expr function to do some calculations
 - expr
 - String.replace
+
+* PICVIEW.KMDR
+Shows how to use PixmapLabel widget using populate() function
+- PixmapLabel
+- populate
+- FileSelector
+- slots/connections
