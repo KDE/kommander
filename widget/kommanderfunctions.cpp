@@ -80,7 +80,7 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
   {
     QString shell = args.count() ? args[0] : QString::null;
     int start = pos;
-    pos = f + QString("@execBegin").length();
+    pos = f + QString("@execBegin").length() -1;
     return execCommand(evalAssociatedText(s.mid(start, f - start)), shell);
   }
 }
