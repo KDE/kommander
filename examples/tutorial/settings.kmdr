@@ -18,6 +18,8 @@
     <property name="associations" stdset="0">
         <stringlist>
             <string></string>
+            <string></string>
+            <string>@writeSetting("LastCommand", "@LineEdit1")</string>
         </stringlist>
     </property>
     <grid>
@@ -138,7 +140,7 @@
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>@writeSetting("LastCommand", "@LineEdit1")</string>
+                            <string></string>
                         </stringlist>
                     </property>
                 </widget>

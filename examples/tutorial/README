@@ -37,6 +37,7 @@ Functions/concepts:
 - @writeSetting
 - populate()
 - slots/connections
+- destroy
 
 * APPEND.KMDR
 Shows how you can append text to TextEdit, and how you can use it to display
