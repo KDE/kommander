@@ -94,6 +94,9 @@ QString Slider::handleDCOP(int function, const QStringList& args)
     case DCOP::clear:
       setValue(minValue());
       break;
+    case DCOP::setMaximum:
+      setMaxValue(args[0].toInt());
+      break;
     default:
       break;
   }
