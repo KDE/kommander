@@ -52,7 +52,7 @@ public:
   virtual QString evalAssociatedText() const;
   virtual QString evalAssociatedText(const QString&) const;
   virtual QString evalFunction(const QString&, const QStringList&) const;
-  virtual QString evalWidgetFunction(const QString&, const QStringList&, const QString& s, int& pos) const;
+  virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos) const;
   virtual QString evalArrayFunction(const QString&, const QStringList&) const;
   virtual QString evalStringFunction(const QString&, const QStringList&) const;
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos) const;

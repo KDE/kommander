@@ -107,18 +107,17 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
 }
 
 
-QString KommanderWidget::evalWidgetFunction(const QString& function, const QStringList& args, 
-   const QString& s, int& pos) const
+QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QString& s, int& pos) const
 {
-  KommanderWidget* pWidget = parseWidget(function);
+  KommanderWidget* pWidget = parseWidget(identifier);
   if (!pWidget) 
   {
-    printError(i18n("Unknown special: @%1.").arg(function));
+    printError(i18n("Unknown widget: @%1.").arg(identifier));
     return QString::null;
   }
   if (pWidget == this)
   {
-    printError(i18n("Infinite loop: @%1 called inside @%2.").arg(function).arg(function));
+    printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
     return QString::null;
   }
   if (s[pos] == '.')
@@ -135,16 +134,16 @@ QString KommanderWidget::evalWidgetFunction(const QString& function, const QStri
     QString brackets = parseBrackets(s, pos, ok);
     if (!ok)
     {
-      printError(i18n("Unmatched parenthesis after \'@%1.%2\'.").arg(function)
+      printError(i18n("Unmatched parenthesis after \'@%1.%2\'.").arg(identifier)
           .arg(function));
       return QString::null;
     }
     QStringList args;
-    args.append(function);
+    args.append(identifier);
     args += parseArgs(brackets, ok);
     if (!ok)
     {
-      printError(i18n("Unmatched quotes in argument of \'@%1.%2\'.").arg(function)
+      printError(i18n("Unmatched quotes in argument of \'@%1.%2\'.").arg(identifier)
             .arg(function));
         return QString::null;
       }

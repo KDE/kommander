@@ -169,7 +169,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
     }
     /* Widget special */
     else if (parseWidget(identifier))
-      evalText += evalWidgetFunction(identifier, args, a_text, pos);
+      evalText += evalWidgetFunction(identifier, a_text, pos);
     else if (SpecialInformation::isObject(identifier) && a_text[pos] == '.')
     {
       pos++;
@@ -197,7 +197,6 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
       printError(i18n("Unknown special: \'%1\'.").arg(identifier));
       return QString::null;
     }
-      
   }
           
   return evalText;
