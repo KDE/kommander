@@ -53,8 +53,10 @@ bool MyProcess::isBlocking() const
   
 void MyProcess::cancel()
 {
-  if (mProcess)
-    mProcess->kill();
+  if (mProcess) {
+    delete mProcess;
+    mProcess = 0;
+  }
 }
 
 QString MyProcess::run(const QString& a_command, const QString& a_shell)

@@ -94,9 +94,11 @@ void Konsole::execute()
 
 void Konsole::cancel()
 {
+  qDebug("Cancelled!!!");
   if (!mProcess) 
     return;
   mProcess->cancel();
+  processExited(mProcess);
 }
 
 
@@ -111,8 +113,9 @@ void Konsole::processReceivedStdout(MyProcess*, char* buffer, int buflen)
 
 void Konsole::processExited(MyProcess* p)
 {
+  qDebug("Exited!");
   unsetCursor();
-  delete p;
+  delete mProcess;
   mProcess = 0;
 }
 
