@@ -22,5 +22,3 @@ noinst_HEADERS = actiondnd.h actioneditorimpl.h actionlistview.h asciivalidator.
 METASOURCES = AUTO
 
 xdg_apps_DATA = kmdr-editor.desktop
-
-KDE_ICON = AUTO
