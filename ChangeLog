@@ -1,6 +1,7 @@
 Sat 10 Jul 2004 15:51:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o forEach(variable, list) function for internal loops
 	o for(variable, start, end, [step]) function for internal loops
+	o Kommander 1.0alpha7 released
 
 Fri 09 Jul 2004 17:39:43 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o TreeWidget optimized - it should be much faster for big trees now
