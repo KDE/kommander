@@ -296,163 +296,172 @@ void KommanderFactory::addPlugin( KommanderPlugin *plugin )
 
 QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name )
 {
-    QString className = literalClassName;
+  QString className = literalClassName;
 
-    // create widgets we know
-    if ( className == "QPushButton" ) {
-	return new QPushButton( parent, name );
-    } else if ( className == "QToolButton" ) {
-	return new QToolButton( parent, name );
-    } else if ( className == "QCheckBox" ) {
-	return new QCheckBox( parent, name );
-    } else if ( className == "QRadioButton" ) {
-	return new QRadioButton( parent, name );
-    } else if ( className == "QGroupBox" ) {
-	return new QGroupBox( parent, name );
-    } else if ( className == "QButtonGroup" ) {
-	return new QButtonGroup( parent, name );
-    } else if ( className == "QIconView" ) {
+  // create widgets we know
+  if (className == "QPushButton")
+    return new QPushButton(parent, name);
+  else if (className == "QToolButton")
+    return new QToolButton(parent, name);
+  else if (className == "QCheckBox")
+    return new QCheckBox(parent, name);
+  else if (className == "QRadioButton")
+    return new QRadioButton(parent, name);
+  else if (className == "QGroupBox")
+    return new QGroupBox(parent, name);
+  else if (className == "QButtonGroup")
+    return new QButtonGroup(parent, name);
+  else if (className == "QIconView")
+  {
 #if !defined(QT_NO_ICONVIEW)
-	return new QIconView( parent, name );
+    return new QIconView(parent, name);
 #endif
-    } else if ( className == "QTable" ) {
+  } 
+  else if (className == "QTable")
+  {
 #if !defined(QT_NO_TABLE)
-	return new QTable( parent, name );
+    return new QTable(parent, name);
 #endif
-    } else if ( className == "QListBox" ) {
-	return new QListBox( parent, name );
-    } else if ( className == "QListView" ) {
-	return new QListView( parent, name );
-    } else if ( className == "QLineEdit" ) {
-	return new QLineEdit( parent, name );
-    } else if ( className == "QSpinBox" ) {
-	return new QSpinBox( parent, name );
-    } else if ( className == "QMultiLineEdit" ) {
-	return new QMultiLineEdit( parent, name );
-    } else if ( className == "QLabel"  || className == "TextLabel" || className == "PixmapLabel" ) {
-	return new QLabel( parent, name );
-    } else if ( className == "QLayoutWidget" ) {
-	return new QWidget( parent, name );
-    } else if ( className == "QTabWidget" ) {
-	return new QTabWidget( parent, name );
-    } else if ( className == "QComboBox" ) {
-	return new QComboBox( FALSE, parent, name );
-    } else if ( className == "QWidget" ) {
-	if ( !qwf_stays_on_top )
-	    return new QWidget( parent, name );
-	return new QWidget( parent, name, Qt::WStyle_StaysOnTop );
-    } else if ( className == "QDialog" ) {
-	if ( !qwf_stays_on_top )
-	    return new QDialog( parent, name );
-	return new QDialog( parent, name, FALSE, Qt::WStyle_StaysOnTop );
-    } else if ( className == "QWizard" ) {
-	return  new QWizard( parent, name );
-    } else if ( className == "QLCDNumber" ) {
-	return new QLCDNumber( parent, name );
-    } else if ( className == "QProgressBar" ) {
-	return new QProgressBar( parent, name );
-    } else if ( className == "QTextView" ) {
-	return new QTextView( parent, name );
-    } else if ( className == "QTextBrowser" ) {
-	return new QTextBrowser( parent, name );
-    } else if ( className == "QDial" ) {
-	return new QDial( parent, name );
-    } else if ( className == "QSlider" ) {
-	return new QSlider( parent, name );
-    } else if ( className == "QFrame" ) {
-	return new QFrame( parent, name );
-    } else if ( className == "QSplitter" ) {
-	return new QSplitter( parent, name );
-    } else if ( className == "Line" ) {
-	QFrame *f = new QFrame( parent, name );
-	f->setFrameStyle( QFrame::HLine | QFrame::Sunken );
-	return f;
-    } else if ( className == "QTextEdit" ) {
-	return new QTextEdit( parent, name );
-    } else if ( className == "QDateEdit" ) {
-	return new QDateEdit( parent, name );
-    } else if ( className == "QTimeEdit" ) {
-	return new QTimeEdit( parent, name );
-    } else if ( className == "QDateTimeEdit" ) {
-	return new QDateTimeEdit( parent, name );
-    } else if ( className == "QScrollBar" ) {
-	return new QScrollBar( parent, name );
-    } else if ( className == "QPopupMenu" ) {
-	return new QPopupMenu( parent, name );
-    } else if ( className == "QWidgetStack" ) {
-	return new QWidgetStack( parent, name );
-    } else if ( className == "QMainWindow" ) {
-	QMainWindow *mw = 0;
-	if ( !qwf_stays_on_top )
-	    mw = new QMainWindow( parent, name );
-	else
-	    mw = new QMainWindow( parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop );
-	mw->setCentralWidget( new QWidget( mw, "qt_central_widget" ) );
-	mw->centralWidget()->show();
-	(void)mw->statusBar();
-	return mw;
-
-    }
+  } 
+  else if (className == "QListBox")
+    return new QListBox(parent, name);
+  else if (className == "QListView")
+    return new QListView(parent, name);
+  else if (className == "QLineEdit")
+    return new QLineEdit(parent, name);
+  else if (className == "QSpinBox")
+    return new QSpinBox(parent, name);
+  else if (className == "QMultiLineEdit")
+    return new QMultiLineEdit(parent, name);
+  else if (className == "QLabel")
+    return new QLabel(parent, name);
+  else if (className == "QLayoutWidget")
+    return new QWidget(parent, name);
+  else if (className == "QTabWidget")
+    return new QTabWidget(parent, name);
+  else if (className == "QComboBox")
+    return new QComboBox(FALSE, parent, name);
+  else if (className == "QWidget")
+  {
+    if (!qwf_stays_on_top)
+      return new QWidget(parent, name);
+    return new QWidget(parent, name, Qt::WStyle_StaysOnTop);
+  } 
+  else if (className == "QDialog")
+  {
+    if (!qwf_stays_on_top)
+      return new QDialog(parent, name);
+    return new QDialog(parent, name, FALSE, Qt::WStyle_StaysOnTop);
+  } 
+  else if (className == "QWizard")
+    return new QWizard(parent, name);
+  else if (className == "QLCDNumber")
+    return new QLCDNumber(parent, name);
+  else if (className == "QProgressBar")
+    return new QProgressBar(parent, name);
+  else if (className == "QTextView")
+    return new QTextView(parent, name);
+  else if (className == "QTextBrowser")
+    return new QTextBrowser(parent, name);
+  else if (className == "QDial")
+    return new QDial(parent, name);
+  else if (className == "QSlider")
+    return new QSlider(parent, name);
+  else if (className == "QFrame")
+    return new QFrame(parent, name);
+  else if (className == "QSplitter")
+    return new QSplitter(parent, name);
+  else if (className == "Line")
+  {
+    QFrame *f = new QFrame(parent, name);
+    f->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+    return f;
+  } 
+  else if (className == "QTextEdit")
+    return new QTextEdit(parent, name);
+  else if (className == "QDateEdit")
+    return new QDateEdit(parent, name);
+  else if (className == "QTimeEdit")
+    return new QTimeEdit(parent, name);
+  else if (className == "QDateTimeEdit")
+    return new QDateTimeEdit(parent, name);
+  else if (className == "QScrollBar")
+    return new QScrollBar(parent, name);
+  else if (className == "QPopupMenu")
+    return new QPopupMenu(parent, name);
+  else if (className == "QWidgetStack")
+    return new QWidgetStack(parent, name);
+  else if (className == "QMainWindow")
+  {
+    QMainWindow *mw = 0;
+    if (!qwf_stays_on_top)
+      mw = new QMainWindow(parent, name);
+    else
+      mw = new QMainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
+    mw->setCentralWidget(new QWidget(mw, "qt_central_widget"));
+    mw->centralWidget()->show();
+    (void) mw->statusBar();
+    return mw;
+  }
 #if !defined(QT_NO_SQL)
-    else if ( className == "QDataTable" ) {
-	return new QDataTable( parent, name );
-    } else if ( className == "QDataBrowser" ) {
-	return new QDesignerDataBrowser2( parent, name );
-    } else if ( className == "QDataView" ) {
-	return new QDesignerDataView2( parent, name );
-    }
+  else if (className == "QDataTable")
+    return new QDataTable(parent, name);
+  else if (className == "QDataBrowser")
+    return new QDesignerDataBrowser2(parent, name);
+  else if (className == "QDataView")
+    return new QDesignerDataView2(parent, name);
 #endif
 
-    // try to create it using the loaded kommander widget plugins
-    //find the widget plugin which can create className
-    for ( KommanderPlugin *p = widgetPlugins.first(); p ; p = widgetPlugins.next() )
-    {
-	QWidget *w = p->create( className, parent, name );
-	if ( w )
-	    return w;
-    }
+  // try to create it using the loaded kommander widget plugins
+  //find the widget plugin which can create className
+  for (KommanderPlugin * p = widgetPlugins.first(); p; p = widgetPlugins.next())
+  {
+    QWidget *w = p->create(className, parent, name);
+    if (w)
+      return w;
+  }
 
-    // no success
-    return 0;
+  // no success
+  return 0;
 }
 
 static int num_plugins_loaded = 0;
 
-int KommanderFactory::loadPlugins( bool force )
+int KommanderFactory::loadPlugins(bool force)
 {
-    if( num_plugins_loaded > 0 && !force )
-	return num_plugins_loaded;
-
-    num_plugins_loaded = 0;
-    KConfig cfg( "kommanderrc", TRUE );
-    QStringList plugins = "libkommanderwidgets";
-    plugins += cfg.readListEntry( "plugins" );
-    QStringList::Iterator it;
-    KLibLoader *f = KLibLoader::self();
-    for( it = plugins.begin() ; it != plugins.end() ; ++it )
-    {
-	KLibrary *l = f->library( (*it).latin1() );
-	if( l )
-	{
-	    if( l->hasSymbol("kommander_plugin") )
-	    {
-		void *(*kommander_plugin)() = (void *(*)())l->symbol("kommander_plugin");
-		KommanderPlugin *p = (KommanderPlugin *)(*kommander_plugin)();
-		widgetPlugins.append( p );
-		++num_plugins_loaded;
-	    }
-	    else
-	    {
-		qWarning("KommanderFactory::loadPlugins - '%s' isn't a Kommander Plugin library, skipping.", l->fileName().latin1());
-	    }
-	}
-	else
-	{
-	    qWarning("KommanderFactory::loadPlugins - Can't load Kommander plugin library %s", (*it).latin1());
-	}
-    }
-    //qDebug("KommanderFactory::loadPlugins returning %d", num_plugins_loaded);
+  if (num_plugins_loaded > 0 && !force)
     return num_plugins_loaded;
+
+  num_plugins_loaded = 0;
+  KConfig cfg("kommanderrc", TRUE);
+  QStringList plugins = "libkommanderwidgets";
+  plugins += cfg.readListEntry("plugins");
+  QStringList::Iterator it;
+  KLibLoader *f = KLibLoader::self();
+  for (it = plugins.begin(); it != plugins.end(); ++it)
+  {
+    KLibrary *l = f->library((*it).latin1());
+    if (l)
+    {
+      if (l->hasSymbol("kommander_plugin"))
+      {
+        void *(*kommander_plugin) () = (void *(*)()) l->symbol("kommander_plugin");
+        KommanderPlugin *p = (KommanderPlugin *) (*kommander_plugin) ();
+        widgetPlugins.append(p);
+        ++num_plugins_loaded;
+      } else
+      {
+        qWarning("KommanderFactory::loadPlugins - '%s' isn't a Kommander Plugin library, skipping.",
+            l->fileName().latin1());
+      }
+    } else
+    {
+      qWarning("KommanderFactory::loadPlugins - Can't load Kommander plugin library %s",
+          (*it).latin1());
+    }
+  }
+  //qDebug("KommanderFactory::loadPlugins returning %d", num_plugins_loaded);
+  return num_plugins_loaded;
 }
 
 FeatureList KommanderFactory::featureList()

@@ -947,25 +947,16 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	return new QMultiLineEdit( parent, name );
     else if ( className == "QTextEdit" )
 	return new QTextEdit( parent, name );
-    else if ( className == "QLabel"  || className == "TextLabel" ) {
-	QDesignerLabel *l = new QDesignerLabel( parent, name );
-	if ( init ) {
-	    l->setText( QString::fromLatin1( name ) );
-	    MetaDataBase::addEntry( l );
-	    MetaDataBase::setPropertyChanged( l, "text", TRUE );
-	}
-	return l;
-    } else if ( className == "PixmapLabel" ) {
-	QDesignerLabel *l = new QDesignerLabel( parent, name );
-	if ( init ) {
-	    l->setPixmap( PixmapChooser::loadPixmap( "qtlogo.png", PixmapChooser::NoSize ) );
-	    l->setScaledContents( TRUE );
-	    MetaDataBase::addEntry( l );
-	    MetaDataBase::setPropertyChanged( l, "pixmap", TRUE );
-	    MetaDataBase::setPropertyChanged( l, "scaledContents", TRUE );
-	}
-	return l;
-    } else if ( className == "QLayoutWidget" )
+    else if ( className == "QLabel") {
+        QDesignerLabel *l = new QDesignerLabel( parent, name );
+        if ( init ) {
+            l->setText( QString::fromLatin1( name ) );
+            MetaDataBase::addEntry( l );
+            MetaDataBase::setPropertyChanged( l, "text", TRUE );
+        }
+	      return l;
+    }   
+  else if ( className == "QLayoutWidget" )
 	return new QLayoutWidget( parent, name );
     else if ( className == "QTabWidget" ) {
 	QTabWidget *tw = new QDesignerTabWidget( parent, name );

@@ -9,8 +9,10 @@
 #include "execbutton.h"
 #include "fileselector.h"
 #include "groupbox.h"
+#include "label.h"
 #include "lineedit.h"
 #include "listbox.h"
+#include "pixmaplabel.h"
 #include "progressbar.h"
 #include "radiobutton.h"
 #include "richtexteditor.h"
@@ -37,6 +39,8 @@ public:
 KomStdPlugin::KomStdPlugin()
 {
   const char *group = "Kommander";
+  addWidget("Label", group, "");
+  addWidget("PixmapLabel", group, "");
   addWidget("LineEdit", group, "");
   addWidget("Dialog", group, "");
   addWidget("ExecButton", group, "");
@@ -63,7 +67,11 @@ KomStdPlugin::KomStdPlugin()
 
 QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *name )
 {
-  if (key == "LineEdit")
+  if (key == "Label")
+    return new Label(parent, name);
+  else if (key == "PixmapLabel")
+    return new PixmapLabel(parent, name);
+  else if (key == "LineEdit")
     return new LineEdit(parent, name);
   else if (key == "Dialog")
     return new Dialog(parent, name);

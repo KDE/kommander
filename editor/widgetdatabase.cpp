@@ -470,7 +470,7 @@ void WidgetDatabase::setupDataBase( int id )
   /* Kommandr widgets */
   r = new WidgetDatabaseRecord;
   r->iconSet = "label.xpm";
-  r->name = "TextLabel";
+  r->name = "Label";
   r->group = widgetGroup("Kommander");
   r->toolTip = i18n("Text Label");
   r->whatsThis = i18n("The Text Label provides a widget to display static text.");
