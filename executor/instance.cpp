@@ -277,10 +277,12 @@ void Instance::setCurrentListItem(const QString& widgetName, const QString& name
     {
       QComboBox *box = (QComboBox*)child;
       for (int i = 0; i < box->count(); i++)
+      {
         if (box->text(i) == name)
         {
           box->setCurrentItem(i);
         }
+      }	
     }
   }
   delete children;
