@@ -16,11 +16,6 @@
 
 #include <klocale.h>
 
-#if 0
-#define NEW_STRING(x) i18n(x)
-#else
-#define NEW_STRING(x) QString::null
-#endif
 
  
 #include "specials.h"
@@ -87,7 +82,7 @@ void SpecialInformation::registerSpecials()
      i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
   /* functions with missing description - to be added after string freeze */
   insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
-     NEW_STRING("Sets maximum numeric value"), 2);
+     i18n("Sets maximum numeric value"), 2);
   
   insertGroup(Group::Kommander, "Kommander");
   insert(Kommander::widgetText, "widgetText", i18n("Returns current widget's content."), 0);
@@ -109,7 +104,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::exec, "exec(QString command)",
      i18n("Executes an external command."), 1);
   insert(Kommander::expr, "expr(QString expression)",
-     NEW_STRING("Parses an expression and returns computed value."), 1);
+     i18n("Parses an expression and returns computed value."), 1);
   insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",
      i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned "
         "to the variable."), 2);
@@ -121,7 +116,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::i18n, "i18n(QString variable)",
      i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."), 1);
   insert(Kommander::ifBlock, "if(QString expression)",
-     NEW_STRING("Executes block if expression is true (non-zero number of non-empty string."), 1);
+     i18n("Executes block if expression is true (non-zero number of non-empty string."), 1);
   insert(Kommander::dialog, "dialog(QString file, QString args)",
      i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"), 1);
   insert(Kommander::readSetting, "readSetting(QString key, QString default)",
@@ -131,7 +126,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::writeSetting, "writeSetting(QString key, QString value)",
      i18n("Stores setting in configuration file for this dialog."), 2);
   insert(Kommander::switchBlock, "switch(QString expresion)",
-     NEW_STRING("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i> ."), 1);
+     i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i> ."), 1);
   insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)",
      i18n("Executes an external DCOP call."), 3, 9);
   
