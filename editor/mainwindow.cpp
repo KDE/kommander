@@ -50,6 +50,7 @@
 #include <qfeatures.h>
 #include <qfile.h>
 #include <qlabel.h>
+#include <qmessagebox.h>
 #include <qmetaobject.h>
 #include <qpixmap.h>
 #include <qregexp.h>
@@ -191,9 +192,9 @@ MainWindow::MainWindow( bool asClient )
     assistant = new AssistProc( this, "Internal Assistant", assistantPath() );
 
     statusBar()->setSizeGripEnabled( TRUE );
-    
+
     SpecialInformation::registerSpecials();
-    
+
 }
 
 MainWindow::~MainWindow()
@@ -209,13 +210,13 @@ void MainWindow::setupMDI()
   vbox->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
   vbox->setMargin(1);
   vbox->setLineWidth(1);
-  
+
   toolDock->setWidget(vbox);
   toolDock->setDockSite(KDockWidget::DockCorner);
   toolDock->setEnableDocking(KDockWidget::DockNone);
-  setView(toolDock);            
+  setView(toolDock);
   setMainDockWidget(toolDock);
-  
+
   qworkspace = new QWorkspace(vbox);
   qworkspace->setBackgroundMode(PaletteDark);
   qworkspace->setBackgroundPixmap(PixmapChooser::loadPixmap("background.png",
@@ -253,7 +254,7 @@ void MainWindow::setupPropertyEditor()
                         "<p>In the Signal Handlers tab you can define connections between "
                         "the signals emitted by widgets and the slots in the form. "
                         "(These connections can also be made using the connection tool.)" ) );
-  
+
 }
 
 
@@ -291,7 +292,7 @@ void MainWindow::setupWorkspace()
   dw->setCaption(i18n("Dialogs"));
   QWhatsThis::add(wspace, i18n("<h2>The File Overview Window</h2>"
           "<p>The File Overview Window displays all open dialogs.</p>"));
-  
+
 }
 
 void MainWindow::setupActionEditor()
@@ -367,7 +368,7 @@ void MainWindow::runForm()
   FormWindow* form = activeForm();
   if (!form || !form->formFile())
     return;
-  if (form->formFile()->save(false)) 
+  if (form->formFile()->save(false))
   {
     KProcess process;
     process << "kmdr-executor";
@@ -745,7 +746,7 @@ void MainWindow::activeWindowChanged( QWidget *w )
         formWindow()->clearSelection();
     }
     workspace()->activeFormChanged(fw);
-/*FIXME    
+/*FIXME
     setAppropriate((QDockWindow *) actionEditor->parentWidget(),
         lastActiveFormWindow->mainContainer()->inherits("QMainWindow"));
     if (appropriate((QDockWindow *) actionEditor->parentWidget()))
@@ -1035,7 +1036,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
     // we assume all widgets derive from KommanderWidget [MB02]
     if(id == commands["assoc"])
     {
-         AssocTextEditor *editor = new AssocTextEditor(w, formWindow(), propertyEditor, 
+         AssocTextEditor *editor = new AssocTextEditor(w, formWindow(), propertyEditor,
              this, "AssocTextEditor", true);
          editor->exec();
          delete editor;
@@ -1067,10 +1068,10 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 
 void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands, FormWindow *fw )
 {
-  
+
     if(id == commands["assoc"])
     {
-         AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), formWindow(), propertyEditor, 
+         AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), formWindow(), propertyEditor,
              this, "AssocTextEditor", true);
          editor->exec();
          delete editor;
@@ -1262,15 +1263,15 @@ void MainWindow::selectionChanged()
 void MainWindow::writeConfig()
 {
   KConfig* config = kapp->config();
-  
+
   config->setGroup("General");
   config->writeEntry("RestoreWorkspace", restoreConfig);
   config->writeEntry("SplashScreen", splashScreen);
   config->writeEntry("DocPath", docPath);
   config->writeEntry("FileFilter", fileFilter);
   config->writeEntry("TemplatePath", templPath);
-  
-  config->setGroup("Grid");  
+
+  config->setGroup("Grid");
   config->writeEntry("Snap", snGrid);
   config->writeEntry("Show", sGrid);
   config->writeEntry("x", grid().x());
@@ -1279,20 +1280,20 @@ void MainWindow::writeConfig()
   config->setGroup("Background");
   config->writeEntry("UsePixmap", backPix);
   config->writeEntry("Color", qworkspace->backgroundColor().name());
-    
+
   /*
   config->setGroup("Geometry");
   config->writeEntry("MainWindow", size());
   config->writeEntry("MainWindowMax", isMaximized());
   */
   writeDockConfig(config, "Docks");
-  
+
   config->setGroup("View");
   config->writeEntry("TextLabels", usesTextLabel());
   config->writeEntry("BigIcons", usesBigPixmaps());
-  
+
   actionCollection()->writeShortcutSettings("Keys", config);
-  
+
   config->deleteGroup("Recent Files");
   actionRecent->saveEntries(config, "Recent Files");
 }
@@ -1300,15 +1301,15 @@ void MainWindow::writeConfig()
 void MainWindow::readConfig()
 {
   KConfig *config = kapp->config();
-  
+
   config->setGroup("General");
   restoreConfig = config->readBoolEntry("RestoreWorkspace", true);
   splashScreen = config->readBoolEntry("SplashScreen", true);
   docPath = config->readEntry("DocPath", docPath);
   fileFilter = config->readEntry("FileFilter", fileFilter);
   templPath = config->readEntry("TemplatePath", QString::null);
-  
-  config->setGroup("Grid");  
+
+  config->setGroup("Grid");
   sGrid = config->readBoolEntry("Snap", true);
   snGrid = config->readBoolEntry("Show", true);
   grd.setX(config->readNumEntry("x", 10));
@@ -1317,9 +1318,9 @@ void MainWindow::readConfig()
   config->setGroup("Background");
   if (config->readBoolEntry("UsePixmap", true))
     qworkspace->setBackgroundPixmap(PixmapChooser::loadPixmap("background.png", PixmapChooser::NoSize));
-  else 
+  else
     qworkspace->setBackgroundColor(QColor(config->readEntry("Color", "#f0f0f0")).rgb());
-    
+
   /*
   config->setGroup("Geometry");
   QSize winSize = size();
@@ -1328,16 +1329,16 @@ void MainWindow::readConfig()
     showMaximized();
   */
   readDockConfig(config, "Docks");
-  
-  
+
+
   config->setGroup("View");
   setUsesTextLabel(config->readBoolEntry("TextLabels", false));
   setUsesBigPixmaps(config->readBoolEntry("BigIcons", false));
-  
+
   actionCollection()->readShortcutSettings("Keys", config);
-  
+
   actionRecent->loadEntries(config, "Recent Files");
-  
+
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   for(int i = 0; i < args->count(); i++)
   {
@@ -1493,7 +1494,7 @@ void MainWindow::rebuildCustomWidgetGUI()
     actionToolsCustomWidget->plug( customWidgetMenu );
     customWidgetMenu->insertSeparator();
 
-    for ( MetaDataBase::CustomWidget *w = lst->first(); w; w = lst->next() ) 
+    for ( MetaDataBase::CustomWidget *w = lst->first(); w; w = lst->next() )
     {
       KAction* a = new KAction(actionCollection(), QString::number(w->id).latin1());
       a->setText(w->className);
