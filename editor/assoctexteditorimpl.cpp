@@ -214,6 +214,7 @@ void AssocTextEditor::buildFunctionList()
   functionComboBox->insertItem("@dexec()");
   functionComboBox->insertItem("@dcopid");
   functionComboBox->insertItem("@pid");
+  functionComboBox->insertItem("@parentPid");
   functionComboBox->insertItem("@widgetText");
   functionComboBox->insertItem("@readSetting()");
   functionComboBox->insertItem("@writeSetting()");
