@@ -45,11 +45,9 @@ public:
   
   virtual QString handleDCOP(int function, const QStringList& args);
 public slots:
-  virtual void setWidgetText(const QString &);
   virtual void populate();
 signals:
   void widgetOpened();
-  void widgetTextChanged(const QString &);
 protected:
   void showEvent(QShowEvent *e);
 private:

@@ -342,8 +342,8 @@ void Instance::setCurrentListItem(const QString& widgetName, const QString& item
 void Instance::setCurrentTab(const QString &widgetName, int index)
 {
   QObject* child = stringToWidget(widgetName);  
-  if (child && child->inherits("QTabWidget"))
-    ((QTabWidget*)child)->setCurrentPage(index);
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::setCurrentItem, QString::number(index));
 }
 
 void Instance::setChecked(const QString &widgetName, bool checked)

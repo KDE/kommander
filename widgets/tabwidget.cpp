@@ -72,14 +72,6 @@ QString TabWidget::populationText() const
 
 void TabWidget::populate()
 {
-  QString txt = KommanderWidget::evalAssociatedText( populationText() );
-  //FIXME: implement me
-}
-
-void TabWidget::setWidgetText(const QString &a_text)
-{
-  setCaption(a_text);
-  emit widgetTextChanged(a_text);
 }
 
 void TabWidget::showEvent(QShowEvent* e)
@@ -91,10 +83,10 @@ void TabWidget::showEvent(QShowEvent* e)
 QString TabWidget::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
-      return caption();
-    case DCOP::setText:
-      setWidgetText(args[0]);
+    case DCOP::currentItem:
+      return QString::number(currentPageIndex());
+    case DCOP::setCurrentItem:
+      setCurrentPage(args[0].toUInt());
       break;
     default:
       break;

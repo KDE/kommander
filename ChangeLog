@@ -1,4 +1,11 @@
-Fri 02 Jul 2004 23:33:46 CEST
+Thu 06 Jul 2004 10:12:44 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o bug fixed: calling @dcop with parameterless functions
+	o bug fix: ListBox.setCurrentItem didn't work
+	o add setCurrentItem for ComboBox
+	o add setCurrentItem/currentItem for TabWidget, remove obsolete
+	  text and setText
+
+Fri 02 Jul 2004 23:33:46 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o more TreeView methods: itemDepth(index) and itemPath(index)
 	o setText, text and populate work for TreeView
 	o parser cleanup and fixes

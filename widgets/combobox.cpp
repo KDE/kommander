@@ -107,6 +107,9 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
       return currentText();
     case DCOP::currentItem:
       return QString::number(currentItem());
+    case DCOP::setCurrentItem:
+      setCurrentItem(args[0].toUInt());
+      break;
     case DCOP::item:
     {
       int i = args[0].toInt();
