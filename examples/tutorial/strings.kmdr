@@ -1,0 +1,166 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>522</width>
+            <height>447</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>String functions</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="TextEdit" row="1" column="0">
+            <property name="name">
+                <cstring>TextEdit1</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+            <property name="populationText">
+                <string>&lt;h2&gt;Kommander string functions&lt;/h2&gt;
+&lt;b&gt;Length:&lt;/b&gt; @String.length("@LineEdit1")&lt;br&gt;
+&lt;b&gt;First 5 chars:&lt;/b&gt; @String.left("@LineEdit1", 5)&lt;br&gt;
+&lt;b&gt;Last 5 chars:&lt;/b&gt; @String.right("@LineEdit1", 5)&lt;br&gt;
+&lt;b&gt;Chars from 6th to 10th:&lt;/b&gt; @String.mid("@LineEdit1", 6, 5)&lt;br&gt;
+&lt;b&gt;Remove spaces:&lt;/b&gt; @String.remove("@LineEdit1", " ")&lt;br&gt;
+&lt;b&gt;Replace spaces with *&lt;/b&gt;: @String.replace("@LineEdit1", " ", *)&lt;br&gt;
+&lt;b&gt;Uppercase:&lt;/b&gt; @String.upper("@LineEdit1")&lt;br&gt;
+&lt;b&gt;Lowercase:&lt;/b&gt; @String.lower("@LineEdit1")&lt;br&gt;
+&lt;b&gt;Is a number?:&lt;/b&gt; @String.isNumber("@LineEdit1")&lt;br&gt;
+&lt;b&gt;Is empty?&lt;/b&gt; @String.isEmpty("@LineEdit1")&lt;br&gt;
+&lt;b&gt;Compare with "Kommander":&lt;/b&gt; @String.compare("@LineEdit1", "Kommander")</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Enter string here:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>LineEdit1</cstring>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>LineEdit1</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>Layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Test</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>ExecButton1</sender>
+        <signal>clicked()</signal>
+        <receiver>TextEdit1</receiver>
+        <slot>populate()</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>LineEdit1</tabstop>
+    <tabstop>ExecButton1</tabstop>
+    <tabstop>TextEdit1</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
