@@ -21,7 +21,6 @@
 #include <qvaluevector.h>
 #include <qmap.h>
 
-
 class KommanderWidget;
 class ParserData;
 
@@ -46,14 +45,27 @@ public:
   // return error message
   QString errorMessage();
   
+  // check if this is a name of standard variable
+  bool isVariable(const QString& name);
   // set variable value
   void setVariable(const QString& name, int value);
   // set variable value
   void setVariable(const QString& name, double value);
   // set variable value
   void setVariable(const QString& name, const QString& value);
+  // unset variable
+  void unsetVariable(const QString& key);
   // get variable value
   QString variable(const QString& name);
+  // access associative array 
+  const QMap<QString, ParseNode>& array(const QString& name);
+  // check if this is a name of an array
+  bool isArray(const QString& name);
+  // set array key
+  void setArray(const QString& name, const QString& key, ParseNode value);
+  // unset array key or whole array
+  void unsetArray(const QString& name, const QString& key = QString::null);
+    
   // get associated widget
   KommanderWidget* currentWidget() const;
 

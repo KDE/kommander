@@ -655,6 +655,41 @@ QString Parser::variable(const QString& name)
   return m_variables.contains(name) ? m_variables[name].toString() : QString::null;  
 }
 
+bool Parser::isVariable(const QString& name)
+{
+  return m_variables.contains(name);
+}
+
+void Parser::unsetVariable(const QString& key)
+{
+  m_variables.remove(key);
+}
+
+const QMap<QString, ParseNode>& Parser::array(const QString& name)
+{
+  return m_arrays[name];
+}
+
+bool Parser::isArray(const QString& name)
+{
+  return m_arrays.contains(name);
+}
+
+void Parser::setArray(const QString& name, const QString& key, ParseNode value)
+{
+  m_arrays[name][key] = value;
+}
+  
+void Parser::unsetArray(const QString& name, const QString& key)
+{
+  if (key == QString::null)
+    m_arrays.remove(name);
+  else if (isArray(name))
+    m_arrays[name].remove(key);
+}
+
+
+
 KommanderWidget* Parser::currentWidget() const
 {
   return m_widget;  
