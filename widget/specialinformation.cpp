@@ -15,12 +15,13 @@
  
 #include "specialinformation.h" 
 
-SpecialFunction::SpecialFunction(const QString& name, int minArgs, 
-  const QString& description) : m_description(description)
+SpecialFunction::SpecialFunction(const QString& name, const QString& description,
+    int minArgs, int maxArgs)
 {
   int lbracket = name.find('(');
   int rbracket = name.find(')');
   m_function = (lbracket != -1) ? name.left(lbracket) : name;
+  m_description = description;
   if (lbracket != -1 && rbracket != -1)
   {
     QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
@@ -32,6 +33,7 @@ SpecialFunction::SpecialFunction(const QString& name, int minArgs,
     }
   }
   m_minArgs = (minArgs == -1) ? m_types.count() : minArgs;
+  m_maxArgs = (maxArgs == -1) ? m_types.count() : maxArgs;
 }
 
 QString SpecialFunction::prototype() const
@@ -53,9 +55,6 @@ QString SpecialFunction::longPrototype() const
   }
 }
 
-
-
-
 QString SpecialFunction::argumentName(uint i) const
 {
   if (i < m_args.count())
@@ -68,6 +67,11 @@ QString SpecialFunction::argumentType(uint i) const
   if (i < m_types.count())
     return m_types[i];
   return QString::null;
+}
+
+int SpecialFunction::argumentCount() const
+{
+  return m_types.count();
 }
 
 
@@ -119,6 +123,13 @@ int SpecialInformation::maxArg(int gname, int fname)
   return -1;
 }
 
+int SpecialInformation::argCount(int gname, int fname) 
+{
+  if (isValid(gname, fname))
+    return m_specials[gname][fname].argumentCount();
+  return -1;
+}
+
 bool SpecialInformation::isValidArg(int gname, int fname, int args) 
 {
   if (isValid(gname, fname))
@@ -147,8 +158,8 @@ QString SpecialInformation::longPrototype(int gname, int fname)
   return QString::null;
 }
 
-bool SpecialInformation::insert(int id, const QString& function, int minArgs, 
-    const QString description)
+bool SpecialInformation::insert(int id, const QString& function, const QString description,
+    int minArgs, int maxArgs)
 {
   if (isValid(m_defaultGroup, id))  /* function already defined */
     return false;
@@ -156,7 +167,7 @@ bool SpecialInformation::insert(int id, const QString& function, int minArgs,
     return false;                   /* function name already in use */
   if (m_aliases[m_defaultGroup].contains(function))
     return false;                   /* function name already in use */
-  SpecialFunction sf(function, minArgs, description);
+  SpecialFunction sf(function, description, minArgs, maxArgs);
   m_specials[m_defaultGroup][id] = sf;
   m_functions[m_defaultGroup][sf.name()] = id;
   return true;

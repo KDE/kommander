@@ -27,22 +27,33 @@
 class SpecialFunction
 {
 public:
-   SpecialFunction(const QString& function, int minArgs = -1, const QString& description
-     = QString::null);
-   SpecialFunction()   {m_minArgs = 0;}
+   SpecialFunction(const QString& function, const QString& description
+     = QString::null, int minArgs = -1, int maxArgs = -1);
+   SpecialFunction()   {m_minArgs = m_maxArgs = 0;}
+   /* minimum number of arguments */
    int minArg() const    {return m_minArgs;}
-   int maxArg() const    {return m_types.count();}
+   /* maximum number of arguments */
+   int maxArg() const    {return m_maxArgs;}
+   /* checks number of arguments */
    bool isValidArg(int args) const    {return args >= minArg() && args <= maxArg();}
+   /* function description */
    QString description() const {return m_description;}
+   /* function name */
    QString name() const {return m_function;}
+   /* short function prototype: with parameter types */
    QString prototype() const;
+   /* full function prototype: with types and parameter names */
    QString longPrototype() const;
+   /* i-th parameter name */
    QString argumentName(uint i) const;
+   /* i-th parameter type */
    QString argumentType(uint i) const;
+   /* number of named arguments */
+   int argumentCount() const;
 protected:
    QString m_function;
    QString m_description;
-   int m_minArgs;
+   int m_minArgs, m_maxArgs;
    QStringList m_args;
    QStringList m_types;
 };
@@ -61,12 +72,13 @@ public:
   static bool isValid(const QString& gname, const QString& fname);
   static int minArg(int gname, int fname);
   static int maxArg(int gname, int fname);
+  static int argCount(int gname, int fname);
   static bool isValidArg(int gname, int fname, int args);
   static QString description(int gname, int fname);
   static QString prototype(int gname, int fname);
   static QString longPrototype(int gname, int fname);
-  static bool insert(int id, const QString& function, int minArgs = -1, 
-    const QString description = QString::null);
+  static bool insert(int id, const QString& function, const QString description = QString::null,
+    int minArgs = -1, int maxArgs = -1);
   static bool insertAlias(int id, const QString& alias);
   static void insertGroup(int id, const QString& name);
   static void setDefaultGroup(int gname);

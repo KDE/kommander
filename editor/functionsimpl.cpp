@@ -80,7 +80,7 @@ void FunctionsDialog::functionChanged(int)
   m_function = SpecialInformation::functionObject(groupComboBox->currentText(),
       functionListBox->currentText());
   QString defArgs;
-  if (m_function.minArg() < m_function.maxArg()) 
+  if (m_function.minArg() < m_function.argumentCount()) 
      if (!m_function.minArg())
         defArgs = i18n("<p>Parameters are not obligatory.");
      else    
@@ -109,7 +109,7 @@ void FunctionsDialog::showParameters()
 {
   KLineEdit* edits[3] = {arg1Edit, arg2Edit, arg3Edit};
   QLabel* labels[3] = {argLabel1, argLabel2, argLabel3};
-  int start = (m_function.maxArg() && m_function.argumentName(0) == "widget");
+  int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
   
   widgetComboBox->setShown(start);
   widgetLabel->setShown(start);
@@ -120,10 +120,10 @@ void FunctionsDialog::showParameters()
   }
   for (int i=start; i<3; i++)
   {
-    edits[i]->setShown(i<m_function.maxArg());
+    edits[i]->setShown(i<m_function.argumentCount());
     edits[i]->clear();
-    labels[i]->setShown(i<m_function.maxArg());
-    if (i<m_function.maxArg())
+    labels[i]->setShown(i<m_function.argumentCount());
+    if (i<m_function.argumentCount())
       labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
   }
 }
