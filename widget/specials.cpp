@@ -225,9 +225,9 @@ void SpecialInformation::registerSpecials()
   insertGroup(Group::Input, "Input", "input");
   insert(Input::color, "color", i18n("Shows color dialog. Returns color in #RRGGBB format."));
   insert(Input::text, "text(QString caption, QString label, QString default)", 
-         i18n("Shows text selection dialog. Returns entered text."), 0);
-  insert(Input::value, "value(QString caption, QString label, int value)", 
-         i18n("Shows value selection dialog. Returns entered value."), 0);
+         i18n("Shows text selection dialog. Returns entered text."), 2);
+  insert(Input::value, "value(QString caption, QString label, int value, int min, int max, int step)", 
+         i18n("Shows value selection dialog. Returns entered value."), 5);
   insert(Input::openfile, "openfile(QString startdir, QString filter, QString caption)", 
          i18n("Shows existing file selection dialog. Returns selected file."), 0);
   insert(Input::savefile, "savefile(QString startdir, QString filter, QString caption)", 
@@ -239,12 +239,12 @@ void SpecialInformation::registerSpecials()
   
   insertGroup(Group::Message, "Message", "message");
   insert(Message::info, "info(QString text, QString caption)", 
-         i18n("Shows an information dialog."));
+         i18n("Shows an information dialog."), 1);
   insert(Message::error, "error(QString text, QString caption)", 
-         i18n("Shows an error dialog."));
+         i18n("Shows an error dialog."), 1);
   insert(Message::warning, "warning(QString text, QString caption, QString button1, QString button2, QString button3)",
-         i18n("Shows a warning dialog with up to three buttons. Returns number of selected button."));
+         i18n("Shows a warning dialog with up to three buttons. Returns number of selected button."), 1);
   insert(Message::question, "question(QString text, QString caption, QString button1, QString button2, QString button3)",
-         i18n("Shows a question dialog with up to three buttons. Returns number of selected button."));
+         i18n("Shows a question dialog with up to three buttons. Returns number of selected button."), 1);
   
 }
