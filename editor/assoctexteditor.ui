@@ -45,9 +45,6 @@
                     <property name="text">
                         <string>&amp;File...</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+F</string>
-                    </property>
                 </widget>
                 <spacer>
                     <property name="name">
