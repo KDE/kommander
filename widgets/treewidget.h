@@ -23,6 +23,7 @@
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qstringlist.h>
+#include <qptrvector.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -67,6 +68,7 @@ protected:
 private:
   void addItemFromString(const QString& s);
   QListViewItem* itemFromString(QListViewItem* parent, const QString& s);
+  QPtrVector<QListViewItem> m_lastPath;
 };
 
 #endif

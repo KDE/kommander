@@ -1,4 +1,13 @@
-Thu 06 Jul 2004 10:12:44 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+Fri 09 lip 2004 17:39:43 CEST
+	o TreeWidget optimized - it should be much faster for big trees now
+
+Thu 09 Jul 2004 13:27:47 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o StatusBar widget added
+	o ProgressBar widget added
+	o widgets icons updated
+	o removed obsolete ListView widget
+
+Tue 06 Jul 2004 10:12:44 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o bug fixed: calling @dcop with parameterless functions
 	o bug fixed: ListBox.setCurrentItem didn't work
 	o added setCurrentItem for ComboBox

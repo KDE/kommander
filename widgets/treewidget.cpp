@@ -48,19 +48,30 @@ void TreeWidget::addItemFromString(const QString& s)
 {
   QStringList elements = QStringList::split("/", s);
   QListViewItem* parent = 0;
+  if (m_lastPath.size() < elements.count())
+    m_lastPath.resize(elements.count());
   for (uint i=0; i<elements.count(); i++)
   {
-    QListViewItemIterator it(this);
-    while (it.current()) {
-      if (it.current()->parent() == parent && it.current()->text(0) == elements[i])
-      {
-        parent = it.current();
-        break;
-      }
-      ++it;
+    if (m_lastPath[i] && m_lastPath[i]->text(0) == elements[i])
+    {
+      parent = m_lastPath[i];
+      continue;
     }
-    if (!it.current())
-      parent = itemFromString(parent, elements[i]);
+    else 
+    {
+      QListViewItemIterator it(this);
+      while (it.current()) {
+        if (it.current()->parent() == parent && it.current()->text(0) == elements[i])
+        {
+          parent = it.current();
+          break;
+        }
+        ++it;
+      }
+      if (!it.current())
+        parent = itemFromString(parent, elements[i]);
+      m_lastPath.insert(i, parent);
+    }
   }
 }
 
@@ -228,9 +239,11 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::clear:
       clear();
+      m_lastPath.clear();
       break;
     case DCOP::removeItem:
       delete indexToItem(args[0].toInt());
+      m_lastPath.clear();
       break;
     case DCOP::currentItem:
       return QString::number(itemToIndex(currentItem()));
