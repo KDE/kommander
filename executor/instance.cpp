@@ -131,19 +131,15 @@ bool Instance::build(QFile *a_file)
 
 bool Instance::run(QFile *a_file)
 {
-  /* add runtime arguments */
-  if (m_cmdArguments) {
-    QString args;
-    for (uint i=1; i<=m_cmdArguments; i++)
-    {
-      args += global(QString("ARG%1").arg(i));
-      if (i < m_cmdArguments) 
-        args += " ";
-    }
-    KommanderWidget::setGlobal("ARGS", args);
+  // Check whether extension is *.kmdr
+  if (!m_uiFileName.fileName().endsWith(".kmdr")) {
+    KMessageBox::error(0, i18n("<qt>This file doesn't have a <b>.kmdr</b> extension. As a security precaution "
+           "Kommander will only run Kommander scripts with a clear identity.</qt>"),
+           i18n("Wrong Extension"));
+    return false;
   }
-  KommanderWidget::setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
-     
+  
+  // Check whether file is not in some temporary directory.
   QStringList tmpDirs = KGlobal::dirs()->resourceDirs("tmp");
   tmpDirs += KGlobal::dirs()->resourceDirs("cache");
   tmpDirs.append("/tmp/");
@@ -164,6 +160,19 @@ bool Instance::run(QFile *a_file)
        return false;
   }
   
+  /* add runtime arguments */
+  if (m_cmdArguments) {
+    QString args;
+    for (uint i=1; i<=m_cmdArguments; i++)
+    {
+      args += global(QString("ARG%1").arg(i));
+      if (i < m_cmdArguments) 
+        args += " ";
+    }
+    KommanderWidget::setGlobal("ARGS", args);
+  }
+  KommanderWidget::setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
+     
   if (!m_uiFileName.isEmpty()) 
   {
     KommanderWidget::setGlobal("_KDDIR", m_uiFileName.directory());
