@@ -1,8 +1,13 @@
+sob 24 lip 2004 10:15:10 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o bug fixed: crash with non-existing item in ListBox
+	o bug fixed: blocking button with no script was not unblocked
+	o automatically set tree mode for Tree Widget when adding nestes items
+    	o release 1.0beta1
+
 Fri 23 lip 2004 19:54:26 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added hourclass cursor when invoking ExecButton script with blocked GUI
 	o added missing i18n strings for *.ui files
 	o changed editor to use included background
-	o release 1.0beta1
 
 Fri 23 lip 2004 18:34:26 CEST - Eric Laffoon <eric@kdewebdev.org>
 	o added new background
@@ -13,7 +18,7 @@ Thu 22 Jul 2004 22:17:49 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 
 Wed 22 Jul 2004 24:10:59 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o optimized Tree Widget
-	o fix some missing i18n strings
+	o bug fixed: some missing i18n strings
 
 Tue 20 Jul 2004 19:51:32 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o bug fixed: @dcop with more than 4 arguments
@@ -34,7 +39,7 @@ Thu 15 Jul 2004 23:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	  links
 	o in @forEach, not only @var, but @var_index and @var_count are
 	  expanded (first to index of current item, second to item count)
-	o fixed version number in Editor
+	o bug fixed: incorrect version number in Editor
 
 Wed 14 Jul 2004 12:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @String.args (based on Qt QString("%1").arg()
@@ -62,7 +67,7 @@ Sat 10 Jul 2004 15:51:07 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 
 Fri 09 Jul 2004 17:39:43 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o TreeWidget optimized - it should be much faster for big trees now
-	o fixed bug in TreeWidget findItem function
+	o bug fixed: TreeWidget findItem function
 
 Thu 09 Jul 2004 13:27:47 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o StatusBar widget added

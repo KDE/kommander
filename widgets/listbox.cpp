@@ -122,11 +122,20 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     case DCOP::currentItem:
       return QString::number(currentItem());
     case DCOP::setCurrentItem:
-      if (args[0].toUInt() < count())
-        setCurrentItem(args[0].toUInt());
+    {
+      int index = args[0].toInt();
+      if (index < count())
+        setCurrentItem(index);
       break;
+    }
     case DCOP::item:
-      return (args[0].toUInt() < count()) ? item(args[0].toInt())->text() : QString::null;
+    {
+      int index = args[0].toInt();
+      if (index >= 0 && index < count())
+        return item(index)->text();
+      else
+        return QString::null;
+    }
     case DCOP::addUniqueItem:
       if (!findItem(args[0], Qt::ExactMatch))
         insertItem(args[0]);
