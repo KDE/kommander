@@ -9,3 +9,4 @@ Comment=Executor for Kommander dialogs
 Terminal=0
 Name=Kommander Executor
 MimeType=text/kmdr
+Hidden=true
