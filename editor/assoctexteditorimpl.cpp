@@ -68,10 +68,9 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   connect(widgetsComboBox, SIGNAL(activated(int)), SLOT(widgetChanged(int)));
   connect(stateComboBox, SIGNAL(activated(int)), SLOT(stateChanged(int)));
   connect(filePushButton, SIGNAL(clicked()), SLOT(insertFile()));
-  connect(widgetPushButton, SIGNAL(clicked()), SLOT(insertWidgetName()));
+  connect(widgetComboBox, SIGNAL(activated(int)), SLOT(insertWidgetName(int)));
   connect(functionComboBox, SIGNAL(activated(int)), SLOT(insertFunction(int)));
-  connect(treeWidgetButton, SIGNAL(clicked()), SLOT(widgetChange()));
-  connect(closePushButton, SIGNAL(clicked()), SLOT(accept()));
+  connect(treeWidgetButton, SIGNAL(clicked()), SLOT(selectWidget()));
 }
 
 AssocTextEditor::~AssocTextEditor()
@@ -199,6 +198,8 @@ void AssocTextEditor::buildWidgetList()
   delete objectList;
 
   widgetList.sort();
+  widgetComboBox->clear();
+  widgetComboBox->insertStringList(widgetList);
   widgetsComboBox->clear();
   widgetsComboBox->insertStringList(widgetList);
 }
@@ -241,28 +242,20 @@ void AssocTextEditor::widgetChanged(int index)
   setWidget( widgetFromString( widgetsComboBox->text(index)) ) ;
 }
 
-QString AssocTextEditor::selectWidget()
+void AssocTextEditor::selectWidget()
 {
   ChooseWidget cDialog(this);
   cDialog.setWidget(m_formWindow->mainContainer());
-  if (cDialog.exec()) 
-    return cDialog.selection();
-  else
-    return QString::null;
-}
-
-void AssocTextEditor::widgetChange()
-{
-  QString newWidget = selectWidget();
-  if (!newWidget.isNull())
+  if (cDialog.exec()) {
+    QString newWidget = cDialog.selection();
     for (int i = 0; i<widgetsComboBox->count(); i++)
       if (widgetsComboBox->text(i) == newWidget) {
         widgetsComboBox->setCurrentItem(i);
         widgetChanged(i);
         break;
       }
+  }
 }
-
 
 
 
@@ -290,11 +283,10 @@ void AssocTextEditor::insertFile()
   insertFile.close();
 }
 
-void AssocTextEditor::insertWidgetName()
+void AssocTextEditor::insertWidgetName(int index)
 {
-  QString widgetName = widgetToString ( widgetFromString(selectWidget()), false);
-  if (!widgetName.isNull())
-    insertAssociatedText( QString(QChar(ESCCHAR))+ widgetName );
+  insertAssociatedText( QString(QChar(ESCCHAR))+
+       widgetToString ( widgetFromString(widgetComboBox->text(index)), false) );
 }
 
 void AssocTextEditor::insertFunction(int index)
