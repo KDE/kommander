@@ -45,6 +45,7 @@
 #include "instance.h"
 #include <kommanderwidget.h>
 #include <kommanderfactory.h>
+#include <fileselector.h>
 
 Instance::Instance()
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(""), m_parent(0),
@@ -192,6 +193,8 @@ void Instance::changeWidgetText(const QString& widgetName, const QString& text)
         ((QLineEdit*)child)->setText(text);
       else if (child->inherits("QTextEdit"))
         ((QTextEdit*)child)->setText(text);
+      else if (child->inherits("FileSelector"))
+        ((FileSelector*)child)->setWidgetText(text);
       else if (child->inherits("QSpinBox"))
         ((QSpinBox*)child)->setValue(text.toInt());
     }
