@@ -1,3 +1,16 @@
+Mon 01 Nov 2004 23:29:19 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
+	o Signals and slots improved: slots that don't have any acceptable 
+	  signal in current sender are hidden now. For MainWindow dialogs, 
+	  actions are displayed together with widgets. Some rare crashes 
+	  were fixed. Connect/disconnect button should be properly 
+	  enabled/disabled now. 
+
+Sun 31 Oct 2004 22:14:13 CET - Michal Rudolf <mrudolf@kdewebdev.org> 
+	o Complete rewrite of Signals & slots editor. All connections 
+	  are now displayed, it is possible to change both sender and 
+	  receiver without closing window. Both slots and signals 
+	  are sorted, more slots are filtered.
+
 Thu 28 Oct 2004 15:14:26 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added count() function for getting number of items in widget
 
