@@ -70,7 +70,8 @@ protected:
   
   // Execute DCOP query and return its result or null on failure
   // Only QString and int are now handled
-  QString dcopQuery(const QStringList&) const;
+  QString dcopQuery(const QStringList& args) const;
+  QString localDcopQuery(const QString function, const QStringList& args) const;
   // Execute given command, return its result
   QString execCommand(const QString& a_command, const QString& a_shell = QString::null) const;
   // Display error message a_error; display current class name if no other is given

@@ -189,6 +189,14 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text) const
         cfg.setGroup(QString(parentDialog()->name()));
         cfg.writeEntry(args[0], args[1]);
       }
+      else if (identifier == "global")
+      {
+        evalText += localDcopQuery("global(QString)", args); 
+      }
+      else if (identifier == "setGlobal")
+      {
+        localDcopQuery("setGlobal(QString,QString)", args); 
+      }
       else if (identifier == "execBegin")
       {
         int f = a_text.find("@execEnd", pos);  
@@ -297,6 +305,18 @@ QString KommanderWidget::dcopQuery(const QStringList& a_query) const
 
   return QString::null;
 }
+
+QString KommanderWidget::localDcopQuery(const QString function, const QStringList& args) const
+{
+  QStringList pArgs;
+  pArgs.append(kapp->dcopClient()->appId());
+  pArgs.append("KommanderIf");
+  pArgs.append(function);
+  for (int i=0; i<args.count(); i++)
+    pArgs.append(args[i]);
+  return dcopQuery(pArgs);
+}
+  
 
 QString KommanderWidget::execCommand(const QString& a_command, const QString& a_shell) const
 {
@@ -424,9 +444,11 @@ void KommanderWidget::registerFunctions()
   registerFunction("execBegin", 0, 1);
   /* functions with one argument */
   registerFunction("exec", 1);
+  registerFunction("global", 1);
   /* functions with two arguments */
   registerFunction("readSetting", 2);  
   registerFunction("writeSetting", 2);
+  registerFunction("setGlobal", 2);
   /* functions with four arguments */
   registerFunction("dcop", 4, 10);
 }
