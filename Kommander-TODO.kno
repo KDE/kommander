@@ -5,7 +5,6 @@
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><li>Database widget (use hk_classes)</li>
 <li>Improve script widget (how?)</li>
-<li>Wizard widget locks up editor - find out why?</li>
 <li>ColorBox widget</li>
 <li>Progress bar</li>
 <li>KJanusWidget</li>
@@ -33,7 +32,6 @@
 <li>cleanup Connections, not it is unusable, may be obsolete</li></ul>
 </body></html>
 
-
 \NewEntry 1 Usability
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Various GUI-related features</span></p>
@@ -52,7 +50,6 @@
 <li>improve order of widget icons, add better icons if possible (CloseButton vs ExecButton)</li>
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
-
 
 \NewEntry 1 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -76,6 +73,15 @@
 <li>merge trees for given window (f. e. Editor#2, File#2, Structure#2 etc.)</li>
 <li>standalone application mode</li></ul>
 </body></html>
+
+\NewEntry 0 Bugs
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
+<p><span style="font-weight:600">Various bugs to be fixed</span></p>
+<ul type="disc"><li>Charset is sometimes incorrectly converted from/to local charset</li>
+<li>Wizard widget locks up editor - find out why?</li></ul>
+<li type="disc"></li>
+</body></html>
+
 
 \NewEntry 0 Help
 
@@ -121,7 +127,6 @@
 <p></p>
 </body></html>
 
-
 \NewEntry 1 New functions
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">New functions that could be useful</span></p>
@@ -131,7 +136,8 @@
 <li>add @include and @includelocal commands - to include external script or local (project script); that should make code more readable</li>
 <li>add @call to call local script (no need for external @call, as it is equivalent to @exec<br /><span style="font-style:italic">Naming: use @execlocal for consistency?</span></li>
 <li>add @messageBox as an interface to KMessageBox (for both queries and messages)<br /><span style="font-style:italic">Question: use strings or int for flags and results?</span></li>
-<li>add @requireVersion(command, version)  that would detect version of program (presumably script language, like perl), compare it to given minimum and fail if it is not matched</li></ul>
+<li>add @requireVersion(command, version)  that would detect version of program (presumably script language, like perl), compare it to given minimum and fail if it is not matched</li>
+<li>add <span style="font-style:italic">i18n</span> to allow locale handling</li></ul>
 </body></html>
 
 
@@ -142,7 +148,7 @@
 <li>add option to pass shebang as argument of @execBegin, f. e. @execBegin(/usr/bin/perl)</li></ul>
 </body></html>
 
-\CurrentEntry 1 Aliases
+\NewEntry 1 Aliases
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">Aliases - easier access to Kommander features</span></p>
 <ul type="disc"><li>add @String.&lt;function&gt;(&lt;args&gt;)  as alias to string-handling function</li>
@@ -150,7 +156,6 @@
 <li>add alias @Global.set(&lt;variable&gt;, &lt;value&gt;) and @Global(&lt;variable&gt; as alias to global variables access</li>
 <li>add aliases to various widgets properties, f. e. text, selectedText, state, items etc.; syntax: @&lt;widgetName&gt;.&lt;attribute&gt;</li></ul>
 </body></html>
-
 
 \NewEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -160,7 +165,8 @@
 <li>optionally show all errors as message boxes, instead of writing them on stderr</li>
 <li>detect and avoid infinite loop caused by calling @widgetName in widgetName-&gt;default<br /><span style="font-style:italic">Marc suggested a warning when setting such text: this may be a good idea.</span></li>
 <li>cache @pid, @dcopid, @parentPid, perhasps calculate and cache @parentdcopid</li>
-<li>support passing variables via:<br /><span style="font-style:italic">kmdr-executor dialog.kmdr A=1 B=3 ...</span></li></ul>
+<li>support passing variables via:<br /><span style="font-style:italic">kmdr-executor dialog.kmdr A=1 B=3 ...</span></li>
+<li>handle locale/i18n translations</li></ul>
 </body></html>
 
 
@@ -175,9 +181,12 @@
 <li>rewrite some parts more clearly</li></ul>
 </body></html>
 
-\NewEntry 0 ChangeLog
+\CurrentEntry 0 ChangeLog
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
 <p><span style="font-weight:600">ChangeLog of TODO file</span></p>
+<p><span style="color:#0000ff">2004-05-14, 12:44</span></p>
+<ul type="disc"><li>Bugs: added</li>
+<li>Language/New functions, Executor: added i18n</li></ul>
 <p><span style="color:#0000ff">2004-05-08, 23:00</span></p>
 <ul type="disc"><li>Widgets: Menu and popup menu</li>
 <li>added Language:Aliases</li>
@@ -200,11 +209,14 @@
 
 \NewEntry 0 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
-<li type="disc"><span style="font-weight:600">ChangeLog of Kommander</span></li>
-<p><span style="color:#0000ff">2004-04-29, 13:01</span></p>
+<li><span style="font-weight:600">ChangeLog of Kommander</span></li>
+<p><span style="color:#0000ff">2004-05-14, 12:24</span></p>
+<ul type="disc"><li>added <span style="font-style:italic">initialization</span> and <span style="font-style:italic">destroy</span> scripts for main dialog</li></ul>
+<li><span style="color:#0000ff">2004-04-29, 13:01</span></li>
 <ul type="disc"><li>global variables added</li>
 <li>@parentPid added</li></ul>
 </body></html>
+
 
 \NewEntry 0 About this file
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:11pt;font-family:helvetica">
