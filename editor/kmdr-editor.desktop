@@ -6,4 +6,4 @@ Icon=kmdr-editor
 Type=Application
 Comment=Dynamic Dialog Editor
 MimeType=text/kmdr
-Categories=QT;KDE;TextEditor
+Categories=Qt;KDE;TextEditor
