@@ -1,0 +1,438 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>widgetGen</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>widgetGen</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>470</width>
+            <height>267</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Kommander Widget Source Generator</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout12</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>24</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Save</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>
+classNameLower=$(echo '@className' | tr "A-Z" "a-z")
+classNameUpper=$(echo '@className' | tr "a-z" "A-Z")
+inheritClassHeader=$(echo '@inheritClassName' | tr "A-Z" "a-z")
+
+headerContent="/***************************************************************************
+				$classNameLower.h - @description
+                             -------------------
+		begin			: @dateStarted
+		copyright		: (C) @author
+		email			: @email
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef _HAVE_${classNameUpper}_H_
+#define _HAVE_${classNameUpper}_H_
+
+/* KDE INCLUDES */
+
+/* QT INCLUDES */
+#include &lt;$inheritClassHeader.h&gt;
+#include &lt;qstring.h&gt;
+#include &lt;qstringlist.h&gt;
+
+/* OTHER INCLUDES */
+#include &lt;kommanderwidget.h&gt;
+
+class QWidget;
+
+class QShowEvent;
+class @className : public @inheritClassName, public KommanderWidget
+{
+	Q_OBJECT
+
+	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+
+public:
+	@className(QWidget *a_parent, const char *a_name);
+	~@className();
+
+	virtual QString widgetText() const;
+
+	virtual bool isKommanderWidget() const;
+	virtual void setAssociatedText(QStringList);
+	virtual QStringList associatedText() const;
+	virtual QString currentState() const;
+
+	virtual QString populationText() const;
+	virtual void setPopulationText(QString);
+
+public slots:
+	virtual void setWidgetText(const QString &amp;);
+	virtual void populate();
+signals:
+	void widgetOpened();
+	void widgetTextChanged(const QString &amp;);
+protected:
+	void showEvent( QShowEvent *e );
+private:
+};
+
+#endif"
+
+cppContent="/***************************************************************************
+			$classNameLower.cpp - @description
+                             -------------------
+		begin			: @dateStarted
+		copyright		: (C) @author
+		email			: @email
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+/* KDE INCLUDES */
+#include &lt;klocale.h&gt;
+
+/* QT INCLUDES */
+#include &lt;qstring.h&gt;
+#include &lt;qwidget.h&gt;
+#include &lt;qstringlist.h&gt;
+#include &lt;$inheritClassHeader.h&gt;
+#include &lt;qevent.h&gt;
+
+/* OTHER INCLUDES */
+#include &lt;kommanderwidget.h&gt;
+#include \"$classNameLower.h\"
+
+@className::@className(QWidget *a_parent, const char *a_name)
+	: @inheritClassName(a_parent, a_name), KommanderWidget(this)
+{
+	QStringList states;
+	states &lt;&lt; \"default\";
+	setStates(states);
+	setDisplayStates(states);
+}
+
+@className::~@className()
+{
+}
+
+QString @className::currentState() const
+{
+	return QString(\"default\");
+}
+
+bool @className::isKommanderWidget() const
+{
+	return TRUE;
+}
+
+QStringList @className::associatedText() const
+{
+	return KommanderWidget::associatedText();
+}
+
+void @className::setAssociatedText(QStringList a_at)
+{
+	KommanderWidget::setAssociatedText(a_at);
+}
+
+void @className::populate()
+{
+    QString txt = KommanderWidget::evalAssociatedText( populationText() );
+    setWidgetText( txt );
+}
+
+QString @className::populationText() const
+{
+    return KommanderWidget::populationText();
+}
+
+void @className::setPopulationText(QString a_text)
+{
+    KommanderWidget::setPopulationText(a_text);
+}
+
+void @className::setWidgetText(const QString &amp;a_text)
+{
+	//set the widget text of your widget here
+	emit widgetTextChanged(a_text);
+}
+
+QString @className::widgetText() const
+{
+	// implement your widget text here
+	return QString::null;
+}
+
+void @className::showEvent( QShowEvent *e )
+{
+    @inheritClassName::showEvent( e );
+    emit widgetOpened();
+}
+
+#include \"$classNameLower.moc\"
+"
+
+echo "$headerContent" &gt; @directory/$classNameLower.h
+echo "$cppContent" &gt; @directory/$classNameLower.cpp</string>
+                        </stringlist>
+                    </property>
+                    <property name="writeStdout">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="CloseButton">
+                    <property name="name">
+                        <cstring>CloseButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Close</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>Layout37</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Author:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Email:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Description:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Date started:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Class name:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel7</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Base class name:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Directory to save in:</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>Layout36</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>author</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>email</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>description</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>dateStarted</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>className</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>inheritClassName</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="FileSelector">
+                    <property name="name">
+                        <cstring>directory</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@widgetText</string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

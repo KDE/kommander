@@ -1,0 +1,934 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>425</width>
+            <height>518</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Quick Start</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>140</y>
+                <width>40</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Title:</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>21</x>
+                <y>5</y>
+                <width>410</width>
+                <height>36</height>
+            </rect>
+        </property>
+        <property name="font">
+            <font>
+                <family>Helvetica</family>
+                <pointsize>14</pointsize>
+                <bold>1</bold>
+            </font>
+        </property>
+        <property name="text">
+            <string>HTML 4.01 Transitional - Quick Start</string>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBCVS</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>60</y>
+                <width>171</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>CVS tag in comment</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;!-- $Id$ --&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBHTML</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>80</y>
+                <width>131</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>HTML tag</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;html&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>LEBasedir</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>170</x>
+                <y>120</y>
+                <width>231</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBDTD</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>40</y>
+                <width>161</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Show DTD</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBStyleArea</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>260</y>
+                <width>131</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Style area</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;style&gt;
+
+  &lt;/style&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBMetaChar</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>200</y>
+                <width>140</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Meta character set:</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;meta http-equiv="Content-Type" content="text/html; charset=@ComboMetachar"&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBStyle</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>240</y>
+                <width>140</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Linked style sheet:</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;link rel="stylesheet" type="text/css" href="@LEStyle"&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>LEMetaAuthor</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>180</y>
+                <width>220</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>LEMetaKeywords</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>220</y>
+                <width>220</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+        <property name="toolTip" stdset="0">
+            <string>limit to 8, seperate with commas</string>
+        </property>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>LEStyle</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>240</y>
+                <width>220</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ComboBox">
+        <item>
+            <property name="text">
+                <string>iso-8859-1</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-2</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-3</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-4</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-5</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-6</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-7</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-8</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-8i</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-9</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-10</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-11</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-12</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-13</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-14</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>iso-8859-15</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>utf8</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>utf16</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>ComboMetachar</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>200</y>
+                <width>221</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBMetaKeywords</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>220</y>
+                <width>130</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Meta keywords:</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;meta name="KEYWORDS" content="@LEMetaKeywords"&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBMetaAuthor</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>180</y>
+                <width>130</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Meta author:</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;meta name="AUTHOR" content="@LEMetaAuthor"&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBBasedir</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>120</y>
+                <width>120</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Base directory:</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;base href="@LEBasedir"&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBHead</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>100</y>
+                <width>130</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Head area</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;head&gt;
+@CBBasedir
+@LETitle
+@CBMetaQuanta
+@CBMetaAuthor
+@CBMetaChar
+@CBMetaKeywords
+@CBStyle
+@CBStyleArea
+@CBJavascript</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>LETitle</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>90</x>
+                <y>140</y>
+                <width>311</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>  &lt;title&gt;@widgetText&lt;/title&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBBodyClose</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>380</y>
+                <width>91</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>/Body</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;/body&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBHTMLClose</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>400</y>
+                <width>101</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>/HTML</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;/html&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBHeadClose</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>300</y>
+                <width>70</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>/head</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;/head&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBJavascript</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>280</y>
+                <width>140</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>JavaScript area</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;script language="javascript"&gt;
+
+  &lt;/script&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBBody</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>320</y>
+                <width>111</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Body tag</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;body&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>170</x>
+                <y>480</y>
+                <width>81</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;Test</string>
+        </property>
+        <property name="on">
+            <bool>false</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo '@CBDTD
+@CBCVS
+@CBHTML
+@CBHead
+@CBHeadClose
+@CBBody
+@CBPHPHeader
+@CBPHPFooter
+@CBBodyClose
+@CBHTMLClose'</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="CloseButton">
+        <property name="name">
+            <cstring>CloseButton1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>170</x>
+                <y>430</y>
+                <width>80</width>
+                <height>31</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;OK</string>
+        </property>
+        <property name="flat">
+            <bool>false</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>echo '@CBDTD
+@CBCVS
+@CBHTML
+@CBHead
+@CBHeadClose
+@CBBody
+@CBPHPHeader
+@CBPHPFooter
+@CBBodyClose
+@CBHTMLClose'</string>
+            </stringlist>
+        </property>
+        <property name="writeStdout">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>LEPHPFooter</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>360</y>
+                <width>221</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>LEPHPHeader</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>340</y>
+                <width>220</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@widgetText</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBPHPHeader</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>340</y>
+                <width>150</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>PHP header include:</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>&lt;? include ("@LEPHPHeader") ?&gt;
+</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBPHPFooter</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>360</y>
+                <width>151</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>PHP footer include:</string>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>
+&lt;? include ("@LEPHPFooter") ?&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="CheckBox">
+        <property name="name">
+            <cstring>CBMetaQuanta</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>160</y>
+                <width>120</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Meta Quanta</string>
+        </property>
+        <property name="checked">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+                <string></string>
+                <string>  &lt;meta name="GENERATOR" content="Quanta Plus"&gt;</string>
+            </stringlist>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBHeadClose</receiver>
+        <slot>toggle()</slot>
+    </connection>
+    <connection>
+        <sender>CBBody</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBBodyClose</receiver>
+        <slot>toggle()</slot>
+    </connection>
+    <connection>
+        <sender>CBHTML</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBHTMLClose</receiver>
+        <slot>toggle()</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBMetaAuthor</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBMetaQuanta</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBBasedir</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>LEBasedir</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>LETitle</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBMetaChar</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBMetaKeywords</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBStyle</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBStyleArea</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>CBJavascript</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>LEMetaKeywords</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>LEStyle</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ComboMetachar</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>CBHead</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>LEMetaAuthor</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
