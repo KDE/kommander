@@ -8,12 +8,22 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>512</width>
+            <width>533</width>
             <height>482</height>
         </rect>
     </property>
     <property name="caption">
         <string>Settings Dialog</string>
+    </property>
+    <property name="populationText">
+        <string></string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string></string>
+            <string></string>
+        </stringlist>
     </property>
     <vbox>
         <property name="name">

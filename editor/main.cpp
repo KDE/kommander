@@ -31,7 +31,9 @@
 #define VERSION "1.1dev3"
 
 static const char *description =
-  I18N_NOOP("Kommander is a graphical editor of scripted dialogs. Based on Qt Designer, (C) 2000 Trolltech AS.");
+  I18N_NOOP("Kommander is a graphical editor of scripted dialogs.");
+static const char *text =
+  I18N_NOOP("Based on Qt Designer, (C) 2000 Trolltech AS.");
 
 static KCmdLineOptions options[] =
 {
@@ -41,9 +43,9 @@ static KCmdLineOptions options[] =
 
 int main( int argc, char *argv[] )
 {
-  KAboutData aboutData( "kmdr-editor", I18N_NOOP("Kommander"),
+  KAboutData aboutData( "Kommander", I18N_NOOP("Kommander"),
                         VERSION, description, KAboutData::License_GPL,
-                        "(C) 2002-2004 Kommander authors", 0, 0, "mrudolf@kdewebdev.org");
+                        "(C) 2002-2004 Kommander authors", text);
   aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
   aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
   aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
