@@ -224,13 +224,13 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     pTypes = parseBrackets(function, start, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.").arg(function));
+    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.").arg(a_query[2]));
     return QString::null;
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
-    printError(i18n("Incorrect arguments in DCOP call \'%1\'.").arg(function));
+    printError(i18n("Incorrect arguments in DCOP call \'%1\'.").arg(a_query[2]));
     return QString::null;
   }
   
@@ -461,6 +461,7 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
     const QString& s, int& from, bool& ok)
 {
   ok = true;
+  bool success = false;
   QString arg = parseBrackets(s, from, ok);
   if (!ok)
   {
@@ -470,19 +471,29 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   const QStringList args = parseArgs(arg, ok);
   int gname = SpecialInformation::group(group);
   int fname = SpecialInformation::function(gname, function);
+  bool extraArg = gname == Group::DCOP;
   
   if (!ok)
     printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
   else if (gname == -1)
-    printError(i18n("Unknown widget or function group: \'%1\'.").arg(group));
-  else if (fname == -1)
+    printError(i18n("Unknown function group: \'%1\'.").arg(group));
+  else if (fname == -1 && !extraArg)
     printError(i18n("Unknown function: \'%1\' in group '%2'.").arg(function).arg(group));
-  else if ((int)args.count() < SpecialInformation::minArg(gname, fname))
-    printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).")
-        .arg(function).arg(args.count()).arg(SpecialInformation::minArg(gname, fname)));
-  else if ((int)args.count() > SpecialInformation::maxArg(gname, fname))
-    printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).")
-      .arg(function).arg(args.count()).arg(SpecialInformation::maxArg(gname, fname)));
+  else if (fname == -1 && extraArg)
+    printError(i18n("Unknown widget function: \'%1\'.").arg(function));
+  else if ((int)args.count() + extraArg < SpecialInformation::minArg(gname, fname))
+    printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).<p>"
+       "Correct syntax is: %4")
+        .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::minArg(gname, fname))
+        .arg(SpecialInformation::longPrototype(gname, fname)));
+  else if ((int)args.count() + extraArg > SpecialInformation::maxArg(gname, fname))
+    printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).<p>"
+       "Correct syntax is: %4")
+      .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::maxArg(gname, fname))
+      .arg(SpecialInformation::longPrototype(gname, fname)));
+  else 
+    success = true;
+  ok = success;
   return args;
 }
 

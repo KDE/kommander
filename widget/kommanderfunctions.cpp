@@ -188,40 +188,23 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
     printError(i18n("Unknown widget: @%1.").arg(identifier));
     return QString::null;
   }
-  if (pWidget == this)
-  {
-    printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
-    return QString::null;
-  }
   if (s[pos] == '.')
   {
     pos++;
     bool ok = true;
     QString function = parseIdentifier(s, pos);
+    QStringList args = parseFunction("DCOP", function, s, pos, ok);
+    if (!ok)
+      return QString::null;
+    args.prepend(identifier);
     QString prototype = SpecialInformation::prototype(Group::DCOP,
       SpecialInformation::function(Group::DCOP, function));
-    if (prototype.isNull())
-    {
-      printError(i18n("Unknown DCOP function: '%1'.").arg(function));
-      return QString::null;
-    }
-    QString brackets = parseBrackets(s, pos, ok);
-    if (!ok)
-    {
-      printError(i18n("Unmatched parenthesis after \'@%1.%2\'.").arg(identifier)
-          .arg(function));
-      return QString::null;
-    }
-    QStringList args;
-    args.append(identifier);
-    args += parseArgs(brackets, ok);
-    if (!ok)
-    {
-      printError(i18n("Unmatched quotes in argument of \'@%1.%2\'.").arg(identifier)
-            .arg(function));
-        return QString::null;
-      }
-      return localDCOPQuery(prototype, args);
+    return localDCOPQuery(prototype, args);
+  }
+  else if (pWidget == this)
+  {
+    printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
+    return QString::null;
   }
   else if (!pWidget->hasAssociatedText())
   {

@@ -27,7 +27,7 @@
 class SpecialFunction
 {
 public:
-   SpecialFunction(const QString& function, int minArgs = 0, const QString& description
+   SpecialFunction(const QString& function, int minArgs = -1, const QString& description
      = QString::null);
    SpecialFunction()   {m_minArgs = 0;}
    int minArg() const    {return m_minArgs;}
@@ -36,6 +36,7 @@ public:
    QString description() const {return m_description;}
    QString name() const {return m_function;}
    QString prototype() const;
+   QString longPrototype() const;
    QString argumentName(uint i) const;
    QString argumentType(uint i) const;
 protected:
@@ -62,7 +63,8 @@ public:
   static bool isValidArg(int gname, int fname, int args);
   static QString description(int gname, int fname);
   static QString prototype(int gname, int fname);
-  static bool insert(int id, const QString& function, int minArgs = 0, 
+  static QString longPrototype(int gname, int fname);
+  static bool insert(int id, const QString& function, int minArgs = -1, 
     const QString description = QString::null);
   static bool insertAlias(int id, const QString& alias);
   static void insertGroup(int id, const QString& name);

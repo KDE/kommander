@@ -18,7 +18,6 @@
 SpecialFunction::SpecialFunction(const QString& name, int minArgs, 
   const QString& description) : m_description(description)
 {
-  m_minArgs = minArgs;
   int lbracket = name.find('(');
   int rbracket = name.find(')');
   m_function = (lbracket != -1) ? name.left(lbracket) : name;
@@ -32,14 +31,30 @@ SpecialFunction::SpecialFunction(const QString& name, int minArgs,
       m_args.append(args[i].stripWhiteSpace().section(' ', 1, 1));
     }
   }
+  m_minArgs = (minArgs == -1) ? m_types.count() : minArgs;
 }
 
 QString SpecialFunction::prototype() const
 {
   if (!m_types.count())
     return m_function;
-  else return QString("%1(%2)").arg(m_function).arg(m_types.join(","));
+  else return QString("%1(%2)").arg(m_function).arg(m_types.join(", "));
 }
+
+QString SpecialFunction::longPrototype() const
+{
+  if (!m_types.count())
+    return m_function;
+  else {
+    QStringList params;
+    for (uint i=0; i<m_types.count(); i++)
+      params.append(QString("%1 %2").arg(m_types[i]).arg(m_args[i]));
+    return QString("%1(%2)").arg(m_function).arg(params.join(", "));
+  }
+}
+
+
+
 
 QString SpecialFunction::argumentName(uint i) const
 {
@@ -117,6 +132,12 @@ QString SpecialInformation::prototype(int gname, int fname)
   return QString::null;
 }
 
+QString SpecialInformation::longPrototype(int gname, int fname)
+{
+ if (isValid(gname, fname))
+    return m_specials[gname][fname].longPrototype();
+  return QString::null;
+}
 
 bool SpecialInformation::insert(int id, const QString& function, int minArgs, 
     const QString description)

@@ -1,3 +1,8 @@
+Fri 02 Jul 2004 12:33:46 CEST
+	o more TreeView methods: itemDepth(ndex) and itemPath(index)
+	o setText, text and populate work for TreeView
+	o parser cleanup and fixes
+
 Thu 01 Jul 2004 16:03:20 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o add children(QString widget) DCOP call, returning list of
 	  widgets that are direct children of the widget (or all widgets
