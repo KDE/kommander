@@ -47,15 +47,15 @@ KomStdPlugin::KomStdPlugin()
   addWidget("CloseButton", group, "");
   addWidget("TextEdit", group, "");
   addWidget("RadioButton", group, "");
-  addWidget("", group, "");
+  // addWidget("", group, "");
   addWidget("GroupBox", group, "");
   addWidget("ButtonGroup", group, "");
   addWidget("CheckBox", group, "");
   addWidget("ComboBox", group, "");
   addWidget("SpinBoxInt", group, "");
-  addWidget("Wizard", group, "");
+  // addWidget("Wizard", group, "");
   addWidget("TabWidget", group, "");
-  addWidget("SubDialog", group, "");
+  // addWidget("SubDialog", group, "");
   addWidget("ListBox", group, "");
   addWidget("ScriptObject", group, "");
   addWidget("RichTextEditor", group, "");

@@ -485,34 +485,45 @@ void WidgetDatabase::setupDataBase( int id )
   append(r);
 
   r = new WidgetDatabaseRecord;
+  r->iconSet = "lineedit.xpm";
+  r->name = "LineEdit";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = i18n("A line edit");
+  append(r);
+
+  r = new WidgetDatabaseRecord;
+  r->name = "TextEdit";
+  r->iconSet = "textedit.png";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = i18n("A rich text edit");
+  append(r);
+
+  r = new WidgetDatabaseRecord;
+  r->name = "TextBrowser";
+  r->iconSet = "textbrowser.png";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = i18n("Text Browser");
+  append(r);
+
+  r = new WidgetDatabaseRecord;
   r->iconSet = "listbox.xpm";
   r->name = "ListBox";
   r->group = widgetGroup("Kommander");
   r->toolTip = i18n("List Box");
   append(r);
 
-#if 0
   r = new WidgetDatabaseRecord;
-  r->iconSet = "dialog.xpm";
-  r->name = "SubDialog";
+  r->iconSet = "combobox.xpm";
+  r->name = "ComboBox";
   r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A push button that when clicked, creates a new dialog");
-  append(r);
-#endif
-
-  r = new WidgetDatabaseRecord;
-  r->iconSet = "tabwidget.xpm";
-  r->name = "TabWidget";
-  r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A widget with tabs");
-  r->isContainer = TRUE;
+  r->toolTip = i18n("A combo box");
   append(r);
 
   r = new WidgetDatabaseRecord;
-  r->iconSet = "lineedit.xpm";
-  r->name = "LineEdit";
+  r->name = "TreeWidget";
+  r->iconSet = "listview.png";
   r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A line edit");
+  r->toolTip = i18n("A tree widget");
   append(r);
 
   r = new WidgetDatabaseRecord;
@@ -537,17 +548,10 @@ void WidgetDatabase::setupDataBase( int id )
   append(r);
 
   r = new WidgetDatabaseRecord;
-  r->name = "TextEdit";
-  r->iconSet = "textedit.png";
+  r->iconSet = "checkbox.xpm";
+  r->name = "CheckBox";
   r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A rich text edit");
-  append(r);
-
-  r = new WidgetDatabaseRecord;
-  r->name = "TextBrowser";
-  r->iconSet = "textbrowser.png";
-  r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("Text Browser");
+  r->toolTip = i18n("A check box");
   append(r);
 
   r = new WidgetDatabaseRecord;
@@ -574,17 +578,11 @@ void WidgetDatabase::setupDataBase( int id )
   append(r);
 
   r = new WidgetDatabaseRecord;
-  r->iconSet = "checkbox.xpm";
-  r->name = "CheckBox";
+  r->iconSet = "tabwidget.xpm";
+  r->name = "TabWidget";
   r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A check box");
-  append(r);
-
-  r = new WidgetDatabaseRecord;
-  r->iconSet = "combobox.xpm";
-  r->name = "ComboBox";
-  r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A combo box");
+  r->toolTip = i18n("A widget with tabs");
+  r->isContainer = TRUE;
   append(r);
 
   r = new WidgetDatabaseRecord;
@@ -606,13 +604,6 @@ void WidgetDatabase::setupDataBase( int id )
   r->iconSet = "richtextedit.xpm";
   r->group = widgetGroup("Kommander");
   r->toolTip = i18n("A small rich text editor");
-  append(r);
-
-  r = new WidgetDatabaseRecord;
-  r->name = "TreeWidget";
-  r->iconSet = "listview.png";
-  r->group = widgetGroup("Kommander");
-  r->toolTip = i18n("A tree widget");
   append(r);
 
   r = new WidgetDatabaseRecord;
