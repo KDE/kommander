@@ -76,8 +76,6 @@ signals:
   void widgetTextChanged(const QString&);
   
 protected:
-  // Text sent to process
-  char* bufferStdin;
   // Whether output from process should be put in real stdout
   bool m_writeStdout;
   // Whether pressing execubtton should block GUI until process ends

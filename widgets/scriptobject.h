@@ -1,8 +1,8 @@
 /***************************************************************************
-                          ScriptObject.h - Widget for holding scripts 
+                          scriptobject.h - Widget for holding scripts 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002 Marc Britton <consume@optusnet.com.au>
+		           (C) 2003-2004 Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,7 +24,6 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 
-class QShowEvent;
 class ScriptObject : public QLabel, public KommanderWidget
 {
   Q_OBJECT
@@ -32,7 +31,6 @@ class ScriptObject : public QLabel, public KommanderWidget
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-  Q_PROPERTY(QString script READ script WRITE setWidgetText DESIGNABLE false)
 public:
   ScriptObject(QWidget *a_parent, const char *a_name);
   ~ScriptObject();
@@ -51,9 +49,9 @@ public slots:
   virtual void execute();
 signals:
   void widgetOpened();
-  void widgetTextChanged(const QString &);
 
 protected:
+  virtual void executeProcess(bool blocking);
 };
 
 #endif

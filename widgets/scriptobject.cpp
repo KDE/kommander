@@ -1,8 +1,8 @@
 /***************************************************************************
-                          ScriptObject.cpp - Widget for holding scripts 
+                          scriptobject.cpp - Widget for holding scripts 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002 Marc Britton <consume@optusnet.com.au>
+		           (C) 2003-2004 Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,7 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 /* QT INCLUDES */
-#include <qevent.h>
 #include <qstringlist.h>
 #include <qwidget.h>
 
@@ -38,7 +37,7 @@ ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KGlobal::iconLoader()->loadIcon("exec", KIcon::Small));
+    setPixmap(KGlobal::iconLoader()->loadIcon("exec", KIcon::NoGroup, KIcon::SizeMedium));
     setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
@@ -91,10 +90,16 @@ void ScriptObject::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText(populationText()));
 }
 
+void ScriptObject::executeProcess(bool blocking)
+{  
+  MyProcess process(this);  
+  process.setBlocking(blocking);  
+  process.run(evalAssociatedText());
+}
+
 void ScriptObject::execute()
-{
-   MyProcess process(this);
-   process.run(evalAssociatedText()); 
+{  
+  executeProcess(true);
 }
 
 QString ScriptObject::handleDCOP(int function, const QStringList& args)
