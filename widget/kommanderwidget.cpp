@@ -273,7 +273,10 @@ QString KommanderWidget::dcopQuery(const QStringList& a_query) const
     else if (argTypes[i] == "bool")
       byteDataStream << (bool)(a_query[i+3] != "false" && a_query[i+3] != "FALSE" && a_query[i] != "0");
     else if (argTypes[i] == "QStringList")
-      byteDataStream << QStringList::split("\\n", a_query[i+3], true);
+      if (a_query[i+3].find('\n') != -1)
+        byteDataStream << QStringList::split("\n", a_query[i+3], true);
+      else
+        byteDataStream << QStringList::split("\\n", a_query[i+3], true);
     else 
       byteDataStream << a_query[i+3];
   }
