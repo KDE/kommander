@@ -22,15 +22,15 @@
 #include <qstringlist.h>
 #include <qobject.h>
 #include <qstring.h>
-#include <qlistbox.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include <klistbox.h>
 
 class QWidget;
 
 class QShowEvent;
-class ListBox : public QListBox, public KommanderWidget
+class ListBox : public KListBox, public KommanderWidget
 {
 	Q_OBJECT
 

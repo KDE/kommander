@@ -28,7 +28,7 @@
 #include "listbox.h"
 
 ListBox::ListBox(QWidget *a_parent, const char *a_name)
-  : QListBox(a_parent, a_name), KommanderWidget(this)
+  : KListBox(a_parent, a_name), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
