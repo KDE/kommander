@@ -634,6 +634,12 @@ void WidgetDatabase::setupDataBase( int id )
   r->toolTip = i18n("A hidden script container");
   append(r);
 
+  r = new WidgetDatabaseRecord;
+  r->name = "Timer";
+  r->iconSet = "timer.png";
+  r->group = widgetGroup( "Kommander" );
+  r->toolTip = i18n("A timer for running scripts periodically");
+  append(r);
 
 #ifndef UIC
   setupPlugins();
