@@ -99,6 +99,7 @@ bool Instance::build()
       "file<br><b>%1</b></qt>").arg(m_uiFileName));
     return false;
   }
+  m_instance->setName(m_uiFileName.local8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
   m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
