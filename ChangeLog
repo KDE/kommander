@@ -1,3 +1,31 @@
+Wed 13 Oct 2004 12:29:13 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added missing 'checked' function for RadioButton 
+
+Tue 12 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fix: don't add brackets to functions with no parameters 
+
+Mon 11 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o improved 'cancel'
+
+Sat 09 Oct 2004 14:00:03 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fix: bug in @File.append
+	o In Function Browser show common widget functions for each widget
+	o scroll content when process output is longer; show hourglass 
+	  in Konsole widget when process is running
+	o added new command 'cancel' to cancel script running in Konsole
+
+Tue 05 Oct 2004 11:19:41 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fix: use "\n" as file separator in multiselection mode
+	o preliminary version of Konsole widget
+
+Sat 02 Oct 2004 20:38:40 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added 'execute' command to ScriptObject widget
+	o fix: properly report failure when saving file and ask to 
+ 	  provide another file name
+
+Fri 01 Oct 2004 22:26:06 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o fix: output was not sent to stdout by ExecButton
+
 Sat 28 Aug 2004 19:20:06 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o fixed a crash in TreeWidget setText function
 	o added support for multiselection in ListBox (via selection
