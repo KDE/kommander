@@ -538,9 +538,16 @@ void WidgetDatabase::setupDataBase( int id )
 
   r = new WidgetDatabaseRecord;
   r->name = "TextEdit";
-  r->iconSet = "textedit.xpm";
+  r->iconSet = "textedit.png";
   r->group = widgetGroup("Kommander");
   r->toolTip = i18n("A rich text edit");
+  append(r);
+
+  r = new WidgetDatabaseRecord;
+  r->name = "TextBrowser";
+  r->iconSet = "textbrowser.png";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = "A rich text view with links support";
   append(r);
 
   r = new WidgetDatabaseRecord;
@@ -587,15 +594,12 @@ void WidgetDatabase::setupDataBase( int id )
   r->toolTip = i18n("A spin box");
   append(r);
 
-#if 0
   r = new WidgetDatabaseRecord;
-  r->iconSet = "";
-  r->name = "ScriptObject";
-  r->group = widgetGroup( "Kommander" );
-  r->toolTip = "";
-  r->isContainer = FALSE;
+  r->name = "Slider";
+  r->iconSet = "slider.png";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = "A slider";
   append(r);
-#endif
 
   r = new WidgetDatabaseRecord;
   r->name = "RichTextEditor";
@@ -624,6 +628,14 @@ void WidgetDatabase::setupDataBase( int id )
   r->group = widgetGroup("Kommander");
   r->toolTip = i18n("A progress bar");
   append(r);
+  
+  r = new WidgetDatabaseRecord;
+  r->name = "ScriptObject";
+  r->iconSet = "exec.png";
+  r->group = widgetGroup( "Kommander" );
+  r->toolTip = "A hidden script container";
+  append(r);
+
 
 #ifndef UIC
   setupPlugins();

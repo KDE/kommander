@@ -1,8 +1,7 @@
 /***************************************************************************
-                          textedit.cpp - Rich text editing widget 
+                          textedit.cpp - Rich text viewing widget with links
                              -------------------
-    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
-                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+    copyright            : (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
     email                : consume@optusnet.com.au
  ***************************************************************************/
 
@@ -16,94 +15,86 @@
  ***************************************************************************/
 
 /* QT INCLUDES */
-#include <qlayout.h>
-#include <qlineedit.h>
 #include <qstringlist.h>
 #include <qevent.h>
 
 /* OTHER INCLUDES */
 #include <specials.h>
-#include "textedit.h"
+#include "textbrowser.h"
 
-TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent, a_name),
-KommanderWidget((QObject *) this)
+TextBrowser::TextBrowser(QWidget * a_parent, const char *a_name)
+  : KTextBrowser(a_parent, a_name), KommanderWidget((QObject *) this)
 {
   QStringList states;
   states << "default";
   setStates(states);
   setDisplayStates(states);
-
-  connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
 }
 
-QString TextEdit::currentState() const
+QString TextBrowser::currentState() const
 {
   return QString("default");
 }
 
-TextEdit::~TextEdit()
+TextBrowser::~TextBrowser()
 {
 }
 
-bool TextEdit::isKommanderWidget() const
+bool TextBrowser::isKommanderWidget() const
 {
   return TRUE;
 }
 
-QStringList TextEdit::associatedText() const
+QStringList TextBrowser::associatedText() const
 {
   return KommanderWidget::associatedText();
 }
 
-void TextEdit::setAssociatedText(const QStringList & a_at)
+void TextBrowser::setAssociatedText(const QStringList & a_at)
 {
   KommanderWidget::setAssociatedText(a_at);
 }
 
-void TextEdit::setPopulationText(const QString & a_text)
+void TextBrowser::setPopulationText(const QString & a_text)
 {
   KommanderWidget::setPopulationText(a_text);
 }
 
-QString TextEdit::populationText() const
+QString TextBrowser::populationText() const
 {
   return KommanderWidget::populationText();
 }
 
-void TextEdit::populate()
+void TextBrowser::populate()
 {
-  setWidgetText(KommanderWidget::evalAssociatedText(populationText()));
+  QString txt = KommanderWidget::evalAssociatedText(populationText());
+  setWidgetText(txt);
 }
 
-void TextEdit::setWidgetText(const QString & a_text)
+void TextBrowser::setWidgetText(const QString & a_text)
 {
   setText(a_text);
-  emit widgetTextChanged(text());
 }
 
-void TextEdit::setTextChanged()
+void TextBrowser::showEvent(QShowEvent * e)
 {
-  emit widgetTextChanged(text());
-}
-
-void TextEdit::showEvent(QShowEvent * e)
-{
-  QTextEdit::showEvent(e);
+  QTextBrowser::showEvent(e);
   emit widgetOpened();
 }
 
-QString TextEdit::handleDCOP(int function, const QStringList& args)
+
+QString TextBrowser::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
     case DCOP::text:
       return text();
     case DCOP::setText:
-      setWidgetText(args[0]);
+      setText(args[0]);
       break;
     case DCOP::selection:
       return selectedText();
     case DCOP::clear:
-      setWidgetText("");
+      clear();
       break;
     default:
       break;
@@ -112,4 +103,4 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
 }
 
 
-#include "textedit.moc"
+#include "textbrowser.moc"

@@ -138,7 +138,7 @@
     </make>
     <general>
       <useconfiguration>default</useconfiguration>
-      <activetarget>editor/kmdr-editor</activetarget>
+      <activetarget>widgets/libkommanderwidgets.la</activetarget>
     </general>
     <configurations>
       <default>

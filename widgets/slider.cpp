@@ -1,8 +1,7 @@
 /***************************************************************************
-                          textedit.cpp - Rich text editing widget 
+                          slider.cpp - Slider widget
                              -------------------
-    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
-                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+    copyright            : (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
     email                : consume@optusnet.com.au
  ***************************************************************************/
 
@@ -16,94 +15,84 @@
  ***************************************************************************/
 
 /* QT INCLUDES */
-#include <qlayout.h>
-#include <qlineedit.h>
 #include <qstringlist.h>
 #include <qevent.h>
 
 /* OTHER INCLUDES */
 #include <specials.h>
-#include "textedit.h"
+#include "slider.h"
 
-TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent, a_name),
-KommanderWidget((QObject *) this)
+Slider::Slider(QWidget * a_parent, const char *a_name)
+  : QSlider(a_parent, a_name), KommanderWidget((QObject *) this)
 {
   QStringList states;
   states << "default";
   setStates(states);
   setDisplayStates(states);
-
-  connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
 }
 
-QString TextEdit::currentState() const
+QString Slider::currentState() const
 {
   return QString("default");
 }
 
-TextEdit::~TextEdit()
+Slider::~Slider()
 {
 }
 
-bool TextEdit::isKommanderWidget() const
+bool Slider::isKommanderWidget() const
 {
   return TRUE;
 }
 
-QStringList TextEdit::associatedText() const
+QStringList Slider::associatedText() const
 {
   return KommanderWidget::associatedText();
 }
 
-void TextEdit::setAssociatedText(const QStringList & a_at)
+void Slider::setAssociatedText(const QStringList & a_at)
 {
   KommanderWidget::setAssociatedText(a_at);
 }
 
-void TextEdit::setPopulationText(const QString & a_text)
+void Slider::setPopulationText(const QString & a_text)
 {
   KommanderWidget::setPopulationText(a_text);
 }
 
-QString TextEdit::populationText() const
+QString Slider::populationText() const
 {
   return KommanderWidget::populationText();
 }
 
-void TextEdit::populate()
+void Slider::populate()
 {
-  setWidgetText(KommanderWidget::evalAssociatedText(populationText()));
+  QString txt = KommanderWidget::evalAssociatedText(populationText());
+  setWidgetText(txt);
 }
 
-void TextEdit::setWidgetText(const QString & a_text)
+void Slider::setWidgetText(const QString & a_text)
 {
-  setText(a_text);
-  emit widgetTextChanged(text());
+  setValue(a_text.toInt());
 }
 
-void TextEdit::setTextChanged()
+void Slider::showEvent(QShowEvent * e)
 {
-  emit widgetTextChanged(text());
-}
-
-void TextEdit::showEvent(QShowEvent * e)
-{
-  QTextEdit::showEvent(e);
+  QSlider::showEvent(e);
   emit widgetOpened();
 }
 
-QString TextEdit::handleDCOP(int function, const QStringList& args)
+
+QString Slider::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
     case DCOP::text:
-      return text();
+      return QString::number(value());
     case DCOP::setText:
-      setWidgetText(args[0]);
+      setValue(args[0].toInt());
       break;
-    case DCOP::selection:
-      return selectedText();
     case DCOP::clear:
-      setWidgetText("");
+      setValue(minValue());
       break;
     default:
       break;
@@ -112,4 +101,4 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
 }
 
 
-#include "textedit.moc"
+#include "slider.moc"

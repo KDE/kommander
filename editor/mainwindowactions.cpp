@@ -61,7 +61,6 @@
 #endif
 #include "command.h"
 
-#include "scriptobjecteditorimpl.h"
 #include <kstatusbar.h>
 #include <kmenubar.h>
 #include <kfiledialog.h>
@@ -146,14 +145,6 @@ void MainWindow::setupEditActions()
     connect( actionEditAccels, SIGNAL( activated() ), this, SLOT( editAccels() ) );
     connect( this, SIGNAL( hasActiveForm(bool) ), actionEditAccels, SLOT( setEnabled(bool) ) );
 
-    //Script Objects Action
-    actionEditScriptObjects = new QAction(i18n("Script Objects"), QPixmap(), i18n("&Script Objects"), ALT + Key_S, this);
-    actionEditScriptObjects->setStatusTip(i18n("Opens the script object editor."));
-    actionEditScriptObjects->setWhatsThis(i18n("Script objects editor"));
-    connect(actionEditScriptObjects, SIGNAL(activated()), this, SLOT(editScriptObjects()));
-    connect(this, SIGNAL(hasActiveForm(bool)), actionEditScriptObjects, SLOT(setEnabled(bool)));
-
-
     actionEditSlots = new QAction( i18n("Slots" ), createIconSet("editslots.xpm"),
            i18n("S&lots..." ), 0, this, 0 );
     actionEditSlots->setStatusTip( i18n("Opens a dialog for editing slots") );
@@ -204,7 +195,6 @@ void MainWindow::setupEditActions()
     actionEditSelectAll->addTo( menu );
     actionEditAccels->addTo( menu );
     menu->insertSeparator();
-    actionEditScriptObjects->addTo(menu);
     actionEditSlots->addTo( menu );
     actionEditConnections->addTo( menu );
     actionEditFormSettings->addTo( menu );
@@ -397,7 +387,6 @@ void MainWindow::setupToolActions()
       QAction* a = new QAction( actionGroupTools, QString::number( i ).latin1() );
       a->setToggleAction( TRUE );
       QString atext = WidgetDatabase::className( i );
-      if(atext == "ScriptObject") continue; // don't put a script object in the tool bar
       if ( atext[0] == 'Q' )
     atext = atext.mid(1);
       while ( atext.length() && atext[0] >= 'a' && atext[0] <= 'z' )
@@ -1180,26 +1169,6 @@ void MainWindow::editConnections()
     ConnectionViewer dlg( this, formWindow() );
     dlg.exec();
     statusBar()->clear();
-}
-
-void MainWindow::editScriptObjects()
-{
-	if(!formWindow())
-		return;
-
-	QMap<QString, QString> oldObjects;
-	oldObjects = formWindow()->scriptObjects();
-
-	ScriptObjectEditor *ed = new ScriptObjectEditor(oldObjects, this);
-	if(ed->exec() == QDialog::Accepted)
-	{
-		Command *cmd = new ScriptObjectCommand("Modify Script Objects", formWindow(), oldObjects, ed->scriptObjects());
-		cmd->execute();
-		formWindow()->commandHistory()->addCommand(cmd);
-	}
-
-
-	delete ed;
 }
 
 void MainWindow::editFormSettings()

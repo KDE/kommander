@@ -1,3 +1,15 @@
+Fri 16 lip 2004 15:37:41 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added Slider widget
+	o removed some obsolete code from editor
+	o added ScriptObject - hidden script container
+
+Thu 15 Jul 2004 23:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+	o added TextBrowser widget for rich text viewing, with clickable 
+	  links
+	o in @forEach, not only @var, but @var_index and @var_count are
+	  expanded (first to index of current item, second to item count)
+	o fixed version number in Editor
+
 Wed 14 Jul 2004 12:22:33 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
 	o added @String.args (based on Qt QString("%1").arg()
 	o support parameters in function browser

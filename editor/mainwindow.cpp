@@ -369,7 +369,6 @@ void MainWindow::setupRMBMenus()
     actionEditGridLayout->addTo( rmbFormWindow );
     actionEditBreakLayout->addTo( rmbFormWindow );
     rmbFormWindow->insertSeparator();
-    actionEditScriptObjects->addTo(rmbFormWindow);
     actionEditSlots->addTo( rmbFormWindow );
     actionEditConnections->addTo( rmbFormWindow );
     rmbFormWindow->insertSeparator();
@@ -509,7 +508,7 @@ void MainWindow::helpAboutQt()
 
 void MainWindow::helpReportBug()
 {
-    KAboutData aboutData("Kommander", I18N_NOOP("Kommander Editor"), "1.0Alpha5");
+    KAboutData aboutData("Kommander", I18N_NOOP("Kommander Editor"), "1.0alpha7");
     KBugReport dlg(this, true, &aboutData);
     dlg.exec();
 }

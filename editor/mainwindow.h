@@ -170,8 +170,7 @@ public slots:
     void editAccels();
     void editSlots();
     void editConnections();
-    void editScriptObjects();
-
+    
     void editFormSettings();
     void editPreferences();
 
@@ -281,8 +280,7 @@ private:
     QAction *actionWindowTile, *actionWindowCascade, *actionWindowClose, *actionWindowCloseAll;
     QAction *actionWindowNext, *actionWindowPrevious;
     QAction *actionEditFormSettings, *actionEditAccels;
-    QAction *actionEditScriptObjects;
-
+    
     QPopupMenu *rmbWidgets;
     QPopupMenu *rmbFormWindow;
     QPopupMenu *customWidgetMenu, *windowMenu, *fileMenu, *recentlyFilesMenu;

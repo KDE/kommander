@@ -1,28 +1,31 @@
 #include <kommanderplugin.h>
 
 /* WIDGET INCLUDES */
-#include <lineedit.h>
-#include <dialog.h>
-#include <execbutton.h>
-#include <closebutton.h>
-#include <textedit.h>
-#include <fileselector.h>
-#include <textedit.h>
-#include <radiobutton.h>
-#include <groupbox.h>
-#include <buttongroup.h>
-#include <checkbox.h>
-#include <combobox.h>
-#include <spinboxint.h>
-#include <wizard.h>
-#include <tabwidget.h>
-#include <subdialog.h>
-#include <listbox.h>
-#include <scriptobject.h>
-#include <richtexteditor.h>
-#include <treewidget.h>
-#include <statusbar.h>
-#include <progressbar.h>
+#include "buttongroup.h"
+#include "checkbox.h"
+#include "closebutton.h"
+#include "combobox.h"
+#include "dialog.h"
+#include "execbutton.h"
+#include "fileselector.h"
+#include "groupbox.h"
+#include "lineedit.h"
+#include "listbox.h"
+#include "progressbar.h"
+#include "radiobutton.h"
+#include "richtexteditor.h"
+#include "scriptobject.h"
+#include "slider.h"
+#include "spinboxint.h"
+#include "statusbar.h"
+#include "subdialog.h"
+#include "tabwidget.h"
+#include "textbrowser.h"
+#include "textedit.h"
+#include "textedit.h"
+#include "treewidget.h"
+#include "wizard.h"
+
 
 class KomStdPlugin : public KommanderPlugin
 {
@@ -33,27 +36,29 @@ public:
 
 KomStdPlugin::KomStdPlugin()
 {
-    const char *group = "Kommander";
-    addWidget( "LineEdit", group, "" );
-    addWidget( "Dialog", group, "" );
-    addWidget( "ExecButton", group, "" );
-    addWidget( "CloseButton", group, "" );
-    addWidget( "TextEdit", group, "" );
-    addWidget( "RadioButton", group, "" );
-    addWidget( "", group, "" );
-    addWidget( "GroupBox", group, "" );
-    addWidget( "ButtonGroup", group, "" );
-    addWidget( "CheckBox", group, "" );
-    addWidget( "ComboBox", group, "" );
-    addWidget( "SpinBoxInt", group, "" );
-    addWidget( "Wizard", group, "" );
-    addWidget( "TabWidget", group, "" );
-    addWidget( "SubDialog", group, "" );
-    addWidget( "ListBox", group, "" );
-    addWidget( "ScriptObject", group, "" );
-    addWidget( "RichTextEditor", group, "" );
-    addWidget( "TreeWidget", group, "" );
-    addWidget( "StatusBar", group, "" );
+  const char *group = "Kommander";
+  addWidget("LineEdit", group, "");
+  addWidget("Dialog", group, "");
+  addWidget("ExecButton", group, "");
+  addWidget("CloseButton", group, "");
+  addWidget("TextEdit", group, "");
+  addWidget("RadioButton", group, "");
+  addWidget("", group, "");
+  addWidget("GroupBox", group, "");
+  addWidget("ButtonGroup", group, "");
+  addWidget("CheckBox", group, "");
+  addWidget("ComboBox", group, "");
+  addWidget("SpinBoxInt", group, "");
+  addWidget("Wizard", group, "");
+  addWidget("TabWidget", group, "");
+  addWidget("SubDialog", group, "");
+  addWidget("ListBox", group, "");
+  addWidget("ScriptObject", group, "");
+  addWidget("RichTextEditor", group, "");
+  addWidget("TreeWidget", group, "");
+  addWidget("StatusBar", group, "");
+  addWidget("TextBrowser", group, "");
+  addWidget("Slider", group, "");
 }
 
 QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *name )
@@ -76,6 +81,8 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
     return new FileSelector(parent, name);
   else if (key == "TextEdit")
     return new TextEdit(parent, name);
+  else if (key == "TextBrowser")
+    return new TextBrowser(parent, name);
   else if (key == "RadioButton")
     return new RadioButton(parent, name);
   else if (key == "ButtonGroup")
@@ -100,6 +107,8 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
     return new StatusBar(parent, name);
   else if (key == "ProgressBar")
     return new ProgressBar(parent, name);
+  else if (key == "Slider")
+    return new Slider(parent, name);
   return 0;
 }
 

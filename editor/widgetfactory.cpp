@@ -108,6 +108,7 @@
 #include <scriptobject.h>
 #include <richtexteditor.h>
 #include <treewidget.h>
+#include <slider.h>
 
 
 
@@ -1204,6 +1205,18 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
 	    }
 	    return lv;
 	}
+  else if ( className == "Slider" ) {
+    Slider *s = new Slider( parent, name );
+    if (!r)
+      return s;
+    if (!r->isValid() || r->width() < 2 && r->height() < 2)
+      s->setOrientation(orient);
+    else if (r->width() > r->height())
+      s->setOrientation( Qt::Horizontal);
+    MetaDataBase::addEntry(s);
+    MetaDataBase::setPropertyChanged(s, "orientation", TRUE);
+    return s;
+  }
 #endif
 
 #ifndef KOMMANDER
@@ -1466,144 +1479,149 @@ void WidgetFactory::initChangedProperties( QObject *o )
 
 bool WidgetFactory::hasSpecialEditor( int id )
 {
-    QString className = WidgetDatabase::className( id );
+  QString className = WidgetDatabase::className(id);
 
-#ifdef KOMMANDER
-    if(className == "TextEdit" || className == "ComboBox" || className == "ListBox" || className == "TreeWidget")
-	    return TRUE;
-#endif
-    if ( className.mid( 1 ) == "ListBox" )
-	return TRUE;
-    if ( className.mid( 1 ) == "ComboBox" )
-	return TRUE;
-    if ( className.mid( 1 ) == "ListView" )
-	return TRUE;
-    if ( className.mid( 1 ) == "IconView" )
-	return TRUE;
-    if ( className == "QTextEdit" || className == "QMultiLineEdit" )
-	return TRUE;
-    if ( className.contains( "Table" ) )
-	return TRUE;
+  if (className == "TextEdit" || className == "ComboBox" || className == "ListBox" || className ==
+      "TreeWidget" || className == "TextBrowser")
+    return TRUE;
 
-    return FALSE;
+  if (className.mid(1) == "ListBox")
+    return TRUE;
+  if (className.mid(1) == "ComboBox")
+    return TRUE;
+  if (className.mid(1) == "ListView")
+    return TRUE;
+  if (className.mid(1) == "IconView")
+    return TRUE;
+  if (className == "QTextEdit" || className == "QMultiLineEdit")
+    return TRUE;
+  if (className.contains("Table"))
+    return TRUE;
+
+  return FALSE;
 }
 
 bool WidgetFactory::hasItems( int id )
 {
-    QString className = WidgetDatabase::className( id );
+  QString className = WidgetDatabase::className(id);
 
 #ifdef KOMMANDER
-    if(className == "ComboBox" || className == "ListBox" || className == "TreeWidget")
-	    return TRUE;
+  if (className == "ComboBox" || className == "ListBox" || className == "TreeWidget")
+    return TRUE;
 #endif
-    if ( className.mid( 1 ) == "ListBox" || className.mid( 1 ) == "ListView" ||
-	 className.mid( 1 ) == "IconView" || className.mid( 1 ) == "ComboBox" ||
-	 className.contains( "Table" ) )
-	return TRUE;
+  if (className.mid(1) == "ListBox" || className.mid(1) == "ListView" ||
+      className.mid(1) == "IconView" || className.mid(1) == "ComboBox" ||
+      className.contains("Table"))
+    return TRUE;
 
-    return FALSE;
+  return FALSE;
 }
 
 void WidgetFactory::editWidget( int id, QWidget *parent, QWidget *editWidget, FormWindow *fw )
 {
-    QString className = WidgetDatabase::className( id );
+  QString className = WidgetDatabase::className(id);
 
 #ifdef KOMMANDER
-    if(className == "ComboBox")
-	{
-		if ( !editWidget->inherits( "QComboBox" ) )
-			return;
+  if (className == "ComboBox")
+  {
+    if (!editWidget->inherits("QComboBox"))
+      return;
 
-		QComboBox *cb = (QComboBox*)editWidget;
+    QComboBox *cb = (QComboBox *) editWidget;
 
-		ListBoxEditor *e = new ListBoxEditor( parent, cb->listBox(), fw );
-		e->exec();
-		delete e;
+    ListBoxEditor *e = new ListBoxEditor(parent, cb->listBox(), fw);
+    e->exec();
+    delete e;
 
-		cb->update();
+    cb->update();
 
-		return;
-    }
-	if(className == "TextEdit")
-	{
-		MultiLineEditor *e = new MultiLineEditor( parent, editWidget, fw );
-		e->exec();
-		delete e;
-		return;
-	}
-	if(className == "TreeWidget")
-	{
-	    if ( !editWidget->inherits( "QListView" ) )
-		return;
-	    QListView *lv = (QListView*)editWidget;
-	    ListViewEditor *e = new ListViewEditor( parent, lv, fw );
-	    e->exec();
-	    delete e;
-	    return;
-	}
-    if ( className == "ListBox" )
-    {
-	if ( !editWidget->inherits( "QListBox" ) )
-	    return;
-	ListBoxEditor *e = new ListBoxEditor( parent, editWidget, fw );
-	e->exec();
-	delete e;
-	return;
-    }
+    return;
+  }
+  if (className == "TextEdit" || className == "TextBrowser")
+  {
+    MultiLineEditor *e = new MultiLineEditor(parent, editWidget, fw);
+    e->exec();
+    delete e;
+    return;
+  }
+  if (className == "TreeWidget")
+  {
+    if (!editWidget->inherits("QListView"))
+      return;
+    QListView *lv = (QListView *) editWidget;
+    ListViewEditor *e = new ListViewEditor(parent, lv, fw);
+    e->exec();
+    delete e;
+    return;
+  }
+  if (className == "ListBox")
+  {
+    if (!editWidget->inherits("QListBox"))
+      return;
+    ListBoxEditor *e = new ListBoxEditor(parent, editWidget, fw);
+    e->exec();
+    delete e;
+    return;
+  }
 #endif
-    if ( className.mid( 1 ) == "ListBox" )
-    {
-	if ( !editWidget->inherits( "QListBox" ) )
-	    return;
-	ListBoxEditor *e = new ListBoxEditor( parent, editWidget, fw );
-	e->exec();
-	delete e;
-	return;
-    }
+  if (className.mid(1) == "ListBox")
+  {
+    if (!editWidget->inherits("QListBox"))
+      return;
+    ListBoxEditor *e = new ListBoxEditor(parent, editWidget, fw);
+    e->exec();
+    delete e;
+    return;
+  }
 
-    if ( className.mid( 1 ) == "ComboBox" ) {
-	if ( !editWidget->inherits( "QComboBox" ) )
-	    return;
-	QComboBox *cb = (QComboBox*)editWidget;
-	ListBoxEditor *e = new ListBoxEditor( parent, cb->listBox(), fw );
-	e->exec();
-	delete e;
-	cb->update();
-	return;
-    }
+  if (className.mid(1) == "ComboBox")
+  {
+    if (!editWidget->inherits("QComboBox"))
+      return;
+    QComboBox *cb = (QComboBox *) editWidget;
+    ListBoxEditor *e = new ListBoxEditor(parent, cb->listBox(), fw);
+    e->exec();
+    delete e;
+    cb->update();
+    return;
+  }
 
-    if ( className.mid( 1 ) == "ListView" ) {
-	if ( !editWidget->inherits( "QListView" ) )
-	    return;
-	QListView *lv = (QListView*)editWidget;
-	ListViewEditor *e = new ListViewEditor( parent, lv, fw );
-	e->exec();
-	delete e;
-	return;
-    }
+  if (className.mid(1) == "ListView")
+  {
+    if (!editWidget->inherits("QListView"))
+      return;
+    QListView *lv = (QListView *) editWidget;
+    ListViewEditor *e = new ListViewEditor(parent, lv, fw);
+    e->exec();
+    delete e;
+    return;
+  }
 
-    if ( className.mid( 1 ) == "IconView" ) {
-	if ( !editWidget->inherits( "QIconView" ) )
-	    return;
-	IconViewEditor *e = new IconViewEditor( parent, editWidget, fw );
-	e->exec();
-	delete e;
-	return;
-    }
+  if (className.mid(1) == "IconView")
+  {
+    if (!editWidget->inherits("QIconView"))
+      return;
+    IconViewEditor *e = new IconViewEditor(parent, editWidget, fw);
+    e->exec();
+    delete e;
+    return;
+  }
 
-    if ( className == "QMultiLineEdit" || className == "QTextEdit" ) {
-	MultiLineEditor *e = new MultiLineEditor( parent, editWidget, fw );
-	e->exec();
-	delete e;
-	return;
-    }
+  if (className == "QMultiLineEdit" || className == "QTextEdit")
+  {
+    MultiLineEditor *e = new MultiLineEditor(parent, editWidget, fw);
+    e->exec();
+    delete e;
+    return;
+  }
 #ifndef QT_NO_TABLE
-    if ( className.contains( "Table" ) ) {
-	TableEditor *e = new TableEditor( parent, editWidget, fw );
-	e->exec();
-	delete e;
-	return;
-    }
+  if (className.contains("Table"))
+  {
+    TableEditor *e = new TableEditor(parent, editWidget, fw);
+    e->exec();
+    delete e;
+    return;
+  }
 #endif
 }
 
