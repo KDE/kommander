@@ -353,4 +353,15 @@ QStringList Instance::associatedText(const QString &widgetName)
   return result;
 }
 
+QString Instance::global(const QString& variableName)
+{
+  return m_globals[variableName];  
+}
+
+void Instance::setGlobal(const QString& variableName, const QString& value)
+{
+  m_globals.insert(variableName, value); 
+}  
+
+
 #include "instance.moc"

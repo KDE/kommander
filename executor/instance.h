@@ -22,6 +22,7 @@
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qobject.h>
+#include <qmap.h>
 
 /* OTHER INCLUDES */
 
@@ -41,7 +42,7 @@ class QFile;
 class Instance : public QObject, virtual public DCOPKommanderIf
 {
   Q_OBJECT
-  
+    
 public: 
   Instance();
   Instance(QString, QWidget *);
@@ -59,6 +60,8 @@ public:
   virtual void setChecked(const QString &widgetName, bool checked);
   virtual void setAssociatedText(const QString &widgetName, const QString &text);
   virtual QStringList associatedText(const QString &widgetName);
+  virtual QString global(const QString& variableName);
+  virtual void setGlobal(const QString& variableName, const QString& value);
    
 public slots:
   /** Builds the instance then runs*/
@@ -82,6 +85,8 @@ protected:
   QString m_uiFileName;
   /** The parent widget */
   QWidget *m_parent;
+  //* Global variables */
+  QMap<QString, QString> m_globals;
 };
 
 #endif
