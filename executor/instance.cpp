@@ -33,6 +33,7 @@
 #include <qbutton.h>
 #include <qlabel.h>
 #include <qgroupbox.h>
+#include <qbuttongroup.h>
 #include <qlistbox.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
@@ -373,10 +374,15 @@ void Instance::setChecked(const QString &widgetName, bool checked)
   if (children)
     for (QObject* child = children->first(); child; child = children->next())
     {
-    if (child->inherits("QCheckBox"))
-      ((QCheckBox*)child)->setChecked(checked);
-    else if (child->inherits("QRadioButton"))
-      ((QRadioButton*)child)->setChecked(checked);
+      if (child->inherits("QCheckBox"))
+        ((QCheckBox*)child)->setChecked(checked);
+      else if (child->inherits("QRadioButton"))
+        ((QRadioButton*)child)->setChecked(checked);
+      else if (child->inherits("QButtonGroup"))
+      {
+        ((QButtonGroup*)child)->setCheckable(true);
+        ((QButtonGroup*)child)->setChecked(checked);
+      }
     }
   delete children;
 }

@@ -32,10 +32,11 @@
 ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
 	: QButtonGroup(a_parent, a_name), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
+  QStringList states;
+  states << "checked";
+  states << "unchecked";
+  setStates(states);
+  setDisplayStates(states);
 
 }
 
@@ -45,7 +46,10 @@ ButtonGroup::~ButtonGroup()
 
 QString ButtonGroup::currentState() const
 {
-	return QString("default");
+  if (!isCheckable() || isChecked())
+    return "checked";
+  else
+    return "unchecked";
 }
 
 bool ButtonGroup::isKommanderWidget() const

@@ -59,7 +59,6 @@ signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
 protected:
-protected:
     void showEvent(QShowEvent* e);
 private:
 };
