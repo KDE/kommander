@@ -92,6 +92,7 @@
 #endif
 
 #include <klocale.h>
+#include <kstdguiitem.h>
 
 static const char * whatsthis_image[] = {
     "16 16 3 1",
@@ -1099,7 +1100,8 @@ void MainWindow::fileCloseProject()
   if ( pro->isModified() ) {
       switch ( QMessageBox::warning( this, i18n( "Save Project Settings" ),
              i18n( "Save changes to '%1'?" ).arg( pro->fileName() ),
-             i18n( "&Yes" ), i18n( "&No" ), i18n( "&Cancel" ), 0, 2 ) ) {
+                                     KStdGuiItem::yes().text(), KStdGuiItem::yes().no(),
+                                     KStdGuiItem::cancel().text(), 0, 2 ) ) {
       case 0: // save
     pro->save();
     break;

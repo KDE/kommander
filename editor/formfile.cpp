@@ -46,6 +46,7 @@
 #endif
 
 #include <klocale.h>
+#include <kstdguiitem.h>
 
 #ifndef KOMMANDER
 static QString make_func_pretty( const QString &s )
@@ -436,7 +437,8 @@ bool FormFile::closeEvent()
 
     switch ( QMessageBox::warning( MainWindow::self, i18n( "Save Form" ),
            i18n( "Save changes to form '%1'?" ).arg( filename ),
-           i18n( "&Yes" ), i18n( "&No" ), i18n( "&Cancel" ), 0, 2 ) ) {
+                                   KStdGuiItem::yes().text(), KStdGuiItem::no().text(),
+                                   KStdGuiItem::cancel().text(), 0, 2 ) ) {
     case 0: // save
   if ( !save() )
       return FALSE;
