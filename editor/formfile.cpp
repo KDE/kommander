@@ -38,6 +38,7 @@
 #ifdef HAVE_KDE
 #include <kstatusbar.h>
 #include <kfiledialog.h>
+#include <kdebug.h>
 #endif
 
 #ifndef KOMMANDER
@@ -321,15 +322,16 @@ bool FormFile::saveAs()
 			tr( "*.kmdr|Qt User-Interface Files" ), MainWindow::self,
 #endif
 					       tr( "Save Form '%1' As ...").arg( formWindow()->name() ));
-					       
+
 	if ( fn.isEmpty() )
 	    return FALSE;
 	QFileInfo fi( fn );
-	if ( fi.extension() != "ui" )
 #ifndef KOMMANDER
+	if ( fi.extension() != "ui" )
 	    fn += ".ui";
 #else
-	fn += ".kmdr";
+	if ( fi.extension() != "kmdr" )
+	    fn += ".kmdr";
 #endif
 	fileNameTemp = FALSE;
 #ifndef KOMMANDER
@@ -651,7 +653,7 @@ void FormFile::parseCode( const QString &txt, bool allowModify )
 
     if ( allowModify && oldSlots.count() > 0 )
 	setFormWindowModified( TRUE );
-	
+
     MetaDataBase::setSlotList( formWindow(), newSlots );
     MetaDataBase::setFunctionBodies( formWindow(), funcs, pro->language(), QString::null );
 #endif
