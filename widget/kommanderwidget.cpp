@@ -363,7 +363,7 @@ void KommanderWidget::printError(const QString& a_error) const
   {
     KDialogBase* dialog = new KDialogBase("Error", KDialogBase::Yes | KDialogBase::No | KDialogBase::Cancel,
                 KDialogBase::Yes, KDialogBase::No, 0, 0, true, false, 
-                i18n("Continue"), i18n("Continue and ignore next errors"), i18n("Stop"));
+                i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
     switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
                 i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>").arg(QString(m_thisObject->name()))
                     .arg(a_error), QStringList(), QString::null, 0, 0))
