@@ -1,0 +1,200 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>386</width>
+            <height>206</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Program array</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>@setArrayValue(Programs, kcalc, KDE calculator)
+@setArrayValue(Programs, kwrite, Advanced editor)
+@setArrayValue(Programs, ark, Archive tool)
+@setArrayValue(Programs, kdict, Interface to online dictonaries)</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>TextLabel2</cstring>
+            </property>
+            <property name="text">
+                <string>Programs:</string>
+            </property>
+        </widget>
+        <widget class="ListBox" row="1" column="0">
+            <item>
+                <property name="text">
+                    <string>kwrite</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>kcalc</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>kdict</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>ark</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>ListBox1</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@selectedWidgetText</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="LineEdit" row="2" column="0">
+            <property name="name">
+                <cstring>LineEdit1</cstring>
+            </property>
+            <property name="backgroundOrigin">
+                <enum>ParentOrigin</enum>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+            <property name="populationText">
+                <string>@arrayValue(Programs, @ListBox1)</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="3" column="0">
+            <property name="name">
+                <cstring>Layout4</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer6</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Run</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>@exec(@ListBox1)</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Run &amp;All</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>for i in @array(Programs); do
+   $i &amp;
+done</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>ListBox1</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>LineEdit1</receiver>
+        <slot>populate()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

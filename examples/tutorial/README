@@ -63,3 +63,11 @@ Functions/concepts:
 - destroy
 - readSetting
 - writeSetting
+
+* ARRAY.KMDR
+Shows how to use assocative arrays to store and restore information
+associated with container items.
+Function/concept:
+- setArrayValue
+- arrayValue
+- array
