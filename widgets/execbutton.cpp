@@ -62,12 +62,12 @@ QStringList ExecButton::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void ExecButton::setAssociatedText(QStringList a_at)
+void ExecButton::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void ExecButton::setPopulationText( QString a_text )
+void ExecButton::setPopulationText(const QString& a_text )
 {
     KommanderWidget::setPopulationText( a_text );
 }

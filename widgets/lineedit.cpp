@@ -58,12 +58,12 @@ QStringList LineEdit::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void LineEdit::setAssociatedText(QStringList a_at)
+void LineEdit::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void LineEdit::setPopulationText( QString a_text )
+void LineEdit::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -84,7 +84,7 @@ QString LineEdit::widgetText() const
 	return text();
 }
 
-void LineEdit::setSelectedWidgetText( const QString &a_text )
+void LineEdit::setSelectedWidgetText(const QString& a_text)
 {
     int f = text().find( a_text );
     if( f != -1 )
@@ -96,7 +96,7 @@ QString LineEdit::selectedWidgetText() const
     return selectedText();
 }
 
-void LineEdit::setWidgetText(const QString &a_text)
+void LineEdit::setWidgetText(const QString& a_text)
 {
 	setText(a_text);
 	emit widgetTextChanged(a_text);

@@ -56,14 +56,14 @@ QStringList SpinBoxInt::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void SpinBoxInt::setAssociatedText(QStringList a_at)
+void SpinBoxInt::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void SpinBoxInt::setPopulationText( QString a_text )
+void SpinBoxInt::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+    KommanderWidget::setPopulationText(a_text);
 }
 
 QString SpinBoxInt::populationText() const

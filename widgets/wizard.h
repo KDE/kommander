@@ -32,11 +32,10 @@ class Wizard : public QWizard, public KommanderWidget
 	Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
-
 	Q_PROPERTY(HelpAction helpAction READ helpAction WRITE setHelpAction)
 	Q_ENUMS(HelpAction)
-
 	Q_PROPERTY(QString helpActionText READ helpActionText WRITE setHelpActionText)
+
 public:
 	Wizard(QWidget *, const char *, bool=TRUE, int=0);
 	~Wizard();
@@ -45,19 +44,18 @@ public:
 	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(QStringList);
+	virtual void setAssociatedText(const QStringList&);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
 	virtual QString populationText() const;
-	virtual void setPopulationText(QString);
+	virtual void setPopulationText(const QString&);
 
 	enum HelpAction { None, Command, Dialog };
 	HelpAction helpAction() const;
 	void setHelpAction(HelpAction);
-
 	QString helpActionText() const;
-	void setHelpActionText(QString);
+  void setHelpActionText(const QString&);
 
 public slots:
 	virtual void setWidgetText(const QString &);

@@ -60,14 +60,14 @@ QStringList Wizard::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void Wizard::setAssociatedText(QStringList a_at)
+void Wizard::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void Wizard::setPopulationText( QString a_text )
+void Wizard::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+    KommanderWidget::setPopulationText(a_text);
 }
 
 QString Wizard::populationText() const
@@ -110,28 +110,24 @@ void Wizard::exec()
 
 void Wizard::runHelp()
 {
-	if(helpAction() == Command)
+	if (helpAction() == Command)
 	{
-		KProcess proc;
-
-		proc << helpActionText();
-
-		proc.start(KProcess::DontCare, KProcess::NoCommunication);
-	}
-	else if(helpAction() == Dialog)
-	{
-		KommanderFactory::loadPlugins();
-		QDialog *dialog = (QDialog *)KommanderFactory::create(helpActionText());
-
-		dialog->exec();
-
-		delete dialog;
-	}
+    KProcess proc;
+    proc << helpActionText();
+    proc.start(KProcess::DontCare, KProcess::NoCommunication);
+  }
+  else if (helpAction() == Dialog)
+  {
+    KommanderFactory::loadPlugins();
+    QDialog *dialog = (QDialog *)KommanderFactory::create(helpActionText());
+    dialog->exec();
+    delete dialog;
+  }
 }
 
 Wizard::HelpAction Wizard::helpAction() const
 {
-	return m_helpAction;
+  return m_helpAction;
 }
 
 void Wizard::setHelpAction(HelpAction a_helpAction)
@@ -144,7 +140,7 @@ QString Wizard::helpActionText() const
 	return m_helpActionText;
 }
 
-void Wizard::setHelpActionText(QString a_helpActionText)
+void Wizard::setHelpActionText(const QString& a_helpActionText)
 {
 	m_helpActionText = a_helpActionText;
 }

@@ -54,12 +54,12 @@ QStringList Dialog::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void Dialog::setAssociatedText(QStringList a_at)
+void Dialog::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void Dialog::setPopulationText( QString a_text )
+void Dialog::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -75,7 +75,7 @@ void Dialog::populate()
     setWidgetText( txt );
 }
 
-void Dialog::setWidgetText(const QString &a_text)
+void Dialog::setWidgetText(const QString& a_text)
 {
 	setCaption(a_text);
 	emit widgetTextChanged(a_text);
@@ -86,7 +86,7 @@ QString Dialog::widgetText() const
 	return caption();
 }
 
-void Dialog::setSelectedWidgetText( const QString &)
+void Dialog::setSelectedWidgetText(const QString &)
 {
 }
 

@@ -47,12 +47,12 @@ public:
 	virtual QString selectedWidgetText() const;
 
 	bool isKommanderWidget() const;
-	void setAssociatedText(QStringList);
+	void setAssociatedText(const QStringList&);
 	QStringList associatedText() const;
 	QString currentState() const;
 
 	virtual QString populationText() const;
-	virtual void setPopulationText(QString);
+	virtual void setPopulationText(const QString&);
 
 public slots:
 	void setTextChanged();

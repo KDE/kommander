@@ -58,12 +58,12 @@ QStringList ButtonGroup::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void ButtonGroup::setAssociatedText(QStringList a_at)
+void ButtonGroup::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void ButtonGroup::setPopulationText( QString a_text )
+void ButtonGroup::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -79,7 +79,7 @@ void ButtonGroup::populate()
     //implement me
 }
 
-void ButtonGroup::setWidgetText(const QString &)
+void ButtonGroup::setWidgetText(const QString&)
 {
 }
 
@@ -97,19 +97,19 @@ QString ButtonGroup::widgetText() const
 	return text;
 }
 
-void ButtonGroup::setSelectedWidgetText( const QString &)
+void ButtonGroup::setSelectedWidgetText(const QString&)
 {
 }
 
 QString ButtonGroup::selectedWidgetText() const
 {
-    return QString::null;
+  return QString::null;
 }
 
-void ButtonGroup::showEvent( QShowEvent *e )
+void ButtonGroup::showEvent(QShowEvent* e)
 {
-    QButtonGroup::showEvent( e );
-    emit widgetOpened();
+  QButtonGroup::showEvent( e );
+  emit widgetOpened();
 }
 
 #include "buttongroup.moc"

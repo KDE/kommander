@@ -54,12 +54,12 @@ QStringList TextEdit::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void TextEdit::setAssociatedText(QStringList a_at)
+void TextEdit::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void TextEdit::setPopulationText( QString a_text )
+void TextEdit::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }

@@ -75,12 +75,12 @@ QStringList FileSelector::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void FileSelector::setAssociatedText(QStringList a_at)
+void FileSelector::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void FileSelector::setPopulationText( QString a_text )
+void FileSelector::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -96,7 +96,7 @@ void FileSelector::populate()
     setWidgetText( txt );
 }
 
-void FileSelector::setWidgetText(const QString &a_text)
+void FileSelector::setWidgetText(const QString& a_text)
 {
 	m_lineEdit->setText(a_text);
 	emit widgetTextChanged(a_text);
@@ -107,7 +107,7 @@ QString FileSelector::widgetText() const
 	return m_lineEdit->text();
 }
 
-void FileSelector::setSelectedWidgetText( const QString &a_text )
+void FileSelector::setSelectedWidgetText(const QString& a_text)
 {
     QString curText = m_lineEdit->text();
     int f = curText.find( a_text );
@@ -135,7 +135,7 @@ QString FileSelector::selectionFilter() const
 	return m_filter;
 }
 
-void FileSelector::setSelectionFilter(QString a_filter)
+void FileSelector::setSelectionFilter(const QString& a_filter)
 {
 	m_filter = a_filter;
 }
@@ -145,7 +145,7 @@ QString FileSelector::selectionCaption() const
 	return m_caption;
 }
 
-void FileSelector::setSelectionCaption(QString a_caption)
+void FileSelector::setSelectionCaption(const QString& a_caption)
 {
 	m_caption = a_caption;
 }
@@ -184,7 +184,7 @@ void FileSelector::makeSelection()
 		setWidgetText(text);
 }
 
-void FileSelector::showEvent( QShowEvent *e )
+void FileSelector::showEvent(QShowEvent *e)
 {
     QWidget::showEvent( e );
     emit widgetOpened();

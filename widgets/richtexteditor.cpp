@@ -130,12 +130,12 @@ QStringList RichTextEditor::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void RichTextEditor::setAssociatedText(QStringList a_at)
+void RichTextEditor::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void RichTextEditor::setPopulationText( QString a_text )
+void RichTextEditor::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }

@@ -29,11 +29,10 @@
 TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
 	: QTabWidget(a_parent, a_name, a_flags), KommanderWidget(this)
 {
-	QStringList states;
-	states << "default";
-	setStates(states);
-	setDisplayStates(states);
-
+  QStringList states;
+  states << "default";
+  setStates(states);
+  setDisplayStates(states);
 }
 
 TabWidget::~TabWidget()
@@ -42,64 +41,64 @@ TabWidget::~TabWidget()
 
 QString TabWidget::currentState() const
 {
-	return QString("default");
+  return QString("default");
 }
 
 bool TabWidget::isKommanderWidget() const
 {
-	return TRUE;
+  return TRUE;
 }
 
 QStringList TabWidget::associatedText() const
 {
-	return KommanderWidget::associatedText();
+  return KommanderWidget::associatedText();
 }
 
-void TabWidget::setAssociatedText(QStringList a_at)
+void TabWidget::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
-void TabWidget::setPopulationText( QString a_text )
+void TabWidget::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText( a_text );
 }
 
 QString TabWidget::populationText() const
 {
-    return KommanderWidget::populationText();
+  return KommanderWidget::populationText();
 }
 
 void TabWidget::populate()
 {
-    QString txt = KommanderWidget::evalAssociatedText( populationText() );
-    //implement me
+  QString txt = KommanderWidget::evalAssociatedText( populationText() );
+  //FIXME: implement me
 }
 
 void TabWidget::setWidgetText(const QString &a_text)
 {
-	setCaption(a_text);
-	emit widgetTextChanged(a_text);
+  setCaption(a_text);
+  emit widgetTextChanged(a_text);
 }
 
 QString TabWidget::widgetText() const
 {
-	return caption();
+  return caption();
 }
 
-void TabWidget::setSelectedWidgetText( const QString & )
+void TabWidget::setSelectedWidgetText(const QString &)
 {
 }
 
 QString TabWidget::selectedWidgetText() const
 {
-    return QString::null;
+  return QString::null;
 }
 
-void TabWidget::showEvent( QShowEvent *e )
+void TabWidget::showEvent(QShowEvent* e)
 {
-    QTabWidget::showEvent( e );
-    emit widgetOpened();
+  QTabWidget::showEvent(e);
+  emit widgetOpened();
 }
 
 #include "tabwidget.moc"

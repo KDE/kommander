@@ -40,34 +40,31 @@ class ComboBox : public QComboBox, public KommanderWidget
 	
 //	Q_PROPERTY(QStringList items READ items WRITE setItems RESET resetItems);
 public:
-	ComboBox(QWidget *a_parent, const char *a_name);
-	~ComboBox();
+  ComboBox(QWidget *a_parent, const char *a_name);
+  ~ComboBox();
 
-	virtual QString widgetText() const;
-	virtual QString selectedWidgetText() const;
+  virtual QString widgetText() const;
+  virtual QString selectedWidgetText() const;
 
-	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(QStringList);
-	virtual QStringList associatedText() const;
-	virtual QString currentState() const;
+  virtual bool isKommanderWidget() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QStringList associatedText() const;
+  virtual QString currentState() const;
 
-	virtual QString populationText() const;
-	virtual void setPopulationText(QString);
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
 
-//	QStringList items() const;
-//	void setItems(QStringList);
-//	void resetItems();
 public slots:
-	virtual void setWidgetText(const QString &);
-	virtual void setSelectedWidgetText(const QString &a_text);
-	virtual void populate();
-	
-	virtual void emitWidgetTextChanged(int);
+  virtual void setWidgetText(const QString&);
+  virtual void setSelectedWidgetText(const QString & a_text);
+  virtual void populate();
+  
+  virtual void emitWidgetTextChanged(int);
 signals:
-	void widgetOpened();
-	void widgetTextChanged(const QString &);
+  void widgetOpened();
+  void widgetTextChanged(const QString&);
 protected:
-    void showEvent( QShowEvent *e );
+  void showEvent(QShowEvent *e);
 private:
 };
 

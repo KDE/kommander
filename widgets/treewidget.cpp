@@ -58,12 +58,12 @@ QStringList TreeWidget::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void TreeWidget::setAssociatedText(QStringList a_at)
+void TreeWidget::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void TreeWidget::setPopulationText( QString a_text )
+void TreeWidget::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }

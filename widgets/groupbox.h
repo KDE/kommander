@@ -46,18 +46,18 @@ public:
 	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(QStringList);
+	virtual void setAssociatedText(const QStringList&);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
 	virtual QString populationText() const;
-	virtual void setPopulationText(QString);
+	virtual void setPopulationText(const QString&);
 
 	virtual void insertChild(QObject *);
 	virtual void removeChild(QObject *);
 public slots:
-	virtual void setWidgetText(const QString &);
-	virtual void setSelectedWidgetText(const QString &a_text);
+	virtual void setWidgetText(const QString&);
+	virtual void setSelectedWidgetText(const QString& a_text);
 	virtual void populate();
 signals:
 	void widgetOpened();

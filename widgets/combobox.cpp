@@ -58,12 +58,12 @@ QStringList ComboBox::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void ComboBox::setAssociatedText(QStringList a_at)
+void ComboBox::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void ComboBox::setPopulationText( QString a_text )
+void ComboBox::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -79,7 +79,7 @@ void ComboBox::populate()
     setWidgetText( txt );
 }
 
-void ComboBox::setWidgetText(const QString &a_text)
+void ComboBox::setWidgetText(const QString& a_text)
 {
 	QStringList strings = QStringList::split("\n", a_text);
 
@@ -95,7 +95,7 @@ QString ComboBox::widgetText() const
 	return currentText();
 }
 
-void ComboBox::setSelectedWidgetText( const QString &a_text )
+void ComboBox::setSelectedWidgetText(const QString& a_text)
 {
     for( int i = 0 ; i < count() ; ++i )
     {
@@ -148,7 +148,7 @@ void ComboBox::emitWidgetTextChanged(int a_index)
 	emit widgetTextChanged(currentText);
 }
 
-void ComboBox::showEvent( QShowEvent *e )
+void ComboBox::showEvent(QShowEvent *e)
 {
     QComboBox::showEvent( e );
     emit widgetOpened();

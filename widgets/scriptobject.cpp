@@ -56,12 +56,12 @@ QStringList ScriptObject::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void ScriptObject::setAssociatedText(QStringList a_at)
+void ScriptObject::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void ScriptObject::setPopulationText( QString a_text )
+void ScriptObject::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -88,7 +88,7 @@ QString ScriptObject::widgetText() const
 	return m_script;
 }
 
-void ScriptObject::setSelectedWidgetText( const QString &)
+void ScriptObject::setSelectedWidgetText(const QString &)
 {
 }
 

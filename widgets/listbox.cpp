@@ -60,12 +60,12 @@ QStringList ListBox::associatedText() const
   return KommanderWidget::associatedText();
 }
 
-void ListBox::setAssociatedText(QStringList a_at)
+void ListBox::setAssociatedText(const QStringList& a_at)
 {
   KommanderWidget::setAssociatedText(a_at);
 }
 
-void ListBox::setPopulationText( QString a_text )
+void ListBox::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -87,11 +87,8 @@ void ListBox::setWidgetText(const QString &a_text)
      a_text is a set of strings delimited by \n to insert into the list box
   */
   QStringList strings = QStringList::split("\n", a_text); // note : doesn't allow empty entries
-
   clear();
-
   insertStringList(strings);
-
   emit widgetTextChanged(a_text);
 }
 
@@ -99,30 +96,27 @@ QString ListBox::widgetText() const
 {
   QStringList strings;
 
-#if 0 
-  int I = 0, length = count();
-  for(;I < length;++I)
-  {
-    if(isSelected(I))
-      strings += item(I)->text();
-  }
+  //int I = 0, length = count();
+  //for(;I < length;++I)
+  // {
+  //  if(isSelected(I))
+  //    strings += item(I)->text();
+  //}
   //only returning selected is something difdferent to widget text
   //probably @selectedWidgetText
-#else
-  for( int i = 0 ; i < (int)count() ; ++i )
-      strings += item( i )->text();
-#endif
+  for( uint i = 0 ; i < count() ; ++i )
+      strings += item(i)->text();
   return strings.join("\n");
 }
 
-void ListBox::setSelectedWidgetText( const QString &a_text )
+void ListBox::setSelectedWidgetText(const QString &a_text)
 {
-    QStringList selectedItems = QStringList::split( "\n", a_text );
-    for( int i = 0 ; i < (int)count() ; ++i )
+  QStringList selectedItems = QStringList::split( "\n", a_text);
+  for( int i = 0 ; i < (int)count() ; ++i )
     {
-	if( !selectedItems.count() )
+    if(!selectedItems.count())
 	    break;
-	QStringList::Iterator j = selectedItems.begin();
+	  QStringList::Iterator j = selectedItems.begin();
 	while( j != selectedItems.end() )
 	{
 	    //only allow an item in text to cause one selection.

@@ -54,12 +54,12 @@ public:
 	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(QStringList);
+	virtual void setAssociatedText(const QStringList&);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
 	virtual QString populationText() const;
-	virtual void setPopulationText(QString);
+	virtual void setPopulationText(const QString&);
 
 	enum SelectionType { Open, Save, Directory };
 	SelectionType selectionType() const;
@@ -68,26 +68,26 @@ public:
 	bool selectionOpenMultiple() const;
 	void setSelectionOpenMultiple(bool);
 	QString selectionFilter() const;
-	void setSelectionFilter(QString);
+	void setSelectionFilter(const QString&);
 	QString selectionCaption() const;
-	void setSelectionCaption(QString);
+	void setSelectionCaption(const QString&);
 public slots:
-	virtual void setWidgetText(const QString &);
-	virtual void setSelectedWidgetText(const QString &a_text);
+	virtual void setWidgetText(const QString&);
+	virtual void setSelectedWidgetText(const QString& a_text);
 	virtual void makeSelection();
 	virtual void populate();
 signals:
 	void widgetOpened();
-	void widgetTextChanged(const QString &);
+	void widgetTextChanged(const QString&);
 protected:
-	bool m_openMultiple;
-	QString m_caption;
-	QString m_filter;
-	SelectionType m_selectionType;
-	QLineEdit *m_lineEdit;
-	QPushButton *m_selectButton;
-	QBoxLayout *m_boxLayout;
-    void showEvent( QShowEvent *e );
+  bool m_openMultiple;
+  QString m_caption;
+  QString m_filter;
+  SelectionType m_selectionType;
+  QLineEdit *m_lineEdit;
+  QPushButton *m_selectButton;
+  QBoxLayout *m_boxLayout;
+  void showEvent( QShowEvent *e );
 private:
 };
 

@@ -60,7 +60,7 @@ QStringList RadioButton::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void RadioButton::setAssociatedText(QStringList a_at)
+void RadioButton::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
@@ -71,7 +71,7 @@ void RadioButton::setWidgetText(const QString &a_text)
 	emit widgetTextChanged(a_text);
 }
 
-void RadioButton::setPopulationText( QString a_text )
+void RadioButton::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }

@@ -71,12 +71,12 @@ QStringList CloseButton::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void CloseButton::setAssociatedText(QStringList a_at)
+void CloseButton::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void CloseButton::setPopulationText( QString a_text )
+void CloseButton::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -92,7 +92,7 @@ void CloseButton::populate()
     setWidgetText( txt );
 }
 
-void CloseButton::setWidgetText(const QString &a_text)
+void CloseButton::setWidgetText(const QString& a_text)
 {
     setText( a_text );
 	emit widgetTextChanged(a_text);
@@ -103,7 +103,7 @@ QString CloseButton::widgetText() const
 	return m_output;
 }
 
-void CloseButton::setSelectedWidgetText( const QString &)
+void CloseButton::setSelectedWidgetText(const QString&)
 {
 }
 
@@ -171,7 +171,7 @@ void CloseButton::setWriteStdout(bool a_enable)
 	m_writeStdout = a_enable;
 }
 
-void CloseButton::showEvent( QShowEvent *e )
+void CloseButton::showEvent(QShowEvent *e)
 {
     QPushButton::showEvent( e );
     emit widgetOpened();

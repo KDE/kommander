@@ -58,14 +58,14 @@ QStringList GroupBox::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void GroupBox::setAssociatedText(QStringList a_at)
+void GroupBox::setAssociatedText(const QStringList& a_at)
 {
-	KommanderWidget::setAssociatedText(a_at);
+  KommanderWidget::setAssociatedText(a_at);
 }
 
-void GroupBox::setPopulationText( QString a_text )
+void GroupBox::setPopulationText(const QString& a_text)
 {
-    KommanderWidget::setPopulationText( a_text );
+  KommanderWidget::setPopulationText(a_text);
 }
 
 QString GroupBox::populationText() const

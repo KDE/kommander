@@ -68,12 +68,12 @@ QStringList CheckBox::associatedText() const
 	return KommanderWidget::associatedText();
 }
 
-void CheckBox::setAssociatedText(QStringList a_at)
+void CheckBox::setAssociatedText(const QStringList& a_at)
 {
 	KommanderWidget::setAssociatedText(a_at);
 }
 
-void CheckBox::setPopulationText( QString a_text )
+void CheckBox::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
@@ -89,7 +89,7 @@ void CheckBox::populate()
     setWidgetText( txt );
 }
 
-void CheckBox::setWidgetText(const QString &a_text)
+void CheckBox::setWidgetText(const QString& a_text)
 {
     setText(a_text);
     emit widgetTextChanged(a_text);
@@ -100,7 +100,7 @@ QString CheckBox::widgetText() const
     return text();
 }
 
-void CheckBox::setSelectedWidgetText( const QString &)
+void CheckBox::setSelectedWidgetText(const QString&)
 {
 }
 
@@ -109,7 +109,7 @@ QString CheckBox::selectedWidgetText() const
     return QString::null;
 }
 
-void CheckBox::showEvent( QShowEvent *e )
+void CheckBox::showEvent(QShowEvent* e)
 {
     QCheckBox::showEvent( e );
     emit widgetOpened();

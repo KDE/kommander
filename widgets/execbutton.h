@@ -46,12 +46,12 @@ public:
 	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(QStringList);
+	virtual void setAssociatedText(const QStringList&);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
 	virtual QString populationText() const;
-	virtual void setPopulationText( QString );
+	virtual void setPopulationText(const QString&);
 
 	virtual void setWriteStdout(bool);
 	bool writeStdout() const;
@@ -64,7 +64,7 @@ public slots:
 	virtual void endProcess(KProcess *);
 signals:
 	void widgetOpened();
-	void widgetTextChanged(const QString &);
+	void widgetTextChanged(const QString&);
 protected:
 	bool m_writeStdout;
 	QString m_output;

@@ -37,35 +37,35 @@ class CloseButton : public QPushButton, public KommanderWidget
 	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 	Q_PROPERTY(bool writeStdout READ writeStdout WRITE setWriteStdout)
 public:
-	CloseButton(QWidget *a_parent, const char *a_name);
+	CloseButton(QWidget* a_parent, const char* a_name);
 	~CloseButton();
 
 	virtual QString widgetText() const;
 	virtual QString selectedWidgetText() const;
 
 	virtual bool isKommanderWidget() const;
-	virtual void setAssociatedText(QStringList);
+	virtual void setAssociatedText(const QStringList&);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;
 
 	virtual QString populationText() const;
-	virtual void setPopulationText(QString);
+	virtual void setPopulationText(const QString&);
 	bool writeStdout() const;
 public slots:
 	virtual void setWriteStdout(bool);
 	virtual void setWidgetText(const QString &);
-		virtual void setSelectedWidgetText(const QString &a_text);
+		virtual void setSelectedWidgetText(const QString& a_text);
 	virtual void startProcess();
-	virtual void appendOutput(KProcess *, char *, int);
-	virtual void endProcess(KProcess *);
+	virtual void appendOutput(KProcess*, char*, int);
+	virtual void endProcess(KProcess*);
 	virtual void populate();
 signals:
 	void widgetOpened();
-	void widgetTextChanged(const QString &);
+	void widgetTextChanged(const QString&);
 protected:
 	bool m_writeStdout;
 	QString m_output;
-    void showEvent( QShowEvent *e );
+    void showEvent(QShowEvent* e);
 private:
 };
 

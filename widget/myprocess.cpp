@@ -40,7 +40,7 @@ QString MyProcess::run(const QString & a_command)
 	connect(&proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(receivedStdout(KProcess *, char *, int)));
 	if(!proc.start(KProcess::Block, KProcess::Stdout))
 	{
-		m_atw->printError(QString(m_atw->m_thisObject->className()), "Unable to start shell process");
+		m_atw->printError("Unable to start shell process");
 		return QString::null;
 	}
 	return m_output;

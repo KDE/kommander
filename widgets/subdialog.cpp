@@ -60,12 +60,12 @@ QStringList SubDialog::associatedText() const
   return KommanderWidget::associatedText();
 }
 
-void SubDialog::setAssociatedText(QStringList a_at)
+void SubDialog::setAssociatedText(const QStringList& a_at)
 {
   KommanderWidget::setAssociatedText(a_at);
 }
 
-void SubDialog::setPopulationText( QString a_text )
+void SubDialog::setPopulationText(const QString& a_text)
 {
     KommanderWidget::setPopulationText( a_text );
 }
