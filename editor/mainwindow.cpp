@@ -91,7 +91,6 @@
 #include "assoctexteditorimpl.h"
 #include <dialog.h>
 
-static bool mblockNewForms = FALSE;
 extern QMap<QWidget*, QString> *qwf_functions;
 extern QMap<QWidget*, QString> *qwf_forms;
 extern QString *qwf_language;
@@ -392,11 +391,13 @@ void MainWindow::runForm()
   FormWindow* form = activeForm();
   if (!form || !form->formFile())
     return;
-  form->formFile()->save(false);
-  KProcess process;
-  process << "kmdr-executor";
-  process << form->formFile()->fileName();
-  process.start(KProcess::DontCare);
+  if (form->formFile()->save(false)) 
+  {
+    KProcess process;
+    process << "kmdr-executor";
+    process << form->formFile()->fileName();
+    process.start(KProcess::DontCare);
+  }
 }
 
 
@@ -2125,7 +2126,7 @@ QWidget *MainWindow::findRealForm( QWidget *wid )
     return 0;
 }
 
-void MainWindow::formNameChanged( FormWindow *fw )
+void MainWindow::formNameChanged( FormWindow*)
 {
 }
 
