@@ -72,13 +72,13 @@ QString FunctionsDialog::functionText() const
 QString FunctionsDialog::currentFunctionText()
 {
   if (groupComboBox->currentText() == "Kommander")
-    return QString("@%1(%2)").arg(functionListBox->currentText()).arg(params());
+    return QString("@%1%2").arg(functionListBox->currentText()).arg(params());
   else if (groupComboBox->currentText() == "DCOP")
-    return QString("@%1.%2(%3)").arg(widgetComboBox->currentText().section(' ', 0, 0))
-      .arg(functionListBox->currentText()).arg(params());
+    return QString("@%1.%2%3").arg(widgetComboBox->currentText().section(' ', 0, 0))
+        .arg(functionListBox->currentText()).arg(params());
   else 
-    return QString("@%1.%2(%3)").arg(groupComboBox->currentText())
-      .arg(functionListBox->currentText()).arg(params());
+    return QString("@%1.%2%3").arg(groupComboBox->currentText())
+        .arg(functionListBox->currentText()).arg(params());
 }
 
 void FunctionsDialog::groupChanged(int index)
@@ -165,10 +165,18 @@ QString FunctionsDialog::params()
 {
   KLineEdit* edits[4] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit};
   QStringList pars;
+  bool params = false;
   for (int i=0; i<4; i++)
     if (edits[i]->isShown())
+    {
       pars.append(edits[i]->text());
-  return pars.join(", ");
+      params = true;
+    }
+  QString a_param = pars.join(", ");
+  if (params)
+    return QString("(%1)").arg(a_param);
+  else
+    return a_param;
 }
 
 
