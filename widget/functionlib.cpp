@@ -27,12 +27,14 @@
 
 #include <dcopclient.h>
 #include <kapplication.h>
+#include <kcolordialog.h>
+#include <kinputdialog.h>
 #include <kglobal.h>
 #include <klocale.h>
 
 using namespace Parse;
 
-/******************* String function ********************************/
+/******************* String functions ********************************/
 static ParseNode f_stringLength(Parser*, const ParameterList& params)
 {
   return params[0].toString().length(); 
@@ -265,6 +267,8 @@ static ParseNode f_i18n(Parser*, const ParameterList& params)
 }
 
 
+
+/******************* Array functions ********************************/
 static ParseNode f_arrayClear(Parser* P, const ParameterList& params)
 {
   P->unsetArray(params[0].toString());
@@ -337,7 +341,32 @@ static ParseNode f_arrayFromString(Parser* P, const ParameterList& params)
   return ParseNode();
 }
  
+
+
+static ParseNode f_inputColor(Parser*, const ParameterList& params)
+{
+  QColor color;
+  if (params.count())
+    color.setNamedColor(params[0].toString());
+  KColorDialog::getColor(color);
+  return color.name();
+}
+
+
+
+static ParseNode f_inputText(Parser*, const ParameterList& params)
+{
+  QString value;
+  if (params.count() > 2)
+    value = params[0].toString();
+  return KInputDialog::getText(params[0].toString(), params[1].toString(), value);
+}
     
+
+
+
+
+
   
 void ParserData::registerStandardFunctions()
 {
@@ -372,5 +401,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("array_tostring", Function(&f_arrayToString, ValueString, ValueString));
   registerFunction("array_fromstring", Function(&f_arrayFromString, ValueNone, ValueString, ValueString));
   registerFunction("array_remove", Function(&f_arrayRemove, ValueNone, ValueString, ValueString));
+  registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
+  registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
 }
 
