@@ -187,9 +187,9 @@ Qt Designer Copyright (C) 2000-2002 Trolltech AS. All Rights Reserved</string>
         <slot>accept()</slot>
     </connection>
 </connections>
-<includes>
-    <include location="local" impldecl="in declaration">splashloader.h</include>
-</includes>
+<forwards>
+    <forward>QPixmap splashScreen();</forward>
+</forwards>
 <pixmapfunction>splashScreen</pixmapfunction>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

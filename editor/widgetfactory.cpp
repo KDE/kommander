@@ -33,7 +33,7 @@
 #include "listvieweditorimpl.h"
 #include "iconvieweditorimpl.h"
 #include "multilineeditorimpl.h"
-#ifndef KOMMANDER 
+#ifndef KOMMANDER
 #include "widgetinterface.h"
 #endif
 #ifndef QT_NO_TABLE
@@ -84,7 +84,7 @@
 #include "database.h"
 #endif
 
-#define NO_STATIC_COLORS
+//#define NO_STATIC_COLORS
 #include "globaldefs.h"
 
 /* KOMMANDER INCLUDES */

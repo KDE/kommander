@@ -24,13 +24,13 @@
 #include "designerapp.h"
 #include "mainwindow.h"
 #include "formwindow.h"
-#include "splashloader.h"
 
 #include <qfile.h>
 #include <qdir.h>
 #include <qsettings.h>
 #include <qlabel.h>
 #include <qpainter.h>
+#include <qpixmap.h>
 
 #ifdef Q_WS_WIN
 #include <qt_windows.h>
@@ -42,6 +42,8 @@
 #endif
 
 #include <cstdlib>
+
+QPixmap splashScreen();
 
 static QLabel *splash = 0;
 
@@ -159,7 +161,7 @@ bool DesignerApplication::winEventFilter( MSG *msg )
 
 		    fw = (FormWindow*) l->next();
 		}
-		
+
 		if ( !haveit ) {
 		    FlashWindow( MainWindow::self->winId(), TRUE );
 		    MainWindow::self->openFormWindow( arg );

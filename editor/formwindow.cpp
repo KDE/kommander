@@ -36,7 +36,7 @@
 #include "designerappiface.h"
 #endif
 
-#define NO_STATIC_COLORS
+//#define NO_STATIC_COLORS
 #include "globaldefs.h"
 #include "formfile.h"
 #include <scriptobject.h>

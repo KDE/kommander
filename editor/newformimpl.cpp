@@ -52,7 +52,7 @@
 
 #include <klocale.h>
 
-static int forms = 0;
+static int _forms = 0;
 
 #ifndef KOMMANDER
 ProjectItem::ProjectItem( QIconView *view, const QString &text )
@@ -78,7 +78,7 @@ void FormItem::insert( Project *pro )
 void FormItem::insert()
 #endif
 {
-    QString n = "Form" + QString::number( ++forms );
+    QString n = "Form" + QString::number( ++_forms );
     FormWindow *fw = 0;
 #ifndef KOMMANDER
     FormFile *ff = new FormFile( FormFile::createUnnamedFileName(), TRUE, pro );

@@ -48,7 +48,7 @@
 #include <kurldrag.h>
 #include <klocale.h>
 
-static const char * const folder_xpm[]={
+static const char * const folderxpm[]={
     "16 16 6 1",
     ". c None",
     "b c #ffff00",
@@ -368,7 +368,7 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     setColumnWidthMode( 1, Manual );
 
     if ( !folderPixmap ) {
-  folderPixmap = new QPixmap( folder_xpm );
+  folderPixmap = new QPixmap( folderxpm );
   filePixmap = new QPixmap( file_xpm );
   formPixmap = new QPixmap( PixmapChooser::loadPixmap( "form.xpm", PixmapChooser::Mini ) );
     }
