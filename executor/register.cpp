@@ -66,6 +66,8 @@ void Instance::registerSpecials()
   SpecialInformation::insert("value", 2);
   SpecialInformation::insert("remove", 2);
   SpecialInformation::insert("setValue", 3);
+  SpecialInformation::insert("read", 2);
+  SpecialInformation::insert("write", 2);
   
   SpecialInformation::setCurrentObject("String");
   SpecialInformation::insert("length", 1);

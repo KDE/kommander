@@ -96,6 +96,16 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
 {
   if (function == "setValue")
     m_arrays[args[0]][args[1]] = args[2];
+  else if (function == "read")
+  {
+     QStringList lines = QStringList::split("\n", evalFileFunction("read", args[1]));
+     for (uint i=0; i<lines.count(); i++)
+     {
+        QString key = lines[i].section('\t', 0, 0).stripWhiteSpace();
+        if (!key.isEmpty())
+          m_arrays[args[0]][key] = lines[i].section('\t', 1);
+     }
+  }
   else if (!m_arrays.contains(args[0]))
     return QString::null;
   else if (function == "value")
@@ -110,6 +120,17 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     m_arrays[args[0]].remove(args[1]);
   else if (function == "count")
     return QString::number(m_arrays[args[0]].count());
+  else if (function == "write")
+  {
+     QStringList keys = m_arrays[args[0]].keys();
+     QStringList values = m_arrays[args[0]].values();
+     QString array;
+     for (uint i=0; i<keys.count(); i++)
+        array += QString("%1\t%2\n").arg(keys[i]).arg(values[i]);
+     QStringList fileArgs(args[1]);
+     fileArgs.append(array);
+     evalFileFunction("write", fileArgs);
+  }
   return QString::null;
 }
 
