@@ -1,0 +1,26 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<chapter id="commands">
+<chapterinfo>
+<title>Command Reference</title>
+<authorgroup>
+<author>
+<personname>
+<firstname></firstname>
+<surname></surname>
+</personname>
+<email></email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</chapterinfo>
+
+<title>Reference</title>
+
+&widgets;
+&specials;
+&dcop-functions;
+
+</chapter>

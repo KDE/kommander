@@ -1,0 +1,59 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<chapter id="credits">
+<chapterinfo>
+<title>Credits and License</title>
+<authorgroup>
+<author>
+<personname>
+<firstname>Tamara</firstname>
+<surname>King</surname>
+</personname>
+<email>tik@acm.org</email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</chapterinfo>
+
+<title>Credits and License</title>
+
+<variablelist>
+<title>The &kommander; Development Team</title>
+<varlistentry>
+<term>Britton, Marc <email>consume@optusnet.com.au</email></term>
+<listitem><para>Developer and documentation</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>King, Tamara <email>tik@acm.org</email></term>
+<listitem><para>Documentation</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Laffoon, Eric <email>sequitur@kde.org</email></term>
+<listitem><para>Project manager and documentation</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Mantia, Andr&aacute;s <email>amantia@kde.org</email></term>
+<listitem><para>Developer</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Rudolf, Michal <email>mrudolf@kdewebdev.org</email></term>
+<listitem><para>Developer</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+&kommander; <trademark class="copyright" /> 2004 &kommander; Development Team.
+</para>
+
+<para>
+&kommander; User Manual <trademark class="copyright" /> 2004 &kommander; Development Team.
+</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;
+&underGPL; 
+
+</chapter>

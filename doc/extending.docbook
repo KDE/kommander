@@ -1,0 +1,51 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<chapter id="extending">
+<chapterinfo>
+<title>Extending &kommander;</title>
+<authorgroup>
+<author>
+<personname>
+<firstname></firstname>
+<surname></surname>
+</personname>
+<email></email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</chapterinfo>
+
+<title>Extending &kommander;</title>
+
+<!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
+application windows and their menubar and toolbar commands for easy reference.
+Also include any keys that have a special function but have no equivalent in the
+menus or toolbars. This may not be necessary for small apps or apps with no tool
+or menu bars. -->
+
+<sect1 id="create-widgets">
+<title>Creating &kommander; Widgets</title>
+<para>
+With Kommander you can create new widgets based on non-&kommander; widgets
+fairly easily.  The approach is to derive your new &kommander; widget class from the
+&Qt;/&kde; widget which you wish to integrate with &kommander;, and then also from the
+KommanderWidget class. Overriding methods from this class gives the &kommander;
+widget its functionality.
+</para>
+<para>
+Most of the code of a &kommander; widget is just template code.
+Therefore, you can use the widgetgenerator.kmdr &kommander; dialog to generate
+most the &kommander; widget code for you. All you have to do is fill in the
+important parts relating to your widget like any state information, widget text
+etc.
+</para>
+<para>
+Let's say we want to create a new line edit widget for &kommander;,
+based on the &kde; widget KLineEdit. Using the &kommander; widget generator
+dialog, we get something like this in the outputted header file:
+</para>
+</sect1>
+
+</chapter>

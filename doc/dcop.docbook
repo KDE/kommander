@@ -1,0 +1,202 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<sect1 id="dcop-interface">
+<sect1info>
+<title>&DCOP; Functions</title>
+<authorgroup>
+<author>
+<personname>
+<firstname></firstname>
+<surname></surname>
+</personname>
+<email></email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</sect1info>
+
+<title>&DCOP; Functions</title>
+
+<para>
+&DCOP; can be called in several ways in &kommander;.  First is the console method
+</para>
+<para>
+dcop kmdr-executor-@pid KommanderIf changeWidgetText myWidget <quote>new text</quote>
+</para>  
+<para>
+This assumes you are inside a &kommander; file and have access to the special @pid which contains the process ID.  In fact it is simpler to replace <quote>kmdr-executor-@pid</quote> with @dcopid.  However, you can use this syntax (obviously without the specials) from the command line or any external script to alter the &kommander; window.
+</para>
+<para>
+Because &kommander; does not have a full parser in it's Alpha stage, if you want to use the much faster internal &DCOP; from another application window (console &DCOP; is very slow) it is more complicated because you must give lots of information, including a prototype of the call.  The above call would become:
+</para>
+<para>
+@dcop(@dcopid, KommanderIf, <quote>enableWidget(QString, bool)</quote>, Widget, true)
+</para>
+<para>
+At the time of this writing you should be aware that nesting &DCOP; calls inside script language structures (like <application>bash</application>) means that you must use console method calls.  <emphasis>If you use internal &DCOP; all &kommander; specials will be executed first and then the script will be executed.</emphasis>
+</para>
+<para>
+There is a new simplified way to use &DCOP; inside &kommander; using an object syntax. Let's say you want to change the text in a widget name @LineEdit1. It would look like this.
+</para>
+<para>
+@LineEdit1.changeWidgetText(New text)
+</para>
+<para>
+As you can see the new syntax is very easy, as well as consistent visually with function groups. All the &DCOP; reference here will use the new object syntax listed above. <emphasis>Please note that if you are referencing a widget using &DCOP; from another window or another application the first parameter will always be the widget name. All functions are listed here starting with the second parameter.</emphasis>
+</para>
+
+<sect2 id="dcop-globals">
+<title>&DCOP; for Global Variables</title>
+<variablelist>
+<varlistentry>
+<term>global(QString variableName)</term>
+<listitem>
+<para>
+Returns the value of the specified global variable.  When a script is run from within a &kommander; window any (non-global) varaibles set in that script will cease to exist after the script completes and therfore will not be available to other script processes or in a new instance of the calling process.  The global <quote>scope</quote> means the variable will exist for any process of the window until that window is closed.  You may change these variables at any time with a new call to <function>@setGlobal</function>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>setGlobal(QString variableName, QString value)</term>
+<listitem>
+<para>
+Creates a variable that is global to the window process and assigns the value to it.  This value can be retrieved with global(QString variableName) or set again.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+<sect2 id="dcop-all">
+<title>&DCOP; for all Widgets</title>
+
+<variablelist>
+<varlistentry>
+<term>changeWidgetText(QString text)</term>
+<listitem>
+<para>
+This should be renamed setWidgetText and this name will probably be deprecated.  This removes the text displayed int he widget and replaces it with the text supplied.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>enableWidget(bool enable)</term>
+<listitem>
+<para>
+Enables or disables a widget.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>associatedText</term>
+<listitem>
+<para>
+Returns the text associated with the specified widget.  This is not the same as the displayed text.  It would be <quote>@widgetText</quote> or the text and/or scripting used to arrive at the displayed value.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>setAssociatedText(QString text)</term>
+<listitem>
+<para>
+This sets the &kommander; Text default string.  This is typically set to <quote>@widgetText</quote> to display what is entered into the widget.  It is unlikely you will have much need for this, but if you do it is there.  Applies to all widgets that can contain data.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+<sect2 id="dcop-box">
+<title>&DCOP; for ListBox and ComboBox Widgets</title>
+<variablelist>
+<varlistentry>
+<term>addListItem(QString item, int index)</term>
+<listitem>
+<para>
+Adds an item to a ListBox widget at the specified index.  List index starts at zero.  To add to the end of the list use -1.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>addListItems(QStringList items, int index)</term>
+<listitem>
+<para>
+This adds a list of strings all at once.  The list should be delimited by <acronym>EOL</acronym> (\n - newlines).  This is handy as you can use bash to derive the list rather easily.  For instance, using @exec(ls -l ~/projects | grep kmdr) for items will give you a directory listing of &kommander; files in your projects folder.  List index starts at zero.  Use -1 to add to the end of the list.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>addUniqueItem(QString item)</term>
+<listitem>
+<para>
+addUniqueItem will add an item to the end of the list only if it is unique.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>clearList</term>
+<listitem>
+<para>
+Removes all items.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>removeListItem(int index)</term>
+<listitem>
+<para>
+Removes the item at the specified index.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>item(int index)</term>
+<listitem>
+<para>
+Returns the text of the item at the specified index.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>setCurrentListItem(int index)</term>
+<listitem>
+<para>
+Set the current (or selected) item to the index specified.  Applies to ListBox and ComboBox widgets.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+<sect2 id="dcop-button">
+<title>&DCOP; for CheckBox and RadioButton Widgets</title>
+<variablelist>
+<varlistentry>
+<term>setChecked(QString widgetName, bool checked)</term>
+<listitem>
+<para>
+Checks/unchecks CheckBox or RadioButton widgets.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+<sect2 id="dcop-tab">
+<title>&DCOP; for TabWidget Widgets</title>
+<variablelist>
+<varlistentry>
+<term>setCurrentTab(QString widgetName, int index)</term>
+<listitem>
+<para>
+Selected the tab by index for TabWidgets.  Index starts at 0.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+
+</sect1>

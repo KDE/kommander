@@ -1,0 +1,101 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<chapter id="kmdr-basics">
+<chapterinfo>
+<title>&kommander; Basics</title>
+<authorgroup>
+<author>
+<personname>
+<firstname>Tamara</firstname>
+<surname>King</surname>
+</personname>
+<email>tik@acm.org</email>
+</author>
+<author>
+<personname>
+<firstname>Eric</firstname>
+<surname>Laffoon</surname>
+</personname>
+<email>sequitur@kde.org</email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</chapterinfo>
+
+<title>&kommander; Basics</title>
+
+<!-- This chapter should tell the user how to use your app. You should use as
+many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
+your application. -->
+
+<sect1 id="concepts">
+<title>Concepts</title>
+</sect1>
+
+<para>
+&kommander; was originally designed around a simple concept that has proven somewhat revolutionairy among visual design tools. Typically these tools allow you to create dialogs and possibly mainwindow interfaces.  Of course a mainwindow interface is the main program window which typically has menus, toolbars, statusbar and the application area. Dialogs are child windows which typically don't have menus and are so named because their purpose is to <quote>have a dialog</quote> or exchange information between you and the main application. The elements on a dialog are called <quote>widgets</quote> and you hook your program into these widgets. &kommander; is different because it is inherently nonprogrammatic here. It uses the concept of associating text with the widgets on the dialog. Initially this was called <quote>Associated Text</quote> but now it is called <quote>&kommander; Text</quote>. Widgets on &kommander; dialogs can include the content of other widgets by reference and a widget can reference its own content by use of a <quote>Special</quote> that looks like this, @widgetText. Specials are commands with special meaning in &kommander;. So if you created a dialog with two LineEditwidgets and named the first <quote>FirstName</quote> and the second <quote>LastName</quote> you could create a button and set its &kommander; Text to <quote>My name is @FirstName @LastName</quote>. You would need to set @widgetText in the first and last name widgets. Remember?  We need to tell &kommander; to reference the text in them.  You could run this from a <application>Konsole</application> and it would output the string for you. So it would reference the first name like so:  @FirstName -> get the widget named FirstName(@FirstName) -> @widgetText -> get the contents of the LineEdit widget.  So in this case @FirstName returns <quote>Eric</quote>:  @FirstName -> @widgetText -> <quote>Eric</quote>.
+</para>
+
+<para>
+That is the simple core of &kommander;. What you can do with this is where it gets interesting. First of all it is worth noting that compared to the normal approach of a language based tool &kommander; does not need programming statements to define these operations. This makes &kommander; quick for developers. For end users it's much simpler than learning language constructs. For everyone it means you can focus on your task instead of having your reference material eternally at hand. Initially when people are exposed to a tool like &kommander; the first question is <quote>Where could I find a use for this cool tool?</quote> As it turns out, manipulating strings is used just about anywhere you look.
+</para>
+
+<para>
+So what can &kommander; do? Here is the list distilled to the base operations.
+&kommander; can:
+</para>
+
+<orderedlist>
+<listitem>Pass strings to the calling program via stdout.</listitem>
+<listitem>Call executable programs.</listitem>
+<listitem>Use &DCOP; to interact with &kde; programs</listitem>
+</orderedlist>
+
+<para>
+If you're not a programmer you may want that in laymans terms. In number one, if you launch &kommander; from a console then the console is the calling program. There is a parent child relationship there. Sending a message to console is done with the standard output (stdout) of the child program, so named because there is also error output. This is interesting because some programs, like &quantaplus;, use stdout to receive information from programs they launch. So &kommander; dialogs can output their text strings directly into &quantaplus;'s editor if they are called from &quantaplus;. This means &kommander; dialogs can be useful extentions to programs.
+</para>
+
+<para>
+The second case is calling an executable. Any program that runs on your system is an executable. Even a script program is run by the script's interpreter so technically it's executed too. &kommander; can run commands just like the console even if you run it from the menu. So for instance if you wanted it to open &GIMP; you would have a button derive the string <quote>gimp</quote> and put it in a special like so: @exec(gimp).  Just like that you will see &GIMP; open when using this. You could also exec <quote>ls -l</quote> too but you would only see the output if you were running from a console.
+</para>
+
+<para>
+The third case is very interesting indeed. &DCOP; is short for &kde;'s <emphasis>D</emphasis>esktop <emphasis>CO</emphasis>mmunication <emphasis>P</emphasis>rotocol and it is very powerful. Go ahead and run the <application>kdcop</application> program and have a look around. You'll quickly see that any &kde; application that is built to standards has things happening in &DCOP; and the well designed ones have a lot going on. With &DCOP; you can query information of all sorts as well as set widget values and more. There is a section on using &DCOP; in this manual. &kommander; can send &DCOP; to any &kde; program as well as be controlled by &DCOP;. In fact you can send &DCOP; from the command line to any &kde; program.  So what's the big deal?  The deal is, if you want to do any volume of commands you begin to realized that command line &DCOP; is adequate for short commands, but it can cause delays for instance being called from a loop several hundred times. This is why &kommander; has a @dcop special, because this is roughly 1000 times faster. Because &kommander; can send and receive &DCOP;, &DCOP; can be used to script &kommander;. That is why we also have a local &DCOP; special, @ldcop, that allows you to type a lot less to issue a command.
+</para>
+
+<para>
+Is that all the core concepts in &kommander;? No, but it should help you to make sense of how it works so that what is covered does not look like a foreign language to you. There are a few more. Signals and slots are how &kommander; handles events. An event in a program basically means <quote>something happened</quote> like a widget was created or had its text changed. These changes <quote>emit signals</quote> and you can connect those signals to a receiving slot which will then do something when the event happens. One use of this in &kommander; is the sibling of &kommander; Text, <quote>Population Text</quote>. Population Text will populate a widget when called. Just like &kommander; Text, Population Text can contain text strings or scripts.
+</para>
+
+<para>
+That should give you the base concepts to begin using &kommander;. We try to keep the number of Specials low and we use &DCOP; a lot. The idea is that we want to keep the power of &kommander; as consistent and streamlined as possible. You will find that you can incorporate any scripting language into &kommander; where ever you need to and even multiple scripting languages in a dialog. The rest of the information in this document assumes you are familiar with the concepts and terms presented here. The examples and tutorials are also very useful to understanding what can be done with &kommander;.
+</para>
+
+&editor;
+
+<sect1 id="executor">
+<title>The Executor</title>
+
+<para>
+The executor, called <application>kmdr-executor</application>, runs &kommander; scripts.  It loads <literal role="extension">.kmdr</literal> files and dynamically produces a fully functional dialog.
+</para>
+
+<sect2 id="executor-for-programmers">
+<title>Executor for Programmers</title>
+
+<para>
+C++ developers can easily use the KmdrDialogInstance class in their C++ programs so that the execution functionality is embedded in the their application obsoleting the need for running the external executor program.  For standard dialog the dialog creation overhead is minimal but the creation of the &kde; application may delay the dialog for around a second.
+</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="create-dialog">
+<title>Creating a Dialog</title>
+
+
+</sect1>
+
+</chapter>

@@ -1,0 +1,845 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<sect1 id="editor">
+<sectioninfo>
+<title>The Editor</title>
+<authorgroup>
+<author>
+<personname>
+<firstname>Tamara</firstname>
+<surname>King</surname>
+</personname>
+<email>tik@acm.org</email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</sectioninfo>
+
+<title>The Editor</title>
+
+<para>
+The editor is based on &designer;, a tool for designing and implementing user interfaces created by <ulink url="http://www.trolltech.com">Trolltech</ulink>.  We have modified &designer; in the following ways:
+</para>
+<itemizedlist>
+<listitem>Its interface is much simpler</listitem>
+<listitem>Built in our own widgets</listitem>
+<listitem>Added the ability to setup &kommander; Text</listitem>
+<listitem>Various other superficial changes</listitem>
+</itemizedlist>
+<para>
+For those of you already familiar with using &designer;, using the &kmdr-editor; will be trivial.
+</para>
+
+<sect2 id="editor-gui">
+<title>Main Window</title>
+
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="editor.png" />
+</imageobject>
+</mediaobject>
+
+<orderedlist>
+<listitem><para>Toolbars contain a number of buttons to provide quick access to number of functions.</para></listitem>
+<listitem><para>The File Overview displays all of the files.  Use the search field to rapidly switch between files.</para></listitem>
+<listitem><para>The Object Explorer provides an overview of the relationships between the widgets in a form.  It is useful for selecting widgets in a form with a complex layout.</para></listitem>
+<listitem><para>The Property Editor is where the behavior and apperance of a widget is changed.</para></listitem>
+<listitem><para>The Dialog Editor is where dialogs are created and edited.</para></listitem>
+</orderedlist>
+</sect2>
+
+<sect2>
+<title>The File Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>New</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Creates a new dialog</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Open</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Search the file system to open an existing dialog</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Close</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Closes the active dialog</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Save</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Saves the active dialog</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Save As</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Saves the active dialog with another name</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Save All</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Saves all open dialogs</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Recently Opened Files</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Quick list of the last several files you've opened.  This list will change each time you open a file that is not on it with the oldest being bumped off first.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Exit</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Quits</action> &kommander;</para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+
+</sect2>
+
+<sect2>
+<title>The Edit Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Undo</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Undo the last action performed.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Y</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Redo</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Redo the last action undone.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Cut</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Cut the current item and place it content on the clipboard.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Copy</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Copy the current item to the clipbard.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Paste</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Paste the contents of the clipboard at the current cursor position.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Delete</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Delete the current item.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>Del</keycap>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Select All</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Select all of the items in the current dialog.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>R</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Check Accelerators</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Verifies that all the accelerators are used only once.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>S</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Script Objects</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Slots</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Displays window to edit and create slots and functions.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Connectors</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Displays the view and edit connections dialog.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Form Setting</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Displays the form setting dialog.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Preferences</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Displays the preferences dialog.</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The Tools Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>F2</keycap>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Pointer</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>F3</keycap>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Connect Signal/Slots</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>F3</keycap>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Tab Order</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+</menuchoice></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>TextLabel</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>PixelmapLabel</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>ListView</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>ListBox</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>SubDialog</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>TabWidget</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>LineEdit</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>ExecButton</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>CloseButton</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>FileSelector</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>TextEdit</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>RadioButton</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>ButtonGroup</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>GroupBox</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>CheckBox</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>ComboBox</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>SpinBoxInt</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>RichTextEditor</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>TreeWidget</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>Unknown</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Kommander</guisubmenu>
+<guimenuitem>Wizard</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Custom</guisubmenu>
+</menuchoice></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Custom</guisubmenu>
+<guimenuitem>Edit Custom Widgets</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect2>
+
+<sect2>
+<title>The Layout Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>J</keycap></keycombo>
+</shortcut>
+<guimenu>Layout</guimenu>
+<guimenuitem>Adjust Size</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>H</keycap></keycombo>
+</shortcut>
+<guimenu>Layout</guimenu>
+<guimenuitem>Lay Out Horizontally</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo>
+</shortcut>
+<guimenu>Layout</guimenu>
+<guimenuitem>Lay Out Vertically</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
+</shortcut>
+<guimenu>Layout</guimenu>
+<guimenuitem>Lay Out in a Grid</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Layout</guimenu>
+<guimenuitem>Lay Out Horzontially (in Splitter)</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Layout</guimenu>
+<guimenuitem>Lay Out Vertically (in Splitter)</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo>
+</shortcut>
+<guimenu>Layout</guimenu>
+<guimenuitem>Break Layout</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Layout</guimenu>
+<guimenuitem>Add Spacer</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The Run Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo>
+</shortcut>
+<guimenu>Run</guimenu>
+<guimenuitem>Run Dialog</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Runs the current dialog.</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The Window Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>F4</keycap></keycombo>
+</shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Close</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Closes current dialog.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
+<guimenuitem>Close All</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Closes all dialogs.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>F6</keycap></keycombo>
+</shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Next</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>F6</keycap></keycombo>
+</shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Previous</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
+<guimenuitem>Tile</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
+<guimenuitem>Cascade</guimenuitem>
+</menuchoice></term>
+<listitem><para><action></action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Views</guisubmenu>
+</menuchoice></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Views</guisubmenu>
+<guimenuitem>File Overview</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Views</guisubmenu>
+<guimenuitem>Object Explorer</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Views</guisubmenu>
+<guimenuitem>Property Editor/Signal Handlers</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Views</guisubmenu>
+<guimenuitem>Line Up</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+</menuchoice></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>File</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Edit</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Layout</guisubmenu>
+<guimenuitem>File</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Tools</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Kommander</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Custom</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Help</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Window</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Line Up</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para></para></listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The <guimenu>Help</guimenu> Menu</title>
+
+<!-- Assuming you have a standard help menu (help, what's this, about -->
+<!-- &kommander;, about KDE) then the documentation is already written. -->
+<!-- The following entity is valid anywhere that a variablelist is -->
+<!-- valid.  -->
+
+&help.menu.documentation;
+
+</sect2>
+
+
+</sect1>

@@ -1,0 +1,112 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<chapter id="introduction">
+<chapterinfo>
+<title>Introduction</title>
+<authorgroup>
+<author>
+<personname>
+<firstname>Eric</firstname>
+<surname>Laffoon</surname>
+</personname>
+<email>sequitur@kde.org</email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</chapterinfo>
+
+<title>Introduction</title>
+
+<para>
+&kommander; is a visual dialog building tool which may be expanded to create
+full mainwindow applications. The primary objective is to create as much
+functionality as possible without using any scripting language. This is
+provided by the following features:
+</para>
+
+<itemizedlist>
+
+
+  <listitem><para>Specials are prefaced with an <quote>@</quote> like @widgetText. The offer
+special features like the value of a widget, functions, aliases, global
+variables and such.</para></listitem>
+
+
+<listitem><para>&DCOP; integration allows &kommander; dialogs to control and be
+controlled in interactions with other &kde; applications. It is a very powerful
+feature!</para></listitem>
+
+<listitem><para>Signals and Slots is a little less intuitive to a new user. It is
+under review for how we process things in the first major release. These
+offer a limited event model for when a button is pushed or a widget is
+changed. Combined with <quote>Population Text</quote> it is rather powerful.</para></listitem>
+</itemizedlist>
+
+<para>
+The central key feature of &kommander; dialogs is that you can bind text
+(&kommander; Text) to a widget. So if you have @widget1 and @widget2 and
+they are line edits you can set &kommander; to show their contents by
+entering @widgetText in their &kommander; Text area. Then enter hello in
+@widget1 and world in @widget2. A button can have the string
+My first @widget1 @widget2 program in &kommander;
+If you run this dialog from a console it will output
+My first hello world program in &kommander;
+</para>
+
+<para>
+Hopefully you begin to see a small glimmering of the potential. &kommander;
+enables a much faster design model for simple applications because if allows
+you to stop thinking so much about language and revert to the more basic and
+natural conceptual model. In computers language is a means to define concepts
+and as such it is a layer between concept and implementation that can impede
+progress with minutia. &kommander; seeks to minimize that layer.
+</para>
+
+<para>
+&kommander; also seeks to build on standards. It is built on the &Qt; Designer
+framework and creates *.ui files which it renames to *.kmdr. It can easily
+import any &kde; widget and this can be done without having to rebuild
+&kommander;, by using plugins.
+</para>
+
+<para>
+&kommander;'s other significant factor is how it addresses the requirements of
+language. Computer languages can be wonderful things but they tend to have
+their own dogmas and zealots often seeking to provide an advance to &GUI;
+design in an integrated development environment. Ironically the acceptance
+of such &IDE;s is limited by the number of people willing to adopt a new new
+language to gain access to a desired feature. It is really not reasonable to
+expect people to need to change over to a dozen languages to access various
+feature sets. By being language neutral and allowing a &kommander; dialog to be
+extended by using any scripting language &kommander; positions itself in a
+unique position for wide spread adoption. Multiple script languages can be
+used in a single dialog and applications can be taken over by people using
+a different language than the original developer and gradually converting
+and extending it. New widgets and features can be instantly leveraged by all
+available languages.
+</para>
+
+<para>
+We hope that &kommander; begins to get the developer support and recognition
+required to achieve the potential it offers. Our end goal is to make &kommander;
+useful for novice users to extend and merge their applications. At the same
+time it should become a good prototyping tool. Also it opens the door to the
+promise of open source in a new way. We know that people can extend our GPL'd
+programs, but the fact remains very few have the skills. With &kommander; those
+numbers see a huge multiplier! Some applications may be most logical as a
+&kommander; application. We already use it in areas we want to allow
+extensibility in &quantaplus;.
+</para>
+
+<para>
+We hope you enjoy &kommander;. Please help us with bug reports and example
+dialogs, as well as any requests you may have. You can join our user list
+for help developing &kommander; applications at
+http://mail.kdewebdev.org/mailman/listinfo/kommander
+</para>
+
+<para>Best Regards from the &kommander; development team!</para>
+
+</chapter>

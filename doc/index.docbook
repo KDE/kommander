@@ -1,0 +1,108 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+  <!ENTITY kommander "<application>Kommander</application>">
+  <!ENTITY kappname "&kommander;">  
+  <!ENTITY package "kdewebdev">
+  <!ENTITY basics SYSTEM "basics.docbook">
+  <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY credits SYSTEM "credits.docbook">
+  <!ENTITY dcop-functions SYSTEM "dcop.docbook">
+  <!ENTITY editor SYSTEM "editor.docbook">
+  <!ENTITY extending SYSTEM "extending.docbook">
+  <!ENTITY glossary SYSTEM "glossary.docbook">
+  <!ENTITY installation SYSTEM "installation.docbook">
+  <!ENTITY introduction SYSTEM "introduction.docbook">
+  <!ENTITY q-and-a SYSTEM "q-and-a.docbook">
+  <!ENTITY specials SYSTEM "specials.docbook">
+  <!ENTITY tutorials SYSTEM "tutorials.docbook">
+  <!ENTITY widgets SYSTEM "widgets.docbook">
+  <!ENTITY designer "<application>&Qt; Designer</application>">
+  <!ENTITY kmdr-editor "&kommander; Editor">
+  <!ENTITY kmdr-executor "&kommander; Executor">
+  <!ENTITY GIMP "<application>The GIMP</application>">
+  <!ENTITY IDE "<acronym>IDE</acronym>">
+  <!ENTITY PHP "<acronym>PHP</acronym>">
+  <!ENTITY PID "<acronym>PID</acronym>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE">
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title>The &kommander; Handbook</title>
+
+<authorgroup>
+<author>
+<personname>
+<firstname>Marc</firstname>
+<surname>Britton</surname>
+</personname>
+<email>consume@optushome.com.au</email>
+</author>
+<author>
+<personname>
+<firstname>Tamara</firstname>
+<surname>King</surname>
+</personname>
+<email>tik@acm.org</email>
+</author>
+<author>
+<personname>
+<firstname>Eric</firstname>
+<surname>Laffoon</surname>
+</personname>
+<email>sequitur@kde.org</email>
+</author>
+</authorgroup>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+<copyright>
+<year>2004</year>
+<holder>&kommander; Development Team</holder>
+</copyright>
+
+<legalnotice>&FDLNotice;</legalnotice>
+
+<!-- Date and version information of the documentation
+Don't forget to include this last date and this last revision number, we
+need them for translation coordination !
+Please respect the format of the date (YYYY-MM-DD) and of the version
+(V.MM.LL), it could be used by automation scripts.
+Do NOT change these in the translation. -->
+
+<date>2004-05-03</date>
+<releaseinfo>3.2.90</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para>
+&kommander; is a set of tools that allow you to create dynamic &GUI; dialogs that generate, based on their state, a piece of text.  The piece of text can be a command line to a program, any piece of code, business documents that contain a lot of repititious or templated text and so on.  The resulting generated text can then be executed as a command line program (hence the name <quote>&kommander;</quote>), written to a file, passed to a script for extended processing, and literally anything else you can think of.  The best part of it all?  You aren't required to write a single line of code!
+</para>
+</abstract>
+
+<!-- This is a set of Keywords for indexing by search engines.
+Please at least include KDE, the KDE package it is in, the name
+ of your application, and a few relevant keywords. -->
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>Kommander</keyword>
+<keyword>Quanta</keyword>
+</keywordset>
+
+</bookinfo>
+
+&introduction;
+&basics;
+&commands;
+&extending;
+&tutorials;
+&q-and-a;
+&credits;
+&installation;
+&glossary;
+
+</book>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<glossary id="glossary">
+
+<glossaryinfo>
+<authorgroup>
+<author>
+<personname>
+<firstname>Tamara</firstname>
+<surname>King</surname>
+</personname>
+<email>tik@acm.org</email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</glossaryinfo>
+
+<glossdiv>
+<title>Keywords</title>
+<glossentry id="text-association-glosref">
+<glossterm>Text Association</glossterm>
+<glossdef>
+<para>
+A piece of text that is associated or bound to a widget's particular state.
+</para>
+</glossdef>
+</glossentry>
+<glossentry id="widget-text-glosref">
+<glossterm>Widget Text</glossterm>
+<glossdef>
+<para>
+Text associated to a widget.  This is represented in &kommander; with the special @widgetText.  The widget text varies depending on the widget.
+</para>
+</glossdef>
+</glossentry>
+</glossdiv>
+</glossary>

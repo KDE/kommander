@@ -1,0 +1,381 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<sect1 id="widgets">
+<sect1info>
+<title>Widgets</title>
+<authorgroup>
+<author>
+<personname>
+<firstname></firstname>
+<surname></surname>
+</personname>
+<email></email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</sect1info>
+
+<title>Widgets</title>
+
+<para>
+The building blocks of a &kommander; dialog are the widgets.  They are like any other widget in the &Qt; and &kde; libraries except they have some extra functionality that allows them to have a <quote>text association</quote>.  Text is associated with a state of the widget or its populate slot.  The number of states depends on the widget.  If a widget only has one state, that state is called default.
+</para>
+
+<para>Widget text blah blah</para>
+
+<para>The dialog has two special states for &kommander; text.  They are Initiate and Destroy.  These are run when the dialog is initialized and when it is destroyed.  These protect against what is know as <quote>race</quote> problems on open and mean that you do not require any special procedures on close to manage housekeeping.</para>
+
+
+<variablelist>
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="buttongroup.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ButtonGroup
+</term>
+<listitem>
+<para>
+A container to organize buttons into a group.  An optional title can be set using the title property.  The frame can be adjusted with the lineWidth property.  The button group can be set to exclusive by setting the exclusive property to true.  This means when one toggle button is clicked all other toggle buttons will be set to off with the exception of radio buttons that are always mutual exclusive even if the group is non-exclusive.  Radio buttons can be set to non-exclusive using the radioButtonExclusive property.  (I am not so sure that this property actually works.)  
+</para>
+<para>ButtonGroup has one state, default.</para>
+<para>
+The widget text for a ButtonGroup is the text associations for each of the buttons in the order they appear in the ButtonGroup.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="checkbox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+CheckBox
+</term>
+<listitem>
+<para>
+A button that can be checked on and off.  It can also be semi-checked if the tristate property is set to true.  The label associated with the CheckBox is set in the text property.  Setting the checked property will have the CheckBox initially checked.
+</para>
+<para>
+A CheckBox has 3 states, checked, semichecked, and unchecked.  
+</para>
+<para>
+The widget text for a CheckBox is the value from the text property.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="pushbutton.png" format="PNG" />
+</imageobject></inlinemediaobject>
+CloseButton
+</term>
+<listitem>
+<para>
+A button that when clicked, executes its text association and then closes the dialog.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true.  
+</para>
+<para>
+CloseButton has one state, default.
+</para>
+<para>
+There isn't any widget text associated with a CloseButton.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="combobox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ComboBox
+</term>
+<listitem>
+<para>
+ComboBox is a selection widget that combines a button and a pop-up menu.  It shows the user's current choice from a list of options in minimal space.  Items are added to the list using the edit window.  If the editable property is set to true the user can enter arbitrary strings.
+</para>
+<para>
+ComboBox has one state, default.
+</para>
+<para>
+The widget text for a ComboBox is the text of the selected item.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="pushbutton.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ExecButton
+</term>
+<listitem>
+<para>
+A button that when clicked executes its text association.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true. 
+</para>
+<para>
+ExecButton has one state, default.
+</para>
+<para>
+There isn't widget text associated with ExecButton.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="lineedit.png" format="PNG" />
+</imageobject></inlinemediaobject>
+FileChooser
+</term>
+<listitem>
+<para>
+The FileChooser widget combines a LineEdit with a button when clicked will present the user with dialog for the selection of files/folders.  The file/folder selected is stored in the LineEdit.  The type of the FileChooser is set with the selectionType property.  Available types are Open, Save, and Directory.  Multiple files/folders can be selected if the selectionOpenMutliple property is set to true.  A caption for the FileChooser can be set with the selectionCaption property.  This is display as the window title of the dialog.  If a caption isn't specified, the type of selection will be display in the title.  The files displayed in the dialog can be limited using the selectionFilter property.
+</para>
+<para>
+FileChooser has one state, default.
+</para>
+<para>
+The widget text for a FileChooser is the text contained in the LineEdit (the file chosen by the user).
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="groupbox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+GroupBox
+</term>
+<listitem>
+<para>
+A container widget that holds other widgets.  The frame is adjusted with the lineWidth property.  A title can be added by setting the title property.
+</para>
+<para>
+GroupBox has one state, default.
+</para>
+<para>
+The widget text for GroupBox is the text associations of each of the widgets it contains combined.  They will be in the order they appear inside of the GroupBox.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="lineedit.png" format="PNG" />
+</imageobject></inlinemediaobject>
+LineEdit
+</term>
+<listitem>
+<para>
+A LineEdit widget is a one line text editor.  It allows the user to enter and modify a single line of text.  Initial text for the editor can be set in the text property.  The widget can be set to read-only with the readOnly property.  There are 3 modes for the widget, Normal, NoEcho, and Password.  The mode is set with the echoMode property.
+</para>
+<para>
+LineEdit has one state, default.
+</para>
+<para>
+The widget text for LineEdit is the text contained in the editor.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="listbox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ListBox
+</term>
+<listitem>
+<para>
+A ListBox widget provides a list of selectable items.  Normally one or no items are selected.  This behavior can be changed with the selectionMode property.  Items are added to the ListBox using the edit window.
+</para>
+<para>
+A ListBox has only 1 state, default.
+</para>
+<para>
+The widget text for a ListBox is the items contained in the ListBox.  @selectedWidgetText will return only the items that are currently selected.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="listview.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ListView
+</term>
+<listitem>
+<para>
+This widget doesn't appear to be &kommander; enabled.  I think that TreeWidget has the same functionality?  Should this one be removed completely?
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="pixlabel.png" format="PNG" />
+</imageobject></inlinemediaobject>
+PixmapLabel
+</term>
+<listitem>
+<para>
+A simple widget that contains an image or text label.  The pixmap to display is set in the pixmap property.  The text is set in the text property.  Only one of these properties can be set at the same time (I think, I can't get the editor to set both at the same time).  If scaledContents is set to true the image will be scaled to fit the size of the widget.  The format of the text can be set with the textFormat property.
+</para>
+<para>
+This widget isn't &kommander; enabled and doesn't have any states or widget text.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="radiobutton.png" format="PNG" />
+</imageobject></inlinemediaobject>
+RadioButton
+</term>
+<listitem>
+<para>
+A button that can be checked or unchecked, usually used in the ButtonGroup to make an exclusive choice.  A label associated with the button can be set in the text property.  A button can be initialized to checked by setting the checked property to true.  If all RadioButtons in a ButtonGroup have the checked property set to true, then the last button will be the one that is checked.
+</para>
+<para>
+RadioButton has 2 states checked and unchecked.
+</para>
+<para>
+There is no widget text associated with a RadioButton.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="richtextedit.png" format="PNG" />
+</imageobject></inlinemediaobject>
+RichTextEditor
+</term>
+<listitem>
+<para>
+This widgets provides a text editor that allows for simple text formatting.
+</para>
+<para>
+RichTextEditor has one state, default.
+</para>
+<para>
+The widget text for RichTextEditor is the text contained in the editor in rich text format.  Selected text can be returned with @selectedWidgetText.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="spinbox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+SpinBoxInt
+</term>
+<listitem>
+<para>
+A widget that allows the user to change a integer value by either press up and down arrows or entering a value into the box.  Minimum and maximum values for the widget can be set with the minValue and maxValue properties.  The specialValueText property is used to set a text value that will be displayed instead of the minimum value.
+</para>
+<para>
+This widget has only one state, default.
+</para>
+<para>
+The widget text for a SpinBoxInt is the currently displayed integer.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="frame.png" format="PNG" />
+</imageobject></inlinemediaobject>
+SubDialog
+</term>
+<listitem>
+<para>
+A button that runs another &kommander; dialog when pressed.  The dialog to run is set in the kmdrFile property.  If the default property is set to true, the dialog will be run if enter is pressed while the dialog has focus.  I think that you can also use it as a container.  I need to play with this some more.
+</para>
+<para>
+SubDialog has one state, default.
+</para>
+<para>
+The widget text for SubDialog is the text association of the dialog it executes.
+</para>
+<note>This was meant to contain the dialog, which is deprectaed with the new project concept.  Should we leave it with <function>@dialog()</function> in its &kommander; text or get rid of it?  As it is it is not right.</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="tabwidget.png" format="PNG" />
+</imageobject></inlinemediaobject>
+TabWidget
+</term>
+<listitem>
+<para>
+A widget that provides multiple tabs each may contain other widgets.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="multilineedit.png" format="PNG" />
+</imageobject></inlinemediaobject>
+TextEdit
+</term>
+<listitem>
+<para>
+A simple multi-line text editor.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="label.png" format="PNG" />
+</imageobject></inlinemediaobject>
+TextLabel
+</term>
+<listitem>
+<para>
+A simple widget that contains a piece of text.  This widget lets you set a pixmap too.  OK, the editor says that they are both QLabels.  Why do we have 2 widgets that look to be the same thing, but different names?
+</para>
+<para>
+This widget isn't &kommander; enabled and doesn't have any widget text.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="listview.png" format="PNG" />
+</imageobject></inlinemediaobject>
+TreeWidget
+</term>
+<listitem>
+<para>
+A widget that provides a list in the form of a tree structure.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>

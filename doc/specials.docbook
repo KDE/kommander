@@ -1,0 +1,379 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<sect1 id="specials">
+<sect1info>
+<title>Specials and Built-in Global Variables</title>
+<authorgroup>
+<author>
+<personname>
+<firstname></firstname>
+<surname></surname>
+</personname>
+<email></email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</sect1info>
+
+<title>Specials and Built-in Global Variables</title>
+
+<para>
+Specials are functions that are processed by &kommander;. You should be aware that until &kommander; has a full parser all &kommander; specials will be executed first and then the script will be executed. In most cases this is not a problem, but in a few it is.
+</para>
+
+<variablelist>
+<varlistentry>
+<term><function>@dcop(<parameter>appId</parameter>, <parameter>object</parameter>, <parameter>function</parameter>, <parameter>arguments</parameter>)</function></term>
+<listitem>
+<para>
+Make a &DCOP; call.  @dcop(<quote>kmail</quote>, <quote>KMailIface</quote>, <quote>checkMail()</quote>, <quote></quote>)
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@dcopid</function></term>
+<listitem>
+<para>
+The &DCOP; id of the process. (kmdr-executor-@pid)
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@dialog(<parameter>dialog</parameter>[,<parameter>parameters</parameter>])</function></term>
+<listitem>
+<para>
+Launches the specified Kommander dialog. Dialog is sought in dialog directory and in current directory - in that order. This prepends the call to the executor and sets the default directory to the one the Kommander application is in. Parameters can be passed in the usual Unix way or you can pass named parameters like <quote>variable=value</quote>. You can then find passed parameters in the global pool. @global(variable) would return <quote>value</quote>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@env(<parameter>environmentVariable</parameter>)</function></term>
+<listitem>
+<para>
+Expands to the specified environment variable.  @env(PWD) expands to $PWD.  Remember that <quote>$</quote> is part of the shell and shouldn't be used.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@exec(<parameter>command</parameter >)</function></term>
+<listitem>
+<para>
+returns the output of executing the specified command.  @exec(ls -l).
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@execBegin ... @execEnd</function ></term>
+<listitem>
+<para>
+same as <function>@exec</function>, but supports shebang and multiline scripts.  This serves for various scripting languages either by decalring them or using a shebang.
+</para>
+<itemizedlist>
+<listitem><function>@execBegin(php)</function></listitem>
+<listitem><function>@execBegin</function><para>#!/usr/bin/php</para></listitem>
+</itemizedlist>
+<para>The first one uses the name of the <acronym>PHP</acronym> executable.  &kommander; searches PATH for <application>php</application> and if it is not found looks to see if it is registered with &kommander; in a location outside of your path.  If not it tells the user it cannot be found.  The second examples uses the classic <quote>shebang</quote> which can have some benefits and also problems.  If you have a beta copy of <acronym>PHP5</acronym>, for instance, in <filename>/usr/local/bin</filename> which would not be found because it would find on in <filename>/usr/bin</filename> this is useful.  If, however, you distribute the dialog to someone who has <acronym>PHP</acronym> in <filename>/usr/local/bin</filename> only it will not be found with the shebang used.  So using shebangs is cautioned and using the executable is recommenede if you are sharing files.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@global(<parameter>variable</parameter>)</function></term>
+<listitem>
+<para>expands to the value of the specified global variable.  
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@null</function></term>
+<listitem>
+<para>Returns null. Now that Kommander checks for empty widgetText on execution this will prevent erroneous errors in the case of an unset state on a widget.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@parentPid</function></term>
+<listitem>
+<para>
+The &PID; of the parent process.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@pid</function></term>
+<listitem>
+<para>
+The &PID; of the process.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@readSetting(<parameter>key</parameter >, <parameter>defaultValue</parameter >)</function></term>
+<listitem>
+<para>
+reads a value from <filename>kommanderrc</filename>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@selectedWidgetText</function ></term>
+<listitem>
+<para>
+the selected content in a widget that can show more than one value, like list widgets
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@setGlobal(<parameter>variable</parameter>, <parameter>value</parameter>)</function></term>
+<listitem>
+<para>
+Sets the global variable to the specified value.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@widgetText</function></term>
+<listitem>
+<para>
+the content of a widget
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@writeSetting(<parameter>key</parameter>, <parameter>value</parameter >)</function ></term>
+<listitem>
+<para>
+write value to <filename>kommanderrc</filename>
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<sect2 id="arrays">
+<title>Array Function Group</title>
+
+<variablelist>
+<varlistentry>
+<term><function>@Array.values(<parameter>array</parameter>)</function></term>
+<listitem>
+<para>Returns an EOL-separated list of all values in the array.  Can be used to walk through an array.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.keys(<parameter>array</parameter>)</function></term>
+<listitem>
+<para>Returns an EOL-separated list of all keys in the array.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.setValue(<parameter>array</parameter>, <parameter>key</parameter>, <parameter>value</parameter>)</function></term>
+<listitem>
+<para>Sets a key and value for an element of an array.  If no array exists it is created.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.clear(<parameter>array</parameter>)</function></term>
+<listitem>
+<para>Remove all elements from the array.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.count(<parameter>array</parameter>)</function></term>
+<listitem>
+<para>Return number of elements in the array.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.value(<parameter>array</parameter>,<parameter>key</parameter>)</function></term>
+<listitem>
+<para>Return the value associated with the given key.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.remove(<parameter>array</parameter>,<parameter>key</parameter>)</function></term>
+<listitem>
+<para>Remove element with the given key from the array.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.fromString(<parameter>array</parameter>,<parameter>string</parameter>)</function></term>
+<listitem>
+<para>Add all elements in the string to the array. String should have <emphasis>key\tvalue\n</emphasis> format."</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@Array.toString(<parameter>array</parameter>,<parameter>string</parameter>)</function></term>
+<listitem>
+<para>"Return all elements in the array in <emphasis>key\tvalue\n</emphasis> format."</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="files">
+<title>File Function Group</title>
+<variablelist>
+
+<varlistentry>
+<term><function>@File.read(<parameter>file</parameter>)</function></term>
+<listitem>
+<para>Return content of the given file.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@File.write(<parameter>file</parameter><parameter>string</parameter>)</function></term>
+<listitem>
+<para>Write given string to a file.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@File.append(<parameter>file</parameter><parameter>string</parameter>)</function></term>
+<listitem>
+<para>Append given string to the end of a file.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="strings">
+<title>String Function Group</title>
+<variablelist>
+
+<varlistentry>
+<term><function>@String.length(<parameter>string</parameter>)</function></term>
+<listitem>
+<para>Return number of chars in the string.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.contains(<parameter>string</parameter>,<parameter>substring</parameter>)</function></term>
+<listitem>
+<para>Check if the string contains given substring.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.find(<parameter>string</parameter>)</function></term>
+<listitem>
+<para>Return position of a substring in the string, or -1 if it isn't found."</para>
+<note>This will have an optional integer start postion for find next uses in Alpha 6.</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.left(<parameter>string</parameter>, <parameter>int</parameter>)</function></term>
+<listitem>
+<para>Return first n chars of the string.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.right(<parameter>string</parameter>, <parameter>int</parameter>)</function></term>
+<listitem>
+<para>Return last n chars of the string.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.mid(<parameter>string</parameter>, <parameter>int start</parameter>, <parameter>int end</parameter>)</function></term>
+<listitem>
+<para>Return substring of the string, starting from given position.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.remove(<parameter>string</parameter>, <parameter>substring</parameter>)</function></term>
+<listitem>
+<para>Remove all occurences of a given substring.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.replace(<parameter>string</parameter>, <parameter>substring find</parameter>, <parameter>substring replace</parameter>)</function></term>
+<listitem>
+<para>Replace all occurences of a given substring with a given replacement.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.upper(<parameter>string</parameter>)</function></term>
+<listitem>
+<para>Convert the string to uppercase.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.lower(<parameter>string</parameter>)</function></term>
+<listitem>
+<para>Convert the string to lowercase.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.compare(<parameter>string</parameter>, <parameter>string</parameter>)</function></term>
+<listitem>
+<para>Compare two strings. Return 0 if they are equal, -1 if the first one is lower, 1 if the first one is higher</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.isEmpty(<parameter>string</parameter>)</function></term>
+<listitem>
+<para>Check if string is empty.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>@String.isNumber(<parameter>string</parameter>)</function></term>
+<listitem>
+<para>Check if string is a valid number.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="builtins">
+<title>Built-in Globals</title>
+<para>Built-in globals are accessed just like regular global variables with <function>@global</function>.</para>
+<variablelist>
+<varlistentry>
+<term><function>@global(_KDDIR)</function></term>
+<listitem>
+<para>The directory the current dialog is in.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><function>@global(_NAME)</function></term>
+<listitem><para>The name of the dialog</para></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+</sect1>

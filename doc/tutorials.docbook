@@ -1,0 +1,63 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<chapter id="tutorials">
+<chapterinfo>
+<title>Tutorials</title>
+<authorgroup>
+<author>
+<personname>
+<firstname></firstname>
+<surname></surname>
+</personname>
+<email></email>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</chapterinfo>
+
+<title>Tutorials</title>
+
+<sect1 id="tutorial-editor">
+<title>Using Editor</title>
+<para>This might go in the editor section.</para>
+</sect1>
+
+<sect1 id="tutorial-globals">
+<title>Globals</title>
+<para>Shows using global and setGlobal &DCOP; calls to provide global variables for script</para>
+</sect1>
+
+<sect1 id="tutorial-dcop">
+<title>&DCOP;</title>
+<para>Shows how to use both local and external &DCOP; calls to communicate with external application.</para>
+</sect1>
+
+<sect1 id="tutorlal-slots">
+<para></para>
+<title>Slots</title>
+<para>Shows how to us connections/slot to handle events.  Both population and standard slots are used.</para>
+</sect1>
+
+<sect1 id="tutorial-settings">
+<title>Settings</title>
+<para>Shows how to use @readSetting and @writeSetting functions to write/restore widget content.  Also, show how to use populate() slot to initialize widget content.</para>
+</sect1>
+
+<sect1 id="tutorial-append">
+<title>Append</title>
+<para>Shows how you can append text to TextEdit and how you can use it to display formatted text.</para>
+</sect1>
+
+<sect1 id="tutorial-cmdline">
+<title>Command Line</title>
+<para>Shows ho you can pass parameters to &kommander; dialog via command line.  Also, shows how to change list content and button text.</para>
+</sect1>
+
+<sect1 id="tutorial-initialize">
+<title>Initialize</title>
+<para>Shows how you use 'initialization' to 'destroy' scripts of main dialog to initialize and store some settings.</para>
+</sect1>
+
+</chapter>
