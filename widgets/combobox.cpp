@@ -21,14 +21,13 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
-#include <qcombobox.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "combobox.h"
 
 ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
-	: QComboBox(a_parent, a_name), KommanderWidget(this)
+	: KComboBox(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
