@@ -159,11 +159,18 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
     pos = f + QString("@end").length()+1;
     QString block = s.mid(start, f - start);
     QString variable = args[0];
-    int loopstart = args[1].toInt();
-    int loopend = args[2].toInt();
-    int loopstep = args.count() > 3 ? args[3].toInt() : 1;
-    if (!loopstep)
-      loopstep = 1;
+    
+    Expression expr;
+    int loopstart = expr.value(args[1]).toInt();
+    int loopend = expr.value(args[2]).toInt();
+    int loopstep = 1;
+    if (args.count() > 3)
+    {
+      loopstep = expr.value(args[3]).toInt();  
+      if (!loopstep)
+        loopstep = 1;
+    }
+    
     QString output;
     for (int i=loopstart; i<=loopend; i+=loopstep)
     {

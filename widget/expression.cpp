@@ -22,61 +22,60 @@ Expression::Expression() : m_start(0), m_error(false)
 
 Expression::Expression(const QString& expr)
 {
-   setString(expr);
+  *this = expr;
 }
 
-void Expression::setString(const QString& s)
+Expression& Expression::operator=(const QString& s)
 {
-   m_start = 0;
-   m_error = false;
-   const QString single = "()<>!+-/*%";
-   int start = 0;
-   int len = s.length();
-   int i = 0;
-   while (i < len)
-   {
-      if (((s[i] == '>' || s[i] == '<' || s[i] == '=' || s[i] == '!') && 
-            s[i+1] == '=') || (s[i] == '<' && s[i+1] == '>')) 
+  m_start = 0;
+  m_error = false;
+  m_parts.clear();
+  const QString single = "()<>!+-/*%";
+  int start = 0;
+  int len = s.length();
+  int i = 0;
+  while (i < len)
+  {
+    if (((s[i] == '>' || s[i] == '<' || s[i] == '=' || s[i] == '!') &&
+            s[i + 1] == '=') || (s[i] == '<' && s[i + 1] == '>'))
+    {
+      m_parts.append(QVariant(s.mid(i, 2)));
+      i += 2;
+    } else if (s[i].isDigit())
+    {
+      i++;
+      bool decimal = false;
+      while (i < len && (s[i].isDigit() || (!decimal && s[i] == QChar('.'))))
       {
-        m_parts.append(QVariant(s.mid(i, 2)));
-	i += 2;
-      }
-      else if (s[i].isDigit())
-      {
-	 i++;
-	 bool decimal = false;
-	 while (i<len && (s[i].isDigit() || (!decimal && s[i] == QChar('.'))))
-	 {
-	   if (s[i] == '.')
-	     decimal = true;
-	   i++; 
-	 }
-	 if (decimal)
-	   m_parts.append(QVariant(s.mid(start, i-start).toDouble()));
-	 else 
-	   m_parts.append(QVariant(s.mid(start, i-start).toInt()));
-      }
-      else if (single.contains(s[i]))
-        m_parts.append(QVariant(QString(s[i++])));
-      else if (s[i] == '\"')
-      {
+        if (s[i] == '.')
+          decimal = true;
         i++;
-        while (i<len && s[i] != '\"')
-	  i++;
-	m_parts.append(QVariant(s.mid(start+1, i-start-1)));
-	i++;
       }
-      else if (s[i].isSpace())
-        while (i<len && s[i].isSpace())
-	  i++;
-      else 
-      {
-        while (i<len && !s[i].isSpace())
-	  i++;
-	m_parts.append(QVariant(s.mid(start, i-start)));
-      }
-      start = i;
-   }
+      if (decimal)
+        m_parts.append(QVariant(s.mid(start, i - start).toDouble()));
+      else
+        m_parts.append(QVariant(s.mid(start, i - start).toInt()));
+    } else if (single.contains(s[i]))
+      m_parts.append(QVariant(QString(s[i++])));
+    else if (s[i] == '\"')
+    {
+      i++;
+      while (i < len && s[i] != '\"')
+        i++;
+      m_parts.append(QVariant(s.mid(start + 1, i - start - 1)));
+      i++;
+    } else if (s[i].isSpace())
+      while (i < len && s[i].isSpace())
+        i++;
+    else
+    {
+      while (i < len && !s[i].isSpace())
+        i++;
+      m_parts.append(QVariant(s.mid(start, i - start)));
+    }
+    start = i;
+  }
+  return *this;
 }
 
 QString Expression::next() const
@@ -301,7 +300,7 @@ QVariant Expression::value(bool* valid)
 
 QVariant Expression::value(const QString& s, bool* valid)
 {
-  setString(s);
+  *this = s;
   return value(valid); 
 }
 

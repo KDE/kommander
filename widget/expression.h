@@ -27,13 +27,14 @@ public:
   Expression();
   Expression(const QString& expr);
   /* set string to parse */
-  void setString(const QString& s);/* calculate value */
+  Expression& operator=(const QString& s);
   /* calculate value */
   QVariant value(bool* valid = 0);
   /* equivalent of setString(s) and value(valid) */
   QVariant value(const QString& s, bool* valid = 0);
   /* equivalent of setString(s) and checking if value(valid) is true */
   bool isTrue(const QString& s, bool* valid = 0);
+  
   
 private:
   enum Type {TypeInt, TypeDouble, TypeString};
@@ -71,7 +72,7 @@ private:
   int compare(const QVariant v1, const QVariant v2) const; 
   /* return common type for binary operations */
   Type commonType(const QVariant v1, const QVariant v2) const; 
-  
+        
   QValueList<QVariant> m_parts;
   uint m_start;
   bool m_error;
