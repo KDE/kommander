@@ -1,3 +1,16 @@
+Thu Apr 27 2004 16:38:36 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+
+	o added @parentPid evaluated to parent process pid
+
+Thu Apr 20 2004 16:38:36 CEST - Michal Rudolf <mrudolf@kdewebdev.org>
+
+	o added @pid evaluated to current process pid
+	o added @dcopid evaluated to current process DCOP id
+	o rebuilt Kommander Text editor
+	o added support for shebang (#!/bin/sh) for both ExecButton
+	  script and @execBegin scripts
+	o added ChooseWidget dialog
+
 Thu Jan 29 13:48:49 2004 - Andras Mantia <amantia@kde.org>
         o DCOP methods for modifying the widgets
 
