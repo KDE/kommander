@@ -535,7 +535,7 @@ void MainWindow::setupFileActions()
 
     a = new QAction( this, 0 );
     a->setText( i18n("Exit" ) );
-    a->setMenuText( i18n("E&xit" ) );
+    a->setMenuText( i18n("&Quit" ) );
     a->setStatusTip( i18n("Quits the application and prompts to save any changed dialogs" ) );
     a->setWhatsThis( whatsThisFrom( "File|Exit" ) );
     connect( a, SIGNAL( activated() ), qApp, SLOT( closeAllWindows() ) );
