@@ -26,11 +26,11 @@
 #include <qsizepolicy.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "fileselector.h"
 
 FileSelector::FileSelector(QWidget *a_parent, const char *a_name)
-	: QWidget(a_parent, a_name), AssocTextWidget(this)
+	: QWidget(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -65,19 +65,19 @@ QString FileSelector::currentState() const
 	return QString("default");
 }
 
-bool FileSelector::isAssociatedTextWidget() const
+bool FileSelector::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList FileSelector::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void FileSelector::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void FileSelector::setWidgetText(const QString &a_text)

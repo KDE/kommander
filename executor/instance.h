@@ -29,7 +29,7 @@
 
 /* FORWARD DECLARATIONS */
 class QWidget;
-class AssocTextWidget;
+class KommanderWidget;
 class QDialog;
 class QFile;
 
@@ -77,7 +77,7 @@ protected:
   /* Dialog Instance */
   QDialog *m_instance;
   /* Associated Text Instance */
-  AssocTextWidget *m_textInstance;
+  KommanderWidget *m_textInstance;
   /* UI Dialog file name to open */
   QString m_uiFileName;
   /** The parent widget */

@@ -23,11 +23,11 @@
 #include <qcombobox.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "combobox.h"
 
 ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
-	: QComboBox(a_parent, a_name), AssocTextWidget(this)
+	: QComboBox(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -48,19 +48,19 @@ QString ComboBox::currentState() const
 	return QString("default");
 }
 
-bool ComboBox::isAssociatedTextWidget() const
+bool ComboBox::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList ComboBox::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void ComboBox::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void ComboBox::setWidgetText(const QString &a_text)

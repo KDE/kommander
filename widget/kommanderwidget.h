@@ -1,5 +1,5 @@
 /***************************************************************************
-                          assoctextwidget.cpp - Text widget core functionality 
+                          kommanderwidget.cpp - Text widget core functionality 
                              -------------------
     copyright            : (C) 2002 by Marc Britton
     email                : consume@optusnet.com.au
@@ -13,8 +13,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef _HAVE_ASSOCTEXTWIDGET_H_
-#define _HAVE_ASSOCTEXTWIDGET_H_
+#ifndef _HAVE_KOMMANDERWIDGET_H_
+#define _HAVE_KOMMANDERWIDGET_H_
 
 /* KDE INCLUDES */
 #include <kprocess.h>
@@ -24,18 +24,18 @@
 #include <qstringlist.h>
 #include <qobject.h>
 
-class AssocTextWidget
+class KommanderWidget
 {
 	friend class MyProcess;
 public:
-	AssocTextWidget(QObject *);
-	virtual ~AssocTextWidget();
+	KommanderWidget(QObject *);
+	virtual ~KommanderWidget();
 
 	virtual QStringList states() const;
 	virtual QStringList displayStates() const;
 	virtual QString currentState() const = 0;
 
-	virtual bool isAssociatedTextWidget() const = 0;
+	virtual bool isKommanderWidget() const = 0;
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString evalAssociatedText() const;

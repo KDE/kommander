@@ -24,19 +24,19 @@
 #include <qstring.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 
-class TextEdit : public QTextEdit, public AssocTextWidget
+class TextEdit : public QTextEdit, public KommanderWidget
 {
 	Q_OBJECT
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
+	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
 	TextEdit(QWidget *, const char *);
 	virtual ~TextEdit();
 	virtual QString widgetText() const;
 
-	virtual bool isAssociatedTextWidget() const;
+	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;

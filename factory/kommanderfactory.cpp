@@ -292,7 +292,7 @@ void KommanderFactory::addPlugin( KommanderPlugin *plugin )
     widgetPlugins.append( plugin );
 }
 
-QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name ) const
+QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name )
 {
     QString className = literalClassName;
 
@@ -449,6 +449,7 @@ int KommanderFactory::loadPlugins( bool force )
 	    qWarning("KommanderFactory::loadPlugins - Can't load Kommander plugin library %s", (*it).latin1());
 	}
     }
+    //qDebug("KommanderFactory::loadPlugins returning %d", num_plugins_loaded);
     return num_plugins_loaded;
 }
 

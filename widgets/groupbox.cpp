@@ -24,12 +24,12 @@
 #include <qobjectlist.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "fileselector.h"
 #include "groupbox.h"
 
 GroupBox::GroupBox(QWidget *a_parent, const char *a_name)
-	: QGroupBox(a_parent, a_name), AssocTextWidget(this)
+	: QGroupBox(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -48,19 +48,19 @@ QString GroupBox::currentState() const
 	return QString("default");
 }
 
-bool GroupBox::isAssociatedTextWidget() const
+bool GroupBox::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList GroupBox::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void GroupBox::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void GroupBox::setWidgetText(const QString &)
@@ -75,7 +75,7 @@ QString GroupBox::widgetText() const
 	QObjectListIt it(childList);
 	while(it.current() != 0)
 	{
-		AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(it.current());
+		KommanderWidget *atw = dynamic_cast<KommanderWidget *>(it.current());
 		if(atw)
 		{
 			text += atw->evalAssociatedText();
@@ -93,7 +93,7 @@ QString GroupBox::widgetText() const
 	while(it.current() != 0)
 	{
 		// FIXME : will these be in the right order?
-		AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(*it);
+		KommanderWidget *atw = dynamic_cast<KommanderWidget *>(*it);
 		if(atw)
 		{
 			text += atw->evalAssociatedText();

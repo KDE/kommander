@@ -23,11 +23,11 @@
 #include <qspinbox.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "spinboxint.h"
 
 SpinBoxInt::SpinBoxInt(QWidget *a_parent, const char *a_name)
-	: QSpinBox(a_parent, a_name), AssocTextWidget(this)
+	: QSpinBox(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -46,19 +46,19 @@ QString SpinBoxInt::currentState() const
 	return "default";
 }
 
-bool SpinBoxInt::isAssociatedTextWidget() const
+bool SpinBoxInt::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList SpinBoxInt::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void SpinBoxInt::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void SpinBoxInt::setWidgetText(const QString &a_text)

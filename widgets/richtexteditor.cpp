@@ -40,7 +40,7 @@
 #include "pixmaps/textright.xpm"
 
 RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
-	: QWidget(a_parent, a_name), AssocTextWidget((QObject *)this)
+	: QWidget(a_parent, a_name), KommanderWidget((QObject *)this)
 {
 
 	QStringList states;
@@ -119,19 +119,19 @@ RichTextEditor::~RichTextEditor()
 {
 }
 
-bool RichTextEditor::isAssociatedTextWidget() const
+bool RichTextEditor::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList RichTextEditor::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void RichTextEditor::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 QString RichTextEditor::widgetText() const

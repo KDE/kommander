@@ -23,11 +23,11 @@
 #include <qradiobutton.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "radiobutton.h"
 
 RadioButton::RadioButton(QWidget *a_parent, const char *a_name)
-	: QRadioButton(a_parent, a_name), AssocTextWidget(this)
+	: QRadioButton(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "unchecked";
@@ -50,19 +50,19 @@ QString RadioButton::currentState() const
 	return (isChecked() ? "checked" : "unchecked");
 }
 
-bool RadioButton::isAssociatedTextWidget() const
+bool RadioButton::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList RadioButton::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void RadioButton::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void RadioButton::setWidgetText(const QString &a_text)

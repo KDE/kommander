@@ -34,9 +34,9 @@
 #include <cstdio>
 #include "assoctexteditor.h"
 #include "assoctexteditorimpl.h"
-#include <assoctextwidget.h>
+#include <kommanderwidget.h>
 
-AssocTextEditor::AssocTextEditor(QWidget *a_widget, AssocTextWidget *a_atw, QWidget *a_parent, const char *a_name, bool a_modal)
+AssocTextEditor::AssocTextEditor(QWidget *a_widget, KommanderWidget *a_atw, QWidget *a_parent, const char *a_name, bool a_modal)
     : AssocTextEditorBase(a_parent, a_name, a_modal)
 {
     // signals and slots connections
@@ -54,7 +54,7 @@ AssocTextEditor::~AssocTextEditor()
 {
 }
 
-void AssocTextEditor::build(AssocTextWidget *a_atw)
+void AssocTextEditor::build(KommanderWidget *a_atw)
 {
 	a_atw->associatedText();
 	QStringList at = a_atw->associatedText();
@@ -116,14 +116,14 @@ void AssocTextEditor::updateTextWidgets()
 			QMetaObject *metaObj = it.current()->metaObject();
 			if(metaObj)
 			{
-				int id = metaObj->findProperty("AssocTextWidget", TRUE);
+				int id = metaObj->findProperty("KommanderWidget", TRUE);
 				const QMetaProperty *metaProp = metaObj->property(id, TRUE);
 				if(metaProp && metaProp->isValid()) pExists = TRUE;
 			}
 
 			if(pExists)
 			{
-				QVariant flag = (it.current())->property("AssocTextWidget");
+				QVariant flag = (it.current())->property("KommanderWidget");
 				if(flag.isValid() && !(QString(it.current()->name()).startsWith("qt_")))
 					widgetComboBox->insertItem((it.current())->name());
 			}

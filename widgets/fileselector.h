@@ -25,18 +25,18 @@
 #include <qwidget.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 
 class QBoxLayout;
 class QPushButton;
 class QLineEdit;
 
-class FileSelector : public QWidget, public AssocTextWidget
+class FileSelector : public QWidget, public KommanderWidget
 {
 	Q_OBJECT
 
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
+	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 
 	Q_PROPERTY(SelectionType selectionType READ selectionType WRITE setSelectionType)
 	Q_ENUMS(SelectionType)
@@ -50,7 +50,7 @@ public:
 
 	virtual QString widgetText() const;
 
-	virtual bool isAssociatedTextWidget() const;
+	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;

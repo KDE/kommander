@@ -1216,7 +1216,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     iface->release();
     return w;
 #else
-    QWidget *w = KommanderFactory::create( className, 0, parent, name );
+    QWidget *w = KommanderFactory::createWidget( className, parent, name );
     return w;
 #endif
 }

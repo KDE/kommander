@@ -18,11 +18,11 @@
 #include <qstringlist.h>
 
 /* Other Includes */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "scriptobject.h"
 
 ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
-	: QWidget(a_parent, a_name), AssocTextWidget(this)
+	: QWidget(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -46,19 +46,19 @@ QString ScriptObject::currentState() const
 	return QString("default");
 }
 
-bool ScriptObject::isAssociatedTextWidget() const
+bool ScriptObject::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList ScriptObject::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void ScriptObject::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void ScriptObject::setWidgetText(const QString &a_text)

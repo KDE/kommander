@@ -24,7 +24,7 @@
 #include <qwidget.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 
 /* Forward Decls */
 class QTextEdit;
@@ -32,17 +32,17 @@ class QFrame;
 class QToolButton;
 class QHButtonGroup;
 
-class RichTextEditor : public QWidget, public AssocTextWidget
+class RichTextEditor : public QWidget, public KommanderWidget
 {
 	Q_OBJECT
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
+	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
 	RichTextEditor(QWidget *, const char *);
 	virtual ~RichTextEditor();
 	QString widgetText() const;
 
-	bool isAssociatedTextWidget() const;
+	bool isKommanderWidget() const;
 	void setAssociatedText(QStringList);
 	QStringList associatedText() const;
 	QString currentState() const;

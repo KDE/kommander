@@ -22,14 +22,14 @@
 #include <qwizard.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 
-class Wizard : public QWizard, public AssocTextWidget
+class Wizard : public QWizard, public KommanderWidget
 {
 	Q_OBJECT
 
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
+	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 
 	Q_PROPERTY(HelpAction helpAction READ helpAction WRITE setHelpAction)
 	Q_ENUMS(HelpAction)
@@ -41,7 +41,7 @@ public:
 
 	virtual QString widgetText() const;
 
-	virtual bool isAssociatedTextWidget() const;
+	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;

@@ -43,7 +43,7 @@
 
 /* OTHER INCLUDES */
 #include "instance.h"
-#include "../widgets/assoctextwidget.h"
+#include <kommanderwidget.h>
 #include <kommanderfactory.h>
 
 Instance::Instance()
@@ -90,8 +90,8 @@ bool Instance::build()
     return FALSE;
   }
 
-  // FIXME : Should verify that all of the widgets in the dialog derive from AssocTextWidget
-  m_textInstance = dynamic_cast<AssocTextWidget *>(m_instance);
+  // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
+  m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
 
   return TRUE;
 }
@@ -115,7 +115,7 @@ bool Instance::build(QFile *a_file)
 		return FALSE;
 	}
 
-	m_textInstance = dynamic_cast<AssocTextWidget *>(m_instance);
+	m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
 	return TRUE;
 }
 
@@ -328,13 +328,13 @@ void Instance::setAssociatedText(const QString &widgetName, const QString &text)
     return;
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
-  AssocTextWidget *assoctextwidget;
+  KommanderWidget *kommanderwidget;
   for (child = children->first(); child; child = children->next())
   {
-    assoctextwidget = dynamic_cast<AssocTextWidget*>(child);
-    if (assoctextwidget)
+    kommanderwidget = dynamic_cast<KommanderWidget*>(child);
+    if (kommanderwidget)
     {
-      assoctextwidget->setAssociatedText(QStringList::split('\n', text, true));
+      kommanderwidget->setAssociatedText(QStringList::split('\n', text, true));
     }
   }
   delete children;
@@ -346,14 +346,14 @@ QStringList Instance::associatedText(const QString &widgetName)
     return QStringList();
   QObjectList* children = m_instance->queryList(0, widgetName, false);
   QObject *child;
-  AssocTextWidget *assoctextwidget;
+  KommanderWidget *kommanderwidget;
   QStringList result;
   for (child = children->first(); child; child = children->next())
   {
-    assoctextwidget = dynamic_cast<AssocTextWidget*>(child);
-    if (assoctextwidget)
+    kommanderwidget = dynamic_cast<KommanderWidget*>(child);
+    if (kommanderwidget)
     {
-      result = assoctextwidget->associatedText();
+      result = kommanderwidget->associatedText();
     }
   }
   delete children;

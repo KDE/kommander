@@ -22,7 +22,7 @@
 #include "lineedit.h"
 
 LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
-	: QLineEdit(a_parent, a_name), AssocTextWidget((QObject *)this)
+	: QLineEdit(a_parent, a_name), KommanderWidget((QObject *)this)
 {
 
 	QStringList states;
@@ -44,19 +44,19 @@ LineEdit::~LineEdit()
 {
 }
 
-bool LineEdit::isAssociatedTextWidget() const
+bool LineEdit::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList LineEdit::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void LineEdit::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 QString LineEdit::widgetText() const

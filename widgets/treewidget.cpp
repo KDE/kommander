@@ -25,11 +25,11 @@
 #include <qlistview.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "treewidget.h"
 
 TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
-	: QListView(a_parent, a_name), AssocTextWidget(this)
+	: QListView(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -48,19 +48,19 @@ QString TreeWidget::currentState() const
 	return QString("default");
 }
 
-bool TreeWidget::isAssociatedTextWidget() const
+bool TreeWidget::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList TreeWidget::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void TreeWidget::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void TreeWidget::setWidgetText(const QString &a_text)

@@ -22,11 +22,11 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "dialog.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-	: QDialog(a_parent, a_name, a_modal, a_flags), AssocTextWidget(this)
+	: QDialog(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -45,19 +45,19 @@ QString Dialog::currentState() const
 	return QString("default");
 }
 
-bool Dialog::isAssociatedTextWidget() const
+bool Dialog::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList Dialog::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void Dialog::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void Dialog::setWidgetText(const QString &a_text)

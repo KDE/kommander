@@ -22,7 +22,7 @@
 #include "textedit.h"
 
 TextEdit::TextEdit(QWidget *a_parent, const char *a_name)
-	: QTextEdit(a_parent, a_name), AssocTextWidget((QObject *)this)
+	: QTextEdit(a_parent, a_name), KommanderWidget((QObject *)this)
 {
 
 	QStringList states;
@@ -44,19 +44,19 @@ TextEdit::~TextEdit()
 {
 }
 
-bool TextEdit::isAssociatedTextWidget() const
+bool TextEdit::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList TextEdit::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void TextEdit::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 QString TextEdit::widgetText() const

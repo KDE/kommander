@@ -25,16 +25,16 @@
 #include <qcombobox.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 
 class QWidget;
 
-class ComboBox : public QComboBox, public AssocTextWidget
+class ComboBox : public QComboBox, public KommanderWidget
 {
 	Q_OBJECT
 
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget)
+	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 	
 //	Q_PROPERTY(QStringList items READ items WRITE setItems RESET resetItems);
 public:
@@ -43,7 +43,7 @@ public:
 
 	virtual QString widgetText() const;
 
-	virtual bool isAssociatedTextWidget() const;
+	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;

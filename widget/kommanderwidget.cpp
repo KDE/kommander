@@ -1,5 +1,5 @@
 /***************************************************************************
-                          assoctextwidget.cpp - Text widget functionality class 
+                          kommanderwidget.cpp - Text widget functionality class 
                              -------------------
     copyright            : (C) 2002 by Marc Britton
     email                : consume@optusnet.com.au
@@ -32,56 +32,56 @@
 
 /* OTHER INCLUDES */
 #include "myprocess.h"
-#include "assoctextwidget.h"
+#include "kommanderwidget.h"
 
-AssocTextWidget::AssocTextWidget(QObject *a_thisObject)
+KommanderWidget::KommanderWidget(QObject *a_thisObject)
 {
 	m_thisObject = a_thisObject;
 }
 
-AssocTextWidget::~AssocTextWidget()
+KommanderWidget::~KommanderWidget()
 {
 }
 
-void AssocTextWidget::setAssociatedText(QStringList a_associations)
+void KommanderWidget::setAssociatedText(QStringList a_associations)
 {
 	m_associatedText = a_associations;
 	while(m_associatedText.count() < (states().count()))
 		m_associatedText += QString::null; // sync states and associations
 }
 
-QStringList AssocTextWidget::associatedText() const
+QStringList KommanderWidget::associatedText() const
 {
 	return m_associatedText;
 }
 
-QStringList AssocTextWidget::states() const
+QStringList KommanderWidget::states() const
 {
 	return m_states;
 }
 
-QStringList AssocTextWidget::displayStates() const
+QStringList KommanderWidget::displayStates() const
 {
 	return m_displayStates;
 }
 
-void AssocTextWidget::setStates(QStringList a_states)
+void KommanderWidget::setStates(QStringList a_states)
 {
 	m_states = a_states;
 }
 
-void AssocTextWidget::setDisplayStates(QStringList a_displayStates)
+void KommanderWidget::setDisplayStates(QStringList a_displayStates)
 {
 	m_displayStates = a_displayStates;
 }
 
-QString AssocTextWidget::evalAssociatedText() const // expands and returns associated text as a string
+QString KommanderWidget::evalAssociatedText() const // expands and returns associated text as a string
 {
 	QString curState = currentState();
 	int index = (states().findIndex(curState));
 	if(index == -1)
 	{
-		fprintf(stderr, "AssocTextWidget::evalAssociatedText() - Invalid state");
+		fprintf(stderr, "KommanderWidget::evalAssociatedText() - Invalid state");
 		return QString::null;
 	}
 
@@ -91,7 +91,7 @@ QString AssocTextWidget::evalAssociatedText() const // expands and returns assoc
 	return evalAssociatedText(baseText);
 }
 
-QString AssocTextWidget::evalAssociatedText(const QString &a_text) const
+QString KommanderWidget::evalAssociatedText(const QString &a_text) const
 {
 	QString evalText;
 	QString baseText = a_text;
@@ -128,7 +128,7 @@ QString AssocTextWidget::evalAssociatedText(const QString &a_text) const
 					}
 
 					QObject *childObj = superParent->child(identifier.latin1());
-					AssocTextWidget *childTextObj = dynamic_cast<AssocTextWidget *>(childObj);
+					KommanderWidget *childTextObj = dynamic_cast<KommanderWidget *>(childObj);
 					if(childTextObj)
 					{
 						evalText += childTextObj->evalAssociatedText();
@@ -204,7 +204,7 @@ QString AssocTextWidget::evalAssociatedText(const QString &a_text) const
 	return evalText;
 }
 
-QString AssocTextWidget::dcopQuery(QString a_query) const
+QString KommanderWidget::dcopQuery(QString a_query) const
 {
 	int pos = 0, argc = 0, queryLength = a_query.length();
 
@@ -294,7 +294,7 @@ QString AssocTextWidget::dcopQuery(QString a_query) const
 	return evalText;
 }
 
-QString AssocTextWidget::execCommand(QString a_command) const
+QString KommanderWidget::execCommand(QString a_command) const
 {
 	MyProcess proc(this);
 
@@ -310,7 +310,7 @@ QString AssocTextWidget::execCommand(QString a_command) const
 	return text;
 }
 
-void AssocTextWidget::printError(QString a_className, QString a_error) const
+void KommanderWidget::printError(QString a_className, QString a_error) const
 {
 	qWarning("In widget %s:\n\t%s", a_className.latin1(), a_error.latin1());
 }

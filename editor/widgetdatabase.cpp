@@ -745,8 +745,10 @@ void WidgetDatabase::setupPlugins()
 {
     if ( plugins_set_up )
 	return;
+    //qDebug("WidgetDatabase::setupPlugins");
     plugins_set_up = TRUE;
     FeatureList widgets = KommanderFactory::featureList();
+    //qDebug("num features = %d", widgets.count());
     for ( FeatureList::Iterator it = widgets.begin(); it != widgets.end(); ++it )
     {
 	if ( hasWidget( it.key() ) )

@@ -108,7 +108,7 @@
 #include "assistproc.h"
 #endif
 
-#include <assoctextwidget.h>
+#include <kommanderwidget.h>
 #include "assoctexteditorimpl.h"
 #include <dialog.h>
 
@@ -1749,8 +1749,8 @@ void MainWindow::setupRMBProperties( QValueList<int> &ids, QMap<QString, int> &p
 void MainWindow::setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, int> &commands, QWidget *w )
 {
     int id;
-    // AssocTextWidget doesn't derive from QObject
-    AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(w);
+    // KommanderWidget doesn't derive from QObject
+    KommanderWidget *atw = dynamic_cast<KommanderWidget *>(w);
     if(atw)
     {
             if(ids.isEmpty())
@@ -1784,8 +1784,8 @@ void MainWindow::setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, in
 {
     int id;
 
-    // AssocTextWidget doesn't derive from QObject
-    AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(fw->mainContainer());
+    // KommanderWidget doesn't derive from QObject
+    KommanderWidget *atw = dynamic_cast<KommanderWidget *>(fw->mainContainer());
     if(atw)
     {
             if(ids.isEmpty())
@@ -1886,10 +1886,10 @@ void MainWindow::handleRMBProperties( int id, QMap<QString, int> &props, QWidget
 void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands, QWidget *w )
 {
     // associated text menu
-    // we assume all widgets derive from AssocTextWidget [MB02]
+    // we assume all widgets derive from KommanderWidget [MB02]
     if(id == commands["assoc"])
     {
-         AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(w);
+         KommanderWidget *atw = dynamic_cast<KommanderWidget *>(w);
          if(!atw)
              return;
 
@@ -1943,7 +1943,7 @@ void MainWindow::handleRMBSpecialCommands( int id, QMap<QString, int> &commands,
 {
     if(id == commands["assoc"])
     {
-         AssocTextWidget *atw = dynamic_cast<AssocTextWidget *>(fw->mainContainer());
+         KommanderWidget *atw = dynamic_cast<KommanderWidget *>(fw->mainContainer());
          if(!atw)
              return;
 

@@ -24,11 +24,11 @@
 #include <qbutton.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "checkbox.h"
 
 CheckBox::CheckBox(QWidget *a_parent, const char *a_name)
-	: QCheckBox(a_parent, a_name), AssocTextWidget(this)
+	: QCheckBox(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "unchecked";
@@ -59,19 +59,19 @@ QString CheckBox::currentState() const
 	return QString::null;
 }
 
-bool CheckBox::isAssociatedTextWidget() const
+bool CheckBox::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList CheckBox::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void CheckBox::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void CheckBox::setWidgetText(const QString &a_text)

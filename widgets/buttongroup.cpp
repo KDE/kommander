@@ -23,13 +23,13 @@
 #include <qbuttongroup.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "buttongroup.h"
 
 #include "radiobutton.h" // include a button header for the compiler with dynamic cast below
 
 ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
-	: QButtonGroup(a_parent, a_name), AssocTextWidget(this)
+	: QButtonGroup(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -48,19 +48,19 @@ QString ButtonGroup::currentState() const
 	return QString("default");
 }
 
-bool ButtonGroup::isAssociatedTextWidget() const
+bool ButtonGroup::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList ButtonGroup::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void ButtonGroup::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void ButtonGroup::setWidgetText(const QString &)
@@ -74,7 +74,7 @@ QString ButtonGroup::widgetText() const
 	for(;i < count();++i)
 	{
 		QButton *button = find(i);
-		AssocTextWidget *textWidget = dynamic_cast<AssocTextWidget *>(button);
+		KommanderWidget *textWidget = dynamic_cast<KommanderWidget *>(button);
 		if(textWidget)
 			text += textWidget->evalAssociatedText();
 	}

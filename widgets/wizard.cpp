@@ -25,11 +25,11 @@
 
 /* OTHER INCLUDES */
 #include <kommanderfactory.h>
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "wizard.h"
 
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-	: QWizard(a_parent, a_name, a_modal, a_flags), AssocTextWidget(this)
+	: QWizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -50,19 +50,19 @@ QString Wizard::currentState() const
 	return QString("default");
 }
 
-bool Wizard::isAssociatedTextWidget() const
+bool Wizard::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList Wizard::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void Wizard::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void Wizard::setWidgetText(const QString &a_text)

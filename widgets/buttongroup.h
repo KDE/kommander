@@ -25,23 +25,23 @@
 #include <qstring.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 
 class QWidget;
 
-class ButtonGroup : public QButtonGroup, public AssocTextWidget
+class ButtonGroup : public QButtonGroup, public KommanderWidget
 {
 	Q_OBJECT
 
 	Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-	Q_PROPERTY(bool AssocTextWidget READ isAssociatedTextWidget DESIGNABLE false)
+	Q_PROPERTY(bool KommanderWidget READ isKommanderWidget DESIGNABLE false)
 public:
 	ButtonGroup(QWidget *a_parent, const char *a_name);
 	~ButtonGroup();
 
 	virtual QString widgetText() const;
 
-	virtual bool isAssociatedTextWidget() const;
+	virtual bool isKommanderWidget() const;
 	virtual void setAssociatedText(QStringList);
 	virtual QStringList associatedText() const;
 	virtual QString currentState() const;

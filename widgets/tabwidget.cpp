@@ -22,11 +22,11 @@
 #include <qtabwidget.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "tabwidget.h"
 
 TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
-	: QTabWidget(a_parent, a_name, a_flags), AssocTextWidget(this)
+	: QTabWidget(a_parent, a_name, a_flags), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -45,19 +45,19 @@ QString TabWidget::currentState() const
 	return QString("default");
 }
 
-bool TabWidget::isAssociatedTextWidget() const
+bool TabWidget::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList TabWidget::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void TabWidget::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void TabWidget::setWidgetText(const QString &a_text)

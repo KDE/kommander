@@ -23,15 +23,15 @@
 #include <qmap.h>
 
 #include "assoctexteditor.h"
-#include <assoctextwidget.h>
+#include <kommanderwidget.h>
 
 class AssocTextEditor : public AssocTextEditorBase
 {
 	Q_OBJECT
 public:
-	AssocTextEditor(QWidget *, AssocTextWidget *, QWidget *, const char *, bool=TRUE);
+	AssocTextEditor(QWidget *, KommanderWidget *, QWidget *, const char *, bool=TRUE);
 	~AssocTextEditor();
-	void build(AssocTextWidget *);
+	void build(KommanderWidget *);
 	QStringList associatedText() const;
 
 public slots:

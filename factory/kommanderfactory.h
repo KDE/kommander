@@ -63,7 +63,7 @@ public:
     static void addPlugin( KommanderPlugin *plugin );
     static void loadImages( const QString &dir );
 
-    virtual QWidget *createWidget( const QString &className, QWidget *parent, const char *name ) const;
+    static QWidget *createWidget( const QString &className, QWidget *parent, const char *name );
 
     static FeatureList featureList();
 private:

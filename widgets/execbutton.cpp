@@ -25,12 +25,12 @@
 #include <qpushbutton.h>
 
 /* OTHER INCLUDES */
-#include "assoctextwidget.h"
+#include <kommanderwidget.h>
 #include "execbutton.h"
 #include <cstdio>
 
 ExecButton::ExecButton(QWidget *a_parent, const char *a_name)
-	: QPushButton(a_parent, a_name), AssocTextWidget(this)
+	: QPushButton(a_parent, a_name), KommanderWidget(this)
 {
 	QStringList states;
 	states << "default";
@@ -52,19 +52,19 @@ QString ExecButton::currentState() const
 	return QString("default");
 }
 
-bool ExecButton::isAssociatedTextWidget() const
+bool ExecButton::isKommanderWidget() const
 {
 	return TRUE;
 }
 
 QStringList ExecButton::associatedText() const
 {
-	return AssocTextWidget::associatedText();
+	return KommanderWidget::associatedText();
 }
 
 void ExecButton::setAssociatedText(QStringList a_at)
 {
-	AssocTextWidget::setAssociatedText(a_at);
+	KommanderWidget::setAssociatedText(a_at);
 }
 
 void ExecButton::setWidgetText(const QString &a_text)
