@@ -197,7 +197,9 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
     return ParseNode();
   KommanderWidget* widget = parser->currentWidget();
   if (!widget)
+  {
     return ParseNode();
+  }
   widget = widget->widgetByName(params[1].toString());
   if (!widget)
     return ParseNode();

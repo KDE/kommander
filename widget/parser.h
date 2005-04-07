@@ -145,7 +145,8 @@ private:
   // reset to default state
   void reset();
   // set error state if no error was set before; err is expected symbol that wasn't found
-  void setError(Parse::Keyword err);
+  void setError(const QString& msg);
+  void setError(const QString& msg, int pos);
   // check whether parsing was successful
   bool isError() const;
   
@@ -153,8 +154,8 @@ private:
   ParserData* m_data;
   // current parsing position
   uint m_start;
-  // current parser state
-  Parse::Keyword m_error;
+  // current error message
+  QString m_error;
   // in case of error, this keeps position of first error
   uint m_errorPosition;
   // parsing nodes

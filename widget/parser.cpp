@@ -27,13 +27,13 @@ QString unescape(QString s)
   return s.replace("\\\"", "\"").replace("\\t", "\t").replace("\\n", "\n").replace("\\\\", "\\");
 }
 
-Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(None), m_errorPosition(0), 
+Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(QString::null), m_errorPosition(0), 
   m_widget(0)
 {
 }
   
-Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), m_error(None), 
-  m_errorPosition(0), m_widget(0)
+Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), 
+  m_error(QString::null),  m_errorPosition(0), m_widget(0)
 {
   setString(expr);
 }
@@ -113,7 +113,7 @@ void Parser::setString(const QString& s)
     }
     else                          // Bad character
     {
-      setError(Invalid);
+      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count());
       return;
     }
   }
@@ -144,26 +144,7 @@ void Parser::insertNode(ParseNode p, int line)
 
 QString Parser::errorMessage()
 {
-  if (m_error <= LastRealKeyword)
-    return i18n("Expected '%1'").arg(m_data->keywordToString(m_error));
-  else switch (m_error) {
-    case None:     
-    case Exit:
-      return QString::null;
-    case Variable: 
-      return i18n("Expected variable");
-    case Value: 
-      return i18n("Expected value");
-    case Invalid:
-      return i18n("Invalid symbol");
-    case IncorrectParams:
-      return i18n("Incorrect parameters");
-    case UndefinedVariable:
-      return i18n("Undefined variable");
-    default:      
-      return i18n("Unknown error");
-  }  
-  
+  return m_error;
 }
 
 QString Parser::function(ParserData* data, const QString& name, const QStringList& params)
@@ -180,7 +161,7 @@ QString Parser::expression(Mode mode)
 {
   reset();
   ParseNode p = parseExpression(mode);
-  if (m_error == None)
+  if (!isError())
     return p.toString();
   else
     return QString::null;
@@ -188,7 +169,7 @@ QString Parser::expression(Mode mode)
 
 bool Parser::isError() const
 {
-  return m_error != None && m_error != Exit; 
+  return m_error != QString::null;
 }
 
 
@@ -239,7 +220,7 @@ ParseNode Parser::parseValue(Mode mode)
   else if (tryKeyword(True, CheckOnly))
     return ParseNode(1);
   else if (p.isKeyword())
-    setError(Value);
+    setError(i18n("Expected value"));
   else // single value
     m_start++;
   return p;
@@ -389,7 +370,8 @@ ParseNode Parser::parseExpression(Mode mode)
 
 ParseNode Parser::parseFunction(Mode mode)
 {
-  Function f = m_data->function(next().variableName());
+  QString name = next().variableName();
+  Function f = m_data->function(name);
   m_start++;
   ParameterList params;
   
@@ -400,8 +382,10 @@ ParseNode Parser::parseFunction(Mode mode)
     } while (tryKeyword(Comma, CheckOnly));
     tryKeyword(RightParenthesis);
   }
-  if (!f.isValid(params))
-    setError(IncorrectParams);
+  if (f.minArgs() > params.count())
+    setError(i18n("Too few parameters for function '%1'").arg(name));
+  else if (f.maxArgs() < params.count())
+    setError(i18n("Too many parameters for function '%1'").arg(name));
   else if (mode == Execute)
     return f.execute(this, params);
   return ParseNode();
@@ -445,12 +429,18 @@ void Parser::parseAssignment(Mode mode)
     ParseNode p = parseExpression(mode);
     setArray(var, index, p);
   }
-  else if (tryKeyword(Assign))
+  else if (tryKeyword(Assign, CheckOnly))
   {
     ParseNode p = parseExpression(mode);
     if (mode == Execute)
       setVariable(var, p);
   }
+  else if (tryKeyword(Dot, CheckOnly))
+    setError(i18n("'%1' is not a widget").arg(var));
+  else if (tryKeyword(LeftBracket, CheckOnly))
+    setError(i18n("'%1' is not a function").arg(var));
+  else 
+    setError(i18n("Unexpected symbol after variable '%1'").arg(var));
 }
 
 Flow Parser::parseIf(Mode mode)
@@ -573,7 +563,8 @@ Flow Parser::parseCommand(Mode mode)
   else if (tryKeyword(Exit, CheckOnly))
   {
     if (mode == Execute)
-      setError(Exit);
+      setError("Exit");
+#warning FIXME!    
     return FlowBreak;
   }
   return FlowStandard;
@@ -610,7 +601,7 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
     return true;
   }
   if (mode == Execute)
-    setError(k);
+    setError(i18n("Expected '%1'").arg(m_data->keywordToString(k)));
   return false;
 }
 
@@ -623,7 +614,7 @@ bool Parser::tryVariable(Mode mode)
     return true;
   }
   if (mode == Execute)
-    setError(Variable);
+    setError(i18n("Expected variable"));
   return false;
 }
 
@@ -636,7 +627,7 @@ QString Parser::nextVariable()
     return name;
   }
   else 
-    setError(Variable);
+    setError(i18n("Expected variable"));
   return QString::null;
 }
 
@@ -654,16 +645,21 @@ bool Parser::isWidget() const
 void Parser::reset()
 {
   m_start = 0;
-  m_error = None;
+  m_error = QString::null;
   m_errorPosition = 0;
 }
 
-void Parser::setError(Keyword err)
+void Parser::setError(const QString& msg)
 {
-  if (m_error == None)
+  setError(msg, m_start);
+}
+
+void Parser::setError(const QString& msg, int pos)
+{
+  if (m_error == QString::null)
   {
-    m_errorPosition = m_start;
-    m_error = err;
+    m_errorPosition = pos;
+    m_error = msg;
   } 
 }
 

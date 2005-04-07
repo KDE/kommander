@@ -133,7 +133,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     if (!p.parse())
     {
       // FIXME add widget's name to KommanderWidget class      
-      printError(i18n("Line %1: error: %2\n").arg(p.errorLine()).arg(p.errorMessage()));
+      printError(i18n("Line %1: %2.\n").arg(p.errorLine()+1).arg(p.errorMessage()));
     }
     return QString::null;
   }
