@@ -79,10 +79,11 @@ int SpecialFunction::argumentCount() const
 
 int SpecialInformation::function(int group, const QString& fname) 
 {
-  if (m_functions.contains(group) && m_functions[group].contains(fname))
-    return m_functions[group][fname];
-  else if (m_aliases.contains(group) && m_aliases[group].contains(fname))
-    return m_aliases[group][fname];
+  QString f = fname.lower();
+  if (m_functions.contains(group) && m_functions[group].contains(f))
+    return m_functions[group][f];
+  else if (m_aliases.contains(group) && m_aliases[group].contains(f))
+    return m_aliases[group][f];
   return -1;
 }
   
@@ -156,13 +157,13 @@ bool SpecialInformation::insert(int id, const QString& function, const QString d
 {
   if (isValid(m_defaultGroup, id))  /* function already defined */
     return false;
-  if (m_functions[m_defaultGroup].contains(function))
+  if (m_functions[m_defaultGroup].contains(function.lower()))
     return false;                   /* function name already in use */
-  if (m_aliases[m_defaultGroup].contains(function))
+  if (m_aliases[m_defaultGroup].contains(function.lower()))
     return false;                   /* function name already in use */
   SpecialFunction sf(function, description, minArgs, maxArgs);
   m_specials[m_defaultGroup][id] = sf;
-  m_functions[m_defaultGroup][sf.name()] = id;
+  m_functions[m_defaultGroup][sf.name().lower()] = id;
   return true;
 }
   
@@ -170,9 +171,9 @@ bool SpecialInformation::insertAlias(int id, const QString& alias)
 {
   if (!isValid(m_defaultGroup, id))  /* function doesn't exists */
     return false;
-  if (m_functions[m_defaultGroup].contains(alias))
+  if (m_functions[m_defaultGroup].contains(alias.lower()))
     return false;
-  if (m_aliases[m_defaultGroup].contains(alias))
+  if (m_aliases[m_defaultGroup].contains(alias.lower()))
     return false;
   m_aliases[m_defaultGroup][alias] = id;
   return true;
@@ -211,7 +212,13 @@ QStringList SpecialInformation::functions(const QString& g)
   if (gid == -1)
     return QStringList();
   else
-    return m_functions[gid].keys();
+  {
+    QStringList list;
+    const QMap<int, SpecialFunction> fgroup = m_specials[gid];
+    for(QMap<int, SpecialFunction>::ConstIterator it = fgroup.begin(); it != fgroup.end(); ++it)
+       list.append(it.data().name());
+    return list;
+  }
 }
 
 QMap<int, QMap<int, SpecialFunction> > SpecialInformation::m_specials;

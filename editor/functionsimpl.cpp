@@ -6,7 +6,7 @@
 
 /***************************************************************************
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
+ *   This program is free software; you can redistribute it and/or mody  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -114,7 +114,7 @@ void FunctionsDialog::groupChanged(int index)
           functionListBox->insertItem(pFunctions[i]);
       }
   }
-  else
+  else 
     functionListBox->insertStringList(SpecialInformation::functions(groupComboBox->text(index)));
   functionListBox->setCurrentItem(0);
   functionChanged(functionListBox->currentItem());
@@ -139,9 +139,9 @@ void FunctionsDialog::functionChanged(int)
   
   descriptionText->clear();
   descriptionText->setText(i18n("<qt><h3>%1</h3>"
-     "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
-     .arg(m_function.name()).arg(m_function.description())
-     .arg(m_function.prototype(pflags)).arg(defArgs));
+    "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
+    .arg(functionListBox->currentText()).arg(m_function.description())
+    .arg(m_function.prototype(pflags)).arg(defArgs));
   
   showParameters();
 }
