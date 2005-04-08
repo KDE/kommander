@@ -16,16 +16,34 @@
 
 #include "messagelog.h"
 
+#include <kapplication.h>
+#include <kfiledialog.h>
+#include <kiconloader.h>
 #include <klistbox.h>
+#include <kmessagebox.h>
+#include <kpopupmenu.h>
 #include <kprocess.h>
+
+#include <qclipboard.h>
+#include <qfile.h>
+#include <qtextstream.h>
 
 MessageLog::MessageLog(QWidget* parent, const char* name) : QTabWidget(parent, name)
 {
+  m_popupMenu = new KPopupMenu(this);
+  m_popupMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy current &line"), this, SLOT(copyLine()));
+  m_popupMenu->insertItem(SmallIconSet("editcopy"), i18n("&Copy content"), this, SLOT(copyContent()));
+  m_popupMenu->insertItem(SmallIconSet("filesaveas"), i18n("&Save As..."), this, SLOT(saveToFile()));
+  m_popupMenu->insertSeparator();
+  m_popupMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clearContent()));
+  
   for (int i = 0; i < m_listCount; i++)
   {
     m_lists[i] = new KListBox(this);
     addTab(m_lists[i], m_listNames[i]);
     m_seenEOL[i] = false;
+    connect(m_lists[i], SIGNAL(contextMenuRequested(QListBoxItem*, const QPoint&)),
+            this, SLOT(showMenu(QListBoxItem*, const QPoint&)));
   }
 }
   
@@ -51,9 +69,18 @@ void MessageLog::insertItem(InfoType i, QString text)
   m_lists[i]->ensureCurrentVisible();
 }
 
+QString MessageLog::content()
+{
+  QString p_content;
+  KListBox* list = m_lists[currentPageIndex()];
+  for (uint i=0; i < list->count(); i++)
+    p_content.append(list->text(i) + "\n");
+  return p_content;
+}
+
 void MessageLog::clear(InfoType i)
 {
-  if (i < m_listCount)
+  if (i != All)
   {
     m_lists[(int)i]->clear(); 
     m_seenEOL[i] = false;
@@ -71,6 +98,49 @@ void MessageLog::receivedStdout(KProcess*, char* buffer, int buflen)
 void MessageLog::receivedStderr(KProcess*, char* buffer, int buflen)
 {
   insertItem(Stderr, QString::fromLocal8Bit(buffer, buflen));
+}
+
+void MessageLog::clearContent()
+{
+  clear((InfoType)currentPageIndex()); 
+}
+
+void MessageLog::copyLine()
+{
+  if (m_lists[currentPageIndex()]->count())
+    kapp->clipboard()->setText(m_lists[currentPageIndex()]->currentText(), QClipboard::Clipboard);
+}
+
+void MessageLog::copyContent()
+{
+  kapp->clipboard()->setText(content(), QClipboard::Clipboard);
+}
+
+void MessageLog::saveToFile()
+{
+  KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
+                                   i18n("*.log|Log Files (*.log)\n*|All Files"), this, i18n("Save Log File"));
+  if (url.isEmpty())
+    return;
+  QFileInfo fileinfo(url.path());
+  if (fileinfo.exists() && KMessageBox::warningYesNo(0,
+      i18n("<qt>File<br><b>%1</b><br>already exists. Overwrite it?</qt>")
+          .arg(url.path())) == KMessageBox::No)
+    return;
+  QFile file(url.path());
+  if (!file.open(IO_WriteOnly)) {
+    KMessageBox::error(0, i18n("<qt>Cannot save log file<br><b>%1</b></qt>")
+        .arg(url.url()));
+    return;
+  }
+  QTextStream textfile(&file);
+  textfile << content();
+  file.close();
+}
+
+void MessageLog::showMenu(QListBoxItem*, const QPoint& l_point)
+{
+  m_popupMenu->exec(l_point);
 }
 
 QString MessageLog::m_listNames[m_listCount] = {i18n("Stdout"), i18n("Stderr")};

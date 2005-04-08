@@ -23,9 +23,9 @@
 
 class KListBox;
 class KProcess;
-  
+class KPopupMenu;
+class QListBoxItem;
    
-
 class MessageLog : public QTabWidget
 {
   Q_OBJECT
@@ -35,14 +35,21 @@ public:
   ~MessageLog();
   virtual void insertItem(InfoType i, QString text);
   virtual void clear(InfoType i = All);
+  QString content();
 public slots:  
   void receivedStdout(KProcess *proc, char *buffer, int buflen);
   void receivedStderr(KProcess *proc, char *buffer, int buflen);
+  void clearContent();
+  void copyLine();
+  void copyContent();
+  void saveToFile();
+  void showMenu(QListBoxItem*, const QPoint& l_point);
 private:
   static const int m_listCount = 2;
   static QString m_listNames[m_listCount];
   KListBox* m_lists[m_listCount];
   bool m_seenEOL[m_listCount];
+  KPopupMenu* m_popupMenu;
 };
 
 #endif
