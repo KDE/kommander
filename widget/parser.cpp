@@ -212,6 +212,16 @@ ParseNode Parser::parseValue(Mode mode)
       QString arr = p.variableName();
       return (isArray(arr) && array(arr).contains(index)) ? array(arr)[index] : QString::null;
     }
+    else if (tryKeyword(Dot, CheckOnly))
+    {
+      setError(i18n("'%1' is not a widget").arg(p.variableName()));
+      return ParseNode();
+    }
+    else if (tryKeyword(LeftParenthesis, CheckOnly))
+    {
+      setError(i18n("'%1' is not a function").arg(p.variableName()));
+      return ParseNode();
+    }
     else
       p = variable(p.variableName());
   }
@@ -437,7 +447,7 @@ void Parser::parseAssignment(Mode mode)
   }
   else if (tryKeyword(Dot, CheckOnly))
     setError(i18n("'%1' is not a widget").arg(var));
-  else if (tryKeyword(LeftBracket, CheckOnly))
+  else if (tryKeyword(LeftParenthesis, CheckOnly))
     setError(i18n("'%1' is not a function").arg(var));
   else 
     setError(i18n("Unexpected symbol after variable '%1'").arg(var));
