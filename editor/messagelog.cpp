@@ -47,6 +47,8 @@ void MessageLog::insertItem(InfoType i, QString text)
       m_lists[i]->insertItem(*it);
   }
   m_seenEOL[i] = seenEOL;
+  m_lists[i]->setCurrentItem(m_lists[i]->count()-1);  
+  m_lists[i]->ensureCurrentVisible();
 }
 
 void MessageLog::clear(InfoType i)
