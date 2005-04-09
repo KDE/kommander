@@ -219,7 +219,7 @@ ParseNode Parser::parseValue(Mode mode)
 {
   ParseNode p = next();
   if (isFunction())
-    return parseFunction();
+    return parseFunction(mode);
   else if (isWidget())
     return parseWidget(mode);
   else if (tryVariable(CheckOnly))
