@@ -33,7 +33,7 @@ Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(QString::
 }
   
 Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), 
-  m_error(QString::null),  m_errorPosition(0), m_widget(0)
+  m_error(QString::null), m_errorPosition(0), m_widget(0)
 {
   setString(expr);
 }
@@ -117,17 +117,6 @@ void Parser::setString(const QString& s)
       return;
     }
   }
-  
-  /*
-  for (uint i=0; i<m_parts.count(); i++)
-  {
-    if (m_parts[i].isVariable())
-      qDebug("%d. variable/%s", i, m_parts[i].variableName().latin1()); 
-    else if (m_parts[i].isKeyword())
-  qDebug("%d. keyword/%s", i, m_data->keywordToString(m_parts[i].keyword()).latin1()); 
-    else qDebug("%d. %d/%s", i, m_parts[i].type(), m_parts[i].toString().latin1()); 
-   }
-  */
 }
 
 void Parser::setWidget(KommanderWidget* w)
@@ -380,6 +369,7 @@ ParseNode Parser::parseExpression(Mode mode)
 
 ParseNode Parser::parseFunction(Mode mode)
 {
+  int pos = m_start;
   QString name = next().variableName();
   Function f = m_data->function(name);
   m_start++;
@@ -393,16 +383,26 @@ ParseNode Parser::parseFunction(Mode mode)
     tryKeyword(RightParenthesis);
   }
   if (f.minArgs() > params.count())
-    setError(i18n("Too few parameters for function '%1'").arg(name));
+    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too few parameters")), pos);
   else if (f.maxArgs() < params.count())
-    setError(i18n("Too many parameters for function '%1'").arg(name));
+    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too many parameters")), pos);
   else if (mode == Execute)
-    return f.execute(this, params);
+  {
+    ParseNode p = f.execute(this, params);
+    if (!p.isValid())
+    {
+      setError(i18n("in function '%1': %2").arg(name).arg(p.errorMessage()), pos);
+      return ParseNode();
+    }
+    else
+      return p;
+  }
   return ParseNode();
 }
 
 ParseNode Parser::parseWidget(Mode mode)
 {
+  int pos = m_start;
   QString widget = nextVariable();
   Function f = m_data->function("dcop");
   
@@ -423,7 +423,16 @@ ParseNode Parser::parseWidget(Mode mode)
     tryKeyword(RightParenthesis);
   }
   if (mode == Execute)
-    return f.execute(this, params);
+  {
+    ParseNode p = f.execute(this, params);
+    if (!p.isValid())
+    {
+      setError(i18n("in widget function '%1.%2': %3").arg(widget).arg(var).arg(p.errorMessage()), pos);
+      return ParseNode();
+    }
+    else
+      return p;
+  }
   return ParseNode();
 }
 

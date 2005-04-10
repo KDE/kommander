@@ -18,7 +18,7 @@
 
 using namespace Parse;
 
-ParseNode::ParseNode() : m_type(ValueKeyword), m_keyword(Invalid), m_context(-1)
+ParseNode::ParseNode() : m_type(ValueNone), m_context(-1)
 {
 }
 
@@ -45,6 +45,14 @@ ParseNode::ParseNode(Keyword k) : m_type(ValueKeyword), m_keyword(k), m_string(Q
 ParseNode::ParseNode(Keyword k, const QString& name) : m_type(ValueKeyword), m_keyword(k), m_context(-1)
 {
   m_string = (k == Variable) ? name : QString::null;
+}
+
+ParseNode ParseNode::error(const QString& s)
+{
+  ParseNode p;
+  p.m_string = s;
+  p.m_type = ValueError;
+  return p;
 }
 
 ValueType ParseNode::type() const
@@ -94,7 +102,7 @@ bool ParseNode::toBool() const
     
 bool ParseNode::isValid() const
 {
-  return type() != ValueKeyword || keyword() != Invalid;
+  return type() != ValueError;
 }    
     
 bool ParseNode::isKeyword() const
@@ -115,6 +123,11 @@ bool ParseNode::isVariable() const
 QString ParseNode::variableName() const
 {
   return isVariable() ? m_string : QString::null;
+}
+
+QString ParseNode::errorMessage() const
+{
+  return isValid() ? QString::null : m_string;
 }
 
 

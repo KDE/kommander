@@ -24,12 +24,11 @@ namespace Parse
   enum Keyword {For, To, Step, End, While, Do, Foreach, In, If, Then, Else, Elseif, Endif, Switch, Case, 
     Break, Continue, Exit, Dot, Semicolon, Comma, Assign, Less, LessEqual, Greater, GreaterEqual, Equal, NotEqual, 
     Not, And, Or, False, True, LeftParenthesis, RightParenthesis, LeftBracket, RightBracket,
-    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod,
-    Variable, None, Value, Invalid, IncorrectParams, UndefinedVariable, IncorrectWidget, IncorrectMethod};
+    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid};
 
   enum KeywordGroup {GroupComparison, GroupAdd, GroupMultiply, GroupMisc};
     
-  enum ValueType {ValueString, ValueInt, ValueDouble, ValueKeyword, ValueNone = ValueKeyword};
+  enum ValueType {ValueString, ValueInt, ValueDouble, ValueKeyword, ValueNone, ValueError};
 
   enum Mode{Execute, CheckOnly};
 
@@ -52,6 +51,8 @@ public:
   ParseNode(Parse::Keyword k);
   /* Create node from keyword and variable name */
   ParseNode(Parse::Keyword k, const QString& s);
+  /* Create error node with optional error message */
+  static ParseNode ParseNode::error(const QString& s);
   
   /* Return current type */
   Parse::ValueType type() const;
@@ -75,6 +76,8 @@ public:
   bool isVariable() const;
   /* Return the name of variable */
   QString variableName() const;
+  /* Return error message if applicable */
+  QString errorMessage() const;
   /* Calculate common type for two nodes */
   Parse::ValueType commonType(const ParseNode& p) const;
   /* Find common type and compare values */
