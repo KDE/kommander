@@ -357,7 +357,7 @@ ParseNode Parser::parseAnd(Mode mode)
 
 ParseNode Parser::parseOr(Mode mode)
 {
-  ParseNode p = parseNot(mode);
+  ParseNode p = parseAnd(mode);
   while (tryKeyword(Or, CheckOnly))
   {
     if (p == true)
