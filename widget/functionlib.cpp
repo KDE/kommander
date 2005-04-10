@@ -193,16 +193,17 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
 {
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
   int functionId = SpecialInformation::function(Group::DCOP, params[0].toString());
-  if (!function.isValidArg(params.count() - 1))
-    return ParseNode();
+  if (functionId == -1)
+    return ParseNode::error("unknown function");
+  else if ((uint)function.minArg() > params.count())
+    return ParseNode::error("too few parameters");
+  else if ((uint)function.maxArg() < params.count())
+    return ParseNode::error("too many parameters");
   KommanderWidget* widget = parser->currentWidget();
+  if (widget)
+    widget = widget->widgetByName(params[1].toString());
   if (!widget)
-  {
-    return ParseNode();
-  }
-  widget = widget->widgetByName(params[1].toString());
-  if (!widget)
-    return ParseNode();
+    return ParseNode::error("unknown widget");
   QStringList args;
   ParameterList::ConstIterator it = params.begin(); 
   ++it;   // skip function
