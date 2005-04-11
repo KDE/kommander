@@ -285,8 +285,10 @@ void AssocTextEditor::insertFile()
 
 void AssocTextEditor::insertWidgetName(int index)
 {
-  insertAssociatedText( QString(QChar(ESCCHAR))+
-       widgetToString ( widgetFromString(widgetComboBox->text(index)), false) );
+  QString prefix;
+  if (!KommanderWidget::useInternalParser)
+    prefix = QString(QChar(ESCCHAR));
+  insertAssociatedText(prefix + widgetToString(widgetFromString(widgetComboBox->text(index)), false));
 }
 
 void AssocTextEditor::insertFunction()
