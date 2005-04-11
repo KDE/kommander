@@ -195,9 +195,9 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
   int functionId = SpecialInformation::function(Group::DCOP, params[0].toString());
   if (functionId == -1)
     return ParseNode::error("unknown function");
-  else if ((uint)function.minArg() > params.count())
+  else if ((uint)function.minArg() > params.count() - 1)
     return ParseNode::error("too few parameters");
-  else if ((uint)function.maxArg() < params.count())
+  else if ((uint)function.maxArg() < params.count() - 1)
     return ParseNode::error("too many parameters");
   KommanderWidget* widget = parser->currentWidget();
   if (widget)
