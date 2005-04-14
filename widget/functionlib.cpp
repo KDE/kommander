@@ -35,7 +35,7 @@
 #include <kglobal.h>
 #include <kinputdialog.h>
 #include <klocale.h>
-
+#include <kpassdlg.h>
 
 using namespace Parse;
 
@@ -407,6 +407,15 @@ static ParseNode f_inputText(Parser*, const ParameterList& params)
   return KInputDialog::getText(params[0].toString(), params[1].toString(), value);
 }
     
+static ParseNode f_inputPassword(Parser*, const ParameterList& params)
+{
+  QCString value;
+  if (params.count() > 1)
+    value = params[1].toString().local8Bit();
+  KPasswordDialog::getPassword(value, params[0].toString());
+  return QString::fromLocal8Bit(value);
+}
+    
 static ParseNode f_inputValue(Parser*, const ParameterList& params)
 {
   return KInputDialog::getInteger(params[0].toString(), params[1].toString(), 
@@ -415,6 +424,13 @@ static ParseNode f_inputValue(Parser*, const ParameterList& params)
                                   (bool*)0);
 }
   
+static ParseNode f_inputValueDouble(Parser*, const ParameterList& params)
+{
+  return KInputDialog::getDouble(params[0].toString(), params[1].toString(), 
+                                  params[2].toDouble(), params[3].toDouble(), params[4].toDouble(),
+                                  params.count() > 5 ? params[5].toDouble() : 0.1);
+}
+
 static ParseNode f_inputOpenFile(Parser*, const ParameterList& params)
 {
   QString startdir, filter, caption;
@@ -622,8 +638,11 @@ void ParserData::registerStandardFunctions()
   registerFunction("array_remove", Function(&f_arrayRemove, ValueNone, ValueString, ValueString));
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
+  registerFunction("input_password", Function(&f_inputPassword, ValueString, ValueString, ValueString, 1));
   registerFunction("input_value", Function(&f_inputValue, ValueInt, ValueString, ValueString, ValueInt, ValueInt, 
                    ValueInt, ValueInt, 5));
+  registerFunction("input_double", Function(&f_inputValueDouble, ValueDouble, ValueString, ValueString, ValueDouble, ValueDouble, 
+                   ValueDouble, ValueDouble, 5));
   registerFunction("input_openfile", Function(&f_inputOpenFile, ValueString, ValueString, ValueString, ValueString, 0));
   registerFunction("input_openfiles", Function(&f_inputOpenFiles, ValueString, ValueString, ValueString, ValueString, 0));
   registerFunction("input_savefile", Function(&f_inputSaveFile, ValueString, ValueString, ValueString, ValueString, 0));

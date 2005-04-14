@@ -223,8 +223,12 @@ void SpecialInformation::registerSpecials()
   insert(Input::color, "color", i18n("Shows color dialog. Returns color in #RRGGBB format."));
   insert(Input::text, "text(QString caption, QString label, QString default)", 
          i18n("Shows text selection dialog. Returns entered text."), 2);
+  insert(Input::password, "password(QString caption, QString password)", 
+         i18n("Shows a dialog asking user for password and returns it."), 1);
   insert(Input::value, "value(QString caption, QString label, int value, int min, int max, int step)", 
          i18n("Shows value selection dialog. Returns entered value."), 5);
+  insert(Input::valueDouble, "double(QString caption, QString label, double value, double min, double max, double step)", 
+         i18n("Shows float value selection dialog. Returns entered value."), 5);
   insert(Input::openfile, "openfile(QString startdir, QString filter, QString caption)", 
          i18n("Shows existing file selection dialog. Returns selected file."), 0);
   insert(Input::savefile, "savefile(QString startdir, QString filter, QString caption)", 

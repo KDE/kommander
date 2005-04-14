@@ -60,7 +60,7 @@ namespace Special
   
   namespace Input
   {
-    enum {color, text, value, openfile, openfiles, savefile, directory};
+    enum {color, text, password, value, valueDouble, openfile, openfiles, savefile, directory};
   }
   
   namespace Message
