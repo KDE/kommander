@@ -52,8 +52,8 @@ public:
   /* Create node from keyword and variable name */
   ParseNode(Parse::Keyword k, const QString& s);
   /* Create error node with optional error message */
-  static ParseNode ParseNode::error(const QString& s);
-  
+  static ParseNode error(const QString& s);
+
   /* Return current type */
   Parse::ValueType type() const;
   /* Return current keyword if appropriate */
