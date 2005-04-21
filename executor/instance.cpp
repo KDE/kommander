@@ -131,6 +131,35 @@ bool Instance::build(QFile *a_file)
 
 bool Instance::run(QFile *a_file)
 {
+  // Check whether extension is *.kmdr
+  if (!m_uiFileName.fileName().endsWith(".kmdr")) {
+    KMessageBox::error(0, i18n("<qt>This file does not have a <b>.kmdr</b> extension. As a security precaution "
+           "Kommander will only run Kommander scripts with a clear identity.</qt>"),
+           i18n("Wrong Extension"));
+    return false;
+  }
+
+  // Check whether file is not in some temporary directory.
+  QStringList tmpDirs = KGlobal::dirs()->resourceDirs("tmp");
+  tmpDirs += KGlobal::dirs()->resourceDirs("cache");
+  tmpDirs.append("/tmp/");
+  tmpDirs.append("/var/tmp/");
+
+  bool inTemp = false;
+  for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
+    if (m_uiFileName.directory().startsWith(*I))
+      inTemp = true;
+
+  if (inTemp)
+  {
+     if (KMessageBox::warningYesNo(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
+         " This may mean that it was run from a KMail attachment or from a webpage. "
+         "<p>Any script contained in this dialog will have write access to all of your home directory; "
+         "<b>running such dialogs may be dangerous: </b>"
+         "<p>are you sure you want to continue?</qt>")) == KMessageBox::No)
+       return false;
+  }
+
   /* add runtime arguments */
   if (m_cmdArguments) {
     QString args;
