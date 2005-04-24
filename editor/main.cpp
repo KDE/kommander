@@ -42,7 +42,7 @@ int main( int argc, char *argv[] )
 {
   KAboutData aboutData( "kmdr-editor", I18N_NOOP("Kommander"),
                         KOMMANDER_VERSION, description, KAboutData::License_GPL,
-                        "(C) 2002-2004 Kommander authors", text);
+                        "(C) 2002-2005 Kommander authors", text);
   aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
   aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
   aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
