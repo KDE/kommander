@@ -40,8 +40,11 @@ protected slots:
   void add();
   // Add given plugin if is not added yet
   void add( const QString &plugin );
-  
+  // Check whether installed plugins are valid
+  void verify();
 private:
+  enum {Add, Remove, Refresh};
+  
   // Referesh plugin list
   void refresh();
   

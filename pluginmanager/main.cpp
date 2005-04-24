@@ -70,10 +70,10 @@ int main(int argc, char *argv[])
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
+  
   KApplication app;
   MainWindow *mw = new MainWindow();
-  app.setMainWidget( mw );
+  app.setMainWidget(mw);
   mw->show();
   return app.exec();
 }
