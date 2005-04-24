@@ -562,6 +562,11 @@ void MainWindow::setupSettingsActions()
   a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
   a->plug(settings);
 
+  a = new KAction(i18n("Configure &plugins..."), KShortcut::null(), this, SLOT(editPlugins()),
+    actionCollection(), "configure_plugins");
+  a->setToolTip(i18n("Opens a dialog to configure plugins"));
+  a->plug(settings);
+ 
   menuBar()->insertItem( i18n("&Settings"), settings);
 } 
 
@@ -1112,6 +1117,13 @@ void MainWindow::editShortcuts()
 {
   KKeyDialog K(false);
   K.configure(actionCollection());
+}
+
+void MainWindow::editPlugins()
+{
+  KProcess process;
+  process << "kmdr-plugins";
+  process.start(KProcess::Block);
 }
     
 void MainWindow::editExternalTool(int id)

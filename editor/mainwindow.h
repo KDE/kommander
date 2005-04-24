@@ -177,6 +177,7 @@ public slots:
     void editFormSettings();
     void editPreferences();
     void editShortcuts();
+    void editPlugins();
     void editExternalTool(int id);
     void editToolExited(KProcess*);
     void editToolOutput(KProcess*, char*, int);
