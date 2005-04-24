@@ -1,6 +1,6 @@
 bin_PROGRAMS = kmdr-plugins
 
-kmdr_plugins_SOURCES = main.cpp mainwindow.cpp
+kmdr_plugins_SOURCES = main.cpp mainwindow.cpp pluginmanager.cpp
 kmdr_plugins_LDADD   = $(top_builddir)/kommander/factory/libkommanderfactory.la  $(LIB_KIO)
 
 #KDE_ICON = kmdr-plugins
@@ -15,4 +15,4 @@ METASOURCES = AUTO
 # the library search path.
 kmdr_plugins_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
-noinst_HEADERS = mainwindow.h
+noinst_HEADERS = mainwindow.h pluginmanager.h

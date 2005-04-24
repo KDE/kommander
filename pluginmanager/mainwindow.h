@@ -19,6 +19,7 @@
 #define HAVE_MAINWINDOW_H
 
 #include <kmainwindow.h>
+#include <pluginmanager.h>
 
 class KConfig;
 class KListBox;
@@ -39,12 +40,15 @@ protected slots:
   void add();
   // Add given plugin if is not added yet
   void add( const QString &plugin );
-
+  
 private:
-  // For writing plugin list on exit
-  KConfig *m_cfg;
-  // List of available plugins 
+  // Referesh plugin list
+  void refresh();
+  
+  // ListBox of available plugins 
   KListBox *m_list;
+  // plugin manager
+  PluginManager* m_pluginManager;
 };
 
 #endif

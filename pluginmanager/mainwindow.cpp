@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
+#include "pluginmanager.h"
 
 #include <ktoolbar.h>
 #include <klistbox.h>
@@ -30,79 +31,66 @@
 MainWindow::MainWindow( QWidget* parent, const char *name, WFlags f )
     : KMainWindow( parent, name, f )
 {
-    KToolBar *toolBar = new KToolBar( this );
-    toolBar->insertButton( "fileopen", 0, true, i18n("Add") );
-    toolBar->insertButton( "no", 1, true, i18n("Remove") );
-    connect( toolBar, SIGNAL(clicked(int)), this, SLOT(toolButton(int)) );
+  KToolBar *toolBar = new KToolBar( this );
+  toolBar->insertButton( "fileopen", 0, true, i18n("Add") );
+  toolBar->insertButton( "no", 1, true, i18n("Remove") );
+  connect( toolBar, SIGNAL(clicked(int)), this, SLOT(toolButton(int)) );
 
-    m_list = new KListBox( this );
-    setCentralWidget( m_list );
-    m_cfg = new KConfig( "kommanderrc" );
-
-    QStringList list = m_cfg->readListEntry( "plugins");
-    for( QStringList::Iterator it = list.begin() ; it != list.end() ; ++it )
-	add( *it );
+  m_list = new KListBox( this );
+  setCentralWidget(m_list);
+  
+  m_pluginManager = new PluginManager;
+  m_list->insertStringList(m_pluginManager->items());
 }
 
 MainWindow::~MainWindow()
 {
-  QStringList plugins;
-  for( uint i = 0; i < m_list->count(); ++i)
-  {
-    QFileInfo fi(m_list->item(i)->text());
-    plugins += m_list->item(i)->text();
-  }
-  m_cfg->writeEntry("plugins", plugins);
-  delete m_cfg;
+  delete m_pluginManager;
 }
 
 void MainWindow::toolButton( int id )
 {
-  if (id == 0)
-    add();
-  else if(id == 1)
-    remove();
+  switch (id)
+  {
+    case 0: 
+      add();
+      break;
+    case 1:
+      remove();
+      break;
+  }
 }
 
 void MainWindow::add()
 {
   QString libDir = KGlobal::dirs()->findResourceDir("lib", "libkommanderplugin.la");
   QString plugin = KFileDialog::getOpenFileName(libDir, "lib*", this, 
-    i18n("Add Kommander Plugin") );
+    i18n("Add Kommander Plugin"));
   add(plugin);
 }
 
-void MainWindow::add( const QString &plugin )
+void MainWindow::add(const QString &plugin)
 {
-  if (plugin.isNull())
-    return;
-    
-  QString errMsg;
-  KLibrary *l = KLibLoader::self()->library( plugin.latin1() );
-  if (!l)
-    errMsg = i18n("<qt>Unable to load Kommander plugin<br><b>%1</b></qt>").arg(plugin);
-  else if (!l->hasSymbol("kommander_plugin"))
-    errMsg = i18n("<qt>Library<br><b>%1</b><br>is not a Kommander plugin</qt>").arg(plugin);
-  else
-  {  // If already have the library in the list, don't add.
-     // When loading plugin basenames from config file, expand them
-     // to full library paths with kstandarddirs  
-    bool alreadyHaveIt = m_list->findItem(l->fileName(), Qt::ExactMatch);
-    if (!alreadyHaveIt)
-      m_list->insertItem( l->fileName() );
+  if (!m_pluginManager->add(plugin))
+  {
+    QString errMsg = i18n("<qt>Unable to load Kommander plugin<br><b>%1</b></qt>").arg(plugin);
+    KMessageBox::error(this, errMsg, i18n("Cannot add plugin"));
   }
-  if (!errMsg.isNull())
-    KMessageBox::error( this, errMsg, i18n("Cannot add plugin") );
+  else
+    refresh();
 }
 
 void MainWindow::remove()
 {
-  int ci = m_list->currentItem();
-  if (ci == -1)
-    return;
-  m_list->removeItem( ci );
-  if(m_list->count())
-    m_list->setCurrentItem(ci > 0 ? ci-1 : 0);
+  QString plugin = m_list->currentText();
+  if (m_pluginManager->remove(plugin))
+    refresh();
+}
+
+void MainWindow::refresh()
+{
+  m_list->clear();
+  m_list->insertStringList(m_pluginManager->items()); 
 }
 
 #include "mainwindow.moc"

@@ -2,8 +2,8 @@
                           main.cpp  -  Kommander plugin manager interface
                              -------------------
     begin                : Tue Aug 13 09:31:50 EST 2002
-    copyright            : (C) 2004 by Marc Britton
-    email                : consume@optushome.com.au
+    copyright            : (C) 2004 Marc Britton <consume@optushome.com.au>
+                           (C) 2005 Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -48,6 +48,12 @@ static const char *description =
 
 static KCmdLineOptions options[] =
 {
+  { "a", 0, 0},
+  { "add <file>", I18N_NOOP("Register given library"), 0},      
+  { "r", 0, 0},
+  { "remove <file>", I18N_NOOP("Remove given library"), 0},      
+  { "c", 0, 0},
+  { "check", I18N_NOOP("Check all intalled plugins and remove those missing"), 0},
   KCmdLineLastOption
 };
 
@@ -56,8 +62,10 @@ int main(int argc, char *argv[])
   KLocale::setMainCatalogue("kommander");
   KAboutData aboutData( "kmdr-plugins", I18N_NOOP("Kommander Plugin Manager"),
     KOMMANDER_VERSION, description, KAboutData::License_GPL,
-    "(c) 2004, Marc Britton", 0, 0, "consume@optushome.com.au");
-  aboutData.addAuthor("Marc Britton",0, "consume@optushome.com.au");
+    "(C) 2004-2005 Kommander authors");
+  aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
+  aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
+  aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
