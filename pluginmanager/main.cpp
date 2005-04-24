@@ -25,21 +25,15 @@
 #include <kapplication.h>
 
 /* QT INCLUDES */
-#include <qptrlist.h>
-#include <qfile.h>
+#include <qstringlist.h>
 
 /* OTHER INCLUDES */
-#include <cstdio>
-#include <iostream>
-#include <cstdlib>
+#include "pluginmanager.h"
 #include "mainwindow.h"
-#include <kommanderversion.h>
+#include "kommanderversion.h"
 
-
-using std::cout;
-using std::endl;
-using std::cerr;
-
+#include <iostream>
+using namespace std;
 
 static const char *description =
 	I18N_NOOP("kmdr-plugins is a component of the Kommander dialog system that manages installed plugins."); 
@@ -53,7 +47,9 @@ static KCmdLineOptions options[] =
   { "r", 0, 0},
   { "remove <file>", I18N_NOOP("Remove given library"), 0},      
   { "c", 0, 0},
-  { "check", I18N_NOOP("Check all intalled plugins and remove those missing"), 0},
+  { "check", I18N_NOOP("Check all installed plugins and remove those missing"), 0},
+  { "l", 0, 0},
+  { "list", I18N_NOOP("List all installed plugins"), 0},
   KCmdLineLastOption
 };
 
@@ -66,14 +62,40 @@ int main(int argc, char *argv[])
   aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
   aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
   aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
-  KCmdLineArgs::init( argc, argv, &aboutData );
-  KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+  KCmdLineArgs::init(argc, argv, &aboutData);
+  KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-  
   KApplication app;
-  MainWindow *mw = new MainWindow();
-  app.setMainWidget(mw);
-  mw->show();
-  return app.exec();
+  
+  if (!args->getOption("add").isNull() || !args->getOption("remove").isNull() || args->isSet("check")  || args->isSet("list"))
+  {
+    PluginManager P;
+    if (args->isSet("check"))
+      P.verify();
+    
+    QCStringList items = args->getOptionList("add");
+    for (QCStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
+      if (!P.add(*it))
+        cerr << i18n("Error adding plugin '%1'").arg(*it).local8Bit();
+    
+    items = args->getOptionList("remove");
+    for (QCStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
+      if (!P.remove(*it))
+        cerr << i18n("Error removing plugin '%1'").arg(*it).local8Bit();
+    
+    if (args->isSet("list"))
+    {
+      QStringList plugins = P.items();
+      for (QStringList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
+        cout << (*it).local8Bit() << "\n";
+    }
+  }
+  else 
+  {
+    MainWindow *mw = new MainWindow();
+    app.setMainWidget(mw);
+    mw->show();
+    return app.exec();
+  }
 }

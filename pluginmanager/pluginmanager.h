@@ -14,8 +14,8 @@
  ***************************************************************************/
 
  
-#ifndef __PLUGINMANAGER__
-#define __PLUGINMANAGER__
+#ifndef __HAVE_PLUGINMANAGER_H
+#define __HAVE_PLUGINMANAGER_H
 
 #include <qstringlist.h>
 

@@ -19,10 +19,9 @@
 #define HAVE_MAINWINDOW_H
 
 #include <kmainwindow.h>
-#include <pluginmanager.h>
 
-class KConfig;
 class KListBox;
+class PluginManager;
 
 class MainWindow : public KMainWindow
 {
