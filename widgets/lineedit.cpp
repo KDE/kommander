@@ -82,9 +82,7 @@ void LineEdit::populate()
 
 void LineEdit::setSelectedWidgetText(const QString& a_text)
 {
-  int f = text().find(a_text);
-  if (f != -1)
-    setSelection(f, a_text.length());
+  insert(a_text);
 }
 
 void LineEdit::setWidgetText(const QString& a_text)
