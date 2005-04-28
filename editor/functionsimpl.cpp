@@ -30,6 +30,9 @@
 /* OTHER INCLUDES */ 
 #include "functionsimpl.h"
 #include "kommanderwidget.h"
+
+const int MaxFunctionArgs = 6;
+
  
 FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widgetList, char* a_name, 
   bool a_modal)
@@ -156,8 +159,8 @@ void FunctionsDialog::copyText()
 
 void FunctionsDialog::showParameters()
 {
-  KLineEdit* edits[4] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit};
-  QLabel* labels[4] = {argLabel1, argLabel2, argLabel3, argLabel4};
+  KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
+  QLabel* labels[MaxFunctionArgs] = {argLabel1, argLabel2, argLabel3, argLabel4, argLabel5, argLabel6};
   int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
   
   widgetComboBox->setShown(start);
@@ -167,7 +170,7 @@ void FunctionsDialog::showParameters()
     arg1Edit->setShown(false);
     argLabel1->setShown(false);
   }
-  for (int i=start; i<4; i++)
+  for (int i=start; i<MaxFunctionArgs; i++)
   {
     edits[i]->setShown(i<m_function.argumentCount());
     edits[i]->clear();
@@ -179,10 +182,10 @@ void FunctionsDialog::showParameters()
 
 QString FunctionsDialog::params()
 {
-  KLineEdit* edits[4] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit};
+  KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
   QStringList pars;
   bool params = false;
-  for (int i=0; i<4; i++)
+  for (int i=0; i<MaxFunctionArgs; i++)
     if (edits[i]->isShown() && (i < m_function.minArg() || !edits[i]->text().isEmpty()))
     {
       pars.append(edits[i]->text());
