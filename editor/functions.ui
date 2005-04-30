@@ -416,12 +416,15 @@
     <tabstop>arg1Edit</tabstop>
     <tabstop>arg2Edit</tabstop>
     <tabstop>arg3Edit</tabstop>
+    <tabstop>arg4Edit</tabstop>
+    <tabstop>arg5Edit</tabstop>
+    <tabstop>arg6Edit</tabstop>
     <tabstop>copyButton</tabstop>
+    <tabstop>descriptionText</tabstop>
     <tabstop>clearButton</tabstop>
     <tabstop>insertedText</tabstop>
     <tabstop>buttonOk</tabstop>
     <tabstop>buttonCancel</tabstop>
-    <tabstop>descriptionText</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
