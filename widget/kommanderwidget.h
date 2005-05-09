@@ -21,6 +21,7 @@
 /* KDE INCLUDES */
 #include <kprocess.h>
 
+#include "kommander_export.h"
 /* QT INCLUDES */
 #include <qmap.h>
 #include <qobject.h>
@@ -30,7 +31,7 @@
 
 class ParserData;
 
-class KommanderWidget
+class KOMMANDER_EXPORT KommanderWidget
 {
   friend class MyProcess;
 public:

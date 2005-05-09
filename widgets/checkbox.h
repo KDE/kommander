@@ -26,11 +26,12 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include "kommander_export.h"
 
 class QWidget;
 
 class QShowEvent;
-class CheckBox : public QCheckBox, public KommanderWidget
+class KOMMANDER_EXPORT CheckBox : public QCheckBox, public KommanderWidget
 {
   Q_OBJECT
 

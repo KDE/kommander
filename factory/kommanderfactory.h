@@ -29,6 +29,7 @@
 #include <qvaluelist.h>
 #include <qmap.h>
 #include <qaction.h>
+#include "kommander_export.h"
 
 class QWidget;
 class QLayout;
@@ -51,7 +52,7 @@ struct KommanderWidgetInfo
 };
 typedef QMap<QString, KommanderWidgetInfo> FeatureList;
 
-class KommanderFactory
+class KOMMANDER_EXPORT KommanderFactory
 {
 public:
     KommanderFactory();

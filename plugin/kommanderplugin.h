@@ -37,11 +37,11 @@
 #include <qobject.h>
 #include <qmap.h>
 #include <qstringlist.h>
-
+#include "kommander_export.h"
 
 class QWidget;
 
-class KommanderPlugin : public QObject 
+class KOMMANDER_EXPORT KommanderPlugin : public QObject 
 {
     Q_OBJECT
     public:

@@ -17,8 +17,8 @@
 #define _HAVE_KOMMANDERWINDOW_H_
 
 #include "kommanderwidget.h"
-
-class KommanderWindow : public KommanderWidget
+#include "kommander_export.h"
+class KOMMANDER_EXPORT KommanderWindow : public KommanderWidget
 {
 public:
   KommanderWindow(QObject *);

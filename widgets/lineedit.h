@@ -28,9 +28,10 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 
+#include "kommander_export.h"
 class QShowEvent;
 
-class LineEdit : public KLineEdit, public KommanderWidget
+class KOMMANDER_EXPORT LineEdit : public KLineEdit, public KommanderWidget
 {
   Q_OBJECT
   

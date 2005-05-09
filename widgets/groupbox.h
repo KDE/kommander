@@ -27,11 +27,11 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-
+#include "kommander_export.h"
 class QWidget;
 
 class QShowEvent;
-class GroupBox : public QGroupBox, public KommanderWidget
+class KOMMANDER_EXPORT GroupBox : public QGroupBox, public KommanderWidget
 {
   Q_OBJECT
 

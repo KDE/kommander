@@ -25,9 +25,9 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-
+#include "kommander_export.h"
 class QShowEvent;
-class Slider: public QSlider, public KommanderWidget
+class KOMMANDER_EXPORT Slider: public QSlider, public KommanderWidget
 {
   Q_OBJECT Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)

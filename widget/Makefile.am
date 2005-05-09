@@ -11,7 +11,7 @@ libkommanderwidget_la_SOURCES = kommanderwidget.cpp myprocess.cpp \
     kommanderwindow.cpp expression.cpp \
     parser.cpp parsenode.cpp parserdata.cpp function.cpp functionlib.cpp
 
-include_HEADERS = kommanderwidget.h
+include_HEADERS = kommanderwidget.h kommander_export.h
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO

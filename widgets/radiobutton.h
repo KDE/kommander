@@ -26,11 +26,11 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-
+#include "kommander_export.h"
 class QWidget;
 
 class QShowEvent;
-class RadioButton : public QRadioButton, public KommanderWidget
+class KOMMANDER_EXPORT RadioButton : public QRadioButton, public KommanderWidget
 {
 	Q_OBJECT
 

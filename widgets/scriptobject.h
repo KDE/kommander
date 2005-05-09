@@ -24,8 +24,9 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include "kommander_export.h"
 
-class ScriptObject : public QLabel, public KommanderWidget
+class KOMMANDER_EXPORT ScriptObject : public QLabel, public KommanderWidget
 {
   Q_OBJECT
 

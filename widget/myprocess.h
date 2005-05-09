@@ -22,10 +22,11 @@
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qobject.h>
+#include "kommander_export.h"
 
 class KommanderWidget;
 
-class MyProcess : public QObject
+class KOMMANDER_EXPORT MyProcess : public QObject
 {
   Q_OBJECT
 public:

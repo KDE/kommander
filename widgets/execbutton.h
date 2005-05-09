@@ -26,13 +26,14 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include "kommander_export.h"
 
 class QWidget;
 class KProcess;
 class MyProcess;
 
 class QShowEvent;
-class ExecButton : public KPushButton, public KommanderWidget
+class KOMMANDER_EXPORT ExecButton : public KPushButton, public KommanderWidget
 {
   Q_OBJECT
 
