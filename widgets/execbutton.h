@@ -31,6 +31,8 @@ class QWidget;
 class KProcess;
 
 class QShowEvent;
+class MyProcess;
+
 class ExecButton : public KPushButton, public KommanderWidget
 {
   Q_OBJECT
