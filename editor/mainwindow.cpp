@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -1559,7 +1559,7 @@ void MainWindow::checkTempFiles()
     bool load = KMessageBox::questionYesNo(this,
                 i18n("Kommander found some temporary saved files, which were\n"
                 "written when Kommander crashed last time. Do you want to\n"
-                    "load these files?"), i18n("Restoring the Last Session")) == KMessageBox::Yes;
+                    "load these files?"), i18n("Restoring Last Session"), i18n("Load"), i18n("Do Not Load")) == KMessageBox::Yes;
     QApplication::setOverrideCursor(waitCursor);
     for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it) {
         if (load)

@@ -112,7 +112,7 @@ bool FormFile::save(bool withMsgBox)
   if (!resource.save(filename, false))
   {
     if (KMessageBox::questionYesNo(MainWindow::self, i18n("Failed to save file '%1'.\n"
-        "Do you want to use another file name?").arg(filename)) == KMessageBox::Yes)
+        "Do you want to use another file name?").arg(filename), QString::null, i18n("Try Another"), i18n("Do Not Try")) == KMessageBox::Yes)
       return saveAs();
     else 
       return false;
@@ -142,9 +142,9 @@ bool FormFile::saveAs()
 
     QFileInfo relfi(filename);
     if (relfi.exists()) {
-      if (KMessageBox::warningYesNo(MainWindow::self,
+      if (KMessageBox::warningContinueCancel(MainWindow::self,
          i18n("The file already exists. Do you wish to overwrite it?"),
-         i18n("Overwrite File?")) == KMessageBox::Yes)
+         i18n("Overwrite File?"), i18n("Overwrite")) == KMessageBox::Continue)
         saved = true;
       else
         filename = f;
@@ -172,7 +172,7 @@ bool FormFile::closeEvent()
   }
 
   switch (KMessageBox::warningYesNoCancel(MainWindow::self, i18n("Dialog '%1' was modified."
-  "Do you want to save it?").arg(filename), i18n("Save File?"))) {
+  "Do you want to save it?").arg(filename), i18n("Save File?"), KStdGuiItem::save(), KStdGuiItem::discard())) {
     case KMessageBox::Yes:
       if (!save())
         return false;

@@ -152,11 +152,11 @@ bool Instance::run(QFile *a_file)
 
   if (inTemp)
   {
-     if (KMessageBox::warningYesNo(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
+     if (KMessageBox::warningContinueCancel(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
          " This may mean that it was run from a KMail attachment or from a webpage. "
          "<p>Any script contained in this dialog will have write access to all of your home directory; "
          "<b>running such dialogs may be dangerous: </b>"
-         "<p>are you sure you want to continue?</qt>")) == KMessageBox::No)
+         "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)
        return false;
   }
   

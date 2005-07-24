@@ -872,7 +872,7 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
                       "must first be broken.\n"
                       "Break the layout or cancel the operation?").
                   arg(wa->name()).arg(wa->name()), i18n("Inserting Widget"),
-                  i18n("&Break Layout"), i18n("&Cancel")) == KMessageBox::No)
+                  i18n("&Break Layout"), KStdGuiItem::cancel()) == KMessageBox::No)
             goto make_move_command; // cancel
           breakLayout(wa);
         }
@@ -962,7 +962,7 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
                     "Break the layout or cancel the operation?").
                 arg(insertParent->name()).
                 arg(insertParent->name()), i18n("Inserting Widget"),
-                i18n("&Break Layout"), i18n("&Cancel")) == KMessageBox::Yes)
+                i18n("&Break Layout"), KStdGuiItem::cancel()) == KMessageBox::Yes)
         {
           breakLayout(insertParent);
         } else
@@ -1839,7 +1839,7 @@ void FormWindow::checkAccels()
       ok = false;
       if (KMessageBox::questionYesNo(mainWindow(),
               i18n("Accelerator '%1' is used %2 times.").arg(it.key().upper()).arg((*it).count()),
-              i18n("Check Accelerators"), i18n("&Select"), i18n("&Cancel")) == KMessageBox::Yes)
+              i18n("Check Accelerators"), i18n("&Select"), KStdGuiItem::cancel()) == KMessageBox::Yes)
       {
         clearSelection(false);
         for (wid = (*it).first(); wid; wid = (*it).next())
