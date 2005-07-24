@@ -54,7 +54,7 @@ QString ButtonGroup::currentState() const
 
 bool ButtonGroup::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList ButtonGroup::associatedText() const

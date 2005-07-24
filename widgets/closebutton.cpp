@@ -62,7 +62,7 @@ QString CloseButton::currentState() const
 
 bool CloseButton::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList CloseButton::associatedText() const

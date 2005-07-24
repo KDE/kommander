@@ -5,7 +5,7 @@
 #include <qvbox.h>
 
 QCompletionEdit::QCompletionEdit( QWidget *parent, const char *name )
-    : QLineEdit( parent, name ), aAdd( FALSE ), caseSensitive( FALSE )
+    : QLineEdit( parent, name ), aAdd( false ), caseSensitive( false )
 {
     popup = new QVBox( 0, 0, WType_Popup );
     popup->setFrameStyle( QFrame::Box | QFrame::Plain );
@@ -72,7 +72,7 @@ void QCompletionEdit::placeListBox()
 	popup->move( p.x(), p.y() - listbox->height() );
     popup->show();
     listbox->setCurrentItem( 0 );
-    listbox->setSelected( 0, TRUE );
+    listbox->setSelected( 0, true );
     setFocus();
 }
 
@@ -97,20 +97,20 @@ bool QCompletionEdit::eventFilter( QObject *o, QEvent *e )
 		if ( ke->key() == Key_Tab && listbox->count() > 1 &&
 		     listbox->currentItem() < (int)listbox->count() - 1 ) {
 		    listbox->setCurrentItem( listbox->currentItem() + 1 );
-		    return TRUE;
+		    return true;
 		}
 		popup->close();
 		setFocus();
-		blockSignals( TRUE );
+		blockSignals( true );
 		setText( listbox->currentText() );
-		blockSignals( FALSE );
+		blockSignals( false );
 		emit chosen( text() );
-		return TRUE;
+		return true;
 	    } else if ( ke->key() == Key_Left || ke->key() == Key_Right ||
 			ke->key() == Key_Up || ke->key() == Key_Down ||
 			ke->key() == Key_Home || ke->key() == Key_End ||
 			ke->key() == Key_Prior || ke->key() == Key_Next ) {
-		return FALSE;
+		return false;
 	    } else if ( ke->key() == Key_Escape ) {
 		popup->close();
 		setFocus();
@@ -122,16 +122,16 @@ bool QCompletionEdit::eventFilter( QObject *o, QEvent *e )
 		    setFocus();
 		}
 		QApplication::sendEvent( this, e );
-		return TRUE;
+		return true;
 	    }
 	} else if ( e->type() == QEvent::MouseButtonDblClick ) {
 	    popup->close();
 	    setFocus();
-	    blockSignals( TRUE );
+	    blockSignals( true );
 	    setText( listbox->currentText() );
-	    blockSignals( FALSE );
+	    blockSignals( false );
 	    emit chosen( text() );
-	    return TRUE;
+	    return true;
 	}
     } else if ( o == this ) {
 	if ( e->type() == QEvent::KeyPress ) {
@@ -145,7 +145,7 @@ bool QCompletionEdit::eventFilter( QObject *o, QEvent *e )
 		 ke->key() == Key_Tab ||
 		 ke->key() ==  Key_Escape ) {
 		QApplication::sendEvent( listbox, e );
-		return TRUE;
+		return true;
 	    }
 	}
     }

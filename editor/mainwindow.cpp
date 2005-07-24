@@ -89,7 +89,7 @@ extern QString *qwf_language;
 extern bool qwf_execute_code;
 extern bool qwf_stays_on_top;
 extern void set_splash_status(const QString &txt);
-/*### static bool tbSettingsRead = FALSE; */
+/*### static bool tbSettingsRead = false; */
 
 MainWindow *MainWindow::self = 0;
 
@@ -112,12 +112,12 @@ static QString textNoAccel(const QString& text)
 
 MainWindow::MainWindow(bool asClient)
     : KDockMainWindow(0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader),
-      grd(10, 10), sGrid(TRUE), snGrid(TRUE), restoreConfig(TRUE), splashScreen(TRUE),
-      docPath("$QTDIR/doc/html"), client(asClient),  databaseAutoEdit(FALSE), previewing(FALSE)
+      grd(10, 10), sGrid(true), snGrid(true), restoreConfig(true), splashScreen(true),
+      docPath("$QTDIR/doc/html"), client(asClient),  databaseAutoEdit(false), previewing(false)
 {
   init_colors();
 
-  inDebugMode = TRUE;           //debugging kommander
+  inDebugMode = true;           //debugging kommander
 
   setupPlugins();
 
@@ -137,7 +137,7 @@ MainWindow::MainWindow(bool asClient)
   setupFileActions();
   setupEditActions();
   layoutToolBar = new KToolBar(this, "Layout");
-  ((KToolBar *) layoutToolBar)->setFullSize(FALSE);
+  ((KToolBar *) layoutToolBar)->setFullSize(false);
   addToolBar(layoutToolBar, i18n("Layout"));
   setupToolActions();
   setupLayoutActions();
@@ -152,8 +152,8 @@ MainWindow::MainWindow(bool asClient)
   setupHelpActions();
   setupRMBMenus();
 
-  emit hasActiveForm(FALSE);
-  emit hasActiveWindow(FALSE);
+  emit hasActiveForm(false);
+  emit hasActiveWindow(false);
 
   lastPressWidget = 0;
   kapp->installEventFilter(this);
@@ -164,28 +164,28 @@ MainWindow::MainWindow(bool asClient)
 
   connect(kapp->clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardChanged()));
   clipboardChanged();
-  layoutChilds = FALSE;
-  layoutSelected = FALSE;
-  breakLayout = FALSE;
-  backPix = TRUE;
+  layoutChilds = false;
+  layoutSelected = false;
+  breakLayout = false;
+  backPix = true;
 
   readConfig();
 
   // hack to make WidgetFactory happy (so it knows QWidget and QDialog for resetting properties)
-  QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("QWidget"), this, 0, FALSE);
+  QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("QWidget"), this, 0, false);
   delete w;
-  w = WidgetFactory::create(WidgetDatabase::idFromClassName("Dialog"), this, 0, FALSE);
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("Dialog"), this, 0, false);
 
   delete w;
-  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QLabel"), this, 0, FALSE);
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QLabel"), this, 0, false);
   delete w;
-  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QTabWidget"), this, 0, FALSE);
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QTabWidget"), this, 0, false);
   delete w;
-  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QFrame"), this, 0, FALSE);
+  w = WidgetFactory::create(WidgetDatabase::idFromClassName("QFrame"), this, 0, false);
   delete w;
 
   assistant = new AssistProc(this, "Internal Assistant", assistantPath());
-  statusBar()->setSizeGripEnabled(TRUE);
+  statusBar()->setSizeGripEnabled(true);
   SpecialInformation::registerSpecials();
 }
 
@@ -213,11 +213,11 @@ void MainWindow::setupMDI()
   qworkspace->setBackgroundPixmap(PixmapChooser::loadPixmap("background.png",
                                   PixmapChooser::NoSize));
   qworkspace->setPaletteBackgroundColor(QColor(238, 238, 238));
-  qworkspace->setScrollBarsEnabled(TRUE);
+  qworkspace->setScrollBarsEnabled(true);
   connect(qworkspace, SIGNAL(windowActivated(QWidget *)),
           this, SLOT(activeWindowChanged(QWidget *)));
   lastActiveFormWindow = 0;
-  qworkspace->setAcceptDrops(TRUE);
+  qworkspace->setAcceptDrops(true);
 }
 
 void MainWindow::setupPropertyEditor()
@@ -419,7 +419,7 @@ void MainWindow::showProperties(QObject *o)
 
 void MainWindow::resetTool()
 {
-  actionPointerTool->setChecked(TRUE);
+  actionPointerTool->setChecked(true);
   actionCurrentTool = actionPointerTool;
   emit currentToolChanged();
 }
@@ -445,12 +445,12 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         while (w) {
           if (w->inherits("PropertyList"))
             break;
-          w = w->parentWidget(TRUE);
+          w = w->parentWidget(true);
         }
         if (w) {
           propertyEditor->propertyList()->showCurrentWhatsThis();
           ((QKeyEvent*)e)->accept();
-          return TRUE;
+          return true;
         }
               }
               break;
@@ -461,7 +461,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         if (qWorkspace()->activeWindow() &&
              qWorkspace()->activeWindow()->inherits("SourceEditor")) {
           ((QKeyEvent*)e)->ignore();
-          return TRUE;
+          return true;
              }
                 }
                 break;
@@ -502,7 +502,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
              if(e->type() == QEvent::ContextMenu) {
                ((FormWindow*)w)->handleContextMenu((QContextMenuEvent*)e,
                ((FormWindow*)w)->designerWidget(o));
-               return TRUE;
+               return true;
              } else {
                ((FormWindow*)w)->handleMousePress((QMouseEvent*)e,
                ((FormWindow*)w)->designerWidget(o));
@@ -512,7 +512,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
            if (passiveInteractor)
              QTimer::singleShot(0, formWindow(), SLOT(visibilityChanged()));
            if (currentTool() == CONNECT_TOOL)
-             return TRUE;
+             return true;
            return !passiveInteractor;
     case QEvent::MouseButtonRelease:
       lastPressWidget = 0;
@@ -537,7 +537,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
            !o->inherits("SizeHandle") && !o->inherits("OrderIndicator") &&
            !o->inherits("QPopupMenu") && !o->inherits("QMenuBar") &&
            !o->inherits("QSizeGrip"))
-        return TRUE;
+        return true;
       if (o && o->inherits("QSizeGrip"))
         break;
       if (lastPressWidget != (QWidget*)o ||
@@ -549,13 +549,13 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     case QEvent::KeyPress:
       if (((QKeyEvent*)e)->key() == Key_Escape && currentTool() != POINTER_TOOL) {
         resetTool();
-        return FALSE;
+        return false;
       }
       if (!(w = isAFormWindowChild(o)) || o->inherits("SizeHandle") || o->inherits("OrderIndicator"))
         break;
       ((FormWindow*)w)->handleKeyPress((QKeyEvent*)e, ((FormWindow*)w)->designerWidget(o));
       if (((QKeyEvent*)e)->isAccepted())
-        return TRUE;
+        return true;
       break;
     case QEvent::MouseButtonDblClick:
       if (!(w = isAFormWindowChild(o)) || o->inherits("SizeHandle") || o->inherits("OrderIndicator")) {
@@ -566,29 +566,29 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
       }
       if (currentTool() == ORDER_TOOL) {
         ((FormWindow*)w)->handleMouseDblClick((QMouseEvent*)e, ((FormWindow*)w)->designerWidget(o));
-        return TRUE;
+        return true;
       }
       if (!WidgetFactory::isPassiveInteractor(o))
         return openEditor(((FormWindow*)w)->designerWidget(o), (FormWindow*)w);
-      return TRUE;
+      return true;
     case QEvent::KeyRelease:
       if (!(w = isAFormWindowChild(o)) || o->inherits("SizeHandle") || o->inherits("OrderIndicator"))
         break;
       ((FormWindow*)w)->handleKeyRelease((QKeyEvent*)e, ((FormWindow*)w)->designerWidget(o));
       if (((QKeyEvent*)e)->isAccepted())
-        return TRUE;
+        return true;
       break;
     case QEvent::Hide:
       if (!(w = isAFormWindowChild(o)) || o->inherits("SizeHandle") || o->inherits("OrderIndicator"))
         break;
       if (((FormWindow*)w)->isWidgetSelected((QWidget*)o))
-        ((FormWindow*)w)->selectWidget((QWidget*)o, FALSE);
+        ((FormWindow*)w)->selectWidget((QWidget*)o, false);
       break;
     case QEvent::Enter:
     case QEvent::Leave:
       if (!(w = isAFormWindowChild(o)) || o->inherits("SizeHandle") || o->inherits("OrderIndicator") || o->inherits("QDesignerMenuBar"))
         break;
-      return TRUE;
+      return true;
     case QEvent::Resize:
     case QEvent::Move:
       if (!(w = isAFormWindowChild(o)) || o->inherits("SizeHandle") || o->inherits("OrderIndicator"))
@@ -604,19 +604,19 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     case QEvent::DragEnter:
       if (o == qWorkspace() || o == workspace() || o == workspace()->viewport()) {
         workspace()->contentsDragEnterEvent((QDragEnterEvent*)e);
-        return TRUE;
+        return true;
       }
       break;
     case QEvent::DragMove:
       if (o == qWorkspace() || o == workspace() || o == workspace()->viewport()) {
         workspace()->contentsDragMoveEvent((QDragMoveEvent*)e);
-        return TRUE;
+        return true;
       }
       break;
     case QEvent::Drop:
       if (o == qWorkspace() || o == workspace() || o == workspace()->viewport()) {
         workspace()->contentsDropEvent((QDropEvent*)e);
-        return TRUE;
+        return true;
       }
       break;
     case QEvent::Show:
@@ -627,18 +627,18 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
       QApplication::sendPostedEvents(qworkspace, QEvent::ChildInserted);
       showEvent((QShowEvent*)e);
       checkTempFiles();
-      return TRUE;
+      return true;
     case QEvent::Wheel:
       if (!(w = isAFormWindowChild(o)) || o->inherits("SizeHandle") || o->inherits("OrderIndicator"))
         break;
-      return TRUE;
+      return true;
     case QEvent::FocusIn:
       if (!o->inherits("FormWindow") && isAFormWindowChild(o))
-        return TRUE;
+        return true;
       break;
     case QEvent::FocusOut:
       if (!o->inherits("FormWindow") && isAFormWindowChild(o))
-        return TRUE;
+        return true;
       break;
     default:
       return QMainWindow::eventFilter(o, e);
@@ -735,7 +735,7 @@ bool MainWindow::unregisterClient(FormWindow *w)
   if (actionEditor->form() == w) 
     actionEditor->setFormWindow(0);
     
-  return TRUE;
+  return true;
 }
 
 void MainWindow::activeWindowChanged(QWidget *w)
@@ -746,7 +746,7 @@ void MainWindow::activeWindowChanged(QWidget *w)
     FormWindow *fw = (FormWindow *) w;
     lastActiveFormWindow = fw;
     lastActiveFormWindow->updateUndoInfo();
-    emit hasActiveForm(TRUE);
+    emit hasActiveForm(true);
     if (formWindow())
     {
       formWindow()->emitShowProperties();
@@ -764,18 +764,18 @@ void MainWindow::activeWindowChanged(QWidget *w)
   } else if (!lastActiveFormWindow)
   {
     emit formWindowChanged();
-    emit hasActiveForm(FALSE);
-    actionEditUndo->setEnabled(FALSE);
-    actionEditRedo->setEnabled(FALSE);
+    emit hasActiveForm(false);
+    actionEditUndo->setEnabled(false);
+    actionEditRedo->setEnabled(false);
   }
 
   if (!w)
   {
     emit formWindowChanged();
-    emit hasActiveForm(FALSE);
+    emit hasActiveForm(false);
     propertyEditor->clear();
     hierarchyView->clear();
-    updateUndoRedo(FALSE, FALSE, QString::null, QString::null);
+    updateUndoRedo(false, false, QString::null, QString::null);
   }
 
   selectionChanged();
@@ -805,8 +805,8 @@ void MainWindow::updateUndoRedo(bool undoAvailable, bool redoAvailable,
     actionEditRedo->setToolTip(textNoAccel(actionEditRedo->text()));
 
     if (currentTool() == ORDER_TOOL) {
-        actionEditUndo->setEnabled(FALSE);
-        actionEditRedo->setEnabled(FALSE);
+        actionEditUndo->setEnabled(false);
+        actionEditRedo->setEnabled(false);
     }
 }
 
@@ -853,18 +853,18 @@ void MainWindow::popupWidgetMenu(const QPoint &gp, FormWindow * /*fw*/, QWidget 
 
 void MainWindow::setupRMBProperties(QValueList<int> &ids, QMap<QString, int> &props, QWidget *w)
 {
-    const QMetaProperty* text = w->metaObject()->property(w->metaObject()->findProperty("text", TRUE), TRUE);
+    const QMetaProperty* text = w->metaObject()->property(w->metaObject()->findProperty("text", true), true);
     if (text && qstrcmp(text->type(), "QString") != 0)
         text = 0;
-    const QMetaProperty* title = w->metaObject()->property(w->metaObject()->findProperty("title", TRUE), TRUE);
+    const QMetaProperty* title = w->metaObject()->property(w->metaObject()->findProperty("title", true), true);
     if (title && qstrcmp(title->type(), "QString") != 0)
         title = 0;
     const QMetaProperty* pagetitle =
-        w->metaObject()->property(w->metaObject()->findProperty("pageTitle", TRUE), TRUE);
+        w->metaObject()->property(w->metaObject()->findProperty("pageTitle", true), true);
     if (pagetitle && qstrcmp(pagetitle->type(), "QString") != 0)
         pagetitle = 0;
     const QMetaProperty* pixmap =
-        w->metaObject()->property(w->metaObject()->findProperty("pixmap", TRUE), TRUE);
+        w->metaObject()->property(w->metaObject()->findProperty("pixmap", true), true);
     if (pixmap && qstrcmp(pixmap->type(), "QPixmap") != 0)
         pixmap = 0;
 
@@ -975,7 +975,7 @@ void MainWindow::setupRMBSpecialCommands(QValueList<int> &ids, QMap<QString, int
 void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget *w)
 {
     if (id == props[ "text" ]) {
-        bool ok = FALSE;
+        bool ok = false;
         QString text;
         if (w->inherits("QTextView") || w->inherits("QLabel")) {
             text = TextEditor::getText(this, w->property("text").toString());
@@ -990,10 +990,10 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
                                                               text, QString::null, QString::null);
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
-            MetaDataBase::setPropertyChanged(w, "text", TRUE);
+            MetaDataBase::setPropertyChanged(w, "text", true);
         }
     } else if (id == props[ "title" ]) {
-        bool ok = FALSE;
+        bool ok = false;
         QString title = KInputDialog::getText(i18n("Title"), i18n("New title:"), w->property("title").toString(), &ok, this);
         if (ok) {
             QString pn(i18n("Set the 'title' of '%1'").arg(w->name()));
@@ -1002,10 +1002,10 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
                                                               title, QString::null, QString::null);
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
-            MetaDataBase::setPropertyChanged(w, "title", TRUE);
+            MetaDataBase::setPropertyChanged(w, "title", true);
         }
     } else if (id == props[ "pagetitle" ]) {
-        bool ok = FALSE;
+        bool ok = false;
         QString text = KInputDialog::getText(i18n("Page Title"), i18n("New page title:"), w->property("pageTitle").toString(), &ok, this);
         if (ok) {
             QString pn(i18n("Set the 'pageTitle' of '%1'").arg(w->name()));
@@ -1014,7 +1014,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
                                                               text, QString::null, QString::null);
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
-            MetaDataBase::setPropertyChanged(w, "pageTitle", TRUE);
+            MetaDataBase::setPropertyChanged(w, "pageTitle", true);
         }
     } else if (id == props[ "pixmap" ]) {
         QPixmap oldPix = w->property("pixmap").toPixmap();
@@ -1026,7 +1026,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
                                                               pix, QString::null, QString::null);
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
-            MetaDataBase::setPropertyChanged(w, "pixmap", TRUE);
+            MetaDataBase::setPropertyChanged(w, "pixmap", true);
         }
     }
 }
@@ -1101,7 +1101,7 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
             delete e;
         } else if (id == commands[ "rename" ]) {
 
-            bool ok = FALSE;
+            bool ok = false;
             QDesignerWizard *dw = (QDesignerWizard*)wiz;
             QString text = KInputDialog::getText(i18n("Page Title"), i18n("New page title:"), dw->pageTitle(), &ok, this);
             if (ok) {
@@ -1135,23 +1135,23 @@ void MainWindow::clipboardChanged()
 
 void MainWindow::selectionChanged()
 {
-    layoutChilds = FALSE;
-    layoutSelected = FALSE;
-    breakLayout = FALSE;
+    layoutChilds = false;
+    layoutSelected = false;
+    breakLayout = false;
     if (!formWindow()) {
-        actionEditCut->setEnabled(FALSE);
-        actionEditCopy->setEnabled(FALSE);
-        actionEditDelete->setEnabled(FALSE);
-        actionEditAdjustSize->setEnabled(FALSE);
-        actionEditHLayout->setEnabled(FALSE);
-        actionEditVLayout->setEnabled(FALSE);
-        actionEditSplitHorizontal->setEnabled(FALSE);
-        actionEditSplitVertical->setEnabled(FALSE);
-        actionEditGridLayout->setEnabled(FALSE);
-        actionEditBreakLayout->setEnabled(FALSE);
-        actionEditLower->setEnabled(FALSE);
-        actionEditRaise->setEnabled(FALSE);
-        actionEditAdjustSize->setEnabled(FALSE);
+        actionEditCut->setEnabled(false);
+        actionEditCopy->setEnabled(false);
+        actionEditDelete->setEnabled(false);
+        actionEditAdjustSize->setEnabled(false);
+        actionEditHLayout->setEnabled(false);
+        actionEditVLayout->setEnabled(false);
+        actionEditSplitHorizontal->setEnabled(false);
+        actionEditSplitVertical->setEnabled(false);
+        actionEditGridLayout->setEnabled(false);
+        actionEditBreakLayout->setEnabled(false);
+        actionEditLower->setEnabled(false);
+        actionEditRaise->setEnabled(false);
+        actionEditAdjustSize->setEnabled(false);
         return;
     }
 
@@ -1163,11 +1163,11 @@ void MainWindow::selectionChanged()
     actionEditLower->setEnabled(enable);
     actionEditRaise->setEnabled(enable);
 
-    actionEditAdjustSize->setEnabled(FALSE);
-    actionEditSplitHorizontal->setEnabled(FALSE);
-    actionEditSplitVertical->setEnabled(FALSE);
+    actionEditAdjustSize->setEnabled(false);
+    actionEditSplitHorizontal->setEnabled(false);
+    actionEditSplitVertical->setEnabled(false);
 
-    enable = FALSE;
+    enable = false;
     QWidgetList widgets = formWindow()->selectedWidgets();
     if (selectedWidgets > 1) {
         int unlaidout = 0;
@@ -1195,69 +1195,69 @@ void MainWindow::selectionChanged()
                                           WidgetFactory::layoutType(w->parentWidget()) == WidgetFactory::NoLayout);
 
         if (!isContainer) {
-            actionEditHLayout->setEnabled(FALSE);
-            actionEditVLayout->setEnabled(FALSE);
-            actionEditGridLayout->setEnabled(FALSE);
+            actionEditHLayout->setEnabled(false);
+            actionEditVLayout->setEnabled(false);
+            actionEditGridLayout->setEnabled(false);
             if (w->parentWidget() && WidgetFactory::layoutType(w->parentWidget()) != WidgetFactory::NoLayout) {
                 actionEditBreakLayout->setEnabled(!isAToolBarChild(w));
-                breakLayout = TRUE;
+                breakLayout = true;
             } else {
-                actionEditBreakLayout->setEnabled(FALSE);
+                actionEditBreakLayout->setEnabled(false);
             }
         } else {
             if (WidgetFactory::layoutType(w) == WidgetFactory::NoLayout) {
                 if (!formWindow()->hasInsertedChildren(w)) {
-                    actionEditHLayout->setEnabled(FALSE);
-                    actionEditVLayout->setEnabled(FALSE);
-                    actionEditGridLayout->setEnabled(FALSE);
-                    actionEditBreakLayout->setEnabled(FALSE);
+                    actionEditHLayout->setEnabled(false);
+                    actionEditVLayout->setEnabled(false);
+                    actionEditGridLayout->setEnabled(false);
+                    actionEditBreakLayout->setEnabled(false);
                 } else {
-                    actionEditHLayout->setEnabled(TRUE);
-                    actionEditVLayout->setEnabled(TRUE);
-                    actionEditGridLayout->setEnabled(TRUE);
-                    actionEditBreakLayout->setEnabled(FALSE);
-                    layoutChilds = TRUE;
+                    actionEditHLayout->setEnabled(true);
+                    actionEditVLayout->setEnabled(true);
+                    actionEditGridLayout->setEnabled(true);
+                    actionEditBreakLayout->setEnabled(false);
+                    layoutChilds = true;
                 }
                 if (w->parentWidget() && WidgetFactory::layoutType(w->parentWidget()) != WidgetFactory::NoLayout) {
                     actionEditBreakLayout->setEnabled(!isAToolBarChild(w));
-                    breakLayout = TRUE;
+                    breakLayout = true;
                 }
             } else {
-                actionEditHLayout->setEnabled(FALSE);
-                actionEditVLayout->setEnabled(FALSE);
-                actionEditGridLayout->setEnabled(FALSE);
+                actionEditHLayout->setEnabled(false);
+                actionEditVLayout->setEnabled(false);
+                actionEditGridLayout->setEnabled(false);
                 actionEditBreakLayout->setEnabled(!isAToolBarChild(w));
-                breakLayout = TRUE;
+                breakLayout = true;
             }
         }
     } else if (selectedWidgets == 0 && formWindow()) {
-        actionEditAdjustSize->setEnabled(TRUE);
+        actionEditAdjustSize->setEnabled(true);
         QWidget *w = formWindow()->mainContainer();
         if (WidgetFactory::layoutType(w) == WidgetFactory::NoLayout) {
             if (!formWindow()->hasInsertedChildren(w)) {
-                actionEditHLayout->setEnabled(FALSE);
-                actionEditVLayout->setEnabled(FALSE);
-                actionEditGridLayout->setEnabled(FALSE);
-                actionEditBreakLayout->setEnabled(FALSE);
+                actionEditHLayout->setEnabled(false);
+                actionEditVLayout->setEnabled(false);
+                actionEditGridLayout->setEnabled(false);
+                actionEditBreakLayout->setEnabled(false);
             } else {
-                actionEditHLayout->setEnabled(TRUE);
-                actionEditVLayout->setEnabled(TRUE);
-                actionEditGridLayout->setEnabled(TRUE);
-                actionEditBreakLayout->setEnabled(FALSE);
-                layoutChilds = TRUE;
+                actionEditHLayout->setEnabled(true);
+                actionEditVLayout->setEnabled(true);
+                actionEditGridLayout->setEnabled(true);
+                actionEditBreakLayout->setEnabled(false);
+                layoutChilds = true;
             }
         } else {
-            actionEditHLayout->setEnabled(FALSE);
-            actionEditVLayout->setEnabled(FALSE);
-            actionEditGridLayout->setEnabled(FALSE);
-            actionEditBreakLayout->setEnabled(TRUE);
-            breakLayout = TRUE;
+            actionEditHLayout->setEnabled(false);
+            actionEditVLayout->setEnabled(false);
+            actionEditGridLayout->setEnabled(false);
+            actionEditBreakLayout->setEnabled(true);
+            breakLayout = true;
         }
     } else {
-        actionEditHLayout->setEnabled(FALSE);
-        actionEditVLayout->setEnabled(FALSE);
-        actionEditGridLayout->setEnabled(FALSE);
-        actionEditBreakLayout->setEnabled(FALSE);
+        actionEditHLayout->setEnabled(false);
+        actionEditVLayout->setEnabled(false);
+        actionEditGridLayout->setEnabled(false);
+        actionEditBreakLayout->setEnabled(false);
     }
 }
 
@@ -1439,13 +1439,13 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
         statusBar()->message(i18n("Edit %1...").arg(w->className()));
         WidgetFactory::editWidget(WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w)), this, w, formWindow());
         statusBar()->clear();
-        return TRUE;
+        return true;
     }
 
-    const QMetaProperty* text = w->metaObject()->property(w->metaObject()->findProperty("text", TRUE), TRUE);
-    const QMetaProperty* title = w->metaObject()->property(w->metaObject()->findProperty("title", TRUE), TRUE);
+    const QMetaProperty* text = w->metaObject()->property(w->metaObject()->findProperty("text", true), true);
+    const QMetaProperty* title = w->metaObject()->property(w->metaObject()->findProperty("title", true), true);
     if (text && text->designable(w)) {
-        bool ok = FALSE;
+        bool ok = false;
         QString text;
         if (w->inherits("QTextView") || w->inherits("QLabel")) {
             text = TextEditor::getText(this, w->property("text").toString());
@@ -1460,12 +1460,12 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
                                                               text, QString::null, QString::null);
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
-            MetaDataBase::setPropertyChanged(w, "text", TRUE);
+            MetaDataBase::setPropertyChanged(w, "text", true);
         }
-        return TRUE;
+        return true;
     }
     if (title && title->designable(w)) {
-        bool ok = FALSE;
+        bool ok = false;
         QString text;
         text = KInputDialog::getText(i18n("Title"), i18n("New title:"), w->property("title").toString(), &ok, this);
         if (ok) {
@@ -1475,12 +1475,12 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
                                                               text, QString::null, QString::null);
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
-            MetaDataBase::setPropertyChanged(w, "title", TRUE);
+            MetaDataBase::setPropertyChanged(w, "title", true);
         }
-        return TRUE;
+        return true;
     }
 
-    return TRUE;
+    return true;
 }
 
 void MainWindow::setGrid(const QPoint &p)
@@ -1563,7 +1563,7 @@ void MainWindow::checkTempFiles()
     QApplication::setOverrideCursor(waitCursor);
     for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it) {
         if (load)
-            openFormWindow(s + "/" + *it, FALSE);
+            openFormWindow(s + "/" + *it, false);
         d.remove(*it);
     }
 }
@@ -1651,13 +1651,13 @@ void MainWindow::setModified(bool b, QWidget *window)
       ((FormWindow *) w)->modificationChanged(b);
       return;
     }
-    w = w->parentWidget(TRUE);
+    w = w->parentWidget(true);
     if (w->inherits("FormWindow"))
     {
       ((FormWindow *) w)->modificationChanged(b);
       return;
     }
-    w = w->parentWidget(TRUE);
+    w = w->parentWidget(true);
   }
 }
 

@@ -48,7 +48,7 @@ QString ComboBox::currentState() const
 
 bool ComboBox::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList ComboBox::associatedText() const

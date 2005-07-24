@@ -277,7 +277,7 @@ QPalette PaletteEditor::pal() const
 QPalette PaletteEditor::getPalette( bool *ok, const QPalette &init, BackgroundMode mode,
 				    QWidget* parent, const char* name, FormWindow *fw )
 {
-    PaletteEditor* dlg = new PaletteEditor( fw, parent, name, TRUE );
+    PaletteEditor* dlg = new PaletteEditor( fw, parent, name, true );
     dlg->setupBackgroundMode( mode );
 
     if ( init != QPalette() )
@@ -287,11 +287,11 @@ QPalette PaletteEditor::getPalette( bool *ok, const QPalette &init, BackgroundMo
     QPalette result = init;
     if ( resultCode == QDialog::Accepted ) {
 	if ( ok )
-	    *ok = TRUE;
+	    *ok = true;
 	result = dlg->pal();
     } else {
 	if ( ok )
-	    *ok = FALSE;
+	    *ok = false;
     }
     delete dlg;
     return result;

@@ -48,7 +48,7 @@ QString StatusBar::currentState() const
 
 bool StatusBar::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList StatusBar::associatedText() const

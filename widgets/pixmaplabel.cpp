@@ -53,7 +53,7 @@ QString PixmapLabel::currentState() const
 
 bool PixmapLabel::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList PixmapLabel::associatedText() const

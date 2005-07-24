@@ -23,7 +23,7 @@
 #include <qstring.h>
 
 AsciiValidator::AsciiValidator( QObject * parent, const char *name )
-    : QValidator( parent, name ), functionName( FALSE )
+    : QValidator( parent, name ), functionName( false )
 {
 }
 
@@ -33,7 +33,7 @@ AsciiValidator::AsciiValidator( bool funcName, QObject * parent, const char *nam
 }
 
 AsciiValidator::AsciiValidator( const QString &allow, QObject * parent, const char *name )
-    : QValidator( parent, name ), functionName( FALSE ), allowedChars( allow )
+    : QValidator( parent, name ), functionName( false ), allowedChars( allow )
 {
 }
 
@@ -43,7 +43,7 @@ AsciiValidator::~AsciiValidator()
 
 QValidator::State AsciiValidator::validate( QString &s, int & ) const
 {
-    bool inParen = FALSE;
+    bool inParen = false;
     if ( !s.isEmpty() && s[0].row() == 0 && s[0].cell() >= '0' && s[0].cell() <= '9' ) {
 	s[0] = '_';
     }
@@ -62,7 +62,7 @@ QValidator::State AsciiValidator::validate( QString &s, int & ) const
 	    continue;
 	if ( functionName ) {
 	    if ( c == '(' ) {
-		inParen = TRUE;
+		inParen = true;
 		continue;
 	    }
 	}

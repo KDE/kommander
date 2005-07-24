@@ -47,7 +47,7 @@ QString SpinBoxInt::currentState() const
 
 bool SpinBoxInt::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList SpinBoxInt::associatedText() const

@@ -51,7 +51,7 @@ QString RadioButton::currentState() const
 
 bool RadioButton::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList RadioButton::associatedText() const

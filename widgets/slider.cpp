@@ -42,7 +42,7 @@ Slider::~Slider()
 
 bool Slider::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList Slider::associatedText() const

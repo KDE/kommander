@@ -33,12 +33,12 @@
 SizeHandle::SizeHandle( FormWindow *parent, Direction d, WidgetSelection *s )
     : QWidget( parent )
 {
-    active = TRUE;
+    active = true;
     setBackgroundMode( active ? PaletteText : PaletteDark );
     setFixedSize( 6, 6 );
     widget = 0;
     dir =d ;
-    setMouseTracking( FALSE );
+    setMouseTracking( false );
     formWindow = parent;
     sel = s;
     updateCursor();

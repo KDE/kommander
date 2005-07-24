@@ -47,7 +47,7 @@ QString Label::currentState() const
 
 bool Label::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList Label::associatedText() const

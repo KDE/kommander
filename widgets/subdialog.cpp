@@ -53,7 +53,7 @@ QString SubDialog::currentState() const
 
 bool SubDialog::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList SubDialog::associatedText() const

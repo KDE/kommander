@@ -58,7 +58,7 @@ QString ExecButton::currentState() const
 
 bool ExecButton::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList ExecButton::associatedText() const

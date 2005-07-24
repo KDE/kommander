@@ -56,7 +56,7 @@ FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
   connect(m_selectButton, SIGNAL(clicked()), this, SLOT(makeSelection()));
 
   setSelectionType(Open);
-  setSelectionOpenMultiple(FALSE);
+  setSelectionOpenMultiple(false);
 }
 
 FileSelector::~FileSelector()
@@ -70,7 +70,7 @@ QString FileSelector::currentState() const
 
 bool FileSelector::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList FileSelector::associatedText() const

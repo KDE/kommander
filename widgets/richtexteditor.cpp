@@ -72,10 +72,10 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 
 	//bold italic underline left right center link
 	m_formatGroup = new QHButtonGroup(m_toolbar, "formatGroup");
-	//m_formatGroup->setFlat(TRUE);
+	//m_formatGroup->setFlat(true);
 	m_alignGroup = new QHButtonGroup(m_toolbar, "alignGroup");
-	//m_alignGroup->setFlat(TRUE);
-	m_alignGroup->setExclusive(TRUE);
+	//m_alignGroup->setFlat(true);
+	m_alignGroup->setExclusive(true);
 	tbLayout->insertStretch(0);
 	tbLayout->addWidget(m_formatGroup);
 	tbLayout->addWidget(m_alignGroup);
@@ -83,26 +83,26 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 
 	m_buttonTextBold = new QToolButton(m_formatGroup, "textBold");
 	m_buttonTextBold->setPixmap(QPixmap((const char **)bold_xpm));
-	m_buttonTextBold->setToggleButton(TRUE);
+	m_buttonTextBold->setToggleButton(true);
 	connect(m_buttonTextBold, SIGNAL(toggled(bool)), this, SLOT(textBold(bool)));
 	m_buttonTextItalic = new QToolButton(m_formatGroup, "textItalic");
 	m_buttonTextItalic->setPixmap(QPixmap((const char **)italic_xpm));
-	m_buttonTextItalic->setToggleButton(TRUE);
+	m_buttonTextItalic->setToggleButton(true);
 	connect(m_buttonTextItalic, SIGNAL(toggled(bool)), this, SLOT(textItalic(bool)));
 	m_buttonTextUnder = new QToolButton(m_formatGroup, "textUnder");
 	m_buttonTextUnder->setPixmap(QPixmap((const char **)under_xpm));
-	m_buttonTextUnder->setToggleButton(TRUE);
+	m_buttonTextUnder->setToggleButton(true);
 	connect(m_buttonTextUnder, SIGNAL(toggled(bool)), this, SLOT(textUnder(bool)));
 
 	m_buttonTextLeft = new QToolButton(m_alignGroup, "textLeft");
 	m_buttonTextLeft->setPixmap(QPixmap((const char **)left_xpm));
-	m_buttonTextLeft->setToggleButton(TRUE);
+	m_buttonTextLeft->setToggleButton(true);
 	m_buttonTextCenter = new QToolButton(m_alignGroup, "textCenter");
 	m_buttonTextCenter->setPixmap(QPixmap((const char **)center_xpm));
-	m_buttonTextCenter->setToggleButton(TRUE);
+	m_buttonTextCenter->setToggleButton(true);
 	m_buttonTextRight = new QToolButton(m_alignGroup, "textRight");
 	m_buttonTextRight->setPixmap(QPixmap((const char **)right_xpm));
-	m_buttonTextRight->setToggleButton(TRUE);
+	m_buttonTextRight->setToggleButton(true);
 
 	connect(m_alignGroup, SIGNAL(clicked(int)), this, SLOT(textAlign(int)));
 	connect(m_textedit, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(fontChanged(const QFont &)));
@@ -123,7 +123,7 @@ RichTextEditor::~RichTextEditor()
 
 bool RichTextEditor::isKommanderWidget() const
 {
-	return TRUE;
+	return true;
 }
 
 QStringList RichTextEditor::associatedText() const
@@ -199,11 +199,11 @@ void RichTextEditor::fontChanged(const QFont &a_font)
 void RichTextEditor::alignmentChanged(int a_alignment)
 {
   if((a_alignment == AlignAuto) || (a_alignment & AlignLeft)) 
-    m_buttonTextLeft->setOn(TRUE);
+    m_buttonTextLeft->setOn(true);
   else if(a_alignment & AlignHCenter) 
-    m_buttonTextCenter->setOn(TRUE);
+    m_buttonTextCenter->setOn(true);
   else if(a_alignment & AlignRight) 
-    m_buttonTextRight->setOn(TRUE);
+    m_buttonTextRight->setOn(true);
 }
 
 void RichTextEditor::showEvent( QShowEvent *e )

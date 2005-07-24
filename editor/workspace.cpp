@@ -114,7 +114,7 @@ WorkspaceItem::WorkspaceItem( QListView *parent )
 #endif
     t = ProjectType;
     setPixmap( 0, *folderPixmap );
-    setExpandable( FALSE );
+    setExpandable( false );
 }
 
 #ifndef KOMMANDER
@@ -167,8 +167,8 @@ WorkspaceItem::WorkspaceItem( QListView *parent, FormFile* ff, Type type )
 
 void WorkspaceItem::init()
 {
-    autoOpen = FALSE;
-    useOddColor = FALSE;
+    autoOpen = false;
+    useOddColor = false;
 #ifndef KOMMANDER
     project = 0;
     sourceFile = 0;
@@ -196,7 +196,7 @@ void WorkspaceItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
 
     if ( isModified() ) {
   QFont f = p->font();
-  f.setBold( TRUE );
+  f.setBold( true );
   p->setFont( f );
     }
 
@@ -274,7 +274,7 @@ bool WorkspaceItem::checkCompletion( const QString& completion )
   return completion == sourceFile->fileName();
 #endif
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -291,7 +291,7 @@ bool WorkspaceItem::isModified() const
     case SourceFileType:
   return sourceFile->isModified();
     }
-    return FALSE; // shut up compiler
+    return false; // shut up compiler
 #else
     return formFile->isModified();
 #endif
@@ -319,7 +319,7 @@ QColor WorkspaceItem::backgroundColor()
 void WorkspaceItem::setOpen( bool b )
 {
     QListViewItem::setOpen( b );
-    autoOpen = FALSE;
+    autoOpen = false;
 }
 
 void WorkspaceItem::setAutoOpen( bool b )
@@ -332,17 +332,17 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     : QListView( parent, 0, WStyle_Customize | WStyle_NormalBorder | WStyle_Title |
      WStyle_Tool | WStyle_MinMax | WStyle_SysMenu ), mainWindow( mw ),
 #ifndef KOMMANDER
-  project( 0 ), completionDirty( FALSE )
+  project( 0 ), completionDirty( false )
 #else
-  completionDirty( FALSE )
+  completionDirty( false )
 #endif
 {
     init_colors();
 
     setDefaultRenameAction( Accept );
-    blockNewForms = FALSE;
+    blockNewForms = false;
     bufferEdit = 0;
-    header()->setStretchEnabled( TRUE );
+    header()->setStretchEnabled( true );
     header()->hide();
     setSorting( 0 );
     setResizePolicy( QScrollView::Manual );
@@ -354,7 +354,7 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     (void)*selectedBack; // hack
     setPalette( p );
     addColumn( i18n("Files" ) );
-    setAllColumnsShowFocus( TRUE );
+    setAllColumnsShowFocus( true );
     connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem *, const QPoint &, int ) ),
        this, SLOT( itemClicked( int, QListViewItem *, const QPoint& ) ) ),
     connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
@@ -363,8 +363,8 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
        this, SLOT( rmbClicked( QListViewItem *, const QPoint& ) ) ),
     setHScrollBarMode( AlwaysOff );
     setVScrollBarMode( AlwaysOn );
-    viewport()->setAcceptDrops( TRUE );
-    setAcceptDrops( TRUE );
+    viewport()->setAcceptDrops( true );
+    setAcceptDrops( true );
     setColumnWidthMode( 1, Manual );
 
     if ( !folderPixmap ) {
@@ -415,7 +415,7 @@ void Workspace::setCurrentProject( Project *pro )
 
     projectItem = new WorkspaceItem( this, project );
 
-    projectItem->setOpen( TRUE );
+    projectItem->setOpen( true );
 
     for ( QPtrListIterator<SourceFile> sources = project->sourceFiles();
     sources.current(); ++sources ) {
@@ -430,7 +430,7 @@ void Workspace::setCurrentProject( Project *pro )
     }
 
     updateColors();
-    completionDirty = TRUE;
+    completionDirty = true;
 }
 #endif
 
@@ -477,7 +477,7 @@ void Workspace::formFileRemoved( FormFile* ff )
 
 void Workspace::update()
 {
-    completionDirty = TRUE;
+    completionDirty = true;
     triggerUpdate();
 }
 
@@ -497,9 +497,9 @@ void Workspace::activeFormChanged( FormWindow *fw )
     WorkspaceItem *i = findItem( fw->formFile() );
     if ( i ) {
   setCurrentItem( i );
-  setSelected( i, TRUE );
+  setSelected( i, true );
   if ( !i->isOpen() )
-      i->setAutoOpen( TRUE );
+      i->setAutoOpen( true );
     }
 
     closeAutoOpenItems();
@@ -516,15 +516,15 @@ void Workspace::activeEditorChanged( SourceEditor *se )
   WorkspaceItem *i = findItem( se->formWindow()->formFile() );
   if ( i && i->firstChild() ) {
       if ( !i->isOpen() )
-    i->setAutoOpen( TRUE );
+    i->setAutoOpen( true );
       setCurrentItem( i->firstChild() );
-      setSelected( i->firstChild(), TRUE );
+      setSelected( i->firstChild(), true );
   }
     } else {
   WorkspaceItem *i = findItem( se->sourceFile() );
   if ( i ) {
       setCurrentItem( i );
-      setSelected( i, TRUE );
+      setSelected( i, true );
   }
     }
 
@@ -563,7 +563,7 @@ void Workspace::closeAutoOpenItems()
   if ( i->type() == WorkspaceItem::FormSourceType ) {
       if ( !i->isSelected() && !ip->isSelected()
      && ip->isAutoOpen() ) {
-    ip->setAutoOpen( FALSE );
+    ip->setAutoOpen( false );
       }
   }
     }
@@ -578,7 +578,7 @@ void Workspace::closeEvent( QCloseEvent *e )
 void Workspace::itemDoubleClicked( QListViewItem *i )
 {
     if ( ( (WorkspaceItem*)i)->type()== WorkspaceItem::ProjectType )
-  i->setOpen( TRUE );
+  i->setOpen( true );
 }
 
 void Workspace::itemClicked( int button, QListViewItem *i, const QPoint& )
@@ -737,7 +737,7 @@ void Workspace::updateBufferEdit()
 {
     if ( !bufferEdit || !completionDirty )
   return;
-    completionDirty = FALSE;
+    completionDirty = false;
 #ifndef KOMMANDER
     QStringList completion = MainWindow::self->projectFileNames();
     while ( it.current() ) {
@@ -776,7 +776,7 @@ void Workspace::updateColors()
     QListViewItem* i = firstChild();
     if ( i )
   i = i->firstChild();
-    bool b = TRUE;
+    bool b = true;
     while ( i ) {
   WorkspaceItem* wi = ( WorkspaceItem*) i;
   i = i->nextSibling();

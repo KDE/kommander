@@ -53,7 +53,7 @@ void FormItem::insert()
 {
   QString n = "Form" + QString::number(++_forms);
   FormWindow *fw = 0;
-  FormFile *ff = new FormFile(FormFile::createUnnamedFileName(), TRUE);
+  FormFile *ff = new FormFile(FormFile::createUnnamedFileName(), true);
   fw = new FormWindow(ff, MainWindow::self, MainWindow::self->qWorkspace(), n);
   MetaDataBase::addEntry(fw);
   if (fType == Dialog)
@@ -110,7 +110,7 @@ void CustomFormItem::insert()
   if (!filename.isEmpty() && QFile::exists(filename))
   {
     Resource resource(MainWindow::self);
-    FormFile *ff = new FormFile(filename, TRUE);
+    FormFile *ff = new FormFile(filename, true);
     if (!resource.load(ff))
     {
       QMessageBox::information(MainWindow::self, i18n("Load Template"),
@@ -129,7 +129,7 @@ void CustomFormItem::insert()
 
 
 NewForm::NewForm(QWidget *parent, const QString &templatePath)
-    : NewFormBase(parent, 0, TRUE)
+    : NewFormBase(parent, 0, true)
 {
   connect(helpButton, SIGNAL(clicked()), MainWindow::self, SLOT(showDialogHelp()));
 
@@ -138,13 +138,13 @@ NewForm::NewForm(QWidget *parent, const QString &templatePath)
   allItems.append(fi);
   fi->setFormType(FormItem::Dialog);
   fi->setPixmap(PixmapChooser::loadPixmap("newform.xpm"));
-  fi->setDragEnabled(FALSE);
+  fi->setDragEnabled(false);
   cur = fi;
   fi = new FormItem(templateView, i18n("Wizard"));
   allItems.append(fi);
   fi->setFormType(FormItem::Wizard);
   fi->setPixmap(PixmapChooser::loadPixmap("newform.xpm"));
-  fi->setDragEnabled(FALSE);
+  fi->setDragEnabled(false);
 
 
   QStringList searchPaths = KGlobal::dirs()->findDirs("data", "kmdr-editor/templates");
@@ -169,7 +169,7 @@ NewForm::NewForm(QWidget *parent, const QString &templatePath)
         name = name.replace("_", " ");
         CustomFormItem *ci = new CustomFormItem(templateView, name);
         allItems.append(ci);
-        ci->setDragEnabled(FALSE);
+        ci->setDragEnabled(false);
         ci->setPixmap(PixmapChooser::loadPixmap("newform.xpm"));
         ci->setTemplateFile(fi->absFilePath());
       }

@@ -95,14 +95,14 @@ void HierarchyItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
     QString txt = text( 0 );
     if ( rtti() == Slot &&
    ( txt == "init()" || txt == "destroy()" ) ) {
-  listView()->setUpdatesEnabled( FALSE );
+  listView()->setUpdatesEnabled( false );
   if ( txt == "init()" )
       setText( 0, txt + " " + i18n( "(Constructor)" ) );
   else
       setText( 0, txt + " " + i18n( "(Destructor)" ) );
   QListViewItem::paintCell( p, g, column, width, align );
   setText( 0, txt );
-  listView()->setUpdatesEnabled( TRUE );
+  listView()->setUpdatesEnabled( true );
     } else {
   QListViewItem::paintCell( p, g, column, width, align );
     }
@@ -183,8 +183,8 @@ HierarchyList::HierarchyList( QWidget *parent, FormWindow *fw, bool doConnects )
     init_colors();
 
     setDefaultRenameAction( Accept );
-    header()->setMovingEnabled( FALSE );
-    header()->setStretchEnabled( TRUE );
+    header()->setMovingEnabled( false );
+    header()->setStretchEnabled( true );
     normalMenu = 0;
     tabWidgetMenu = 0;
     addColumn( i18n("Name" ) );
@@ -206,31 +206,31 @@ HierarchyList::HierarchyList( QWidget *parent, FormWindow *fw, bool doConnects )
   connect( this, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint&, int ) ),
      this, SLOT( showRMBMenu( QListViewItem *, const QPoint & ) ) );
     }
-    deselect = TRUE;
+    deselect = true;
     setColumnWidthMode( 1, Manual );
 }
 
 void HierarchyList::keyPressEvent( QKeyEvent *e )
 {
     if ( e->key() == Key_Shift || e->key() == Key_Control )
-  deselect = FALSE;
+  deselect = false;
     else
-  deselect = TRUE;
+  deselect = true;
     QListView::keyPressEvent( e );
 }
 
 void HierarchyList::keyReleaseEvent( QKeyEvent *e )
 {
-    deselect = TRUE;
+    deselect = true;
     QListView::keyReleaseEvent( e );
 }
 
 void HierarchyList::viewportMousePressEvent( QMouseEvent *e )
 {
     if ( e->state() & ShiftButton || e->state() & ControlButton )
-  deselect = FALSE;
+  deselect = false;
     else
-  deselect = TRUE;
+  deselect = true;
     QListView::viewportMousePressEvent( e );
 }
 
@@ -249,7 +249,7 @@ void HierarchyList::objectClicked( QListViewItem *i )
   return;
     if ( formWindow == w ) {
   if ( deselect )
-      formWindow->clearSelection( FALSE );
+      formWindow->clearSelection( false );
   formWindow->emitShowProperties( formWindow );
   return;
     }
@@ -271,9 +271,9 @@ void HierarchyList::objectClicked( QListViewItem *i )
     }
 
     if ( deselect )
-  formWindow->clearSelection( FALSE );
+  formWindow->clearSelection( false );
     if ( w->isVisibleTo( formWindow ) )
-  formWindow->selectWidget( w, TRUE );
+  formWindow->selectWidget( w, true );
 }
 
 QWidget *HierarchyList::findWidget( QListViewItem *i )
@@ -355,12 +355,12 @@ void HierarchyList::setOpen( QListViewItem *i, bool b )
 
 void HierarchyList::insertObject( QObject *o, QListViewItem *parent )
 {
-    bool fakeMainWindow = FALSE;
+    bool fakeMainWindow = false;
     if ( o && o->inherits( "QMainWindow" ) ) {
   QObject *cw = ( (QMainWindow*)o )->centralWidget();
   if ( cw ) {
       o = cw;
-      fakeMainWindow = TRUE;
+      fakeMainWindow = true;
   }
     }
     QListViewItem *item = 0;
@@ -427,7 +427,7 @@ void HierarchyList::insertObject( QObject *o, QListViewItem *parent )
        it.current()->parent()->inherits( "QWizard" ) ) &&
      it.current()->inherits( "QWidgetStack" ) ) {
     QObject *obj = it.current();
-    QObjectList *l2 = obj->queryList( "QWidget", 0, TRUE, FALSE );
+    QObjectList *l2 = obj->queryList( "QWidget", 0, true, false );
     QDesignerTabWidget *tw = 0;
     QDesignerWizard *dw = 0;
     if ( it.current()->parent()->inherits( "QTabWidget" ) )
@@ -450,7 +450,7 @@ void HierarchyList::insertObject( QObject *o, QListViewItem *parent )
     }
 
     if ( item->firstChild() )
-  item->setOpen( TRUE );
+  item->setOpen( true );
 }
 
 void HierarchyList::setCurrent( QWidget *w )
@@ -458,10 +458,10 @@ void HierarchyList::setCurrent( QWidget *w )
     QListViewItemIterator it( this );
     while ( it.current() ) {
   if ( ( (HierarchyItem*)it.current() )->widget() == w ) {
-      blockSignals( TRUE );
+      blockSignals( true );
       setCurrentItem( it.current() );
       ensureItemVisible( it.current() );
-      blockSignals( FALSE );
+      blockSignals( false );
       return;
   }
   ++it;
@@ -539,7 +539,7 @@ void HierarchyList::removeTabPage()
       DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n("Delete Page %1 of %2" ).
                   arg( dw->pageTitle() ).arg( wiz->name() ),
                   formWindow, wiz,
-                  wiz->indexOf( wiz->currentPage() ), TRUE );
+                  wiz->indexOf( wiz->currentPage() ), true );
       formWindow->commandHistory()->addCommand( cmd );
       cmd->execute();
   }
@@ -578,7 +578,7 @@ void HierarchyList::insertEntry( QListViewItem *i, const QPixmap &pix, const QSt
                QString::null, QString::null );
     if ( !pix.isNull() )
   item->setPixmap( 0, pix );
-    item->setRenameEnabled( 0, TRUE );
+    item->setRenameEnabled( 0, true );
     setCurrentItem( item );
     ensureItemVisible( item );
     qApp->processEvents();

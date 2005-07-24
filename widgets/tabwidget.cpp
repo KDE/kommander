@@ -47,7 +47,7 @@ QString TabWidget::currentState() const
 
 bool TabWidget::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList TabWidget::associatedText() const

@@ -47,7 +47,7 @@ TextEdit::~TextEdit()
 
 bool TextEdit::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList TextEdit::associatedText() const

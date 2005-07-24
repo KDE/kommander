@@ -51,7 +51,7 @@ QString Wizard::currentState() const
 
 bool Wizard::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList Wizard::associatedText() const

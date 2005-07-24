@@ -51,7 +51,7 @@ LineEdit::~LineEdit()
 
 bool LineEdit::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList LineEdit::associatedText() const

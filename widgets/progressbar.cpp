@@ -46,7 +46,7 @@ QString ProgressBar::currentState() const
 
 bool ProgressBar::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList ProgressBar::associatedText() const

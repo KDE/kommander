@@ -44,9 +44,9 @@ bool AssistProc::run( const QString &path )
 
     if ( !start() ) {
 	qWarning( "Assistant [exe]: Couldn't start \'%s\', please check path.", assistantPath.latin1() );
-	return FALSE;
+	return false;
     }
-    return TRUE;
+    return true;
 }
 
 bool AssistProc::sendRequest( const QString &data )
@@ -57,9 +57,9 @@ bool AssistProc::sendRequest( const QString &data )
 	if ( run() )              // If not running, try to start
 	    writeToStdin( data ); // and display requested page.
 	else
-	    return FALSE;
+	    return false;
     }
-    return TRUE;
+    return true;
 }
 
 void AssistProc::processOutput()

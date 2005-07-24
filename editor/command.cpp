@@ -54,8 +54,8 @@
 CommandHistory::CommandHistory( int s )
     : current( -1 ), steps( s ), savedAt( -1 )
 {
-    history.setAutoDelete( TRUE );
-    modified = FALSE;
+    history.setAutoDelete( true );
+    modified = false;
     compressedCommand = 0;
 }
 
@@ -71,7 +71,7 @@ void CommandHistory::addCommand( Command *cmd, bool tryCompress )
 
 	if ( compressedCommand ) {
 	    compressedCommand->merge( cmd );
-	    modified = TRUE;
+	    modified = true;
 	    modificationChanged( modified );
 	    return;
 	}
@@ -85,7 +85,7 @@ void CommandHistory::addCommand( Command *cmd, bool tryCompress )
 	    savedAt = -2;
 
 	QPtrList<Command> commands;
-	commands.setAutoDelete( FALSE );
+	commands.setAutoDelete( false );
 
 	for( int i = 0; i <= current; ++i ) {
 	    commands.insert( i, history.at( 0 ) );
@@ -95,7 +95,7 @@ void CommandHistory::addCommand( Command *cmd, bool tryCompress )
 	commands.append( cmd );
 	history.clear();
 	history = commands;
-	history.setAutoDelete( TRUE );
+	history.setAutoDelete( true );
     } else {
 	history.append( cmd );
     }
@@ -108,7 +108,7 @@ void CommandHistory::addCommand( Command *cmd, bool tryCompress )
     }
 
     emitUndoRedo();
-    modified = TRUE;
+    modified = true;
     modificationChanged( modified );
 }
 
@@ -219,7 +219,7 @@ void Command::merge( Command * )
 
 bool Command::canMerge( Command * )
 {
-    return FALSE;
+    return false;
 }
 
 
@@ -270,7 +270,7 @@ void InsertCommand::execute()
     }
     widget->show();
     formWindow()->widgets()->insert( widget, widget );
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     formWindow()->selectWidget( widget );
     formWindow()->mainWindow()->objectHierarchy()->widgetInserted( widget );
 }
@@ -278,7 +278,7 @@ void InsertCommand::execute()
 void InsertCommand::unexecute()
 {
     widget->hide();
-    formWindow()->selectWidget( widget, FALSE );
+    formWindow()->selectWidget( widget, false );
     formWindow()->widgets()->remove( widget );
     formWindow()->mainWindow()->objectHierarchy()->widgetRemoved( widget );
  }
@@ -293,7 +293,7 @@ MoveCommand::MoveCommand( const QString &n, FormWindow *fw,
     : Command( n, fw ), widgets( w ), oldPos( op ), newPos( np ),
       oldParent( opr ), newParent( npr )
 {
-    widgets.setAutoDelete( FALSE );
+    widgets.setAutoDelete( false );
 }
 
 void MoveCommand::merge( Command *c )
@@ -315,7 +315,7 @@ void MoveCommand::execute()
 	if ( !w->parentWidget() || WidgetFactory::layoutType( w->parentWidget() ) == WidgetFactory::NoLayout ) {
 	    if ( newParent && oldParent && newParent != oldParent ) {
 		QPoint pos = newParent->mapFromGlobal( w->mapToGlobal( QPoint( 0,0 ) ) );
-		w->reparent( newParent, pos, TRUE );
+		w->reparent( newParent, pos, true );
 		formWindow()->raiseSelection( w );
 		formWindow()->raiseChildSelections( w );
 		formWindow()->widgetChanged( w );
@@ -336,7 +336,7 @@ void MoveCommand::unexecute()
 	if ( !w->parentWidget() || WidgetFactory::layoutType( w->parentWidget() ) == WidgetFactory::NoLayout ) {
 	    if ( newParent && oldParent && newParent != oldParent ) {
 		QPoint pos = oldParent->mapFromGlobal( w->mapToGlobal( QPoint( 0,0 ) ) );
-		w->reparent( oldParent, pos, TRUE );
+		w->reparent( oldParent, pos, true );
 		formWindow()->raiseSelection( w );
 		formWindow()->raiseChildSelections( w );
 		formWindow()->widgetChanged( w );
@@ -357,19 +357,19 @@ DeleteCommand::DeleteCommand( const QString &n, FormWindow *fw,
 			      const QWidgetList &w )
     : Command( n, fw ), widgets( w )
 {
-    widgets.setAutoDelete( FALSE );
+    widgets.setAutoDelete( false );
 }
 
 void DeleteCommand::execute()
 {
-    formWindow()->setPropertyShowingBlocked( TRUE );
+    formWindow()->setPropertyShowingBlocked( true );
     connections.clear();
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	w->hide();
 	QString s = w->name();
 	s.prepend( "qt_dead_widget_" );
 	w->setName( s );
-	formWindow()->selectWidget( w, FALSE );
+	formWindow()->selectWidget( w, false );
 	formWindow()->widgets()->remove( w );
 	QValueList<MetaDataBase::Connection> conns = MetaDataBase::connections( formWindow(), w );
 	connections.insert( w, conns );
@@ -379,7 +379,7 @@ void DeleteCommand::execute()
 					    (*it).signal, (*it).receiver, (*it).slot );
 	}
     }
-    formWindow()->setPropertyShowingBlocked( FALSE );
+    formWindow()->setPropertyShowingBlocked( false );
     formWindow()->emitShowProperties();
     formWindow()->mainWindow()->objectHierarchy()->widgetsRemoved( widgets );
 
@@ -387,8 +387,8 @@ void DeleteCommand::execute()
 
 void DeleteCommand::unexecute()
 {
-    formWindow()->setPropertyShowingBlocked( TRUE );
-    formWindow()->clearSelection( FALSE );
+    formWindow()->setPropertyShowingBlocked( true );
+    formWindow()->clearSelection( false );
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	w->show();
 	QString s = w->name();
@@ -403,7 +403,7 @@ void DeleteCommand::unexecute()
 					 (*it).signal, (*it).receiver, (*it).slot );
 	}
     }
-    formWindow()->setPropertyShowingBlocked( FALSE );
+    formWindow()->setPropertyShowingBlocked( false );
     formWindow()->emitShowProperties();
     formWindow()->mainWindow()->objectHierarchy()->widgetsInserted( widgets );
 }
@@ -417,7 +417,7 @@ SetPropertyCommand::SetPropertyCommand( const QString &n, FormWindow *fw,
 					const QString &ocut, bool reset )
     : Command( n, fw ), widget( w ), editor( e ), propName( pn ),
       oldValue( ov ), newValue( nv ), oldCurrentItemText( ocut ), newCurrentItemText( ncut ),
-      wasChanged( TRUE ), isResetCommand( reset )
+      wasChanged( true ), isResetCommand( reset )
 {
     wasChanged = MetaDataBase::isPropertyChanged( w, propName );
 }
@@ -426,9 +426,9 @@ SetPropertyCommand::SetPropertyCommand( const QString &n, FormWindow *fw,
 void SetPropertyCommand::execute()
 {
     if ( !wasChanged )
-	MetaDataBase::setPropertyChanged( widget, propName, TRUE );
+	MetaDataBase::setPropertyChanged( widget, propName, true );
     if ( isResetCommand ) {
-	MetaDataBase::setPropertyChanged( widget, propName, FALSE );
+	MetaDataBase::setPropertyChanged( widget, propName, false );
 	if ( WidgetFactory::resetProperty( widget, propName ) ) {
 	    if ( !formWindow()->isWidgetSelected( widget ) && widget != formWindow() )
 		formWindow()->selectWidget( widget );
@@ -439,7 +439,7 @@ void SetPropertyCommand::execute()
 	    if ( !i )
 		return;
 	    i->setValue( widget->property( propName ) );
-	    i->setChanged( FALSE );
+	    i->setChanged( false );
 	    editor->refetchData();
 	    editor->emitWidgetChanged();
 	    return;
@@ -451,9 +451,9 @@ void SetPropertyCommand::execute()
 void SetPropertyCommand::unexecute()
 {
     if ( !wasChanged )
-	MetaDataBase::setPropertyChanged( widget, propName, FALSE );
+	MetaDataBase::setPropertyChanged( widget, propName, false );
     if ( isResetCommand )
-	MetaDataBase::setPropertyChanged( widget, propName, TRUE );
+	MetaDataBase::setPropertyChanged( widget, propName, true );
     setProperty( oldValue, oldCurrentItemText );
 }
 
@@ -461,22 +461,22 @@ bool SetPropertyCommand::canMerge( Command *c )
 {
     SetPropertyCommand *cmd = (SetPropertyCommand*)c;
     const QMetaProperty *p =
-	widget->metaObject()->property( widget->metaObject()->findProperty( propName, TRUE ), TRUE );
+	widget->metaObject()->property( widget->metaObject()->findProperty( propName, true ), true );
     if ( !p ) {
 	if ( propName == "toolTip" || propName == "whatsThis" )
-	    return TRUE;
+	    return true;
 	if ( widget->inherits( "CustomWidget" ) ) {
 	    MetaDataBase::CustomWidget *cw = ( (CustomWidget*)widget )->customWidget();
 	    if ( !cw )
-		return FALSE;
+		return false;
 	    for ( QValueList<MetaDataBase::Property>::Iterator it = cw->lstProperties.begin(); it != cw->lstProperties.end(); ++it ) {
 		if ( QString( (*it ).property ) == propName ) {
 		    if ( (*it).type == "String" || (*it).type == "CString" || (*it).type == "Int" || (*it).type == "UInt" )
-			return TRUE;
+			return true;
 		}
 	    }
 	}
-	return FALSE;
+	return false;
     }
     QVariant::Type t = QVariant::nameToType( p->type() );
     return ( cmd->propName == propName &&
@@ -494,7 +494,7 @@ bool SetPropertyCommand::checkProperty()
 {
     if ( propName == "name" /*|| propName == "itemName"*/ ) { // ### fix that
 	QString s = newValue.toString();
-	if ( !formWindow()->unify( widget, s, FALSE ) ) {
+	if ( !formWindow()->unify( widget, s, false ) ) {
 	    QMessageBox::information( formWindow()->mainWindow(),
 				      i18n("Set 'name' Property" ),
 				      i18n("The name of a widget must be unique.\n"
@@ -503,8 +503,8 @@ bool SetPropertyCommand::checkProperty()
 				      arg( newValue.toString() ).
 				      arg( formWindow()->name() ).
 				      arg( oldValue.toString() ));
-	    setProperty( oldValue, oldCurrentItemText, FALSE );
-	    return FALSE;
+	    setProperty( oldValue, oldCurrentItemText, false );
+	    return false;
 	}
 	if ( s.isEmpty() ) {
 	    QMessageBox::information( formWindow()->mainWindow(),
@@ -512,14 +512,14 @@ bool SetPropertyCommand::checkProperty()
 				      i18n("The name of a widget must not be null.\n"
                             "The name has been reverted to '%1'." ).
 				      arg( oldValue.toString() ));
-	    setProperty( oldValue, oldCurrentItemText, FALSE );
-	    return FALSE;
+	    setProperty( oldValue, oldCurrentItemText, false );
+	    return false;
 	}
 
 	if ( widget->parent() && widget->parent()->inherits( "FormWindow" ) )
 	    formWindow()->mainWindow()->formNameChanged( (FormWindow*)( (QWidget*)widget )->parentWidget() );
     }
-    return TRUE;
+    return true;
 }
 
 void SetPropertyCommand::setProperty( const QVariant &v, const QString &currentItemText, bool select )
@@ -532,16 +532,16 @@ void SetPropertyCommand::setProperty( const QVariant &v, const QString &currentI
 	editor->propertyList()->setCurrentProperty( propName );
 
     const QMetaProperty *p =
-	widget->metaObject()->property( widget->metaObject()->findProperty( propName, TRUE ), TRUE );
+	widget->metaObject()->property( widget->metaObject()->findProperty( propName, true ), true );
     if ( !p ) {
 	if ( propName == "hAlign" ) {
-	    p = widget->metaObject()->property( widget->metaObject()->findProperty( "alignment", TRUE ), TRUE );
+	    p = widget->metaObject()->property( widget->metaObject()->findProperty( "alignment", true ), true );
 	    int align = widget->property( "alignment" ).toInt();
 	    align &= ~( AlignHorizontal_Mask );
 	    align |= p->keyToValue( currentItemText );
 	    widget->setProperty( "alignment", QVariant( align ) );
 	} else if ( propName == "vAlign" ) {
-	    p = widget->metaObject()->property( widget->metaObject()->findProperty( "alignment", TRUE ), TRUE );
+	    p = widget->metaObject()->property( widget->metaObject()->findProperty( "alignment", true ), true );
 	    int align = widget->property( "alignment" ).toInt();
 	    align &= ~( AlignVertical_Mask );
 	    align |= p->keyToValue( currentItemText );
@@ -636,14 +636,14 @@ LayoutHorizontalCommand::LayoutHorizontalCommand( const QString &n, FormWindow *
 
 void LayoutHorizontalCommand::execute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.doLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
 
 void LayoutHorizontalCommand::unexecute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.undoLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
@@ -653,20 +653,20 @@ void LayoutHorizontalCommand::unexecute()
 LayoutHorizontalSplitCommand::LayoutHorizontalSplitCommand( const QString &n, FormWindow *fw,
 							    QWidget *parent, QWidget *layoutBase,
 							    const QWidgetList &wl )
-    : Command( n, fw ), layout( wl, parent, fw, layoutBase, TRUE, TRUE )
+    : Command( n, fw ), layout( wl, parent, fw, layoutBase, true, true )
 {
 }
 
 void LayoutHorizontalSplitCommand::execute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.doLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
 
 void LayoutHorizontalSplitCommand::unexecute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.undoLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
@@ -682,14 +682,14 @@ LayoutVerticalCommand::LayoutVerticalCommand( const QString &n, FormWindow *fw,
 
 void LayoutVerticalCommand::execute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.doLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
 
 void LayoutVerticalCommand::unexecute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.undoLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
@@ -699,20 +699,20 @@ void LayoutVerticalCommand::unexecute()
 LayoutVerticalSplitCommand::LayoutVerticalSplitCommand( const QString &n, FormWindow *fw,
 							QWidget *parent, QWidget *layoutBase,
 							const QWidgetList &wl )
-    : Command( n, fw ), layout( wl, parent, fw, layoutBase, TRUE, TRUE )
+    : Command( n, fw ), layout( wl, parent, fw, layoutBase, true, true )
 {
 }
 
 void LayoutVerticalSplitCommand::execute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.doLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
 
 void LayoutVerticalSplitCommand::unexecute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.undoLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
@@ -728,14 +728,14 @@ LayoutGridCommand::LayoutGridCommand( const QString &n, FormWindow *fw,
 
 void LayoutGridCommand::execute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.doLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
 
 void LayoutGridCommand::unexecute()
 {
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout.undoLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
 }
@@ -751,18 +751,18 @@ BreakLayoutCommand::BreakLayoutCommand( const QString &n, FormWindow *fw,
     margin = MetaDataBase::margin( layoutBase );
     layout = 0;
     if ( lay == WidgetFactory::HBox )
-	layout = new HorizontalLayout( wl, layoutBase, fw, layoutBase, FALSE, layoutBase->inherits( "QSplitter" ) );
+	layout = new HorizontalLayout( wl, layoutBase, fw, layoutBase, false, layoutBase->inherits( "QSplitter" ) );
     else if ( lay == WidgetFactory::VBox )
-	layout = new VerticalLayout( wl, layoutBase, fw, layoutBase, FALSE, layoutBase->inherits( "QSplitter" ) );
+	layout = new VerticalLayout( wl, layoutBase, fw, layoutBase, false, layoutBase->inherits( "QSplitter" ) );
     else if ( lay == WidgetFactory::Grid )
-	layout = new GridLayout( wl, layoutBase, fw, layoutBase, QSize( QMAX( 5, fw->grid().x()), QMAX( 5, fw->grid().y()) ), FALSE );
+	layout = new GridLayout( wl, layoutBase, fw, layoutBase, QSize( QMAX( 5, fw->grid().x()), QMAX( 5, fw->grid().y()) ), false );
 }
 
 void BreakLayoutCommand::execute()
 {
     if ( !layout )
 	return;
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout->breakLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
     for ( QWidget *w = widgets.first(); w; w = widgets.next() )
@@ -773,7 +773,7 @@ void BreakLayoutCommand::unexecute()
 {
     if ( !layout )
 	return;
-    formWindow()->clearSelection( FALSE );
+    formWindow()->clearSelection( false );
     layout->doLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
     MetaDataBase::setSpacing( WidgetFactory::containerOfWidget( lb ), spacing );
@@ -1079,7 +1079,7 @@ void AddSlotCommand::execute()
     formWindow()->mainWindow()->slotsChanged();
 #endif
     if ( formWindow()->formFile() )
-	formWindow()->formFile()->setModified( TRUE );
+	formWindow()->formFile()->setModified( true );
 }
 
 void AddSlotCommand::unexecute()
@@ -1089,7 +1089,7 @@ void AddSlotCommand::unexecute()
     formWindow()->mainWindow()->slotsChanged();
 #endif
     if ( formWindow()->formFile() )
-	formWindow()->formFile()->setModified( TRUE );
+	formWindow()->formFile()->setModified( true );
 }
 
 // ------------------------------------------------------------
@@ -1108,7 +1108,7 @@ void RemoveSlotCommand::execute()
     formWindow()->mainWindow()->slotsChanged();
 #endif
     if ( formWindow()->formFile() )
-	formWindow()->formFile()->setModified( TRUE );
+	formWindow()->formFile()->setModified( true );
 }
 
 void RemoveSlotCommand::unexecute()
@@ -1118,7 +1118,7 @@ void RemoveSlotCommand::unexecute()
     formWindow()->mainWindow()->slotsChanged();
 #endif
     if ( formWindow()->formFile() )
-	formWindow()->formFile()->setModified( TRUE );
+	formWindow()->formFile()->setModified( true );
 }
 
 // ------------------------------------------------------------
@@ -1191,7 +1191,7 @@ void PasteCommand::unexecute()
 {
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	w->hide();
-	formWindow()->selectWidget( w, FALSE );
+	formWindow()->selectWidget( w, false );
 	formWindow()->widgets()->remove( w );
 	formWindow()->mainWindow()->objectHierarchy()->widgetRemoved( w );
     }
@@ -1213,7 +1213,7 @@ void TabOrderCommand::merge( Command *c )
 
 bool TabOrderCommand::canMerge( Command * )
 {
-    return TRUE;
+    return true;
 }
 
 void TabOrderCommand::execute()
@@ -1375,7 +1375,7 @@ void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
 	    toLasts.pop();
 	    toLasts.push( ni );
 	    if ( pi )
-		pi->setOpen( TRUE );
+		pi->setOpen( true );
 	} else {
 	    if ( i->parent() == fromLast ) {
 		fromParents.push( fromLast );
@@ -1395,7 +1395,7 @@ void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
 		toLasts.pop();
 		toLasts.push( ni );
 		if ( pi )
-		    pi->setOpen( TRUE );
+		    pi->setOpen( true );
 	    } else {
 		while ( fromParents.top() != i->parent() ) {
 		    fromParents.pop();
@@ -1415,7 +1415,7 @@ void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
 			ni->setPixmap( c, *i->pixmap( c ) );
 		}
 		if ( pi )
-		    pi->setOpen( TRUE );
+		    pi->setOpen( true );
 		toLasts.pop();
 		toLasts.push( ni );
 	    }
@@ -1439,7 +1439,7 @@ PopulateMultiLineEditCommand::PopulateMultiLineEditCommand( const QString &n, Fo
 void PopulateMultiLineEditCommand::execute()
 {
     mlined->setText( newText );
-    MetaDataBase::setPropertyChanged( mlined, "text", TRUE );
+    MetaDataBase::setPropertyChanged( mlined, "text", true );
     formWindow()->emitUpdateProperties( mlined );
 }
 
@@ -1688,7 +1688,7 @@ void AddMenuCommand::execute()
     if ( !popup ) {
 	QString n = "PopupMenu";
 	popup = new QDesignerPopupMenu( mainWindow );
-	formWindow()->unify( popup, n, TRUE );
+	formWindow()->unify( popup, n, true );
 	popup->setName( n );
     }
     if ( !mainWindow->child( 0, "QMenuBar" ) ) {
@@ -1766,7 +1766,7 @@ void AddToolBarCommand::execute()
     if ( !toolBar ) {
 	toolBar = new QDesignerToolBar( mainWindow );
 	QString n = "Toolbar";
-	formWindow()->unify( toolBar, n, TRUE );
+	formWindow()->unify( toolBar, n, true );
 	toolBar->setName( n );
 	mainWindow->addToolBar( toolBar, n );
     } else {

@@ -48,11 +48,11 @@ bool QDesignerAction::addTo( QWidget *w )
 	return QAction::addTo( w );
 
     if ( w->inherits( "QPopupMenu" ) )
-	return FALSE;
+	return false;
 
-    widgetToInsert->reparent( w, QPoint( 0, 0 ), FALSE );
+    widgetToInsert->reparent( w, QPoint( 0, 0 ), false );
     addedTo( widgetToInsert, w );
-    return TRUE;
+    return true;
 }
 
 bool QDesignerAction::removeFrom( QWidget *w )
@@ -61,15 +61,15 @@ bool QDesignerAction::removeFrom( QWidget *w )
 	return QAction::removeFrom( w );
 
     remove();
-    return TRUE;
+    return true;
 }
 
 void QDesignerAction::remove()
 {
     if ( !widgetToInsert )
 	return;
-    MainWindow::self->formWindow()->selectWidget( widgetToInsert, FALSE );
-    widgetToInsert->reparent( 0, QPoint( 0, 0 ), FALSE );
+    MainWindow::self->formWindow()->selectWidget( widgetToInsert, false );
+    widgetToInsert->reparent( 0, QPoint( 0, 0 ), false );
 }
 
 QDesignerToolBarSeparator::QDesignerToolBarSeparator(Orientation o , QToolBar *parent,
@@ -128,25 +128,25 @@ bool QSeparatorAction::addTo( QWidget *w )
     if ( w->inherits( "QToolBar" ) ) {
 	QToolBar *tb = (QToolBar*)w;
 	wid = new QDesignerToolBarSeparator( tb->orientation(), tb );
-	return TRUE;
+	return true;
     } else if ( w->inherits( "QPopupMenu" ) ) {
 	idx = ( (QPopupMenu*)w )->count();
 	( (QPopupMenu*)w )->insertSeparator( idx );
-	return TRUE;
+	return true;
     }
-    return FALSE;
+    return false;
 }
 
 bool QSeparatorAction::removeFrom( QWidget *w )
 {
     if ( w->inherits( "QToolBar" ) ) {
 	delete wid;
-	return TRUE;
+	return true;
     } else if ( w->inherits( "QPopupMenu" ) ) {
 	( (QPopupMenu*)w )->removeItemAt( idx );
-	return TRUE;
+	return true;
     }
-    return FALSE;
+    return false;
 }
 
 QWidget *QSeparatorAction::widget() const
@@ -161,31 +161,31 @@ QDesignerToolBar::QDesignerToolBar( QMainWindow *mw )
     : QToolBar( mw ), lastIndicatorPos( -1, -1 )
 {
     insertAnchor = 0;
-    afterAnchor = TRUE;
-    setAcceptDrops( TRUE );
+    afterAnchor = true;
+    setAcceptDrops( true );
     MetaDataBase::addEntry( this );
     lastIndicatorPos = QPoint( -1, -1 );
     indicator = new QDesignerIndicatorWidget( this );
     indicator->hide();
     installEventFilter( this );
-    widgetInserting = FALSE;
+    widgetInserting = false;
     findFormWindow();
-    mw->setDockEnabled( DockTornOff, FALSE );
+    mw->setDockEnabled( DockTornOff, false );
 }
 
 QDesignerToolBar::QDesignerToolBar( QMainWindow *mw, Dock dock )
     : QToolBar( QString::null, mw, dock), lastIndicatorPos( -1, -1 )
 {
     insertAnchor = 0;
-    afterAnchor = TRUE;
-    setAcceptDrops( TRUE );
+    afterAnchor = true;
+    setAcceptDrops( true );
     indicator = new QDesignerIndicatorWidget( this );
     indicator->hide();
     MetaDataBase::addEntry( this );
     installEventFilter( this );
-    widgetInserting = FALSE;
+    widgetInserting = false;
     findFormWindow();
-    mw->setDockEnabled( DockTornOff, FALSE );
+    mw->setDockEnabled( DockTornOff, false );
 }
 
 void QDesignerToolBar::findFormWindow()
@@ -228,7 +228,7 @@ bool QDesignerToolBar::eventFilter( QObject *o, QEvent *e )
     if ( o == this && e->type() == QEvent::MouseButtonPress &&
 	 ( ( QMouseEvent*)e )->button() == LeftButton ) {
 	mousePressEvent( (QMouseEvent*)e );
-	return TRUE;
+	return true;
     }
 
     if ( o == this )
@@ -238,30 +238,30 @@ bool QDesignerToolBar::eventFilter( QObject *o, QEvent *e )
 	QMouseEvent *ke = (QMouseEvent*)e;
 	fixObject( o );
 	if ( !o )
-	    return FALSE;
+	    return false;
 	buttonMousePressEvent( ke, o );
-	return TRUE;
+	return true;
     } else if(e->type() == QEvent::ContextMenu ) {
 	QContextMenuEvent *ce = (QContextMenuEvent*)e;
 	fixObject( o );
 	if( !o )
-	    return FALSE;
+	    return false;
 	buttonContextMenuEvent( ce, o );
-	return TRUE;
+	return true;
     } else if ( e->type() == QEvent::MouseMove ) {
 	QMouseEvent *ke = (QMouseEvent*)e;
 	fixObject( o );
 	if ( !o )
-	    return FALSE;
+	    return false;
 	buttonMouseMoveEvent( ke, o );
-	return TRUE;
+	return true;
     } else if ( e->type() == QEvent::MouseButtonRelease ) {
 	QMouseEvent *ke = (QMouseEvent*)e;
 	fixObject( o );
 	if ( !o )
-	    return FALSE;
+	    return false;
 	buttonMouseReleaseEvent( ke, o );
-	return TRUE;
+	return true;
     } else if ( e->type() == QEvent::DragEnter ) {
 	QDragEnterEvent *de = (QDragEnterEvent*)e;
 	if ( de->provides( "application/x-designer-actions" ) ||
@@ -303,7 +303,7 @@ void QDesignerToolBar::contextMenuEvent( QContextMenuEvent *e )
 
 void QDesignerToolBar::mousePressEvent( QMouseEvent *e )
 {
-    widgetInserting = FALSE;
+    widgetInserting = false;
     if ( e->button() == LeftButton &&
 	 MainWindow::self->currentTool() != POINTER_TOOL &&
 	 MainWindow::self->currentTool() != ORDER_TOOL ) {
@@ -311,7 +311,7 @@ void QDesignerToolBar::mousePressEvent( QMouseEvent *e )
 	if ( MainWindow::self->currentTool() == CONNECT_TOOL ) {
 
 	} else {
-	    widgetInserting = TRUE;
+	    widgetInserting = true;
 	}
 
 	return;
@@ -322,7 +322,7 @@ void QDesignerToolBar::mouseReleaseEvent( QMouseEvent *e )
 {
     if ( widgetInserting )
 	doInsertWidget( mapFromGlobal( e->globalPos() ) );
-    widgetInserting = FALSE;
+    widgetInserting = false;
 }
 
 void QDesignerToolBar::buttonMouseReleaseEvent( QMouseEvent *e, QObject *w )
@@ -330,10 +330,10 @@ void QDesignerToolBar::buttonMouseReleaseEvent( QMouseEvent *e, QObject *w )
     if ( widgetInserting )
 	doInsertWidget( mapFromGlobal( e->globalPos() ) );
     else if ( w->isWidgetType() && formWindow->widgets()->find( w ) ) {
-	formWindow->clearSelection( FALSE );
+	formWindow->clearSelection( false );
 	formWindow->selectWidget( w );
     }
-    widgetInserting = FALSE;
+    widgetInserting = false;
 }
 
 void QDesignerToolBar::buttonContextMenuEvent( QContextMenuEvent *e, QObject *o )
@@ -389,7 +389,7 @@ void QDesignerToolBar::buttonContextMenuEvent( QContextMenuEvent *e, QObject *o 
 
 void QDesignerToolBar::buttonMousePressEvent( QMouseEvent *e, QObject * )
 {
-    widgetInserting = FALSE;
+    widgetInserting = false;
 
     if ( e->button() == MidButton )
 	return;
@@ -401,7 +401,7 @@ void QDesignerToolBar::buttonMousePressEvent( QMouseEvent *e, QObject * )
 	if ( MainWindow::self->currentTool() == CONNECT_TOOL ) {
 
 	} else {
-	    widgetInserting = TRUE;
+	    widgetInserting = true;
 	}
 
 	return;
@@ -458,7 +458,7 @@ void QDesignerToolBar::buttonMouseMoveEvent( QMouseEvent *e, QObject *o )
     drag->setPixmap( a->iconSet().pixmap() );
     if ( a->inherits( "QDesignerAction" ) ) {
 	if ( formWindow->widgets()->find( ( (QDesignerAction*)a )->widget() ) )
-	    formWindow->selectWidget( ( (QDesignerAction*)a )->widget(), FALSE );
+	    formWindow->selectWidget( ( (QDesignerAction*)a )->widget(), false );
     }
     if ( !drag->drag() ) {
 	AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand( i18n("Add Action '%1' to Toolbar '%2'" ).
@@ -475,7 +475,7 @@ void QDesignerToolBar::buttonMouseMoveEvent( QMouseEvent *e, QObject *o )
 
 void QDesignerToolBar::dragEnterEvent( QDragEnterEvent *e )
 {
-    widgetInserting = FALSE;
+    widgetInserting = false;
     lastIndicatorPos = QPoint( -1, -1 );
     if ( e->provides( "application/x-designer-actions" ) ||
 	 e->provides( "application/x-designer-actiongroup" ) ||
@@ -498,7 +498,7 @@ void QDesignerToolBar::dragLeaveEvent( QDragLeaveEvent * )
 {
     indicator->hide();
     insertAnchor = 0;
-    afterAnchor = TRUE;
+    afterAnchor = true;
 }
 
 void QDesignerToolBar::dropEvent( QDropEvent *e )
@@ -586,7 +586,7 @@ QPoint QDesignerToolBar::calcIndicatorPos( const QPoint &pos )
     if ( orientation() == Horizontal ) {
 	QPoint pnt( width() - 2, 0 );
 	insertAnchor = 0;
-	afterAnchor = TRUE;
+	afterAnchor = true;
 	if ( !children() )
 	    return pnt;
 	pnt = QPoint( 13, 0 );
@@ -600,7 +600,7 @@ QPoint QDesignerToolBar::calcIndicatorPos( const QPoint &pos )
 		if ( w->x() < pos.x() ) {
 		    pnt.setX( w->x() + w->width() + 1 );
 		    insertAnchor = w;
-		    afterAnchor = TRUE;
+		    afterAnchor = true;
 		}
 	    }
 	}
@@ -608,7 +608,7 @@ QPoint QDesignerToolBar::calcIndicatorPos( const QPoint &pos )
     } else {
 	QPoint pnt( 0, height() - 2 );
 	insertAnchor = 0;
-	afterAnchor = TRUE;
+	afterAnchor = true;
 	if ( !children() )
 	    return pnt;
 	pnt = QPoint( 0, 13 );
@@ -622,7 +622,7 @@ QPoint QDesignerToolBar::calcIndicatorPos( const QPoint &pos )
 		if ( w->y() < pos.y() ) {
 		    pnt.setY( w->y() + w->height() + 1 );
 		    insertAnchor = w;
-		    afterAnchor = TRUE;
+		    afterAnchor = true;
 		}
 	    }
 	}
@@ -659,9 +659,9 @@ void QDesignerToolBar::doInsertWidget( const QPoint &p )
     if ( formWindow != MainWindow::self->formWindow() )
 	return;
     calcIndicatorPos( p );
-    QWidget *w = WidgetFactory::create( MainWindow::self->currentTool(), this, 0, TRUE );
+    QWidget *w = WidgetFactory::create( MainWindow::self->currentTool(), this, 0, true );
     installEventFilters( w );
-    MainWindow::self->formWindow()->insertWidget( w, TRUE );
+    MainWindow::self->formWindow()->insertWidget( w, true );
     QDesignerAction *a = new QDesignerAction( w, parent() );
     int index = actionList.findRef( *actionMap.find( insertAnchor ) );
     if ( index != -1 && afterAnchor )
@@ -701,10 +701,10 @@ QDesignerMenuBar::QDesignerMenuBar( QWidget *mw )
     : QMenuBar( mw, 0 )
 {
     show();
-    setAcceptDrops( TRUE );
+    setAcceptDrops( true );
     MetaDataBase::addEntry( this );
     itemNum = 0;
-    mousePressed = FALSE;
+    mousePressed = false;
     lastIndicatorPos = QPoint( -1, -1 );
     insertAt = -1;
     indicator = new QDesignerIndicatorWidget( this );
@@ -766,7 +766,7 @@ void QDesignerMenuBar::mousePressEvent( QMouseEvent *e )
 {
     lastIndicatorPos = QPoint( -1, -1 );
     insertAt = -1;
-    mousePressed = TRUE;
+    mousePressed = true;
     if ( e->button() == MidButton || e->button() == RightButton )
 	return;
 
@@ -809,13 +809,13 @@ void QDesignerMenuBar::mouseMoveEvent( QMouseEvent *e )
     }
     lastIndicatorPos = QPoint( -1, -1 );
     indicator->hide();
-    mousePressed = FALSE;
+    mousePressed = false;
 }
 
 void QDesignerMenuBar::mouseReleaseEvent( QMouseEvent *e )
 {
     QMenuBar::mouseReleaseEvent( e );
-    mousePressed = FALSE;
+    mousePressed = false;
 }
 
 #ifndef QT_NO_DRAGANDDROP
@@ -846,7 +846,7 @@ void QDesignerMenuBar::dragMoveEvent( QDragMoveEvent *e )
 	 e->provides( "application/x-designer-separator" ) ) {
 	int item = itemAtPos( e->pos() );
 	bool uieffect = QApplication::isEffectEnabled( UI_AnimateMenu );
-	QApplication::setEffectEnabled( UI_AnimateMenu, FALSE );
+	QApplication::setEffectEnabled( UI_AnimateMenu, false );
 	if ( !qApp->activePopupWidget() )
 	    actItem = -1;
 	activateItemAt( item );
@@ -860,14 +860,14 @@ void QDesignerMenuBar::dragMoveEvent( QDragMoveEvent *e )
 
 void QDesignerMenuBar::dragLeaveEvent( QDragLeaveEvent * )
 {
-    mousePressed = FALSE;
+    mousePressed = false;
     lastIndicatorPos = QPoint( -1, -1 );
     insertAt = -1;
 }
 
 void QDesignerMenuBar::dropEvent( QDropEvent *e )
 {
-    mousePressed = FALSE;
+    mousePressed = false;
     if ( !e->provides( "application/x-designer-menuitem" ) )
 	return;
     e->accept();
@@ -963,9 +963,9 @@ QDesignerPopupMenu::QDesignerPopupMenu( QWidget *w )
       popupMenu( 0 )
 {
     findFormWindow();
-    setAcceptDrops( TRUE );
+    setAcceptDrops( true );
     insertAt = -1;
-    mousePressed = FALSE;
+    mousePressed = false;
     lastIndicatorPos = QPoint( -1, -1 );
     indicator = new QDesignerIndicatorWidget( this );
     indicator->hide();
@@ -999,7 +999,7 @@ void QDesignerPopupMenu::mousePressEvent( QMouseEvent *e )
 	QTimer::singleShot( 0, this, SLOT(createPopupMenu()) );
 	return;
     }
-    mousePressed = TRUE;
+    mousePressed = true;
     dragStartPos = e->pos();
     QPopupMenu::mousePressEvent( e );
 }
@@ -1012,7 +1012,7 @@ void QDesignerPopupMenu::createPopupMenu()
     int itm;
     const int ID_DELETE = 1;
     const int ID_SEP = 2;
-    itm = itemAtPos( popupLocalPos, FALSE );
+    itm = itemAtPos( popupLocalPos, false );
     if ( itm == -1 )
 	return;
     QAction *a = actionList.at( itm );
@@ -1060,7 +1060,7 @@ void QDesignerPopupMenu::mouseMoveEvent( QMouseEvent *e )
 	QPopupMenu::mouseMoveEvent( e );
 	return;
     }
-    int itm = itemAtPos( dragStartPos, FALSE );
+    int itm = itemAtPos( dragStartPos, false );
     if ( itm == -1 )
 	return;
     QAction *a = actionList.at( itm );
@@ -1087,12 +1087,12 @@ void QDesignerPopupMenu::mouseMoveEvent( QMouseEvent *e )
     }
     indicator->hide();
     lastIndicatorPos = QPoint( -1, -1 );
-    mousePressed = FALSE;
+    mousePressed = false;
 }
 
 void QDesignerPopupMenu::mouseReleaseEvent( QMouseEvent *e )
 {
-    mousePressed = FALSE;
+    mousePressed = false;
     QPopupMenu::mouseReleaseEvent( e );
 }
 
@@ -1100,7 +1100,7 @@ void QDesignerPopupMenu::mouseReleaseEvent( QMouseEvent *e )
 
 void QDesignerPopupMenu::dragEnterEvent( QDragEnterEvent *e )
 {
-    mousePressed = FALSE;
+    mousePressed = false;
     lastIndicatorPos = QPoint( -1, -1 );
     if ( e->provides( "application/x-designer-actions" ) ||
 	 e->provides( "application/x-designer-actiongroup" ) ||
@@ -1110,7 +1110,7 @@ void QDesignerPopupMenu::dragEnterEvent( QDragEnterEvent *e )
 
 void QDesignerPopupMenu::dragMoveEvent( QDragMoveEvent *e )
 {
-    mousePressed = FALSE;
+    mousePressed = false;
     if ( e->provides( "application/x-designer-actions" ) ||
 	 e->provides( "application/x-designer-actiongroup" ) ||
 	 e->provides( "application/x-designer-separator" ) )
@@ -1122,14 +1122,14 @@ void QDesignerPopupMenu::dragMoveEvent( QDragMoveEvent *e )
 
 void QDesignerPopupMenu::dragLeaveEvent( QDragLeaveEvent * )
 {
-    mousePressed = FALSE;
+    mousePressed = false;
     indicator->hide();
     insertAt = -1;
 }
 
 void QDesignerPopupMenu::dropEvent( QDropEvent *e )
 {
-    mousePressed = FALSE;
+    mousePressed = false;
     if ( e->provides( "application/x-designer-actions" ) ||
 	 e->provides( "application/x-designer-actiongroup" ) ||
 	 e->provides( "application/x-designer-separator" ) )

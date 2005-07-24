@@ -28,7 +28,7 @@
 #include <qspinbox.h>
 
 FormSettings::FormSettings( QWidget *parent, FormWindow *fw )
-    : FormSettingsBase( parent, 0, TRUE ), formwindow( fw )
+    : FormSettingsBase( parent, 0, true ), formwindow( fw )
 {
   MetaDataBase::MetaInfo info = MetaDataBase::metaInfo(fw);
   editAuthor->setText(info.author);
@@ -47,7 +47,7 @@ void FormSettings::okClicked()
   info.license = editLicense->text();
   info.comment = editComment->text();
   MetaDataBase::setMetaInfo(formwindow, info);
-  formwindow->commandHistory()->setModified(TRUE);
+  formwindow->commandHistory()->setModified(true);
 
   formwindow->setLayoutDefaultSpacing(spinSpacing->value());
   formwindow->setLayoutDefaultMargin(spinMargin->value());

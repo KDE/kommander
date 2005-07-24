@@ -32,16 +32,16 @@
 #include <klocale.h>
 
 IconViewEditor::IconViewEditor( QWidget *parent, QWidget *editWidget, FormWindow *fw )
-    : IconViewEditorBase( parent, 0, TRUE ), formwindow( fw )
+    : IconViewEditorBase( parent, 0, true ), formwindow( fw )
 {
     connect( buttonHelp, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );
     iconview = (QIconView*)editWidget;
 
     itemText->setText( "" );
-    itemText->setEnabled( FALSE );
+    itemText->setEnabled( false );
     itemPixmap->setText( "" );
-    itemChoosePixmap->setEnabled( FALSE );
-    itemDeletePixmap->setEnabled( FALSE );
+    itemChoosePixmap->setEnabled( false );
+    itemDeletePixmap->setEnabled( false );
 
     QIconViewItem *i = 0;
     for ( i = iconview->firstItem(); i; i = i->nextItem() ) {
@@ -56,38 +56,38 @@ void IconViewEditor::insertNewItem()
 {
     QIconViewItem *i = new QIconViewItem( preview, i18n("New Item" ) );
     preview->setCurrentItem( i );
-    preview->setSelected( i, TRUE );
+    preview->setSelected( i, true );
 }
 
 void IconViewEditor::deleteCurrentItem()
 {
     delete preview->currentItem();
     if ( preview->currentItem() )
-	preview->setSelected( preview->currentItem(), TRUE );
+	preview->setSelected( preview->currentItem(), true );
 }
 
 void IconViewEditor::currentItemChanged( QIconViewItem *i )
 {
-    itemText->blockSignals( TRUE );
+    itemText->blockSignals( true );
     itemText->setText( "" );
     itemPixmap->setText( "" );
-    itemText->blockSignals( FALSE );
+    itemText->blockSignals( false );
 
     if ( !i ) {
-	itemText->setEnabled( FALSE );
-	itemChoosePixmap->setEnabled( FALSE );
+	itemText->setEnabled( false );
+	itemChoosePixmap->setEnabled( false );
 	return;
     }
 
-    itemText->blockSignals( TRUE );
-    itemText->setEnabled( TRUE );
-    itemChoosePixmap->setEnabled( TRUE );
+    itemText->blockSignals( true );
+    itemText->setEnabled( true );
+    itemChoosePixmap->setEnabled( true );
     itemDeletePixmap->setEnabled( i->pixmap() && !i->pixmap()->isNull() );
 
     itemText->setText( i->text() );
     if ( i->pixmap() )
 	itemPixmap->setPixmap( *i->pixmap() );
-    itemText->blockSignals( FALSE );
+    itemText->blockSignals( false );
 }
 
 void IconViewEditor::currentTextChanged( const QString &txt )
@@ -143,7 +143,7 @@ void IconViewEditor::choosePixmap()
 
     preview->currentItem()->setPixmap( pix );
     itemPixmap->setPixmap( pix );
-    itemDeletePixmap->setEnabled( TRUE );
+    itemDeletePixmap->setEnabled( true );
 }
 
 void IconViewEditor::deletePixmap()
@@ -153,6 +153,6 @@ void IconViewEditor::deletePixmap()
 
     preview->currentItem()->setPixmap( QPixmap() );
     itemPixmap->setText( "" );
-    itemDeletePixmap->setEnabled( FALSE );
+    itemDeletePixmap->setEnabled( false );
 }
 #include "iconvieweditorimpl.moc"

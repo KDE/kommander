@@ -56,7 +56,7 @@ bool operator<( const QGuardedPtr<QWidget> &p1, const QGuardedPtr<QWidget> &p2 )
 Layout::Layout( const QWidgetList &wl, QWidget *p, FormWindow *fw, QWidget *lb, bool doSetup, bool splitter )
     : widgets( wl ), parent( p ), formWindow( fw ), isBreak( !doSetup ), useSplitter( splitter )
 {
-    widgets.setAutoDelete( FALSE );
+    widgets.setAutoDelete( false );
     layoutBase = lb;
     if ( !doSetup && layoutBase )
 	oldGeometry = layoutBase->geometry();
@@ -95,7 +95,7 @@ void Layout::setup()
 	    }
 	    if ( !lastList ) {
 		QWidgetList l;
-		l.setAutoDelete( FALSE );
+		l.setAutoDelete( false );
 		lists.append( l );
 		lastList = &lists.last();
 	    }
@@ -155,7 +155,7 @@ void Layout::widgetDestroyed()
 bool Layout::prepareLayout( bool &needMove, bool &needReparent )
 {
     if ( !widgets.count() )
-	return FALSE;
+	return false;
     for ( QWidget *w = widgets.first(); w; w = widgets.next() )
 	w->raise();
     needMove = !layoutBase;
@@ -171,7 +171,7 @@ bool Layout::prepareLayout( bool &needMove, bool &needReparent )
 	WidgetFactory::deleteLayout( layoutBase );
     }
 
-    return TRUE;
+    return true;
 }
 
 void Layout::finishLayout( bool needMove, QLayout *layout )
@@ -206,7 +206,7 @@ void Layout::undoLayout()
 	it.key()->reparent( WidgetFactory::containerOfWidget( parent ), 0, ( *it ).topLeft(), it.key()->isVisibleTo( formWindow ) );
 	it.key()->resize( ( *it ).size() );
     }
-    formWindow->selectWidget( layoutBase, FALSE );
+    formWindow->selectWidget( layoutBase, false );
     WidgetFactory::deleteLayout( layoutBase );
     if ( parent != layoutBase && !layoutBase->inherits( "QMainWindow" ) ) {
 	layoutBase->hide();
@@ -240,7 +240,7 @@ void Layout::breakLayout()
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	if ( needReparent )
 	    w->reparent( layoutBase->parentWidget(), 0,
-			 layoutBase->pos() + w->pos(), TRUE );
+			 layoutBase->pos() + w->pos(), true );
 	if ( needResize ) {
 	    QMap<QWidget*, QRect>::Iterator it = rects.find( w );
 	    if ( it != rects.end() )
@@ -307,7 +307,7 @@ void HorizontalLayout::doLayout()
 
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	if ( needReparent && w->parent() != layoutBase )
-	    w->reparent( layoutBase, 0, QPoint( 0, 0 ), FALSE );
+	    w->reparent( layoutBase, 0, QPoint( 0, 0 ), false );
 	if ( !useSplitter ) {
 	    if ( qstrcmp( w->className(), "Spacer" ) == 0 )
 		layout->addWidget( w, 0, ( (Spacer*)w )->alignment() );
@@ -371,7 +371,7 @@ void VerticalLayout::doLayout()
 
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	if ( needReparent && w->parent() != layoutBase )
-	    w->reparent( layoutBase, 0, QPoint( 0, 0 ), FALSE );
+	    w->reparent( layoutBase, 0, QPoint( 0, 0 ), false );
 	if ( !useSplitter ) {
 	    if ( qstrcmp( w->className(), "Spacer" ) == 0 )
 		layout->addWidget( w, 0, ( (Spacer*)w )->alignment() );
@@ -481,10 +481,10 @@ bool Grid::isWidgetStartCol( int c ) const
     int r;
     for ( r = 0; r < nrows; r++ ) {
 	if ( cell( r, c ) && ( (c==0) || (cell( r, c)  != cell( r, c-1) )) ) {
-	    return TRUE;
+	    return true;
 	}
     }
-    return FALSE;
+    return false;
 }
 
 bool Grid::isWidgetEndCol( int c ) const
@@ -492,9 +492,9 @@ bool Grid::isWidgetEndCol( int c ) const
     int r;
     for ( r = 0; r < nrows; r++ ) {
 	if ( cell( r, c ) && ((c == ncols-1) || (cell( r, c) != cell( r, c+1) )) )
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 bool Grid::isWidgetStartRow( int r ) const
@@ -502,9 +502,9 @@ bool Grid::isWidgetStartRow( int r ) const
     int c;
     for ( c = 0; c < ncols; c++ ) {
 	if ( cell( r, c ) && ( (r==0) || (cell( r, c) != cell( r-1, c) )) )
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 bool Grid::isWidgetEndRow( int r ) const
@@ -512,9 +512,9 @@ bool Grid::isWidgetEndRow( int r ) const
     int c;
     for ( c = 0; c < ncols; c++ ) {
 	if ( cell( r, c ) && ((r == nrows-1) || (cell( r, c) != cell( r+1, c) )) )
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -522,7 +522,7 @@ bool Grid::isWidgetTopLeft( int r, int c ) const
 {
     QWidget* w = cell( r, c );
     if ( !w )
-	return FALSE;
+	return false;
     return ( !r || cell( r-1, c) != w ) && (!c || cell( r, c-1) != w);
 }
 
@@ -663,16 +663,16 @@ void Grid::merge()
 {
     int r,c;
     for ( c = 0; c < ncols; c++ )
-	cols[c] = FALSE;
+	cols[c] = false;
 
     for ( r = 0; r < nrows; r++ )
-	rows[r] = FALSE;
+	rows[r] = false;
 
     for ( c = 0; c < ncols; c++ ) {
 	for ( r = 0; r < nrows; r++ ) {
 	    if ( isWidgetTopLeft( r, c ) ) {
-		rows[r] = TRUE;
-		cols[c] = TRUE;
+		rows[r] = true;
+		cols[c] = true;
 	    }
 	}
     }
@@ -704,11 +704,11 @@ bool Grid::locateWidget( QWidget* w, int& row, int& col, int& rowspan, int & col
 		    if ( cols[ c2] )
 			colspan++;
 		}
-		return TRUE;
+		return true;
 	    }
 	}
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -743,7 +743,7 @@ void GridLayout::doLayout()
     for ( w = widgets.first(); w; w = widgets.next() ) {
 	if ( grid->locateWidget( w, r, c, rs, cs) ) {
 	    if ( needReparent && w->parent() != layoutBase )
-		w->reparent( layoutBase, 0, QPoint( 0, 0 ), FALSE );
+		w->reparent( layoutBase, 0, QPoint( 0, 0 ), false );
 	    if ( rs * cs == 1 ) {
 		layout->addWidget( w, r, c, w->inherits( "Spacer" ) ? ( (Spacer*)w )->alignment() : 0 );
 	    } else {
@@ -803,10 +803,10 @@ void GridLayout::buildGrid()
 
 Spacer::Spacer( QWidget *parent, const char *name )
     : QWidget( parent, name, WMouseNoMask ),
-      orient( Vertical ), interactive(TRUE), sh( QSize(20,20) )
+      orient( Vertical ), interactive(true), sh( QSize(20,20) )
 {
     setSizeType( Expanding );
-    setAutoMask( TRUE );
+    setAutoMask( true );
 }
 
 void Spacer::paintEvent( QPaintEvent * )

@@ -49,7 +49,7 @@ QString ListBox::currentState() const
 
 bool ListBox::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList ListBox::associatedText() const

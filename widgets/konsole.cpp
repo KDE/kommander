@@ -45,7 +45,7 @@ QString Konsole::currentState() const
 
 bool Konsole::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList Konsole::associatedText() const

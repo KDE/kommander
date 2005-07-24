@@ -100,14 +100,14 @@ static QPtrList<KommanderPlugin> widgetPlugins;
 QMap<QWidget*, QString> *qwf_functions = 0;
 QMap<QWidget*, QString> *qwf_forms = 0;
 QString *qwf_language = 0;
-bool qwf_execute_code = TRUE;
-bool qwf_stays_on_top = FALSE;
+bool qwf_execute_code = true;
+bool qwf_stays_on_top = false;
 QString qwf_currFileName = "";
 
 KommanderFactory::KommanderFactory()
-    : dbControls( 0 ), usePixmapCollection( FALSE )
+    : dbControls( 0 ), usePixmapCollection( false )
 {
-    widgetPlugins.setAutoDelete( TRUE );
+    widgetPlugins.setAutoDelete( true );
     defSpacing = 6;
     defMargin = 11;
 }
@@ -190,7 +190,7 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
 	} else if ( e.tagName() == "variable" ) { // compatibility with old betas
 	    widgetFactory->variables << e.firstChild().toText().data();
 	} else if ( e.tagName() == "pixmapinproject" ) {
-	    widgetFactory->usePixmapCollection = TRUE;
+	    widgetFactory->usePixmapCollection = true;
 	} else if ( e.tagName() == "layoutdefaults" ) {
 	    widgetFactory->defSpacing = e.attribute( "spacing", QString::number( widgetFactory->defSpacing ) ).toInt();
 	    widgetFactory->defMargin = e.attribute( "margin", QString::number( widgetFactory->defMargin ) ).toInt();
@@ -264,10 +264,10 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
 		c = new QSqlCursor( (*it)[ 1 ] );
 	    } else {
 		db = QSqlDatabase::database( conn );
-		c = new QSqlCursor( (*it)[ 1 ], TRUE, db );
+		c = new QSqlCursor( (*it)[ 1 ], true, db );
 	    }
 	    if ( db ) {
-		table->setSqlCursor( c, fieldMap.isEmpty(), TRUE );
+		table->setSqlCursor( c, fieldMap.isEmpty(), true );
 		table->refresh( QDataTable::RefreshAll );
 	    }
 	}
@@ -340,7 +340,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
   else if (className == "QTabWidget")
     return new QTabWidget(parent, name);
   else if (className == "QComboBox")
-    return new QComboBox(FALSE, parent, name);
+    return new QComboBox(false, parent, name);
   else if (className == "QWidget")
   {
     if (!qwf_stays_on_top)
@@ -351,7 +351,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
   {
     if (!qwf_stays_on_top)
       return new QDialog(parent, name);
-    return new QDialog(parent, name, FALSE, Qt::WStyle_StaysOnTop);
+    return new QDialog(parent, name, false, Qt::WStyle_StaysOnTop);
   } 
   else if (className == "QWizard")
     return new QWizard(parent, name);
@@ -433,7 +433,7 @@ int KommanderFactory::loadPlugins(bool force)
     return num_plugins_loaded;
 
   num_plugins_loaded = 0;
-  KConfig cfg("kommanderrc", TRUE);
+  KConfig cfg("kommanderrc", true);
   QStringList plugins = "libkommanderwidgets";
   plugins += cfg.readListEntry("plugins");
   QStringList::Iterator it;
@@ -704,7 +704,7 @@ KommanderFactory::LayoutType KommanderFactory::layoutType( QLayout *layout ) con
 
 void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDomElement &e )
 {
-    const QMetaProperty *p = obj->metaObject()->property( obj->metaObject()->findProperty( prop, TRUE ), TRUE );
+    const QMetaProperty *p = obj->metaObject()->property( obj->metaObject()->findProperty( prop, true ), true );
 
     QVariant defVariant;
     if ( e.tagName() == "font" ) {
@@ -764,7 +764,7 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
 		if ( prop == "buddy" ) {
 		buddies.insert( obj->name(), v.toCString() );
 	    } else if ( prop == "frameworkCode" ) {
-		if ( !DomTool::elementToVariant( e, QVariant( TRUE, 0 ) ).toBool() ) {
+		if ( !DomTool::elementToVariant( e, QVariant( true, 0 ) ).toBool() ) {
 		    noDatabaseWidgets << obj->name();
 		}
 	    } else if ( prop == "buttonGroupId" ) {
@@ -1006,7 +1006,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 		    } else {
 			if ( name == "this" )
 			    name = toplevel->name();
-			QObjectList *l = toplevel->queryList( 0, name, FALSE );
+			QObjectList *l = toplevel->queryList( 0, name, false );
 			if ( l ) {
 			    if ( l->first() )
 				conn.sender = l->first();
@@ -1022,7 +1022,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 		    if ( name == "this" || qstrcmp( toplevel->name(), name ) == 0 ) {
 			conn.receiver = toplevel;
 		    } else {
-			QObjectList *l = toplevel->queryList( 0, name, FALSE );
+			QObjectList *l = toplevel->queryList( 0, name, false );
 			if ( l ) {
 			    if ( l->first() )
 				conn.receiver = l->first();
@@ -1039,7 +1039,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 	    conn.slot = NormalizeObject::normalizeSignalSlot( conn.slot );
 
 	    QObject *sender = 0, *receiver = 0;
-	    QObjectList *l = toplevel->queryList( 0, conn.sender->name(), FALSE );
+	    QObjectList *l = toplevel->queryList( 0, conn.sender->name(), false );
 	    if ( qstrcmp( conn.sender->name(), toplevel->name() ) == 0 ) {
 		sender = toplevel;
 	    } else {
@@ -1057,7 +1057,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 	    if ( qstrcmp( conn.receiver->name(), toplevel->name() ) == 0 ) {
 		receiver = toplevel;
 	    } else {
-		l = toplevel->queryList( 0, conn.receiver->name(), FALSE );
+		l = toplevel->queryList( 0, conn.receiver->name(), false );
 		if ( !l || !l->first() ) {
 		    delete l;
 		    n = n.nextSibling().toElement();
@@ -1073,12 +1073,12 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 		QString s2 = "1""%1";
 		s2 = s2.arg( conn.slot );
 
-		QStrList signalList = sender->metaObject()->signalNames( TRUE );
-		QStrList slotList = receiver->metaObject()->slotNames( TRUE );
+		QStrList signalList = sender->metaObject()->signalNames( true );
+		QStrList slotList = receiver->metaObject()->slotNames( true );
 
 		// if this is a connection to a custom slot and we have a connector, try this as receiver
 		if ( slotList.find( conn.slot ) == -1 && receiver == toplevel && connector ) {
-		    slotList = connector->metaObject()->slotNames( TRUE );
+		    slotList = connector->metaObject()->slotNames( true );
 		    receiver = connector;
 		}
 
@@ -1110,7 +1110,7 @@ void KommanderFactory::loadTabOrder( const QDomElement &e )
     while ( !n.isNull() ) {
 	if ( n.tagName() == "tabstop" ) {
 	    QString name = n.firstChild().toText().data();
-	    QObjectList *l = toplevel->queryList( 0, name, FALSE );
+	    QObjectList *l = toplevel->queryList( 0, name, false );
 	    if ( l ) {
 		if ( l->first() ) {
 		    QWidget *w = (QWidget*)l->first();
@@ -1131,9 +1131,9 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 	QListView *lv = (QListView*)widget;
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
-	bool hasPixmap = FALSE;
+	bool hasPixmap = false;
 	QString txt;
-	bool clickable = TRUE, resizeable = TRUE;
+	bool clickable = true, resizeable = true;
 	while ( !n.isNull() ) {
 	    if ( n.tagName() == "property" ) {
 		QString attrib = n.attribute( "name" );
@@ -1178,7 +1178,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
-	bool hasPixmap = FALSE;
+	bool hasPixmap = false;
 	QString txt;
 	QString field;
 	QValueList<Field> fieldMap;
@@ -1231,7 +1231,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 void KommanderFactory::loadItem( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap )
 {
     QDomElement n = e;
-    hasPixmap = FALSE;
+    hasPixmap = false;
     while ( !n.isNull() ) {
 	if ( n.tagName() == "property" ) {
 	    QString attrib = n.attribute( "name" );
@@ -1252,7 +1252,7 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListV
     if ( widget->inherits( "QListBox" ) || widget->inherits( "QComboBox" ) ) {
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
-	bool hasPixmap = FALSE;
+	bool hasPixmap = false;
 	QString txt;
 	loadItem( n, pix, txt, hasPixmap );
 	QListBox *lb = 0;
@@ -1269,7 +1269,7 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListV
     } else if ( widget->inherits( "QIconView" ) ) {
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
-	bool hasPixmap = FALSE;
+	bool hasPixmap = false;
 	QString txt;
 	loadItem( n, pix, txt, hasPixmap );
 
@@ -1303,7 +1303,7 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListV
 		    }
 		}
 	    } else if ( n.tagName() == "item" ) {
-		item->setOpen( TRUE );
+		item->setOpen( true );
 		createItem( n, widget, item );
 	    }
 

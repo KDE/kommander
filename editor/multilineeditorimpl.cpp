@@ -29,7 +29,7 @@
 #include <klocale.h>
 
 MultiLineEditor::MultiLineEditor( QWidget *parent, QWidget *editWidget, FormWindow *fw )
-    : MultiLineEditorBase( parent, 0, TRUE ), formwindow( fw )
+    : MultiLineEditorBase( parent, 0, true ), formwindow( fw )
 {
     connect( buttonHelp, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );
     mlined = (QMultiLineEdit*)editWidget;
@@ -62,7 +62,7 @@ void MultiLineEditor::applyClicked()
 
 
 TextEditor::TextEditor( QWidget *parent, const QString &text )
-    : MultiLineEditorBase( parent, 0, TRUE )
+    : MultiLineEditorBase( parent, 0, true )
 {
     buttonApply->hide();
     setCaption( i18n("Text" ) );

@@ -33,16 +33,16 @@
 #include <klocale.h>
 
 ListBoxEditor::ListBoxEditor( QWidget *parent, QWidget *editWidget, FormWindow *fw )
-    : ListBoxEditorBase( parent, 0, TRUE ), formwindow( fw )
+    : ListBoxEditorBase( parent, 0, true ), formwindow( fw )
 {
     connect( helpButton, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );
     listbox = (QListBox*)editWidget;
 
     itemText->setText( "" );
-    itemText->setEnabled( FALSE );
+    itemText->setEnabled( false );
     itemPixmap->setText( "" );
-    itemChoosePixmap->setEnabled( FALSE );
-    itemDeletePixmap->setEnabled( FALSE );
+    itemChoosePixmap->setEnabled( false );
+    itemDeletePixmap->setEnabled( false );
 
     QListBoxItem *i = 0;
     for ( i = listbox->firstItem(); i; i = i->next() ) {
@@ -60,39 +60,39 @@ void ListBoxEditor::insertNewItem()
 {
     QListBoxItem *i = new QListBoxText( preview, i18n("New Item") );
     preview->setCurrentItem( i );
-    preview->setSelected( i, TRUE );
+    preview->setSelected( i, true );
 }
 
 void ListBoxEditor::deleteCurrentItem()
 {
     delete preview->item( preview->currentItem() );
     if ( preview->currentItem() != -1 )
-	preview->setSelected( preview->currentItem(), TRUE );
+	preview->setSelected( preview->currentItem(), true );
 }
 
 void ListBoxEditor::currentItemChanged( QListBoxItem *i )
 {
-    itemText->blockSignals( TRUE );
+    itemText->blockSignals( true );
     itemText->setText( "" );
     itemPixmap->setText( "" );
-    itemText->blockSignals( FALSE );
+    itemText->blockSignals( false );
 
     if ( !i ) {
-	itemText->setEnabled( FALSE );
-	itemChoosePixmap->setEnabled( FALSE );
-	itemDeletePixmap->setEnabled( FALSE );
+	itemText->setEnabled( false );
+	itemChoosePixmap->setEnabled( false );
+	itemDeletePixmap->setEnabled( false );
 	return;
     }
 
-    itemText->blockSignals( TRUE );
-    itemText->setEnabled( TRUE );
-    itemChoosePixmap->setEnabled( TRUE );
+    itemText->blockSignals( true );
+    itemText->setEnabled( true );
+    itemChoosePixmap->setEnabled( true );
     itemDeletePixmap->setEnabled( i->pixmap() && !i->pixmap()->isNull() );
 
     itemText->setText( i->text() );
     if ( i->pixmap() )
 	itemPixmap->setPixmap( *i->pixmap() );
-    itemText->blockSignals( FALSE );
+    itemText->blockSignals( false );
 }
 
 void ListBoxEditor::currentTextChanged( const QString &txt )
@@ -100,12 +100,12 @@ void ListBoxEditor::currentTextChanged( const QString &txt )
     if ( preview->currentItem() == -1 )
 	return;
 
-    preview->blockSignals( TRUE );
+    preview->blockSignals( true );
     if ( preview->item( preview->currentItem() )->pixmap() )
 	preview->changeItem( *preview->item( preview->currentItem() )->pixmap(), txt, preview->currentItem() );
     else
 	preview->changeItem( txt, preview->currentItem() );
-    preview->blockSignals( FALSE );
+    preview->blockSignals( false );
 }
 
 void ListBoxEditor::okClicked()
@@ -153,7 +153,7 @@ void ListBoxEditor::choosePixmap()
 
     QString txt = preview->item( preview->currentItem() )->text();
     preview->changeItem( pix, txt, preview->currentItem() );
-    itemDeletePixmap->setEnabled( TRUE );
+    itemDeletePixmap->setEnabled( true );
 }
 
 void ListBoxEditor::moveItemUp()
@@ -211,6 +211,6 @@ void ListBoxEditor::deletePixmap()
 
     QListBoxItem *i = preview->item( preview->currentItem() );
     preview->changeItem( i->text(), preview->currentItem() );
-    itemDeletePixmap->setEnabled( FALSE );
+    itemDeletePixmap->setEnabled( false );
 }
 #include "listboxeditorimpl.moc"

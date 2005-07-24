@@ -42,7 +42,7 @@ TextBrowser::~TextBrowser()
 
 bool TextBrowser::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList TextBrowser::associatedText() const

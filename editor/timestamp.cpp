@@ -25,7 +25,7 @@
 class QTimer;
 
 TimeStamp::TimeStamp( QObject *parent, const QString &f )
-    : QObject( parent ), filename( f ), autoCheck( FALSE )
+    : QObject( parent ), filename( f ), autoCheck( false )
 {
     timer = new QTimer( this );
     connect( timer, SIGNAL( timeout() ), this, SLOT( autoCheckTimeStamp() ) );
@@ -64,7 +64,7 @@ bool TimeStamp::isUpToDate() const
 {
     QFile f( filename );
     if ( !f.exists() )
-	return TRUE;
+	return true;
     return lastTimeStamp == QFileInfo( f ).lastModified();
 }
 

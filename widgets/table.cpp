@@ -45,7 +45,7 @@ QString Table::currentState() const
 
 bool Table::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList Table::associatedText() const

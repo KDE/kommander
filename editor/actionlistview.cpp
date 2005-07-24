@@ -27,8 +27,8 @@
 ActionListView::ActionListView( QWidget *parent, const char *name )
     : QListView( parent, name )
 {
-    header()->setStretchEnabled( TRUE );
-    setRootIsDecorated( TRUE );
+    header()->setStretchEnabled( true );
+    setRootIsDecorated( true );
     setSorting( -1 );
     connect( this, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint &, int ) ),
 	     this, SLOT( rmbMenu( QListViewItem *, const QPoint & ) ) );
@@ -41,7 +41,7 @@ ActionItem::ActionItem( QListView *lv, QAction *ac )
 	g = (QDesignerActionGroup*)ac;
     else
 	a = (QDesignerAction*)ac;
-    setDragEnabled( TRUE );
+    setDragEnabled( true );
 }
 
 ActionItem::ActionItem( QListViewItem *i, QAction *ac )
@@ -51,7 +51,7 @@ ActionItem::ActionItem( QListViewItem *i, QAction *ac )
 	g = (QDesignerActionGroup*)ac;
     else
 	a = (QDesignerAction*)ac;
-    setDragEnabled( TRUE );
+    setDragEnabled( true );
     moveToEnd();
 }
 

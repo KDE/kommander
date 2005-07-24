@@ -70,7 +70,7 @@ public:
 
 static QPtrDict<MetaDataBaseRecord> *db = 0;
 static QPtrList<MetaDataBase::CustomWidget> *cWidgets = 0;
-static bool doUpdate = TRUE;
+static bool doUpdate = true;
 static QStringList langList;
 static QStringList editorLangList;
 
@@ -91,9 +91,9 @@ inline void setupDataBase()
 {
     if ( !db || !cWidgets ) {
         db = new QPtrDict<MetaDataBaseRecord>( 1481 );
-        db->setAutoDelete( TRUE );
+        db->setAutoDelete( true );
         cWidgets = new QPtrList<MetaDataBase::CustomWidget>;
-        cWidgets->setAutoDelete( TRUE );
+        cWidgets->setAutoDelete( true );
     }
 }
 
@@ -146,20 +146,20 @@ void MetaDataBase::setPropertyChanged( QObject *o, const QString &property, bool
 
     if ( doUpdate &&
          ( property == "hAlign" || property == "vAlign" || property == "wordwrap" ) ) {
-        doUpdate = FALSE;
+        doUpdate = false;
         setPropertyChanged( o, "alignment", changed ||
                             isPropertyChanged( o, "hAlign" ) ||
                             isPropertyChanged( o, "vAlign" ) ||
                             isPropertyChanged( o, "wordwrap" ) );
-        doUpdate = TRUE;
+        doUpdate = true;
     }
 
     if ( doUpdate && property == "alignment" ) {
-        doUpdate = FALSE;
+        doUpdate = false;
         setPropertyChanged( o, "hAlign", changed );
         setPropertyChanged( o, "vAlign", changed );
         setPropertyChanged( o, "wordwrap", changed );
-        doUpdate = TRUE;
+        doUpdate = true;
     }
 }
 
@@ -170,7 +170,7 @@ bool MetaDataBase::isPropertyChanged( QObject *o, const QString &property )
     if ( !r ) {
         qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
                   o, o->name(), o->className() );
-        return FALSE;
+        return false;
     }
 
     return r->changedProperties.findIndex( property ) != -1;
@@ -445,7 +445,7 @@ void MetaDataBase::doConnections( QObject *o )
         if ( qstrcmp( conn.sender->name(), o->name() ) == 0 ) {
             sender = o;
         } else {
-            l = o->queryList( 0, conn.sender->name(), FALSE );
+            l = o->queryList( 0, conn.sender->name(), false );
             if ( !l || !l->first() ) {
                 delete l;
                 continue;
@@ -456,7 +456,7 @@ void MetaDataBase::doConnections( QObject *o )
         if ( qstrcmp( conn.receiver->name(), o->name() ) == 0 ) {
             receiver = o;
         } else {
-            l = o->queryList( 0, conn.receiver->name(), FALSE );
+            l = o->queryList( 0, conn.receiver->name(), false );
             if ( !l || !l->first() ) {
                 delete l;
                 continue;
@@ -469,8 +469,8 @@ void MetaDataBase::doConnections( QObject *o )
         QString s2 = "1""%1";
         s2 = s2.arg( conn.slot );
 
-        QStrList signalList = sender->metaObject()->signalNames( TRUE );
-        QStrList slotList = receiver->metaObject()->slotNames( TRUE );
+        QStrList signalList = sender->metaObject()->signalNames( true );
+        QStrList slotList = receiver->metaObject()->slotNames( true );
 
         // avoid warnings
         if ( signalList.find( conn.signal ) == -1 ||
@@ -582,15 +582,15 @@ bool MetaDataBase::isSlotUsed( QObject *o, const QCString &slot )
     if ( !r ) {
         qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
                   o, o->name(), o->className() );
-        return FALSE;
+        return false;
     }
 
     QValueList<Connection> conns = connections( o );
     for ( QValueList<Connection>::Iterator it = conns.begin(); it != conns.end(); ++it ) {
         if ( (*it).slot == slot )
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 void MetaDataBase::changeSlot( QObject *o, const QCString &slot, const QCString &newName )
@@ -643,19 +643,19 @@ bool MetaDataBase::hasSlot( QObject *o, const QCString &slot, bool onlyCustom )
     if ( !r ) {
         qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
                   o, o->name(), o->className() );
-        return FALSE;
+        return false;
     }
 
     if ( !onlyCustom ) {
-        QStrList slotList = o->metaObject()->slotNames( TRUE );
+        QStrList slotList = o->metaObject()->slotNames( true );
         if ( slotList.find( slot ) != -1 )
-            return TRUE;
+            return true;
 
         if ( o->inherits( "FormWindow" ) ) {
             o = ( (FormWindow*)o )->mainContainer();
-            slotList = o->metaObject()->slotNames( TRUE );
+            slotList = o->metaObject()->slotNames( true );
             if ( slotList.find( slot ) != -1 )
-                return TRUE;
+                return true;
         }
 
         if ( o->inherits( "CustomWidget" ) ) {
@@ -665,7 +665,7 @@ bool MetaDataBase::hasSlot( QObject *o, const QCString &slot, bool onlyCustom )
                 if ( !s.data() )
                     continue;
                 if ( s == slot )
-                    return TRUE;
+                    return true;
             }
         }
     }
@@ -673,10 +673,10 @@ bool MetaDataBase::hasSlot( QObject *o, const QCString &slot, bool onlyCustom )
     for ( QValueList<Slot>::Iterator it = r->slotList.begin(); it != r->slotList.end(); ++it ) {
         Slot s = *it;
         if ( normalizeSlot( s.slot ) == normalizeSlot( slot ) )
-            return TRUE;
+            return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 QString MetaDataBase::languageOfSlot( QObject *o, const QCString &slot )
@@ -720,7 +720,7 @@ bool MetaDataBase::addCustomWidget( CustomWidget *wid )
                     w->lstProperties.append( *it3 );
             }
             delete wid;
-            return FALSE;
+            return false;
         }
     }
 
@@ -733,7 +733,7 @@ bool MetaDataBase::addCustomWidget( CustomWidget *wid )
     r->isContainer = wid->isContainer;
     wid->id = WidgetDatabase::addCustomWidget( r );
     cWidgets->append( wid );
-    return TRUE;
+    return true;
 }
 
 void MetaDataBase::removeCustomWidget( CustomWidget *w )
@@ -762,18 +762,18 @@ bool MetaDataBase::isWidgetNameUsed( CustomWidget *wid )
         if ( w == wid )
             continue;
         if ( wid->className == w->className )
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 bool MetaDataBase::hasCustomWidget( const QString &className )
 {
     for ( CustomWidget *w = cWidgets->first(); w; w = cWidgets->next() ) {
         if ( w->className == className )
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 void MetaDataBase::setTabOrder( QWidget *w, const QWidgetList &order )
@@ -938,7 +938,7 @@ MetaDataBase::CustomWidget::CustomWidget()
     pixmap = new QPixmap( PixmapChooser::loadPixmap( "customwidget.xpm" ) );
     id = -1;
     sizePolicy = QSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
-    isContainer = FALSE;
+    isContainer = false;
 }
 
 MetaDataBase::CustomWidget::CustomWidget( const CustomWidget &w )
@@ -1006,40 +1006,40 @@ MetaDataBase::CustomWidget &MetaDataBase::CustomWidget::operator=( const CustomW
 
 bool MetaDataBase::CustomWidget::hasSignal( const QCString &signal ) const
 {
-    QStrList sigList = QWidget::staticMetaObject()->signalNames( TRUE );
+    QStrList sigList = QWidget::staticMetaObject()->signalNames( true );
     if ( sigList.find( signal ) != -1 )
-        return TRUE;
+        return true;
     for ( QValueList<QCString>::ConstIterator it = lstSignals.begin(); it != lstSignals.end(); ++it ) {
         if ( normalizeSlot( *it ) == normalizeSlot( signal ) )
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 bool MetaDataBase::CustomWidget::hasSlot( const QCString &slot ) const
 {
-    QStrList slotList = QWidget::staticMetaObject()->slotNames( TRUE );
+    QStrList slotList = QWidget::staticMetaObject()->slotNames( true );
     if ( slotList.find( normalizeSlot( slot ) ) != -1 )
-        return TRUE;
+        return true;
 
     for ( QValueList<MetaDataBase::Slot>::ConstIterator it = lstSlots.begin(); it != lstSlots.end(); ++it ) {
         if ( normalizeSlot( (*it).slot ) == normalizeSlot( slot ) )
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 bool MetaDataBase::CustomWidget::hasProperty( const QCString &prop ) const
 {
-    QStrList propList = QWidget::staticMetaObject()->propertyNames( TRUE );
+    QStrList propList = QWidget::staticMetaObject()->propertyNames( true );
     if ( propList.find( prop ) != -1 )
-        return TRUE;
+        return true;
 
     for ( QValueList<MetaDataBase::Property>::ConstIterator it = lstProperties.begin(); it != lstProperties.end(); ++it ) {
         if ( (*it).property == prop )
-            return TRUE;
+            return true;
     }
-    return FALSE;
+    return false;
 }
 
 void MetaDataBase::setPixmapArgument( QObject *o, int pixmap, const QString &arg )

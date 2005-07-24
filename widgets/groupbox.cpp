@@ -48,7 +48,7 @@ QString GroupBox::currentState() const
 
 bool GroupBox::isKommanderWidget() const
 {
-	return TRUE;
+	return true;
 }
 
 QStringList GroupBox::associatedText() const

@@ -139,7 +139,7 @@ bool PropertyWhatsThis::clicked( const QString& href )
 	QProcess proc( lst );
 	proc.start();
     }
-    return FALSE; // do not hide window
+    return false; // do not hide window
 }
 
 
@@ -161,10 +161,10 @@ bool PropertyWhatsThis::clicked( const QString& href )
 PropertyItem::PropertyItem( PropertyList *l, PropertyItem *after, PropertyItem *prop, const QString &propName )
     : QListViewItem( l, after ), listview( l ), property( prop ), propertyName( propName )
 {
-    setSelectable( FALSE );
-    open = FALSE;
+    setSelectable( false );
+    open = false;
     setText( 0, propertyName );
-    changed = FALSE;
+    changed = false;
     setText( 1, "" );
     resetButton = 0;
 }
@@ -235,7 +235,7 @@ void PropertyItem::paintCell( QPainter *p, const QColorGroup &cg, int column, in
     if ( isChanged() && column == 0 ) {
 	p->save();
 	QFont f = p->font();
-	f.setBold( TRUE );
+	f.setBold( true );
 	p->setFont( f );
     }
 
@@ -287,13 +287,13 @@ void PropertyItem::paintFocus( QPainter *p, const QColorGroup &cg, const QRect &
     p->restore();
 }
 
-/*!  Subclasses which are expandable items have to return TRUE
-  here. Default is FALSE.
+/*!  Subclasses which are expandable items have to return true
+  here. Default is false.
 */
 
 bool PropertyItem::hasSubItems() const
 {
-    return FALSE;
+    return false;
 }
 
 /*!  Returns the parent property item here if this is a child or 0
@@ -317,9 +317,9 @@ void PropertyItem::setOpen( bool b )
     open = b;
 
     if ( !open ) {
-	children.setAutoDelete( TRUE );
+	children.setAutoDelete( true );
 	children.clear();
-	children.setAutoDelete( FALSE );
+	children.setAutoDelete( false );
 	qApp->processEvents();
 	listview->updateEditorSize();
 	return;
@@ -413,7 +413,7 @@ void PropertyItem::updateResetButtonState()
     if ( !resetButton )
 	return;
     if ( propertyParent() || !WidgetFactory::canResetProperty( listview->propertyEditor()->widget(), name() ) )
-	resetButton->setEnabled( FALSE );
+	resetButton->setEnabled( false );
     else
 	resetButton->setEnabled( isChanged() );
 }
@@ -429,7 +429,7 @@ void PropertyItem::placeEditor( QWidget *w )
     if ( !r.size().isValid() ) {
 	listview->ensureItemVisible( this );
 #if defined(Q_WS_WIN)
-	listview->repaintContents( FALSE );
+	listview->repaintContents( false );
 #endif
 	r = listview->itemRect( this );
     }
@@ -452,12 +452,12 @@ void PropertyItem::notifyValueChange()
 {
     if ( !propertyParent() ) {
 	listview->valueChanged( this );
-	setChanged( TRUE );
+	setChanged( true );
 	if ( hasSubItems() )
 	    initChildren();
     } else {
 	propertyParent()->childValueChanged( this );
-	setChanged( TRUE );
+	setChanged( true );
     }
 }
 
@@ -491,12 +491,12 @@ PropertyItem *PropertyItem::child( int i ) const
 
 /*!  If the contents of the item is not displayable with a text, but
   you want to draw it yourself (using drawCustomContents()), return
-  TRUE here.
+  true here.
 */
 
 bool PropertyItem::hasCustomContents() const
 {
-    return FALSE;
+    return false;
 }
 
 /*!
@@ -596,7 +596,7 @@ QLineEdit *PropertyTextItem::lined()
 	button->setFixedWidth( 20 );
 	connect( button, SIGNAL( clicked() ),
 		 this, SLOT( getText() ) );
-	lin->setFrame( FALSE );
+	lin->setFrame( false );
     }
     connect( lin, SIGNAL( returnPressed() ),
 	     this, SLOT( setValue() ) );
@@ -637,7 +637,7 @@ void PropertyTextItem::childValueChanged( PropertyItem *child )
 					  PropertyItem::name(), child->value().toString() );
     else
 	MetaDataBase::setExportMacro( listview->propertyEditor()->widget(), child->value().toString() );
-    listview->propertyEditor()->formWindow()->commandHistory()->setModified( TRUE );
+    listview->propertyEditor()->formWindow()->commandHistory()->setModified( true );
 }
 
 static QString to_string( const QVariant &v, bool accel )
@@ -651,9 +651,9 @@ void PropertyTextItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !lin || lin->text().length() == 0 ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	lined()->setText( to_string( value(), accel ) );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
 
     QWidget* w;
@@ -673,7 +673,7 @@ void PropertyTextItem::createChildren()
 {
     PropertyTextItem *i = new PropertyTextItem( listview, this, this,
 						PropertyItem::name() == "name" ?
-						"export macro" : "comment", FALSE, FALSE,
+						"export macro" : "comment", false, false,
 						PropertyItem::name() == "name" );
     i->lined()->setEnabled( isChanged() );
     addChild( i );
@@ -711,13 +711,13 @@ void PropertyTextItem::setValue( const QVariant &v )
 	 && value() == v )
 	return;
     if ( lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	int oldCursorPos;
 	oldCursorPos = lin->cursorPosition();
 	lined()->setText( to_string( v, accel ) );
 	if ( oldCursorPos < (int)lin->text().length() )
 	    lin->setCursorPosition( oldCursorPos );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     setText( 1, to_string( v, accel ) );
     PropertyItem::setValue( v );
@@ -742,9 +742,9 @@ void PropertyTextItem::getText()
 	setText( 1, txt );
 	PropertyItem::setValue( txt );
 	notifyValueChange();
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	lined()->setText( txt );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
 }
 
@@ -782,9 +782,9 @@ void PropertyDoubleItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	lined()->setText( QString::number( value().toDouble() ) );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     QWidget* w = lined();
 
@@ -808,13 +808,13 @@ void PropertyDoubleItem::setValue( const QVariant &v )
     if ( value() == v )
 	return;
     if ( lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	int oldCursorPos;
 	oldCursorPos = lin->cursorPosition();
 	lined()->setText( QString::number( v.toDouble() ) );
 	if ( oldCursorPos < (int)lin->text().length() )
 	    lin->setCursorPosition( oldCursorPos );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     setText( 1, QString::number( v.toDouble() ) );
     PropertyItem::setValue( v );
@@ -861,9 +861,9 @@ void PropertyDateItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	lined()->setDate( value().toDate() );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     placeEditor( lin );
     if ( !lin->isVisible() ) {
@@ -886,10 +886,10 @@ void PropertyDateItem::setValue( const QVariant &v )
 	return;
 
     if ( lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	if ( lined()->date() != v.toDate() )
 	    lined()->setDate( v.toDate() );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     setText( 1, v.toDate().toString( ::Qt::ISODate ) );
     PropertyItem::setValue( v );
@@ -936,9 +936,9 @@ void PropertyTimeItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	lined()->setTime( value().toTime() );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     placeEditor( lin );
     if ( !lin->isVisible() ) {
@@ -961,10 +961,10 @@ void PropertyTimeItem::setValue( const QVariant &v )
 	return;
 
     if ( lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	if ( lined()->time() != v.toTime() )
 	    lined()->setTime( v.toTime() );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     setText( 1, v.toTime().toString( ::Qt::ISODate ) );
     PropertyItem::setValue( v );
@@ -1011,9 +1011,9 @@ void PropertyDateTimeItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	lined()->setDateTime( value().toDateTime() );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     placeEditor( lin );
     if ( !lin->isVisible() ) {
@@ -1036,10 +1036,10 @@ void PropertyDateTimeItem::setValue( const QVariant &v )
 	return;
 
     if ( lin ) {
-	lined()->blockSignals( TRUE );
+	lined()->blockSignals( true );
 	if ( lined()->dateTime() != v.toDateTime() )
 	    lined()->setDateTime( v.toDateTime() );
-	lined()->blockSignals( FALSE );
+	lined()->blockSignals( false );
     }
     setText( 1, v.toDateTime().toString( ::Qt::ISODate ) );
     PropertyItem::setValue( v );
@@ -1066,7 +1066,7 @@ QComboBox *PropertyBoolItem::combo()
 {
     if ( comb )
 	return comb;
-    comb = new QComboBox( FALSE, listview->viewport() );
+    comb = new QComboBox( false, listview->viewport() );
     comb->hide();
     comb->insertItem( i18n("False" ) );
     comb->insertItem( i18n("True" ) );
@@ -1093,12 +1093,12 @@ void PropertyBoolItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !comb ) {
-	combo()->blockSignals( TRUE );
+	combo()->blockSignals( true );
 	if ( value().toBool() )
 	    combo()->setCurrentItem( 1 );
 	else
 	    combo()->setCurrentItem( 0 );
-	combo()->blockSignals( FALSE );
+	combo()->blockSignals( false );
     }
     placeEditor( combo() );
     if ( !combo()->isVisible()  || !combo()->hasFocus() ) {
@@ -1120,12 +1120,12 @@ void PropertyBoolItem::setValue( const QVariant &v )
 	return;
 
     if ( comb ) {
-	combo()->blockSignals( TRUE );
+	combo()->blockSignals( true );
 	if ( v.toBool() )
 	    combo()->setCurrentItem( 1 );
 	else
 	    combo()->setCurrentItem( 0 );
-	combo()->blockSignals( FALSE );
+	combo()->blockSignals( false );
     }
     QString tmp = i18n("True" );
     if ( !v.toBool() )
@@ -1139,7 +1139,7 @@ void PropertyBoolItem::setValue()
     if ( !comb )
 	return;
     setText( 1, combo()->currentText() );
-    bool b = combo()->currentItem() == 0 ? (bool)FALSE : (bool)TRUE;
+    bool b = combo()->currentItem() == 0 ? (bool)false : (bool)true;
     PropertyItem::setValue( QVariant( b, 0 ) );
     notifyValueChange();
 }
@@ -1182,12 +1182,12 @@ void PropertyIntItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !spinBx ) {
-	spinBox()->blockSignals( TRUE );
+	spinBox()->blockSignals( true );
 	if ( signedValue )
 	    spinBox()->setValue( value().toInt() );
 	else
 	    spinBox()->setValue( value().toUInt() );
-	spinBox()->blockSignals( FALSE );
+	spinBox()->blockSignals( false );
     }
     placeEditor( spinBox() );
     if ( !spinBox()->isVisible()  || !spinBox()->hasFocus()  ) {
@@ -1209,12 +1209,12 @@ void PropertyIntItem::setValue( const QVariant &v )
 	return;
 
     if ( spinBx ) {
-	spinBox()->blockSignals( TRUE );
+	spinBox()->blockSignals( true );
 	if ( signedValue )
 	    spinBox()->setValue( v.toInt() );
 	else
 	    spinBox()->setValue( v.toUInt() );
-	spinBox()->blockSignals( FALSE );
+	spinBox()->blockSignals( false );
     }
 
     if ( signedValue )
@@ -1274,10 +1274,10 @@ void PropertyListItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !comb ) {
-	combo()->blockSignals( TRUE );
+	combo()->blockSignals( true );
 	combo()->clear();
 	combo()->insertStringList( value().toStringList() );
-	combo()->blockSignals( FALSE );
+	combo()->blockSignals( false );
     }
     placeEditor( combo() );
     if ( !combo()->isVisible()  || !combo()->hasFocus() ) {
@@ -1295,10 +1295,10 @@ void PropertyListItem::hideEditor()
 void PropertyListItem::setValue( const QVariant &v )
 {
     if ( comb ) {
-	combo()->blockSignals( TRUE );
+	combo()->blockSignals( true );
 	combo()->clear();
 	combo()->insertStringList( v.toStringList() );
-	combo()->blockSignals( FALSE );
+	combo()->blockSignals( false );
     }
     setText( 1, v.toStringList().first() );
     PropertyItem::setValue( v );
@@ -1329,10 +1329,10 @@ void PropertyListItem::setCurrentItem( const QString &s )
 	return;
 
     if ( !comb ) {
-	combo()->blockSignals( TRUE );
+	combo()->blockSignals( true );
 	combo()->clear();
 	combo()->insertStringList( value().toStringList() );
-	combo()->blockSignals( FALSE );
+	combo()->blockSignals( false );
     }
     for ( uint i = 0; i < combo()->listBox()->count(); ++i ) {
 	if ( combo()->listBox()->item( i )->text().lower() == s.lower() ) {
@@ -1356,10 +1356,10 @@ void PropertyListItem::setCurrentItem( int i )
 	return;
 
     if ( !comb ) {
-	combo()->blockSignals( TRUE );
+	combo()->blockSignals( true );
 	combo()->clear();
 	combo()->insertStringList( value().toStringList() );
-	combo()->blockSignals( FALSE );
+	combo()->blockSignals( false );
     }
     combo()->setCurrentItem( i );
     setText( 1, combo()->currentText() );
@@ -1397,7 +1397,7 @@ QLineEdit *PropertyCoordItem::lined()
     if ( lin )
 	return lin;
     lin = new QLineEdit( listview->viewport() );
-    lin->setReadOnly( TRUE );
+    lin->setReadOnly( true );
     lin->installEventFilter( listview );
     lin->hide();
     return lin;
@@ -1407,15 +1407,15 @@ void PropertyCoordItem::createChildren()
 {
     PropertyItem *i = this;
     if ( typ == Rect || typ == Point ) {
-	i = new PropertyIntItem( listview, i, this, i18n("x" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n("x" ), true );
 	addChild( i );
-	i = new PropertyIntItem( listview, i, this, i18n("y" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n("y" ), true );
 	addChild( i );
     }
     if ( typ == Rect || typ == Size ) {
-	i = new PropertyIntItem( listview, i, this, i18n("width" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n("width" ), true );
 	addChild( i );
-	i = new PropertyIntItem( listview, i, this, i18n("height" ), TRUE );
+	i = new PropertyIntItem( listview, i, this, i18n("height" ), true );
 	addChild( i );
     }
 }
@@ -1497,7 +1497,7 @@ void PropertyCoordItem::setValue( const QVariant &v )
 
 bool PropertyCoordItem::hasSubItems() const
 {
-    return TRUE;
+    return true;
 }
 
 void PropertyCoordItem::childValueChanged( PropertyItem *child )
@@ -1597,7 +1597,7 @@ void PropertyPixmapItem::getPixmap()
 
 bool PropertyPixmapItem::hasCustomContents() const
 {
-    return TRUE;
+    return true;
 }
 
 void PropertyPixmapItem::drawCustomContents( QPainter *p, const QRect &r )
@@ -1644,11 +1644,11 @@ PropertyColorItem::PropertyColorItem( PropertyList *l, PropertyItem *after, Prop
 void PropertyColorItem::createChildren()
 {
     PropertyItem *i = this;
-    i = new PropertyIntItem( listview, i, this, i18n("Red" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n("Red" ), true );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, i18n("Green" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n("Green" ), true );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, i18n("Blue" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n("Blue" ), true );
     addChild( i );
 }
 
@@ -1728,7 +1728,7 @@ void PropertyColorItem::getColor()
 
 bool PropertyColorItem::hasCustomContents() const
 {
-    return TRUE;
+    return true;
 }
 
 void PropertyColorItem::drawCustomContents( QPainter *p, const QRect &r )
@@ -1752,8 +1752,8 @@ PropertyFontItem::PropertyFontItem( PropertyList *l, PropertyItem *after, Proper
     button->setFixedWidth( 20 );
     box->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
     box->setLineWidth( 2 );
-    lined->setFrame( FALSE );
-    lined->setReadOnly( TRUE );
+    lined->setFrame( false );
+    lined->setReadOnly( true );
     box->setFocusProxy( lined );
     box->installEventFilter( listview );
     lined->installEventFilter( listview );
@@ -1765,9 +1765,9 @@ PropertyFontItem::PropertyFontItem( PropertyList *l, PropertyItem *after, Proper
 void PropertyFontItem::createChildren()
 {
     PropertyItem *i = this;
-    i = new PropertyListItem( listview, i, this, i18n("Family" ), FALSE );
+    i = new PropertyListItem( listview, i, this, i18n("Family" ), false );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, i18n("Point Size" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n("Point Size" ), true );
     addChild( i );
     i = new PropertyBoolItem( listview, i, this, i18n("Bold" ) );
     addChild( i );
@@ -1833,7 +1833,7 @@ void PropertyFontItem::setValue( const QVariant &v )
 
 void PropertyFontItem::getFont()
 {
-    bool ok = FALSE;
+    bool ok = false;
     QFont f = QFontDialog::getFont( &ok, val.toFont(), listview );
     if ( ok && f != val.toFont() ) {
 	setValue( f );
@@ -1843,7 +1843,7 @@ void PropertyFontItem::getFont()
 
 bool PropertyFontItem::hasSubItems() const
 {
-    return TRUE;
+    return true;
 }
 
 void PropertyFontItem::childValueChanged( PropertyItem *child )
@@ -1878,8 +1878,8 @@ PropertyDatabaseItem::PropertyDatabaseItem( PropertyList *l, PropertyItem *after
     button->setFixedWidth( 20 );
     box->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
     box->setLineWidth( 2 );
-    lined->setFrame( FALSE );
-    lined->setReadOnly( TRUE );
+    lined->setFrame( false );
+    lined->setReadOnly( true );
     box->setFocusProxy( lined );
     box->installEventFilter( listview );
     lined->installEventFilter( listview );
@@ -1889,12 +1889,12 @@ PropertyDatabaseItem::PropertyDatabaseItem( PropertyList *l, PropertyItem *after
 void PropertyDatabaseItem::createChildren()
 {
     PropertyItem *i = this;
-    i = new PropertyListItem( listview, i, this, i18n("Connection" ), TRUE );
+    i = new PropertyListItem( listview, i, this, i18n("Connection" ), true );
     addChild( i );
-    i = new PropertyListItem( listview, i, this, i18n("Table" ), TRUE );
+    i = new PropertyListItem( listview, i, this, i18n("Table" ), true );
     addChild( i );
     if ( withField ) {
-	i = new PropertyListItem( listview, i, this, i18n("Field" ), TRUE );
+	i = new PropertyListItem( listview, i, this, i18n("Field" ), true );
 	addChild( i );
     }
 }
@@ -1998,7 +1998,7 @@ void PropertyDatabaseItem::setValue( const QVariant &v )
 
 bool PropertyDatabaseItem::hasSubItems() const
 {
-    return TRUE;
+    return true;
 }
 
 void PropertyDatabaseItem::childValueChanged( PropertyItem *c )
@@ -2046,7 +2046,7 @@ QLineEdit *PropertySizePolicyItem::lined()
 	return lin;
     lin = new QLineEdit( listview->viewport() );
     lin->hide();
-    lin->setReadOnly( TRUE );
+    lin->setReadOnly( true );
     return lin;
 }
 
@@ -2056,15 +2056,15 @@ void PropertySizePolicyItem::createChildren()
     lst << "Fixed" << "Minimum" << "Maximum" << "Preferred" << "MinimumExpanding" << "Expanding" << "Ignored";
 
     PropertyItem *i = this;
-    i = new PropertyListItem( listview, i, this, i18n("hSizeType" ), FALSE );
+    i = new PropertyListItem( listview, i, this, i18n("hSizeType" ), false );
     i->setValue( lst );
     addChild( i );
-    i = new PropertyListItem( listview, i, this, i18n("vSizeType" ), FALSE );
+    i = new PropertyListItem( listview, i, this, i18n("vSizeType" ), false );
     i->setValue( lst );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, i18n("horizontalStretch" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n("horizontalStretch" ), true );
     addChild( i );
-    i = new PropertyIntItem( listview, i, this, i18n("verticalStretch" ), TRUE );
+    i = new PropertyIntItem( listview, i, this, i18n("verticalStretch" ), true );
     addChild( i );
 }
 
@@ -2138,7 +2138,7 @@ void PropertySizePolicyItem::childValueChanged( PropertyItem *child )
 
 bool PropertySizePolicyItem::hasSubItems() const
 {
-    return TRUE;
+    return true;
 }
 
 // --------------------------------------------------------------
@@ -2192,7 +2192,7 @@ void PropertyPaletteItem::getPalette()
 {
     if ( !listview->propertyEditor()->widget()->isWidgetType() )
 	return;
-    bool ok = FALSE;
+    bool ok = false;
     QWidget *w = (QWidget*)listview->propertyEditor()->widget();
     if ( w->inherits( "QScrollView" ) )
 	w = ( (QScrollView*)w )->viewport();
@@ -2211,7 +2211,7 @@ void PropertyPaletteItem::getPalette()
 
 bool PropertyPaletteItem::hasCustomContents() const
 {
-    return TRUE;
+    return true;
 }
 
 void PropertyPaletteItem::drawCustomContents( QPainter *p, const QRect &r )
@@ -2245,47 +2245,47 @@ QComboBox *PropertyCursorItem::combo()
 {
     if ( comb )
 	return comb;
-    comb = new QComboBox( FALSE, listview->viewport() );
+    comb = new QComboBox( false, listview->viewport() );
     comb->hide();
     QBitmap cur;
 
-    cur = QBitmap(arrow_width, arrow_height, arrow_bits, TRUE);
+    cur = QBitmap(arrow_width, arrow_height, arrow_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Arrow"), QObject::ArrowCursor);
 
-    cur = QBitmap(uparrow_width, uparrow_height, uparrow_bits, TRUE);
+    cur = QBitmap(uparrow_width, uparrow_height, uparrow_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Up-Arrow"), QObject::UpArrowCursor );
 
-    cur = QBitmap(cross_width, cross_height, cross_bits, TRUE);
+    cur = QBitmap(cross_width, cross_height, cross_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Cross"), QObject::CrossCursor );
 
-    cur = QBitmap(wait_width, wait_height, wait_bits, TRUE);
+    cur = QBitmap(wait_width, wait_height, wait_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Waiting"), QObject::WaitCursor );
 
-    cur = QBitmap(ibeam_width, ibeam_height, ibeam_bits, TRUE);
+    cur = QBitmap(ibeam_width, ibeam_height, ibeam_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("iBeam"), QObject::IbeamCursor );
 
-    cur = QBitmap(sizev_width, sizev_height, sizev_bits, TRUE);
+    cur = QBitmap(sizev_width, sizev_height, sizev_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Size Vertical"), QObject::SizeVerCursor );
 
-    cur = QBitmap(sizeh_width, sizeh_height, sizeh_bits, TRUE);
+    cur = QBitmap(sizeh_width, sizeh_height, sizeh_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Size Horizontal"), QObject::SizeHorCursor );
 
-    cur = QBitmap(sizef_width, sizef_height, sizef_bits, TRUE);
+    cur = QBitmap(sizef_width, sizef_height, sizef_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Size Slash"), QObject::SizeBDiagCursor );
 
-    cur = QBitmap(sizeb_width, sizeb_height, sizeb_bits, TRUE);
+    cur = QBitmap(sizeb_width, sizeb_height, sizeb_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Size Backslash"), QObject::SizeFDiagCursor );
 
-    cur = QBitmap(sizeall_width, sizeall_height, sizeall_bits, TRUE);
+    cur = QBitmap(sizeall_width, sizeall_height, sizeall_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Size All"), QObject::SizeAllCursor );
 
@@ -2293,19 +2293,19 @@ QComboBox *PropertyCursorItem::combo()
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Blank"), QObject::BlankCursor );
 
-    cur = QBitmap(vsplit_width, vsplit_height, vsplit_bits, TRUE);
+    cur = QBitmap(vsplit_width, vsplit_height, vsplit_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Split Vertical"), QObject::SplitVCursor );
 
-    cur = QBitmap(hsplit_width, hsplit_height, hsplit_bits, TRUE);
+    cur = QBitmap(hsplit_width, hsplit_height, hsplit_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Split Horizontal"), QObject::SplitHCursor );
 
-    cur = QBitmap(hand_width, hand_height, hand_bits, TRUE);
+    cur = QBitmap(hand_width, hand_height, hand_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Pointing Hand"), QObject::PointingHandCursor );
 
-    cur = QBitmap(no_width, no_height, no_bits, TRUE);
+    cur = QBitmap(no_width, no_height, no_bits, true);
     cur.setMask( cur );
     comb->insertItem( cur, i18n("Forbidden"), QObject::ForbiddenCursor );
 
@@ -2324,9 +2324,9 @@ void PropertyCursorItem::showEditor()
 {
     PropertyItem::showEditor();
     if ( !comb ) {
-	combo()->blockSignals( TRUE );
+	combo()->blockSignals( true );
 	combo()->setCurrentItem( (int)value().toCursor().shape() );
-	combo()->blockSignals( FALSE );
+	combo()->blockSignals( false );
     }
     placeEditor( combo() );
     if ( !combo()->isVisible() || !combo()->hasFocus() ) {
@@ -2347,9 +2347,9 @@ void PropertyCursorItem::setValue( const QVariant &v )
 	 && value() == v )
 	return;
 
-    combo()->blockSignals( TRUE );
+    combo()->blockSignals( true );
     combo()->setCurrentItem( (int)v.toCursor().shape() );
-    combo()->blockSignals( FALSE );
+    combo()->blockSignals( false );
     setText( 1, combo()->currentText() );
     PropertyItem::setValue( v );
 }
@@ -2393,11 +2393,11 @@ PropertyList::PropertyList( PropertyEditor *e )
     init_colors();
 
     whatsThis = new PropertyWhatsThis( this );
-    showSorted = FALSE;
-    header()->setMovingEnabled( FALSE );
-    header()->setStretchEnabled( TRUE );
+    showSorted = false;
+    header()->setMovingEnabled( false );
+    header()->setStretchEnabled( true );
     setResizePolicy( QScrollView::Manual );
-    viewport()->setAcceptDrops( TRUE );
+    viewport()->setAcceptDrops( true );
     viewport()->installEventFilter( this );
     addColumn( i18n("Property" ) );
     addColumn( i18n("Value" ) );
@@ -2415,7 +2415,7 @@ PropertyList::PropertyList( PropertyEditor *e )
     setHScrollBarMode( AlwaysOff );
     setVScrollBarMode( AlwaysOn );
     setColumnWidthMode( 1, Manual );
-    mousePressed = FALSE;
+    mousePressed = false;
     pressItem = 0;
     header()->installEventFilter( this );
 }
@@ -2501,15 +2501,15 @@ static QVariant::Type type_to_variant( const QString &s )
 static bool parent_is_data_aware( QObject *o )
 {
     if ( !o->inherits( "QWidget" ) )
-	return FALSE;
+	return false;
     QWidget *w = (QWidget*)o;
     QWidget *p = w->parentWidget();
     while ( p && !p->isTopLevel() ) {
 	if ( p->inherits( "QDesignerDataBrowser" ) || p->inherits( "QDesignerDataView" ) )
-	    return TRUE;
+	    return true;
 	p = p->parentWidget();
     }
-    return FALSE;
+    return false;
 }
 #endif
 
@@ -2557,7 +2557,7 @@ void PropertyList::setupProperties()
 	    if ( qstrcmp( p->name(), "maximumSize" ) == 0 )
 		continue;
 	}
-	unique.insert( QString::fromLatin1( it.current() ), TRUE );
+	unique.insert( QString::fromLatin1( it.current() ), true );
 	if ( editor->widget()->isWidgetType() &&
 	     editor->formWindow()->isMainContainer( (QWidget*)editor->widget() ) ) {
 	    if ( qstrcmp( p->name(), "geometry" ) == 0 )
@@ -2649,27 +2649,27 @@ void PropertyList::setupProperties()
 			<< p->valueToKey( AlignHCenter )
 			<< p->valueToKey( AlignRight )
 			<< p->valueToKey( AlignJustify );
-		    item = new PropertyListItem( this, item, 0, "hAlign", FALSE );
+		    item = new PropertyListItem( this, item, 0, "hAlign", false );
 		    item->setValue( lst );
 		    setPropertyValue( item );
 		    if ( MetaDataBase::isPropertyChanged( editor->widget(), "hAlign" ) )
-			item->setChanged( TRUE, FALSE );
+			item->setChanged( true, false );
 		    if ( !editor->widget()->inherits( "QMultiLineEdit" ) ) {
 			lst.clear();
 			lst << p->valueToKey( AlignTop )
 			    << p->valueToKey( AlignVCenter )
 			    << p->valueToKey( AlignBottom );
-			item = new PropertyListItem( this, item, 0, "vAlign", FALSE );
+			item = new PropertyListItem( this, item, 0, "vAlign", false );
 			item->setValue( lst );
 			setPropertyValue( item );
 			if ( MetaDataBase::isPropertyChanged( editor->widget(), "vAlign" ) )
-			    item->setChanged( TRUE, FALSE );
+			    item->setChanged( true, false );
 			item = new PropertyBoolItem( this, item, 0, "wordwrap" );
 			if ( w->inherits( "QGroupBox" ) )
-			    item->setVisible( FALSE );
+			    item->setVisible( false );
 			setPropertyValue( item );
 			if ( MetaDataBase::isPropertyChanged( editor->widget(), "wordwrap" ) )
-			    item->setChanged( TRUE, FALSE );
+			    item->setChanged( true, false );
 		    }
 		} else {
 		    qWarning( "Sets except 'alignment' not supported yet.... %s.", p->name() );
@@ -2684,7 +2684,7 @@ void PropertyList::setupProperties()
 			continue;
 		    lst << l.at( i );
 		}
-		item = new PropertyListItem( this, item, 0, p->name(), FALSE );
+		item = new PropertyListItem( this, item, 0, p->name(), false );
 		item->setValue( lst );
 	    } else {
 		QVariant::Type t = QVariant::nameToType( p->type() );
@@ -2698,31 +2698,31 @@ void PropertyList::setupProperties()
 		valueSet << item->name();
 	    }
 	    if ( MetaDataBase::isPropertyChanged( editor->widget(), p->name() ) )
-		item->setChanged( TRUE, FALSE );
+		item->setChanged( true, false );
 	}
     }
 
     if ( !w->inherits( "QSplitter" ) && !w->inherits( "QDesignerMenuBar" ) && !w->inherits( "QDesignerToolBar" ) &&
 	 w->isWidgetType() && WidgetFactory::layoutType( (QWidget*)w ) != WidgetFactory::NoLayout ) {
-	item = new PropertyIntItem( this, item, 0, "layoutSpacing", TRUE );
+	item = new PropertyIntItem( this, item, 0, "layoutSpacing", true );
 	setPropertyValue( item );
-	item->setChanged( TRUE );
-	item = new PropertyIntItem( this, item, 0, "layoutMargin", TRUE );
+	item->setChanged( true );
+	item = new PropertyIntItem( this, item, 0, "layoutMargin", true );
 	setPropertyValue( item );
-	item->setChanged( TRUE );
+	item->setChanged( true );
     }
 
 
     if ( !w->inherits( "Spacer" ) && !w->inherits( "QLayoutWidget" ) && !w->inherits( "QAction" ) &&
 	 !w->inherits( "QDesignerMenuBar" ) && !w->inherits( "QDesignerToolBar" ) ) {
-	item = new PropertyTextItem( this, item, 0, "toolTip", TRUE, FALSE );
+	item = new PropertyTextItem( this, item, 0, "toolTip", true, false );
 	setPropertyValue( item );
 	if ( MetaDataBase::isPropertyChanged( editor->widget(), "toolTip" ) )
-	    item->setChanged( TRUE, FALSE );
-	item = new PropertyTextItem( this, item, 0, "whatsThis", TRUE, TRUE );
+	    item->setChanged( true, false );
+	item = new PropertyTextItem( this, item, 0, "whatsThis", true, true );
 	setPropertyValue( item );
 	if ( MetaDataBase::isPropertyChanged( editor->widget(), "whatsThis" ) )
-	    item->setChanged( TRUE, FALSE );
+	    item->setChanged( true, false );
     }
 
 #ifndef QT_NO_SQL
@@ -2731,18 +2731,18 @@ void PropertyList::setupProperties()
 	item = new PropertyDatabaseItem( this, item, 0, "database", editor->formWindow()->mainContainer() != w );
 	setPropertyValue( item );
 	if ( MetaDataBase::isPropertyChanged( editor->widget(), "database" ) )
-	    item->setChanged( TRUE, FALSE );
+	    item->setChanged( true, false );
     }
 
     if ( editor->widget()->inherits( "QDataTable" ) || editor->widget()->inherits( "QDataBrowser" ) || editor->widget()->inherits( "QDataView" ) ) {
-	item = new PropertyDatabaseItem( this, item, 0, "database", FALSE );
+	item = new PropertyDatabaseItem( this, item, 0, "database", false );
 	setPropertyValue( item );
 	if ( MetaDataBase::isPropertyChanged( editor->widget(), "database" ) )
-	    item->setChanged( TRUE, FALSE );
+	    item->setChanged( true, false );
 	item = new PropertyBoolItem( this, item, 0, "frameworkCode" );
 	setPropertyValue( item );
 	if ( MetaDataBase::isPropertyChanged( editor->widget(), "frameworkCode" ) )
-	    item->setChanged( TRUE, FALSE );
+	    item->setChanged( true, false );
     }
 #endif
 
@@ -2752,11 +2752,11 @@ void PropertyList::setupProperties()
 	    for ( QValueList<MetaDataBase::Property>::Iterator it = cw->lstProperties.begin(); it != cw->lstProperties.end(); ++it ) {
 		if ( unique.contains( QString( (*it).property ) ) )
 		    continue;
-		unique.insert( QString( (*it).property ), TRUE );
+		unique.insert( QString( (*it).property ), true );
 		addPropertyItem( item, (*it).property, type_to_variant( (*it).type ) );
 		setPropertyValue( item );
 		if ( MetaDataBase::isPropertyChanged( editor->widget(), (*it).property ) )
-		    item->setChanged( TRUE, FALSE );
+		    item->setChanged( true, false );
 	    }
 	}
     }
@@ -2779,14 +2779,14 @@ bool PropertyList::addPropertyItem( PropertyItem *&item, const QCString &name, Q
 {
     switch ( t ) {
     case QVariant::String:
-	item = new PropertyTextItem( this, item, 0, name, TRUE,
+	item = new PropertyTextItem( this, item, 0, name, true,
 				     editor->widget()->inherits( "QLabel" ) || editor->widget()->inherits( "QTextView" ) );
 	break;
     case QVariant::CString:
 	item = new PropertyTextItem( this, item, 0,
 				     name, name == "name" &&
 				     editor->widget() == editor->formWindow()->mainContainer(),
-				     FALSE, TRUE );
+				     false, true );
 	break;
     case QVariant::Bool:
 	item = new PropertyBoolItem( this, item, 0, name );
@@ -2796,21 +2796,21 @@ bool PropertyList::addPropertyItem( PropertyItem *&item, const QCString &name, Q
 	break;
     case QVariant::Int:
 	if ( name == "accel" )
-	    item = new PropertyTextItem( this, item, 0, name, FALSE, FALSE, FALSE, TRUE );
+	    item = new PropertyTextItem( this, item, 0, name, false, false, false, true );
 	else
-	    item = new PropertyIntItem( this, item, 0, name, TRUE );
+	    item = new PropertyIntItem( this, item, 0, name, true );
 	break;
     case QVariant::Double:
 	item = new PropertyDoubleItem( this, item, 0, name );
 	break;
     case QVariant::KeySequence:
-	item = new PropertyTextItem( this, item, 0, name, FALSE, FALSE, FALSE, TRUE );
+	item = new PropertyTextItem( this, item, 0, name, false, false, false, true );
 	break;
     case QVariant::UInt:
-	item = new PropertyIntItem( this, item, 0, name, FALSE );
+	item = new PropertyIntItem( this, item, 0, name, false );
 	break;
     case QVariant::StringList:
-	item = new PropertyListItem( this, item, 0, name, TRUE );
+	item = new PropertyListItem( this, item, 0, name, true );
 	break;
     case QVariant::Rect:
 	item = new PropertyCoordItem( this, item, 0, name, PropertyCoordItem::Rect );
@@ -2822,7 +2822,7 @@ bool PropertyList::addPropertyItem( PropertyItem *&item, const QCString &name, Q
 	item = new PropertyCoordItem( this, item, 0, name, PropertyCoordItem::Size );
 	break;
     case QVariant::Color:
-	item = new PropertyColorItem( this, item, 0, name, TRUE );
+	item = new PropertyColorItem( this, item, 0, name, true );
 	break;
     case QVariant::Pixmap:
     case QVariant::IconSet:
@@ -2847,9 +2847,9 @@ bool PropertyList::addPropertyItem( PropertyItem *&item, const QCString &name, Q
 	item = new PropertyDateTimeItem( this, item, 0, name );
 	break;
     default:
-	return FALSE;
+	return false;
     }
-    return TRUE;
+    return true;
 }
 
 void PropertyList::paintEmptyArea( QPainter *p, const QRect &r )
@@ -2888,7 +2888,7 @@ void PropertyList::valueChanged( PropertyItem *i )
 						      i->name(), WidgetFactory::property( editor->widget(), i->name() ),
 						      i->value(), i->currentItem(), i->currentItemFromObject() );
     cmd->execute();
-    editor->formWindow()->commandHistory()->addCommand( cmd, TRUE );
+    editor->formWindow()->commandHistory()->addCommand( cmd, true );
 }
 
 void PropertyList::itemPressed( QListViewItem *i, const QPoint &p, int c )
@@ -2918,7 +2918,7 @@ void PropertyList::toggleOpen( QListViewItem *i )
 bool PropertyList::eventFilter( QObject *o, QEvent *e )
 {
     if ( !o || !e )
-	return TRUE;
+	return true;
 
     PropertyItem *i = (PropertyItem*)currentItem();
     if ( o != this &&e->type() == QEvent::KeyPress ) {
@@ -2927,22 +2927,22 @@ bool PropertyList::eventFilter( QObject *o, QEvent *e )
 	     ( o != this || o != viewport() ) &&
 	     !( ke->state() & ControlButton ) ) {
 	    QApplication::sendEvent( this, (QKeyEvent*)e );
-	    return TRUE;
+	    return true;
 	} else if ( ( !o->inherits( "QLineEdit" ) ||
 		      ( o->inherits( "QLineEdit" ) && ( (QLineEdit*)o )->isReadOnly() ) ) &&
 		    i && i->hasSubItems() ) {
 	    if ( !i->isOpen() &&
 		 ( ke->key() == Key_Plus ||
 		   ke->key() == Key_Right ))
-		i->setOpen( TRUE );
+		i->setOpen( true );
 	    else if ( i->isOpen() &&
 		      ( ke->key() == Key_Minus ||
 			ke->key() == Key_Left ) )
-		i->setOpen( FALSE );
+		i->setOpen( false );
 	} else if ( ( ke->key() == Key_Return || ke->key() == Key_Enter ) && o->inherits( "QComboBox" ) ) {
 	    QKeyEvent ke2( QEvent::KeyPress, Key_Space, 0, 0 );
 	    QApplication::sendEvent( o, &ke2 );
-	    return TRUE;
+	    return true;
 	}
     } else if ( e->type() == QEvent::FocusOut && o->inherits( "QLineEdit" ) && editor->formWindow() ) {
 	QTimer::singleShot( 100, editor->formWindow()->commandHistory(), SLOT( checkCompressedCommand() ) );
@@ -2956,7 +2956,7 @@ bool PropertyList::eventFilter( QObject *o, QEvent *e )
 	    if( i  && ( i->inherits("PropertyColorItem") || i->inherits("PropertyPixmapItem") ) ) {
 		pressItem = i;
 		pressPos = me->pos();
-		mousePressed = TRUE;
+		mousePressed = true;
 	    }
 	    break;
 	case QEvent::MouseMove:
@@ -2976,7 +2976,7 @@ bool PropertyList::eventFilter( QObject *o, QEvent *e )
 			    p.drawRect( 0, 0, pix.width(), pix.height() );
 			    p.end();
 			    drg->setPixmap( pix );
-			    mousePressed = FALSE;
+			    mousePressed = false;
 			    drg->dragCopy();
 			}
 			else if ( i->inherits("PropertyPixmapItem") ) {
@@ -2985,7 +2985,7 @@ bool PropertyList::eventFilter( QObject *o, QEvent *e )
 				QImage img = pix.convertToImage();
 				QImageDrag *drg = new QImageDrag( img, this );
 				drg->setPixmap( pix );
-				mousePressed = FALSE;
+				mousePressed = false;
 				drg->dragCopy();
 			    }
 			}
@@ -3000,15 +3000,15 @@ bool PropertyList::eventFilter( QObject *o, QEvent *e )
 	if ( e->type() == QEvent::ContextMenu ) {
 	    ((QContextMenuEvent *)e)->accept();
 	    QPopupMenu menu( 0 );
-	    menu.setCheckable( TRUE );
+	    menu.setCheckable( true );
 	    const int cat_id = 1;
 	    const int alpha_id = 2;
 	    menu.insertItem( i18n("Sort &Categorized" ), cat_id );
 	    int alpha = menu.insertItem( i18n("Sort &Alphabetically" ), alpha_id );
 	    if ( showSorted )
-		menu.setItemChecked( alpha_id, TRUE );
+		menu.setItemChecked( alpha_id, true );
 	    else
-		menu.setItemChecked( cat_id, TRUE );
+		menu.setItemChecked( cat_id, true );
 	    int res = menu.exec( ( (QContextMenuEvent*)e )->globalPos() );
 	    if ( res != -1 ) {
 		bool newShowSorted = ( res == alpha );
@@ -3018,7 +3018,7 @@ bool PropertyList::eventFilter( QObject *o, QEvent *e )
 		    editor->setup();
 		}
 	    }
-	    return TRUE;
+	    return true;
 	}
     }
 
@@ -3039,7 +3039,7 @@ void PropertyList::refetchData()
 	    i->initChildren();
 	bool changed = MetaDataBase::isPropertyChanged( editor->widget(), i->name() );
 	if ( changed != i->isChanged() )
-	    i->setChanged( changed, FALSE );
+	    i->setChanged( changed, false );
     }
     updateEditorSize();
 }
@@ -3062,12 +3062,12 @@ void PropertyList::setPropertyValue( PropertyItem *i )
 {
     const QMetaProperty *p =
 	editor->widget()->metaObject()->
-	property( editor->widget()->metaObject()->findProperty( i->name(), TRUE), TRUE );
+	property( editor->widget()->metaObject()->findProperty( i->name(), true), true );
     if ( !p ) {
 	if ( i->name() == "hAlign" ) {
 	    int align = editor->widget()->property( "alignment" ).toInt();
 	    p = editor->widget()->metaObject()->
-		property( editor->widget()->metaObject()->findProperty( "alignment", TRUE ), TRUE );
+		property( editor->widget()->metaObject()->findProperty( "alignment", true ), true );
 	    align &= ~AlignVertical_Mask;
 	    QStrList l = p->valueToKeys( align );
 	    clearAlignList( l );
@@ -3075,15 +3075,15 @@ void PropertyList::setPropertyValue( PropertyItem *i )
 	} else if ( i->name() == "vAlign" ) {
 	    int align = editor->widget()->property( "alignment" ).toInt();
 	    p = editor->widget()->metaObject()->
-		property( editor->widget()->metaObject()->findProperty( "alignment", TRUE ), TRUE );
+		property( editor->widget()->metaObject()->findProperty( "alignment", true ), true );
 	    align &= ~AlignHorizontal_Mask;
 	    ( (PropertyListItem*)i )->setCurrentItem( p->valueToKeys( align ).last() );
 	} else if ( i->name() == "wordwrap" ) {
 	    int align = editor->widget()->property( "alignment" ).toInt();
 	    if ( align & WordBreak )
-		i->setValue( QVariant( TRUE, 0 ) );
+		i->setValue( QVariant( true, 0 ) );
 	    else
-		i->setValue( QVariant( FALSE, 0 ) );
+		i->setValue( QVariant( false, 0 ) );
 	} else if ( i->name() == "layoutSpacing" ) {
 	    ( (PropertyIntItem*)i )->setValue( MetaDataBase::spacing( WidgetFactory::containerOfWidget( (QWidget*)editor->widget() ) ) );
 	} else if ( i->name() == "layoutMargin" ) {
@@ -3140,9 +3140,9 @@ void PropertyList::resetProperty()
 						      i->name(), i->value(),
 						      WidgetFactory::defaultValue( editor->widget(), i->name() ),
 						      WidgetFactory::defaultCurrentItem( editor->widget(), i->name() ),
-						      i->currentItem(), TRUE );
+						      i->currentItem(), true );
     cmd->execute();
-    editor->formWindow()->commandHistory()->addCommand( cmd, FALSE );
+    editor->formWindow()->commandHistory()->addCommand( cmd, false );
     if ( i->hasSubItems() )
 	i->initChildren();
 }
@@ -3279,11 +3279,11 @@ void PropertyList::readPropertyDocs()
 
 #ifndef KOMMANDER
 EventList::EventList( QWidget *parent, FormWindow *fw, PropertyEditor *e )
-    : HierarchyList( parent, fw, TRUE ), editor( e )
+    : HierarchyList( parent, fw, true ), editor( e )
 {
     header()->hide();
     removeColumn( 1 );
-    setRootIsDecorated( TRUE );
+    setRootIsDecorated( true );
     connect( this, SIGNAL( itemRenamed( QListViewItem *, int, const QString & ) ),
 	     this, SLOT( renamed( QListViewItem * ) ) );
 }
@@ -3308,7 +3308,7 @@ void EventList::setup()
 	for ( QValueList<MetaDataBase::EventDescription>::Iterator it = events.begin(); it != events.end(); ++it ) {
 	    HierarchyItem *eventItem = new HierarchyItem( HierarchyItem::Event, this, (*it).name,
 							  QString::null, QString::null );
-	    eventItem->setOpen( TRUE );
+	    eventItem->setOpen( true );
 	    QStringList funcs = MetaDataBase::eventFunctions( editor->widget(),
 							      (*it).name,
 #ifndef KOMMANDER
@@ -3327,13 +3327,13 @@ void EventList::setup()
 #endif
 	}
     } else {
-	QStrList sigs = editor->widget()->metaObject()->signalNames( TRUE );
+	QStrList sigs = editor->widget()->metaObject()->signalNames( true );
 	sigs.remove( "destroyed()" );
 	QStrListIterator it( sigs );
 	while ( it.current() ) {
 	    HierarchyItem *eventItem = new HierarchyItem( HierarchyItem::Event, this,
 							  it.current(), QString::null, QString::null );
-	    eventItem->setOpen( TRUE );
+	    eventItem->setOpen( true );
 	    QValueList<MetaDataBase::Connection> conns =
 		MetaDataBase::connections( formWindow, editor->widget(), formWindow->mainContainer() );
 	    for ( QValueList<MetaDataBase::Connection>::Iterator cit = conns.begin(); cit != conns.end(); ++cit ) {
@@ -3446,15 +3446,15 @@ void EventList::renamed( QListViewItem *i )
     if ( !i->parent() )
 	return;
     QListViewItem *itm = i->parent()->firstChild();
-    bool del = FALSE;
+    bool del = false;
     while ( itm ) {
 	if ( itm != i && itm->text( 0 ) == i->text( 0 ) ) {
-	    del = TRUE;
+	    del = true;
 	    break;
 	}
 	itm = itm->nextSibling();
     }
-    i->setRenameEnabled( 0, FALSE );
+    i->setRenameEnabled( 0, false );
     if ( del ) {
 	delete i;
     } else {
@@ -3467,9 +3467,9 @@ void EventList::renamed( QListViewItem *i )
 	    save( i->parent() );
 	    editor->formWindow()->mainWindow()->
 #ifndef KOMMANDER
-		editFunction( i->text( 0 ), editor->formWindow()->project()->language(), TRUE );
+		editFunction( i->text( 0 ), editor->formWindow()->project()->language(), true );
 #else
-		editFunction( i->text( 0 ), "C++", TRUE );
+		editFunction( i->text( 0 ), "C++", true );
 #endif
 	} else {
 	    MetaDataBase::Connection conn;
@@ -3493,9 +3493,9 @@ void EventList::renamed( QListViewItem *i )
 	    editor->formWindow()->mainWindow()->
 		editFunction( i->text( 0 ).left( i->text( 0 ).find( "(" ) ),
 #ifndef KOMMANDER
-			      editor->formWindow()->project()->language(), TRUE );
+			      editor->formWindow()->project()->language(), true );
 #else
-			      "C++", TRUE );
+			      "C++", true );
 #endif
 
 	    cmd->execute();
@@ -3562,13 +3562,13 @@ void PropertyEditor::setWidget( QObject *w, FormWindow *fw )
     eList->setFormWindow( fw );
 #endif
     if ( w && w == wid ) {
-	bool ret = TRUE;
+	bool ret = true;
 	if ( wid->isWidgetType() && WidgetFactory::layoutType( (QWidget*)wid ) != WidgetFactory::NoLayout ) {
 	    QListViewItemIterator it( listview );
-	    ret = FALSE;
+	    ret = false;
 	    while ( it.current() ) {
 		if ( it.current()->text( 0 ) == "layoutSpacing" || it.current()->text( 0 ) == "layoutMargin" ) {
-		    ret = TRUE;
+		    ret = true;
 		    break;
 		}
 		++it;
@@ -3589,11 +3589,11 @@ void PropertyEditor::setWidget( QObject *w, FormWindow *fw )
     wid = w;
     formwindow = fw;
     setCaption( i18n("Property Editor (%1)" ).arg( formwindow->name() ) );
-    listview->viewport()->setUpdatesEnabled( FALSE );
-    listview->setUpdatesEnabled( FALSE );
+    listview->viewport()->setUpdatesEnabled( false );
+    listview->setUpdatesEnabled( false );
     clear();
-    listview->viewport()->setUpdatesEnabled( TRUE );
-    listview->setUpdatesEnabled( TRUE );
+    listview->viewport()->setUpdatesEnabled( true );
+    listview->setUpdatesEnabled( true );
     setup();
 }
 
@@ -3611,15 +3611,15 @@ void PropertyEditor::setup()
 {
     if ( !formwindow || !wid )
 	return;
-    listview->viewport()->setUpdatesEnabled( FALSE );
+    listview->viewport()->setUpdatesEnabled( false );
     listview->setupProperties();
-    listview->viewport()->setUpdatesEnabled( TRUE );
+    listview->viewport()->setUpdatesEnabled( true );
     listview->updateEditorSize();
 
 #ifndef KOMMANDER
-    eList->viewport()->setUpdatesEnabled( FALSE );
+    eList->viewport()->setUpdatesEnabled( false );
     eList->setup();
-    eList->viewport()->setUpdatesEnabled( TRUE );
+    eList->viewport()->setUpdatesEnabled( true );
 #endif
 }
 
@@ -3676,7 +3676,7 @@ QString PropertyEditor::classOfCurrentProperty() const
     QString curr = currentProperty();
     QMetaObject *mo = o->metaObject();
     while ( mo ) {
-	QStrList props = mo->propertyNames( FALSE );
+	QStrList props = mo->propertyNames( false );
 	if ( props.find( curr.latin1() ) != -1 )
 	    return mo->className();
 	mo = mo->superClass();

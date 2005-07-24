@@ -33,7 +33,7 @@ OrderIndicator::OrderIndicator( int i, QWidget* w, FormWindow *fw )
     order = -1;
     widget = w;
     setBackgroundMode( NoBackground );
-    setAutoMask( TRUE );
+    setAutoMask( true );
     setOrder( i, w );
 }
 
@@ -61,7 +61,7 @@ void OrderIndicator::setOrder( int i, QWidget* wid )
     int w = fontMetrics().width( QString::number( i ) ) + 10;
     int h = fontMetrics().lineSpacing() * 3 / 2;
     QFont f( font() );
-    f.setBold( TRUE );
+    f.setBold( true );
     setFont( f );
     resize( QMAX( w, h ), h );
     update(); // in case the size didn't change

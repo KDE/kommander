@@ -60,7 +60,7 @@ QString CheckBox::currentState() const
 
 bool CheckBox::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 QStringList CheckBox::associatedText() const 

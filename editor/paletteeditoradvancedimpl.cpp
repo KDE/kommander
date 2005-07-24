@@ -53,7 +53,7 @@ BoldListBoxText::BoldListBoxText( QString text, QListBox* lb )
 void BoldListBoxText::paint( QPainter* painter )
 {
     QFont f = painter->font();
-    f.setBold( TRUE );
+    f.setBold( true );
     painter->setFont( f );
 
     QListBoxText::paint( painter );
@@ -73,8 +73,8 @@ PaletteEditorAdvanced::PaletteEditorAdvanced( FormWindow *fw, QWidget * parent,
     buttonPixmap->setFormWindow( formWindow );
 
     // force toggle event
-    checkBuildEffect->setChecked(FALSE);
-    checkBuildEffect->setChecked(TRUE);
+    checkBuildEffect->setChecked(false);
+    checkBuildEffect->setChecked(true);
 }
 
 PaletteEditorAdvanced::~PaletteEditorAdvanced()
@@ -120,8 +120,8 @@ void PaletteEditorAdvanced::paletteSelected(int p)
 	groupEffect->setDisabled(checkBuildDisabled->isChecked());
     }
     else {
-	groupCentral->setEnabled(TRUE);
-	groupEffect->setEnabled(TRUE);
+	groupCentral->setEnabled(true);
+	groupEffect->setEnabled(true);
     }
     updateStyledButtons();
 }
@@ -616,7 +616,7 @@ QPalette PaletteEditorAdvanced::getPalette( bool *ok, const QPalette &init,
 					    BackgroundMode mode, QWidget* parent,
 					    const char* name, FormWindow *fw )
 {
-    PaletteEditorAdvanced* dlg = new PaletteEditorAdvanced( fw, parent, name, TRUE );
+    PaletteEditorAdvanced* dlg = new PaletteEditorAdvanced( fw, parent, name, true );
     dlg->setupBackgroundMode( mode );
 
     if ( init != QPalette() )
@@ -626,11 +626,11 @@ QPalette PaletteEditorAdvanced::getPalette( bool *ok, const QPalette &init,
     QPalette result = init;
     if ( resultCode == QDialog::Accepted ) {
 	if ( ok )
-	    *ok = TRUE;
+	    *ok = true;
 	result = dlg->pal();
     } else {
 	if ( ok )
-	    *ok = FALSE;
+	    *ok = false;
     }
     delete dlg;
     return result;

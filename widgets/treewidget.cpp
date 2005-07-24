@@ -187,7 +187,7 @@ QString TreeWidget::currentState() const
 
 bool TreeWidget::isKommanderWidget() const
 {
-  return TRUE;
+  return true;
 }
 
 void TreeWidget::setCurrentItem(QListViewItem* item)
