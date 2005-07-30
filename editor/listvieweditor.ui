@@ -643,20 +643,6 @@
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>applyButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Apply</string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Apply all changes.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
                         <cstring>okButton</cstring>
                     </property>
                     <property name="text">
@@ -672,6 +658,20 @@
                         <string>Close the dialog and apply all the changes.</string>
                     </property>
                 </widget>
+		<widget class="QPushButton">
+			<property name="name">
+				<cstring>applyButton</cstring>
+			</property>
+			<property name="text">
+				<string>&amp;Apply</string>
+			</property>
+			<property name="autoDefault">
+				<bool>true</bool>
+			</property>
+			<property name="whatsThis" stdset="0">
+				<string>Apply all changes.</string>
+			</property>
+		</widget>
                 <widget class="QPushButton">
                     <property name="name">
                         <cstring>cancelButton</cstring>
