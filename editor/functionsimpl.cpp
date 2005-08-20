@@ -40,14 +40,14 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
 {
   clearButton->setPixmap(KGlobal::iconLoader()->loadIcon("locationbar_erase", KIcon::Toolbar));
   copyButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow", KIcon::Toolbar));
-  
+
   groupComboBox->insertStringList(SpecialInformation::groups());
   connect(groupComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));
   connect(widgetComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));
   connect(functionListBox, SIGNAL(highlighted(int)), SLOT(functionChanged(int)));
   connect(copyButton, SIGNAL(clicked()), SLOT(copyText()));
   connect(clearButton, SIGNAL(clicked()), insertedText, SLOT(clear()));
-  
+
   // build widget name list
   QStringList widgets;
   for (QDictIterator<QWidget> It(m_widgetList); It.current(); ++It)
@@ -69,7 +69,7 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
 FunctionsDialog::~FunctionsDialog()
 {
 }
-  
+
 QString FunctionsDialog::functionText() const
 {
   return insertedText->text();
@@ -89,7 +89,6 @@ QString FunctionsDialog::currentFunctionText()
     prefix = "@";
     function = groupComboBox->currentText() + ".";
   }
-      
   if (groupComboBox->currentText() == "Kommander")
     return QString("%1%2%3").arg(prefix).arg(functionListBox->currentText()).arg(params());
   else if (groupComboBox->currentText() == "DCOP")
@@ -104,21 +103,25 @@ void FunctionsDialog::groupChanged(int index)
 {
   index = groupComboBox->currentItem();
   functionListBox->clear();
-  if (index == m_DCOP) 
+  QStringList pFunctions = SpecialInformation::functions(groupComboBox->text(index));
+  KommanderWidget* a_atw = 0;
+  if (index == m_DCOP)
+    a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
+  int pGroup = SpecialInformation::group(groupComboBox->text(index));
+  SpecialFunction::ParserType pType = KommanderWidget::useInternalParser 
+      ? SpecialFunction::InternalParser : SpecialFunction::MacroParser;
+
+  for (uint i=0; i<pFunctions.count(); i++)
   {
-    QStringList pFunctions = SpecialInformation::functions(groupComboBox->text(index));
-    KommanderWidget* a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
-    int pGroup = SpecialInformation::group(groupComboBox->text(index));
-    if (a_atw) 
-      for (uint i=0; i<pFunctions.count(); i++)
-      {
-        int pFunction = SpecialInformation::function(pGroup, pFunctions[i]);
-        if (a_atw->isFunctionSupported(pFunction) || a_atw->isCommonFunction(pFunction))
-          functionListBox->insertItem(pFunctions[i]);
-      }
+    int pFunction = SpecialInformation::function(pGroup, pFunctions[i]);
+    if (!SpecialInformation::isValid(pGroup, pFunction, pType))
+      continue;
+    if (a_atw && !a_atw->isFunctionSupported(pFunction) && !a_atw->isCommonFunction(pFunction))
+        continue;
+    functionListBox->insertItem(pFunctions[i]);
   }
-  else 
-    functionListBox->insertStringList(SpecialInformation::functions(groupComboBox->text(index)));
+
+  functionListBox->sort();
   functionListBox->setCurrentItem(0);
   functionChanged(functionListBox->currentItem());
 }
@@ -131,21 +134,21 @@ void FunctionsDialog::functionChanged(int)
   if (m_function.minArg() < m_function.argumentCount()) 
      if (!m_function.minArg())
         defArgs = i18n("<p>Parameters are not obligatory.");
-     else    
+     else
         defArgs = i18n("<p>Only first argument is obligatory.", 
            "<p>Only first %n arguments are obligatory.", 
            m_function.minArg());
-  
+
   uint pflags = SpecialFunction::ShowArgumentNames;
   if (m_function.maxArg() && m_function.argumentName(0) == "widget")
      pflags = pflags | SpecialFunction::SkipFirstArgument;
-  
+
   descriptionText->clear();
   descriptionText->setText(i18n("<qt><h3>%1</h3>"
     "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
     .arg(functionListBox->currentText()).arg(m_function.description())
     .arg(m_function.prototype(pflags)).arg(defArgs));
-  
+
   showParameters();
 }
 
@@ -162,7 +165,7 @@ void FunctionsDialog::showParameters()
   KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
   QLabel* labels[MaxFunctionArgs] = {argLabel1, argLabel2, argLabel3, argLabel4, argLabel5, argLabel6};
   int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
-  
+
   widgetComboBox->setShown(start);
   widgetLabel->setShown(start);
   if (start)

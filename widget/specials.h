@@ -46,30 +46,30 @@ namespace Special
   {
     enum {values, keys, clear, count, value, remove, setValue, fromString, toString};
   }
-   
+
   namespace String
   {
     enum {length, contains, find, findRev, left, right, mid, remove, replace, upper, lower,
     compare, isEmpty, isNumber, section, args};
   }
-  
+
   namespace File
   {
     enum {read, write, append};
   }
-  
+
   namespace Input
   {
     enum {color, text, password, value, valueDouble, openfile, openfiles, savefile, directory};
   }
-  
+
   namespace Message
   {
     enum {info, error, question, warning};
   }
-  
+
 }
-   
+
 
 using namespace Special;
 

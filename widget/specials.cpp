@@ -102,13 +102,12 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DCOP::type, "type(QString widget)",
      i18n("Returns type(class) of widget."), 1);
-    
   insertGroup(Group::Kommander, "Kommander", "");
-  insert(Kommander::widgetText, "widgetText", 
+  insertMacro(Kommander::widgetText, "widgetText", 
     i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
-  insert(Kommander::selectedWidgetText, "selectedWidgetText", 
+  insertMacro(Kommander::selectedWidgetText, "selectedWidgetText", 
     i18n("Returns selected text or text of current item. This is deprecated for <i>@mywidget.selected</i>."), 0);
-  insert(Kommander::null, "null", 
+  insertMacro(Kommander::null, "null", 
      i18n("Does nothing. This is useful if you request a CheckBox or RadioButton to return a value where a state, typically the unchecked state, has no value. The @null prevents an error indicating it is empty."), 0);
   insert(Kommander::pid, "pid", 
      i18n("Returns the pid (process ID) of the current process."), 0);
@@ -121,19 +120,19 @@ void SpecialInformation::registerSpecials()
          i18n("Writes <i>text</i> on stderr."), 1);
   insert(Kommander::echo, "echo(QString text)",
          i18n("Writes <i>text</i> on standard output."), 1);
-  insert(Kommander::execBegin, "execBegin(QString shell)", 
+  insertMacro(Kommander::execBegin, "execBegin(QString shell)", 
      i18n("Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. Full path is not required for the shell which may be useful for portability. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"), 0);
   insert(Kommander::env, "env(QString variable)",
      i18n("Returns value of an environment (shell) variable. Do not use <i>$</i> in the name. For example, <i>@env(PATH)</i>."), 1);
   insert(Kommander::exec, "exec(QString command)",
      i18n("Executes an external shell command."), 1);
-  insert(Kommander::expr, "expr(QString expression)",
+  insertMacro(Kommander::expr, "expr(QString expression)",
      i18n("Parses an expression and returns computed value."), 1);
-  insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",
+  insertMacro(Kommander::forEachBlock, "forEach(QString variable, QString items)",
      i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned to the variable. <br> <i>@forEach(i,A\\nB\\nC\\n)<br>  @# @i=A<br>@endif</i>"), 2);
-  insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)",
+  insertMacro(Kommander::forBlock, "for(QString variable, int start, int end, int step)",
      i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger then <i>end</i>. <br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i>."), 3);
-  insert(Kommander::global, "global(QString variable)",
+  insertMacro(Kommander::global, "global(QString variable)",
      i18n("Returns the value of a global variable."), 1);
   insert(Kommander::i18n, "i18n(QString variable)",
      i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."), 1);
@@ -163,19 +162,19 @@ void SpecialInformation::registerSpecials()
     i18n("Removes all elements from the array."), 1);
   insert(Array::count,"count(QString array)", 
     i18n("Returns the number of elements in the array."), 1);
-  insert(Array::value, "value(QString array, QString key)", 
+  insertMacro(Array::value, "value(QString array, QString key)", 
     i18n("Returns the value associated with the given key."), 2);
   insert(Array::remove,"remove(QString array, QString key)", 
     i18n("Removes element with the given key from the array."), 2);
-  insert(Array::setValue,"setValue(QString array, QString key, QString value)", 
+  insertMacro(Array::setValue,"setValue(QString array, QString key, QString value)",
     i18n("Adds element with the given key and value to the array"), 3);
   insert(Array::fromString, "fromString(QString array, QString string)", 
     i18n("Adds all elements in the string to the array. "
     "String should have <i>key\\tvalue\\n</i> format."), 2);
   insert(Array::toString, "toString(QString array)", 
     i18n("Returns all elements in the array in <pre>key\\tvalue\\n</pre> format."), 1);
-  
-  
+
+
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 
     i18n("Returns number of chars in the string."), 1);

@@ -18,6 +18,7 @@
 SpecialFunction::SpecialFunction(const QString& name, const QString& description,
     int minArgs, int maxArgs)
 {
+  m_parserTypes = AllParsers;
   int lbracket = name.find('(');
   int rbracket = name.find(')');
   m_function = (lbracket != -1) ? name.left(lbracket) : name;
@@ -35,6 +36,29 @@ SpecialFunction::SpecialFunction(const QString& name, const QString& description
   m_minArgs = (minArgs == -1) ? m_types.count() : minArgs;
   m_maxArgs = (maxArgs == -1) ? m_types.count() : maxArgs;
 }
+
+SpecialFunction::SpecialFunction(ParserType p, const QString& name, const QString& description,
+    int minArgs, int maxArgs)
+{
+  m_parserTypes = p;
+  int lbracket = name.find('(');
+  int rbracket = name.find(')');
+  m_function = (lbracket != -1) ? name.left(lbracket) : name;
+  m_description = description;
+  if (lbracket != -1 && rbracket != -1)
+  {
+    QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
+    QStringList args = QStringList::split(",", part);
+    for (uint i=0; i<args.count(); i++)
+    {
+      m_types.append(args[i].stripWhiteSpace().section(' ', 0, 0));
+      m_args.append(args[i].stripWhiteSpace().section(' ', 1, 1));
+    }
+  }
+  m_minArgs = (minArgs == -1) ? m_types.count() : minArgs;
+  m_maxArgs = (maxArgs == -1) ? m_types.count() : maxArgs;
+}
+
 
 QString SpecialFunction::prototype(uint prototypeFlags) const
 {
@@ -110,6 +134,20 @@ bool SpecialInformation::isValid(const QString& gname, const QString& fname)
   return function(group(gname), fname) != -1;
 }
 
+bool SpecialInformation::isValid(int gname, int fname, SpecialFunction::ParserType p)
+{
+  return m_specials.contains(gname) && m_specials[gname].contains(fname)
+    && m_specials[gname][fname].isSupported(p);
+}
+
+bool SpecialInformation::isValid(const QString& gname, const QString& fname,
+  SpecialFunction::ParserType p)
+{
+  int g = group(gname);
+  int f = function(g, fname);
+  return f != -1 && m_specials[g][f].isSupported(p);
+}
+
 int SpecialInformation::minArg(int gname, int fname) 
 {
   if (isValid(gname, fname))
@@ -153,7 +191,7 @@ QString SpecialInformation::prototype(int gname, int fname, uint flags)
 }
 
 bool SpecialInformation::insert(int id, const QString& function, const QString description,
-    int minArgs, int maxArgs)
+    int minArgs, int maxArgs, SpecialFunction::ParserType pType)
 {
   if (isValid(m_defaultGroup, id))  /* function already defined */
     return false;
@@ -161,12 +199,24 @@ bool SpecialInformation::insert(int id, const QString& function, const QString d
     return false;                   /* function name already in use */
   if (m_aliases[m_defaultGroup].contains(function.lower()))
     return false;                   /* function name already in use */
-  SpecialFunction sf(function, description, minArgs, maxArgs);
+  SpecialFunction sf(pType, function, description, minArgs, maxArgs);
   m_specials[m_defaultGroup][id] = sf;
   m_functions[m_defaultGroup][sf.name().lower()] = id;
   return true;
 }
-  
+
+bool SpecialInformation::insertMacro(int id, const QString& function, const QString description,
+    int minArgs, int maxArgs)
+{
+  return insert(id, function, description, minArgs, maxArgs, SpecialFunction::MacroParser);
+}
+
+bool SpecialInformation::insertInternal(int id, const QString& function, const QString description,
+    int minArgs, int maxArgs)
+{
+  return insert(id, function, description, minArgs, maxArgs, SpecialFunction::InternalParser);
+}
+
 bool SpecialInformation::insertAlias(int id, const QString& alias)
 {
   if (!isValid(m_defaultGroup, id))  /* function doesn't exists */
@@ -219,6 +269,11 @@ QStringList SpecialInformation::functions(const QString& g)
        list.append(it.data().name());
     return list;
   }
+}
+
+bool SpecialFunction::isSupported(ParserType p) const
+{
+  return (m_parserTypes & p);
 }
 
 QMap<int, QMap<int, SpecialFunction> > SpecialInformation::m_specials;

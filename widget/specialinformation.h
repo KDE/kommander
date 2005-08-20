@@ -27,14 +27,18 @@
 class KOMMANDER_EXPORT SpecialFunction
 {
 public:
-   
+ 
    /* flags for getting function prototype:
       SkipFirstArgument - ignore first argument (useful for Kommander functions
          prefixed by widget name 
       ShowArgumentNames - show parameter names, not only types 
    */
    enum PrototypeFlags {SkipFirstArgument = 1, ShowArgumentNames = 2, NoSpaces = 4};
+   /* Flags describing which parser supports the function */
+   enum ParserType {MacroParser = 1, InternalParser = 2, AllParsers = 3};
    SpecialFunction(const QString& function, const QString& description
+     = QString::null, int minArgs = -1, int maxArgs = -1);
+   SpecialFunction(ParserType p, const QString& function, const QString& description
      = QString::null, int minArgs = -1, int maxArgs = -1);
    SpecialFunction()   {m_minArgs = m_maxArgs = 0;}
    /* minimum number of arguments */
@@ -55,12 +59,15 @@ public:
    QString argumentType(uint i) const;
    /* number of named arguments */
    int argumentCount() const;
+   /* check whether given parser supports the function */
+   bool isSupported(ParserType p) const;
 protected:
    QString m_function;
    QString m_description;
    int m_minArgs, m_maxArgs;
    QStringList m_args;
    QStringList m_types;
+   unsigned m_parserTypes;
 };
 
 
@@ -75,13 +82,22 @@ public:
   static int group(const QString& gname);
   static bool isValid(int gname, int fname);
   static bool isValid(const QString& gname, const QString& fname);
+  static bool isValid(int gname, int fname, SpecialFunction::ParserType p);
+  static bool isValid(const QString& gname, const QString& fname, SpecialFunction::ParserType p);
   static int minArg(int gname, int fname);
   static int maxArg(int gname, int fname);
   static int argCount(int gname, int fname);
   static bool isValidArg(int gname, int fname, int args);
   static QString description(int gname, int fname);
   static QString prototype(int gname, int fname, uint prototypeFlags = 0);
+  /* Insert function supported by all parsers */
   static bool insert(int id, const QString& function, const QString description = QString::null,
+    int minArgs = -1, int maxArgs = -1, SpecialFunction::ParserType = SpecialFunction::AllParsers);
+  /* Insert function supported by (old) macro parser */
+  static bool insertMacro(int id, const QString& function, const QString description = QString::null,
+    int minArgs = -1, int maxArgs = -1);
+  /* Insert function supported by (new) internal parser */
+  static bool insertInternal(int id, const QString& function, const QString description = QString::null,
     int minArgs = -1, int maxArgs = -1);
   static bool insertAlias(int id, const QString& alias);
   static void insertGroup(int id, const QString& name, const QString& parserName);
