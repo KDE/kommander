@@ -41,6 +41,7 @@ Comment[uk]=Запускач для вікон Kommander
 Comment[zh_CN]=Kommander 对话框执行器
 Terminal=false
 Name=Kommander Executor
+Name[br]=Aozer Kommander
 Name[ca]=Executor Kommander
 Name[cs]=Spouštěč Kommanderu
 Name[de]=Kommander-Exekutor
