@@ -40,7 +40,7 @@ static KCmdLineOptions options[] =
 
 int main( int argc, char *argv[] )
 {
-  KAboutData aboutData( "kmdr-editor", I18N_NOOP("Kommander"),
+  KAboutData aboutData( "kommander", I18N_NOOP("Kommander"),
                         KOMMANDER_VERSION, description, KAboutData::License_GPL,
                         "(C) 2002-2005 Kommander authors", text);
   aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
