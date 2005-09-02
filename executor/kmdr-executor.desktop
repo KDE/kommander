@@ -3,7 +3,7 @@
 Encoding=UTF-8
 Type=Application
 Exec=kmdr-executor %F
-Icon=kmdr_executor
+Icon=kommander
 Comment=Executor for Kommander dialogs
 Comment[bg]=Изпълнение на диалози
 Comment[ca]=Executor per a diàlegs de Kommander
