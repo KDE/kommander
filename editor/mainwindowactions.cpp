@@ -231,7 +231,7 @@ void MainWindow::setupLayoutActions()
   actionEditBreakLayout->setWhatsThis(whatsThisFrom("Layout|Break Layout"));
   
   int id = WidgetDatabase::idFromClassName("Spacer");
-  KToggleAction *a = new KToggleAction("Spacer", KShortcut::null(), this, SLOT(toolSelected()), 
+  KToggleAction *a = new KToggleAction(i18n("Spacer"), createIconSet("spacer.xpm"), KShortcut::null(), this, SLOT(toolSelected()), 
                                        actionCollection(), QString::number(id).latin1());
   a->setExclusiveGroup("tool");
   a->setText(i18n("Add ") + WidgetDatabase::className(id));
