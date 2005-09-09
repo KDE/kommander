@@ -74,6 +74,6 @@ private:
     WidgetInfos m_widgets;
 };
 
-#define KOMMANDER_EXPORT_PLUGIN(plugin) extern "C" { void *kommander_plugin() { return new plugin; } }
+#define KOMMANDER_EXPORT_PLUGIN(plugin) extern "C" { KOMMANDER_EXPORT void *kommander_plugin() { return new plugin; } }
 
 #endif // _HAVE_KOMMANDERPLUGIN_H_
