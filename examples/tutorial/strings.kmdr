@@ -100,7 +100,7 @@ fi
                         <cstring>TextLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Enter string here:</string>
+                        <string>Enter str&amp;ing here:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>LineEdit1</cstring>
