@@ -4,7 +4,7 @@ noinst_LTLIBRARIES = libkommanderfactory.la
 AM_CPPFLAGS = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/plugin $(all_includes)
 
 # the library search path. 
-libkommanderfactory_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
+libkommanderfactory_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
 libkommanderfactory_la_LIBADD = $(top_builddir)/kommander/plugin/libkommanderplugin.la 
 
 # which sources should be compiled for factory

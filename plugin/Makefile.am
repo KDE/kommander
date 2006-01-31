@@ -4,7 +4,10 @@ lib_LTLIBRARIES = libkommanderplugin.la
 INCLUDES = -I$(top_srcdir)/kommander/widget $(all_includes)
 
 # the library search path. 
-libkommanderplugin_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
+libkommanderplugin_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
+
+# the libraries to link against.
+libkommanderplugin_la_LIBADD  = $(LIB_QT)
 
 libkommanderplugin_la_SOURCES = kommanderplugin.cpp
 

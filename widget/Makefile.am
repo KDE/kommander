@@ -4,7 +4,10 @@ lib_LTLIBRARIES = libkommanderwidget.la
 INCLUDES = $(all_includes)
 
 # the library search path. 
-libkommanderwidget_la_LDFLAGS = $(KDE_RPATH) $(all_libraries)
+libkommanderwidget_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
+
+# the libraries to link against.
+libkommanderwidget_la_LIBADD  = $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
 
 libkommanderwidget_la_SOURCES = kommanderwidget.cpp myprocess.cpp \
     specialinformation.cpp kommanderfunctions.cpp specials.cpp \
