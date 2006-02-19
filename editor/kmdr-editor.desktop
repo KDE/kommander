@@ -1,13 +1,16 @@
 [Desktop Entry]
 Encoding=UTF-8
 GenericName=Dynamic Dialog Editor
+GenericName[fr]=Éditeur dynamique de boîtes de dialogue
 GenericName[x-test]=xxDynamic Dialog Editorxx
 Name=Kommander Editor
+Name[fr]=Éditeur Kommander
 Name[x-test]=xxKommander Editorxx
 Exec=kmdr-editor %F
 Icon=kmdr-editor
 Type=Application
 Comment=Dynamic Dialog Editor
+Comment[fr]=Éditeur dynamique de boîtes de dialogue
 Comment[x-test]=xxDynamic Dialog Editorxx
 MimeType=application/x-kommander
 DocPath=kommander/index.html

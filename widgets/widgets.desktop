@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Widgets
+Name[fr]=Éléments graphiques
 Name[x-test]=xxWidgetsxx
 Exec=widgets %i %m -caption "%c"
 Type=Application
