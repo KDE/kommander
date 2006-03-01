@@ -254,6 +254,11 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   bool ok = false;
   if (start != -1)
     pTypes = parseBrackets(function, start, ok);
+  else
+  {
+    ok = true;
+    function += "()";
+  }
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.").arg(a_query[2]));
