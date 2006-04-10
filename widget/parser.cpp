@@ -113,7 +113,7 @@ void Parser::setString(const QString& s)
     }
     else                          // Bad character
     {
-      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count());
+      setError(i18n("Invalid character: '%1'", s[start]), m_parts.count());
       return;
     }
   }
@@ -203,12 +203,12 @@ ParseNode Parser::parseValue(Mode mode)
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
-      setError(i18n("'%1' is not a widget").arg(p.variableName()));
+      setError(i18n("'%1' is not a widget", p.variableName()));
       return ParseNode();
     }
     else if (tryKeyword(LeftParenthesis, CheckOnly))
     {
-      setError(i18n("'%1' is not a function").arg(p.variableName()));
+      setError(i18n("'%1' is not a function", p.variableName()));
       return ParseNode();
     }
     else
@@ -383,15 +383,15 @@ ParseNode Parser::parseFunction(Mode mode)
     tryKeyword(RightParenthesis);
   }
   if (f.minArgs() > params.count())
-    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too few parameters")), pos);
+    setError(i18n("in function '%1': %2", name, i18n("too few parameters")), pos);
   else if (f.maxArgs() < params.count())
-    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too many parameters")), pos);
+    setError(i18n("in function '%1': %2", name, i18n("too many parameters")), pos);
   else if (mode == Execute)
   {
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in function '%1': %2").arg(name).arg(p.errorMessage()), pos);
+      setError(i18n("in function '%1': %2", name, p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -427,7 +427,7 @@ ParseNode Parser::parseWidget(Mode mode)
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in widget function '%1.%2': %3").arg(widget).arg(var).arg(p.errorMessage()), pos);
+      setError(i18n("in widget function '%1.%2': %3", widget, var, p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -455,11 +455,11 @@ void Parser::parseAssignment(Mode mode)
       setVariable(var, p);
   }
   else if (tryKeyword(Dot, CheckOnly))
-    setError(i18n("'%1' is not a widget").arg(var));
+    setError(i18n("'%1' is not a widget", var));
   else if (tryKeyword(LeftParenthesis, CheckOnly))
-    setError(i18n("'%1' is not a function").arg(var));
+    setError(i18n("'%1' is not a function", var));
   else 
-    setError(i18n("Unexpected symbol after variable '%1'").arg(var));
+    setError(i18n("Unexpected symbol after variable '%1'", var));
 }
 
 Flow Parser::parseIf(Mode mode)
@@ -620,7 +620,7 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
     return true;
   }
   if (mode == Execute)
-    setError(i18n("Expected '%1'").arg(m_data->keywordToString(k)));
+    setError(i18n("Expected '%1'", m_data->keywordToString(k)));
   return false;
 }
 

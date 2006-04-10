@@ -112,12 +112,12 @@ bool FormFile::save(bool withMsgBox)
   if (!resource.save(filename, false))
   {
     if (KMessageBox::questionYesNo(MainWindow::self, i18n("Failed to save file '%1'.\n"
-        "Do you want to use another file name?").arg(filename), QString::null, i18n("Try Another"), i18n("Do Not Try")) == KMessageBox::Yes)
+        "Do you want to use another file name?", filename), QString::null, i18n("Try Another"), i18n("Do Not Try")) == KMessageBox::Yes)
       return saveAs();
     else 
       return false;
   }
-  MainWindow::self->statusBar()->message(i18n("'%1' saved.").arg(filename), 3000);
+  MainWindow::self->statusBar()->message(i18n("'%1' saved.", filename), 3000);
   setModified(false);
   return true;
 }
@@ -131,7 +131,7 @@ bool FormFile::saveAs()
   while (!saved) {
     QString fn = KFileDialog::getSaveFileName(QString::null,
       i18n("*.kmdr|Kommander Files"), MainWindow::self,
-      i18n("Save Form '%1' As").arg(formWindow()->name()));
+      i18n("Save Form '%1' As", formWindow()->name()));
     if (fn.isEmpty())
       return false;
     QFileInfo fi(fn);
@@ -172,7 +172,7 @@ bool FormFile::closeEvent()
   }
 
   switch (KMessageBox::warningYesNoCancel(MainWindow::self, i18n("Dialog '%1' was modified."
-  "Do you want to save it?").arg(filename), i18n("Save File?"), KStdGuiItem::save(), KStdGuiItem::discard())) {
+  "Do you want to save it?", filename), i18n("Save File?"), KStdGuiItem::save(), KStdGuiItem::discard())) {
     case KMessageBox::Yes:
       if (!save())
         return false;

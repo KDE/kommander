@@ -793,11 +793,11 @@ void MainWindow::updateUndoRedo(bool undoAvailable, bool redoAvailable,
     actionEditUndo->setEnabled(undoAvailable);
     actionEditRedo->setEnabled(redoAvailable);
     if (!undoCmd.isEmpty())
-        actionEditUndo->setText(i18n("&Undo: %1").arg(undoCmd));
+        actionEditUndo->setText(i18n("&Undo: %1", undoCmd));
     else
         actionEditUndo->setText(i18n("&Undo: Not Available"));
     if (!redoCmd.isEmpty())
-        actionEditRedo->setText(i18n("&Redo: %1").arg(redoCmd));
+        actionEditRedo->setText(i18n("&Redo: %1", redoCmd));
     else
         actionEditRedo->setText(i18n("&Redo: Not Available"));
 
@@ -984,7 +984,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
             text = KInputDialog::getText(i18n("Text"), i18n("New text:"), w->property("text").toString(), &ok, this);
         }
         if (ok) {
-            QString pn(i18n("Set the 'text' of '%1'").arg(w->name()));
+            QString pn(i18n("Set the 'text' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "text", w->property("text"),
                                                               text, QString::null, QString::null);
@@ -996,7 +996,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
         bool ok = false;
         QString title = KInputDialog::getText(i18n("Title"), i18n("New title:"), w->property("title").toString(), &ok, this);
         if (ok) {
-            QString pn(i18n("Set the 'title' of '%1'").arg(w->name()));
+            QString pn(i18n("Set the 'title' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "title", w->property("title"),
                                                               title, QString::null, QString::null);
@@ -1008,7 +1008,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
         bool ok = false;
         QString text = KInputDialog::getText(i18n("Page Title"), i18n("New page title:"), w->property("pageTitle").toString(), &ok, this);
         if (ok) {
-            QString pn(i18n("Set the 'pageTitle' of '%1'").arg(w->name()));
+            QString pn(i18n("Set the 'pageTitle' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "pageTitle", w->property("pageTitle"),
                                                               text, QString::null, QString::null);
@@ -1020,7 +1020,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
         QPixmap oldPix = w->property("pixmap").toPixmap();
         QPixmap pix = qChoosePixmap(this, formWindow(), oldPix);
         if (!pix.isNull()) {
-            QString pn(i18n("Set the 'pixmap' of '%1'").arg(w->name()));
+            QString pn(i18n("Set the 'pixmap' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "pixmap", w->property("pixmap"),
                                                               pix, QString::null, QString::null);
@@ -1046,15 +1046,15 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
     if (w->inherits("QTabWidget")) {
         QTabWidget *tw = (QTabWidget*)w;
         if (id == commands[ "add" ]) {
-            AddTabPageCommand *cmd = new AddTabPageCommand(i18n("Add Page to %1").arg(tw->name()), formWindow(),
+            AddTabPageCommand *cmd = new AddTabPageCommand(i18n("Add Page to %1", tw->name()), formWindow(),
                                                             tw, "Tab");
             formWindow()->commandHistory()->addCommand(cmd);
             cmd->execute();
         } else if (id == commands[ "remove" ]) {
             if (tw->currentPage()) {
                 QDesignerTabWidget *dtw = (QDesignerTabWidget*)tw;
-                DeleteTabPageCommand *cmd = new DeleteTabPageCommand(i18n("Delete Page %1 of %2").
-                                                                      arg(dtw->pageTitle()).arg(tw->name()),
+                DeleteTabPageCommand *cmd = new DeleteTabPageCommand(i18n("Delete Page %1 of %2", 
+                                                                      dtw->pageTitle(), tw->name()),
                                                                       formWindow(), tw, tw->currentPage());
                 formWindow()->commandHistory()->addCommand(cmd);
                 cmd->execute();
@@ -1082,15 +1082,15 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
     if (fw->mainContainer()->inherits("QWizard")) {
         QWizard *wiz = (QWizard*)fw->mainContainer();
         if (id == commands[ "add" ]) {
-            AddWizardPageCommand *cmd = new AddWizardPageCommand(i18n("Add Page to %1").arg(wiz->name()), formWindow(),
+            AddWizardPageCommand *cmd = new AddWizardPageCommand(i18n("Add Page to %1", wiz->name()), formWindow(),
                                                                   wiz, "Page");
             formWindow()->commandHistory()->addCommand(cmd);
             cmd->execute();
         } else if (id == commands[ "remove" ]) {
             if (wiz->currentPage()) {
               QDesignerWizard *dw = (QDesignerWizard*)wiz;
-                DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand(i18n("Delete Page %1 of %2").
-                                                                            arg(dw->pageTitle()).arg(wiz->name()),
+                DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand(i18n("Delete Page %1 of %2", 
+                                                                            dw->pageTitle(), wiz->name()),
                                                                             formWindow(), wiz, wiz->indexOf(wiz->currentPage()));
                 formWindow()->commandHistory()->addCommand(cmd);
                 cmd->execute();
@@ -1105,7 +1105,7 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
             QDesignerWizard *dw = (QDesignerWizard*)wiz;
             QString text = KInputDialog::getText(i18n("Page Title"), i18n("New page title:"), dw->pageTitle(), &ok, this);
             if (ok) {
-                QString pn(i18n("Rename page %1 of %2").arg(dw->pageTitle()).arg(wiz->name()));
+                QString pn(i18n("Rename page %1 of %2", dw->pageTitle(), wiz->name()));
                 RenameWizardPageCommand *cmd = new RenameWizardPageCommand(pn, formWindow()
                                                                             , wiz, wiz->indexOf(wiz->currentPage()), text);
                 formWindow()->commandHistory()->addCommand(cmd);
@@ -1115,11 +1115,11 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
     } else if (fw->mainContainer()->inherits("QMainWindow")) {
         QMainWindow *mw = (QMainWindow*)fw->mainContainer();
         if (id == commands[ "add_toolbar" ]) {
-            AddToolBarCommand *cmd = new AddToolBarCommand(i18n("Add Toolbar to '%1'").arg(formWindow()->name()), formWindow(), mw);
+            AddToolBarCommand *cmd = new AddToolBarCommand(i18n("Add Toolbar to '%1'", formWindow()->name()), formWindow(), mw);
             formWindow()->commandHistory()->addCommand(cmd);
             cmd->execute();
         } else if (id == commands[ "add_menu_item" ]) {
-            AddMenuCommand *cmd = new AddMenuCommand(i18n("Add Menu to '%1'").arg(formWindow()->name()), formWindow(), mw);
+            AddMenuCommand *cmd = new AddMenuCommand(i18n("Add Menu to '%1'", formWindow()->name()), formWindow(), mw);
             formWindow()->commandHistory()->addCommand(cmd);
             cmd->execute();
         }
@@ -1436,7 +1436,7 @@ ActionEditor *MainWindow::actioneditor() const
 bool MainWindow::openEditor(QWidget* w, FormWindow*)
 {
     if (WidgetFactory::hasSpecialEditor(WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w)))) {
-        statusBar()->message(i18n("Edit %1...").arg(w->className()));
+        statusBar()->message(i18n("Edit %1...", w->className()));
         WidgetFactory::editWidget(WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w)), this, w, formWindow());
         statusBar()->clear();
         return true;
@@ -1454,7 +1454,7 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
             text = KInputDialog::getText(i18n("Text"), i18n("New text:"), w->property("text").toString(), &ok, this);
         }
         if (ok) {
-            QString pn(i18n("Set the 'text' of '%2'").arg(w->name()));
+            QString pn(i18n("Set the 'text' of '%2'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "text", w->property("text"),
                                                               text, QString::null, QString::null);
@@ -1469,7 +1469,7 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
         QString text;
         text = KInputDialog::getText(i18n("Title"), i18n("New title:"), w->property("title").toString(), &ok, this);
         if (ok) {
-            QString pn(i18n("Set the 'title' of '%2'").arg(w->name()));
+            QString pn(i18n("Set the 'title' of '%2'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "title", w->property("title"),
                                                               text, QString::null, QString::null);
@@ -1626,8 +1626,8 @@ void MainWindow::fileOpenRecent(const KURL& filename)
 {
   if (!QFile::exists(filename.path()))
   {
-    KMessageBox::error(this, i18n("<qt>Could not open file:<br><b>%1</b><br>File does not exist.</qt>").
-        arg(filename.path()), i18n("Open File"));
+    KMessageBox::error(this, i18n("<qt>Could not open file:<br><b>%1</b><br>File does not exist.</qt>", 
+        filename.path()), i18n("Open File"));
     actionRecent->removeURL(filename);
   }
   else

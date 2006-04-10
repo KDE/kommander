@@ -947,9 +947,9 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	QString all = i18n( "All Pixmaps" );
 	all += " (";
 	for ( uint i = 0; i < QImageIO::outputFormats().count(); i++ ) {
-	    filter += i18n( "%1-Pixmaps (%2)\n" ).
-		     arg( QImageIO::outputFormats().at( i ) ).
-		     arg( "*." + QString( QImageIO::outputFormats().at( i ) ).lower() );
+	    filter += i18n( "%1-Pixmaps (%2)\n" , 
+		      QImageIO::outputFormats().at( i ) , 
+		      "*." + QString( QImageIO::outputFormats().at( i ) ).lower() );
 	    all += "*." + QString( QImageIO::outputFormats().at( i ) ).lower() + ";";
 	}
 	filter.prepend( all + ")\n" );

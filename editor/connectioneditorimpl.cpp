@@ -225,8 +225,8 @@ void ConnectionEditor::disconnectClicked()
 void ConnectionEditor::okClicked()
 {
   MacroCommand* rmConn = 0, *addConn = 0;
-  QString n = i18n("Connect/Disconnect the signals and slots of '%1' and '%2'").arg(m_sender->name()).
-      arg(m_receiver->name());
+  QString n = i18n("Connect/Disconnect the signals and slots of '%1' and '%2'", m_sender->name(), 
+      m_receiver->name());
   QValueList <MetaDataBase::Connection>::Iterator cit;
   if (!m_oldConnections.isEmpty())
   {

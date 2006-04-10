@@ -133,7 +133,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     if (!p.parse())
     {
       // FIXME add widget's name to KommanderWidget class      
-      printError(i18n("Line %1: %2.\n").arg(p.errorLine()+1).arg(p.errorMessage()));
+      printError(i18n("Line %1: %2.\n", p.errorLine()+1, p.errorMessage()));
     }
     return QString::null;
   }
@@ -234,7 +234,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     }
     else
     {
-      printError(i18n("Unknown special: \'%1\'.").arg(identifier));
+      printError(i18n("Unknown special: \'%1\'.", identifier));
       return QString::null;
     }
   }
@@ -256,13 +256,13 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     pTypes = parseBrackets(function, start, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.").arg(a_query[2]));
+    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.", a_query[2]));
     return QString::null;
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
-    printError(i18n("Incorrect arguments in DCOP call \'%1\'.").arg(a_query[2]));
+    printError(i18n("Incorrect arguments in DCOP call \'%1\'.", a_query[2]));
     return QString::null;
   }
   
@@ -323,7 +323,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   }
   else if(replyType != "void")
   {
-    printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
+    printError(i18n("DCOP return type %1 is not yet implemented.", replyType.data()));
   }
 
   return QString::null;
@@ -390,8 +390,8 @@ void KommanderWidget::printError(const QString& a_error) const
                 KDialogBase::Yes, KDialogBase::No, 0, 0, true, false, 
                 i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
     switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
-                i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>").arg(QString(m_thisObject->name()))
-                    .arg(a_error), QStringList(), QString::null, 0, 0))
+                i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->name()),
+                     a_error), QStringList(), QString::null, 0, 0))
     {
       case KDialogBase::No:
         showErrors = false;
@@ -409,7 +409,7 @@ void KommanderWidget::printError(const QString& a_error) const
   }
   else 
   {
-    kdError() << i18n("Error in widget %1:\n  %2\n").arg(m_thisObject->name()).arg(a_error);
+    kdError() << i18n("Error in widget %1:\n  %2\n", m_thisObject->name(), a_error);
   }
 }
 
@@ -556,7 +556,7 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   QString arg = parseBrackets(s, from, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis after \'%1\'.").arg(function));
+    printError(i18n("Unmatched parenthesis after \'%1\'.", function));
     return QString::null;
   }
   const QStringList args = parseArgs(arg, ok);
@@ -565,23 +565,23 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   bool extraArg = gname == Group::DCOP;
   
   if (!ok)
-    printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
+    printError(i18n("Unmatched quotes in argument of \'%1\'.", function));
   else if (gname == -1)
-    printError(i18n("Unknown function group: \'%1\'.").arg(group));
+    printError(i18n("Unknown function group: \'%1\'.", group));
   else if (fname == -1 && !extraArg)
-    printError(i18n("Unknown function: \'%1\' in group '%2'.").arg(function).arg(group));
+    printError(i18n("Unknown function: \'%1\' in group '%2'.", function, group));
   else if (fname == -1 && extraArg)
-    printError(i18n("Unknown widget function: \'%1\'.").arg(function));
+    printError(i18n("Unknown widget function: \'%1\'.", function));
   else if ((int)args.count() + extraArg < SpecialInformation::minArg(gname, fname))
     printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).<p>"
-       "Correct syntax is: %4")
-        .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::minArg(gname, fname))
-        .arg(SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
+       "Correct syntax is: %4",
+         function, args.count() + extraArg, SpecialInformation::minArg(gname, fname),
+         SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
   else if ((int)args.count() + extraArg > SpecialInformation::maxArg(gname, fname))
     printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).<p>"
-       "Correct syntax is: %4")
-      .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::maxArg(gname, fname))
-      .arg(SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
+       "Correct syntax is: %4",
+       function, args.count() + extraArg, SpecialInformation::maxArg(gname, fname),
+       SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
   else 
     success = true;
   ok = success;

@@ -141,7 +141,7 @@ void AssocTextEditor::save() const
 
   if (atw->associatedText() != associatedText())
   {
-    QString text = i18n("Set the \'text association\' of \'%1\'").arg(m_widget->name());
+    QString text = i18n("Set the \'text association\' of \'%1\'", m_widget->name());
     SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow,
         m_widget, m_propertyEditor, "associations", atw->associatedText(),
         associatedText(), QString::null, QString::null, false);
@@ -151,7 +151,7 @@ void AssocTextEditor::save() const
   }
   if (atw->populationText() != populationText())
   {
-    QString text = i18n("Set the \'population text\' of \'%1\'").arg(m_widget->name());
+    QString text = i18n("Set the \'population text\' of \'%1\'", m_widget->name());
     SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow, m_widget,
         m_propertyEditor, "populationText", atw->populationText(),
         populationText(), QString::null, QString::null, false);
@@ -274,7 +274,7 @@ void AssocTextEditor::insertFile()
   QFile insertFile(fileName);
   if(!insertFile.open(IO_ReadOnly))
   {
-    KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt").arg( fileName ) );
+    KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt", fileName ) );
     return;
   }
   QTextStream insertStream(&insertFile);

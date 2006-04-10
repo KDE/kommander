@@ -209,7 +209,7 @@ void SpecialInformation::registerSpecials()
   insert(String::section, "section(QString string, QString separator, int index)", 
     i18n("Returns given section of a string."), 1);
   insert(String::args, "args(QString string, QString arg1, QString arg2, QString arg3)", 
-    i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
+    i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly.", QString("%1"), QString("%2"), QString("%3")), 2); // Placeholders must be substituted, so just put them back for the correct meaning of the sentence.
   
   insertGroup(Group::File, "File", "file");
   insert(File::read, "read(QString)", 

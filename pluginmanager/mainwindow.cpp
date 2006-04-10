@@ -77,7 +77,7 @@ void MainWindow::add(const QString &plugin)
 {
   if (!m_pluginManager->add(plugin))
   {
-    QString errMsg = i18n("<qt>Unable to load Kommander plugin<br><b>%1</b></qt>").arg(plugin);
+    QString errMsg = i18n("<qt>Unable to load Kommander plugin<br><b>%1</b></qt>", plugin);
     KMessageBox::error(this, errMsg, i18n("Cannot add plugin"));
   }
   else

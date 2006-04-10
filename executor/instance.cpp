@@ -85,7 +85,7 @@ bool Instance::build()
   if (!QFileInfo(m_uiFileName.path()).exists())
   {
     KMessageBox::sorry(0, i18n("<qt>Kommander file<br><b>%1</b><br>does not "
-      "exist.</qt>").arg(m_uiFileName.path()));
+      "exist.</qt>", m_uiFileName.path()));
     return false;
   }
   
@@ -95,7 +95,7 @@ bool Instance::build()
   if (!m_instance)
   {
     KMessageBox::sorry(0, i18n("<qt>Unable to create dialog from "
-      "file<br><b>%1</b></qt>").arg(m_uiFileName.path()));
+      "file<br><b>%1</b></qt>", m_uiFileName.path()));
     return false;
   }
   

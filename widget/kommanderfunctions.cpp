@@ -295,7 +295,7 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
   KommanderWidget* pWidget = parseWidget(identifier);
   if (!pWidget) 
   {
-    printError(i18n("Unknown widget: @%1.").arg(identifier));
+    printError(i18n("Unknown widget: @%1.", identifier));
     return QString::null;
   }
   if (s[pos] == '.')
@@ -313,12 +313,12 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
   }
   else if (pWidget == this)
   {
-    printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
+    printError(i18n("Infinite loop: @%1 called inside @%2.", identifier, identifier));
     return QString::null;
   }
   else if (!pWidget->hasAssociatedText())
   {
-    printError(i18n("Script for @%1 is empty.").arg(identifier));
+    printError(i18n("Script for @%1 is empty.", identifier));
     return QString::null;
   }
   return pWidget->evalAssociatedText();

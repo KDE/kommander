@@ -319,16 +319,16 @@ void FormWindow::insertWidget()
           "menu to add and change custom widgets. You can add "
           "properties as well as signals and slots to integrate custom widgets into "
           "<i>Qt Designer</i>, and provide a pixmap which will be used to represent "
-          "the widget on the form.</p>")
-          .arg(WidgetDatabase::toolTip(id)));
-    QToolTip::add(w, i18n("A %1 (custom widget)").arg(WidgetDatabase::toolTip(id)));
+          "the widget on the form.</p>",
+           WidgetDatabase::toolTip(id)));
+    QToolTip::add(w, i18n("A %1 (custom widget)", WidgetDatabase::toolTip(id)));
     }
   else
   {
     QString tt = WidgetDatabase::toolTip(id);
     QString wt = WidgetDatabase::whatsThis(id);
     if (!wt.isEmpty() && !tt.isEmpty())
-        QWhatsThis::add(w, i18n("<b>A %1</b><p>%2</p>").arg(tt).arg(wt));
+        QWhatsThis::add(w, i18n("<b>A %1</b><p>%2</p>", tt, wt));
   }
 
   QString s = w->name();
@@ -387,13 +387,13 @@ void FormWindow::insertWidget()
     else
       setCursorToAll(CrossCursor, w);
 
-    InsertCommand *cmd = new InsertCommand(i18n("Insert %1").arg(w->name()), this, w, r);
+    InsertCommand *cmd = new InsertCommand(i18n("Insert %1", w->name()), this, w, r);
 
     QPtrList<Command> commands;
     commands.append(mv);
     commands.append(cmd);
 
-    MacroCommand *mc = new MacroCommand(i18n("Insert %1").arg(w->name()), this, commands);
+    MacroCommand *mc = new MacroCommand(i18n("Insert %1", w->name()), this, commands);
     commandHistory()->addCommand(mc);
     mc->execute();
   }
@@ -404,7 +404,7 @@ void FormWindow::insertWidget()
     else
       setCursorToAll(CrossCursor, w);
 
-    InsertCommand *cmd = new InsertCommand(i18n("Insert %1").arg(w->name()), this, w, r);
+    InsertCommand *cmd = new InsertCommand(i18n("Insert %1", w->name()), this, w, r);
     commandHistory()->addCommand(cmd);
     cmd->execute();
   }
@@ -427,16 +427,16 @@ void FormWindow::insertWidget(QWidget *w, bool checkName)
             "menu to add and change custom widgets. You can add "
             "properties as well as signals and slots to integrate custom widgets into "
             "<i>Qt Designer</i>, and provide a pixmap which will be used to represent "
-            "the widget on the form.</p>")
-            .arg(WidgetDatabase::toolTip(id)));
-    QToolTip::add(w, i18n("A %1 (custom widget)").arg(WidgetDatabase::toolTip(id)));
+            "the widget on the form.</p>",
+             WidgetDatabase::toolTip(id)));
+    QToolTip::add(w, i18n("A %1 (custom widget)", WidgetDatabase::toolTip(id)));
   }
   else
   {
     QString tt = WidgetDatabase::toolTip(id);
     QString wt = WidgetDatabase::whatsThis(id);
     if (!wt.isEmpty() && !tt.isEmpty())
-      QWhatsThis::add(w, i18n("<b>A %1</b><p>%2</p>").arg(tt).arg(wt));
+      QWhatsThis::add(w, i18n("<b>A %1</b><p>%2</p>", tt, wt));
   }
 
   restoreCursors(w, this);
@@ -594,7 +594,7 @@ void FormWindow::handleMousePress(QMouseEvent *e, QWidget *w)
         if (e->button() != LeftButton)
           break;
         saveBackground();
-        mainWindow()->statusBar()->message(i18n("Connect '%1' with...").arg(w->name()));
+        mainWindow()->statusBar()->message(i18n("Connect '%1' with...", w->name()));
         connectStartPos = mapFromGlobal(e->globalPos());
         currentConnectPos = mapFromGlobal(e->globalPos());
         connectSender = designerWidget(w);
@@ -803,8 +803,8 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
     if (newReceiver && (isMainContainer(newReceiver)
         || insertedWidgets.find(newReceiver)) && !isCentralWidget(newReceiver))
       connectReceiver = connectableObject(newReceiver, connectReceiver);
-    mainWindow()->statusBar()->message(i18n("Connect '%1' to '%2'").arg(connectSender->name()).
-        arg(connectReceiver->name()));
+    mainWindow()->statusBar()->message(i18n("Connect '%1' to '%2'", connectSender->name(), 
+        connectReceiver->name()));
     qApp->processEvents();
     if (drawRecRect)
       restoreRect(QRect(mapToForm(((QWidget*)oldReceiver)->parentWidget(),
@@ -868,10 +868,10 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
                   i18n("You tried to insert a widget into the "
                       "layout Container Widget '%1'.\n"
                       "This is not possible. "
-                      "In order to insert the widget, the layout of '%1'\n"
+                      "In order to insert the widget, the layout of '%2'\n"
                       "must first be broken.\n"
-                      "Break the layout or cancel the operation?").
-                  arg(wa->name()).arg(wa->name()), i18n("Inserting Widget"),
+                      "Break the layout or cancel the operation?", 
+                  wa->name(), wa->name()), i18n("Inserting Widget"),
                   i18n("&Break Layout"), KStdGuiItem::cancel()) == KMessageBox::No)
             goto make_move_command; // cancel
           breakLayout(wa);
@@ -957,11 +957,11 @@ void FormWindow::handleMouseRelease(QMouseEvent * e, QWidget * w)
                 i18n("You tried to insert a widget into the "
                     "layout Container Widget '%1'.\n"
                     "This is not possible. "
-                    "In order to insert the widget, the layout of '%1'\n"
+                    "In order to insert the widget, the layout of '%2'\n"
                     "must first be broken.\n"
-                    "Break the layout or cancel the operation?").
-                arg(insertParent->name()).
-                arg(insertParent->name()), i18n("Inserting Widget"),
+                    "Break the layout or cancel the operation?", 
+                insertParent->name(), 
+                insertParent->name()), i18n("Inserting Widget"),
                 i18n("&Break Layout"), KStdGuiItem::cancel()) == KMessageBox::Yes)
         {
           breakLayout(insertParent);
@@ -1667,8 +1667,8 @@ void FormWindow::currentToolChanged()
       emitShowProperties(mainContainer());
     break;
   default:
-    mainWindow()->statusBar()->message(i18n("Click on the form to insert a %1...").
-        arg(WidgetDatabase::toolTip(currTool).lower()));
+    mainWindow()->statusBar()->message(i18n("Click on the form to insert a %1...", 
+        WidgetDatabase::toolTip(currTool).lower()));
     setCursorToAll(CrossCursor, this);
     if (mainWindow()->formWindow() == this)
       emitShowProperties(mainContainer());
@@ -1838,7 +1838,7 @@ void FormWindow::checkAccels()
     {
       ok = false;
       if (KMessageBox::questionYesNo(mainWindow(),
-              i18n("Accelerator '%1' is used %2 times.").arg(it.key().upper()).arg((*it).count()),
+              i18n("Accelerator '%1' is used %2 times.", it.key().upper(), (*it).count()),
               i18n("Check Accelerators"), i18n("&Select"), KStdGuiItem::cancel()) == KMessageBox::Yes)
       {
         clearSelection(false);

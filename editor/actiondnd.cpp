@@ -294,7 +294,7 @@ void QDesignerToolBar::contextMenuEvent( QContextMenuEvent *e )
     menu.insertItem( i18n("Delete Toolbar" ), 1 );
     int res = menu.exec( e->globalPos() );
     if ( res != -1 ) {
-	RemoveToolBarCommand *cmd = new RemoveToolBarCommand( i18n("Delete Toolbar '%1'" ).arg( name() ),
+	RemoveToolBarCommand *cmd = new RemoveToolBarCommand( i18n("Delete Toolbar '%1'", name() ),
 							      formWindow, 0, this );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
@@ -359,8 +359,8 @@ void QDesignerToolBar::buttonContextMenuEvent( QContextMenuEvent *e, QObject *o 
 	QAction *a = *it;
 	int index = actionList.find( a );
 	RemoveActionFromToolBarCommand *cmd = new RemoveActionFromToolBarCommand(
-	    i18n("Delete Action '%1' From Toolbar '%2'" ).
-	    arg( a->name() ).arg( caption() ),
+	    i18n("Delete Action '%1' From Toolbar '%2'" , 
+	     a->name(), caption() ),
 	    formWindow, a, this, index );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
@@ -374,13 +374,13 @@ void QDesignerToolBar::buttonContextMenuEvent( QContextMenuEvent *e, QObject *o 
 	    index = 0;
 
 	AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand(
-	    i18n("Add Separator to Toolbar '%1'" ).
-	    arg( a->name() ),
+	    i18n("Add Separator to Toolbar '%1'" , 
+	     a->name() ),
 	    formWindow, a, this, index );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
     } else if ( res == ID_DELTOOLBAR ) {
-	RemoveToolBarCommand *cmd = new RemoveToolBarCommand( i18n("Delete Toolbar '%1'" ).arg( name() ),
+	RemoveToolBarCommand *cmd = new RemoveToolBarCommand( i18n("Delete Toolbar '%1'", name() ),
 							      formWindow, 0, this );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
@@ -419,8 +419,8 @@ void QDesignerToolBar::removeWidget( QWidget *w )
     QAction *a = *it;
     int index = actionList.find( a );
     RemoveActionFromToolBarCommand *cmd =
-	new RemoveActionFromToolBarCommand( i18n("Delete Action '%1' From Toolbar '%2'" ).
-					    arg( a->name() ).arg( caption() ),
+	new RemoveActionFromToolBarCommand( i18n("Delete Action '%1' From Toolbar '%2'" , 
+					     a->name(), caption() ),
 					    formWindow, a, this, index );
     formWindow->commandHistory()->addCommand( cmd );
     cmd->execute();
@@ -442,8 +442,8 @@ void QDesignerToolBar::buttonMouseMoveEvent( QMouseEvent *e, QObject *o )
 	return;
     int index = actionList.find( a );
     RemoveActionFromToolBarCommand *cmd =
-	new RemoveActionFromToolBarCommand( i18n("Delete Action '%1' From Toolbar '%2'" ).
-					    arg( a->name() ).arg( caption() ),
+	new RemoveActionFromToolBarCommand( i18n("Delete Action '%1' From Toolbar '%2'" , 
+					     a->name(), caption() ),
 					    formWindow, a, this, index );
     formWindow->commandHistory()->addCommand( cmd );
     cmd->execute();
@@ -461,8 +461,8 @@ void QDesignerToolBar::buttonMouseMoveEvent( QMouseEvent *e, QObject *o )
 	    formWindow->selectWidget( ( (QDesignerAction*)a )->widget(), false );
     }
     if ( !drag->drag() ) {
-	AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand( i18n("Add Action '%1' to Toolbar '%2'" ).
-									arg( a->name() ).arg( caption() ),
+	AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand( i18n("Add Action '%1' to Toolbar '%2'" , 
+									 a->name(), caption() ),
 									formWindow, a, this, index );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
@@ -537,13 +537,13 @@ void QDesignerToolBar::dropEvent( QDropEvent *e )
     if ( actionList.findRef( a ) != -1 ) {
 	QMessageBox::warning( MainWindow::self, i18n("Insert/Move Action" ),
 			      i18n("Action '%1' has already been added to this toolbar.\n"
-				  "An Action may only occur once in a given toolbar." ).
-			      arg( a->name() ) );
+				  "An Action may only occur once in a given toolbar." , 
+			       a->name() ) );
 	return;
     }
 
-    AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand( i18n("Add Action '%1' to Toolbar '%2'" ).
-								    arg( a->name() ).arg( caption() ),
+    AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand( i18n("Add Action '%1' to Toolbar '%2'" , 
+								     a->name(), caption() ),
 								    formWindow, a, this, index );
     formWindow->commandHistory()->addCommand( cmd );
     cmd->execute();
@@ -668,8 +668,8 @@ void QDesignerToolBar::doInsertWidget( const QPoint &p )
 	++index;
     if ( !insertAnchor )
 	index = 0;
-    AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand( i18n("Add Widget '%1' to Toolbar '%2'" ).
-								    arg( w->name() ).arg( caption() ),
+    AddActionToToolBarCommand *cmd = new AddActionToToolBarCommand( i18n("Add Widget '%1' to Toolbar '%2'" , 
+								     w->name(), caption() ),
 								    formWindow, a, this, index );
     formWindow->commandHistory()->addCommand( cmd );
     cmd->execute();
@@ -737,7 +737,7 @@ void QDesignerMenuBar::contextMenuEvent( QContextMenuEvent *e )
     int res = menu.exec( e->globalPos() );
     if ( res == 1 ) {
 	QMenuItem *item = findItem( idAt( itm ) );
-	RemoveMenuCommand *cmd = new RemoveMenuCommand( i18n("Delete Menu '%1'" ).arg( item->text() ),
+	RemoveMenuCommand *cmd = new RemoveMenuCommand( i18n("Delete Menu '%1'", item->text() ),
 							formWindow,
 							(QMainWindow*)parentWidget(), this,
 							(QDesignerPopupMenu*)item->popup(),
@@ -754,7 +754,7 @@ void QDesignerMenuBar::contextMenuEvent( QContextMenuEvent *e )
 					     text( idAt( itm ) ), &ok, 0 );
 	if ( ok ) {
 	    RenameMenuCommand *cmd = new RenameMenuCommand(
-		i18n("Rename Menu '%1' to '%2'" ).arg( old ).arg( txt ),
+		i18n("Rename Menu '%1' to '%2'", old, txt ),
 		formWindow, this, idAt( itm ), old, txt );
 	    formWindow->commandHistory()->addCommand( cmd );
 	    cmd->execute();
@@ -878,7 +878,7 @@ void QDesignerMenuBar::dropEvent( QDropEvent *e )
     QString txt = s2;
     insertItem( txt, popup, -1, insertAt );
 
-    MoveMenuCommand *cmd = new MoveMenuCommand( i18n("Move Menu '%1'" ).arg( txt ), formWindow,
+    MoveMenuCommand *cmd = new MoveMenuCommand( i18n("Move Menu '%1'", txt ), formWindow,
 						this, (QDesignerPopupMenu*)popup, oldPos, insertAt, txt );
     // do not execute, we did the work already
     formWindow->commandHistory()->addCommand( cmd );
@@ -1027,8 +1027,8 @@ void QDesignerPopupMenu::createPopupMenu()
 	if ( !a )
 	    return;
 	RemoveActionFromPopupCommand *cmd = new RemoveActionFromPopupCommand(
-									     i18n("Delete Action '%1' From Popup Menu '%2'" ).
-									     arg( a->name() ).arg( caption() ),
+									     i18n("Delete Action '%1' From Popup Menu '%2'" , 
+									      a->name(), caption() ),
 									     formWindow, a, this, itm );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
@@ -1037,8 +1037,8 @@ void QDesignerPopupMenu::createPopupMenu()
 	calcIndicatorPos( mapFromGlobal( popupPos ) );
 	QAction *a = new QSeparatorAction( 0 );
 	AddActionToPopupCommand *cmd = new AddActionToPopupCommand(
-								   i18n("Add Separator to Popup Menu '%1'" ).
-								   arg( name() ),
+								   i18n("Add Separator to Popup Menu '%1'" , 
+								    name() ),
 								   formWindow, a, this, insertAt );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
@@ -1066,8 +1066,8 @@ void QDesignerPopupMenu::mouseMoveEvent( QMouseEvent *e )
     QAction *a = actionList.at( itm );
     if ( !a )
 	return;
-    RemoveActionFromPopupCommand *cmd = new RemoveActionFromPopupCommand( i18n("Delete Action '%1' From Popup Menu '%2'" ).
-									  arg( a->name() ).arg( caption() ),
+    RemoveActionFromPopupCommand *cmd = new RemoveActionFromPopupCommand( i18n("Delete Action '%1' From Popup Menu '%2'" , 
+									   a->name(), caption() ),
 									  formWindow, a, this, itm );
     formWindow->commandHistory()->addCommand( cmd );
     cmd->execute();
@@ -1079,8 +1079,8 @@ void QDesignerPopupMenu::mouseMoveEvent( QMouseEvent *e )
     drag->setEncodedData( QCString( s.latin1() ) );
     drag->setPixmap( a->iconSet().pixmap() );
     if ( !drag->drag() ) {
-	AddActionToPopupCommand *cmd = new AddActionToPopupCommand( i18n("Add Action '%1' to Popup Menu '%2'" ).
-								    arg( a->name() ).arg( name() ),
+	AddActionToPopupCommand *cmd = new AddActionToPopupCommand( i18n("Add Action '%1' to Popup Menu '%2'" , 
+								     a->name(), name() ),
 								    formWindow, a, this, itm );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
@@ -1156,13 +1156,13 @@ void QDesignerPopupMenu::dropEvent( QDropEvent *e )
     if ( actionList.findRef( a ) != -1 ) {
 	QMessageBox::warning( MainWindow::self, i18n("Insert/Move Action" ),
 			      i18n("Action '%1' has already been added to this menu.\n"
-				  "An Action may only occur once in a given menu." ).
-			      arg( a->name() ) );
+				  "An Action may only occur once in a given menu." , 
+			       a->name() ) );
 	return;
     }
 
-    AddActionToPopupCommand *cmd = new AddActionToPopupCommand( i18n("Add Action '%1' to Popup Menu '%2'" ).
-								arg( a->name() ).arg( name() ),
+    AddActionToPopupCommand *cmd = new AddActionToPopupCommand( i18n("Add Action '%1' to Popup Menu '%2'" , 
+								 a->name(), name() ),
 								formWindow, a, this, insertAt );
     formWindow->commandHistory()->addCommand( cmd );
     cmd->execute();

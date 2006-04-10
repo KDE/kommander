@@ -72,10 +72,19 @@
 
 #include <stdlib.h>
 
-const QString toolbarHelp = "<p>Toolbars contain a number of buttons to "
-"provide quick access to often used functions.%1"
+const QString toolbarHelp1 = i18n(
+"<p>Toolbars contain a number of buttons to "
+"provide quick access to often used functions."
 "<br>Click on the toolbar handle to hide the toolbar, "
-"or drag and place the toolbar to a different location.</p>";
+"or drag and place the toolbar to a different location.</p>");
+
+const KLocalizedString toolbarHelp2 = ki18n(
+"<p>Toolbars contain a number of buttons to "
+"provide quick access to often used functions. "
+"Click on a button to insert a single widget, "
+"or double click to insert multiple %1."
+"<br>Click on the toolbar handle to hide the toolbar, "
+"or drag and place the toolbar to a different location.</p>");
 
 static QIconSet createIconSet( const QString &name )
 {
@@ -157,7 +166,7 @@ void MainWindow::setupEditActions()
 
   KToolBar *tb = new KToolBar(this, "Edit");
   tb->setFullSize(false);
-  QWhatsThis::add(tb, i18n("<b>The Edit toolbar</b>%1").arg(toolbarHelp));
+  QWhatsThis::add(tb, i18n("<b>The Edit toolbar</b>") + toolbarHelp1);
   addToolBar(tb, i18n("Edit"));
   actionEditUndo->plug(tb);
   actionEditRedo->plug(tb);
@@ -235,13 +244,13 @@ void MainWindow::setupLayoutActions()
                                        actionCollection(), QString::number(id).latin1());
   a->setExclusiveGroup("tool");
   a->setText(i18n("Add ") + WidgetDatabase::className(id));
-  a->setToolTip(i18n("Insert a %1").arg(WidgetDatabase::toolTip(id)));
+  a->setToolTip(i18n("Insert a %1", WidgetDatabase::toolTip(id)));
   a->setWhatsThis(i18n("<b>A %1</b><p>%2</p>"
       "<p>Click to insert a single %3,"
-      "or double click to keep the tool selected.").arg(WidgetDatabase::toolTip(id)).
-      arg(WidgetDatabase::whatsThis(id)).arg(WidgetDatabase::toolTip(id)));
+      "or double click to keep the tool selected.", WidgetDatabase::toolTip(id), 
+      WidgetDatabase::whatsThis(id), WidgetDatabase::toolTip(id)));
 
-  QWhatsThis::add(layoutToolBar, i18n("<b>The Layout toolbar</b>%1").arg(toolbarHelp));
+  QWhatsThis::add(layoutToolBar, i18n("<b>The Layout toolbar</b>") + toolbarHelp1);
   actionEditAdjustSize->plug(layoutToolBar);
   layoutToolBar->addSeparator();
   actionEditHLayout->plug(layoutToolBar);
@@ -292,7 +301,7 @@ void MainWindow::setupToolActions()
 
   KToolBar *tb = new KToolBar(this, "Tools");
   tb->setFullSize(false);
-  QWhatsThis::add(tb, i18n("<b>The Tools toolbar</b>%1").arg(toolbarHelp));
+  QWhatsThis::add(tb, i18n("<b>The Tools toolbar</b>") + toolbarHelp1);
 
   addToolBar(tb, i18n("Tools"), QMainWindow::DockTop, true);
   actionPointerTool->plug(tb);
@@ -316,14 +325,10 @@ void MainWindow::setupToolActions()
     bool plural = grp[(int) grp.length() - 1] == 's';
     if (plural)
     {
-      QWhatsThis::add(tb, i18n("<b>The %1</b>%2").arg(grp).arg(toolbarHelp).
-          arg(i18n(" Click on a button to insert a single widget, "
-              "or double click to insert multiple %1.")).arg(grp));
+      QWhatsThis::add(tb, i18n("<b>The %1</b>", grp) + toolbarHelp2.subs(grp).toString());
     } else
     {
-      QWhatsThis::add(tb, i18n("<b>The %1 Widgets</b>%2").arg(grp).arg(toolbarHelp).
-          arg(i18n(" Click on a button to insert a single %1 widget, "
-              "or double click to insert multiple widgets.")).arg(grp));
+      QWhatsThis::add(tb, i18n("<b>The %1 Widgets</b>", grp) + toolbarHelp2.subs(grp).toString());
     }
     addToolBar(tb, grp);
     QPopupMenu *menu = new QPopupMenu(this, grp.latin1());
@@ -349,9 +354,9 @@ void MainWindow::setupToolActions()
       a->setToolTip(ttip);
       if (!WidgetDatabase::isWhatsThisLoaded())
         WidgetDatabase::loadWhatsThis(documentationPath());
-      a->setToolTip(i18n("Insert a %1").arg(WidgetDatabase::className(i)));
+      a->setToolTip(i18n("Insert a %1", WidgetDatabase::className(i)));
 
-      QString whats = i18n("<b>A %1</b>").arg(WidgetDatabase::className(i));
+      QString whats = i18n("<b>A %1</b>", WidgetDatabase::className(i));
       if (!WidgetDatabase::whatsThis(i).isEmpty())
         whats += QString("<p>%1</p>").arg(WidgetDatabase::whatsThis(i));
       a->setWhatsThis(whats + i18n("<p>Double click on this tool to keep it selected.</p>"));
@@ -395,7 +400,7 @@ void MainWindow::setupFileActions()
   KToolBar *tb = new KToolBar(this, "File");
   tb->setFullSize(false);
 
-  QWhatsThis::add(tb, i18n("<b>The File toolbar</b>%1").arg(toolbarHelp));
+  QWhatsThis::add(tb, i18n("<b>The File toolbar</b>") + toolbarHelp1);
   addToolBar(tb, i18n("File"));
   fileMenu = new QPopupMenu(this, "File");
   menuBar()->insertItem(i18n("&File"), fileMenu);
@@ -643,7 +648,7 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
   }
   if (!makeNew)
   {
-    statusBar()->message(i18n("Reading file '%1'...").arg(filename));
+    statusBar()->message(i18n("Reading file '%1'...", filename));
     if (QFile::exists(filename))
     {
       QApplication::setOverrideCursor(WaitCursor);
@@ -656,11 +661,11 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
       QApplication::restoreOverrideCursor();
       if (b)
       {
-        statusBar()->message(i18n("Loaded file '%1'").arg(filename), 3000);
+        statusBar()->message(i18n("Loaded file '%1'", filename), 3000);
       } else
       {
-        statusBar()->message(i18n("Could not load file '%1'").arg(filename), 5000);
-        KMessageBox::information(this, i18n("Could not load file '%1'").arg(filename), i18n("Load File"));
+        statusBar()->message(i18n("Could not load file '%1'", filename), 5000);
+        KMessageBox::information(this, i18n("Could not load file '%1'", filename), i18n("Load File"));
         delete ff;
       }
       return (FormWindow *) resource.widget();

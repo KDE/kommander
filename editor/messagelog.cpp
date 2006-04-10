@@ -124,13 +124,13 @@ void MessageLog::saveToFile()
     return;
   QFileInfo fileinfo(url.path());
   if (fileinfo.exists() && KMessageBox::warningContinueCancel(0,
-      i18n("<qt>File<br><b>%1</b><br>already exists. Overwrite it?</qt>")
-          .arg(url.path()), QString::null, i18n("Overwrite")) == KMessageBox::Cancel)
+      i18n("<qt>File<br><b>%1</b><br>already exists. Overwrite it?</qt>",
+           url.path()), QString::null, i18n("Overwrite")) == KMessageBox::Cancel)
     return;
   QFile file(url.path());
   if (!file.open(IO_WriteOnly)) {
-    KMessageBox::error(0, i18n("<qt>Cannot save log file<br><b>%1</b></qt>")
-        .arg(url.url()));
+    KMessageBox::error(0, i18n("<qt>Cannot save log file<br><b>%1</b></qt>",
+         url.url()));
     return;
   }
   QTextStream textfile(&file);

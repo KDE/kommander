@@ -132,7 +132,7 @@ void FunctionsDialog::functionChanged(int)
      if (!m_function.minArg())
         defArgs = i18n("<p>Parameters are not obligatory.");
      else    
-        defArgs = i18n("<p>Only first argument is obligatory.", 
+        defArgs = i18np("<p>Only first argument is obligatory.", 
            "<p>Only first %n arguments are obligatory.", 
            m_function.minArg());
   
@@ -142,9 +142,9 @@ void FunctionsDialog::functionChanged(int)
   
   descriptionText->clear();
   descriptionText->setText(i18n("<qt><h3>%1</h3>"
-    "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
-    .arg(functionListBox->currentText()).arg(m_function.description())
-    .arg(m_function.prototype(pflags)).arg(defArgs));
+    "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>",
+     functionListBox->currentText(), m_function.description(),
+     m_function.prototype(pflags), defArgs));
   
   showParameters();
 }

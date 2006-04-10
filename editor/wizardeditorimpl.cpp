@@ -109,7 +109,7 @@ void WizardEditor::addClicked()
     listBox->insertItem( i18n( "Page" ), index );
 
     // schedule add command
-    AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n("Add Page to %1" ).arg( wizard->name() ),
+    AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n("Add Page to %1", wizard->name() ),
 							  formwindow, wizard, "Page", index, false);
     commands.append( cmd );
 
@@ -127,8 +127,8 @@ void WizardEditor::removeClicked()
     listBox->removeItem( index);
 
     // schedule remove command
-    DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n("Delete Page %1 of %2" )
-								.arg( listBox->text( index ) ).arg( wizard->name() ),
+    DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n("Delete Page %1 of %2" ,
+								  listBox->text( index ), wizard->name() ),
 								formwindow, wizard, index, false );
     commands.append( cmd );
 
@@ -148,8 +148,8 @@ void WizardEditor::upClicked()
     listBox->setCurrentItem( index2 );
 
     // schedule swap command
-    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( i18n("Swap Pages %1 and %2 of %3" ).arg( index1 ).arg( index2 )
-							     .arg( wizard->name() ), formwindow, wizard, index1, index2);
+    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( i18n("Swap Pages %1 and %2 of %3", index1, index2 ,
+							       wizard->name() ), formwindow, wizard, index1, index2);
     commands.append( cmd );
 
     // update buttons
@@ -168,8 +168,8 @@ void WizardEditor::downClicked()
     listBox->setCurrentItem( index2 );
 
     // schedule swap command
-    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( i18n("Swap Pages %1 and %2 of %3" ).arg( index1 ).arg( index2 )
-							     .arg( wizard->name() ), formwindow, wizard, index2, index1);
+    SwapWizardPagesCommand *cmd = new SwapWizardPagesCommand( i18n("Swap Pages %1 and %2 of %3", index1, index2 ,
+							       wizard->name() ), formwindow, wizard, index2, index1);
     commands.append( cmd );
 
     // update buttons
@@ -199,7 +199,7 @@ void WizardEditor::itemSelected( int index )
     bool ok = false;
     QString text = KInputDialog::getText( i18n("Page Title"), i18n("New page title:" ), listBox->text( index ), &ok, this );
     if ( ok ) {
-	QString pn( i18n("Rename page %1 of %2" ).arg( listBox->text( index ) ).arg( wizard->name() ) );
+	QString pn( i18n("Rename page %1 of %2", listBox->text( index ), wizard->name() ) );
 	RenameWizardPageCommand *cmd = new RenameWizardPageCommand( pn, formwindow, wizard, index, text );
 	commands.append( cmd );
 	listBox->changeItem( text, index );

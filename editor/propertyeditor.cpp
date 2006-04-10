@@ -2882,7 +2882,7 @@ void PropertyList::valueChanged( PropertyItem *i )
 {
     if ( !editor->widget() )
 	return;
-    QString pn( i18n("Set '%1' of '%2'" ).arg( i->name() ).arg( editor->widget()->name() ) );
+    QString pn( i18n("Set '%1' of '%2'", i->name(), editor->widget()->name() ) );
     SetPropertyCommand *cmd = new SetPropertyCommand( pn, editor->formWindow(),
 						      editor->widget(), editor,
 						      i->name(), WidgetFactory::property( editor->widget(), i->name() ),
@@ -3134,7 +3134,7 @@ void PropertyList::resetProperty()
     PropertyItem *i = (PropertyItem*)currentItem();
     if ( !MetaDataBase::isPropertyChanged( editor->widget(), i->PropertyItem::name() ) )
 	return;
-    QString pn( i18n("Reset '%1' of '%2'" ).arg( i->name() ).arg( editor->widget()->name() ) );
+    QString pn( i18n("Reset '%1' of '%2'", i->name(), editor->widget()->name() ) );
     SetPropertyCommand *cmd = new SetPropertyCommand( pn, editor->formWindow(),
 						      editor->widget(), editor,
 						      i->name(), i->value(),
@@ -3241,7 +3241,7 @@ QString PropertyList::whatsThisText( QListViewItem *i )
 	mo = mo->superClass();
     }
 
-    return i18n("<p><b>QWidget::%1</b></p><p>There is no documentation available for this property.</p>" ).arg( prop );
+    return i18n("<p><b>QWidget::%1</b></p><p>There is no documentation available for this property.</p>", prop );
 }
 
 void PropertyList::readPropertyDocs()
@@ -3588,7 +3588,7 @@ void PropertyEditor::setWidget( QObject *w, FormWindow *fw )
 
     wid = w;
     formwindow = fw;
-    setCaption( i18n("Property Editor (%1)" ).arg( formwindow->name() ) );
+    setCaption( i18n("Property Editor (%1)", formwindow->name() ) );
     listview->viewport()->setUpdatesEnabled( false );
     listview->setUpdatesEnabled( false );
     clear();

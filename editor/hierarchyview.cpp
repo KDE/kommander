@@ -504,13 +504,13 @@ void HierarchyList::addTabPage()
   return;
     if ( w->inherits( "QTabWidget" ) ) {
   QTabWidget *tw = (QTabWidget*)w;
-  AddTabPageCommand *cmd = new AddTabPageCommand( i18n("Add Page to %1" ).arg( tw->name() ), formWindow,
+  AddTabPageCommand *cmd = new AddTabPageCommand( i18n("Add Page to %1", tw->name() ), formWindow,
               tw, "Tab" );
   formWindow->commandHistory()->addCommand( cmd );
   cmd->execute();
     } else if ( w->inherits( "QWizard" ) ) {
   QWizard *wiz = (QWizard*)formWindow->mainContainer();
-  AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n("Add Page to %1" ).arg( wiz->name() ), formWindow,
+  AddWizardPageCommand *cmd = new AddWizardPageCommand( i18n("Add Page to %1", wiz->name() ), formWindow,
                     wiz, "Page" );
   formWindow->commandHistory()->addCommand( cmd );
   cmd->execute();
@@ -526,8 +526,8 @@ void HierarchyList::removeTabPage()
   QTabWidget *tw = (QTabWidget*)w;
   if ( tw->currentPage() ) {
       QDesignerTabWidget *dtw = (QDesignerTabWidget*)tw;
-      DeleteTabPageCommand *cmd = new DeleteTabPageCommand( i18n("Delete Page %1 of %2" ).
-                  arg( dtw->pageTitle() ).arg( tw->name() ),
+      DeleteTabPageCommand *cmd = new DeleteTabPageCommand( i18n("Delete Page %1 of %2" , 
+                   dtw->pageTitle(), tw->name() ),
                   formWindow, tw, tw->currentPage() );
       formWindow->commandHistory()->addCommand( cmd );
       cmd->execute();
@@ -536,8 +536,8 @@ void HierarchyList::removeTabPage()
   QWizard *wiz = (QWizard*)formWindow->mainContainer();
   if ( wiz->currentPage() ) {
       QDesignerWizard *dw = (QDesignerWizard*)wiz;
-      DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n("Delete Page %1 of %2" ).
-                  arg( dw->pageTitle() ).arg( wiz->name() ),
+      DeleteWizardPageCommand *cmd = new DeleteWizardPageCommand( i18n("Delete Page %1 of %2" , 
+                   dw->pageTitle(), wiz->name() ),
                   formWindow, wiz,
                   wiz->indexOf( wiz->currentPage() ), true );
       formWindow->commandHistory()->addCommand( cmd );

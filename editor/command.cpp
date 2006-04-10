@@ -499,10 +499,10 @@ bool SetPropertyCommand::checkProperty()
 				      i18n("Set 'name' Property" ),
 				      i18n("The name of a widget must be unique.\n"
                             "'%1' is already used in form '%2',\n"
-                            "so the name has been reverted to '%3'." ).
-				      arg( newValue.toString() ).
-				      arg( formWindow()->name() ).
-				      arg( oldValue.toString() ));
+                            "so the name has been reverted to '%3'." , 
+				       newValue.toString() , 
+				       formWindow()->name() , 
+				       oldValue.toString() ));
 	    setProperty( oldValue, oldCurrentItemText, false );
 	    return false;
 	}
@@ -510,8 +510,8 @@ bool SetPropertyCommand::checkProperty()
 	    QMessageBox::information( formWindow()->mainWindow(),
 				      i18n("Set 'name' Property" ),
 				      i18n("The name of a widget must not be null.\n"
-                            "The name has been reverted to '%1'." ).
-				      arg( oldValue.toString() ));
+                            "The name has been reverted to '%1'." , 
+				       oldValue.toString() ));
 	    setProperty( oldValue, oldCurrentItemText, false );
 	    return false;
 	}

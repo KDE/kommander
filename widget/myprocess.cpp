@@ -91,7 +91,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
 
   if(!mProcess->start(KProcess::NotifyOnExit, KProcess::All))
   {
-    m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>").arg(shellName));
+    m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>", shellName));
     return QString::null;
   }
   mProcess->writeStdin(m_input, m_input.length());
