@@ -135,7 +135,7 @@ void CloseButton::appendOutput(KProcess *, char *a_buffer, int a_len)
     fputs(buffer, stdout);
     fflush(stdout);
   }
-  delete buffer;
+  delete[] buffer;
 }
 
 void CloseButton::endProcess(KProcess *a_process)
