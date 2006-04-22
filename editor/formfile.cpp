@@ -176,7 +176,7 @@ bool FormFile::closeEvent()
     case KMessageBox::Yes:
       if (!save())
         return false;
-    case KMessageBox::No:
+    case KMessageBox::No: //fall through
       MainWindow::self->workspace()->update();
       break;
     case KMessageBox::Cancel:

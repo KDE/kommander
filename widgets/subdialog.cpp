@@ -25,6 +25,7 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
+#include <kdebug.h>
 #include <kommanderfactory.h>
 #include <kommanderwidget.h>
 #include <specials.h>
@@ -100,10 +101,12 @@ void SubDialog::showDialog()
   KommanderFactory::loadPlugins();
   m_dialog = (QDialog *)KommanderFactory::create(kmdrFile());
   if(!m_dialog)
-    qWarning("Creation of sub dialog failed ..");
-  connect(m_dialog, SIGNAL(finished()), this, SLOT(slotFinished()));
+  {
+    kdWarning() << "Creation of sub dialog failed .." << endl;
+    connect(m_dialog, SIGNAL(finished()), this, SLOT(slotFinished()));
 
-  m_dialog->exec();
+    m_dialog->exec();
+  }
 }
 
 void SubDialog::slotFinished()
