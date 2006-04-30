@@ -89,9 +89,9 @@ HierarchyItem::HierarchyItem( Type type, QListView *parent,
 void HierarchyItem::paintCell( QPainter *p, const QColorGroup &cg, int column, int width, int align )
 {
     QColorGroup g( cg );
-    g.setColor( QColorGroup::Base, backgroundColor() );
-    g.setColor( QColorGroup::Foreground, Qt::black );
-    g.setColor( QColorGroup::Text, Qt::black );
+    g.setColor( QPalette::Base, backgroundColor() );
+    g.setColor( QPalette::Foreground, Qt::black );
+    g.setColor( QPalette::Text, Qt::black );
     QString txt = text( 0 );
     if ( rtti() == Slot &&
    ( txt == "init()" || txt == "destroy()" ) ) {
@@ -190,7 +190,7 @@ HierarchyList::HierarchyList( QWidget *parent, FormWindow *fw, bool doConnects )
     addColumn( i18n("Name" ) );
     addColumn( i18n("Class" ) );
     QPalette p( palette() );
-    p.setColor( QColorGroup::Base, QColor( *backColor2 ) );
+    p.setColor( QPalette::Base, QColor( *backColor2 ) );
     (void)*selectedBack; // hack
     setPalette( p );
     disconnect( header(), SIGNAL( sectionClicked( int ) ),
