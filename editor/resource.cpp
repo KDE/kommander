@@ -1255,13 +1255,13 @@ void Resource::saveProperty( QObject *w, const QString &name, const QVariant &va
 
 void Resource::saveColorGroup( QTextStream &ts, int indent, const QColorGroup &cg )
 {
-    for( int r = 0 ; r < QColorGroup::NColorRoles ; r++ ) {
+    for( int r = 0 ; r < QPalette::NColorRoles ; r++ ) {
 	ts << makeIndent( indent ) << "<color>" << endl;
 	indent++;
-	saveColor( ts, indent, cg.color( (QColorGroup::ColorRole)r ) );
+	saveColor( ts, indent, cg.color( (QPalette::ColorRole)r ) );
 	indent--;
 	ts << makeIndent( indent ) << "</color>" << endl;
-	QPixmap* pm = cg.brush( (QColorGroup::ColorRole)r ).pixmap();
+	QPixmap* pm = cg.brush( (QPalette::ColorRole)r ).pixmap();
 	if ( pm && !pm->isNull() )
 	    savePixmap( *pm, ts, indent );
     }
@@ -2307,10 +2307,10 @@ QColorGroup Resource::loadColorGroup( const QDomElement &e )
     while ( !n.isNull() ) {
 	if ( n.tagName() == "color" ) {
 	    r++;
-	    cg.setColor( (QColorGroup::ColorRole)r, (col = DomTool::readColor( n ) ) );
+	    cg.setColor( (QPalette::ColorRole)r, (col = DomTool::readColor( n ) ) );
 	} else if ( n.tagName() == "pixmap" ) {
 	    QPixmap pix = loadPixmap( n );
-	    cg.setBrush( (QColorGroup::ColorRole)r, QBrush( col, pix ) );
+	    cg.setBrush( (QPalette::ColorRole)r, QBrush( col, pix ) );
 	}
 	n = n.nextSibling().toElement();
     }

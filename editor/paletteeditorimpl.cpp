@@ -38,8 +38,8 @@ PaletteEditor::PaletteEditor( FormWindow *fw, QWidget * parent, const char * nam
     editPalette =  QApplication::palette();
     setPreviewPalette( editPalette );
 
-    buttonMainColor->setColor( editPalette.active().color( QColorGroup::Button ) );
-    buttonMainColor2->setColor( editPalette.active().color( QColorGroup::Background ) );
+    buttonMainColor->setColor( editPalette.active().color( QPalette::Button ) );
+    buttonMainColor2->setColor( editPalette.active().color( QPalette::Background ) );
 }
 
 PaletteEditor::~PaletteEditor()
@@ -71,49 +71,49 @@ void PaletteEditor::paletteSelected(int)
     setPreviewPalette(editPalette);
 }
 
-QColorGroup::ColorRole PaletteEditor::centralFromItem( int item )
+QPalette::ColorRole PaletteEditor::centralFromItem( int item )
 {
     switch( item )
 	{
 	case 0:
-	    return QColorGroup::Background;
+	    return QPalette::Background;
 	case 1:
-	    return QColorGroup::Foreground;
+	    return QPalette::Foreground;
 	case 2:
-	    return QColorGroup::Button;
+	    return QPalette::Button;
 	case 3:
-	    return QColorGroup::Base;
+	    return QPalette::Base;
 	case 4:
-	    return QColorGroup::Text;
+	    return QPalette::Text;
 	case 5:
-	    return QColorGroup::BrightText;
+	    return QPalette::BrightText;
 	case 6:
-	    return QColorGroup::ButtonText;
+	    return QPalette::ButtonText;
 	case 7:
-	    return QColorGroup::Highlight;
+	    return QPalette::Highlight;
 	case 8:
-	    return QColorGroup::HighlightedText;
+	    return QPalette::HighlightedText;
 	default:
-	    return QColorGroup::NColorRoles;
+	    return QPalette::NColorRoles;
 	}
 }
 
-QColorGroup::ColorRole PaletteEditor::effectFromItem( int item )
+QPalette::ColorRole PaletteEditor::effectFromItem( int item )
 {
     switch( item )
 	{
 	case 0:
-	    return QColorGroup::Light;
+	    return QPalette::Light;
 	case 1:
-	    return QColorGroup::Midlight;
+	    return QPalette::Midlight;
 	case 2:
-	    return QColorGroup::Mid;
+	    return QPalette::Mid;
 	case 3:
-	    return QColorGroup::Dark;
+	    return QPalette::Dark;
 	case 4:
-	    return QColorGroup::Shadow;
+	    return QPalette::Shadow;
 	default:
-	    return QColorGroup::NColorRoles;
+	    return QPalette::NColorRoles;
 	}
 }
 
@@ -133,8 +133,8 @@ void PaletteEditor::buildPalette()
 
     cg = editPalette.inactive();
 
-    QPalette temp( editPalette.active().color( QColorGroup::Button ),
-		   editPalette.active().color( QColorGroup::Background ) );
+    QPalette temp( editPalette.active().color( QPalette::Button ),
+		   editPalette.active().color( QPalette::Background ) );
 
     for (i = 0; i<9; i++)
 	cg.setColor( centralFromItem(i), temp.inactive().color( centralFromItem(i) ) );
@@ -156,7 +156,7 @@ void PaletteEditor::buildPalette()
 void PaletteEditor::buildActiveEffect()
 {
     QColorGroup cg = editPalette.active();
-    QColor btn = cg.color( QColorGroup::Button );
+    QColor btn = cg.color( QPalette::Button );
 
     QPalette temp( btn, btn );
 
@@ -180,7 +180,7 @@ void PaletteEditor::buildInactiveEffect()
     QColorGroup cg = editPalette.inactive();
 
     QColor light, midlight, mid, dark, shadow;
-    QColor btn = cg.color( QColorGroup::Button );
+    QColor btn = cg.color( QPalette::Button );
 
     light = btn.light(150);
     midlight = btn.light(115);
@@ -188,11 +188,11 @@ void PaletteEditor::buildInactiveEffect()
     dark = btn.dark();
     shadow = black;
 
-    cg.setColor( QColorGroup::Light, light );
-    cg.setColor( QColorGroup::Midlight, midlight );
-    cg.setColor( QColorGroup::Mid, mid );
-    cg.setColor( QColorGroup::Dark, dark );
-    cg.setColor( QColorGroup::Shadow, shadow );
+    cg.setColor( QPalette::Light, light );
+    cg.setColor( QPalette::Midlight, midlight );
+    cg.setColor( QPalette::Mid, mid );
+    cg.setColor( QPalette::Dark, dark );
+    cg.setColor( QPalette::Shadow, shadow );
 
     editPalette.setInactive( cg );
     setPreviewPalette( editPalette );
@@ -202,8 +202,8 @@ void PaletteEditor::buildInactiveEffect()
 void PaletteEditor::buildDisabled()
 {
     QColorGroup cg = editPalette.active();
-    cg.setColor( QColorGroup::ButtonText, darkGray );
-    cg.setColor( QColorGroup::Foreground, darkGray );
+    cg.setColor( QPalette::ButtonText, darkGray );
+    cg.setColor( QPalette::Foreground, darkGray );
     editPalette.setDisabled( cg );
 
     buildDisabledEffect();
@@ -214,7 +214,7 @@ void PaletteEditor::buildDisabledEffect()
     QColorGroup cg = editPalette.disabled();
 
     QColor light, midlight, mid, dark, shadow;
-    QColor btn = cg.color( QColorGroup::Button );
+    QColor btn = cg.color( QPalette::Button );
 
     light = btn.light(150);
     midlight = btn.light(115);
@@ -222,11 +222,11 @@ void PaletteEditor::buildDisabledEffect()
     dark = btn.dark();
     shadow = black;
 
-    cg.setColor( QColorGroup::Light, light );
-    cg.setColor( QColorGroup::Midlight, midlight );
-    cg.setColor( QColorGroup::Mid, mid );
-    cg.setColor( QColorGroup::Dark, dark );
-    cg.setColor( QColorGroup::Shadow, shadow );
+    cg.setColor( QPalette::Light, light );
+    cg.setColor( QPalette::Midlight, midlight );
+    cg.setColor( QPalette::Mid, mid );
+    cg.setColor( QPalette::Dark, dark );
+    cg.setColor( QPalette::Shadow, shadow );
 
     editPalette.setDisabled( cg );
     setPreviewPalette( editPalette );
@@ -258,8 +258,8 @@ void PaletteEditor::setPreviewPalette( const QPalette& pal )
 
 void PaletteEditor::updateStyledButtons()
 {
-    buttonMainColor->setColor( editPalette.active().color( QColorGroup::Button ));
-    buttonMainColor2->setColor( editPalette.active().color( QColorGroup::Background ));
+    buttonMainColor->setColor( editPalette.active().color( QPalette::Button ));
+    buttonMainColor2->setColor( editPalette.active().color( QPalette::Background ));
 }
 
 void PaletteEditor::setPal( const QPalette& pal )

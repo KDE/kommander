@@ -221,9 +221,9 @@ void PropertyItem::initChildren()
 void PropertyItem::paintCell( QPainter *p, const QColorGroup &cg, int column, int width, int align )
 {
     QColorGroup g( cg );
-    g.setColor( QColorGroup::Base, backgroundColor() );
-    g.setColor( QColorGroup::Foreground, Qt::black );
-    g.setColor( QColorGroup::Text, Qt::black );
+    g.setColor( QPalette::Base, backgroundColor() );
+    g.setColor( QPalette::Foreground, Qt::black );
+    g.setColor( QPalette::Text, Qt::black );
     int indent = 0;
     if ( column == 0 ) {
 	indent = 20 + ( property ? 20 : 0 );
@@ -275,7 +275,7 @@ void PropertyItem::paintBranches( QPainter * p, const QColorGroup & cg,
 				  int w, int y, int h )
 {
     QColorGroup g( cg );
-    g.setColor( QColorGroup::Base, backgroundColor() );
+    g.setColor( QPalette::Base, backgroundColor() );
     QListViewItem::paintBranches( p, g, w, y, h );
 }
 
@@ -1541,7 +1541,7 @@ PropertyPixmapItem::PropertyPixmapItem( PropertyList *l, PropertyItem *after, Pr
     box->hide();
     pixPrev = new QLabel( box );
     pixPrev->setSizePolicy( QSizePolicy( QSizePolicy::Preferred, QSizePolicy::Minimum ) );
-    pixPrev->setBackgroundColor( pixPrev->colorGroup().color( QColorGroup::Base ) );
+    pixPrev->setBackgroundColor( pixPrev->colorGroup().color( QPalette::Base ) );
     button = new QPushButton( "...", box );
     button->setFixedWidth( 20 );
     box->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
@@ -1631,7 +1631,7 @@ PropertyColorItem::PropertyColorItem( PropertyList *l, PropertyItem *after, Prop
     colorPrev->setLineWidth( 2 );
     QPalette pal = colorPrev->palette();
     QColorGroup cg = pal.active();
-    cg.setColor( QColorGroup::Foreground, cg.color( QColorGroup::Base ) );
+    cg.setColor( QPalette::Foreground, cg.color( QPalette::Base ) );
     pal.setActive( cg );
     pal.setInactive( cg );
     pal.setDisabled( cg );

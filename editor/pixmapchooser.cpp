@@ -891,7 +891,7 @@ void PixmapView::setPixmap( const QPixmap &pix )
 
 void PixmapView::drawContents( QPainter *p, int cx, int cy, int cw, int ch )
 {
-    p->fillRect( cx, cy, cw, ch, colorGroup().brush( QColorGroup::Base ) );
+    p->fillRect( cx, cy, cw, ch, colorGroup().brush( QPalette::Base ) );
     p->drawPixmap( 0, 0, pixmap );
 }
 

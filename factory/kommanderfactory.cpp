@@ -963,10 +963,10 @@ QColorGroup KommanderFactory::loadColorGroup( const QDomElement &e )
     while ( !n.isNull() ) {
 	if ( n.tagName() == "color" ) {
 	    r++;
-	    cg.setColor( (QColorGroup::ColorRole)r, (col = DomTool::readColor( n ) ) );
+	    cg.setColor( (QPalette::ColorRole)r, (col = DomTool::readColor( n ) ) );
 	} else if ( n.tagName() == "pixmap" ) {
 	    QPixmap pix = loadPixmap( n );
-	    cg.setBrush( (QColorGroup::ColorRole)r, QBrush( col, pix ) );
+	    cg.setBrush( (QPalette::ColorRole)r, QBrush( col, pix ) );
 	}
 	n = n.nextSibling().toElement();
     }

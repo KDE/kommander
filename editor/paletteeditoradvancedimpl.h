@@ -77,8 +77,8 @@ private:
     QPalette pal() const;
     void setPal( const QPalette& );
 
-    QColorGroup::ColorRole centralFromItem( int );
-    QColorGroup::ColorRole effectFromItem( int );
+    QPalette::ColorRole centralFromItem( int );
+    QPalette::ColorRole effectFromItem( int );
     QPalette editPalette;
     QPalette previewPalette;
 

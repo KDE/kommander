@@ -179,16 +179,16 @@ void WorkspaceItem::init()
 void WorkspaceItem::paintCell( QPainter *p, const QColorGroup &cg, int column, int width, int align )
 {
     QColorGroup g( cg );
-    g.setColor( QColorGroup::Base, backgroundColor() );
-    g.setColor( QColorGroup::Foreground, Qt::black );
+    g.setColor( QPalette::Base, backgroundColor() );
+    g.setColor( QPalette::Foreground, Qt::black );
 
 #ifndef KOMMANDER
     if ( type() == FormSourceType && !formFile->hasFormCode() ) {
-  g.setColor( QColorGroup::Text, listView()->palette().disabled().color( QColorGroup::Text) );
-  g.setColor( QColorGroup::HighlightedText, listView()->palette().disabled().color( QColorGroup::Text) );
+  g.setColor( QPalette::Text, listView()->palette().disabled().color( QPalette::Text) );
+  g.setColor( QPalette::HighlightedText, listView()->palette().disabled().color( QPalette::Text) );
     } else {
 #endif
-  g.setColor( QColorGroup::Text, Qt::black );
+  g.setColor( QPalette::Text, Qt::black );
 #ifndef KOMMANDER
     }
 #endif
@@ -350,7 +350,7 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     setIcon( PixmapChooser::loadPixmap( "logo" ) );
 #endif
     QPalette p( palette() );
-    p.setColor( QColorGroup::Base, QColor( *backColor2 ) );
+    p.setColor( QPalette::Base, QColor( *backColor2 ) );
     (void)*selectedBack; // hack
     setPalette( p );
     addColumn( i18n("Files" ) );
