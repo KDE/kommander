@@ -44,7 +44,7 @@ class Instance : public QObject, virtual public DCOPKommanderIf
     
 public: 
   Instance();
-  Instance(const KURL&, QWidget*);
+  Instance(const KUrl&, QWidget*);
   ~Instance();
   
   /* passing global variables: two forms are accepted.
@@ -111,7 +111,7 @@ public slots:
   /** Sets the instance's parent */
   void setParent(QWidget*);
   /** Sets the UI file name */
-  void setUIFileName(const KURL&);
+  void setUIFileName(const KUrl&);
   /** Returns whether the instance is built */
   bool isBuilt();
   /** Builds the instance */
@@ -124,7 +124,7 @@ protected:
   /* Associated Text Instance */
   KommanderWidget *m_textInstance;
   /* UI Dialog file name to open */
-  KURL m_uiFileName;
+  KUrl m_uiFileName;
   /** The parent widget */
   QWidget *m_parent;
   /* Get object by name */

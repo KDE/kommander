@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
   }
   else
   {
-    KURL url = args->url(0);
+    KUrl url = args->url(0);
     instance = new Instance(url, 0);
   }
   

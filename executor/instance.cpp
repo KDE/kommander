@@ -50,7 +50,7 @@ Instance::Instance()
   SpecialInformation::registerSpecials();
 }
 
-Instance::Instance(const KURL& a_uiFileName, QWidget *a_parent)
+Instance::Instance(const KUrl& a_uiFileName, QWidget *a_parent)
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
   m_parent(a_parent), m_cmdArguments(0)
 {
@@ -201,7 +201,7 @@ bool Instance::isBuilt()
   return m_instance;
 }
 
-void Instance::setUIFileName(const KURL& a_uiFileName)
+void Instance::setUIFileName(const KUrl& a_uiFileName)
 {
   m_uiFileName = a_uiFileName;
 }

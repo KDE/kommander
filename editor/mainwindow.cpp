@@ -1622,7 +1622,7 @@ void MainWindow::showDialogHelp()
 
 
 
-void MainWindow::fileOpenRecent(const KURL& filename)
+void MainWindow::fileOpenRecent(const KUrl& filename)
 {
   if (!QFile::exists(filename.path()))
   {

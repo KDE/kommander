@@ -618,12 +618,12 @@ void Workspace::contentsDropEvent( QDropEvent *e )
     return;
   }
   
-  KURL::List files;
+  KUrl::List files;
   KURLDrag::decode(e, files);
   if (files.isEmpty())
     return;
   
-  for (KURL::List::Iterator it = files.begin(); it != files.end(); ++it)
+  for (KUrl::List::Iterator it = files.begin(); it != files.end(); ++it)
   {
     if (!(*it).isLocalFile())
       continue;

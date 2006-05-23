@@ -41,7 +41,7 @@ class KActionCollection;
 class KProcess;
 class KRecentFilesAction;
 class KToggleAction;
-class KURL;
+class KUrl;
 class PropertyEditor;
 class QCloseEvent;
 class QMenuBar;
@@ -145,7 +145,7 @@ public slots:
     void fileClose();
     void fileOpen();
     void fileOpen(const QString &filename);
-    void fileOpenRecent(const KURL& name);
+    void fileOpenRecent(const KUrl& name);
     bool fileSave();
     bool fileSaveForm(); // not visible in menu, called from fileSave
     bool fileSaveAs();

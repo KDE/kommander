@@ -417,7 +417,7 @@ void MainWindow::setupFileActions()
   a->plug(tb);
   a->plug(fileMenu);
   
-  actionRecent = KStdAction::openRecent(this,  SLOT(fileOpenRecent(const KURL&)), actionCollection());
+  actionRecent = KStdAction::openRecent(this,  SLOT(fileOpenRecent(const KUrl&)), actionCollection());
   actionRecent->setToolTip(i18n("Opens recently open file"));
   actionRecent->plug(fileMenu);
 
