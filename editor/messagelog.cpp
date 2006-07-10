@@ -118,7 +118,7 @@ void MessageLog::copyContent()
 
 void MessageLog::saveToFile()
 {
-  KUrl url=KFileDialog::getSaveURL(QDir::currentDirPath(),
+  KUrl url=KFileDialog::getSaveUrl(QDir::currentDirPath(),
                                    i18n("*.log|Log Files (*.log)\n*|All Files"), this, i18n("Save Log File"));
   if (url.isEmpty())
     return;
