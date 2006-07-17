@@ -480,7 +480,7 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
          quoteDouble = !quoteDouble;
       else if (s[i] == ',' && !quoteDouble && !quoteSingle)
       {
-        QString arg = s.mid(start, i - start).stripWhiteSpace();
+        QString arg = s.mid(start, i - start).trimmed();
         if (!arg.isEmpty())
           argList.append(evalAssociatedText(parseQuotes(arg)));
         start = i+1;
@@ -489,7 +489,7 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
   }
   if (!quoteDouble && !quoteSingle) 
   {
-    QString arg = s.mid(start, s.length() - start + 1).stripWhiteSpace();
+    QString arg = s.mid(start, s.length() - start + 1).trimmed();
     if (!arg.isEmpty())
       argList.append(evalAssociatedText(parseQuotes(arg)));
   }

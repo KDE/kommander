@@ -61,7 +61,7 @@ void MyProcess::cancel()
 
 QString MyProcess::run(const QString& a_command, const QString& a_shell)
 {
-  QString at = a_command.stripWhiteSpace();
+  QString at = a_command.trimmed();
   if (at.isEmpty())
   {
     emit processExited(0);
@@ -77,7 +77,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
     int eol = at.find("\n");
     if (eol == -1)
       eol = at.length();
-    shellName = at.mid(2, eol-1).stripWhiteSpace();
+    shellName = at.mid(2, eol-1).trimmed();
     at = at.mid(eol+1);
   }
   m_input = at.local8Bit();

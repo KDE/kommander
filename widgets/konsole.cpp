@@ -81,7 +81,7 @@ void Konsole::setWidgetText(const QString&)
 
 void Konsole::execute()
 {
-  QString at = evalAssociatedText().stripWhiteSpace();
+  QString at = evalAssociatedText().trimmed();
   if (mProcess)
     cancel();
   mSeenEOL = false;

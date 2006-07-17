@@ -252,7 +252,7 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     QStringList lines = QStringList::split("\n", args[1]);
     for (uint i=0; i<lines.count(); i++)
     {
-        QString key = lines[i].section('\t', 0, 0).stripWhiteSpace();
+        QString key = lines[i].section('\t', 0, 0).trimmed();
         if (!key.isEmpty())
           m_arrays[args[0]][key] = lines[i].section('\t', 1);
     }

@@ -380,7 +380,7 @@ static ParseNode f_arrayFromString(Parser* P, const ParameterList& params)
   QStringList lines = QStringList::split("\n", params[1].toString());
   for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) 
   {
-    QString key = (*it).section('\t', 0, 0).stripWhiteSpace();
+    QString key = (*it).section('\t', 0, 0).trimmed();
     if (!key.isEmpty())
       P->setArray(name, key, (*it).section('\t', 1));
   }

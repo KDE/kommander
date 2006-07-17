@@ -28,8 +28,8 @@ SpecialFunction::SpecialFunction(const QString& name, const QString& description
     QStringList args = QStringList::split(",", part);
     for (uint i=0; i<args.count(); i++)
     {
-      m_types.append(args[i].stripWhiteSpace().section(' ', 0, 0));
-      m_args.append(args[i].stripWhiteSpace().section(' ', 1, 1));
+      m_types.append(args[i].trimmed().section(' ', 0, 0));
+      m_args.append(args[i].trimmed().section(' ', 1, 1));
     }
   }
   m_minArgs = (minArgs == -1) ? m_types.count() : minArgs;

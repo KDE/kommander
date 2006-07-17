@@ -95,7 +95,7 @@ void ExecButton::setWidgetText(const QString& a_text)
 
 void ExecButton::startProcess()
 {
-  QString at = evalAssociatedText().stripWhiteSpace();
+  QString at = evalAssociatedText().trimmed();
   
   if (m_blockGUI != None)
     setEnabled(false);
