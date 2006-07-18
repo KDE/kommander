@@ -147,7 +147,7 @@ bool Instance::run(QFile *a_file)
   
   bool inTemp = false;
   for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
-    if (m_uiFileName.directory(false).startsWith(*I))
+    if (m_uiFileName.directory(KUrl::AppendTrailingSlash).startsWith(*I))
       inTemp = true;
 
   if (inTemp)
