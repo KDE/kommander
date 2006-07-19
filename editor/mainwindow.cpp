@@ -1311,8 +1311,8 @@ void MainWindow::readConfig()
   config->setGroup("Grid");
   sGrid = config->readBoolEntry("Snap", true);
   snGrid = config->readBoolEntry("Show", true);
-  grd.setX(config->readNumEntry("x", 10));
-  grd.setY(config->readNumEntry("y", 10));
+  grd.setX(config->readEntry("x", 10));
+  grd.setY(config->readEntry("y", 10));
 
   config->setGroup("Background");
   if (config->readBoolEntry("UsePixmap", true))
