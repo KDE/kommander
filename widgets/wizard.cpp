@@ -27,13 +27,17 @@
 /* OTHER INCLUDES */
 #include <kommanderfactory.h>
 #include <kommanderwidget.h>
+#include <specials.h>
 #include "wizard.h"
+#include "myprocess.h"
 
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : QWizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
+  states << "initialization";
+  states << "destroy";
   setStates(states);
   setDisplayStates(states);
 
@@ -42,6 +46,7 @@ Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 
 Wizard::~Wizard()
 {
+  destroy();
 }
 
 QString Wizard::currentState() const
@@ -86,10 +91,38 @@ void Wizard::setWidgetText(const QString &a_text)
   emit widgetTextChanged(a_text);
 }
 
+void Wizard::initialize()
+{
+  setFinishEnabled(page(pageCount() - 1), true);
+  const QStringList assoc = associatedText();
+  if (assoc.count() > 1 && !assoc[1].isEmpty()) 
+  {
+    MyProcess proc(this);
+    proc.run( KommanderWidget::evalAssociatedText(assoc[1]) );
+  }
+}
+
+void Wizard::destroy()
+{
+  const QStringList assoc = associatedText();
+  if (assoc.count() > 2 && !assoc[2].isEmpty()) 
+  {
+    MyProcess proc(this);
+    proc.run(KommanderWidget::evalAssociatedText(assoc[2]));
+  }
+}
+
 void Wizard::exec()
 {
   QWizard::exec();
   emit finished();
+}
+
+void Wizard::show()
+{
+  QWizard::show();
+  if (!inEditor)
+    initialize();
 }
 
 void Wizard::runHelp()
@@ -132,14 +165,22 @@ void Wizard::setHelpActionText(const QString& a_helpActionText)
 
 void Wizard::showEvent(QShowEvent *e)
 {
-  QWizard::showEvent( e );
+  QWizard::showEvent(e);
   emit widgetOpened();
 }
 
 QString Wizard::handleDCOP(int function, const QStringList& args)
 {
-  return KommanderWidget::handleDCOP(function, args);
+  switch (function) {
+    case DCOP::setEnabled:
+      setFinishEnabled(page(pageCount() - 1), args[0] != "false");
+      break;
+    default:
+      return KommanderWidget::handleDCOP(function, args);
+  }
+  return QString::null;
 }
+
 
 
 #include "wizard.moc"
