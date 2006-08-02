@@ -39,6 +39,7 @@ Comment[tr]=Kommander Dosyası
 Comment[uk]=Файл Kommander
 Comment[zh_CN]=Kommander 文件
 Comment[zh_HK]=Kommander 檔案
+Comment[zh_TW]=Kommander 檔案
 Icon=widget_doc
 Type=MimeType
 MimeType=application/x-kommander
