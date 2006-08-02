@@ -790,7 +790,7 @@ void FormWindow::handleMouseMove(QMouseEvent *e, QWidget *w)
     break;
   case CONNECT_TOOL:
     restoreConnectionLine();
-    wid = qApp->widgetAt(e->globalPos(), true);
+    wid = qApp->widgetAt(e->globalPos());
     if (wid)
       wid = designerWidget(wid);
     if (wid && (isMainContainer(wid) || insertedWidgets.find(wid)) && wid->isVisibleTo(this))
