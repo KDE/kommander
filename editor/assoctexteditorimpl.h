@@ -32,6 +32,12 @@
 class FormWindow;
 class PropertyEditor;
 
+namespace KTextEditor {
+  class EditInterface;
+  class Document;
+  class View;
+}
+
 class AssocTextEditor : public AssocTextEditorBase
 {
   Q_OBJECT
@@ -99,6 +105,10 @@ private:
   QString widgetToString(QWidget* widget, bool formatted = true);
   // Conver combo string to widget
   QWidget* widgetFromString(const QString& name);
+
+  KTextEditor::EditInterface *associatedTextEdit;
+  KTextEditor::Document *doc;
+  KTextEditor::View *view;
 };
 
 #endif

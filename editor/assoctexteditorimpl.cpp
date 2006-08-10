@@ -22,6 +22,12 @@
 #include <kiconloader.h>
 #include <kpushbutton.h>
 #include <ktextedit.h>
+#include <kdebug.h>
+
+#include <ktexteditor/view.h>
+#include <ktexteditor/editorchooser.h>
+#include <ktexteditor/editinterface.h>
+#include <ktexteditor/viewcursorinterface.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -31,6 +37,8 @@
 #include <qfile.h>
 #include <qobject.h>
 #include <qobjectlist.h>
+#include <qtimer.h>
+
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -48,9 +56,9 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     : AssocTextEditorBase(a_parent, a_name, a_modal)
 {
   // text editor
-  associatedTextEdit->setFont(KGlobalSettings::fixedFont());
+/*  associatedTextEdit->setFont(KGlobalSettings::fixedFont());
   associatedTextEdit->setTabStopWidth(associatedTextEdit->fontMetrics().maxWidth() * 3);
-  associatedTextEdit->setTextFormat(Qt::PlainText);
+  associatedTextEdit->setTextFormat(Qt::PlainText);*/
   
   // icon for non-empty scripts
   scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);
@@ -68,9 +76,16 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
       widgetsComboBox->setCurrentItem(i);
       break;
     }
+
+  doc = KTextEditor::createDocument ("libkatepart", this, "KTextEditor::Document");
+  QGridLayout *layout = new QGridLayout(editorFrame, 1, 1);
+  view = doc->createView(editorFrame);
+  layout->addWidget(view, 1,1);
+  
+  associatedTextEdit = dynamic_cast<KTextEditor::EditInterface*>(doc);
   setWidget(a_widget);
 
-  connect(associatedTextEdit, SIGNAL(textChanged()), SLOT(textEditChanged()));
+  connect(doc, SIGNAL(textChanged()), SLOT(textEditChanged()));
   connect(widgetsComboBox, SIGNAL(activated(int)), SLOT(widgetChanged(int)));
   connect(stateComboBox, SIGNAL(activated(int)), SLOT(stateChanged(int)));
   connect(filePushButton, SIGNAL(clicked()), SLOT(insertFile()));
@@ -78,12 +93,13 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   connect(widgetComboBox, SIGNAL(activated(int)), SLOT(insertWidgetName(int)));
   connect(treeWidgetButton, SIGNAL(clicked()), SLOT(selectWidget()));
   
-  associatedTextEdit->setFocus();
+  view->setFocus();
 }
 
 AssocTextEditor::~AssocTextEditor()
 {
   save();
+  delete doc;
 }
 
 void AssocTextEditor::setWidget(QWidget *a_widget)
@@ -261,7 +277,10 @@ void AssocTextEditor::selectWidget()
 
 void AssocTextEditor::insertAssociatedText(const QString& a_text)
 {
-    associatedTextEdit->insert(a_text);
+  uint line, col;
+  KTextEditor::ViewCursorInterface *viewCursorIf = dynamic_cast<KTextEditor::ViewCursorInterface*>(view);
+  viewCursorIf->cursorPositionReal(&line, &col);
+  associatedTextEdit->insertText(line, col, a_text);
 }
 
 void AssocTextEditor::insertFile()
