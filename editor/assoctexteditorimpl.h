@@ -38,11 +38,15 @@ namespace KTextEditor {
   class View;
 }
 
+namespace KParts{
+  class PartManager;
+}
+
 class AssocTextEditor : public AssocTextEditorBase
 {
   Q_OBJECT
 public:
-  AssocTextEditor(QWidget*, FormWindow*, PropertyEditor*, QWidget*, const char* = 0, bool = true);
+  AssocTextEditor(QWidget*, FormWindow*, PropertyEditor*, KParts::PartManager *partManager, QWidget*, const char* = 0, bool = true);
   ~AssocTextEditor();
   // Set interface for given widget. 
   void setWidget(QWidget *);

@@ -68,6 +68,7 @@
 #include "qcompletionedit.h"
 #include "assistproc.h"
 
+#include <kdebug.h>
 #include <kaction.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
@@ -82,6 +83,7 @@
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kurl.h>
+#include <kparts/partmanager.h>
 
 extern QMap<QWidget*, QString> *qwf_functions;
 extern QMap<QWidget*, QString> *qwf_forms;
@@ -111,12 +113,14 @@ static QString textNoAccel(const QString& text)
 
 
 MainWindow::MainWindow(bool asClient)
-    : KDockMainWindow(0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader),
+  : KParts::DockMainWindow(0, "mainwindow", WType_TopLevel | WDestructiveClose | WGroupLeader),
       grd(10, 10), sGrid(true), snGrid(true), restoreConfig(true), splashScreen(true),
       docPath("$QTDIR/doc/html"), client(asClient),  databaseAutoEdit(false), previewing(false)
 {
-  init_colors();
+  m_partManager = new KParts::PartManager(this);
+  //connect(m_partManager, SIGNAL(activePartChanged(KParts::Part * )),          this, SLOT(slotActivePartChanged(KParts::Part * )));
 
+  init_colors();
   inDebugMode = true;           //debugging kommander
 
   setupPlugins();
@@ -187,6 +191,9 @@ MainWindow::MainWindow(bool asClient)
   assistant = new AssistProc(this, "Internal Assistant", assistantPath());
   statusBar()->setSizeGripEnabled(true);
   SpecialInformation::registerSpecials();
+
+  //createGUI(0);
+
 }
 
 MainWindow::~MainWindow()
@@ -1037,8 +1044,8 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
     // we assume all widgets derive from KommanderWidget [MB02]
     if(id == commands["assoc"])
     {
-         AssocTextEditor *editor = new AssocTextEditor(w, formWindow(), propertyEditor,
-             this, "AssocTextEditor", true);
+         AssocTextEditor *editor = new AssocTextEditor(w, formWindow(), propertyEditor, m_partManager,
+             this, "AssocTextEditor", false);
          editor->exec();
          delete editor;
     }
@@ -1072,8 +1079,8 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
 
     if(id == commands["assoc"])
     {
-         AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), formWindow(), propertyEditor,
-             this, "AssocTextEditor", true);
+         AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), formWindow(), propertyEditor, m_partManager,
+             this, "AssocTextEditor", false);
          editor->exec();
          delete editor;
     }
@@ -1699,5 +1706,20 @@ QString MainWindow::whatsThisFrom(const QString&)
 {
   return QString::null;
 }
+
+void MainWindow::slotActivePartChanged(KParts::Part * part)
+{
+  kdDebug(24000) << "ActivePartChanged" << part << endl; 
+  if (part) // if part == 0L the pointer m_oldKTextEditor is not useable
+  {
+  //  guiFactory()->removeClient(part);
+  }
+  createGUI(part);
+  if (part)
+  {
+    guiFactory()->addClient(part);
+  }
+}
+
 #include "mainwindow.moc"
 

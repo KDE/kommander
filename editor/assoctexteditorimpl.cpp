@@ -29,6 +29,8 @@
 #include <ktexteditor/editinterface.h>
 #include <ktexteditor/viewcursorinterface.h>
 
+#include <kparts/partmanager.h>
+
 /* QT INCLUDES */
 #include <qstringlist.h>
 #include <qmetaobject.h>
@@ -52,7 +54,7 @@
 #include "functionsimpl.h"
 
 AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
-    PropertyEditor* a_property, QWidget *a_parent, const char *a_name, bool a_modal)
+    PropertyEditor* a_property, KParts::PartManager *partManager, QWidget *a_parent, const char *a_name, bool a_modal)
     : AssocTextEditorBase(a_parent, a_name, a_modal)
 {
   // text editor
@@ -77,10 +79,11 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
       break;
     }
 
-  doc = KTextEditor::createDocument ("libkatepart", this, "KTextEditor::Document");
+  doc = KTextEditor::createDocument ("libkatepart", a_parent, "KTextEditor::Document");
   QGridLayout *layout = new QGridLayout(editorFrame, 1, 1);
   view = doc->createView(editorFrame);
   layout->addWidget(view, 1,1);
+  partManager->addPart(doc, true);
   
   associatedTextEdit = dynamic_cast<KTextEditor::EditInterface*>(doc);
   setWidget(a_widget);
@@ -99,7 +102,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
 AssocTextEditor::~AssocTextEditor()
 {
   save();
-  delete doc;
+  //delete doc;
 }
 
 void AssocTextEditor::setWidget(QWidget *a_widget)

@@ -46,3 +46,7 @@ noinst_HEADERS = actiondnd.h actioneditorimpl.h actionlistview.h \
 METASOURCES = AUTO
 
 xdg_apps_DATA = kmdr-editor.desktop
+
+rcdir = $(kde_datadir)/kommander
+
+rc_DATA = kommanderui.rc
