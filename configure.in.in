@@ -1,14 +1,6 @@
 CPPFLAGS="$CPPFLAGS -DKOMMANDER -DDESIGNER -DQT_NO_SQL -DHAVE_KDE"
+#MIN_CONFIG(3.2.0)
 
-# Process user input to configure
-build_kommander="yes"
-AC_ARG_WITH(kommander,
-[  --without-kommander     don't build Kommander],
-[if test "$withval" = "no" ; then
-  build_kommander="no"
-fi])
-
-if test "$build_kommander" = "no"; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE kommander"
-fi
-  
+AM_INIT_AUTOMAKE(t, 0.1)
+AC_C_BIGENDIAN
+AC_CHECK_KDEMAXPATHLEN

@@ -1,14 +1,14 @@
 bin_PROGRAMS = kmdr-plugins
 
 kmdr_plugins_SOURCES = main.cpp mainwindow.cpp pluginmanager.cpp
-kmdr_plugins_LDADD   = $(top_builddir)/kommander/factory/libkommanderfactory.la  $(LIB_KIO)
+kmdr_plugins_LDADD   = $(top_builddir)/factory/libkommanderfactory.la  $(LIB_KIO)
 
 #KDE_ICON = kmdr-plugins
 
 appsdir = $(kde_appsdir)/Applications
 #apps_DATA = kmdr-plugins.desktop
 
-INCLUDES = -I$(top_srcdir)/kommander/factory $(all_includes)
+INCLUDES = -I$(top_srcdir)/factory $(all_includes)
 
 METASOURCES = AUTO
 

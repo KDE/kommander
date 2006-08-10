@@ -1,11 +1,11 @@
 noinst_LTLIBRARIES = libkommanderfactory.la
 
 # set the include path for X, qt and KDE
-AM_CPPFLAGS = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/plugin $(all_includes)
+AM_CPPFLAGS = -I$(top_srcdir)/widget -I$(top_srcdir)/plugin $(all_includes)
 
 # the library search path. 
 libkommanderfactory_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
-libkommanderfactory_la_LIBADD = $(top_builddir)/kommander/plugin/libkommanderplugin.la 
+libkommanderfactory_la_LIBADD = $(top_builddir)/plugin/libkommanderplugin.la 
 
 # which sources should be compiled for factory
 libkommanderfactory_la_SOURCES = kommanderfactory.cpp domtool.cpp

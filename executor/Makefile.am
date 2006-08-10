@@ -1,14 +1,14 @@
 bin_PROGRAMS = kmdr-executor
 
 kmdr_executor_SOURCES = instance.cpp main.cpp dcopkommanderif.skel
-kmdr_executor_LDADD   = $(top_builddir)/kommander/widget/libkommanderwidget.la $(top_builddir)/kommander/widgets/libkommanderwidgets.la $(top_builddir)/kommander/factory/libkommanderfactory.la  $(LIB_KIO)
+kmdr_executor_LDADD   = $(top_builddir)/widget/libkommanderwidget.la $(top_builddir)/widgets/libkommanderwidgets.la $(top_builddir)/factory/libkommanderfactory.la  $(LIB_KIO)
 
 #KDE_ICON = kmdr_executor
 
 appsdir = $(kde_appsdir)/.hidden
 apps_DATA = kmdr-executor.desktop
 
-AM_CPPFLAGS = -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/factory $(all_includes)
+AM_CPPFLAGS = -I$(top_srcdir)/widgets -I$(top_srcdir)/widget -I$(top_srcdir)/factory $(all_includes)
 
 
 METASOURCES = AUTO

@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libkommanderwidgets.la
 
 # set the include path for X, qt and KDE
-INCLUDES = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/factory -I$(top_srcdir)/kommander/plugin $(all_includes)
+INCLUDES = -I$(top_srcdir)/widget -I$(top_srcdir)/factory -I$(top_srcdir)/plugin $(all_includes)
 
 # the library search path.
 #widgets_LDFLAGS = $(KDE_RPATH) $(all_libraries)
@@ -9,9 +9,9 @@ libkommanderwidgets_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
 
 # the libraries to link against.
 libkommanderwidgets_la_LIBADD  = $(LIB_KIO) $(LIB_QT) \
-    $(top_builddir)/kommander/widget/libkommanderwidget.la \
-    $(top_builddir)/kommander/plugin/libkommanderplugin.la \
-    $(top_builddir)/kommander/factory/libkommanderfactory.la
+    $(top_builddir)/widget/libkommanderwidget.la \
+    $(top_builddir)/plugin/libkommanderplugin.la \
+    $(top_builddir)/factory/libkommanderfactory.la
 
 # which sources should be compiled for widgets
 libkommanderwidgets_la_SOURCES = buttongroup.cpp subdialog.cpp checkbox.cpp \

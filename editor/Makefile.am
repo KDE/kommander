@@ -4,16 +4,16 @@ SUBDIRS = pics
 bin_PROGRAMS = kmdr-editor
 
 # set the include path for X, qt and KDE
-AM_CPPFLAGS = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/factory $(all_includes) -Ishared -Iinterfaces -Ipics
+AM_CPPFLAGS = -I$(top_srcdir)/widget -I$(top_srcdir)/widgets -I$(top_srcdir)/factory $(all_includes) -Ishared -Iinterfaces -Ipics
 
 # the library search path.
 kmdr_editor_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 # the libraries to link against.
-kmdr_editor_LDADD = $(top_builddir)/kommander/factory/libkommanderfactory.la \
-	$(top_builddir)/kommander/widget/libkommanderwidget.la \
-	$(top_builddir)/kommander/widgets/libkommanderwidgets.la \
-	$(top_builddir)/kommander/plugin/libkommanderplugin.la
+kmdr_editor_LDADD = $(top_builddir)/factory/libkommanderfactory.la \
+	$(top_builddir)/widget/libkommanderwidget.la \
+	$(top_builddir)/widgets/libkommanderwidgets.la \
+	$(top_builddir)/plugin/libkommanderplugin.la
 
 # which sources should be compiled for kmdr_editor
 kmdr_editor_SOURCES = actiondnd.cpp actioneditorimpl.cpp \
