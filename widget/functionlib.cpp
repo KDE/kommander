@@ -57,7 +57,7 @@ static ParseNode f_stringFind(Parser*, const ParameterList& params)
 
 static ParseNode f_stringFindRev(Parser*, const ParameterList& params)
 {
-  return params[0].toString().find(params[1].toString(), 
+  return params[0].toString().findRev(params[1].toString(), 
     params.count() == 3 ? params[2].toInt() : params[0].toString().length());
 }
 
@@ -90,7 +90,7 @@ static ParseNode f_stringLower(Parser*, const ParameterList& params)
 {
   return params[0].toString().lower();
 }
-    
+
 static ParseNode f_stringUpper(Parser*, const ParameterList& params)
 {
   return params[0].toString().upper();
