@@ -95,18 +95,18 @@ static ParseNode f_stringUpper(Parser*, const ParameterList& params)
 {
   return params[0].toString().upper();
 }
-  
+
 static ParseNode f_stringIsEmpty(Parser*, const ParameterList& params)
 {
   return params[0].toString().isEmpty();
 }
-    
+
 static ParseNode f_stringSection(Parser*, const ParameterList& params)
 {
   return params[0].toString().section(params[1].toString(), params[2].toInt(), 
     params.count() == 4 ? params[3].toInt() : params[2].toInt());
 }
-  
+
 static ParseNode f_stringArgs(Parser*, const ParameterList& params)
 {
   if (params.count() == 2)
@@ -335,15 +335,15 @@ static ParseNode f_arrayKeys(Parser* P, const ParameterList& params)
     return ParseNode();
   return QStringList(P->array(params[0].toString()).keys()).join("\n");
 }
-    
+
 static ParseNode f_arrayValues(Parser* P, const ParameterList& params)
 {
   if (!P->isArray(params[0].toString()))
     return ParseNode();
   QValueList<ParseNode> values = P->array(params[0].toString()).values(); 
   QString array;
-  for (QValueList<ParseNode>::Iterator it = values.begin(); it != values.end(); ++it ) 
-    array += (*it).toString();
+  for (QValueList<ParseNode>::ConstIterator it = values.begin(); it != values.end(); ++it ) 
+    array += (*it).toString() + "\n";
   return array;
 }
 
