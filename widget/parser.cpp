@@ -240,12 +240,21 @@ ParseNode Parser::parseMultiply(Mode mode)
       else
         p = p.toInt() * p2.toInt();
     else if (k == Divide)
-      if (type == ValueDouble)
+    {
+      if (p2.toDouble() == 0.0)
+        setError(i18n("Divide by zero"));
+      else if (type == ValueDouble)
         p = p.toDouble() / p2.toDouble();
       else
         p = p.toInt() / p2.toInt();
+    }
     else  /* k == Mod */
-      p = p.toInt() % p2.toInt();
+    {
+      if (p2.toInt() == 0)
+        setError(i18n("Divide by zero"));
+      else
+        p = p.toInt() + p2.toInt();
+    }
   }
   return p;
 }
