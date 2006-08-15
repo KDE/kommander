@@ -406,7 +406,7 @@ static ParseNode f_inputText(Parser*, const ParameterList& params)
     value = params[0].toString();
   return KInputDialog::getText(params[0].toString(), params[1].toString(), value);
 }
-    
+
 static ParseNode f_inputPassword(Parser*, const ParameterList& params)
 {
   QCString value;
@@ -415,7 +415,7 @@ static ParseNode f_inputPassword(Parser*, const ParameterList& params)
   KPasswordDialog::getPassword(value, params[0].toString());
   return QString::fromLocal8Bit(value);
 }
-    
+
 static ParseNode f_inputValue(Parser*, const ParameterList& params)
 {
   return KInputDialog::getInteger(params[0].toString(), params[1].toString(), 
@@ -423,7 +423,7 @@ static ParseNode f_inputValue(Parser*, const ParameterList& params)
                                   params.count() > 5 ? params[5].toInt() : 1,
                                   (bool*)0);
 }
-  
+
 static ParseNode f_inputValueDouble(Parser*, const ParameterList& params)
 {
   return KInputDialog::getDouble(params[0].toString(), params[1].toString(), 
