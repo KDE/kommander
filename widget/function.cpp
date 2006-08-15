@@ -15,7 +15,7 @@
  ***************************************************************************/
 
 #include "function.h"
- 
+
 using namespace Parse;
 
 Function::Function() : m_function(0), m_minArgs(0), m_maxArgs(0)
@@ -39,7 +39,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, uint m
   m_minArgs = min <= 1 ? min : 1;
   m_maxArgs = max >= 1 ? max : 1;
 }
-    
+
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, uint min , 
          uint max)
 {
@@ -62,7 +62,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
   m_minArgs = min <= 3 ? min : 3;
   m_maxArgs = max >= 3 ? max : 3;
 }
-    
+
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
                    ValueType param4, uint min, uint max)
 {
@@ -94,12 +94,12 @@ bool Function::isVoid() const
 {
   return returnValue() == ValueNone;
 }
-    
+
 ValueType Function::returnValue() const
 {
   return m_returnValue;
 }
-    
+
 ValueType Function::argType(uint i) const
 {
   if (i < m_params.count())
@@ -109,17 +109,17 @@ ValueType Function::argType(uint i) const
   else
     return ValueNone;
 }
-    
+
 uint Function::minArgs() const
 {
   return m_minArgs;
 }
-    
+
 uint Function::maxArgs() const
 {
   return m_maxArgs;
 }
-    
+
 bool Function::isValid(const ParameterList& params) const
 {
   return params.count() >= minArgs() && params.count() <= maxArgs();
@@ -129,7 +129,7 @@ ParseNode Function::execute(Parser* P, const ParameterList& params) const
 {
   if (m_function)
     return m_function(P, params);
-  else   
+  else
     return ParseNode();
 }
 

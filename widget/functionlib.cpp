@@ -156,7 +156,7 @@ static ParseNode f_echo(Parser*, const ParameterList& params)
 static ParseNode f_fileRead(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
-  if (!file.open(IO_ReadOnly))
+  if (!file.exists() || !file.open(IO_ReadOnly))
     return ParseNode("");
   QTextStream text(&file);
   return text.read();
@@ -164,7 +164,10 @@ static ParseNode f_fileRead(Parser*, const ParameterList& params)
 
 static ParseNode f_fileWrite(Parser*, const ParameterList& params)
 {
-  QFile file(params[0].toString());
+  QString fname = params[0].toString();
+  if (fname.isEmpty())
+    return 0;
+  QFile file(fname);
   if (!file.open(IO_WriteOnly))
     return 0;
   QTextStream text(&file);
@@ -175,7 +178,10 @@ static ParseNode f_fileWrite(Parser*, const ParameterList& params)
 
 static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 {
-  QFile file(params[0].toString());
+  QString fname = params[0].toString();
+  if (fname.isEmpty())
+    return 0;
+  QFile file(fname);
   if (!file.open(IO_WriteOnly | IO_Append))
     return 0;
   QTextStream text(&file);
