@@ -80,6 +80,9 @@ public slots:
 
 protected slots:
 
+  void slotFind();
+  void slotReplace();
+  
 private:
   // Current widget
   QWidget *m_widget;

@@ -23,12 +23,15 @@
 #include <kpushbutton.h>
 #include <ktextedit.h>
 #include <kdebug.h>
+#include <kpopupmenu.h>
+#include <kactioncollection.h>
 
 #include <ktexteditor/view.h>
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/editinterface.h>
 #include <ktexteditor/viewcursorinterface.h>
 #include <ktexteditor/highlightinginterface.h>
+#include <ktexteditor/popupmenuinterface.h>
 
 #include <kparts/partmanager.h>
 
@@ -93,7 +96,12 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     if (hlIf->hlModeName(i).contains("Kommander", false) > 0)
       hlIf->setHlMode(i);    
   }
-  
+
+  KPopupMenu *popup = new KPopupMenu(this);
+  popup->insertItem(i18n("Find..."), this, SLOT(slotFind()));
+  popup->insertItem(i18n("Replace..."), this, SLOT(slotReplace()));
+  KTextEditor::PopupMenuInterface *popupIf = dynamic_cast<KTextEditor::PopupMenuInterface *>(view);
+  popupIf->installPopup(popup);
   
   associatedTextEdit = dynamic_cast<KTextEditor::EditInterface*>(doc);
   setWidget(a_widget);
@@ -350,6 +358,19 @@ QWidget* AssocTextEditor::widgetFromString(const QString& name)
   return m_widgetList[realname];
 }
 
+void AssocTextEditor::slotFind()
+{
+  KAction *a = view->actionCollection()->action("edit_find");
+  if (a)
+   a->activate();
+}
 
+
+void AssocTextEditor::slotReplace()
+{
+  KAction *a = view->actionCollection()->action("edit_replace");
+  if (a)
+    a->activate();
+}
 
 #include "assoctexteditorimpl.moc"
