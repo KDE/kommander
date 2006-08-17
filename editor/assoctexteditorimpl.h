@@ -86,6 +86,8 @@ protected slots:
   void slotReplace();
   void slotFindNext();
   void slotFindPrev();
+  void slotUndo();
+  void slotRedo();
   void slotHighlightingChanged(int mode);
   
 private:

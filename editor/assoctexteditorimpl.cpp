@@ -90,7 +90,14 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   partManager->addPart(doc, true);
 
   KPopupMenu *popup = new KPopupMenu(this);
-  KAction *a = view->actionCollection()->action("edit_find");
+  KAction *a = view->actionCollection()->action("edit_undo");
+  if (a)
+    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotUndo()), a->shortcut());
+  a = view->actionCollection()->action("edit_redo");
+  if (a)
+    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotRedo()), a->shortcut());
+  popup->insertSeparator();
+  a = view->actionCollection()->action("edit_find");
   if (a)
     popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotFind()), a->shortcut());
   a = view->actionCollection()->action("edit_find_next");
@@ -399,9 +406,22 @@ void AssocTextEditor::slotFindNext()
   KAction *a = view->actionCollection()->action("edit_find_next");
   a->activate();
 }
+
 void AssocTextEditor::slotFindPrev()
 {
   KAction *a = view->actionCollection()->action("edit_find_prev");
+  a->activate();
+}
+
+void AssocTextEditor::slotUndo()
+{
+  KAction *a = view->actionCollection()->action("edit_undo");
+  a->activate();
+}
+
+void AssocTextEditor::slotRedo()
+{
+  KAction *a = view->actionCollection()->action("edit_redo");
   a->activate();
 }
 
