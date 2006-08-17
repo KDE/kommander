@@ -90,7 +90,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   uint hlCount = hlIf->hlModeCount();
   for (uint i = 0; i < hlCount; i++)
   {
-    if (hlIf->hlModeName(i).contains("Bash", false) > 0)
+    if (hlIf->hlModeName(i).contains("Kommander", false) > 0)
       hlIf->setHlMode(i);    
   }
   

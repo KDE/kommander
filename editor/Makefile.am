@@ -50,3 +50,8 @@ xdg_apps_DATA = kmdr-editor.desktop
 rcdir = $(kde_datadir)/kommander
 
 rc_DATA = kommanderui.rc
+
+
+syntaxkatedir = $(kde_datadir)/katepart/syntax
+syntaxkate_DATA = kommander.xml
+
