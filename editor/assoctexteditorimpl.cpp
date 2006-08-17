@@ -28,6 +28,7 @@
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/editinterface.h>
 #include <ktexteditor/viewcursorinterface.h>
+#include <ktexteditor/highlightinginterface.h>
 
 #include <kparts/partmanager.h>
 
@@ -84,6 +85,15 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   view = doc->createView(editorFrame);
   layout->addWidget(view, 1,1);
   partManager->addPart(doc, true);
+
+  KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
+  uint hlCount = hlIf->hlModeCount();
+  for (uint i = 0; i < hlCount; i++)
+  {
+    if (hlIf->hlModeName(i).contains("Bash", false) > 0)
+      hlIf->setHlMode(i);    
+  }
+  
   
   associatedTextEdit = dynamic_cast<KTextEditor::EditInterface*>(doc);
   setWidget(a_widget);
@@ -102,7 +112,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
 AssocTextEditor::~AssocTextEditor()
 {
   save();
-  //delete doc;
+  delete doc;
 }
 
 void AssocTextEditor::setWidget(QWidget *a_widget)

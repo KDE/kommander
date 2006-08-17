@@ -71,6 +71,7 @@
 #include <kurl.h>
 
 #include <ktexteditor/document.h>
+#include <ktexteditor/view.h>
 #include <ktexteditor/configinterface.h>
 
 #include <stdlib.h>
@@ -560,19 +561,19 @@ void MainWindow::setupSettingsActions()
   a->setToolTip(i18n("Opens a dialog to change shortcuts"));
   a->plug(settings);
 
-  a = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
-  a->setToolTip(i18n("Opens a dialog to change preferences"));
-  a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
-  a->plug(settings);
-
   a = new KAction(i18n("Configure &Plugins..."), KShortcut::null(), this, SLOT(editPlugins()),
-    actionCollection(), "configure_plugins");
+                  actionCollection(), "configure_plugins");
   a->setToolTip(i18n("Opens a dialog to configure plugins"));
   a->plug(settings);
  
   a = new KAction(i18n("Configure &Editor..."), KShortcut::null(), this, SLOT(configureEditor()),
                   actionCollection(), "configure_editor");
   a->setToolTip(i18n("Opens a dialog to configure the source editor"));
+  a->plug(settings);
+
+  a = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
+  a->setToolTip(i18n("Opens a dialog to change preferences"));
+  a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
   a->plug(settings);
 
   menuBar()->insertItem( i18n("&Settings"), settings);
@@ -1137,6 +1138,7 @@ void MainWindow::editPlugins()
 void MainWindow::configureEditor()
 {
   KTextEditor::Document *doc = KTextEditor::createDocument ("libkatepart", 0L, "KTextEditor::Document");
+  KTextEditor::View *view = doc->createView(0);
   KTextEditor::ConfigInterface *configIf = KTextEditor::configInterface(doc);
   configIf->configDialog();
   delete doc;
