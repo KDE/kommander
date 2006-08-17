@@ -92,23 +92,23 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   KPopupMenu *popup = new KPopupMenu(this);
   KAction *a = view->actionCollection()->action("edit_undo");
   if (a)
-    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotUndo()), a->shortcut());
+    a->plug(popup);
   a = view->actionCollection()->action("edit_redo");
   if (a)
-    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotRedo()), a->shortcut());
+    a->plug(popup);
   popup->insertSeparator();
   a = view->actionCollection()->action("edit_find");
   if (a)
-    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotFind()), a->shortcut());
+    a->plug(popup);
   a = view->actionCollection()->action("edit_find_next");
   if (a)
-    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotFindNext()), a->shortcut());
+    a->plug(popup);
   a = view->actionCollection()->action("edit_find_prev");
   if (a)
-    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotFindPrev()), a->shortcut());
+    a->plug(popup);
   a = view->actionCollection()->action("edit_replace");
   if (a)
-    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotReplace()), a->shortcut());
+    a->plug(popup);
 
   popup->insertSeparator();
   highlightPopup = new KPopupMenu(popup);
@@ -386,43 +386,6 @@ QWidget* AssocTextEditor::widgetFromString(const QString& name)
   if (i != -1)
     realname.truncate(i);
   return m_widgetList[realname];
-}
-
-void AssocTextEditor::slotFind()
-{
-  KAction *a = view->actionCollection()->action("edit_find");
-  a->activate();
-}
-
-
-void AssocTextEditor::slotReplace()
-{
-  KAction *a = view->actionCollection()->action("edit_replace");
-  a->activate();
-}
-
-void AssocTextEditor::slotFindNext()
-{
-  KAction *a = view->actionCollection()->action("edit_find_next");
-  a->activate();
-}
-
-void AssocTextEditor::slotFindPrev()
-{
-  KAction *a = view->actionCollection()->action("edit_find_prev");
-  a->activate();
-}
-
-void AssocTextEditor::slotUndo()
-{
-  KAction *a = view->actionCollection()->action("edit_undo");
-  a->activate();
-}
-
-void AssocTextEditor::slotRedo()
-{
-  KAction *a = view->actionCollection()->action("edit_redo");
-  a->activate();
 }
 
 void AssocTextEditor::slotHighlightingChanged(int mode)
