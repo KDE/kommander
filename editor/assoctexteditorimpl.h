@@ -42,6 +42,8 @@ namespace KParts{
   class PartManager;
 }
 
+class KPopupMenu;
+
 class AssocTextEditor : public AssocTextEditorBase
 {
   Q_OBJECT
@@ -82,6 +84,9 @@ protected slots:
 
   void slotFind();
   void slotReplace();
+  void slotFindNext();
+  void slotFindPrev();
+  void slotHighlightingChanged(int mode);
   
 private:
   // Current widget
@@ -116,6 +121,8 @@ private:
   KTextEditor::EditInterface *associatedTextEdit;
   KTextEditor::Document *doc;
   KTextEditor::View *view;
+  KPopupMenu *highlightPopup;
+  int oldHlMode;
 };
 
 #endif

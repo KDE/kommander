@@ -89,17 +89,40 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   layout->addWidget(view, 1,1);
   partManager->addPart(doc, true);
 
+  KPopupMenu *popup = new KPopupMenu(this);
+  KAction *a = view->actionCollection()->action("edit_find");
+  if (a)
+    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotFind()), a->shortcut());
+  a = view->actionCollection()->action("edit_find_next");
+  if (a)
+    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotFindNext()), a->shortcut());
+  a = view->actionCollection()->action("edit_find_prev");
+  if (a)
+    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotFindPrev()), a->shortcut());
+  a = view->actionCollection()->action("edit_replace");
+  if (a)
+    popup->insertItem(a->iconSet(), a->text(), this, SLOT(slotReplace()), a->shortcut());
+
+  popup->insertSeparator();
+  highlightPopup = new KPopupMenu(popup);
+  connect(highlightPopup, SIGNAL(activated(int)), SLOT(slotHighlightingChanged(int)));
+  
   KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
   uint hlCount = hlIf->hlModeCount();
   for (uint i = 0; i < hlCount; i++)
   {
+    if (hlIf->hlModeSectionName(i) == "Scripts")
+      highlightPopup->insertItem(hlIf->hlModeName(i), i);
     if (hlIf->hlModeName(i).contains("Kommander", false) > 0)
-      hlIf->setHlMode(i);    
+    {
+      hlIf->setHlMode(i);
+      highlightPopup->setItemChecked(i, true);
+      oldHlMode = i;
+    }
   }
 
-  KPopupMenu *popup = new KPopupMenu(this);
-  popup->insertItem(i18n("Find..."), this, SLOT(slotFind()));
-  popup->insertItem(i18n("Replace..."), this, SLOT(slotReplace()));
+  popup->insertItem(i18n("Highlighting"), highlightPopup);
+  
   KTextEditor::PopupMenuInterface *popupIf = dynamic_cast<KTextEditor::PopupMenuInterface *>(view);
   popupIf->installPopup(popup);
   
@@ -361,16 +384,34 @@ QWidget* AssocTextEditor::widgetFromString(const QString& name)
 void AssocTextEditor::slotFind()
 {
   KAction *a = view->actionCollection()->action("edit_find");
-  if (a)
-   a->activate();
+  a->activate();
 }
 
 
 void AssocTextEditor::slotReplace()
 {
   KAction *a = view->actionCollection()->action("edit_replace");
-  if (a)
-    a->activate();
+  a->activate();
+}
+
+void AssocTextEditor::slotFindNext()
+{
+  KAction *a = view->actionCollection()->action("edit_find_next");
+  a->activate();
+}
+void AssocTextEditor::slotFindPrev()
+{
+  KAction *a = view->actionCollection()->action("edit_find_prev");
+  a->activate();
+}
+
+void AssocTextEditor::slotHighlightingChanged(int mode)
+{
+  highlightPopup->setItemChecked(oldHlMode, false);
+  KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
+  hlIf->setHlMode(mode);
+  highlightPopup->setItemChecked(mode, true);
+  oldHlMode = mode;
 }
 
 #include "assoctexteditorimpl.moc"
