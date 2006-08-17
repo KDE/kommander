@@ -152,12 +152,11 @@ QString Table::handleDCOP(int function, const QStringList& args)
       setNumRows(0);
       QStringList rows;
       QStringList row;
-      rows = QStringList::split("\n", args[0]);
+      rows = QStringList::split("\n", args[0], true);
       setNumRows(rows.count());
       for (QStringList::Iterator it = rows.begin(); it != rows.end(); ++it, ++r) 
       {
-        
-        row = QStringList::split("\t", *it);
+        row = QStringList::split("\t", *it, true);
         if (!r)
           setNumCols(row.count());
         c = 0;
@@ -168,8 +167,7 @@ QString Table::handleDCOP(int function, const QStringList& args)
     }
     default:
       return KommanderWidget::handleDCOP(function, args);
-      
-  }  
+  }
   return QString::null;
 }
 
