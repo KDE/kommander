@@ -530,6 +530,7 @@
 	<RegExpr attribute="Control" context="#stay" String="([|&amp;])\1?" />
 	<!-- mark function definitions without function keyword -->
         <RegExpr attribute="Function" context="#stay" String="&funcname;\s*\(\)" />
+        <RegExpr attribute="Comment" context="#stay" String="@#.*\s*" />
         <RegExpr attribute="Function" context="#stay" String="@.*\s*" />
       </context>
 
