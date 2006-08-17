@@ -89,6 +89,16 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   layout->addWidget(view, 1,1);
   partManager->addPart(doc, true);
 
+  //trick to import all the KatePart actions into the dialog
+  KPopupMenu *invisiblePopup = new KPopupMenu(this);
+  KActionCollection *ac = view->actionCollection();
+  uint count = ac->count();
+  for (uint i = 0; i < count; i++)
+  {
+    ac->action(i)->plug(invisiblePopup);
+  }
+  
+  //add those KatePart actions to a popup menu that are important
   KPopupMenu *popup = new KPopupMenu(this);
   KAction *a = view->actionCollection()->action("edit_undo");
   if (a)
