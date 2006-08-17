@@ -186,6 +186,7 @@ public slots:
     void editExternalTool(int id);
     void editToolExited(KProcess*);
     void editToolOutput(KProcess*, char*, int);
+    void configureEditor();
 
     void runForm();
     

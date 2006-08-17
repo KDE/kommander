@@ -111,6 +111,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   if (!a_widget || !a_atw)
     return;
 
+  
   m_widget = a_widget;
   m_states = a_atw->states();
   m_populationText = a_atw->populationText();

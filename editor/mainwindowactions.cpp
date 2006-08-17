@@ -70,6 +70,9 @@
 #include <kstdguiitem.h>
 #include <kurl.h>
 
+#include <ktexteditor/document.h>
+#include <ktexteditor/configinterface.h>
+
 #include <stdlib.h>
 
 const QString toolbarHelp = "<p>Toolbars contain a number of buttons to "
@@ -562,11 +565,16 @@ void MainWindow::setupSettingsActions()
   a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
   a->plug(settings);
 
-  a = new KAction(i18n("Configure &plugins..."), KShortcut::null(), this, SLOT(editPlugins()),
+  a = new KAction(i18n("Configure &Plugins..."), KShortcut::null(), this, SLOT(editPlugins()),
     actionCollection(), "configure_plugins");
   a->setToolTip(i18n("Opens a dialog to configure plugins"));
   a->plug(settings);
  
+  a = new KAction(i18n("Configure &Editor..."), KShortcut::null(), this, SLOT(configureEditor()),
+                  actionCollection(), "configure_editor");
+  a->setToolTip(i18n("Opens a dialog to configure the source editor"));
+  a->plug(settings);
+
   menuBar()->insertItem( i18n("&Settings"), settings);
 } 
 
@@ -1124,6 +1132,14 @@ void MainWindow::editPlugins()
   KProcess process;
   process << "kmdr-plugins";
   process.start(KProcess::Block);
+}
+
+void MainWindow::configureEditor()
+{
+  KTextEditor::Document *doc = KTextEditor::createDocument ("libkatepart", 0L, "KTextEditor::Document");
+  KTextEditor::ConfigInterface *configIf = KTextEditor::configInterface(doc);
+  configIf->configDialog();
+  delete doc;
 }
     
 void MainWindow::editExternalTool(int id)
