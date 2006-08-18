@@ -1,7 +1,7 @@
 /***************************************************************************
                     functionlib.cpp - Standard library of functions
                              -------------------
-    copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
+    copyright          : (C) 2004-2006      Michal Rudolf <mrudolf@kdewebdwev.org>
     
  ***************************************************************************/
 
@@ -195,7 +195,7 @@ static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 
 
 /******************* DCOP function ********************************/
-static ParseNode f_dcop(Parser* parser, const ParameterList& params)
+static ParseNode f_internalDcop(Parser* parser, const ParameterList& params)
 {
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
   int functionId = SpecialInformation::function(Group::DCOP, params[0].toString());
@@ -223,45 +223,49 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
 }
 
 
-static ParseNode f_externalDcop(Parser*, const ParameterList& params)
+static ParseNode f_dcop(Parser*, const ParameterList& params)
 {
-  QCString appId = kapp->dcopClient()->appId();
-  QCString object = "KommanderIf";
-  SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
-  
-  if (!function.isValidArg(params.count() - 1))
-    return ParseNode();
-  
+  QCString appId = params[0].toString().latin1();
+  QCString object = params[1].toString().latin1();
+  QString function = params[2].toString().section('(', 0, 0);
+  QStringList items = QStringList::split(",", params[2].toString().section('(', 1, 1).section(')', 0, 0));
   QByteArray byteData;
   QDataStream byteDataStream(byteData, IO_WriteOnly);
-  for (uint i=0 ; i<params.count()-1; i++) 
+
+  if (items.count() != params.count() - 3)
   {
-    if (function.argumentType(i) == "int")
-      byteDataStream << params[i+1].toInt();
-    else if (function.argumentType(i) == "long")
-      byteDataStream << params[i+1].toInt();
-    else if (function.argumentType(i) == "float")
-      byteDataStream << params[i+1].toDouble();
-    else if (function.argumentType(i) == "double")
-      byteDataStream << params[i+1].toDouble();
-    else if (function.argumentType(i) == "bool")
-      byteDataStream << (bool)params[i+1].toInt();
-    else if (function.argumentType(i) == "QStringList")
-      if (params[i].toString().find('\n') != -1)
-        byteDataStream << QStringList::split("\n", params[i+1].toString(), true);
-      else
-        byteDataStream << QStringList::split("\\n", params[i+1].toString(), true);
-    else 
-      byteDataStream << params[i+1].toString();
+     qDebug("Wrong number of parameters");
+     return ParseNode();
   }
-  
+  int i = 3;
+  for (QStringList::Iterator it = items.begin(); it != items.end(); ++it)
+  {
+    *it = (*it).stripWhiteSpace();
+    if (*it == "int")
+      byteDataStream << params[i++].toInt();
+    else if (*it == "long")
+      byteDataStream << params[i++].toInt();
+    else if (*it == "float")
+      byteDataStream << params[i++].toDouble();
+    else if (*it == "double")
+      byteDataStream << params[i++].toDouble();
+    else if (*it == "bool")
+      byteDataStream << (bool)params[i++].toInt();
+    else if (*it == "QStringList")
+      if (params[i].toString().find('\n') != -1)
+        byteDataStream << QStringList::split("\n", params[i++].toString(), true);
+      else
+        byteDataStream << QStringList::split("\\n", params[i++].toString(), true);
+    else 
+      byteDataStream << params[i++].toString();
+  }
+  function.append(QString("(%1)").arg(items.join(",")));
   QCString replyType, byteReply;
   DCOPClient* cl = KApplication::dcopClient();
-  if (!cl || !cl->call(appId, object, function.prototype(SpecialFunction::NoSpaces).latin1(), 
+  if (!cl || !cl->call(appId, object, function.latin1(),
        byteData, replyType, byteReply))
   {
-    //printError(i18n("Tried to perform DCOP query, but failed."));
-    qDebug("Failure");
+    qDebug("DCOP failure");
     return ParseNode();
   }
   QDataStream byteReplyStream(byteReply, IO_ReadOnly);
@@ -291,7 +295,7 @@ static ParseNode f_externalDcop(Parser*, const ParameterList& params)
   }
   else if(replyType != "void")
   {
-  //printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
+     qDebug("%s", QString("DCOP return type %1 is not yet implemented.").arg(replyType.data()).latin1());
   }
 
   return ParseNode();
@@ -302,7 +306,6 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
 {
   MyProcess proc(P->currentWidget());
   QString text;
-  qDebug("Trying %s", params[0].toString().latin1());
   if (params.count() > 1)
     text = proc.run(params[0].toString().local8Bit(), params[1].toString());
   else
@@ -629,7 +632,8 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));
   registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
-  registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 2, 100));
+  registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
+  registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
   registerFunction("env", Function(&f_env, ValueString, ValueString));

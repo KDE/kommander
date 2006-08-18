@@ -31,7 +31,7 @@ public:
   Parser(ParserData* data);
   Parser(ParserData* data, const QString& expr);
   // set string to parse
-  void setString(const QString& s);
+  bool setString(const QString& s);
   // set Kommander widget associated with parser
   void setWidget(KommanderWidget* w);
   

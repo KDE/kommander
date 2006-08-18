@@ -128,20 +128,18 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
   if ((KommanderWidget::useInternalParser && !a_text.startsWith("#!")) || a_text.startsWith("#!kommander"))
   {
     Parser p(internalParserData());
-    p.setString(a_text);
     p.setWidget(this);
-    if (!p.parse())
+    p.setString(a_text);
+    if (!p.setString(a_text) || !p.parse())
     {
       // FIXME add widget's name to KommanderWidget class      
       printError(i18n("Line %1: %2.\n").arg(p.errorLine()+1).arg(p.errorMessage()));
     }
     return QString::null;
   }
-  
   /* Old macro-only parser is implemented below  */
-  
+
   QString evalText;
-  
   int pos = 0, baseTextLength = a_text.length();
   while (pos < baseTextLength)
   {
@@ -152,7 +150,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     }
     evalText += a_text.mid(pos, ident - pos);
     pos = ident+1;
-    
+
     /* escaped @ */
     if (pos < baseTextLength-1 && a_text[pos] == ESCCHAR)
     {
@@ -160,7 +158,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       pos++;
       continue;
     }
-    
+
     QString identifier = parseIdentifier(a_text, pos);
     /* comment */
     if (identifier.isEmpty()) 
@@ -177,13 +175,12 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
          evalText += ESCCHAR;    // single @
       continue;
     }
-    
     bool ok = true;
     QStringList args;
-    
+
     /* Standard, non-prefixed special */
     if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
-    {    
+    {
       args = parseFunction("Kommander", identifier, a_text, pos, ok);
       if (!ok)
         return QString::null;
@@ -200,7 +197,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       else
         evalText += evalFunction(identifier, args);
     }
-    
+
     /* Widget special */
     else if (parseWidget(identifier))
       evalText += evalWidgetFunction(identifier, a_text, pos);

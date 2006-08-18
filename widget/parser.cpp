@@ -38,7 +38,7 @@ Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(
   setString(expr);
 }
 
-void Parser::setString(const QString& s)
+bool Parser::setString(const QString& s)
 {
   reset();
   m_parts.clear();
@@ -69,7 +69,6 @@ void Parser::setString(const QString& s)
       for (i = start + 1; i < s.length() && (s[i] != '\"' || s[i-1] == '\\'); i++)
         if (!escaped) 
           escaped = s[i] == '\\';
-      
       if (escaped)
         insertNode(unescape(s.mid(start + 1, i - start - 1)), lines);
       else
@@ -88,7 +87,7 @@ void Parser::setString(const QString& s)
         insertNode(s.mid(start, i - start).toInt(), lines);
       start = i;
     }
-    else if (s[start].isLetter() || s[start] == '_')
+    else if (s[start].isLetter() || s[start] == '_')  // keyword
     {
       for (i = start+1; s[i].isLetterOrNumber() || s[i] == '_'; i++)
         ;
@@ -113,15 +112,17 @@ void Parser::setString(const QString& s)
     }
     else                          // Bad character
     {
-      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count());
-      return;
+      insertNode(s.mid(start, 1), lines);
+      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count()-1);
+      return false;
     }
   }
+  return true;
 }
 
 void Parser::setWidget(KommanderWidget* w)
 {
-  m_widget = w;  
+  m_widget = w;
 }
 
 void Parser::insertNode(ParseNode p, int line)
@@ -413,7 +414,7 @@ ParseNode Parser::parseWidget(Mode mode)
 {
   int pos = m_start;
   QString widget = nextVariable();
-  Function f = m_data->function("dcop");
+  Function f = m_data->function("internalDcop");
   
   if (!tryKeyword(Dot))
     return ParseNode();
