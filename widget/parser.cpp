@@ -1,8 +1,8 @@
 /***************************************************************************
                     parser.cpp - Internal parser
                              -------------------
-    copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+    copyright          : (C) 2004-2006  Michal Rudolf <mrudolf@kdewebdwev.org>
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h> 
- 
+#include <klocale.h>
+
 #include "parser.h"
 #include "parserdata.h"
 #include "kommanderwidget.h"
@@ -183,7 +183,18 @@ int Parser::errorLine() const
     return m_parts[m_errorPosition].context();
   else 
     return -1;
-  
+}
+
+ParseNode Parser::parseConstant(Parse::Mode)
+{
+  ParseNode p = next();
+  m_start++;
+  if (!p.isValue())
+  {
+    setError(i18n("Constant value expected"));
+    return ParseNode();
+    }
+  return p;
 }
 
 ParseNode Parser::parseValue(Mode mode)
@@ -352,7 +363,7 @@ ParseNode Parser::parseAnd(Mode mode)
       p = parseNot(mode);
   }
   return p;
-}    
+}
 
 ParseNode Parser::parseOr(Mode mode)
 {
@@ -371,7 +382,7 @@ ParseNode Parser::parseCondition(Mode mode)
 {
   return parseOr(mode);
 }
-  
+
 ParseNode Parser::parseExpression(Mode mode)
 {
   return parseOr(mode);
@@ -415,7 +426,7 @@ ParseNode Parser::parseWidget(Mode mode)
   int pos = m_start;
   QString widget = nextVariable();
   Function f = m_data->function("internalDcop");
-  
+
   if (!tryKeyword(Dot))
     return ParseNode();
   QString var = nextVariable();
@@ -424,7 +435,7 @@ ParseNode Parser::parseWidget(Mode mode)
   ParameterList params;
   params.append(var);
   params.append(widget);
-  
+
   if (tryKeyword(LeftParenthesis, CheckOnly) && !tryKeyword(RightParenthesis, CheckOnly))
   {
     do {
@@ -501,7 +512,6 @@ Flow Parser::parseIf(Mode mode)
 
 void Parser::parseWhile(Mode mode)
 {
-  next();
   m_start++;
   int start = m_start;
   bool running = true;
@@ -520,7 +530,6 @@ void Parser::parseWhile(Mode mode)
 
 void Parser::parseFor(Mode mode)
 {
-  next();
   m_start++;
   QString var = nextVariable();
   tryKeyword(Assign);
@@ -541,10 +550,9 @@ void Parser::parseFor(Mode mode)
   }
   tryKeyword(End);
 }
-  
+
 void Parser::parseForeach(Mode mode)
 {
-  next();
   m_start++;
   QString var = nextVariable();
   tryKeyword(In);
@@ -568,6 +576,26 @@ void Parser::parseForeach(Mode mode)
   tryKeyword(End);
 }
 
+void Parser::parseSwitch(Mode mode)
+{
+  m_start++;
+  QString var = nextVariable();
+  ParseNode caseValue = variable(var);
+  bool executed = false;
+  tryKeyword(Semicolon, CheckOnly);
+  while (tryKeyword(Case, CheckOnly))
+  {
+    ParseNode p = parseConstant();
+    bool matched = mode == Execute && p == caseValue;
+    parseBlock(matched ? Execute : CheckOnly);
+    if (matched)
+      executed = true;
+  }
+  if (tryKeyword(Else, CheckOnly))
+    parseBlock(executed ? CheckOnly : mode);
+  tryKeyword(End);
+}
+
 Flow Parser::parseCommand(Mode mode)
 {
   ParseNode p = next();
@@ -579,6 +607,8 @@ Flow Parser::parseCommand(Mode mode)
     parseFor(mode);
   else if (next().isKeyword(Foreach))
     parseForeach(mode);
+  else if (next().isKeyword(Switch))
+    parseSwitch(mode);
   else if (tryKeyword(Continue, CheckOnly))
     return FlowContinue;
   else if (tryKeyword(Break, CheckOnly))
@@ -593,12 +623,12 @@ Flow Parser::parseCommand(Mode mode)
   {
     if (mode == Execute)
       setError("Exit");
-#warning FIXME!    
+#warning FIXME!
     return FlowBreak;
   }
   return FlowStandard;
 }
-  
+
 Flow Parser::parseBlock(Mode mode)
 {
   Flow flow = parseCommand(mode);
@@ -608,7 +638,7 @@ Flow Parser::parseBlock(Mode mode)
       flow = parseCommand(mode);
     else
       parseCommand(CheckOnly);
-  }    
+  }
   return flow;
 }
 
@@ -689,7 +719,7 @@ void Parser::setError(const QString& msg, int pos)
   {
     m_errorPosition = pos;
     m_error = msg;
-  } 
+  }
 }
 
 void Parser::setVariable(const QString& name, ParseNode value)
@@ -746,7 +776,7 @@ void Parser::setArray(const QString& name, const QString& key, ParseNode value)
   else
     m_arrays[name][key] = value;
 }
-  
+
 void Parser::unsetArray(const QString& name, const QString& key)
 {
   if (isGlobal(name))
@@ -769,9 +799,9 @@ void Parser::unsetArray(const QString& name, const QString& key)
 
 KommanderWidget* Parser::currentWidget() const
 {
-  return m_widget;  
+  return m_widget;
 }
-  
+
 QMap<QString, ParseNode> Parser::m_globalVariables;
 QMap<QString, QMap<QString, ParseNode> > Parser::m_globalArrays;
 

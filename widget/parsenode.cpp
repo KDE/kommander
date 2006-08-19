@@ -228,13 +228,18 @@ void ParseNode::setVariable(const QString& name)
   m_string = name;
 }
 
+bool ParseNode::isValue() const
+{
+  return m_type <= ValueValue;
+}
+
 void ParseNode::setContext(int c)
 {
   m_context = c;
 }
-  
+
 int ParseNode::context() const
 {
-  return m_context;  
+  return m_context;
 }
-  
+

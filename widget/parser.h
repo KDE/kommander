@@ -47,7 +47,7 @@ public:
   int errorLine() const;
   // return error message
   QString errorMessage();
-  
+
   // check if this is a name of standard variable
   bool isVariable(const QString& name);
   // set variable value
@@ -64,13 +64,15 @@ public:
   void setArray(const QString& name, const QString& key, ParseNode value);
   // unset array key or whole array
   void unsetArray(const QString& name, const QString& key = QString::null);
-    
+
   // get associated widget
   KommanderWidget* currentWidget() const;
 
 private:
   // parsing function - top-down approach
-  
+
+  // parse const
+  ParseNode parseConstant(Parse::Mode mode = Parse::Execute);
   // parse value (literal or variable)
   ParseNode parseValue(Parse::Mode mode = Parse::Execute);
   // parse multiplication, division and mod (x*y, x/y, x%y)
@@ -86,7 +88,7 @@ private:
   // parse string concatenation (x+y)
   ParseNode parseConcatenation(Parse::Mode mode = Parse::Execute);
   */
-    
+
   // parse comparisons (x==y, x<y, x>y, x!=y, x<>y, x<=y, x>=y
   ParseNode parseComparison(Parse::Mode mode = Parse::Execute);
   // parse boolean not (!x, not x)
@@ -119,9 +121,11 @@ private:
   void parseFor(Parse::Mode mode = Parse::Execute);
   // parse foreach loop
   void parseForeach(Parse::Mode mode = Parse::Execute);
+  // parse switch block
+  void parseSwitch(Parse::Mode mode = Parse::Execute);
   // parse whole block
   Parse::Flow parseBlock(Parse::Mode mode = Parse::Execute);
-  
+
   // insert next node
   void insertNode(ParseNode p, int line);
   // next item to be parsed
@@ -130,7 +134,7 @@ private:
   bool tryKeyword(Parse::Keyword k, Parse::Mode mode = Parse::Execute);
   // check if next item is a variable, if so, return its name
   bool tryVariable(Parse::Mode mode = Parse::Execute);
-    
+
   // get the name of the next node treated as variable
   QString nextVariable();
   // check whether name is a valid variable is global
@@ -141,7 +145,7 @@ private:
   bool isFunction() const;
   // check if next item is a widget
   bool isWidget() const;
-   
+
   // reset to default state
   void reset();
   // set error state if no error was set before; err is expected symbol that wasn't found
@@ -149,7 +153,7 @@ private:
   void setError(const QString& msg, int pos);
   // check whether parsing was successful
   bool isError() const;
-  
+
   // parsing data
   ParserData* m_data;
   // current parsing position

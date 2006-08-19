@@ -27,8 +27,8 @@ namespace Parse
     Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid};
 
   enum KeywordGroup {GroupComparison, GroupAdd, GroupMultiply, GroupMisc};
-    
-  enum ValueType {ValueString, ValueInt, ValueDouble, ValueKeyword, ValueNone, ValueError};
+  enum ValueType {ValueString, ValueInt, ValueDouble, ValueValue = ValueDouble, ValueKeyword,
+     ValueNone, ValueError};
 
   enum Mode{Execute, CheckOnly};
 
@@ -100,6 +100,8 @@ public:
   void setValue(const QString& s);
   /* set value as variable */
   void setVariable(const QString& name);
+  /* check if it is correct value */
+  bool isValue() const;
   /* for setting some context information, f. e. for bug reporting */
   void setContext(int c);
   /* get current context */
