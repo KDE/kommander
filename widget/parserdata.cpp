@@ -27,8 +27,9 @@ KeywordGroup ParserData::keywordGroup(Keyword k) const
 
 Keyword ParserData::stringToKeyword(const QString& s) const
 {
-  if (m_keywords.contains(s))
-    return m_keywords[s];
+  QString k = s.lower();
+  if (m_keywords.contains(k))
+    return m_keywords[k];
   else 
     return Variable;
 }
@@ -43,7 +44,7 @@ QString ParserData::keywordToString(Parse::Keyword k) const
 
 bool ParserData::registerFunction(const QString& name, Function f) 
 {
-  m_functions[name.lower()] = f;  
+  m_functions[name.lower()] = f;
   return true;
 }
 
