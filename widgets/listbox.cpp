@@ -152,7 +152,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       if (index >= 0 && index < (int)count())
         return item(index)->text();
       else
-        return QString::null;
+        return QString();
     }
     case DCOP::addUniqueItem:
       if (!findItem(args[0], Qt::ExactMatch))
@@ -192,7 +192,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "listbox.moc"

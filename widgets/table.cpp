@@ -128,19 +128,18 @@ QString Table::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::text:
     {
-      QString row;
       QString rows;
       for (int r = 0; r < numRows(); r++)
       {
-        row = "";
+        QString row;
         for (int c = 0; c < numCols(); c++)
         {
           if (c)
-            row += "\t";
+            row += '\t';
           row += text(r,c);
         }
-        if (r) 
-          rows += "\n";
+        if (r)
+          rows += '\n';
         rows += row;
       }
       return rows;
@@ -168,7 +167,7 @@ QString Table::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "table.moc"

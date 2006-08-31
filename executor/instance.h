@@ -104,7 +104,7 @@ public:
   virtual void removeColumn(const QString &widgetName, int column, int count);
   virtual void setRowCaption(const QString &widgetName, int row, const QString& text);
   virtual void setColumnCaption(const QString &widgetName, int column, const QString& text);
-   
+
 public slots:
   /** Builds the instance then executes it */
   bool run(QFile* = 0);
@@ -113,7 +113,7 @@ public slots:
   /** Sets the UI file name */
   void setUIFileName(const KURL&);
   /** Returns whether the instance is built */
-  bool isBuilt();
+  bool isBuilt() const;
   /** Builds the instance */
   bool build();
   /** Builds the instance from an input file */

@@ -2,7 +2,7 @@
                     expression.h - Expression parser
                              -------------------
     copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -34,13 +34,9 @@ public:
   QVariant value(const QString& s, bool* valid = 0);
   /* equivalent of setString(s) and checking if value(valid) is true */
   bool isTrue(const QString& s, bool* valid = 0);
-  
-  
 private:
   enum Type {TypeInt, TypeDouble, TypeString};
-  
   /* parsing function - top-down approach */
-    
   /* parse terminal (number or string) */
   QVariant parseNumber();
   /* parse -x expression */
@@ -61,7 +57,7 @@ private:
   QVariant parseOr();
   /* starting point of parsing - just call first function above */
   QVariant parse();
-  
+
   /* check if we still have next argument */
   bool validate();
   /* return next argument to parse or null if there is none */
@@ -72,7 +68,7 @@ private:
   int compare(const QVariant v1, const QVariant v2) const; 
   /* return common type for binary operations */
   Type commonType(const QVariant v1, const QVariant v2) const; 
-        
+
   QValueList<QVariant> m_parts;
   uint m_start;
   bool m_error;

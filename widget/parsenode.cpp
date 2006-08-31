@@ -71,7 +71,7 @@ QString ParseNode::toString() const
     case ValueString: return m_string;
     case ValueInt:    return QString::number(m_int);
     case ValueDouble: return QString::number(m_double);
-    default:          return QString::null;
+    default:          return QString();
   }
 }
 
@@ -122,12 +122,12 @@ bool ParseNode::isVariable() const
 
 QString ParseNode::variableName() const
 {
-  return isVariable() ? m_string : QString::null;
+  return isVariable() ? m_string : QString();
 }
 
 QString ParseNode::errorMessage() const
 {
-  return isValid() ? QString::null : m_string;
+  return isValid() ? QString() : m_string;
 }
 
 

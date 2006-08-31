@@ -31,10 +31,9 @@
 class QWidget;
 
 class QShowEvent;
-class PixmapLabel : public QLabel, public KommanderWidget
+class KOMMANDER_EXPORT PixmapLabel : public QLabel, public KommanderWidget
 {
   Q_OBJECT
-  
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)

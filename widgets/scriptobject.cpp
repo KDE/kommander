@@ -25,8 +25,8 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "scriptobject.h"
-#include "myprocess.h"
-#include "specials.h"
+#include <myprocess.h>
+#include <specials.h>
 
 ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   : QLabel(a_parent, a_name), KommanderWidget(this)
@@ -122,7 +122,7 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "scriptobject.moc"

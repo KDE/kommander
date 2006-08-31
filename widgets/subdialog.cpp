@@ -131,7 +131,7 @@ QString SubDialog::handleDCOP(int function, const QStringList& args)
     case DCOP::text:
     {
       if (!m_dialog)
-        return QString::null;
+        return QString();
       KommanderWidget *atw = dynamic_cast<KommanderWidget *>(m_dialog);
       if(atw)
         return atw->evalAssociatedText();
@@ -139,7 +139,7 @@ QString SubDialog::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

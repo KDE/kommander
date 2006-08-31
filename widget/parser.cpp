@@ -130,9 +130,8 @@ void Parser::insertNode(ParseNode p, int line)
   p.setContext(line);
   m_parts.append(p);
 }
-  
 
-QString Parser::errorMessage()
+QString Parser::errorMessage() const
 {
   return m_error;
 }
@@ -146,7 +145,6 @@ QString Parser::function(ParserData* data, const QString& name, const QStringLis
   return f.execute(0, par).toString();
 }
 
-  
 QString Parser::expression(Mode mode)
 {
   reset();
@@ -154,12 +152,12 @@ QString Parser::expression(Mode mode)
   if (!isError())
     return p.toString();
   else
-    return QString::null;
+    return QString();
 }
 
 bool Parser::isError() const
 {
-  return m_error != QString::null;
+  return !m_error.isNull();
 }
 
 
@@ -211,7 +209,7 @@ ParseNode Parser::parseValue(Mode mode)
       QString index = parseValue(mode).toString();
       tryKeyword(RightBracket);
       QString arr = p.variableName();
-      return (isArray(arr) && array(arr).contains(index)) ? array(arr)[index] : QString::null;
+      return (isArray(arr) && array(arr).contains(index)) ? array(arr)[index] : QString();
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
@@ -617,7 +615,7 @@ Flow Parser::parseCommand(Mode mode)
     parseFunction(mode);
   else if (isWidget())
     parseWidget(mode);
-  else if (next().isVariable()) 
+  else if (next().isVariable())
     parseAssignment(mode);
   else if (tryKeyword(Exit, CheckOnly))
   {
@@ -687,7 +685,7 @@ QString Parser::nextVariable()
   }
   else 
     setError(i18n("Expected variable"));
-  return QString::null;
+  return QString();
 }
 
 
@@ -715,7 +713,7 @@ void Parser::setError(const QString& msg)
 
 void Parser::setError(const QString& msg, int pos)
 {
-  if (m_error == QString::null)
+  if (m_error.isNull())
   {
     m_errorPosition = pos;
     m_error = msg;
@@ -756,7 +754,7 @@ void Parser::unsetVariable(const QString& key)
     m_variables.remove(key);
 }
 
-const QMap<QString, ParseNode>& Parser::array(const QString& name)
+const QMap<QString, ParseNode>& Parser::array(const QString& name) const
 {
   if (isGlobal(name))
     return m_globalArrays[name];
@@ -781,14 +779,14 @@ void Parser::unsetArray(const QString& name, const QString& key)
 {
   if (isGlobal(name))
   {
-    if (key == QString::null)
+    if (key.isNull())
       m_globalArrays.remove(name);
     else if (isArray(name))
       m_globalArrays[name].remove(key);
   }
   else
   {
-    if (key == QString::null)
+    if (key.isNull())
       m_arrays.remove(name);
     else if (isArray(name))
       m_arrays[name].remove(key);

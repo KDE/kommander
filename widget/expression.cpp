@@ -89,7 +89,7 @@ QString Expression::next() const
   if (m_start < m_parts.count())
     return m_parts[m_start].toString();
   else 
-    return QString::null;
+    return QString();
 }
 
 bool Expression::validate()

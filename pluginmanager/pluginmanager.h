@@ -26,7 +26,7 @@ class PluginManager
 public:  
   PluginManager();
   ~PluginManager();
-  
+
   // number of known plugins
   int count() const;
   // n-th plugin
@@ -43,7 +43,7 @@ public:
 private:
   // returns expanded library name or null if it is invalid
   QString libraryName(const QString& plugin) const;
-  
+
   QStringList* m_list;
   KConfig *m_cfg;
 };

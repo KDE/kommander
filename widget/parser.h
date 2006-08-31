@@ -17,7 +17,9 @@
 #ifndef _HAVE_PARSER_H_
 #define _HAVE_PARSER_H_
 
+#include "kommander_export.h"
 #include "parsenode.h"
+
 #include <qvaluevector.h>
 #include <qstringlist.h>
 #include <qmap.h>
@@ -34,7 +36,7 @@ public:
   bool setString(const QString& s);
   // set Kommander widget associated with parser
   void setWidget(KommanderWidget* w);
-  
+
   // parse generic expression
   QString expression(Parse::Mode mode = Parse::Execute);
   // execute single command; return true if ok
@@ -46,10 +48,10 @@ public:
   // return line of errorneous node
   int errorLine() const;
   // return error message
-  QString errorMessage();
+  QString errorMessage() const;
 
   // check if this is a name of standard variable
-  bool isVariable(const QString& name);
+  bool isVariable(const QString& name) const;
   // set variable value
   void setVariable(const QString& name, ParseNode value);
   // unset variable
@@ -57,7 +59,7 @@ public:
   // get variable value
   ParseNode variable(const QString& name) const;
   // access associative array 
-  const QMap<QString, ParseNode>& array(const QString& name);
+  const QMap<QString, ParseNode>& array(const QString& name) const;
   // check if this is a name of an array
   bool isArray(const QString& name) const;
   // set array key
@@ -99,7 +101,7 @@ private:
   ParseNode parseOr(Parse::Mode mode = Parse::Execute);
   // parse generic condition
   ParseNode parseCondition(Parse::Mode mode = Parse::Execute);
-  
+
   // parse (x) expression
   ParseNode parseParenthesis(Parse::Mode mode = Parse::Execute);
   // parse generic expression
@@ -108,7 +110,7 @@ private:
   ParseNode parseFunction(Parse::Mode mode = Parse::Execute);
   // parse widget function
   ParseNode parseWidget(Parse::Mode mode = Parse::Execute);
-  
+
   // parse assignment
   void parseAssignment(Parse::Mode mode = Parse::Execute);
   // parse conditional
@@ -137,9 +139,7 @@ private:
 
   // get the name of the next node treated as variable
   QString nextVariable();
-  // check whether name is a valid variable is global
-  bool isVariable(const QString& name) const;
-  // check whether variable/array name is global (preceeded with _)
+  // check whether variable/array name is global (preceded with _)
   bool isGlobal(const QString& name) const;
   // check if next item is a function
   bool isFunction() const;

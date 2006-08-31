@@ -156,7 +156,7 @@ bool Instance::run(QFile *a_file)
          " This may mean that it was run from a KMail attachment or from a webpage. "
          "<p>Any script contained in this dialog will have write access to all of your home directory; "
          "<b>running such dialogs may be dangerous: </b>"
-         "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)
+             "<p>are you sure you want to continue?</qt>"), QString(), i18n("Run Nevertheless")) == KMessageBox::Cancel)
        return false;
   }
   
@@ -167,7 +167,7 @@ bool Instance::run(QFile *a_file)
     {
       args += global(QString("ARG%1").arg(i));
       if (i < m_cmdArguments) 
-        args += " ";
+        args += ' ';
     }
     KommanderWidget::setGlobal("ARGS", args);
   }
@@ -196,7 +196,7 @@ bool Instance::run(QFile *a_file)
   return true;
 }
 
-bool Instance::isBuilt()
+bool Instance::isBuilt() const
 {
   return m_instance;
 }
@@ -253,7 +253,7 @@ QString Instance::text(const QString& widgetName)
     return kommanderWidget(child)->handleDCOP(DCOP::text);
   else if (child && child->inherits("QLabel"))
     return ((QLabel*)child)->text();  
-  return QString::null;
+  return QString();
 }
 
 void Instance::setSelection(const QString& widgetName, const QString& text)
@@ -270,7 +270,7 @@ QString Instance::selection(const QString& widgetName)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::selection);
-  return QString::null;
+  return QString();
 }
 
 int Instance::currentItem(const QString &widgetName)
@@ -286,7 +286,7 @@ QString Instance::item(const QString &widgetName, int i)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::item, QString::number(i));
-  return QString::null;      
+  return QString();
 }
 
 void Instance::removeItem(const QString &widgetName, int index)
@@ -346,9 +346,9 @@ QString Instance::itemPath(const QString &widgetName, int index)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::itemPath, QString::number(index));
-  return QString::null;
+  return QString();
 }
-  
+
 
 void Instance::setPixmap(const QString &widgetName, const QString& iconName, int index)
 {
@@ -402,7 +402,7 @@ QStringList Instance::associatedText(const QString &widgetName)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     kommanderWidget(child)->associatedText();  
-  return QString::null;
+  return QString();
 }
 
 QString Instance::type(const QString& widget)
@@ -410,7 +410,7 @@ QString Instance::type(const QString& widget)
   QObject* child = stringToWidget(widget);  
   if (child->inherits("QWidget"))
     return child->className();
-  return QString::null;
+  return QString();
 }
 
 QStringList Instance::children(const QString& parent, bool recursive)
@@ -518,7 +518,7 @@ QString Instance::cellText(const QString &widgetName, int row, int column)
     args += QString::number(column);
     return kommanderWidget(child)->handleDCOP(DCOP::cellText, args);
   }
-  else return QString::null;
+  else return QString();
 }
 
 void Instance::removeRow(const QString &widgetName, int row, int count)

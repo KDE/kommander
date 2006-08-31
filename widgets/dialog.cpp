@@ -25,7 +25,7 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "dialog.h"
-#include "myprocess.h"
+#include <myprocess.h>
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : QDialog(a_parent, a_name, a_modal, a_flags), KommanderWindow(this)
@@ -157,7 +157,7 @@ QString Dialog::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

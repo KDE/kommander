@@ -23,8 +23,8 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
-#include "myprocess.h"
+#include <kommander_export.h>
+#include <myprocess.h>
 
 class QShowEvent;
 class KOMMANDER_EXPORT Wizard : public QWizard, public KommanderWidget
@@ -39,7 +39,7 @@ class KOMMANDER_EXPORT Wizard : public QWizard, public KommanderWidget
   Q_PROPERTY(QString helpActionText READ helpActionText WRITE setHelpActionText)
 
 public:
-  Wizard(QWidget *, const char *, bool=TRUE, int=0);
+  Wizard(QWidget *, const char *, bool = true, int = 0);
   ~Wizard();
 
   virtual bool isKommanderWidget() const;

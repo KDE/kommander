@@ -27,7 +27,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 
 class QWidget;
 
@@ -47,14 +47,14 @@ public:
   virtual void setCurrentItem(QListViewItem* item);  
   QString pathSeparator() const;
   void setPathSeparator(const QString& a_pathSep);
-  
+
   virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
-  
+
   virtual QString handleDCOP(int function, const QStringList& args);
   virtual bool isFunctionSupported(int function);
 public slots:
@@ -66,10 +66,10 @@ signals:
 protected:
   void showEvent(QShowEvent *e);
   int itemToIndex(QListViewItem* item);
-  QString itemText(QListViewItem* item);
+  QString itemText(QListViewItem* item) const;
   QString itemsText();
   QListViewItem* indexToItem(int index);
-  QString itemPath(QListViewItem* item);
+  QString itemPath(QListViewItem* item) const;
 private:
   void addItemFromString(const QString& s);
   QListViewItem* itemFromString(QListViewItem* parent, const QString& s);

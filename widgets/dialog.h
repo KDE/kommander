@@ -24,7 +24,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwindow.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 class QShowEvent;
 class KOMMANDER_EXPORT Dialog : public QDialog, public KommanderWindow
 {
@@ -37,7 +37,7 @@ class KOMMANDER_EXPORT Dialog : public QDialog, public KommanderWindow
   Q_OVERRIDE(bool modal DESIGNABLE false)
   
 public:
-  Dialog(QWidget *, const char *, bool=TRUE, int=0);
+  Dialog(QWidget *, const char *, bool = true, int=0);
   ~Dialog();
   virtual bool isKommanderWidget() const;
   virtual bool useInternalParser() const;

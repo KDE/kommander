@@ -47,14 +47,14 @@ TreeWidget::~TreeWidget()
 
 QString TreeWidget::pathSeparator() const
 {
-  return m_pathSeparator;  
+  return m_pathSeparator;
 }
 
 void TreeWidget::setPathSeparator(const QString& a_pathSep)
 {
   m_pathSeparator = a_pathSep;
 }
-  
+
 void TreeWidget::addItemFromString(const QString& s)
 {
   QStringList elements = QStringList::split(m_pathSeparator, s, true);
@@ -91,7 +91,7 @@ void TreeWidget::addItemFromString(const QString& s)
   }
 }
 
-QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& s) 
+QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& s)
 {
   QStringList elements;
   if (s.contains("\t"))
@@ -106,14 +106,13 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
     item = new QListViewItem(parent);
   else
     item = new QListViewItem(this);
-  
   int i = 0;
   for (QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) 
     item->setText(i++, *it);
   return item;
 }
 
-int TreeWidget::itemToIndex(QListViewItem* item) 
+int TreeWidget::itemToIndex(QListViewItem* item)
 {
   QListViewItemIterator it(this);
   int index = 0;
@@ -126,7 +125,7 @@ int TreeWidget::itemToIndex(QListViewItem* item)
   return -1;
 }
 
-QListViewItem* TreeWidget::indexToItem(int item) 
+QListViewItem* TreeWidget::indexToItem(int item)
 {
   QListViewItemIterator it(this);
   int index = 0;
@@ -138,17 +137,17 @@ QListViewItem* TreeWidget::indexToItem(int item)
   }
   return 0;
 }
-  
-QString TreeWidget::itemText(QListViewItem* item)
+
+QString TreeWidget::itemText(QListViewItem* item) const
 {
   if (!item)
-    return QString::null;
+    return QString();
   QStringList items;
   for (int i=0; i<columns(); i++)
     items.append(item->text(i));
   return items.join("\t");
 }
-  
+
 QString TreeWidget::itemsText() 
 {
   QStringList items;
@@ -166,17 +165,17 @@ QString TreeWidget::itemsText()
   return items.join("\n");
 }
 
-QString TreeWidget::itemPath(QListViewItem* item)
+QString TreeWidget::itemPath(QListViewItem* item) const
 {
-  if (!item) 
-    return QString::null;
+  if (!item)
+    return QString();
   item = item->parent();
   QStringList path;
-  while (item) 
+  while (item)
   {
     path.prepend(item->text(0));
     item = item->parent();
-  } 
+  }
   return path.join(m_pathSeparator);
 }
 
@@ -228,7 +227,7 @@ void TreeWidget::setWidgetText(const QString &a_text)
   emit widgetTextChanged(a_text);
 }
 
-void TreeWidget::showEvent( QShowEvent *e )
+void TreeWidget::showEvent(QShowEvent* e)
 {
     QListView::showEvent( e );
     emit widgetOpened();
@@ -309,7 +308,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "treewidget.moc"

@@ -65,9 +65,9 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   if (at.isEmpty())
   {
     emit processExited(0);
-    return QString::null;
+    return QString();
   }
-  
+
   QString shellName = a_shell;
   if (shellName.isEmpty())
     shellName = "/bin/sh";
@@ -92,13 +92,13 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   if(!mProcess->start(KProcess::NotifyOnExit, KProcess::All))
   {
     m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>").arg(shellName));
-    return QString::null;
+    return QString();
   }
   mProcess->writeStdin(m_input, m_input.length());
   mProcess->closeStdin();
 
   if (!m_blocking)
-    return QString::null;
+    return QString();
   else 
   {
     QWidget dummy(0, 0, WType_Dialog | WShowModal);

@@ -64,7 +64,7 @@ void KommanderWidget::setAssociatedText(const QStringList& a_associations)
 {
   m_associatedText = a_associations;
   while(m_associatedText.count() < (states().count()))
-  m_associatedText += QString::null; // sync states and associations
+    m_associatedText += QString(); // sync states and associations
 }
 
 QStringList KommanderWidget::associatedText() const
@@ -117,7 +117,7 @@ QString KommanderWidget::evalAssociatedText() // expands and returns associated 
   if (index == -1)
   {
     printError(i18n("Invalid state for associated text."));
-    return QString::null;
+    return QString();
   }
   return evalAssociatedText(m_associatedText[index]);
 }
@@ -135,7 +135,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       // FIXME add widget's name to KommanderWidget class      
       printError(i18n("Line %1: %2.\n").arg(p.errorLine()+1).arg(p.errorMessage()));
     }
-    return QString::null;
+    return QString();
   }
   /* Old macro-only parser is implemented below  */
 
@@ -183,7 +183,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     {
       args = parseFunction("Kommander", identifier, a_text, pos, ok);
       if (!ok)
-        return QString::null;
+        return QString();
       else if (identifier == "execBegin")
         evalText += evalExecBlock(args, a_text, pos);  
       else if (identifier == "forEach")
@@ -207,7 +207,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       QString function = parseIdentifier(a_text, pos);
       args = parseFunction(identifier, function, a_text, pos, ok);
       if (!ok)
-        return QString::null;
+        return QString();
       switch (SpecialInformation::group(identifier))
       {
         case Group::Array:
@@ -226,13 +226,13 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
           evalText += Parser::function(internalParserData(), "input_" + function, args);
           break;
         default:
-          return QString::null;
+          return QString();
       }
     }
     else
     {
       printError(i18n("Unknown special: \'%1\'.").arg(identifier));
-      return QString::null;
+      return QString();
     }
   }
           
@@ -259,15 +259,15 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.").arg(a_query[2]));
-    return QString::null;
+    return QString();
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
     printError(i18n("Incorrect arguments in DCOP call \'%1\'.").arg(a_query[2]));
-    return QString::null;
+    return QString();
   }
-  
+
   QCString replyType;
   QByteArray byteData, byteReply;
   QDataStream byteDataStream(byteData, IO_WriteOnly);
@@ -295,7 +295,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   if (!cl || !cl->call(appId, object, function.latin1(), byteData, replyType, byteReply))
   {
     printError(i18n("Tried to perform DCOP query, but failed."));
-    return QString::null;
+    return QString();
   }
 
   QDataStream byteReplyStream(byteReply, IO_ReadOnly);
@@ -328,7 +328,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
   }
 
-  return QString::null;
+  return QString();
 }
 
 QString KommanderWidget::localDCOPQuery(const QString function, const QStringList& args)
@@ -376,7 +376,7 @@ QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_par
     pFileName = a_dialog;
     pDialogFile.setFile(pFileName);
     if (!pDialogFile.exists())
-      return QString::null;
+      return QString();
   }
   QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
     .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
@@ -393,7 +393,7 @@ void KommanderWidget::printError(const QString& a_error) const
                 i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
     switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
                 i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>").arg(QString(m_thisObject->name()))
-                    .arg(a_error), QStringList(), QString::null, 0, 0))
+                    .arg(a_error), QStringList(), QString(), 0, 0))
     {
       case KDialogBase::No:
         showErrors = false;
@@ -436,7 +436,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
   while (start < s.length() && s[start].isSpace())
     start++;
   if (start == s.length() || s[start] != '(')
-    return QString::null;
+    return QString();
   bool quoteSingle = false, quoteDouble = false;
   int brackets = 1;
   for (uint end = start+1; end < s.length(); end++) 
@@ -457,7 +457,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
     }
   }
   ok = false;
-  return QString::null;
+  return QString();
 }
 
 
@@ -559,7 +559,7 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis after \'%1\'.").arg(function));
-    return QString::null;
+    return QString();
   }
   const QStringList args = parseArgs(arg, ok);
   int gname = SpecialInformation::group(group);
@@ -648,7 +648,7 @@ QString KommanderWidget::global(const QString& variableName)
   if (m_globals.contains(variableName))
     return m_globals[variableName];
   else
-    return QString::null;
+    return QString();
 }
 
 void KommanderWidget::setGlobal(const QString& variableName, const QString& value)
@@ -660,7 +660,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
 {
   QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
   if (!current) 
-    return QString::null;
+    return QString();
   switch(function) {
     case DCOP::setEnabled:
       current->setEnabled(args[0] != "false" && args[0] != "0");
@@ -680,7 +680,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
       return matching.join("\n");  
     }  
   }
-  return QString::null;
+  return QString();
 }
 
 bool KommanderWidget::isFunctionSupported(int f)
@@ -704,8 +704,8 @@ QString KommanderWidget::fileName()
   if (window)
     return QString(window->fileName());
   else
-    return QString::null;
-}  
+    return QString();
+}
 
 
 bool KommanderWidget::inEditor = false;

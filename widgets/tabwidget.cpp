@@ -96,7 +96,7 @@ QString TabWidget::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "tabwidget.moc"

@@ -2,7 +2,7 @@
                     kommanderfunctions.cpp - Text widget core functionality 
                              -------------------
     copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,7 @@
 #include "kommanderwidget.h"
 #include "specials.h"
 #include "expression.h"
- 
+
 QString KommanderWidget::evalFunction(const QString& function, const QStringList& args)
 { 
   switch (SpecialInformation::function(Group::Kommander, function)) {
@@ -42,7 +42,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
     case Kommander::pid:
       return QString().setNum(getpid());
     case Kommander::null:
-      return QString::null;
+      return QString();
     case Kommander::comment:
       return QString("#");
     case Kommander::exec:
@@ -59,7 +59,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return global(args[0]);
     case Kommander::setGlobal:
       setGlobal(args[0], args[1]); 
-      return QString::null;
+      return QString();
     case Kommander::debug:
       qDebug("%s", args[0].latin1());
       return QString::null;
@@ -95,10 +95,10 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       Expression expr(args[0]);
       bool ok;
       QVariant value = expr.value(&ok);
-      return ok ? value.toString() : QString::null;
+      return ok ? value.toString() : QString();
     }
     default:
-      return QString::null;
+      return QString();
   }
 }
 
@@ -109,11 +109,11 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
   if (f == -1)
   {
     printError(i18n("Unterminated @execBegin ... @execEnd block."));
-    return QString::null;
+    return QString();
   } 
   else
   {
-    QString shell = args.count() ? args[0] : QString::null;
+    QString shell = args.count() ? args[0] : QString();
     int start = pos;
     pos = f + QString("@execEnd").length()+1;
     return execCommand(evalAssociatedText(s.mid(start, f - start)), shell);
@@ -127,8 +127,8 @@ QString KommanderWidget::evalForEachBlock(const QStringList& args, const QString
   if (f == -1)
   {
     printError(i18n("Unterminated @forEach ... @end block."));
-    return QString::null;
-  } 
+    return QString();
+  }
   else
   {
     int start = pos;
@@ -153,7 +153,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
   if (f == -1)
   {
     printError(i18n("Unterminated @forEach ... @end block."));
-    return QString::null;
+    return QString();
   } 
   else
   {
@@ -161,7 +161,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
     pos = f + QString("@end").length()+1;
     QString block = s.mid(start, f - start);
     QString variable = args[0];
-    
+
     Expression expr;
     int loopstart = expr.value(args[1]).toInt();
     int loopend = expr.value(args[2]).toInt();
@@ -172,7 +172,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
       if (!loopstep)
         loopstep = 1;
     }
-    
+
     QString output;
     for (int i=loopstart; i<=loopend; i+=loopstep)
     {
@@ -190,7 +190,7 @@ QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, 
   {
     pos = s.length()+1;
     printError(i18n("Unterminated @if ... @endif block."));
-    return QString::null;
+    return QString();
   }
   else
   {
@@ -199,7 +199,7 @@ QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, 
     Expression expr;
     if (expr.isTrue(args[0]))
       return evalAssociatedText(block);
-    return QString::null;
+    return QString();
   }
 }
 
@@ -210,7 +210,7 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
   if (f == -1)
   {
     printError(i18n("Unterminated @switch ... @end block."));
-    return QString::null;
+    return QString();
   }
   else
   {
@@ -235,7 +235,7 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
         return evalAssociatedText(block.mid(f, end-f));
       f = end;
     }
-    return QString::null;
+    return QString();
   }
 }
 
@@ -258,20 +258,20 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     }
   }
   else if (!m_arrays.contains(args[0]))
-    return QString::null;
+    return QString();
   else switch (fname) {
     case Array::value:
-      return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString::null;
+      return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString();
     case Array::keys:
       return QStringList(m_arrays[args[0]].keys()).join("\n");
     case Array::values:
       return QStringList(m_arrays[args[0]].values()).join("\n");
     case Array::clear:
       m_arrays[args[0]].clear();
-      return QString::null;
+      return QString();
     case Array::remove:
       m_arrays[args[0]].remove(args[1]);
-      return QString::null;
+      return QString();
     case Array::count:
       return QString::number(m_arrays[args[0]].count());
     case Array::toString:
@@ -284,9 +284,9 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
       return array;
     }
     default: 
-      return QString::null;
+      return QString();
   }
-  return QString::null;
+  return QString();
 }
 
 
@@ -296,7 +296,7 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
   if (!pWidget) 
   {
     printError(i18n("Unknown widget: @%1.").arg(identifier));
-    return QString::null;
+    return QString();
   }
   if (s[pos] == '.')
   {
@@ -305,7 +305,7 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
     QString function = parseIdentifier(s, pos);
     QStringList args = parseFunction("DCOP", function, s, pos, ok);
     if (!ok)
-      return QString::null;
+      return QString();
     args.prepend(identifier);
     QString prototype = SpecialInformation::prototype(Group::DCOP,
       SpecialInformation::function(Group::DCOP, function));
@@ -314,12 +314,12 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
   else if (pWidget == this)
   {
     printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
-    return QString::null;
+    return QString();
   }
   else if (!pWidget->hasAssociatedText())
   {
     printError(i18n("Script for @%1 is empty.").arg(identifier));
-    return QString::null;
+    return QString();
   }
   return pWidget->evalAssociatedText();
 }

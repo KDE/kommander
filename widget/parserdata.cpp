@@ -39,10 +39,10 @@ QString ParserData::keywordToString(Parse::Keyword k) const
   for (QMapConstIterator<QString, Keyword> it = m_keywords.begin(); it != m_keywords.end(); ++it) 
     if (it.data() == k)
       return it.key();
-  return QString::null;
+  return QString();
 }
 
-bool ParserData::registerFunction(const QString& name, Function f) 
+bool ParserData::registerFunction(const QString& name, Function f)
 {
   m_functions[name.lower()] = f;
   return true;
@@ -114,13 +114,13 @@ ParserData::ParserData()
   registerStandardFunctions();
 }
 
-bool ParserData::isFunction(const QString& name)
+bool ParserData::isFunction(const QString& name) const
 {
-  return m_functions.contains(name.lower());  
+  return m_functions.contains(name.lower());
 }
 
-const Function& ParserData::function(const QString& name)
+const Function& ParserData::function(const QString& name) const
 {
-  return m_functions[name.lower()]; 
+  return m_functions[name.lower()];
 }
 

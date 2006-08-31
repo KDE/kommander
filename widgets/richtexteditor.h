@@ -25,7 +25,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 
 /* Forward Decls */
 class QTextEdit;

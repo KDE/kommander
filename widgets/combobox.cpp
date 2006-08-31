@@ -136,7 +136,7 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
     case DCOP::addUniqueItem:
       for (int i=0; i<count(); i++)
         if (text(i) == args[0])
-          return QString::null;
+          return QString();
       insertItem(args[0]);
       break;
     case DCOP::clear:
@@ -157,7 +157,7 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "combobox.moc"

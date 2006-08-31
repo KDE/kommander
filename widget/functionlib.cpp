@@ -352,7 +352,7 @@ static ParseNode f_arrayValues(Parser* P, const ParameterList& params)
   QValueList<ParseNode> values = P->array(params[0].toString()).values(); 
   QString array;
   for (QValueList<ParseNode>::ConstIterator it = values.begin(); it != values.end(); ++it ) 
-    array += (*it).toString() + "\n";
+    array += (*it).toString() + '\n';
   return array;
 }
 
