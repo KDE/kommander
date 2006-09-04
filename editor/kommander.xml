@@ -7,15 +7,145 @@
 	<!ENTITY eos      "(?=($|\s))">			<!-- eol or space following -->
 	<!ENTITY noword   "(?![\w$+-])">		<!-- no word, $, + or - following -->
 ]>
-<language name="Kommander" version="2.05" kateversion="2.4" section="Scripts" extensions="*.kmdr" mimetype="application/x-shellscript" casesensitive="1" author="Wilbert Berendsen (wilbert@kde.nl)" license="LGPL">
+<language name="Kommander" version="2.05" kateversion="2.4" section="Scripts" extensions="*.kmdr" mimetype="application/x-shellscript" casesensitive="1" author="Wilbert Berendsen (wilbert@kde.nl), Andras Mantia (amantia@kde.org)" license="LGPL">
 
 <!-- (c) 2004 by Wilbert Berendsen, wilbert@kde.nl
     Released under the LGPL, part of kdelibs/kate 
     
    Added Kommander specific highlighting.    
+   (c) 2006 Andras Mantia, amantia@kde.org
 -->
 
   <highlighting>
+  
+    <list name="kmdrdcopfunctions">
+      <item>addUniqueItem</item>
+      <item>associatedText</item>
+      <item>cancel</item>
+      <item>cellText</item>
+      <item>clear</item>
+      <item>checked</item>
+      <item>children</item>
+      <item>count</item>
+      <item>currentColumn</item>
+      <item>currentItem</item>
+      <item>currentRow</item>
+      <item>execute</item> 
+      <item>findItem</item>
+      <item>global</item>
+      <item>insertColumn</item>
+      <item>insertItem</item>
+      <item>insertItems</item>
+      <item>insertRow</item>
+      <item>item</item>
+      <item>itemDepth</item>
+      <item>itemPath</item>
+      <item>removeColumn</item>
+      <item>removeItem</item>
+      <item>removeRow</item>
+      <item>selection</item>
+      <item>setAssociatedText</item>
+      <item>setChecked</item>
+      <item>setCellText</item>
+      <item>setCurrentItem</item>
+      <item>setColumnCaption</item>
+      <item>setEnabled</item>
+      <item>setGlobal</item>
+      <item>setMaximum</item>
+      <item>setPixmap</item>
+      <item>setRowCaption</item>
+      <item>setSelection</item>
+      <item>setText</item>
+      <item>setVisible</item>
+      <item>text</item>
+      <item>type</item>
+    </list>
+    
+    <list name="kmdrfunctions">
+      <item>widgetText</item>
+      <item>selectedWidgetText</item>
+      <item>null</item>
+      <item>pid</item>
+      <item>dcopid</item>
+      <item>parentPid</item>
+      <item>debug</item>
+      <item>echo</item>
+      <item>env</item>
+      <item>exec</item>
+      <item>expr</item>
+      <item>global</item>
+      <item>i18n</item>
+      <item>dialog</item>
+      <item>readSetting</item>
+      <item>setGlobal</item>
+      <item>writeSetting</item>
+      <item>dcop</item>
+      <item>switchBlock</item>
+      <item>execBegin</item>
+      <item>forBlock</item>
+      <item>forEachBlock</item>
+      <item>ifBlock</item>
+      <item>comment</item>
+    </list>
+    
+    <list name="kmdrarray">
+      <item>values</item>
+      <item>keys</item>
+      <item>clear</item>
+      <item>count</item>
+      <item>value</item>
+      <item>remove</item>
+      <item>setValue</item>
+      <item>fromString</item>
+      <item>toString</item>
+    </list>
+    
+    <list name="kmdrstring">
+      <item>length</item>
+      <item>contains</item>
+      <item>find</item>
+      <item>findRev</item>
+      <item>left</item>
+      <item>right</item>
+      <item>mid</item>
+      <item>remove</item>
+      <item>replace</item>
+      <item>upper</item>
+      <item>lower</item>
+      <item>compare</item>
+      <item>isEmpty</item>
+      <item>isNumber</item>
+      <item>section</item>
+      <item>args</item>
+    </list>
+    
+    <list name="kmdrfile">
+      <item>read</item>
+      <item>write</item>
+      <item>append</item>
+    </list>
+    
+    <list name="kmdrinput">
+      <item>color</item>
+      <item>text</item>
+      <item>password</item>
+      <item>value</item>
+      <item>double</item>
+      <item>valueDouble</item>
+      <item>openfile</item>
+      <item>openfiles</item>
+      <item>savefile</item>
+      <item>directory</item>
+    </list>
+    
+    <list name="kmdrmessage">
+      <item>info</item>
+      <item>error</item>
+      <item>question</item>
+      <item>warning</item>
+    </list>
+    
+  
     <list name="keywords">
       <item> else </item>
       <item> for </item>
@@ -29,7 +159,8 @@
       <item> then </item>
       <item> set </item>
     </list>
-
+    
+    
     <list name="builtins">
       <item> : </item>
       <item> . </item>
@@ -530,8 +661,23 @@
 	<RegExpr attribute="Control" context="#stay" String="([|&amp;])\1?" />
 	<!-- mark function definitions without function keyword -->
         <RegExpr attribute="Function" context="#stay" String="&funcname;\s*\(\)" />
+        <!-- Kommander rules -->        
         <RegExpr attribute="Comment" context="#stay" String="@#.*\s*" />
-        <RegExpr attribute="Function" context="#stay" String="@.*\s*" />
+        <DetectChar attribute="KmdrMethod" context="DetectKmdr" char="@" lookAhead="true"/>
+      </context>
+      
+      <!-- Kommander rules -->      
+        
+      <context attribute="KmdrMethod" lineEndContext="#pop" name="DetectKmdr">
+        <RegExpr attribute="KmdrMethod" context="#stay" String="@[^\.]*" />
+        <RegExpr attribute="Normal Text" context="#pop" String="[\(\s]" />
+        <keyword attribute="DCOPMethod" context="#pop" String="kmdrdcopfunctions" />        
+        <keyword attribute="KmdrMethod" context="#pop" String="kmdrfunctions" />        
+        <keyword attribute="KmdrArray" context="#pop" String="kmdrarray" />        
+        <keyword attribute="KmdrString" context="#pop" String="kmdrstring" />        
+        <keyword attribute="KmdrFile" context="#pop" String="kmdrfile" />        
+        <keyword attribute="KmdrInput" context="#pop" String="kmdrinput" />        
+        <keyword attribute="KmdrMessage" context="#pop" String="kmdrmessage" />        
       </context>
 
       <!-- FindOthers contains various rules to mark different shell input -->
@@ -823,12 +969,19 @@
       <itemData name="Function" 	defStyleNum="dsChar" bold="1" />
       <itemData name="Path" 		defStyleNum="dsNormal" />
       <itemData name="Option" 		defStyleNum="dsNormal" />
+      <itemData name="KmdrMethod" defStyleNum="dsKeyword" italic="1" color="#008000" />
+      <itemData name="DCOPMethod" defStyleNum="dsKeyword" italic="1" color="#21E52B" />
+      <itemData name="KmdrString" defStyleNum="dsKeyword" italic="1" color="#D0D000" />
+      <itemData name="KmdrArray" defStyleNum="dsKeyword" italic="1" color="#C0C0FF" />
+      <itemData name="KmdrFile" defStyleNum="dsKeyword" italic="1" color="#FF0000" />
+      <itemData name="KmdrInput" defStyleNum="dsKeyword" italic="1" color="#FF8000" />
+      <itemData name="KmdrMessage" defStyleNum="dsKeyword" italic="1" color="#800000" />
     </itemDatas>
   </highlighting>
   <general>
     <comments>
       <comment name="singleLine" start="@#"/>
     </comments>
-    <keywords casesensitive="1" weakDeliminator="^%#[]$._{}:-" additionalDeliminator="`"/>
+    <keywords casesensitive="1" weakDeliminator="^%#[]$._{}:-" additionalDeliminator="`."/>
   </general>
 </language>
