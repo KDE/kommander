@@ -65,7 +65,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
 /*  associatedTextEdit->setFont(KGlobalSettings::fixedFont());
   associatedTextEdit->setTabStopWidth(associatedTextEdit->fontMetrics().maxWidth() * 3);
   associatedTextEdit->setTextFormat(Qt::PlainText);*/
-  
+
   // icon for non-empty scripts
   scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);
 
@@ -97,7 +97,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   {
     ac->action(i)->plug(invisiblePopup);
   }
-  
+
   //add those KatePart actions to a popup menu that are important
   KPopupMenu *popup = new KPopupMenu(this);
   KAction *a = view->actionCollection()->action("edit_undo");
@@ -123,26 +123,29 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   popup->insertSeparator();
   highlightPopup = new KPopupMenu(popup);
   connect(highlightPopup, SIGNAL(activated(int)), SLOT(slotHighlightingChanged(int)));
-  
+
   KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
-  uint hlCount = hlIf->hlModeCount();
-  for (uint i = 0; i < hlCount; i++)
+  if (hlIf)
   {
-    if (hlIf->hlModeSectionName(i) == "Scripts")
-      highlightPopup->insertItem(hlIf->hlModeName(i), i);
-    if (hlIf->hlModeName(i).contains("Kommander", false) > 0)
+    uint hlCount = hlIf->hlModeCount();
+    for (uint i = 0; i < hlCount; i++)
     {
-      hlIf->setHlMode(i);
-      highlightPopup->setItemChecked(i, true);
-      oldHlMode = i;
+      if (hlIf->hlModeSectionName(i) == "Scripts")
+        highlightPopup->insertItem(hlIf->hlModeName(i), i);
+      if (hlIf->hlModeName(i).contains("Kommander", false) > 0)
+      {
+        hlIf->setHlMode(i);
+        highlightPopup->setItemChecked(i, true);
+        oldHlMode = i;
+      }
     }
   }
 
   popup->insertItem(i18n("Highlighting"), highlightPopup);
-  
+
   KTextEditor::PopupMenuInterface *popupIf = dynamic_cast<KTextEditor::PopupMenuInterface *>(view);
   popupIf->installPopup(popup);
-  
+
   associatedTextEdit = dynamic_cast<KTextEditor::EditInterface*>(doc);
   setWidget(a_widget);
 
@@ -153,7 +156,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   connect(functionButton, SIGNAL(clicked()), SLOT(insertFunction()));
   connect(widgetComboBox, SIGNAL(activated(int)), SLOT(insertWidgetName(int)));
   connect(treeWidgetButton, SIGNAL(clicked()), SLOT(selectWidget()));
-  
+
   view->setFocus();
 }
 
@@ -169,7 +172,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   if (!a_widget || !a_atw)
     return;
 
-  
+
   m_widget = a_widget;
   m_states = a_atw->states();
   m_populationText = a_atw->populationText();
@@ -402,7 +405,8 @@ void AssocTextEditor::slotHighlightingChanged(int mode)
 {
   highlightPopup->setItemChecked(oldHlMode, false);
   KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
-  hlIf->setHlMode(mode);
+  if (hlIf)
+    hlIf->setHlMode(mode);
   highlightPopup->setItemChecked(mode, true);
   oldHlMode = mode;
 }
