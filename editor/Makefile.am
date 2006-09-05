@@ -4,7 +4,7 @@ SUBDIRS = pics
 bin_PROGRAMS = kmdr-editor
 
 # set the include path for X, qt and KDE
-AM_CPPFLAGS = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/factory $(all_includes) -Ishared -Iinterfaces -Ipics
+AM_CPPFLAGS = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/factory -Ishared -Iinterfaces -Ipics $(all_includes)
 
 # the library search path.
 kmdr_editor_LDFLAGS = $(KDE_RPATH) $(all_libraries)
@@ -13,7 +13,7 @@ kmdr_editor_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 kmdr_editor_LDADD = $(top_builddir)/kommander/factory/libkommanderfactory.la \
 	$(top_builddir)/kommander/widget/libkommanderwidget.la \
 	$(top_builddir)/kommander/widgets/libkommanderwidgets.la \
-	$(top_builddir)/kommander/plugin/libkommanderplugin.la
+	$(top_builddir)/kommander/plugin/libkommanderplugin.la -lktexteditor
 
 # which sources should be compiled for kmdr_editor
 kmdr_editor_SOURCES = actiondnd.cpp actioneditorimpl.cpp \
@@ -29,7 +29,7 @@ kmdr_editor_SOURCES = actiondnd.cpp actioneditorimpl.cpp \
 	createtemplate.ui formsettings.ui iconvieweditor.ui listboxeditor.ui listeditor.ui \
 	listvieweditor.ui multilineeditor.ui newform.ui paletteeditor.ui paletteeditoradvanced.ui \
 	pixmapfunction.ui preferences.ui previewwidget.ui tableeditor.ui wizardeditor.ui \
-	choosewidget.ui choosewidgetimpl.cpp functions.ui functionsimpl.cpp messagelog.cpp 
+	choosewidget.ui choosewidgetimpl.cpp functions.ui functionsimpl.cpp messagelog.cpp
 
 # these are the headers for your project that won't be installed
 noinst_HEADERS = actiondnd.h actioneditorimpl.h actionlistview.h \
@@ -46,3 +46,8 @@ noinst_HEADERS = actiondnd.h actioneditorimpl.h actionlistview.h \
 METASOURCES = AUTO
 
 xdg_apps_DATA = kmdr-editor.desktop
+
+syntaxkatedir = $(kde_datadir)/katepart/syntax
+syntaxkate_DATA = kommander.xml
+
+

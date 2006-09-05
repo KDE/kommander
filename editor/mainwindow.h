@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -22,7 +22,7 @@
 
 #include "metadatabase.h"
 
-#include <kmainwindow.h>
+#include <kparts/dockmainwindow.h>
 #include <kdockwidget.h>
 
 #include <qmap.h>
@@ -59,8 +59,12 @@ class QToolBar;
 #endif
 class Preferences;
 
+namespace KParts {
+  class PartManager;
+}
 
-class MainWindow : public KDockMainWindow
+
+class MainWindow : public KParts::DockMainWindow
 {
     Q_OBJECT
 
@@ -124,7 +128,8 @@ public slots:
     void showProperties( QObject *w );
     void updateProperties( QObject *w );
     void showDialogHelp();
-
+    void slotActivePartChanged(KParts::Part * );
+    
 signals:
     void addedFormFile(FormFile *);
     void removedFormFile(FormFile *);
@@ -181,6 +186,7 @@ public slots:
     void editExternalTool(int id);
     void editToolExited(KProcess*);
     void editToolOutput(KProcess*, char*, int);
+    void configureEditor();
 
     void runForm();
     
@@ -293,6 +299,7 @@ private:
     // Paths of external Kommander tools for Editor
     QStringList m_editorTools;
     QString m_toolOutput;
+    KParts::PartManager *m_partManager;
 
 public:
     QString lastSaveFilter;

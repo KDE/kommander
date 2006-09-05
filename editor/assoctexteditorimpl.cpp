@@ -3,6 +3,7 @@
                              -------------------
     copyright            : (C) 2003    Marc Britton <consume@optusnet.com.au>
                            (C) 2004    Michal Rudolf <mrudolf@kdewebdev.org>
+                           (C) 2006    Andras Mantia <amantia@kde.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,6 +23,18 @@
 #include <kiconloader.h>
 #include <kpushbutton.h>
 #include <ktextedit.h>
+#include <kdebug.h>
+#include <kpopupmenu.h>
+#include <kactioncollection.h>
+
+#include <ktexteditor/view.h>
+#include <ktexteditor/editorchooser.h>
+#include <ktexteditor/editinterface.h>
+#include <ktexteditor/viewcursorinterface.h>
+#include <ktexteditor/highlightinginterface.h>
+#include <ktexteditor/popupmenuinterface.h>
+
+#include <kparts/partmanager.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -31,6 +44,8 @@
 #include <qfile.h>
 #include <qobject.h>
 #include <qobjectlist.h>
+#include <qtimer.h>
+
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -44,14 +59,14 @@
 #include "functionsimpl.h"
 
 AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
-    PropertyEditor* a_property, QWidget *a_parent, const char *a_name, bool a_modal)
+    PropertyEditor* a_property, KParts::PartManager *partManager, QWidget *a_parent, const char *a_name, bool a_modal)
     : AssocTextEditorBase(a_parent, a_name, a_modal)
 {
   // text editor
-  associatedTextEdit->setFont(KGlobalSettings::fixedFont());
+/*  associatedTextEdit->setFont(KGlobalSettings::fixedFont());
   associatedTextEdit->setTabStopWidth(associatedTextEdit->fontMetrics().maxWidth() * 3);
-  associatedTextEdit->setTextFormat(Qt::PlainText);
-  
+  associatedTextEdit->setTextFormat(Qt::PlainText);*/
+
   // icon for non-empty scripts
   scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);
 
@@ -68,22 +83,88 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
       widgetsComboBox->setCurrentItem(i);
       break;
     }
+
+  doc = KTextEditor::createDocument ("libkatepart", a_parent, "KTextEditor::Document");
+  QGridLayout *layout = new QGridLayout(editorFrame, 1, 1);
+  view = doc->createView(editorFrame);
+  layout->addWidget(view, 1,1);
+  partManager->addPart(doc, true);
+
+  //trick to import all the KatePart actions into the dialog
+  KPopupMenu *invisiblePopup = new KPopupMenu(this);
+  KActionCollection *ac = view->actionCollection();
+  uint count = ac->count();
+  for (uint i = 0; i < count; i++)
+  {
+    ac->action(i)->plug(invisiblePopup);
+  }
+
+  //add those KatePart actions to a popup menu that are important
+  KPopupMenu *popup = new KPopupMenu(this);
+  KAction *a = view->actionCollection()->action("edit_undo");
+  if (a)
+    a->plug(popup);
+  a = view->actionCollection()->action("edit_redo");
+  if (a)
+    a->plug(popup);
+  popup->insertSeparator();
+  a = view->actionCollection()->action("edit_find");
+  if (a)
+    a->plug(popup);
+  a = view->actionCollection()->action("edit_find_next");
+  if (a)
+    a->plug(popup);
+  a = view->actionCollection()->action("edit_find_prev");
+  if (a)
+    a->plug(popup);
+  a = view->actionCollection()->action("edit_replace");
+  if (a)
+    a->plug(popup);
+
+  popup->insertSeparator();
+  highlightPopup = new KPopupMenu(popup);
+  connect(highlightPopup, SIGNAL(activated(int)), SLOT(slotHighlightingChanged(int)));
+
+  KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
+  if (hlIf)
+  {
+    uint hlCount = hlIf->hlModeCount();
+    for (uint i = 0; i < hlCount; i++)
+    {
+      if (hlIf->hlModeSectionName(i) == "Scripts")
+        highlightPopup->insertItem(hlIf->hlModeName(i), i);
+      if (hlIf->hlModeName(i).contains("Kommander", false) > 0)
+      {
+        hlIf->setHlMode(i);
+        highlightPopup->setItemChecked(i, true);
+        oldHlMode = i;
+      }
+    }
+  }
+
+  popup->insertItem(i18n("&Highlighting"), highlightPopup);
+
+  KTextEditor::PopupMenuInterface *popupIf = dynamic_cast<KTextEditor::PopupMenuInterface *>(view);
+  popupIf->installPopup(popup);
+
+  associatedTextEdit = dynamic_cast<KTextEditor::EditInterface*>(doc);
   setWidget(a_widget);
 
-  connect(associatedTextEdit, SIGNAL(textChanged()), SLOT(textEditChanged()));
+  connect(doc, SIGNAL(textChanged()), SLOT(textEditChanged()));
   connect(widgetsComboBox, SIGNAL(activated(int)), SLOT(widgetChanged(int)));
   connect(stateComboBox, SIGNAL(activated(int)), SLOT(stateChanged(int)));
   connect(filePushButton, SIGNAL(clicked()), SLOT(insertFile()));
   connect(functionButton, SIGNAL(clicked()), SLOT(insertFunction()));
   connect(widgetComboBox, SIGNAL(activated(int)), SLOT(insertWidgetName(int)));
   connect(treeWidgetButton, SIGNAL(clicked()), SLOT(selectWidget()));
-  
-  associatedTextEdit->setFocus();
+
+  view->setFocus();
 }
 
 AssocTextEditor::~AssocTextEditor()
 {
   save();
+  delete doc;
 }
 
 void AssocTextEditor::setWidget(QWidget *a_widget)
@@ -91,6 +172,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   KommanderWidget *a_atw = dynamic_cast<KommanderWidget *>(a_widget);
   if (!a_widget || !a_atw)
     return;
+
 
   m_widget = a_widget;
   m_states = a_atw->states();
@@ -261,7 +343,10 @@ void AssocTextEditor::selectWidget()
 
 void AssocTextEditor::insertAssociatedText(const QString& a_text)
 {
-    associatedTextEdit->insert(a_text);
+  uint line, col;
+  KTextEditor::ViewCursorInterface *viewCursorIf = dynamic_cast<KTextEditor::ViewCursorInterface*>(view);
+  viewCursorIf->cursorPositionReal(&line, &col);
+  associatedTextEdit->insertText(line, col, a_text);
 }
 
 void AssocTextEditor::insertFile()
@@ -317,6 +402,14 @@ QWidget* AssocTextEditor::widgetFromString(const QString& name)
   return m_widgetList[realname];
 }
 
-
+void AssocTextEditor::slotHighlightingChanged(int mode)
+{
+  highlightPopup->setItemChecked(oldHlMode, false);
+  KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
+  if (hlIf)
+    hlIf->setHlMode(mode);
+  highlightPopup->setItemChecked(mode, true);
+  oldHlMode = mode;
+}
 
 #include "assoctexteditorimpl.moc"

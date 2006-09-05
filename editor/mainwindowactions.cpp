@@ -70,6 +70,10 @@
 #include <kstdguiitem.h>
 #include <kurl.h>
 
+#include <ktexteditor/document.h>
+#include <ktexteditor/view.h>
+#include <ktexteditor/configinterface.h>
+
 #include <stdlib.h>
 
 const QString toolbarHelp = "<p>Toolbars contain a number of buttons to "
@@ -115,7 +119,7 @@ void MainWindow::setupEditActions()
   actionEditPaste->setWhatsThis(whatsThisFrom("Edit|Paste"));
   actionEditPaste->setEnabled(false);
 
-  actionEditDelete = new KAction(i18n("Delete"), Key_Delete, this, SLOT(editDelete()), 
+  actionEditDelete = new KAction(i18n("Delete"), Key_Delete, this, SLOT(editDelete()),
                                  actionCollection(), "edit_delete");
   actionEditDelete->setToolTip(i18n("Deletes the selected widgets"));
   actionEditDelete->setWhatsThis(whatsThisFrom("Edit|Delete"));
@@ -124,25 +128,25 @@ void MainWindow::setupEditActions()
   actionEditSelectAll = KStdAction::selectAll(this, SLOT(editSelectAll()), actionCollection());
   actionEditSelectAll->setToolTip(i18n("Selects all widgets"));
   actionEditSelectAll->setWhatsThis(whatsThisFrom("Edit|Select All"));
-  
-  actionEditRaise = new KAction(i18n("Bring to Front"), createIconSet("editraise.xpm"), 
+
+  actionEditRaise = new KAction(i18n("Bring to Front"), createIconSet("editraise.xpm"),
                                 KShortcut::null(), this, SLOT(editRaise()), actionCollection(), "edit_raise");
   actionEditRaise->setToolTip(i18n("Raises the selected widgets"));
   actionEditRaise->setEnabled(false);
-  
-  actionEditLower = new KAction(i18n("Send to Back"), createIconSet("editlower.xpm"), 
+
+  actionEditLower = new KAction(i18n("Send to Back"), createIconSet("editlower.xpm"),
                                 KShortcut::null(), this, SLOT(editLower()), actionCollection(), "edit_lower");
   actionEditLower->setToolTip(i18n("Lowers the selected widgets"));
   actionEditLower->setWhatsThis(i18n("Lowers the selected widgets"));
   actionEditLower->setEnabled(false);
 
-  actionEditAccels = new KAction(i18n("Check Accelerators"), ALT + Key_R, this, SLOT(editAccels()), 
+  actionEditAccels = new KAction(i18n("Check Accelerators"), ALT + Key_R, this, SLOT(editAccels()),
                                  actionCollection(), "edit_check_accel");
   actionEditAccels->setToolTip(i18n("Checks if the accelerators used in the form are unique"));
   actionEditAccels->setWhatsThis(whatsThisFrom("Edit|Check Accelerator"));
   connect(this, SIGNAL(hasActiveForm(bool)), actionEditAccels, SLOT(setEnabled(bool)));
 
-  actionEditConnections = new KAction(i18n("Connections"), createIconSet("connecttool.xpm"), 
+  actionEditConnections = new KAction(i18n("Connections"), createIconSet("connecttool.xpm"),
                                       KShortcut::null(), this, SLOT(editConnections()), actionCollection(),
                                       "edit_connections");
   actionEditConnections->setToolTip(i18n("Opens a dialog for editing connections"));
@@ -181,7 +185,7 @@ void MainWindow::setupEditActions()
   actionEditConnections->plug(menu);
   actionEditFormSettings->plug(menu);
   menu->insertSeparator();
-  
+
 }
 
 
@@ -229,9 +233,9 @@ void MainWindow::setupLayoutActions()
                                       CTRL + Key_B, this, SLOT(editBreakLayout()), actionCollection(), "edit_break_layout");
   actionEditBreakLayout->setToolTip(i18n("Breaks the selected layout"));
   actionEditBreakLayout->setWhatsThis(whatsThisFrom("Layout|Break Layout"));
-  
+
   int id = WidgetDatabase::idFromClassName("Spacer");
-  KToggleAction *a = new KToggleAction(i18n("Spacer"), createIconSet("spacer.xpm"), KShortcut::null(), this, SLOT(toolSelected()), 
+  KToggleAction *a = new KToggleAction(i18n("Spacer"), createIconSet("spacer.xpm"), KShortcut::null(), this, SLOT(toolSelected()),
                                        actionCollection(), QString::number(id).latin1());
   a->setExclusiveGroup("tool");
   a->setText(i18n("Add ") + WidgetDatabase::className(id));
@@ -270,14 +274,14 @@ void MainWindow::setupLayoutActions()
 void MainWindow::setupToolActions()
 {
   actionPointerTool = new KToggleAction(i18n("Pointer"), "arrow", Key_F2,
-                                        this, SLOT(toolSelected()), actionCollection(), 
+                                        this, SLOT(toolSelected()), actionCollection(),
                                         QString::number(POINTER_TOOL).latin1());
   actionPointerTool->setToolTip(i18n("Selects the pointer tool"));
   actionPointerTool->setWhatsThis(whatsThisFrom("Tools|Pointer"));
   actionPointerTool->setExclusiveGroup("tool");
 
   actionConnectTool = new KToggleAction(i18n("Connect Signal/Slots"), createIconSet("connecttool.xpm"),
-                                        Key_F3, this, SLOT(toolSelected()), actionCollection(), 
+                                        Key_F3, this, SLOT(toolSelected()), actionCollection(),
                                         QString::number(CONNECT_TOOL).latin1());
   actionConnectTool->setToolTip(i18n("Selects the connection tool"));
   actionConnectTool->setWhatsThis(whatsThisFrom("Tools|Connect Signals and Slots"));
@@ -411,7 +415,7 @@ void MainWindow::setupFileActions()
   a->setWhatsThis(whatsThisFrom("File|Open"));
   a->plug(tb);
   a->plug(fileMenu);
-  
+
   actionRecent = KStdAction::openRecent(this,  SLOT(fileOpenRecent(const KURL&)), actionCollection());
   actionRecent->setToolTip(i18n("Opens recently open file"));
   actionRecent->plug(fileMenu);
@@ -438,15 +442,15 @@ void MainWindow::setupFileActions()
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
   a->plug(fileMenu);
 
-  a = new KAction(i18n("Save All"), "save_all", KShortcut::null(), this, SLOT(fileSaveAll()), 
+  a = new KAction(i18n("Save All"), "save_all", KShortcut::null(), this, SLOT(fileSaveAll()),
                   actionCollection(), "file_close_all");
   a->setToolTip(i18n("Saves all open dialogs"));
   a->setWhatsThis(whatsThisFrom("File|Save All"));
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
   a->plug(fileMenu);
-  
+
   fileMenu->insertSeparator();
-  
+
   a = KStdAction::quit(kapp, SLOT(closeAllWindows()), actionCollection());
   a->setToolTip(i18n("Quits the application and prompts to save any changed dialogs"));
   a->setWhatsThis(whatsThisFrom("File|Exit"));
@@ -474,40 +478,40 @@ void MainWindow::setupWindowActions()
   {
     windowActionsSetup = true;
 
-    KAction* actionWindowTile = new KAction(i18n("Tile"), KShortcut::null(), qworkspace, SLOT(tile()), 
+    KAction* actionWindowTile = new KAction(i18n("Tile"), KShortcut::null(), qworkspace, SLOT(tile()),
                                    actionCollection(), "window_tile");
     actionWindowTile->setToolTip(i18n("Tiles the windows so that they are all visible"));
     actionWindowTile->setWhatsThis(whatsThisFrom("Window|Tile"));
-    
-    KAction* actionWindowCascade = new KAction(i18n("Cascade"), KShortcut::null(), qworkspace, SLOT(cascade()), 
+
+    KAction* actionWindowCascade = new KAction(i18n("Cascade"), KShortcut::null(), qworkspace, SLOT(cascade()),
                                       actionCollection(), "window_cascade");
     actionWindowCascade->setToolTip(i18n("Cascades the windows so that all their title bars are visible"));
     actionWindowCascade->setWhatsThis(whatsThisFrom("Window|Cascade"));
-    
+
     KAction* actionWindowClose = new KAction(i18n("Cascade"), KShortcut::null(), qworkspace, SLOT(closeActiveWindow()),
                                     actionCollection(), "window_close");
     actionWindowClose->setToolTip(i18n("Closes the active window"));
     actionWindowClose->setWhatsThis(whatsThisFrom("Window|Close"));
-    
-    KAction* actionWindowCloseAll = new KAction(i18n("Close All"), KShortcut::null(), qworkspace, 
+
+    KAction* actionWindowCloseAll = new KAction(i18n("Close All"), KShortcut::null(), qworkspace,
                                        SLOT(closeAllWindows()), actionCollection(), "window_close_all");
     actionWindowCloseAll->setToolTip(i18n("Closes all form windows"));
     actionWindowCloseAll->setWhatsThis(whatsThisFrom("Window|Close All"));
-    
-    KAction* actionWindowNext = new KAction(i18n("Next"), Key_F6, qworkspace, 
+
+    KAction* actionWindowNext = new KAction(i18n("Next"), Key_F6, qworkspace,
                                    SLOT(activateNextWindow()), actionCollection(), "window_next");
     actionWindowNext->setToolTip(i18n("Activates the next window"));
     actionWindowNext->setWhatsThis(whatsThisFrom("Window|Next"));
-    
-    KAction* actionWindowPrevious = new KAction(i18n("Previous"), CTRL + SHIFT + Key_F6, qworkspace, 
+
+    KAction* actionWindowPrevious = new KAction(i18n("Previous"), CTRL + SHIFT + Key_F6, qworkspace,
                                        SLOT(activatePreviousWindow()), actionCollection(), "window_prev");
     actionWindowPrevious->setToolTip(i18n("Activates the previous window"));
     actionWindowPrevious->setWhatsThis(whatsThisFrom("Window|Previous"));
-    
+
     windowMenu = new KPopupMenu(this, "Window");
     menuBar()->insertItem(i18n("&Window"), windowMenu);
     connect(windowMenu, SIGNAL(aboutToShow()), this, SLOT(setupWindowActions()));
-    
+
     actionWindowClose->plug(windowMenu);
     actionWindowCloseAll->plug(windowMenu);
     windowMenu->insertSeparator();
@@ -520,11 +524,11 @@ void MainWindow::setupWindowActions()
     windowMenu->insertItem(i18n("Vie&ws"), dockHideShowMenu());
     windowMenu->insertItem(i18n("Tool&bars"), createDockWindowMenu(OnlyToolBars));
   }
-  
+
   //FIXME  find a better way to remove only menu items linked to dialogs/forms
   while (windowMenu->count() > 11)
     windowMenu->removeItemAt(windowMenu->count() - 1);
-  
+
   QWidgetList windows = qworkspace->windowList();
   if (windows.count() && formWindow())
     windowMenu->insertSeparator();
@@ -538,7 +542,7 @@ void MainWindow::setupWindowActions()
     QString itemText;
     if (j < 10)
       itemText = QString("&%1 ").arg(j);
-    if (w->inherits("FormWindow"))  
+    if (w->inherits("FormWindow"))
       itemText += w->name();
     else
       itemText += w->caption();
@@ -551,10 +555,20 @@ void MainWindow::setupWindowActions()
 
 
 void MainWindow::setupSettingsActions()
-{    
+{
   KPopupMenu *settings = new KPopupMenu(this, "Settings");
   KAction* a = KStdAction::keyBindings(this, SLOT(editShortcuts()), actionCollection());
   a->setToolTip(i18n("Opens a dialog to change shortcuts"));
+  a->plug(settings);
+
+  a = new KAction(i18n("Configure &Plugins..."), KShortcut::null(), this, SLOT(editPlugins()),
+                  actionCollection(), "configure_plugins");
+  a->setToolTip(i18n("Opens a dialog to configure plugins"));
+  a->plug(settings);
+
+  a = new KAction(i18n("&Configure Editor..."), KShortcut::null(), this, SLOT(configureEditor()),
+                  actionCollection(), "configure_editor");
+  a->setToolTip(i18n("Configure various aspects of this editor."));
   a->plug(settings);
 
   a = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
@@ -562,13 +576,8 @@ void MainWindow::setupSettingsActions()
   a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
   a->plug(settings);
 
-  a = new KAction(i18n("Configure &plugins..."), KShortcut::null(), this, SLOT(editPlugins()),
-    actionCollection(), "configure_plugins");
-  a->setToolTip(i18n("Opens a dialog to configure plugins"));
-  a->plug(settings);
- 
   menuBar()->insertItem( i18n("&Settings"), settings);
-} 
+}
 
 void MainWindow::setupHelpActions()
 {
@@ -709,7 +718,7 @@ bool MainWindow::fileSaveAs()
 void MainWindow::fileSaveAll()
 {
   QWidgetList windows = qworkspace->windowList(QWorkspace::StackingOrder);
-  for (int i = 0; i < (int)windows.count(); ++i) 
+  for (int i = 0; i < (int)windows.count(); ++i)
   {
     FormWindow* fw = dynamic_cast<FormWindow*>(windows.at(i));
     if (fw)
@@ -1004,7 +1013,7 @@ void MainWindow::editBreakLayout()
   {
     formWindow()->breakLayout(w);
     return;
-  } 
+  }
   else
   {
     QWidgetList widgets = formWindow()->selectedWidgets();
@@ -1125,7 +1134,16 @@ void MainWindow::editPlugins()
   process << "kmdr-plugins";
   process.start(KProcess::Block);
 }
-    
+
+void MainWindow::configureEditor()
+{
+  KTextEditor::Document *doc = KTextEditor::createDocument ("libkatepart", 0L, "KTextEditor::Document");
+  KTextEditor::View *view = doc->createView(0);
+  KTextEditor::ConfigInterface *configIf = KTextEditor::configInterface(doc);
+  configIf->configDialog();
+  delete doc;
+}
+
 void MainWindow::editExternalTool(int id)
 {
   KProcess* process = new KProcess;
@@ -1143,7 +1161,7 @@ void MainWindow::editToolExited(KProcess* process)
 
 void MainWindow::editToolOutput(KProcess*, char* buffer, int buflen)
 {
-  m_toolOutput += QString::fromLocal8Bit(buffer, buflen);  
+  m_toolOutput += QString::fromLocal8Bit(buffer, buflen);
 }
 
 void MainWindow::chooseDocPath()

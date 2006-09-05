@@ -1,8 +1,9 @@
 /***************************************************************************
-                          assoctexteditorimpl.h - Associated text editor implementation 
+                          assoctexteditorimpl.h - Associated text editor implementation
                              -------------------
     copyright            : (C) 2003    Marc Britton <consume@optusnet.com.au>
                            (C) 2004    Michal Rudolf <mrudolf@kdewebdev.org>
+                           (C) 2006    Andras Mantia <amantia@kde.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -32,13 +33,25 @@
 class FormWindow;
 class PropertyEditor;
 
+namespace KTextEditor {
+  class EditInterface;
+  class Document;
+  class View;
+}
+
+namespace KParts{
+  class PartManager;
+}
+
+class KPopupMenu;
+
 class AssocTextEditor : public AssocTextEditorBase
 {
   Q_OBJECT
 public:
-  AssocTextEditor(QWidget*, FormWindow*, PropertyEditor*, QWidget*, const char* = 0, bool = true);
+  AssocTextEditor(QWidget*, FormWindow*, PropertyEditor*, KParts::PartManager *partManager, QWidget*, const char* = 0, bool = true);
   ~AssocTextEditor();
-  // Set interface for given widget. 
+  // Set interface for given widget.
   void setWidget(QWidget *);
   // Save changes for current widget
   void save() const;
@@ -46,7 +59,7 @@ public:
   QString populationText() const;
   // Return associated text for current widget
   QStringList associatedText() const;
- 
+
 public slots:
   // Current script text has changed - save it in m_atdict
   void textEditChanged();
@@ -56,19 +69,21 @@ public slots:
   void stateChanged(int);
   // Select widget via widget tree dialog
   void selectWidget();
-  
+
   // Functions for script editing:
-  
+
   // Insert given text at cursor position for current widget and state
   void insertAssociatedText(const QString&);
   // Select file and insert its content at cursor position
   void insertFile();
   // Open function browser and insert chosen function at cursor position
   void insertFunction();
-  // Insert selected function at cursor position 
+  // Insert selected function at cursor position
   void insertWidgetName(int);
 
 protected slots:
+
+  void slotHighlightingChanged(int mode);
 
 private:
   // Current widget
@@ -90,8 +105,8 @@ private:
   QString m_populationText;
   // Non-enmpty script pixmap
   QPixmap scriptPixmap;
-      
-  // Create list of all widgets on the same dialog as current widget 
+
+  // Create list of all widgets on the same dialog as current widget
   // Set store to true, to update m_widgetList;
   QStringList buildWidgetList();
   // Convert widget to string displayed in combos
@@ -99,6 +114,12 @@ private:
   QString widgetToString(QWidget* widget, bool formatted = true);
   // Conver combo string to widget
   QWidget* widgetFromString(const QString& name);
+
+  KTextEditor::EditInterface *associatedTextEdit;
+  KTextEditor::Document *doc;
+  KTextEditor::View *view;
+  KPopupMenu *highlightPopup;
+  int oldHlMode;
 };
 
 #endif

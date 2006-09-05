@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -104,13 +104,14 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   lst << m_formWindow->name();
   for (QPtrDictIterator<QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
   {
-    if (it.current()->isVisibleTo(this) &&
-        !it.current()->inherits("QLayoutWidget") &&
-        !it.current()->inherits("Spacer") &&
-        qstrcmp(it.current()->name(), "central widget") &&
-        !m_formWindow->isMainContainer(it.current()) &&
-        !lst.contains(it.current()->name()))
-      lst << it.current()->name();
+    QWidget *current = it.current();
+    if (current->isVisibleTo(this) &&
+        !current->inherits("QLayoutWidget") &&
+        !current->inherits("Spacer") &&
+        qstrcmp(current->name(), "central widget") &&
+        !m_formWindow->isMainContainer(current) &&
+        !lst.contains(current->name()))
+      lst << current->name();
   }
   lst.sort();
   
