@@ -141,7 +141,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     }
   }
 
-  popup->insertItem(i18n("Highlighting"), highlightPopup);
+  popup->insertItem(i18n("&Highlighting"), highlightPopup);
 
   KTextEditor::PopupMenuInterface *popupIf = dynamic_cast<KTextEditor::PopupMenuInterface *>(view);
   popupIf->installPopup(popup);
