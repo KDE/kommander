@@ -669,8 +669,10 @@
       <!-- Kommander rules -->      
         
       <context attribute="KmdrMethod" lineEndContext="#pop" name="DetectKmdr">
-        <RegExpr attribute="KmdrMethod" context="#stay" String="@&varname;" />
-        <RegExpr attribute="Normal Text" context="#pop" String="[\(\s\=\;\+\-\*\/\%]+" />
+        <RegExpr attribute="KmdrMethod" context="#stay" String="@&varname;" />        
+        <DetectChar attribute="Normal Text" context="#pop" char="(" lookAhead="true"/>
+        <DetectChar attribute="Normal Text" context="#pop" char=")" lookAhead="true"/>
+        <RegExpr attribute="Normal Text" context="#pop" String="[\s\=\;\+\-\*\/\%]+" />
         <keyword attribute="DCOPMethod" context="#pop" String="kmdrdcopfunctions" />        
         <keyword attribute="KmdrMethod" context="#pop" String="kmdrfunctions" />        
         <keyword attribute="KmdrArray" context="#pop" String="kmdrarray" />        
