@@ -102,7 +102,7 @@ QMap<QWidget*, QString> *qwf_forms = 0;
 QString *qwf_language = 0;
 bool qwf_execute_code = true;
 bool qwf_stays_on_top = false;
-QString *qwf_currFileName; //is this really used?
+QString *qwf_currFileName = 0; //is this really used?
 
 KommanderFactory::KommanderFactory()
     : dbControls( 0 ), usePixmapCollection( false )
