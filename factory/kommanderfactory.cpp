@@ -125,7 +125,7 @@ QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QW
     if ( !f.open( IO_ReadOnly ) )
 	return 0;
 
-    qwf_currFileName = uiFile;
+    *qwf_currFileName = uiFile;
     QWidget *w = KommanderFactory::create( &f, connector, parent, name );
     if ( !qwf_forms )
 	qwf_forms = new QMap<QWidget*, QString>;
