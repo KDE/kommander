@@ -95,14 +95,14 @@
 #include <kglobal.h>
 #include <klocale.h>
 
-static QPtrList<KommanderPlugin> widgetPlugins;
+QPtrList<KommanderPlugin> widgetPlugins;
 
 QMap<QWidget*, QString> *qwf_functions = 0;
 QMap<QWidget*, QString> *qwf_forms = 0;
 QString *qwf_language = 0;
 bool qwf_execute_code = true;
 bool qwf_stays_on_top = false;
-QString qwf_currFileName = "";
+QString *qwf_currFileName; //is this really used?
 
 KommanderFactory::KommanderFactory()
     : dbControls( 0 ), usePixmapCollection( false )
@@ -110,10 +110,13 @@ KommanderFactory::KommanderFactory()
     widgetPlugins.setAutoDelete( true );
     defSpacing = 6;
     defMargin = 11;
+    qwf_currFileName = new QString();
 }
 
 KommanderFactory::~KommanderFactory()
 {
+  delete qwf_currFileName;
+  qwf_currFileName = 0L;
 }
 
 QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QWidget *parent, const char *name )
@@ -122,7 +125,7 @@ QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QW
     if ( !f.open( IO_ReadOnly ) )
 	return 0;
 
-    qwf_currFileName = uiFile;
+    *qwf_currFileName = uiFile;
     QWidget *w = KommanderFactory::create( &f, connector, parent, name );
     if ( !qwf_forms )
 	qwf_forms = new QMap<QWidget*, QString>;
@@ -316,13 +319,13 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
 #if !defined(QT_NO_ICONVIEW)
     return new QIconView(parent, name);
 #endif
-  } 
+  }
   else if (className == "QTable")
   {
 #if !defined(QT_NO_TABLE)
     return new QTable(parent, name);
 #endif
-  } 
+  }
   else if (className == "QListBox")
     return new QListBox(parent, name);
   else if (className == "QListView")
@@ -346,13 +349,13 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
     if (!qwf_stays_on_top)
       return new QWidget(parent, name);
     return new QWidget(parent, name, Qt::WStyle_StaysOnTop);
-  } 
+  }
   else if (className == "QDialog")
   {
     if (!qwf_stays_on_top)
       return new QDialog(parent, name);
     return new QDialog(parent, name, false, Qt::WStyle_StaysOnTop);
-  } 
+  }
   else if (className == "QWizard")
     return new QWizard(parent, name);
   else if (className == "QLCDNumber")
@@ -376,7 +379,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
     QFrame *f = new QFrame(parent, name);
     f->setFrameStyle(QFrame::HLine | QFrame::Sunken);
     return f;
-  } 
+  }
   else if (className == "QTextEdit")
     return new QTextEdit(parent, name);
   else if (className == "QDateEdit")
@@ -1461,5 +1464,5 @@ QString KommanderFactory::translate( const QString& sourceText, const QString& c
   else if (!sourceText.isEmpty())
     return KGlobal::locale()->translate(sourceText.utf8());
   else
-    return sourceText;                            
+    return sourceText;
 }
