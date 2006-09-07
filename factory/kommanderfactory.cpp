@@ -102,7 +102,7 @@ QMap<QWidget*, QString> *qwf_forms = 0;
 QString *qwf_language = 0;
 bool qwf_execute_code = true;
 bool qwf_stays_on_top = false;
-QString *qwf_currFileName; //is this really used?
+QString *qwf_currFileName = 0L; //is this really used?
 
 KommanderFactory::KommanderFactory()
     : dbControls( 0 ), usePixmapCollection( false )
@@ -110,7 +110,8 @@ KommanderFactory::KommanderFactory()
     widgetPlugins.setAutoDelete( true );
     defSpacing = 6;
     defMargin = 11;
-    qwf_currFileName = new QString();
+    if (!qwf_currFileName)
+      qwf_currFileName = new QString();
 }
 
 KommanderFactory::~KommanderFactory()
@@ -123,7 +124,10 @@ QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QW
 {
     QFile f( uiFile );
     if ( !f.open( IO_ReadOnly ) )
-	return 0;
+      return 0;
+
+    if (!qwf_currFileName)
+      qwf_currFileName = new QString();
 
     *qwf_currFileName = uiFile;
     QWidget *w = KommanderFactory::create( &f, connector, parent, name );
