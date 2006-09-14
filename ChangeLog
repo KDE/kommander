@@ -1,14 +1,27 @@
+Thu Sep 14 20:01:18 2006 - Michal Rudolf <mrudolf@kdewebdev.org>
+	o function str_findrev works now
+	o fix crash when diving by zero
+  o make function names case insensitive
+  o fix dcop() function (external DCOP) in new parser
+	o add missing EOLs to array_values()
+  o don't open files with no filename given
+  o fix crash on incorrect syntax in new parser
+  o fix input_file() function
+  o add switch/case to new parser
+  o fix importing tables with empty cells
+  o Kommander 1.3.0 (development branch) released
+
 Thu Sep 7 20:01:18 2006 - Andras Mantia <amantia@kde.org>
   o fix crash on exit in the editor
 
 Tue Sep 5 16:19:40 2006 - Andras Mantia <amantia@kde.org>
   o use KTextEditor for the associated text editing
 
-Sun 16 sty 2005 00:44:39 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+Sun 16 Jan 2005 00:44:39 CET - Michal Rudolf <mrudolf@kdewebdev.org>
 	o add MessageLog to view output of dialogs run from Editor
 	o add @debug command
 
-Tue 11 sty 2005 23:00:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
+Tue 11 Jan 2005 23:00:00 CET - Michal Rudolf <mrudolf@kdewebdev.org>
 	o update and unify version number
 	o Kommander 1.1dev3 released
 
