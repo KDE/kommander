@@ -165,6 +165,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       if (!found) found = findItem(args[0], Qt::Contains);
       if (found)
         return QString::number(index(found));
+      else return QString::number(-1);
       break;
     }
     case DCOP::setPixmap:
