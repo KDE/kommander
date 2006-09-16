@@ -148,7 +148,7 @@ QString TreeWidget::itemText(QListViewItem* item) const
   return items.join("\t");
 }
 
-QString TreeWidget::itemsText() 
+QString TreeWidget::itemsText()
 {
   QStringList items;
   QListViewItemIterator it(this);
@@ -262,7 +262,19 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::selection:
       return itemText(currentItem());
     case DCOP::setSelection:
-      setCurrentItem(findItem(args[0], 0));
+      if (selectionModeExt() == Single || selectionModeExt() == NoSelection)
+        setCurrentItem(findItem(args[0], 0));
+      else
+      {
+        clearSelection();
+        QStringList items(QStringList::split("\n", args[0]));
+        for (QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
+        {
+          QListViewItem* item = findItem(*it, 0);
+          if (item)
+            item->setSelected(true);
+        }
+      }
       break;
     case DCOP::clear:
       clear();
