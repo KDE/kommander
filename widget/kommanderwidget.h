@@ -45,14 +45,14 @@ public:
   virtual QString currentState() const = 0;
 
   virtual bool isKommanderWidget() const = 0;
-  
+
   // Associated script
   virtual void setAssociatedText(const QStringList& a_associations);
   virtual QStringList associatedText() const;
   virtual bool hasAssociatedText();
-  
+
   // Execute default script, expanding all @macros.
-    virtual QString evalAssociatedText();
+  virtual QString evalAssociatedText();
   // Execute given script, expanding all @macros.
   virtual QString evalAssociatedText(const QString&);
   // Evaluate given Kommander function using given args.
@@ -60,7 +60,7 @@ public:
   // Parse and evaluate function for given widget, converting it to appropriate DCOP call.
   virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos);
   // Evaluate given array function using given args.
-  virtual QString evalArrayFunction(const QString&, const QStringList&) const;
+  virtual QString evalArrayFunction(const QString&, const QStringList&);
   // Parse and evaluate given execBegin..execEnd block.
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos);
   // Parse and evaluate given forEach..end block.
@@ -71,15 +71,11 @@ public:
   virtual QString evalSwitchBlock(const QStringList&, const QString& s, int& pos);
   // Parse and evaluate given if..endif block.
   virtual QString evalIfBlock(const QStringList&, const QString& s, int& pos);
-  
-  
   // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   virtual void populate() = 0;
 
-  
-  
   // Handles all widget-specific DCOP calls 
   virtual QString handleDCOP(int function, const QStringList& args = QStringList());
   // Checks if appropriate function is supported by widget. By default all functions
@@ -94,7 +90,7 @@ public:
   // Returns filename associated with the dialog
   virtual QString fileName();
 
-  
+
   // Recognizes editor vs executor mode
   static bool inEditor;
   // Prints errors in message boxes, not in stderr
@@ -102,14 +98,14 @@ public:
   // Default parser
   static bool useInternalParser;
   // Return global variable value
-  static QString global(const QString& variableName);
+  QString global(const QString& variableName);
   // Set global variable value
-  static void setGlobal(const QString& variableName, const QString& value);
+  void setGlobal(const QString& variableName, const QString& value);
 
 protected:
   virtual void setStates(const QStringList& a_states);
   virtual void setDisplayStates(const QStringList& a_displayStates);
-  
+
   // Execute DCOP query and return its result or null on failure
   // Only QString and int are now handled
   QString DCOPQuery(const QStringList& args);
@@ -123,7 +119,6 @@ protected:
   QString runDialog(const QString& a_dialog, const QString& a_params = QString::null);
   // Display error message a_error; display current class name if no other is given
   void printError(const QString& a_error) const;
-  
   // Auxiliary functions for parser
   // Find matching brackets starting from current position
   QString parseBrackets(const QString& s, int& from, bool& ok) const;
@@ -138,25 +133,21 @@ protected:
     const QString& s, int& from, bool& ok);
   // Detect and return block boundary
   int parseBlockBoundary(const QString& s, int from, const QStringList& args) const;
-    
+
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
   // Return parent dialog of this widget
   QWidget* parentDialog() const;
   QString substituteVariable(QString text, QString variable, QString value) const;
-   
+
   ParserData* internalParserData();
-      
+
   QObject *m_thisObject;
   QStringList m_states;
   QStringList m_displayStates;
   QStringList m_associatedText;
   QString m_populationText;
-  
-  // Global variables 
-  static QMap<QString, QString> m_globals;
-  // Global arrays 
-  static QMap<QString, QMap<QString, QString> > m_arrays;
+
   // Internal parser data
   static ParserData* m_parserData;
 };

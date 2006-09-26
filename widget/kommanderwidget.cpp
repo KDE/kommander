@@ -131,10 +131,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     p.setWidget(this);
     p.setString(a_text);
     if (!p.setString(a_text) || !p.parse())
-    {
-      // FIXME add widget's name to KommanderWidget class      
       printError(i18n("Line %1: %2.\n").arg(p.errorLine()+1).arg(p.errorMessage()));
-    }
     return QString();
   }
   /* Old macro-only parser is implemented below  */
@@ -235,7 +232,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       return QString();
     }
   }
-          
+
   return evalText;
 }
 
@@ -645,16 +642,17 @@ QWidget* KommanderWidget::parentDialog() const
 
 QString KommanderWidget::global(const QString& variableName)
 {
-  if (m_globals.contains(variableName))
-    return m_globals[variableName];
-  else
-    return QString();
+  QString var = variableName.startsWith("_") ? variableName : QString("_")+ variableName;
+  Parser parser(internalParserData());
+  return parser.variable(var).toString();
 }
 
 void KommanderWidget::setGlobal(const QString& variableName, const QString& value)
 {
-  m_globals.insert(variableName, value); 
-}  
+  QString var = variableName.startsWith("_") ? variableName : QString("_")+ variableName;
+  Parser parser(internalParserData());
+  parser.setVariable(var, value);
+}
 
 QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
 {
@@ -669,7 +667,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
       current->setShown(args[0] != "false" && args[0] != "0");
       break;
     case DCOP::type:
-      return current->className();      
+      return current->className();
     case DCOP::children:
     {
       QStringList matching;
@@ -711,7 +709,5 @@ QString KommanderWidget::fileName()
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
 bool KommanderWidget::useInternalParser = false;
-QMap<QString, QString> KommanderWidget::m_globals;
-QMap<QString, QMap<QString, QString> > KommanderWidget::m_arrays;
 ParserData* KommanderWidget::m_parserData = new ParserData;
 

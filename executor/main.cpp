@@ -26,10 +26,9 @@
 
 /* QT INCLUDES */
 #include <qapplication.h>
-#include <qfile.h>
 #include <qobject.h>
-#include <qptrlist.h>
 #include <qstring.h>
+#include <qstringlist.h>
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -81,33 +80,23 @@ int main(int argc, char *argv[])
   else
     KLocale::setMainCatalogue("Kommander");
   KApplication app;
-  
+
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-  Instance* instance = 0;
-  QFile inputFile;
-  if (args->isSet("stdin"))
-  {
-    inputFile.open(IO_ReadOnly, stdin);
-    instance = new Instance;
-  }
-  else if (!args->count())
+  if (!args->count())
   {
     KMessageBox::sorry(0, i18n("Error: no dialog given. Use --stdin option to read dialog from standard input.\n"));
     return -1;
   }
-  else
-  {
-    KURL url = args->url(0);
-    instance = new Instance(url, 0);
-  }
-  
+  Instance instance;
+  if (!instance.build(args->isSet("stdin") ? QString() : args->url(0)))
+    return -1;
+
   // Read command-line variables
-  for (int i=!args->isSet("stdin"); i<args->count(); i++)
-    instance->addArgument(args->arg(i));
-  
-  if (args->isSet("stdin"))
-    instance->run(&inputFile);
-  else
-    instance->run();
+  QStringList cmdargs;
+  for (int i = !args->isSet("stdin"); i<args->count(); i++)
+    cmdargs.append(args->arg(i));
+  instance.addCmdlineArguments(cmdargs);
+
+  instance.run();
   return 0;
 }

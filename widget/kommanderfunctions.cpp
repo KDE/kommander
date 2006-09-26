@@ -29,6 +29,7 @@
 #include "kommanderwidget.h"
 #include "specials.h"
 #include "expression.h"
+#include "parser.h"
 
 QString KommanderWidget::evalFunction(const QString& function, const QStringList& args)
 { 
@@ -240,50 +241,64 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
 }
 
 
-  
 
-QString KommanderWidget::evalArrayFunction(const QString& function, const QStringList& args) const
+QString KommanderWidget::evalArrayFunction(const QString& function, const QStringList& args)
 {
+  Parser parser(internalParserData());
   int fname = SpecialInformation::function(Group::Array, function);
+  QString array = args[0].startsWith("_") ? args[0] : QString("_")+ args[0];
+
   if (fname == Array::setValue)
-    m_arrays[args[0]][args[1]] = args[2];
+    parser.setArray(array, args[1], args[2]);
   else if (fname == Array::fromString)
   {
+    parser.unsetArray(array);
     QStringList lines = QStringList::split("\n", args[1]);
-    for (uint i=0; i<lines.count(); i++)
+    for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it)
     {
-        QString key = lines[i].section('\t', 0, 0).stripWhiteSpace();
-        if (!key.isEmpty())
-          m_arrays[args[0]][key] = lines[i].section('\t', 1);
+      QString key = (*it).section('\t', 0, 0).stripWhiteSpace();
+      if (!key.isEmpty())
+        parser.setArray(array, key, (*it).section('\t', 1));
     }
   }
-  else if (!m_arrays.contains(args[0]))
+  else if (!parser.isArray(array))
     return QString();
   else switch (fname) {
     case Array::value:
-      return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString();
+      return parser.arrayValue(array, args[1]).toString();
     case Array::keys:
-      return QStringList(m_arrays[args[0]].keys()).join("\n");
+    {
+      const QMap<QString, ParseNode> map = parser.array(array);
+      QStringList keys;
+      for (QMap<QString, ParseNode>::ConstIterator it = map.begin(); it != map.end(); ++it)
+        keys.append(it.key());
+      return keys.join("\n");
+    }
     case Array::values:
-      return QStringList(m_arrays[args[0]].values()).join("\n");
+    {
+      const QMap<QString, ParseNode> map = parser.array(array);
+      QStringList values;
+      for (QMap<QString, ParseNode>::ConstIterator it = map.begin(); it != map.end(); ++it)
+        values.append(it.data().toString());
+      return values.join("\n");
+    }
     case Array::clear:
-      m_arrays[args[0]].clear();
+      parser.unsetArray(array);
       return QString();
     case Array::remove:
-      m_arrays[args[0]].remove(args[1]);
+      parser.unsetArray(array, args[1]);
       return QString();
     case Array::count:
-      return QString::number(m_arrays[args[0]].count());
+      return QString::number(parser.array(array).count());
     case Array::toString:
     {
-      QStringList keys = m_arrays[args[0]].keys();
-      QStringList values = m_arrays[args[0]].values();
-      QString array;
-      for (uint i=0; i<keys.count(); i++)
-          array += QString("%1\t%2\n").arg(keys[i]).arg(values[i]);
-      return array;
+      const QMap<QString, ParseNode> map = parser.array(array);
+      QString arraystring;
+      for (QMap<QString, ParseNode>::ConstIterator it = map.begin(); it != map.end(); ++it)
+        arraystring += QString("%1\t%2\n").arg(it.key()).arg(it.data().toString());
+      return arraystring;
     }
-    default: 
+    default:
       return QString();
   }
   return QString();

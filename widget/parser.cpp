@@ -31,7 +31,7 @@ Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(QString::
   m_widget(0)
 {
 }
-  
+
 Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), 
   m_error(QString::null), m_errorPosition(0), m_widget(0)
 {
@@ -209,7 +209,7 @@ ParseNode Parser::parseValue(Mode mode)
       QString index = parseValue(mode).toString();
       tryKeyword(RightBracket);
       QString arr = p.variableName();
-      return (isArray(arr) && array(arr).contains(index)) ? array(arr)[index] : QString();
+      return arrayValue(arr, index);
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
@@ -793,6 +793,16 @@ void Parser::unsetArray(const QString& name, const QString& key)
   }
 }
 
+ParseNode Parser::arrayValue(const QString& name, const QString& key) const
+{
+  if (!isArray(name))
+    return ParseNode();
+  if (isGlobal(name))
+    return m_globalArrays[name].contains(key) ? m_globalArrays[name][key] : ParseNode();
+  else
+    return m_arrays[name].contains(key) ? m_arrays[name][key] : ParseNode();
+}
+
 
 
 KommanderWidget* Parser::currentWidget() const
@@ -802,4 +812,5 @@ KommanderWidget* Parser::currentWidget() const
 
 QMap<QString, ParseNode> Parser::m_globalVariables;
 QMap<QString, QMap<QString, ParseNode> > Parser::m_globalArrays;
+
 
