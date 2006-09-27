@@ -172,7 +172,6 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   if (!a_widget || !a_atw)
     return;
 
-
   m_widget = a_widget;
   m_states = a_atw->states();
   m_populationText = a_atw->populationText();
@@ -188,7 +187,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   QStringList::iterator at_it = at.begin();
   for(QStringList::ConstIterator s_it = m_states.begin(); s_it != m_states.end(); ++s_it)
   {
-    if(at_it != at.end())
+    if (at_it != at.end())
     {
       m_atdict[(*s_it)] = (*at_it);
       ++at_it;
@@ -200,17 +199,23 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
 
   // show pixmaps for nonempty scripts
   int p_population = stateComboBox->count()-1;
-  for (int i=0; i<p_population; i++)
+  int active = -1;
+  for (int i = 0; i < p_population; i++)
     if (!m_atdict[stateComboBox->text(i)].isEmpty())
+    {
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(i), i);
+       if (active == -1) active = i;
+    }
   if (!m_populationText.isEmpty())
+  {
     stateComboBox->changeItem(scriptPixmap, stateComboBox->text(p_population), p_population);
+    if (active == -1) active = p_population;
+  }
 
   // initial text for initial state
-  stateComboBox->setCurrentItem(0);
+  stateComboBox->setCurrentItem(active);
   m_currentState = stateComboBox->currentText();
-
-  stateChanged(0);
+  stateChanged(active);
 
 }
 

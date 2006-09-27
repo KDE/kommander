@@ -64,13 +64,13 @@ public slots:
   void textEditChanged();
   // Current widget has changed - store script and update interface
   void widgetChanged(int);
-  // Current widget has changed - store script and show new script
+  // Current script has changed - store script and show new script
   void stateChanged(int);
   // Select widget via widget tree dialog
   void selectWidget();
-  
+
   // Functions for script editing:
-  
+
   // Insert given text at cursor position for current widget and state
   void insertAssociatedText(const QString&);
   // Select file and insert its content at cursor position
@@ -81,9 +81,8 @@ public slots:
   void insertWidgetName(int);
 
 protected slots:
-  
   void slotHighlightingChanged(int mode);
-  
+
 private:
   // Current widget
   QWidget *m_widget;
@@ -104,7 +103,7 @@ private:
   QString m_populationText;
   // Non-enmpty script pixmap
   QPixmap scriptPixmap;
-      
+
   // Create list of all widgets on the same dialog as current widget 
   // Set store to true, to update m_widgetList;
   QStringList buildWidgetList();
