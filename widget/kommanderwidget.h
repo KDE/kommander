@@ -125,11 +125,11 @@ protected:
   // Return identifier: the longest string of letters and numbers starting from i
   QString parseIdentifier(const QString& s, int& from) const;
   // Parse arguments for given function. Returns list of arguments without quotations
-  QStringList parseArgs(const QString& s, bool &ok );
+  QStringList parseArgs(const QString& s, bool &ok);
   // Remove quotes from given identifier
   QString parseQuotes(const QString& s) const;
   // Parse function
-  QStringList parseFunction(const QString group, const QString& function,
+  QStringList parseFunction(const QString& group, const QString& function,
     const QString& s, int& from, bool& ok);
   // Detect and return block boundary
   int parseBlockBoundary(const QString& s, int from, const QStringList& args) const;

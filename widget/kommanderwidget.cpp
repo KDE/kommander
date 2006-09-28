@@ -175,8 +175,18 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     bool ok = true;
     QStringList args;
 
+
+
     /* Standard, non-prefixed special */
-    if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
+    if (identifier == "if") // if required special handling as it takes expression
+    {
+      QString arg = parseBrackets(a_text, pos, ok);
+      if (!ok)
+        return QString();
+      args.append(evalAssociatedText(arg));
+      evalText += evalIfBlock(args, a_text, pos);
+    }
+    else if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
     {
       args = parseFunction("Kommander", identifier, a_text, pos, ok);
       if (!ok)
@@ -190,7 +200,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       else if (identifier == "switch")
         evalText += evalSwitchBlock(args, a_text, pos);  
       else if (identifier == "if")
-        evalText += evalIfBlock(args, a_text, pos);  
+        evalText += evalIfBlock(args, a_text, pos);
       else
         evalText += evalFunction(identifier, args);
     }
@@ -481,9 +491,9 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
       {
         QString arg = s.mid(start, i - start).stripWhiteSpace();
         if (!arg.isEmpty())
-          argList.append(evalAssociatedText(parseQuotes(arg)));
+         argList.append(evalAssociatedText(parseQuotes(arg)));
         start = i+1;
-      }  
+      }
     }
   }
   if (!quoteDouble && !quoteSingle) 
@@ -547,7 +557,7 @@ KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
-QStringList KommanderWidget::parseFunction(const QString group, const QString& function, 
+QStringList KommanderWidget::parseFunction(const QString& group, const QString& function, 
     const QString& s, int& from, bool& ok)
 {
   ok = true;
@@ -562,7 +572,7 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   int gname = SpecialInformation::group(group);
   int fname = SpecialInformation::function(gname, function);
   bool extraArg = gname == Group::DCOP;
-  
+
   if (!ok)
     printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
   else if (gname == -1)
