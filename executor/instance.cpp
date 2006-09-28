@@ -117,7 +117,7 @@ bool Instance::build(const KURL& fname)
   }
 
   KommanderWindow* window = dynamic_cast<KommanderWindow*>(m_instance);  if (window)
-    window->setFileName(fname.fileName().local8Bit());
+    window->setFileName(fname.path().local8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
   m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
