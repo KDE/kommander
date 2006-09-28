@@ -211,6 +211,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
     stateComboBox->changeItem(scriptPixmap, stateComboBox->text(p_population), p_population);
     if (active == -1) active = p_population;
   }
+  if (active == -1) active = 0;
 
   // initial text for initial state
   stateComboBox->setCurrentItem(active);
