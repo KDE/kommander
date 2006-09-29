@@ -58,14 +58,10 @@ Instance::Instance(QWidget *a_parent)
 
 void Instance::addCmdlineArguments(const QStringList& args)
 {
-  QStringList stdArgs;
-
   if (!m_textInstance)
-  {
-    qDebug("No Kommander widget present!");
     return;
-  }
   // Filter out variable arguments ('var=value')
+  QStringList stdArgs;
   for (QStringList::ConstIterator it = args.begin(); it != args.end(); ++it)
   {
     int pos = (*it).find('=');
@@ -93,6 +89,7 @@ bool Instance::build(const KURL& fname)
 {
   delete m_instance;
   m_instance = 0;
+  m_textInstance = 0;
 
   if (!fname.isValid() && !isFileValid(fname))
     return false; // Check if file is correct
@@ -120,9 +117,28 @@ bool Instance::build(const KURL& fname)
     window->setFileName(fname.path().local8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
-  m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
+  m_textInstance = kommanderWidget(m_instance);
 
-  if (fname.isValid() && m_textInstance)
+  if (!m_textInstance)  // Main dialog/window is not a Kommander widget - look for one
+  {
+    if (m_instance)
+    {
+      QObjectList* widgets = m_instance->queryList();
+      for (QObject* w = widgets->first(); w; w = widgets->next())
+        if (kommanderWidget(w))
+        {
+          m_textInstance = kommanderWidget(w);
+          break;
+        }
+    }
+    if (!m_textInstance)
+    {
+      qDebug("Warning: no Kommander widget present!");
+      return true;
+    }
+  }
+
+  if (fname.isValid())
   {
       m_textInstance->setGlobal("KDDIR", fname.directory());
       m_textInstance->setGlobal("NAME", fname.fileName());
@@ -419,8 +435,8 @@ QStringList Instance::children(const QString& parent, bool recursive)
         matching.append(w->name());
   }
   return matching;
-} 
-  
+}
+
 void Instance::setMaximum(const QString &widgetName, int value)
 {
   QObject* child = stringToWidget(widgetName);  
