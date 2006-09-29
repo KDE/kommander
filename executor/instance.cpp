@@ -91,7 +91,7 @@ bool Instance::build(const KURL& fname)
   m_instance = 0;
   m_textInstance = 0;
 
-  if (!fname.isValid() && !isFileValid(fname))
+  if (!fname.isValid() || !isFileValid(fname))
     return false; // Check if file is correct
 
   // create the main instance, must inherit QDialog
