@@ -99,12 +99,35 @@ void ScriptObject::executeProcess(bool blocking)
 
 void ScriptObject::execute()
 {
+  m_params.clear();
+  executeProcess(true);
+}
+
+void ScriptObject::execute(const QString& s)
+{
+  m_params.clear();
+  m_params.append(s);
+  executeProcess(true);
+}
+
+void ScriptObject::execute(int i)
+{
+  m_params.clear();
+  m_params.append(QString::number(i));
+  executeProcess(true);
+}
+
+void ScriptObject::execute(int i, int j)
+{
+  m_params.clear();
+  m_params.append(QString::number(i));
+  m_params.append(QString::number(j));
   executeProcess(true);
 }
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute;
+  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute || f == DCOP::item;
 }
 
 QString ScriptObject::handleDCOP(int function, const QStringList& args)
@@ -119,6 +142,11 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
     case DCOP::execute:
       executeProcess(true);
       break;
+    case DCOP::item:
+    {
+      uint index = args[0].toInt();
+      return index < m_params.count() ? m_params[index] : QString::null;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
