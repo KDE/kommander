@@ -321,19 +321,20 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
     QStringList args = parseFunction("DCOP", function, s, pos, ok);
     if (!ok)
       return QString();
-    args.prepend(identifier);
+    args.prepend(pWidget->widgetName());
     QString prototype = SpecialInformation::prototype(Group::DCOP,
       SpecialInformation::function(Group::DCOP, function));
     return localDCOPQuery(prototype, args);
   }
   else if (pWidget == this)
   {
-    printError(i18n("Infinite loop: @%1 called inside @%2.").arg(identifier).arg(identifier));
+    printError(i18n("Infinite loop: @%1 called inside @%2.").arg(pWidget->widgetName())
+        .arg(pWidget->widgetName()));
     return QString();
   }
   else if (!pWidget->hasAssociatedText())
   {
-    printError(i18n("Script for @%1 is empty.").arg(identifier));
+    printError(i18n("Script for @%1 is empty.").arg(pWidget->widgetName()));
     return QString();
   }
   return pWidget->evalAssociatedText();

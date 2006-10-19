@@ -87,6 +87,8 @@ public:
   virtual bool isWidget(const QString& a_name) const;
   // Returns widget from name 
   virtual KommanderWidget* widgetByName(const QString& a_name) const;
+  // Returns current widget name;
+  virtual QString widgetName() const;
   // Returns filename associated with the dialog
   virtual QString fileName();
 

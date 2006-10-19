@@ -152,7 +152,7 @@ void SpecialInformation::registerSpecials()
      i18n("Executes an external DCOP call."), 3, 9);
   insert(Kommander::comment, "#",
      i18n("Adds a comment to EOL that Kommander will not parse"), 0);
-     
+
   insertGroup(Group::Array, "Array", "array");
   insert(Array::values, "values(QString array)", 
     i18n("Returns an EOL-separated list of all values in the array."), 1);

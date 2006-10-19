@@ -540,7 +540,7 @@ QString KommanderWidget::parseQuotes(const QString& s) const
 
 bool KommanderWidget::isWidget(const QString& a_name) const
 {
-  return parseWidget(a_name);  
+  return parseWidget(a_name);
 }
 
 KommanderWidget* KommanderWidget::widgetByName(const QString& a_name) const
@@ -551,9 +551,10 @@ KommanderWidget* KommanderWidget::widgetByName(const QString& a_name) const
 
 KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
-  if (QString(parentDialog()->name()) == widgetName) 
+  if (QString(parentDialog()->name()) == widgetName)
     return dynamic_cast <KommanderWidget*>(parentDialog());
-  QObject* childObj = parentDialog()->child(widgetName.latin1());
+  QCString s = widgetName.lower() == "self" ? m_thisObject->name() : widgetName.latin1();
+  QObject* childObj = parentDialog()->child(s);
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
@@ -715,9 +716,17 @@ QString KommanderWidget::fileName()
     return QString();
 }
 
+QString KommanderWidget::widgetName() const
+{
+  if (m_thisObject)
+    return QString::fromLatin1(m_thisObject->name());
+  else
+    return QString();
+}
 
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
 bool KommanderWidget::useInternalParser = false;
 ParserData* KommanderWidget::m_parserData = new ParserData;
+
 
