@@ -140,6 +140,7 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
       setAssociatedText(QString::null);
       break;
     case DCOP::execute:
+      m_params = args;
       executeProcess(true);
       break;
     case DCOP::item:
