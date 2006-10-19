@@ -127,7 +127,8 @@ void ScriptObject::execute(int i, int j)
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute || f == DCOP::item;
+  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute || f == DCOP::item 
+      || f == DCOP::count;
 }
 
 QString ScriptObject::handleDCOP(int function, const QStringList& args)
@@ -148,6 +149,8 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
       uint index = args[0].toInt();
       return index < m_params.count() ? m_params[index] : QString::null;
     }
+    case DCOP::count:
+      return QString::number(m_params.count());
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
