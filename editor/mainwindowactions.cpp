@@ -97,29 +97,29 @@ int forms = 0;
 
 void MainWindow::setupEditActions()
 {
-  actionEditUndo = KStdAction::undo(this, SLOT(editUndo()), actionCollection());
+  actionEditUndo = KStandardAction::undo(this, SLOT(editUndo()), actionCollection());
   actionEditUndo->setText(i18n("&Undo: Not Available"));
   actionEditUndo->setToolTip(i18n("Undoes the last action"));
   actionEditUndo->setWhatsThis(whatsThisFrom("Edit|Undo"));
   actionEditUndo->setEnabled(false);
 
-  actionEditRedo = KStdAction::redo(this, SLOT(editRedo()), actionCollection());
+  actionEditRedo = KStandardAction::redo(this, SLOT(editRedo()), actionCollection());
   actionEditRedo->setText(i18n("&Redo: Not Available"));
   actionEditRedo->setToolTip(i18n("Redoes the last undone operation"));
   actionEditRedo->setWhatsThis(whatsThisFrom("Edit|Redo"));
   actionEditRedo->setEnabled(false);
 
-  actionEditCut = KStdAction::cut(this, SLOT(editCut()), actionCollection());
+  actionEditCut = KStandardAction::cut(this, SLOT(editCut()), actionCollection());
   actionEditCut->setToolTip(i18n("Cuts the selected widgets and puts them on the clipboard"));
   actionEditCut->setWhatsThis(whatsThisFrom("Edit|Cut"));
   actionEditCut->setEnabled(false);
 
-  actionEditCopy = KStdAction::copy(this, SLOT(editCopy()), actionCollection());
+  actionEditCopy = KStandardAction::copy(this, SLOT(editCopy()), actionCollection());
   actionEditCopy->setToolTip(i18n("Copies the selected widgets to the clipboard"));
   actionEditCopy->setWhatsThis(whatsThisFrom("Edit|Copy"));
   actionEditCopy->setEnabled(false);
 
-  actionEditPaste = KStdAction::paste(this, SLOT(editPaste()), actionCollection());
+  actionEditPaste = KStandardAction::paste(this, SLOT(editPaste()), actionCollection());
   actionEditPaste->setToolTip(i18n("Pastes the clipboard's contents"));
   actionEditPaste->setWhatsThis(whatsThisFrom("Edit|Paste"));
   actionEditPaste->setEnabled(false);
@@ -130,7 +130,7 @@ void MainWindow::setupEditActions()
   actionEditDelete->setWhatsThis(whatsThisFrom("Edit|Delete"));
   actionEditDelete->setEnabled(false);
 
-  actionEditSelectAll = KStdAction::selectAll(this, SLOT(editSelectAll()), actionCollection());
+  actionEditSelectAll = KStandardAction::selectAll(this, SLOT(editSelectAll()), actionCollection());
   actionEditSelectAll->setToolTip(i18n("Selects all widgets"));
   actionEditSelectAll->setWhatsThis(whatsThisFrom("Edit|Select All"));
   
@@ -405,24 +405,24 @@ void MainWindow::setupFileActions()
   fileMenu = new QPopupMenu(this, "File");
   menuBar()->insertItem(i18n("&File"), fileMenu);
 
-  KAction *a = KStdAction::openNew(this, SLOT(fileNew()), actionCollection());
+  KAction *a = KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
   a->setToolTip(i18n("Creates a new dialog"));
   a->setWhatsThis(whatsThisFrom("File|New"));
   a->plug(tb);
   a->plug(fileMenu);
 
-  a = KStdAction::open(this, SLOT(fileOpen()), actionCollection());
+  a = KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
   a->setToolTip(i18n("Opens an existing dialog"));
   a->setWhatsThis(whatsThisFrom("File|Open"));
   a->plug(tb);
   a->plug(fileMenu);
   
-  actionRecent = KStdAction::openRecent(this,  SLOT(fileOpenRecent(const KUrl&)), actionCollection());
+  actionRecent = KStandardAction::openRecent(this,  SLOT(fileOpenRecent(const KUrl&)), actionCollection());
   actionRecent->setToolTip(i18n("Opens recently open file"));
   actionRecent->plug(fileMenu);
 
   fileMenu->insertSeparator();
-  a = KStdAction::close(this, SLOT(fileClose()), actionCollection());
+  a = KStandardAction::close(this, SLOT(fileClose()), actionCollection());
   a->setToolTip(i18n("Closes the current dialog"));
   a->setWhatsThis(whatsThisFrom("File|Close"));
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
@@ -430,14 +430,14 @@ void MainWindow::setupFileActions()
 
   fileMenu->insertSeparator();
 
-  a = KStdAction::save(this, SLOT(fileSave()), actionCollection());
+  a = KStandardAction::save(this, SLOT(fileSave()), actionCollection());
   a->setToolTip(i18n("Saves the current dialog"));
   a->setWhatsThis(whatsThisFrom("File|Save"));
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
   a->plug(tb);
   a->plug(fileMenu);
 
-  a = KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
+  a = KStandardAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
   a->setToolTip(i18n("Saves the current dialog with a new filename"));
   a->setWhatsThis(whatsThisFrom("File|Save As"));
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
@@ -452,7 +452,7 @@ void MainWindow::setupFileActions()
   
   fileMenu->insertSeparator();
   
-  a = KStdAction::quit(kapp, SLOT(closeAllWindows()), actionCollection());
+  a = KStandardAction::quit(kapp, SLOT(closeAllWindows()), actionCollection());
   a->setToolTip(i18n("Quits the application and prompts to save any changed dialogs"));
   a->setWhatsThis(whatsThisFrom("File|Exit"));
   a->plug(fileMenu);
@@ -558,11 +558,11 @@ void MainWindow::setupWindowActions()
 void MainWindow::setupSettingsActions()
 {    
   KPopupMenu *settings = new KPopupMenu(this, "Settings");
-  KAction* a = KStdAction::keyBindings(this, SLOT(editShortcuts()), actionCollection());
+  KAction* a = KStandardAction::keyBindings(this, SLOT(editShortcuts()), actionCollection());
   a->setToolTip(i18n("Opens a dialog to change shortcuts"));
   a->plug(settings);
 
-  a = KStdAction::preferences(this, SLOT(editPreferences()), actionCollection());
+  a = KStandardAction::preferences(this, SLOT(editPreferences()), actionCollection());
   a->setToolTip(i18n("Opens a dialog to change preferences"));
   a->setWhatsThis(whatsThisFrom("Edit|Preferences"));
   a->plug(settings);
