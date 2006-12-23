@@ -13,13 +13,9 @@
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <description/>
-    <ignoreparts>
-      <part>KDevClearCase</part>
-      <part>KDevPerforce</part>
-      <part>KDevDoxygen</part>
-      <part>KDevsubversion</part>
-    </ignoreparts>
+    <ignoreparts/>
     <secondaryLanguages/>
+    <defaultencoding/>
   </general>
   <kdevfileview>
     <groups>
@@ -105,7 +101,7 @@
   <kdevdebugger>
     <general>
       <dbgshell/>
-      <programargs>/home/andris/development/quanta/quanta/quanta/scripts/htmlquickstart.kmdr</programargs>
+      <programargs>/opt/kde3/bin/DVDAuthorWizard.kmdr</programargs>
       <gdbpath/>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
@@ -146,9 +142,9 @@
     </general>
     <configurations>
       <default>
-        <configargs>--with-kommander</configargs>
-        <builddir>/home/ja/programming/kde/cvs/HEAD/kdewebdev/kommander</builddir>
-        <topsourcedir>/home/ja/programming/kde/cvs/HEAD/kdewebdev/kommander</topsourcedir>
+        <configargs>--enable-debug=full</configargs>
+        <builddir>/home/andris/development/build/kde-3.5/kdewebdev/</builddir>
+        <topsourcedir>/home/andris/development/kdewebdev/</topsourcedir>
         <cppflags/>
         <ldflags/>
         <ccompiler>kdevgccoptions</ccompiler>
@@ -164,13 +160,15 @@
       </default>
     </configurations>
     <run>
-      <mainprogram>executor/kmdr-executor</mainprogram>
-      <programargs>examples/tutorial/append.kmdr</programargs>
+      <mainprogram>kommander/executor/.libs/kmdr-executor</mainprogram>
+      <programargs>/opt/kde3/bin/DVDAuthorWizard.kmdr</programargs>
       <terminal>false</terminal>
       <envvars/>
       <directoryradio>build</directoryradio>
       <customdirectory>/</customdirectory>
       <autocompile>true</autocompile>
+      <autoinstall>false</autoinstall>
+      <autokdesu>false</autokdesu>
     </run>
   </kdevautoproject>
   <cppsupportpart>
@@ -210,8 +208,43 @@
       <codeCompletionDelay>250</codeCompletionDelay>
       <argumentsHintDelay>400</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
+      <showOnlyAccessibleItems>false</showOnlyAccessibleItems>
+      <completionBoxItemOrder>0</completionBoxItemOrder>
+      <howEvaluationContextMenu>true</howEvaluationContextMenu>
+      <showCommentWithArgumentHint>true</showCommentWithArgumentHint>
+      <statusBarTypeEvaluation>false</statusBarTypeEvaluation>
+      <namespaceAliases>std=_GLIBCXX_STD</namespaceAliases>
+      <processPrimaryTypes>true</processPrimaryTypes>
+      <processFunctionArguments>false</processFunctionArguments>
+      <preProcessAllHeaders>false</preProcessAllHeaders>
+      <parseMissingHeaders>false</parseMissingHeaders>
+      <resolveIncludePaths>true</resolveIncludePaths>
+      <alwaysParseInBackground>true</alwaysParseInBackground>
+      <usePermanentCaching>true</usePermanentCaching>
+      <alwaysIncludeNamespaces>false</alwaysIncludeNamespaces>
+      <includePaths>.;</includePaths>
     </codecompletion>
     <references/>
+    <qt>
+      <used>false</used>
+      <version>3</version>
+      <root>/usr/lib/qt3</root>
+      <includestyle>3</includestyle>
+      <designerintegration>EmbeddedKDevDesigner</designerintegration>
+    </qt>
+    <creategettersetter>
+      <prefixGet/>
+      <prefixSet>set</prefixSet>
+      <prefixVariable>m_,_</prefixVariable>
+      <parameterName>theValue</parameterName>
+      <inlineGet>true</inlineGet>
+      <inlineSet>true</inlineSet>
+    </creategettersetter>
+    <splitheadersource>
+      <enabled>false</enabled>
+      <synchronize>true</synchronize>
+      <orientation>Vertical</orientation>
+    </splitheadersource>
   </kdevcppsupport>
   <kdevcvsservice>
     <recursivewhenupdate>true</recursivewhenupdate>
