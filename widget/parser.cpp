@@ -583,7 +583,9 @@ Flow Parser::parseCommand(Mode mode)
   {
     if (mode == Execute)
       setError("Exit");
+#ifdef __GNUC__
 #warning FIXME!    
+#endif
     return FlowBreak;
   }
   return FlowStandard;
