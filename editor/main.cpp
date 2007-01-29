@@ -56,7 +56,7 @@ int main( int argc, char *argv[] )
   KLocale::setMainCatalogue("kommander");
   KApplication a(true, true);
   
-  KConfig *config = kapp->config();
+  KSharedConfig::Ptr config = KGlobal::config();
   config->setGroup("General");
   bool splashScreen = config->readBoolEntry("SplashScreen", true);
   KSplashScreen* splash = 0;

@@ -1263,7 +1263,7 @@ void MainWindow::selectionChanged()
 
 void MainWindow::writeConfig()
 {
-  KConfig* config = kapp->config();
+  KSharedConfig::Ptr config = KGlobal::config();
 
   config->setGroup("General");
   config->writeEntry("RestoreWorkspace", restoreConfig);
@@ -1300,7 +1300,7 @@ void MainWindow::writeConfig()
 
 void MainWindow::readConfig()
 {
-  KConfig *config = kapp->config();
+  KSharedConfig::Ptr config = KGlobal::config();
 
   config->setGroup("General");
   restoreConfig = config->readBoolEntry("RestoreWorkspace", true);
