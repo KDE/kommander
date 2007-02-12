@@ -1454,7 +1454,7 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
             text = KInputDialog::getText(i18n("Text"), i18n("New text:"), w->property("text").toString(), &ok, this);
         }
         if (ok) {
-            QString pn(i18n("Set the 'text' of '%2'", w->name()));
+            QString pn(i18n("Set the 'text' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "text", w->property("text"),
                                                               text, QString::null, QString::null);
@@ -1469,7 +1469,7 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
         QString text;
         text = KInputDialog::getText(i18n("Title"), i18n("New title:"), w->property("title").toString(), &ok, this);
         if (ok) {
-            QString pn(i18n("Set the 'title' of '%2'", w->name()));
+            QString pn(i18n("Set the 'title' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "title", w->property("title"),
                                                               text, QString::null, QString::null);

@@ -133,7 +133,7 @@ void FunctionsDialog::functionChanged(int)
         defArgs = i18n("<p>Parameters are not obligatory.");
      else    
         defArgs = i18np("<p>Only first argument is obligatory.", 
-           "<p>Only first %n arguments are obligatory.", 
+           "<p>Only first %1 arguments are obligatory.", 
            m_function.minArg());
   
   uint pflags = SpecialFunction::ShowArgumentNames;
