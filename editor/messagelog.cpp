@@ -31,11 +31,11 @@
 MessageLog::MessageLog(QWidget* parent, const char* name) : QTabWidget(parent, name)
 {
   m_popupMenu = new KPopupMenu(this);
-  m_popupMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy Current &Line"), this, SLOT(copyLine()));
-  m_popupMenu->insertItem(SmallIconSet("editcopy"), i18n("&Copy Content"), this, SLOT(copyContent()));
-  m_popupMenu->insertItem(SmallIconSet("filesaveas"), i18n("&Save As..."), this, SLOT(saveToFile()));
+  m_popupMenu->insertItem(SmallIconSet("edit-copy"), i18n("Copy Current &Line"), this, SLOT(copyLine()));
+  m_popupMenu->insertItem(SmallIconSet("edit-copy"), i18n("&Copy Content"), this, SLOT(copyContent()));
+  m_popupMenu->insertItem(SmallIconSet("document-save-as"), i18n("&Save As..."), this, SLOT(saveToFile()));
   m_popupMenu->insertSeparator();
-  m_popupMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clearContent()));
+  m_popupMenu->insertItem(SmallIconSet("edit-clear"), i18n("Clear"), this, SLOT(clearContent()));
   
   for (int i = 0; i < m_listCount; i++)
   {

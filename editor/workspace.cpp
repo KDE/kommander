@@ -660,14 +660,14 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
     case WorkspaceItem::SourceFileType:
   menu.insertItem( i18n("&Open Source File..." ), OPEN_SOURCE );
   menu.insertSeparator();
-  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
+  menu.insertItem( PixmapChooser::loadPixmap( "edit-cut" ),
        i18n("&Remove Source File From Project" ), REMOVE_SOURCE );
   break;
 #endif
     case WorkspaceItem::FormFileType:
   menu.insertItem( i18n("&Open Form..." ), OPEN_FORM );
   menu.insertSeparator();
-  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
+  menu.insertItem( PixmapChooser::loadPixmap( "edit-cut" ),
 #ifndef KOMMANDER
        i18n("&Remove Form From Project" ), REMOVE_FORM );
 #else
@@ -677,7 +677,7 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
     case WorkspaceItem::FormSourceType:
   menu.insertItem( i18n("&Open Form Source..." ), OPEN_FORM_SOURCE );
   menu.insertSeparator();
-  menu.insertItem( PixmapChooser::loadPixmap( "editcut" ),
+  menu.insertItem( PixmapChooser::loadPixmap( "edit-cut" ),
 #ifndef KOMMANDER
        i18n("&Remove Form From Project" ), REMOVE_FORM );
 #else

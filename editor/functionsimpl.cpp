@@ -39,7 +39,7 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
   : FunctionsDialogBase(a_parent, a_name, a_modal), m_widgetList(a_widgetList)
 {
   clearButton->setPixmap(KGlobal::iconLoader()->loadIcon("locationbar_erase", KIcon::Toolbar));
-  copyButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow", KIcon::Toolbar));
+  copyButton->setPixmap(KGlobal::iconLoader()->loadIcon("arrow-down", KIcon::Toolbar));
   
   groupComboBox->insertStringList(SpecialInformation::groups());
   connect(groupComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));

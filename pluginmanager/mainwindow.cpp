@@ -32,9 +32,9 @@ MainWindow::MainWindow( QWidget* parent, const char *name, WFlags f )
     : KMainWindow( parent, name, f )
 {
   KToolBar *toolBar = new KToolBar( this );
-  toolBar->insertButton("fileopen", Add, true, i18n("Add") );
+  toolBar->insertButton("document-open", Add, true, i18n("Add") );
   toolBar->insertButton("no", Remove, true, i18n("Remove") );
-  toolBar->insertButton("reload", Refresh, true, i18n("Refresh") );
+  toolBar->insertButton("view-refresh", Refresh, true, i18n("Refresh") );
   connect( toolBar, SIGNAL(clicked(int)), this, SLOT(toolButton(int)) );
 
   m_list = new KListBox( this );

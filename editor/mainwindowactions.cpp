@@ -464,7 +464,7 @@ void MainWindow::setupRunActions()
   QPopupMenu *menu = new QPopupMenu(this, "Run");
   menuBar()->insertItem(i18n("&Run"), menu);
 
-  KAction* a = new KAction(i18n("Run Dialog"), "run", CTRL + Key_R,
+  KAction* a = new KAction(i18n("Run Dialog"), "system-run", CTRL + Key_R,
                            this, SLOT(runForm()), actionCollection(), "run");
   a->setToolTip(i18n("Executes dialog"));
   a->setWhatsThis(whatsThisFrom("Run|Run dialog"));
