@@ -19,7 +19,7 @@
 #define _HAVE_KOMMANDERWIDGET_H_
 
 /* KDE INCLUDES */
-#include <kprocess.h>
+#include <k3process.h>
 
 #include "kommander_export.h"
 /* QT INCLUDES */

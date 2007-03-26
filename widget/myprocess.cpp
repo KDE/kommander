@@ -15,7 +15,7 @@
  ***************************************************************************/
 /* KDE INCLUDES */
 #include <klocale.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <klocale.h>
 
 /* QT INCLUDES */
@@ -82,14 +82,14 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   }
   m_input = at.local8Bit();
 
-  mProcess = new KProcess;
+  mProcess = new K3Process;
   (*mProcess) << shellName.latin1();
 
-  connect(mProcess, SIGNAL(receivedStdout(KProcess*, char*, int)),
-      SLOT(slotReceivedStdout(KProcess*, char*, int)));
-  connect(mProcess, SIGNAL(processExited(KProcess*)), SLOT(slotProcessExited(KProcess*)));
+  connect(mProcess, SIGNAL(receivedStdout(K3Process*, char*, int)),
+      SLOT(slotReceivedStdout(K3Process*, char*, int)));
+  connect(mProcess, SIGNAL(processExited(K3Process*)), SLOT(slotProcessExited(K3Process*)));
 
-  if(!mProcess->start(KProcess::NotifyOnExit, KProcess::All))
+  if(!mProcess->start(K3Process::NotifyOnExit, K3Process::All))
   {
     m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>", shellName));
     return QString::null;
@@ -115,13 +115,13 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   }
 }
 
-void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
+void MyProcess::slotReceivedStdout(K3Process*, char* a_buffer, int a_len)
 {
   m_output += QString::fromLocal8Bit(a_buffer, a_len);
   emit processReceivedStdout(this, a_buffer, a_len);
 }
 
-void MyProcess::slotProcessExited(KProcess* process)
+void MyProcess::slotProcessExited(K3Process* process)
 {
   if (m_loopStarted)
   {

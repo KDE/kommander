@@ -78,7 +78,7 @@
 #include <kmessagebox.h>
 #include <kommanderversion.h>
 #include <kommanderwidget.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kurl.h>
@@ -371,21 +371,21 @@ void MainWindow::runForm()
     return;
   if (form->formFile()->save(false))
   {
-    KProcess* process = new KProcess;
+    K3Process* process = new K3Process;
     process->setUseShell(true);
     (*process) << "kmdr-executor" << QString("\"%1\"").arg(form->formFile()->fileName());
-    connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), messageLog,
-            SLOT(receivedStdout(KProcess*, char*, int)));
-    connect(process, SIGNAL(receivedStderr(KProcess*, char*, int)), messageLog,
-            SLOT(receivedStderr(KProcess*, char*, int)));
-    connect(process, SIGNAL(processExited(KProcess*)), SLOT(closeRunningForm(KProcess*)));  
+    connect(process, SIGNAL(receivedStdout(K3Process*, char*, int)), messageLog,
+            SLOT(receivedStdout(K3Process*, char*, int)));
+    connect(process, SIGNAL(receivedStderr(K3Process*, char*, int)), messageLog,
+            SLOT(receivedStderr(K3Process*, char*, int)));
+    connect(process, SIGNAL(processExited(K3Process*)), SLOT(closeRunningForm(K3Process*)));  
     messageLog->clear(MessageLog::All);
-    previewing = process->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    previewing = process->start(K3Process::NotifyOnExit, K3Process::AllOutput);
   }
 }
 
 
-void MainWindow::closeRunningForm(KProcess* process)
+void MainWindow::closeRunningForm(K3Process* process)
 {
   previewing = false;
   delete process;

@@ -17,7 +17,7 @@
 #define _HAVE_MYPROCESS_H_
 
 /* KDE INCLUDES */
-#include <kprocess.h>
+#include <k3process.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -43,8 +43,8 @@ signals:
   void processExited(MyProcess*);
   void processReceivedStdout(MyProcess*, char*, int);
 private slots:
-  void slotReceivedStdout(KProcess*, char*, int);
-  void slotProcessExited(KProcess*);
+  void slotReceivedStdout(K3Process*, char*, int);
+  void slotProcessExited(K3Process*);
 protected:
   const KommanderWidget *m_atw;
   QString m_output;
@@ -52,7 +52,7 @@ protected:
   bool m_loopStarted;
   bool m_blocking;
   bool m_handleOutput;
-  KProcess* mProcess;
+  K3Process* mProcess;
 };
 
 #endif

@@ -38,7 +38,7 @@ class GotoLineDialog;
 class HierarchyView;
 class KAction;
 class KActionCollection;
-class KProcess;
+class K3Process;
 class KRecentFilesAction;
 class KToggleAction;
 class KUrl;
@@ -179,8 +179,8 @@ public slots:
     void editShortcuts();
     void editPlugins();
     void editExternalTool(int id);
-    void editToolExited(KProcess*);
-    void editToolOutput(KProcess*, char*, int);
+    void editToolExited(K3Process*);
+    void editToolOutput(K3Process*, char*, int);
 
     void runForm();
     
@@ -198,7 +198,7 @@ private slots:
     void setupWindowActions();
     void createNewTemplate();
     
-    void closeRunningForm(KProcess* process);
+    void closeRunningForm(K3Process* process);
     
 private:
     void setupMDI();

@@ -22,7 +22,7 @@
 #include <klistbox.h>
 #include <kmessagebox.h>
 #include <kpopupmenu.h>
-#include <kprocess.h>
+#include <k3process.h>
 
 #include <qclipboard.h>
 #include <qfile.h>
@@ -90,12 +90,12 @@ void MessageLog::clear(InfoType i)
       clear((InfoType)i);
 }
 
-void MessageLog::receivedStdout(KProcess*, char* buffer, int buflen)
+void MessageLog::receivedStdout(K3Process*, char* buffer, int buflen)
 {
   insertItem(Stdout, QString::fromLocal8Bit(buffer, buflen));
 }
 
-void MessageLog::receivedStderr(KProcess*, char* buffer, int buflen)
+void MessageLog::receivedStderr(K3Process*, char* buffer, int buflen)
 {
   insertItem(Stderr, QString::fromLocal8Bit(buffer, buflen));
 }

@@ -29,7 +29,7 @@
 #include "kommander_export.h"
 
 class QWidget;
-class KProcess;
+class K3Process;
 class MyProcess;
 
 class QShowEvent;

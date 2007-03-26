@@ -22,7 +22,7 @@
 #include <klocale.h>
 
 class KListBox;
-class KProcess;
+class K3Process;
 class KPopupMenu;
 class QListBoxItem;
    
@@ -37,8 +37,8 @@ public:
   virtual void clear(InfoType i = All);
   QString content();
 public slots:  
-  void receivedStdout(KProcess *proc, char *buffer, int buflen);
-  void receivedStderr(KProcess *proc, char *buffer, int buflen);
+  void receivedStdout(K3Process *proc, char *buffer, int buflen);
+  void receivedStderr(K3Process *proc, char *buffer, int buflen);
   void clearContent();
   void copyLine();
   void copyContent();

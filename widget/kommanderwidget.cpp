@@ -23,7 +23,7 @@
 #include <klocale.h>
 #include <kdialogbase.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
+#include <k3process.h>
 
 /* QT INCLUDES */
 #include <qcstring.h>

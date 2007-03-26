@@ -102,16 +102,16 @@ void CloseButton::startProcess()
 
   if (!at.isEmpty())
   {
-    KShellProcess *process = new KShellProcess("/bin/sh");
+    K3ShellProcess *process = new K3ShellProcess("/bin/sh");
     *process << at;
 
-    connect(process, SIGNAL(processExited(KProcess *)), SLOT(endProcess(KProcess *)));
-    connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), SLOT(appendOutput(KProcess *,
+    connect(process, SIGNAL(processExited(K3Process *)), SLOT(endProcess(K3Process *)));
+    connect(process, SIGNAL(receivedStdout(K3Process *, char *, int)), SLOT(appendOutput(K3Process *,
                 char *, int)));
-    connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), SLOT(appendOutput(KProcess *,
+    connect(process, SIGNAL(receivedStderr(K3Process *, char *, int)), SLOT(appendOutput(K3Process *,
                 char *, int)));
 
-    if (!process->start(KProcess::Block, KProcess::Stdout))
+    if (!process->start(K3Process::Block, K3Process::Stdout))
     {
       KMessageBox::error(this, i18n("Failed to start shell process."));
       endProcess(process);
@@ -121,7 +121,7 @@ void CloseButton::startProcess()
     endProcess(0);
 }
 
-void CloseButton::appendOutput(KProcess *, char *a_buffer, int a_len)
+void CloseButton::appendOutput(K3Process *, char *a_buffer, int a_len)
 {
   char *buffer = new char[a_len + 1];
   buffer[a_len] = 0;
@@ -138,7 +138,7 @@ void CloseButton::appendOutput(KProcess *, char *a_buffer, int a_len)
   delete buffer;
 }
 
-void CloseButton::endProcess(KProcess *a_process)
+void CloseButton::endProcess(K3Process *a_process)
 {
   emit widgetTextChanged(m_output);
   m_output = "";

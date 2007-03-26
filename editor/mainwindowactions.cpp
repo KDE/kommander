@@ -64,7 +64,7 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kpopupmenu.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <kstdguiitem.h>
@@ -1126,27 +1126,27 @@ void MainWindow::editShortcuts()
 
 void MainWindow::editPlugins()
 {
-  KProcess process;
+  K3Process process;
   process << "kmdr-plugins";
-  process.start(KProcess::Block);
+  process.start(K3Process::Block);
 }
     
 void MainWindow::editExternalTool(int id)
 {
-  KProcess* process = new KProcess;
+  K3Process* process = new K3Process;
   (*process) << "kmdr-executor" << m_editorTools[id];
-  connect(process, SIGNAL(processExited(KProcess*)), SLOT(editToolExited(KProcess*)));
-  connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(editToolOutput(KProcess*, char*, int)));
+  connect(process, SIGNAL(processExited(K3Process*)), SLOT(editToolExited(K3Process*)));
+  connect(process, SIGNAL(receivedStdout(K3Process*, char*, int)), SLOT(editToolOutput(K3Process*, char*, int)));
   m_toolOutput = '\0';
-  process->start(KProcess::NotifyOnExit, KProcess::Stdout);
+  process->start(K3Process::NotifyOnExit, K3Process::Stdout);
 }
 
-void MainWindow::editToolExited(KProcess* process)
+void MainWindow::editToolExited(K3Process* process)
 {
   delete process;
 }
 
-void MainWindow::editToolOutput(KProcess*, char* buffer, int buflen)
+void MainWindow::editToolOutput(K3Process*, char* buffer, int buflen)
 {
   m_toolOutput += QString::fromLocal8Bit(buffer, buflen);  
 }
