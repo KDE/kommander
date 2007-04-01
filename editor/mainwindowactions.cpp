@@ -59,7 +59,7 @@
 #include <kfiledialog.h>
 #include <kglobal.h>
 #include <kiconloader.h>
-#include <kkeydialog.h>
+#include <kshortcutsdialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
@@ -1120,7 +1120,7 @@ void MainWindow::editPreferences()
 
 void MainWindow::editShortcuts()
 {
-  KKeyDialog K(false);
+  KShortcutsDialog K(false);
   K.configure(actionCollection());
 }
 
