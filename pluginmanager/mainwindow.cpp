@@ -29,7 +29,7 @@
 #include <kstandarddirs.h>
 
 MainWindow::MainWindow( QWidget* parent, const char *name, WFlags f )
-    : KMainWindow( parent, name, f )
+    : KXmlGuiWindow( parent, name, f )
 {
   KToolBar *toolBar = new KToolBar( this );
   toolBar->insertButton("document-open", Add, true, i18n("Add") );

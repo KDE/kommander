@@ -22,7 +22,7 @@
 
 #include "metadatabase.h"
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kdockwidget.h>
 
 #include <qmap.h>

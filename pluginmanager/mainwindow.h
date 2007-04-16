@@ -18,12 +18,12 @@
 #ifndef HAVE_MAINWINDOW_H
 #define HAVE_MAINWINDOW_H
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 
 class KListBox;
 class PluginManager;
 
-class MainWindow : public KMainWindow
+class MainWindow : public KXmlGuiWindow
 {
   Q_OBJECT
 public:
