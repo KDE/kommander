@@ -27,7 +27,6 @@
 
 
 #include <qfeatures.h>
-#include "config.h"
 #ifndef QT_NO_SQL
 #include "database2.h"
 #endif
