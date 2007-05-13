@@ -5,7 +5,6 @@ Type=Application
 Exec=kmdr-executor %F
 Icon=kmdr_executor
 Comment=Executor for Kommander dialogs
-Comment[bg]=Изпълнение на диалогови прозорци
 Comment[ca]=Executor per a diàlegs de Kommander
 Comment[cs]=Spouštěč dialogů Kommanderu
 Comment[da]=Udfører Kommanders dialoger

@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 GenericName=Dynamic Dialog Editor
-GenericName[bg]=Редактор за диалогови прозорци
 GenericName[ca]=Editor de diàlegs dinàmics
 GenericName[cs]=Editor dynamických dialogů
 GenericName[da]=Dynamisk dialog-editor
@@ -78,7 +77,6 @@ Exec=kmdr-editor %F
 Icon=kmdr-editor
 Type=Application
 Comment=Dynamic Dialog Editor
-Comment[bg]=Редактор за диалогови прозорци
 Comment[ca]=Editor de diàlegs dinàmics
 Comment[cs]=Editor dynamických dialogů
 Comment[da]=Dynamisk dialog-editor
