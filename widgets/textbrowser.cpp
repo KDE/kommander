@@ -22,8 +22,8 @@
 #include <specials.h>
 #include "textbrowser.h"
 
-TextBrowser::TextBrowser(QWidget * a_parent, const char *a_name)
-  : KTextBrowser(a_parent, a_name), KommanderWidget((QObject *) this)
+TextBrowser::TextBrowser(QWidget * a_parent)
+  : KTextBrowser(a_parent), KommanderWidget((QObject *) this)
 {
   QStringList states;
   states << "default";

@@ -33,7 +33,7 @@ class TextBrowser: public KTextBrowser, public KommanderWidget
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget) 
 public:
-  TextBrowser(QWidget*, const char*);
+  TextBrowser(QWidget*);
   virtual ~TextBrowser();
   
   virtual bool isKommanderWidget() const;
