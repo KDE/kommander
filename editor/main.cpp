@@ -32,23 +32,20 @@ static const char *description =
 static const char *text =
   I18N_NOOP("Based on Qt Designer, (C) 2000 Trolltech AS.");
 
-static KCmdLineOptions options[] =
-{
-  { "+file", I18N_NOOP("Dialog to open"), 0 },
-  { 0, 0, 0 }
-};
-
 int main( int argc, char *argv[] )
 {
-  KAboutData aboutData( "kmdr-editor", I18N_NOOP("Kommander"),
-                        KOMMANDER_VERSION, description, KAboutData::License_GPL,
-                        "(C) 2002-2005 Kommander authors", text);
-  aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
-  aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
-  aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
+  KAboutData aboutData( "kmdr-editor", 0, ki18n("Kommander"),
+                        KOMMANDER_VERSION, ki18n(description), KAboutData::License_GPL,
+                        ki18n("(C) 2002-2005 Kommander authors"), ki18n(text));
+  aboutData.addAuthor(ki18n("Marc Britton"), ki18n("Original author"), "consume@optusnet.com.au");
+  aboutData.addAuthor(ki18n("Eric Laffoon"), ki18n("Project manager"), "eric@kdewebdev.org");
+  aboutData.addAuthor(ki18n("Michal Rudolf"), ki18n("Current maintainer"), "mrudolf@kdewebdev.org");
   aboutData.setTranslator (ki18nc("NAME OF TRANSLATORS", "Your names"),
                            ki18nc("EMAIL OF TRANSLATORS", "Your emails"));
   KCmdLineArgs::init(argc, argv, &aboutData);
+
+  KCmdLineOptions options;
+  options.add("+file", ki18n("Dialog to open"));
   KCmdLineArgs::addCmdLineOptions(options);
 
   KommanderWidget::inEditor = true;

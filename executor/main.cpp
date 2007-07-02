@@ -47,22 +47,19 @@ static const char *description =
 	I18N_NOOP("Executor is a component of the Kommander dialog system that executes .kmdr files given as arguments or via stdin");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
-static KCmdLineOptions options[] =
-{
-  { "!stdin", I18N_NOOP("Read dialog from standard input"), 0},
-  { "c <catalog>", I18N_NOOP("Use given catalog for translation"), 0},      
-  { "+[file]", I18N_NOOP("Dialog to open"), 0 },
-  KCmdLineLastOption
-};
-
 int main(int argc, char *argv[])
 {
-  KAboutData aboutData( "kmdr-executor", I18N_NOOP("Kommander Executor"),
-    KOMMANDER_VERSION, description, KAboutData::License_GPL,
-    "(c) 2002, Marc Britton", 0, 0, "consume@optushome.com.au");
-  aboutData.addAuthor("Marc Britton", 0, "consume@optushome.com.au");
-  aboutData.addAuthor("Michal Rudolf", 0, "mrudolf@kdewebdev.org");
+  KAboutData aboutData( "kmdr-executor", 0, ki18n("Kommander Executor"),
+    KOMMANDER_VERSION, ki18n(description), KAboutData::License_GPL,
+    ki18n("(c) 2002, Marc Britton"), KLocalizedString(), 0, "consume@optushome.com.au");
+  aboutData.addAuthor(ki18n("Marc Britton"), KLocalizedString(), "consume@optushome.com.au");
+  aboutData.addAuthor(ki18n("Michal Rudolf"), KLocalizedString(), "mrudolf@kdewebdev.org");
   KCmdLineArgs::init( argc, argv, &aboutData );
+
+  KCmdLineOptions options;
+  options.add("!stdin", ki18n("Read dialog from standard input"));
+  options.add("c <catalog>", ki18n("Use given catalog for translation"));
+  options.add("+[file]", ki18n("Dialog to open"));
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 

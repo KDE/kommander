@@ -40,29 +40,26 @@ static const char *description =
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
 
-static KCmdLineOptions options[] =
-{
-  { "a", 0, 0},
-  { "add <file>", I18N_NOOP("Register given library"), 0},      
-  { "r", 0, 0},
-  { "remove <file>", I18N_NOOP("Remove given library"), 0},      
-  { "c", 0, 0},
-  { "check", I18N_NOOP("Check all installed plugins and remove those missing"), 0},
-  { "l", 0, 0},
-  { "list", I18N_NOOP("List all installed plugins"), 0},
-  KCmdLineLastOption
-};
-
 int main(int argc, char *argv[])
 {
   KLocale::setMainCatalogue("kommander");
-  KAboutData aboutData( "kmdr-plugins", I18N_NOOP("Kommander Plugin Manager"),
-    KOMMANDER_VERSION, description, KAboutData::License_GPL,
-    "(C) 2004-2005 Kommander authors");
-  aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
-  aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
-  aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
+  KAboutData aboutData( "kmdr-plugins", 0, ki18n("Kommander Plugin Manager"),
+    KOMMANDER_VERSION, ki18n(description), KAboutData::License_GPL,
+    ki18n("(C) 2004-2005 Kommander authors"));
+  aboutData.addAuthor(ki18n("Marc Britton"), ki18n("Original author"), "consume@optusnet.com.au");
+  aboutData.addAuthor(ki18n("Eric Laffoon"), ki18n("Project manager"), "eric@kdewebdev.org");
+  aboutData.addAuthor(ki18n("Michal Rudolf"), ki18n("Current maintainer"), "mrudolf@kdewebdev.org");
   KCmdLineArgs::init(argc, argv, &aboutData);
+
+  KCmdLineOptions options;
+  options.add("a");
+  options.add("add <file>", ki18n("Register given library"));
+  options.add("r");
+  options.add("remove <file>", ki18n("Remove given library"));
+  options.add("c");
+  options.add("check", ki18n("Check all installed plugins and remove those missing"));
+  options.add("l");
+  options.add("list", ki18n("List all installed plugins"));
   KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
