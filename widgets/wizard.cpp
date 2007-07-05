@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
-#include <k3process.h>
+#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -96,9 +96,7 @@ void Wizard::runHelp()
 {
   if (helpAction() == Command)
   {
-    K3Process proc;
-    proc << helpActionText();
-    proc.start(K3Process::DontCare, K3Process::NoCommunication);
+    KProcess::startDetached(helpActionText());
   }
   else if (helpAction() == Dialog)
   {

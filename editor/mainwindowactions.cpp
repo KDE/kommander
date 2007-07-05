@@ -64,6 +64,7 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kpopupmenu.h>
+#include <kprocess.h>
 #include <k3process.h>
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
@@ -1126,9 +1127,7 @@ void MainWindow::editShortcuts()
 
 void MainWindow::editPlugins()
 {
-  K3Process process;
-  process << "kmdr-plugins";
-  process.start(K3Process::Block);
+  KProcess::execute("kmdr-plugins");
 }
     
 void MainWindow::editExternalTool(int id)
