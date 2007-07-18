@@ -22,6 +22,9 @@
 #define __previewwidgetimpl_h__
 
 #include "previewwidget.h"
+//Added by qt3to4:
+#include <QEvent>
+#include <QCloseEvent>
 
 class PreviewWidget : public PreviewWidgetBase
 {

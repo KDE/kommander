@@ -19,8 +19,8 @@
 /* QT INCLUDES */
 #include <qlayout.h>
 #include <qevent.h>
-#include <qtextedit.h>
-#include <qframe.h>
+#include <q3textedit.h>
+#include <q3frame.h>
 #include <qwidget.h>
 #include <qlayout.h>
 #include <qtoolbutton.h>
@@ -29,6 +29,10 @@
 #include <qfont.h>
 #include <qstringlist.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
 
 /* OTHER INCLUDES */
 #include "specials.h"
@@ -52,28 +56,28 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 	setDisplayStates(states);
 
 	// setup toolbar
-	m_toolbar = new QFrame(this, "buttonBar");
+	m_toolbar = new Q3Frame(this, "buttonBar");
 	m_toolbar->setMinimumSize(0, 32);
-	m_toolbar->setFrameShape(QFrame::NoFrame);
-	m_toolbar->setFrameShadow(QFrame::Plain);
+	m_toolbar->setFrameShape(Q3Frame::NoFrame);
+	m_toolbar->setFrameShadow(Q3Frame::Plain);
 
 	//setup textedit
-	m_textedit = new QTextEdit(this, "editor");
-	m_textedit->setTextFormat(RichText);
+	m_textedit = new Q3TextEdit(this, "editor");
+	m_textedit->setTextFormat(Qt::RichText);
 
 	// layout the widgets
-	QVBoxLayout *layout = new QVBoxLayout(this);
+	Q3VBoxLayout *layout = new Q3VBoxLayout(this);
 	layout->addWidget(m_toolbar);
 	layout->addWidget(m_textedit);
 	layout->setSpacing(1);
 
 	// setup buttons
-	QHBoxLayout *tbLayout = new QHBoxLayout(m_toolbar);
+	Q3HBoxLayout *tbLayout = new Q3HBoxLayout(m_toolbar);
 
 	//bold italic underline left right center link
-	m_formatGroup = new QHButtonGroup(m_toolbar, "formatGroup");
+	m_formatGroup = new Q3HButtonGroup(m_toolbar, "formatGroup");
 	//m_formatGroup->setFlat(true);
-	m_alignGroup = new QHButtonGroup(m_toolbar, "alignGroup");
+	m_alignGroup = new Q3HButtonGroup(m_toolbar, "alignGroup");
 	//m_alignGroup->setFlat(true);
 	m_alignGroup->setExclusive(true);
 	tbLayout->insertStretch(0);
@@ -198,11 +202,11 @@ void RichTextEditor::fontChanged(const QFont &a_font)
 
 void RichTextEditor::alignmentChanged(int a_alignment)
 {
-  if((a_alignment == AlignAuto) || (a_alignment & AlignLeft)) 
+  if((a_alignment == Qt::AlignLeft) || (a_alignment & Qt::AlignLeft)) 
     m_buttonTextLeft->setOn(true);
-  else if(a_alignment & AlignHCenter) 
+  else if(a_alignment & Qt::AlignHCenter) 
     m_buttonTextCenter->setOn(true);
-  else if(a_alignment & AlignRight) 
+  else if(a_alignment & Qt::AlignRight) 
     m_buttonTextRight->setOn(true);
 }
 

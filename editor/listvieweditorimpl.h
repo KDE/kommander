@@ -25,7 +25,7 @@
 
 #include <qmap.h>
 #include <qpixmap.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 class FormWindow;
 
@@ -34,7 +34,7 @@ class ListViewEditor : public ListViewEditorBase
     Q_OBJECT
 
 public:
-    ListViewEditor( QWidget *parent, QListView *lv, FormWindow *fw );
+    ListViewEditor( QWidget *parent, Q3ListView *lv, FormWindow *fw );
 
 protected slots:
     void applyClicked();
@@ -45,8 +45,8 @@ protected slots:
     void columnResizable(bool);
     void columnTextChanged(const QString &);
     void columnUpClicked();
-    void currentColumnChanged(QListBoxItem*);
-    void currentItemChanged(QListViewItem*);
+    void currentColumnChanged(Q3ListBoxItem*);
+    void currentItemChanged(Q3ListViewItem*);
     void deleteColumnClicked();
     void itemColChanged(int);
     void itemDeleteClicked();
@@ -66,7 +66,7 @@ protected slots:
 private:
     struct Column
     {
-	QListBoxItem *item;
+	Q3ListBoxItem *item;
 	QString text;
 	QPixmap pixmap;
 	bool clickable, resizable;
@@ -78,13 +78,13 @@ private:
 private:
     void setupColumns();
     void setupItems();
-    Column *findColumn( QListBoxItem *i );
-    void transferItems( QListView *from, QListView *to );
-    void displayItem( QListViewItem *i, int col );
+    Column *findColumn( Q3ListBoxItem *i );
+    void transferItems( Q3ListView *from, Q3ListView *to );
+    void displayItem( Q3ListViewItem *i, int col );
 
 private:
-    QListView *listview;
-    QValueList<Column> columns;
+    Q3ListView *listview;
+    Q3ValueList<Column> columns;
     int numColumns;
     FormWindow *formwindow;
 

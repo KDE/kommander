@@ -19,10 +19,12 @@
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qobject.h>
 #include <qstringlist.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -31,7 +33,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ButtonGroup : public QButtonGroup, public KommanderWidget
+class KOMMANDER_EXPORT ButtonGroup : public Q3ButtonGroup, public KommanderWidget
 {
   Q_OBJECT
 

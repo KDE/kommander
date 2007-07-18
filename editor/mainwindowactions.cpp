@@ -23,14 +23,16 @@
 #include <qclipboard.h>
 #include <qfileinfo.h>
 #include <qlineedit.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qsignalmapper.h>
 #include <qspinbox.h>
 #include <qstatusbar.h>
 #include <qstylefactory.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qworkspace.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 #include "defs.h"
 #include "widgetdatabase.h"
@@ -63,7 +65,7 @@
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kprocess.h>
 #include <k3process.h>
 #include <kstandarddirs.h>
@@ -87,10 +89,10 @@ const KLocalizedString toolbarHelp2 = ki18n(
 "<br>Click on the toolbar handle to hide the toolbar, "
 "or drag and place the toolbar to a different location.</p>");
 
-static QIconSet createIconSet( const QString &name )
+static QIcon createIconSet( const QString &name )
 {
-  QIconSet ic( PixmapChooser::loadPixmap( name, PixmapChooser::Small ) );
-  ic.setPixmap( PixmapChooser::loadPixmap( name, PixmapChooser::Disabled ), QIconSet::Small, QIconSet::Disabled );
+  QIcon ic( PixmapChooser::loadPixmap( name, PixmapChooser::Small ) );
+  ic.setPixmap( PixmapChooser::loadPixmap( name, PixmapChooser::Disabled ), QIcon::Small, QIcon::Disabled );
   return ic;
 }
 
@@ -125,7 +127,7 @@ void MainWindow::setupEditActions()
   actionEditPaste->setWhatsThis(whatsThisFrom("Edit|Paste"));
   actionEditPaste->setEnabled(false);
 
-  actionEditDelete = new KAction(i18n("Delete"), Key_Delete, this, SLOT(editDelete()), 
+  actionEditDelete = new KAction(i18n("Delete"), Qt::Key_Delete, this, SLOT(editDelete()), 
                                  actionCollection(), "edit_delete");
   actionEditDelete->setToolTip(i18n("Deletes the selected widgets"));
   actionEditDelete->setWhatsThis(whatsThisFrom("Edit|Delete"));
@@ -146,7 +148,7 @@ void MainWindow::setupEditActions()
   actionEditLower->setWhatsThis(i18n("Lowers the selected widgets"));
   actionEditLower->setEnabled(false);
 
-  actionEditAccels = new KAction(i18n("Check Accelerators"), ALT + Key_R, this, SLOT(editAccels()), 
+  actionEditAccels = new KAction(i18n("Check Accelerators"), ALT + Qt::Key_R, this, SLOT(editAccels()), 
                                  actionCollection(), "edit_check_accel");
   actionEditAccels->setToolTip(i18n("Checks if the accelerators used in the form are unique"));
   actionEditAccels->setWhatsThis(whatsThisFrom("Edit|Check Accelerator"));
@@ -167,7 +169,7 @@ void MainWindow::setupEditActions()
 
   KToolBar *tb = new KToolBar(this, "Edit");
   tb->setFullSize(false);
-  QWhatsThis::add(tb, i18n("<b>The Edit toolbar</b>") + toolbarHelp1);
+  Q3WhatsThis::add(tb, i18n("<b>The Edit toolbar</b>") + toolbarHelp1);
   addToolBar(tb, i18n("Edit"));
   actionEditUndo->plug(tb);
   actionEditRedo->plug(tb);
@@ -176,7 +178,7 @@ void MainWindow::setupEditActions()
   actionEditCopy->plug(tb);
   actionEditPaste->plug(tb);
 
-  QPopupMenu *menu = new QPopupMenu(this, "Edit");
+  Q3PopupMenu *menu = new Q3PopupMenu(this, "Edit");
   menuBar()->insertItem(i18n("&Edit"), menu);
   actionEditUndo->plug(menu);
   actionEditRedo->plug(menu);
@@ -198,25 +200,25 @@ void MainWindow::setupEditActions()
 void MainWindow::setupLayoutActions()
 {
   actionEditAdjustSize = new KAction(i18n("Adjust Size"), createIconSet("adjustsize.xpm"),
-                                     CTRL + Key_J, this, SLOT(editAdjustSize()), actionCollection(), "edit_adjust_size");
+                                     CTRL + Qt::Key_J, this, SLOT(editAdjustSize()), actionCollection(), "edit_adjust_size");
   actionEditAdjustSize->setToolTip(i18n("Adjusts the size of the selected widget"));
   actionEditAdjustSize->setWhatsThis(whatsThisFrom("Layout|Adjust Size"));
   actionEditAdjustSize->setEnabled(false);
 
   actionEditHLayout = new KAction(i18n("Lay Out Horizontally"), createIconSet("edithlayout.xpm"),
-                                  CTRL + Key_H, this, SLOT(editLayoutHorizontal()), actionCollection(), "edit_layout_h");
+                                  CTRL + Qt::Key_H, this, SLOT(editLayoutHorizontal()), actionCollection(), "edit_layout_h");
   actionEditHLayout->setToolTip(i18n("Lays out the selected widgets horizontally"));
   actionEditHLayout->setWhatsThis(whatsThisFrom("Layout|Lay Out Horizontally"));
   actionEditHLayout->setEnabled(false);
 
   actionEditVLayout = new KAction(i18n("Lay Out Vertically"), createIconSet("editvlayout.xpm"),
-                                  CTRL + Key_L, this, SLOT(editLayoutVertical()), actionCollection(), "edit_layout_v");
+                                  CTRL + Qt::Key_L, this, SLOT(editLayoutVertical()), actionCollection(), "edit_layout_v");
   actionEditVLayout->setToolTip(i18n("Lays out the selected widgets vertically"));
   actionEditVLayout->setWhatsThis(whatsThisFrom("Layout|Lay Out Vertically"));
   actionEditVLayout->setEnabled(false);
 
   actionEditGridLayout = new KAction(i18n("Lay Out in a Grid"), createIconSet("editgrid.xpm"),
-                                     CTRL + Key_G, this, SLOT(editLayoutGrid()), actionCollection(), "edit_layout_grid");
+                                     CTRL + Qt::Key_G, this, SLOT(editLayoutGrid()), actionCollection(), "edit_layout_grid");
   actionEditGridLayout->setToolTip(i18n("Lays out the selected widgets in a grid"));
   actionEditGridLayout->setWhatsThis(whatsThisFrom("Layout|Lay Out in a Grid"));
   actionEditGridLayout->setEnabled(false);
@@ -236,13 +238,13 @@ void MainWindow::setupLayoutActions()
   actionEditSplitVertical->setEnabled(false);
 
   actionEditBreakLayout = new KAction(i18n("Break Layout"), createIconSet("editbreaklayout.xpm"),
-                                      CTRL + Key_B, this, SLOT(editBreakLayout()), actionCollection(), "edit_break_layout");
+                                      CTRL + Qt::Key_B, this, SLOT(editBreakLayout()), actionCollection(), "edit_break_layout");
   actionEditBreakLayout->setToolTip(i18n("Breaks the selected layout"));
   actionEditBreakLayout->setWhatsThis(whatsThisFrom("Layout|Break Layout"));
   
   int id = WidgetDatabase::idFromClassName("Spacer");
   KToggleAction *a = new KToggleAction("Spacer", KShortcut::null(), this, SLOT(toolSelected()), 
-                                       actionCollection(), QString::number(id).latin1());
+                                       actionCollection(), QString::number(id).toLatin1());
   a->setExclusiveGroup("tool");
   a->setText(i18n("Add ") + WidgetDatabase::className(id));
   a->setToolTip(i18n("Insert a %1", WidgetDatabase::toolTip(id)));
@@ -251,7 +253,7 @@ void MainWindow::setupLayoutActions()
       "or double click to keep the tool selected.", WidgetDatabase::toolTip(id), 
       WidgetDatabase::whatsThis(id), WidgetDatabase::toolTip(id)));
 
-  QWhatsThis::add(layoutToolBar, i18n("<b>The Layout toolbar</b>") + toolbarHelp1);
+  Q3WhatsThis::add(layoutToolBar, i18n("<b>The Layout toolbar</b>") + toolbarHelp1);
   actionEditAdjustSize->plug(layoutToolBar);
   layoutToolBar->addSeparator();
   actionEditHLayout->plug(layoutToolBar);
@@ -263,7 +265,7 @@ void MainWindow::setupLayoutActions()
   layoutToolBar->addSeparator();
   a->plug(layoutToolBar);
 
-  QPopupMenu *menu = new QPopupMenu(this, "Layout");
+  Q3PopupMenu *menu = new Q3PopupMenu(this, "Layout");
   menuBar()->insertItem(i18n("&Layout"), menu);
   actionEditAdjustSize->plug(menu);
   menu->insertSeparator();
@@ -279,37 +281,37 @@ void MainWindow::setupLayoutActions()
 
 void MainWindow::setupToolActions()
 {
-  actionPointerTool = new KToggleAction(i18n("Pointer"), "arrow", Key_F2,
+  actionPointerTool = new KToggleAction(i18n("Pointer"), "arrow", Qt::Key_F2,
                                         this, SLOT(toolSelected()), actionCollection(), 
-                                        QString::number(POINTER_TOOL).latin1());
+                                        QString::number(POINTER_TOOL).toLatin1());
   actionPointerTool->setToolTip(i18n("Selects the pointer tool"));
   actionPointerTool->setWhatsThis(whatsThisFrom("Tools|Pointer"));
   actionPointerTool->setExclusiveGroup("tool");
 
   actionConnectTool = new KToggleAction(i18n("Connect Signal/Slots"), createIconSet("connecttool.xpm"),
-                                        Key_F3, this, SLOT(toolSelected()), actionCollection(), 
-                                        QString::number(CONNECT_TOOL).latin1());
+                                        Qt::Key_F3, this, SLOT(toolSelected()), actionCollection(), 
+                                        QString::number(CONNECT_TOOL).toLatin1());
   actionConnectTool->setToolTip(i18n("Selects the connection tool"));
   actionConnectTool->setWhatsThis(whatsThisFrom("Tools|Connect Signals and Slots"));
   actionConnectTool->setExclusiveGroup("tool");
 
   actionOrderTool = new KToggleAction(i18n("Tab Order"), createIconSet("ordertool.xpm"),
-                                      Key_F4, this, SLOT(toolSelected()), actionCollection(),
-                                      QString::number(ORDER_TOOL).latin1());
+                                      Qt::Key_F4, this, SLOT(toolSelected()), actionCollection(),
+                                      QString::number(ORDER_TOOL).toLatin1());
   actionOrderTool->setToolTip(i18n("Selects the tab order tool"));
   actionOrderTool->setWhatsThis(whatsThisFrom("Tools|Tab Order"));
   actionOrderTool->setExclusiveGroup("tool");
 
   KToolBar *tb = new KToolBar(this, "Tools");
   tb->setFullSize(false);
-  QWhatsThis::add(tb, i18n("<b>The Tools toolbar</b>") + toolbarHelp1);
+  Q3WhatsThis::add(tb, i18n("<b>The Tools toolbar</b>") + toolbarHelp1);
 
-  addToolBar(tb, i18n("Tools"), QMainWindow::DockTop, true);
+  addToolBar(tb, i18n("Tools"), Q3MainWindow::DockTop, true);
   actionPointerTool->plug(tb);
   actionConnectTool->plug(tb);
   actionOrderTool->plug(tb);
 
-  QPopupMenu *mmenu = new QPopupMenu(this, "Tools");
+  Q3PopupMenu *mmenu = new Q3PopupMenu(this, "Tools");
   menuBar()->insertItem(i18n("&Tools"), mmenu);
   actionPointerTool->plug(mmenu);
   actionConnectTool->plug(mmenu);
@@ -321,18 +323,18 @@ void MainWindow::setupToolActions()
     QString grp = WidgetDatabase::widgetGroup(j);
     if (!WidgetDatabase::isGroupVisible(grp) || WidgetDatabase::isGroupEmpty(grp))
       continue;
-    KToolBar *tb = new KToolBar(this, grp.latin1());
+    KToolBar *tb = new KToolBar(this, grp.toLatin1());
     tb->setFullSize(false);
     bool plural = grp[(int) grp.length() - 1] == 's';
     if (plural)
     {
-      QWhatsThis::add(tb, i18n("<b>The %1</b>", grp) + toolbarHelp2.subs(grp).toString());
+      Q3WhatsThis::add(tb, i18n("<b>The %1</b>", grp) + toolbarHelp2.subs(grp).toString());
     } else
     {
-      QWhatsThis::add(tb, i18n("<b>The %1 Widgets</b>", grp) + toolbarHelp2.subs(grp).toString());
+      Q3WhatsThis::add(tb, i18n("<b>The %1 Widgets</b>", grp) + toolbarHelp2.subs(grp).toString());
     }
     addToolBar(tb, grp);
-    QPopupMenu *menu = new QPopupMenu(this, grp.latin1());
+    Q3PopupMenu *menu = new Q3PopupMenu(this, grp.toLatin1());
     mmenu->insertItem(grp, menu);
 
     for (int i = 0; i < WidgetDatabase::count(); ++i)
@@ -340,7 +342,7 @@ void MainWindow::setupToolActions()
       if (WidgetDatabase::group(i) != grp)
         continue;               // only widgets, i.e. not forms and temp stuff
       KToggleAction *a = new KToggleAction(WidgetDatabase::className(i), KShortcut::null(),
-                                           this, SLOT(toolSelected()), actionCollection(), QString::number(i).latin1());
+                                           this, SLOT(toolSelected()), actionCollection(), QString::number(i).toLatin1());
       a->setExclusiveGroup("tool");
       QString atext = WidgetDatabase::className(i);
       if (atext[0] == 'Q')
@@ -370,14 +372,14 @@ void MainWindow::setupToolActions()
 
   // add external Kommander dialogs for Editor
   m_editorTools.clear();
-  QPopupMenu* editMenu = new QPopupMenu(this);
+  Q3PopupMenu* editMenu = new Q3PopupMenu(this);
   QStringList searchPaths = KGlobal::dirs()->findDirs("data", "kmdr-editor/editor");
   for (QStringList::ConstIterator it = searchPaths.begin(); it != searchPaths.end(); ++it)
   {
     if (!QFile::exists(*it))
       continue;
     QDir dir(*it);
-    const QFileInfoList* fileList = dir.entryInfoList(QDir::DefaultFilter, QDir::DirsFirst | QDir::Name);
+    const QFileInfoList* fileList = dir.entryInfoList(QDir::NoFilter, QDir::DirsFirst | QDir::Name);
     if (fileList)
       for (QFileInfoListIterator fit(*fileList); fit.current(); ++fit)
       {
@@ -401,9 +403,9 @@ void MainWindow::setupFileActions()
   KToolBar *tb = new KToolBar(this, "File");
   tb->setFullSize(false);
 
-  QWhatsThis::add(tb, i18n("<b>The File toolbar</b>") + toolbarHelp1);
+  Q3WhatsThis::add(tb, i18n("<b>The File toolbar</b>") + toolbarHelp1);
   addToolBar(tb, i18n("File"));
-  fileMenu = new QPopupMenu(this, "File");
+  fileMenu = new Q3PopupMenu(this, "File");
   menuBar()->insertItem(i18n("&File"), fileMenu);
 
   KAction *a = KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
@@ -462,10 +464,10 @@ void MainWindow::setupFileActions()
 
 void MainWindow::setupRunActions()
 {
-  QPopupMenu *menu = new QPopupMenu(this, "Run");
+  Q3PopupMenu *menu = new Q3PopupMenu(this, "Run");
   menuBar()->insertItem(i18n("&Run"), menu);
 
-  KAction* a = new KAction(i18n("Run Dialog"), "system-run", CTRL + Key_R,
+  KAction* a = new KAction(i18n("Run Dialog"), "system-run", CTRL + Qt::Key_R,
                            this, SLOT(runForm()), actionCollection(), "run");
   a->setToolTip(i18n("Executes dialog"));
   a->setWhatsThis(whatsThisFrom("Run|Run dialog"));
@@ -500,17 +502,17 @@ void MainWindow::setupWindowActions()
     actionWindowCloseAll->setToolTip(i18n("Closes all form windows"));
     actionWindowCloseAll->setWhatsThis(whatsThisFrom("Window|Close All"));
     
-    KAction* actionWindowNext = new KAction(i18n("Next"), Key_F6, qworkspace, 
+    KAction* actionWindowNext = new KAction(i18n("Next"), Qt::Key_F6, qworkspace, 
                                    SLOT(activateNextWindow()), actionCollection(), "window_next");
     actionWindowNext->setToolTip(i18n("Activates the next window"));
     actionWindowNext->setWhatsThis(whatsThisFrom("Window|Next"));
     
-    KAction* actionWindowPrevious = new KAction(i18n("Previous"), CTRL + SHIFT + Key_F6, qworkspace, 
+    KAction* actionWindowPrevious = new KAction(i18n("Previous"), CTRL + SHIFT + Qt::Key_F6, qworkspace, 
                                        SLOT(activatePreviousWindow()), actionCollection(), "window_prev");
     actionWindowPrevious->setToolTip(i18n("Activates the previous window"));
     actionWindowPrevious->setWhatsThis(whatsThisFrom("Window|Previous"));
     
-    windowMenu = new KPopupMenu(this, "Window");
+    windowMenu = new KMenu(this, "Window");
     menuBar()->insertItem(i18n("&Window"), windowMenu);
     connect(windowMenu, SIGNAL(aboutToShow()), this, SLOT(setupWindowActions()));
     
@@ -558,7 +560,7 @@ void MainWindow::setupWindowActions()
 
 void MainWindow::setupSettingsActions()
 {    
-  KPopupMenu *settings = new KPopupMenu(this, "Settings");
+  KMenu *settings = new KMenu(this, "Settings");
   KAction* a = KStandardAction::keyBindings(this, SLOT(editShortcuts()), actionCollection());
   a->setToolTip(i18n("Opens a dialog to change shortcuts"));
   a->plug(settings);
@@ -578,7 +580,7 @@ void MainWindow::setupSettingsActions()
 
 void MainWindow::setupHelpActions()
 {
-  KPopupMenu *help = helpMenu();
+  KMenu *help = helpMenu();
   menuBar()->insertItem( i18n("&Help"), help);
 }
 
@@ -623,7 +625,7 @@ void MainWindow::fileOpen(const QString & fn)
     {
       QFileInfo fi(filename);
       if (fi.exists() && openFormWindow(filename))
-        actionRecent->addURL(filename);
+        actionRecent->addUrl(filename);
     }
   }
 }
@@ -643,8 +645,8 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
   } else
   {
     QFile f(filename);
-    f.open(IO_ReadOnly);
-    QTextStream ts(&f);
+    f.open(QIODevice::ReadOnly);
+    Q3TextStream ts(&f);
     makeNew = ts.read().length() < 2;
   }
   if (!makeNew)
@@ -732,7 +734,7 @@ void MainWindow::saveAllTemp()
   inSaveAllTemp = true;
   statusBar()->message(i18n("Qt Designer is crashing. Attempting to save files..."));
   QWidgetList windows = qWorkspace()->windowList();
-  QString baseName = QDir::homeDirPath() + "/.designer/saved-form-";
+  QString baseName = QDir::homePath() + "/.designer/saved-form-";
   int i = 1;
   for (QWidget * w = windows.first(); w; w = windows.next())
   {
@@ -802,7 +804,7 @@ void MainWindow::createNewTemplate()
     {
       QString tmpfn = (*it) + "/templates/" + fn + ".kmdr";
       f.setName(tmpfn);
-      if (f.open(IO_WriteOnly))
+      if (f.open(QIODevice::WriteOnly))
         break;
     }
   }
@@ -811,7 +813,7 @@ void MainWindow::createNewTemplate()
     KMessageBox::information(this, i18n("Could not create the template"), i18n("Create Template"));
     return;
   }
-  QTextStream ts(&f);
+  Q3TextStream ts(&f);
 
   ts << "<!DOCTYPE UI><UI>" << endl;
   ts << "<widget>" << endl;

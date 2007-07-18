@@ -24,7 +24,7 @@
 #include "multilineeditor.h"
 
 class FormWindow;
-class QMultiLineEdit;
+class Q3MultiLineEdit;
 
 class MultiLineEditor : public MultiLineEditorBase
 {
@@ -38,7 +38,7 @@ protected slots:
     void applyClicked();
 
 private:
-    QMultiLineEdit *mlined;
+    Q3MultiLineEdit *mlined;
     FormWindow *formwindow;
 
 };

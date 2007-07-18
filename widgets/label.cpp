@@ -19,6 +19,9 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QLabel>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>

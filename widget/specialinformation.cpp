@@ -79,7 +79,7 @@ int SpecialFunction::argumentCount() const
 
 int SpecialInformation::function(int group, const QString& fname) 
 {
-  QString f = fname.lower();
+  QString f = fname.toLower();
   if (m_functions.contains(group) && m_functions[group].contains(f))
     return m_functions[group][f];
   else if (m_aliases.contains(group) && m_aliases[group].contains(f))
@@ -157,13 +157,13 @@ bool SpecialInformation::insert(int id, const QString& function, const QString d
 {
   if (isValid(m_defaultGroup, id))  /* function already defined */
     return false;
-  if (m_functions[m_defaultGroup].contains(function.lower()))
+  if (m_functions[m_defaultGroup].contains(function.toLower()))
     return false;                   /* function name already in use */
-  if (m_aliases[m_defaultGroup].contains(function.lower()))
+  if (m_aliases[m_defaultGroup].contains(function.toLower()))
     return false;                   /* function name already in use */
   SpecialFunction sf(function, description, minArgs, maxArgs);
   m_specials[m_defaultGroup][id] = sf;
-  m_functions[m_defaultGroup][sf.name().lower()] = id;
+  m_functions[m_defaultGroup][sf.name().toLower()] = id;
   return true;
 }
   
@@ -171,9 +171,9 @@ bool SpecialInformation::insertAlias(int id, const QString& alias)
 {
   if (!isValid(m_defaultGroup, id))  /* function doesn't exists */
     return false;
-  if (m_functions[m_defaultGroup].contains(alias.lower()))
+  if (m_functions[m_defaultGroup].contains(alias.toLower()))
     return false;
-  if (m_aliases[m_defaultGroup].contains(alias.lower()))
+  if (m_aliases[m_defaultGroup].contains(alias.toLower()))
     return false;
   m_aliases[m_defaultGroup][alias] = id;
   return true;

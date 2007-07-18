@@ -28,6 +28,9 @@
 #include <qevent.h>
 #include <qlayout.h>
 #include <qsizepolicy.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <Q3HBoxLayout>
 
 /* OTHER INCLUDES */
 #include <specials.h>
@@ -45,7 +48,7 @@ FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
   
   m_selectButton = new KPushButton("...", this);
 
-  m_boxLayout = new QHBoxLayout(this, 0, 11);
+  m_boxLayout = new Q3HBoxLayout(this, 0, 11);
   m_boxLayout->addWidget(m_lineEdit);
   m_boxLayout->addWidget(m_selectButton);
 
@@ -115,9 +118,9 @@ void FileSelector::setSelectionType(SelectionType a_selectionType)
   m_selectionType = a_selectionType;
   delete m_lineEdit->completionObject();
   if (m_selectionType == Directory) 
-     m_lineEdit->setCompletionObject(new KURLCompletion(KURLCompletion::DirCompletion));
+     m_lineEdit->setCompletionObject(new KUrlCompletion(KUrlCompletion::DirCompletion));
   else
-     m_lineEdit->setCompletionObject(new KURLCompletion(KURLCompletion::FileCompletion));
+     m_lineEdit->setCompletionObject(new KUrlCompletion(KUrlCompletion::FileCompletion));
   
 }
 

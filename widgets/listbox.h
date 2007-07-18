@@ -23,15 +23,17 @@
 #include <qstringlist.h>
 #include <qobject.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include <klistbox.h>
+#include <k3listbox.h>
 #include "kommander_export.h"
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ListBox : public KListBox, public KommanderWidget
+class KOMMANDER_EXPORT ListBox : public K3ListBox, public KommanderWidget
 {
   Q_OBJECT
   

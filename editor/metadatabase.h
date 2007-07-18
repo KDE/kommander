@@ -25,11 +25,15 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qmap.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qsizepolicy.h>
 #include <qsize.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qcursor.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3ValueList>
+#include <QPixmap>
 
 #include "pixmapchooser.h"
 
@@ -42,7 +46,7 @@ public:
     struct Connection
     {
 	QObject *sender, *receiver;
-	QCString signal, slot;
+	Q3CString signal, slot;
 	bool operator==( const Connection &c ) const {
 	    return sender == c.sender && receiver == c.receiver &&
 		   signal == c.signal && slot == c.slot ;
@@ -52,7 +56,7 @@ public:
     struct Slot
     {
 	QString returnType;
-	QCString slot;
+	Q3CString slot;
 	QString specifier;
 	QString access;
 	QString language;
@@ -68,7 +72,7 @@ public:
 
     struct Property
     {
-	QCString property;
+	Q3CString property;
 	QString type;
 	bool operator==( const Property &p ) const {
 	    return property == p.property &&
@@ -84,9 +88,9 @@ public:
 	bool operator==( const CustomWidget &w ) const;
 	CustomWidget &operator=( const CustomWidget &w );
 
-	bool hasSignal( const QCString &signal ) const;
-	bool hasSlot( const QCString &slot ) const;
-	bool hasProperty( const QCString &prop ) const;
+	bool hasSignal( const Q3CString &signal ) const;
+	bool hasSlot( const Q3CString &slot ) const;
+	bool hasProperty( const Q3CString &prop ) const;
 
 	enum IncludePolicy { Global, Local };
 	QString className;
@@ -95,9 +99,9 @@ public:
 	QSize sizeHint;
 	QSizePolicy sizePolicy;
 	QPixmap *pixmap;
-	QValueList<QCString> lstSignals;
-	QValueList<Slot> lstSlots;
-	QValueList<Property> lstProperties;
+	Q3ValueList<Q3CString> lstSignals;
+	Q3ValueList<Slot> lstSlots;
+	Q3ValueList<Property> lstProperties;
 	int id;
 	bool isContainer;
     };
@@ -150,31 +154,31 @@ public:
     static void setMargin( QObject *o, int margin );
     static int margin( QObject *o );
 
-    static void addConnection( QObject *o, QObject *sender, const QCString &signal,
-			       QObject *receiver, const QCString &slot );
-    static void removeConnection( QObject *o, QObject *sender, const QCString &signal,
-				  QObject *receiver, const QCString &slot );
-    static QValueList<Connection> connections( QObject *o );
-    static QValueList<Connection> connections( QObject *o, QObject *sender, QObject *receiver );
-    static QValueList<Connection> connections( QObject *o, QObject *object );
+    static void addConnection( QObject *o, QObject *sender, const Q3CString &signal,
+			       QObject *receiver, const Q3CString &slot );
+    static void removeConnection( QObject *o, QObject *sender, const Q3CString &signal,
+				  QObject *receiver, const Q3CString &slot );
+    static Q3ValueList<Connection> connections( QObject *o );
+    static Q3ValueList<Connection> connections( QObject *o, QObject *sender, QObject *receiver );
+    static Q3ValueList<Connection> connections( QObject *o, QObject *object );
     static void doConnections( QObject *o );
 
-    static void addSlot( QObject *o, const QCString &slot, const QString& specifier, const QString &access, const QString &language, const QString &returnType );
-    static void removeSlot( QObject *o, const QCString &slot, const QString& specifier, const QString &access, const QString &language, const QString &returnType );
+    static void addSlot( QObject *o, const Q3CString &slot, const QString& specifier, const QString &access, const QString &language, const QString &returnType );
+    static void removeSlot( QObject *o, const Q3CString &slot, const QString& specifier, const QString &access, const QString &language, const QString &returnType );
     static void removeSlot( QObject *o, const QString &slot );
-    static QValueList<Slot> slotList( QObject *o );
-    static bool isSlotUsed( QObject *o, const QCString &slot );
-    static bool hasSlot( QObject *o, const QCString &slot, bool onlyCustom = FALSE );
-    static void changeSlot( QObject *o, const QCString &slot, const QCString &newName );
-    static void changeSlotAttributes( QObject *o, const QCString &slot,
+    static Q3ValueList<Slot> slotList( QObject *o );
+    static bool isSlotUsed( QObject *o, const Q3CString &slot );
+    static bool hasSlot( QObject *o, const Q3CString &slot, bool onlyCustom = FALSE );
+    static void changeSlot( QObject *o, const Q3CString &slot, const Q3CString &newName );
+    static void changeSlotAttributes( QObject *o, const Q3CString &slot,
 				      const QString& specifier, const QString &access,
 				      const QString &language, const QString &returnType );
-    static QString languageOfSlot( QObject *o, const QCString &slot );
-    static void setSlotList( QObject *o, const QValueList<Slot> &slotList );
+    static QString languageOfSlot( QObject *o, const Q3CString &slot );
+    static void setSlotList( QObject *o, const Q3ValueList<Slot> &slotList );
 
     static bool addCustomWidget( CustomWidget *w );
     static void removeCustomWidget( CustomWidget *w );
-    static QPtrList<CustomWidget> *customWidgets();
+    static Q3PtrList<CustomWidget> *customWidgets();
     static CustomWidget *customWidget( int id );
     static bool isWidgetNameUsed( CustomWidget *w );
     static bool hasCustomWidget( const QString &className );
@@ -182,8 +186,8 @@ public:
     static void setTabOrder( QWidget *w, const QWidgetList &order );
     static QWidgetList tabOrder( QWidget *w );
 
-    static void setIncludes( QObject *o, const QValueList<Include> &incs );
-    static QValueList<Include> includes( QObject *o );
+    static void setIncludes( QObject *o, const Q3ValueList<Include> &incs );
+    static Q3ValueList<Include> includes( QObject *o );
 
     static void setForwards( QObject *o, const QStringList &fwds );
     static QStringList forwards( QObject *o );

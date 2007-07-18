@@ -18,7 +18,7 @@
 #define _HAVE_PARSER_H_
 
 #include "parsenode.h"
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 #include <qstringlist.h>
 #include <qmap.h>
 
@@ -159,7 +159,7 @@ private:
   // in case of error, this keeps position of first error
   uint m_errorPosition;
   // parsing nodes
-  QValueVector<ParseNode> m_parts;
+  Q3ValueVector<ParseNode> m_parts;
   // variables
   QMap<QString, ParseNode> m_variables;
   // arrays

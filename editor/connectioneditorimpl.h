@@ -25,8 +25,10 @@
 #include "metadatabase.h"
 
 #include <qmap.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
-class QListViewItem;
+class Q3ListViewItem;
 class FormWindow;
 
 class ConnectionEditor : public ConnectionEditorBase
@@ -66,8 +68,8 @@ private:
   QObject* objectByName(const QString& s) const;
   bool hasConnection(const QString & snder, const QString & signal,
       const QString & rcvr, const QString & slot)  const;
-  QMap <QListViewItem*, MetaDataBase::Connection> m_connections;
-  QValueList <MetaDataBase::Connection> m_oldConnections;
+  QMap <Q3ListViewItem*, MetaDataBase::Connection> m_connections;
+  Q3ValueList <MetaDataBase::Connection> m_oldConnections;
   QObject* m_sender;
   QObject* m_receiver;
   FormWindow* m_formWindow;

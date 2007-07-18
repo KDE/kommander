@@ -34,7 +34,7 @@ public slots:
   // Filter text changed - find matching widget
   void textChanged(const QString&);
   // Double clicked on listviwew
-  void selectedItem(QListViewItem *);
+  void selectedItem(Q3ListViewItem *);
 private:
   // Check if given widget is a Kommander widget
   bool isKommanderWidget(QObject* w);

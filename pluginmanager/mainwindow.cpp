@@ -19,7 +19,7 @@
 #include "pluginmanager.h"
 
 #include <ktoolbar.h>
-#include <klistbox.h>
+#include <k3listbox.h>
 #include <kconfig.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
@@ -28,7 +28,7 @@
 #include <kglobal.h>
 #include <kstandarddirs.h>
 
-MainWindow::MainWindow( QWidget* parent, const char *name, WFlags f )
+MainWindow::MainWindow( QWidget* parent, const char *name, Qt::WFlags f )
     : KXmlGuiWindow( parent, name, f )
 {
   KToolBar *toolBar = new KToolBar( this );
@@ -37,7 +37,7 @@ MainWindow::MainWindow( QWidget* parent, const char *name, WFlags f )
   toolBar->insertButton("view-refresh", Refresh, true, i18n("Refresh") );
   connect( toolBar, SIGNAL(clicked(int)), this, SLOT(toolButton(int)) );
 
-  m_list = new KListBox( this );
+  m_list = new K3ListBox( this );
   setCentralWidget(m_list);
   
   m_pluginManager = new PluginManager;

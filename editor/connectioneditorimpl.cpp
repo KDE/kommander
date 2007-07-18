@@ -26,9 +26,13 @@
 #include <qmetaobject.h>
 #include <qlabel.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3StrList>
+#include <Q3PtrList>
 
-#include <klistbox.h>
-#include <klistview.h>
+#include <k3listbox.h>
+#include <k3listview.h>
 #include <kpushbutton.h>
 #include <kcombobox.h>
 #include <klocale.h>
@@ -102,7 +106,7 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   /* Create widget list */
   QStringList lst;
   lst << m_formWindow->name();
-  for (QPtrDictIterator<QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
+  for (Q3PtrDictIterator<QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
   {
     if (it.current()->isVisibleTo(this) &&
         !it.current()->inherits("QLayoutWidget") &&
@@ -118,7 +122,7 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   fillWidgetList(comboReceiver, lst, m_receiver->name());
   
   // Fill receiver combos with widget and action list    
-  for (QPtrListIterator<QAction> it(m_formWindow->actionList()); it.current(); ++it)
+  for (Q3PtrListIterator<QAction> it(m_formWindow->actionList()); it.current(); ++it)
     lst << it.current()->name();
   fillWidgetList(comboSender, lst, m_sender->name());
   senderChanged(m_sender->name());
@@ -135,8 +139,8 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   connect(disconnectButton, SIGNAL(clicked()), SLOT(disconnectClicked()));
   connect(okButton, SIGNAL(clicked()), SLOT(okClicked()));
   connect(cancelButton, SIGNAL(clicked()), SLOT(cancelClicked()));
-  connect(signalBox, SIGNAL(doubleClicked(QListBoxItem*)), SLOT(connectClicked()));
-  connect(slotBox, SIGNAL(doubleClicked(QListBoxItem*)), SLOT(connectClicked()));
+  connect(signalBox, SIGNAL(doubleClicked(Q3ListBoxItem*)), SLOT(connectClicked()));
+  connect(slotBox, SIGNAL(doubleClicked(Q3ListBoxItem*)), SLOT(connectClicked()));
 }
 
 ConnectionEditor::~ConnectionEditor()
@@ -165,18 +169,18 @@ bool ConnectionEditor::isSlotIgnored(const QMetaData* md)
      ((QWidget*)m_receiver)->focusPolicy() == QWidget::NoFocus)
     return true;
   for (int i = 0; i<comboSender->count(); i++)
-    if (checkConnectArgs(MetaDataBase::normalizeSlot(signalBox->text(i)).latin1(), m_receiver, md->name))
+    if (checkConnectArgs(MetaDataBase::normalizeSlot(signalBox->text(i)).toLatin1(), m_receiver, md->name))
       return false;
   return true;
 }
 
 QObject* ConnectionEditor::objectByName(const QString& s) const
 {
-  for (QPtrDictIterator <QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
+  for (Q3PtrDictIterator <QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
     if (QString(it.current()->name()) == s)
       return it.current();
   
-  for (QPtrListIterator<QAction> it(m_formWindow->actionList()); it.current(); ++it)
+  for (Q3PtrListIterator<QAction> it(m_formWindow->actionList()); it.current(); ++it)
     if (QString(it.current()->name()) == s)
       return it.current();
   
@@ -196,7 +200,7 @@ void ConnectionEditor::connectClicked()
   conn.signal = signalBox->currentText();
   conn.slot = slotBox->currentText();
   conn.receiver = m_receiver;
-  KListViewItem *i = new KListViewItem(connectionView, m_sender->name(), conn.signal, m_receiver->name(),
+  K3ListViewItem *i = new K3ListViewItem(connectionView, m_sender->name(), conn.signal, m_receiver->name(),
                                        conn.slot);                       
   i->setPixmap(0, PixmapChooser::loadPixmap("connecttool.xpm"));
   connectionView->setCurrentItem(i);
@@ -208,11 +212,11 @@ void ConnectionEditor::connectClicked()
 
 void ConnectionEditor::disconnectClicked()
 {
-  QListViewItem *p_item = connectionView->currentItem();
+  Q3ListViewItem *p_item = connectionView->currentItem();
   if (!p_item)
     return;
 
-  QMap <QListViewItem*, MetaDataBase::Connection>::Iterator it = m_connections.find(p_item);
+  QMap <Q3ListViewItem*, MetaDataBase::Connection>::Iterator it = m_connections.find(p_item);
   if (it != m_connections.end())
     m_connections.remove(it);
   delete p_item;
@@ -227,18 +231,18 @@ void ConnectionEditor::okClicked()
   MacroCommand* rmConn = 0, *addConn = 0;
   QString n = i18n("Connect/Disconnect the signals and slots of '%1' and '%2'", m_sender->name(), 
       m_receiver->name());
-  QValueList <MetaDataBase::Connection>::Iterator cit;
+  Q3ValueList <MetaDataBase::Connection>::Iterator cit;
   if (!m_oldConnections.isEmpty())
   {
-    QPtrList <Command> commands;
+    Q3PtrList <Command> commands;
     for (cit = m_oldConnections.begin(); cit != m_oldConnections.end(); ++cit)
       commands.append(new RemoveConnectionCommand(i18n("Remove Connection"), m_formWindow, *cit));
     rmConn = new MacroCommand(i18n("Remove Connections"), m_formWindow, commands);
   }
   if (!m_connections.isEmpty())
   {
-    QMap<QListViewItem*, MetaDataBase::Connection>::Iterator it = m_connections.begin();
-    QPtrList<Command> commands;
+    QMap<Q3ListViewItem*, MetaDataBase::Connection>::Iterator it = m_connections.begin();
+    Q3PtrList<Command> commands;
     for (; it != m_connections.end(); ++it)
     {
       MetaDataBase::Connection conn = *it;
@@ -249,7 +253,7 @@ void ConnectionEditor::okClicked()
 
   if (rmConn || addConn)
   {
-    QPtrList < Command > commands;
+    Q3PtrList < Command > commands;
     if (rmConn)
       commands.append(rmConn);
     if (addConn)
@@ -273,7 +277,7 @@ void ConnectionEditor::senderChanged(const QString& s)
   if (!p_object)
     return;
   m_sender = p_object;
-  QStrList p_sigs = m_sender->metaObject()->signalNames(true);
+  Q3StrList p_sigs = m_sender->metaObject()->signalNames(true);
   signalBox->clear();
   for (QStrListIterator it(p_sigs); it.current(); ++it)
     if (!isSignalIgnored(it.current()) && !signalBox->findItem(it.current(), Qt::ExactMatch))
@@ -310,8 +314,8 @@ void ConnectionEditor::updateConnectButton()
   bool itemsSelected = signalBox->currentItem() != -1 && slotBox->currentItem() != -1;
   bool notConnected = !itemsSelected || !hasConnection(m_sender->name(), signalBox->currentText(),
         m_receiver->name(), slotBox->currentText());
-  bool connectionAllowed = notConnected && checkConnectArgs(MetaDataBase::normalizeSlot(signalBox->currentText()).latin1(),
-      m_receiver, MetaDataBase::normalizeSlot(slotBox->currentText()).latin1());
+  bool connectionAllowed = notConnected && checkConnectArgs(MetaDataBase::normalizeSlot(signalBox->currentText()).toLatin1(),
+      m_receiver, MetaDataBase::normalizeSlot(slotBox->currentText()).toLatin1());
   connectButton->setEnabled(itemsSelected && notConnected && connectionAllowed);
 }
   
@@ -323,7 +327,7 @@ void ConnectionEditor::updateDisconnectButton()
 bool ConnectionEditor::hasConnection(const QString& snder, const QString& signal,
     const QString& rcvr, const QString& slot) const
 {
-  for (QListViewItemIterator it(connectionView); it.current(); ++it)
+  for (Q3ListViewItemIterator it(connectionView); it.current(); ++it)
     if (it.current()->text(0) == snder &&
         it.current()->text(1) == signal &&
         it.current()->text(2) == rcvr && it.current()->text(3) == slot)
@@ -338,14 +342,14 @@ void ConnectionEditor::fillConnectionsList()
   m_oldConnections = MetaDataBase::connections(m_formWindow);
   if (!m_oldConnections.isEmpty())
   {
-    QValueList <MetaDataBase::Connection>::Iterator it = m_oldConnections.begin();
+    Q3ValueList <MetaDataBase::Connection>::Iterator it = m_oldConnections.begin();
     for (; it != m_oldConnections.end(); ++it)
     {
       if (m_formWindow->isMainContainer((QWidget*)(*it).receiver) &&
-          !MetaDataBase::hasSlot(m_formWindow, MetaDataBase::normalizeSlot((*it).slot).latin1()))
+          !MetaDataBase::hasSlot(m_formWindow, MetaDataBase::normalizeSlot((*it).slot).toLatin1()))
         continue;
       MetaDataBase::Connection conn = *it;
-      KListViewItem *i = new KListViewItem(connectionView, conn.sender->name(), conn.signal, 
+      K3ListViewItem *i = new K3ListViewItem(connectionView, conn.sender->name(), conn.signal, 
                                            conn.receiver->name(), conn.slot);
       i->setPixmap(0, PixmapChooser::loadPixmap("connecttool.xpm"));
       m_connections.insert(i, conn);

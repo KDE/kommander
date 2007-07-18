@@ -126,7 +126,7 @@ bool FormFile::saveAs()
 {
   QString f = fileName();
   if(fileNameTemp)
-    f = QString(formWindow()->name()).lower() + ".kmdr";
+    f = QString(formWindow()->name()).toLower() + ".kmdr";
   bool saved = false;
   while (!saved) {
     QString fn = KFileDialog::getSaveFileName(QString::null,
@@ -172,7 +172,7 @@ bool FormFile::closeEvent()
   }
 
   switch (KMessageBox::warningYesNoCancel(MainWindow::self, i18n("Dialog '%1' was modified."
-  "Do you want to save it?", filename), i18n("Save File?"), KStdGuiItem::save(), KStdGuiItem::discard())) {
+  "Do you want to save it?", filename), i18n("Save File?"), KStandardGuiItem::save(), KStandardGuiItem::discard())) {
     case KMessageBox::Yes:
       if (!save())
         return false;
@@ -242,9 +242,9 @@ QString FormFile::formName() const
   if (!cachedFormName.isNull())
     return cachedFormName;
   QFile f(filename);
-  if (f.open(IO_ReadOnly))
+  if (f.open(QIODevice::ReadOnly))
   {
-    QTextStream ts(&f);
+    Q3TextStream ts(&f);
     QString line;
     QString className;
     while (!ts.eof())

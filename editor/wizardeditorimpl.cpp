@@ -24,14 +24,14 @@
 #include "pixmapchooser.h"
 #include "command.h"
 
-#include <qwizard.h>
-#include <qlistbox.h>
+#include <q3wizard.h>
+#include <q3listbox.h>
 #include <qpushbutton.h>
 #include <kinputdialog.h>
 
 #include <klocale.h>
 
-WizardEditor::WizardEditor( QWidget *parent, QWizard *w, FormWindow *fw )
+WizardEditor::WizardEditor( QWidget *parent, Q3Wizard *w, FormWindow *fw )
     : WizardEditorBase( parent, 0 ), formwindow( fw ), wizard( w )
 {
     connect( buttonHelp, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );

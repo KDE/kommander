@@ -18,16 +18,19 @@
 **
 **********************************************************************/
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <Q3Frame>
 
 #include "previewframe.h"
 
 PreviewFrame::PreviewFrame( QWidget *parent, const char *name )
-    : QVBox( parent, name )
+    : Q3VBox( parent, name )
 {
     setMinimumSize(200, 200);
-    setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+    setFrameStyle(Q3Frame::StyledPanel | Q3Frame::Sunken);
     setLineWidth(1);
 
     PreviewWorkspace * w = new PreviewWorkspace( this );
@@ -45,7 +48,7 @@ void PreviewWorkspace::paintEvent( QPaintEvent* )
 {
     QPainter p ( this );
     p.setPen( QPen( white ) );
-    p.drawText ( 0, height() / 2,  width(), height(), AlignHCenter,
+    p.drawText ( 0, height() / 2,  width(), height(), Qt::AlignHCenter,
 		"The moose in the noose\nate the goose who was loose." );
 }
 

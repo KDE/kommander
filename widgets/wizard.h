@@ -19,14 +19,16 @@
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
-#include <qwizard.h>
+#include <q3wizard.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 
 class QShowEvent;
-class KOMMANDER_EXPORT Wizard : public QWizard, public KommanderWidget
+class KOMMANDER_EXPORT Wizard : public Q3Wizard, public KommanderWidget
 {
   Q_OBJECT
   

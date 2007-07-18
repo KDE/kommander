@@ -19,6 +19,14 @@
 **********************************************************************/
 
 #include <qmenudata.h>
+//Added by qt3to4:
+#include <Q3StrList>
+#include <QPixmap>
+#include <Q3ValueList>
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
+#include <Q3CString>
+#include <Q3PtrList>
 #include "resource.h"
 #include "defs.h"
 #include "metadatabase.h"
@@ -43,10 +51,10 @@
 
 #include <qfeatures.h>
 #include <qfile.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include <qobject.h>
 #include <qwidget.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qmetaobject.h>
 #include <qworkspace.h>
 #include <qtabwidget.h>
@@ -54,22 +62,22 @@
 #include <qbuffer.h>
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qlistbox.h>
+#include <q3whatsthis.h>
+#include <q3listbox.h>
 #include <qcombobox.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qtabbar.h>
-#include <qheader.h>
-#include <qlistview.h>
-#include <qiconview.h>
+#include <q3header.h>
+#include <q3listview.h>
+#include <q3iconview.h>
 #include <qlabel.h>
-#include <qwizard.h>
+#include <q3wizard.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
 #include <zlib.h>
 #include <qdatetime.h>
 #ifndef QT_NO_TABLE
-#include <qtable.h>
+#include <q3table.h>
 #endif
 
 #include <klocale.h>
@@ -164,7 +172,7 @@ bool Resource::load( FormFile *ff )
     mainContainerSet = false;
 
     QFile f( ff->absFileName() );
-    f.open( IO_ReadOnly );
+    f.open( QIODevice::ReadOnly );
 
     bool b = load( ff, &f );
     f.close();
@@ -414,7 +422,7 @@ bool Resource::save( const QString& filename, bool formCodeOnly )
     currFileName = filename;
 
     QFile f( filename );
-    if ( !f.open( IO_WriteOnly | IO_Translate ) )
+    if ( !f.open( QIODevice::WriteOnly | QIODevice::Text ) )
 	return false;
     bool b = save( &f );
     f.close();
@@ -427,15 +435,15 @@ bool Resource::save( QIODevice* dev )
 	return false;
 
 
-    QTextStream ts( dev );
+    Q3TextStream ts( dev );
     ts.setCodec( QTextCodec::codecForName( "UTF-8" ) );
 
     ts << "<!DOCTYPE UI><UI version=\"3.0\" stdsetdef=\"1\">" << endl;
     saveMetaInfoBefore( ts, 0 );
     saveObject( formwindow->mainContainer(), 0, ts, 0 );
     if ( formwindow->mainContainer()->inherits( "QMainWindow" ) ) {
-	saveMenuBar( (QMainWindow*)formwindow->mainContainer(), ts, 0 );
-	saveToolBars( (QMainWindow*)formwindow->mainContainer(), ts, 0 );
+	saveMenuBar( (Q3MainWindow*)formwindow->mainContainer(), ts, 0 );
+	saveToolBars( (Q3MainWindow*)formwindow->mainContainer(), ts, 0 );
     }
     if ( !MetaDataBase::customWidgets()->isEmpty() && !usedCustomWidgets.isEmpty() )
 	saveCustomWidgets( ts, 0 );
@@ -495,8 +503,8 @@ void Resource::paste( const QString &cb, QWidget *parent )
     mainContainerSet = true;
 
     pasting = true;
-    QBuffer buf( QCString( cb.utf8() ) );
-    buf.open( IO_ReadOnly );
+    QBuffer buf( Q3CString( cb.utf8() ) );
+    buf.open( QIODevice::ReadOnly );
     QDomDocument doc;
     QString errMsg;
     int errLine;
@@ -533,9 +541,9 @@ void Resource::paste( const QString &cb, QWidget *parent )
 	    int x = w->x() + formwindow->grid().x();
 	    int y = w->y() + formwindow->grid().y();
 	    if ( w->x() + w->width() > parent->width() )
-		x = QMAX( 0, parent->width() - w->width() );
+		x = qMax( 0, parent->width() - w->width() );
 	    if ( w->y() + w->height() > parent->height() )
-		y = QMAX( 0, parent->height() - w->height() );
+		y = qMax( 0, parent->height() - w->height() );
 	    if ( x != w->x() || y != w->y() )
 		w->move( x, y );
 	    formwindow->selectWidget( w );
@@ -547,9 +555,9 @@ void Resource::paste( const QString &cb, QWidget *parent )
 	    int x = w->x() + formwindow->grid().x();
 	    int y = w->y() + formwindow->grid().y();
 	    if ( w->x() + w->width() > parent->width() )
-		x = QMAX( 0, parent->width() - w->width() );
+		x = qMax( 0, parent->width() - w->width() );
 	    if ( w->y() + w->height() > parent->height() )
-		y = QMAX( 0, parent->height() - w->height() );
+		y = qMax( 0, parent->height() - w->height() );
 	    if ( x != w->x() || y != w->y() )
 		w->move( x, y );
 	    formwindow->selectWidget( w );
@@ -564,7 +572,7 @@ void Resource::paste( const QString &cb, QWidget *parent )
     formwindow->commandHistory()->addCommand( cmd );
 }
 
-void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream &ts, int indent )
+void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, Q3TextStream &ts, int indent )
 {
     if ( obj && obj->isWidgetType() && ( (QWidget*)obj )->isHidden() && !(obj->isA("ScriptObject")) )
 	return;
@@ -606,8 +614,8 @@ void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream 
 
     if ( obj->inherits( "QTabWidget" ) ) {
 	QTabWidget* tw = (QTabWidget*) obj;
-	QObjectList* tmpl = tw->queryList( "QWidgetStack" );
-	QWidgetStack *ws = (QWidgetStack*)tmpl->first();
+	QObjectList tmpl = tw->queryList( "QWidgetStack" );
+	Q3WidgetStack *ws = (Q3WidgetStack*)tmpl->first();
 	QTabBar *tb = ( (QDesignerTabWidget*)obj )->tabBar();
 	for ( int i = 0; i < tb->count(); ++i ) {
 	    QTab *t = tb->tabAt( i );
@@ -637,7 +645,7 @@ void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream 
 	}
 	delete tmpl;
     } else if ( obj->inherits( "QWizard" ) ) {
-	QWizard* wiz = (QWizard*)obj; for ( int i = 0; i < wiz->pageCount(); ++i ) {
+	Q3Wizard* wiz = (Q3Wizard*)obj; for ( int i = 0; i < wiz->pageCount(); ++i ) {
 	    QWidget *w = wiz->page( i );
 	    if ( !w )
 		continue;
@@ -661,7 +669,7 @@ void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream 
 	    ts << makeIndent( indent ) << "</widget>" << endl;
 	}
     } else if ( obj->inherits( "QMainWindow" ) ) {
-	saveChildrenOf( ( (QMainWindow*)obj )->centralWidget(), ts, indent );
+	saveChildrenOf( ( (Q3MainWindow*)obj )->centralWidget(), ts, indent );
     } else {
 	saveChildrenOf( obj, ts, indent );
     }
@@ -670,22 +678,22 @@ void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream 
     ts << closeTag;
 }
 
-void Resource::saveItems( QObject *obj, QTextStream &ts, int indent )
+void Resource::saveItems( QObject *obj, Q3TextStream &ts, int indent )
 {
     if ( obj->inherits( "QListBox" ) || obj->inherits( "QComboBox" ) ) {
-	QListBox *lb = 0;
+	Q3ListBox *lb = 0;
 	if ( obj->inherits( "QListBox" ) )
-	    lb = (QListBox*)obj;
+	    lb = (Q3ListBox*)obj;
 	else
 	    lb = ( (QComboBox*)obj )->listBox();
 
-	QListBoxItem *i = lb->firstItem();
+	Q3ListBoxItem *i = lb->firstItem();
 	for ( ; i; i = i->next() ) {
 	    ts << makeIndent( indent ) << "<item>" << endl;
 	    indent++;
 	    QStringList text;
 	    text << i->text();
-	    QPtrList<QPixmap> pixmaps;
+	    Q3PtrList<QPixmap> pixmaps;
 	    if ( i->pixmap() )
 		pixmaps.append( i->pixmap() );
 	    saveItem( text, pixmaps, ts, indent );
@@ -693,15 +701,15 @@ void Resource::saveItems( QObject *obj, QTextStream &ts, int indent )
 	    ts << makeIndent( indent ) << "</item>" << endl;
 	}
     } else if ( obj->inherits( "QIconView" ) ) {
-	QIconView *iv = (QIconView*)obj;
+	Q3IconView *iv = (Q3IconView*)obj;
 
-	QIconViewItem *i = iv->firstItem();
+	Q3IconViewItem *i = iv->firstItem();
 	for ( ; i; i = i->nextItem() ) {
 	    ts << makeIndent( indent ) << "<item>" << endl;
 	    indent++;
 	    QStringList text;
 	    text << i->text();
-	    QPtrList<QPixmap> pixmaps;
+	    Q3PtrList<QPixmap> pixmaps;
 	    if ( i->pixmap() )
 		pixmaps.append( i->pixmap() );
 	    saveItem( text, pixmaps, ts, indent );
@@ -709,14 +717,14 @@ void Resource::saveItems( QObject *obj, QTextStream &ts, int indent )
 	    ts << makeIndent( indent ) << "</item>" << endl;
 	}
     } else if ( obj->inherits( "QListView" ) ) {
-	QListView *lv = (QListView*)obj;
+	Q3ListView *lv = (Q3ListView*)obj;
 	int i;
 	for ( i = 0; i < lv->header()->count(); ++i ) {
 	    ts << makeIndent( indent ) << "<column>" << endl;
 	    indent++;
 	    QStringList l;
 	    l << lv->header()->label( i );
-	    QPtrList<QPixmap> pix;
+	    Q3PtrList<QPixmap> pix;
 	    pix.setAutoDelete( true );
 	    if ( lv->header()->iconSet( i ) )
 		pix.append( new QPixmap( lv->header()->iconSet( i )->pixmap() ) );
@@ -738,7 +746,7 @@ void Resource::saveItems( QObject *obj, QTextStream &ts, int indent )
     }
 #ifndef QT_NO_TABLE
     else if ( obj->inherits( "QTable" ) ) {
-	QTable *table = (QTable*)obj;
+	Q3Table *table = (Q3Table*)obj;
 	int i;
 	QMap<QString, QString> columnFields = MetaDataBase::columnFields( table );
 	bool isDataTable = table->inherits( "QDataTable" );
@@ -751,7 +759,7 @@ void Resource::saveItems( QObject *obj, QTextStream &ts, int indent )
 		indent++;
 		QStringList l;
 		l << table->horizontalHeader()->label( i );
-		QPtrList<QPixmap> pix;
+		Q3PtrList<QPixmap> pix;
 		pix.setAutoDelete( true );
 		if ( table->horizontalHeader()->iconSet( i ) )
 		    pix.append( new QPixmap( table->horizontalHeader()->iconSet( i )->pixmap() ) );
@@ -775,7 +783,7 @@ void Resource::saveItems( QObject *obj, QTextStream &ts, int indent )
 		indent++;
 		QStringList l;
 		l << table->verticalHeader()->label( i );
-		QPtrList<QPixmap> pix;
+		Q3PtrList<QPixmap> pix;
 		pix.setAutoDelete( true );
 		if ( table->verticalHeader()->iconSet( i ) )
 		    pix.append( new QPixmap( table->verticalHeader()->iconSet( i )->pixmap() ) );
@@ -788,14 +796,14 @@ void Resource::saveItems( QObject *obj, QTextStream &ts, int indent )
 #endif
 }
 
-void Resource::saveItem( QListViewItem *i, QTextStream &ts, int indent )
+void Resource::saveItem( Q3ListViewItem *i, Q3TextStream &ts, int indent )
 {
-    QListView *lv = i->listView();
+    Q3ListView *lv = i->listView();
     while ( i ) {
 	ts << makeIndent( indent ) << "<item>" << endl;
 	indent++;
 
-	QPtrList<QPixmap> pixmaps;
+	Q3PtrList<QPixmap> pixmaps;
 	QStringList textes;
 	for ( int c = 0; c < lv->columns(); ++c ) {
 	    pixmaps.append( i->pixmap( c ) );
@@ -812,7 +820,7 @@ void Resource::saveItem( QListViewItem *i, QTextStream &ts, int indent )
     }
 }
 
-void Resource::savePixmap( const QPixmap &p, QTextStream &ts, int indent, const QString &tagname )
+void Resource::savePixmap( const QPixmap &p, Q3TextStream &ts, int indent, const QString &tagname )
 {
     if ( p.isNull() ) {
 	ts << makeIndent( indent ) << "<" + tagname + "></"  + tagname + ">" << endl;
@@ -861,7 +869,7 @@ QPixmap Resource::loadPixmap( const QDomElement &e, const QString &/*tagname*/ )
     return pix;
 }
 
-void Resource::saveItem( const QStringList &text, const QPtrList<QPixmap> &pixmaps, QTextStream &ts, int indent )
+void Resource::saveItem( const QStringList &text, const Q3PtrList<QPixmap> &pixmaps, Q3TextStream &ts, int indent )
 {
     QStringList::ConstIterator it = text.begin();
     for ( ; it != text.end(); ++it ) {
@@ -873,7 +881,7 @@ void Resource::saveItem( const QStringList &text, const QPtrList<QPixmap> &pixma
     }
 
     for ( int i = 0; i < (int)pixmaps.count(); ++i ) {
-	QPixmap *p = ( (QPtrList<QPixmap>)pixmaps ).at( i );
+	QPixmap *p = ( (Q3PtrList<QPixmap>)pixmaps ).at( i );
 	ts << makeIndent( indent ) << "<property name=\"pixmap\">" << endl;
 	indent++;
 	if ( p )
@@ -885,7 +893,7 @@ void Resource::saveItem( const QStringList &text, const QPtrList<QPixmap> &pixma
     }
 }
 
-void Resource::saveChildrenOf( QObject* obj, QTextStream &ts, int indent )
+void Resource::saveChildrenOf( QObject* obj, Q3TextStream &ts, int indent )
 {
     const QObjectList *l = obj->children();
     if ( !l )
@@ -927,7 +935,7 @@ void Resource::saveChildrenOf( QObject* obj, QTextStream &ts, int indent )
 
     }
 
-    for ( QPtrListIterator<QObject> it ( *l ); it.current(); ++it )
+    for ( Q3PtrListIterator<QObject> it ( *l ); it.current(); ++it )
 	saveObject( it.current(), grid, ts, indent );
     if ( !closeTag.isEmpty() ) {
 	indent--;
@@ -935,7 +943,7 @@ void Resource::saveChildrenOf( QObject* obj, QTextStream &ts, int indent )
     }
 }
 
-void Resource::saveObjectProperties( QObject *w, QTextStream &ts, int indent )
+void Resource::saveObjectProperties( QObject *w, Q3TextStream &ts, int indent )
 {
     QStringList saved;
     QStringList changed;
@@ -964,8 +972,8 @@ void Resource::saveObjectProperties( QObject *w, QTextStream &ts, int indent )
     bool inLayout = w != formwindow->mainContainer() && !copying && w->isWidgetType() && ( (QWidget*)w )->parentWidget() &&
 		    WidgetFactory::layoutType( ( (QWidget*)w )->parentWidget() ) != WidgetFactory::NoLayout;
 
-    QStrList lst = w->metaObject()->propertyNames( !w->inherits( "Spacer" ) );
-    for ( QPtrListIterator<char> it( lst ); it.current(); ++it ) {
+    Q3StrList lst = w->metaObject()->propertyNames( !w->inherits( "Spacer" ) );
+    for ( Q3PtrListIterator<char> it( lst ); it.current(); ++it ) {
 	if ( changed.find( QString::fromLatin1( it.current() ) ) == changed.end() )
 	    continue;
 	if ( saved.find( QString::fromLatin1( it.current() ) ) != saved.end() )
@@ -1008,7 +1016,7 @@ void Resource::saveObjectProperties( QObject *w, QTextStream &ts, int indent )
 	    if ( MetaDataBase::isPropertyChanged( w, fake.key() ) ) {
 		if ( w->inherits( "CustomWidget" ) ) {
 		    MetaDataBase::CustomWidget *cw = ( (CustomWidget*)w )->customWidget();
-		    if ( cw && !cw->hasProperty( fake.key().latin1() ) && fake.key() != "toolTip" && fake.key() != "whatsThis" )
+		    if ( cw && !cw->hasProperty( fake.key().toLatin1() ) && fake.key() != "toolTip" && fake.key() != "whatsThis" )
 			continue;
 		}
 
@@ -1022,10 +1030,10 @@ void Resource::saveObjectProperties( QObject *w, QTextStream &ts, int indent )
     }
 }
 
-void Resource::saveSetProperty( QObject *w, const QString &name, QVariant::Type, QTextStream &ts, int indent )
+void Resource::saveSetProperty( QObject *w, const QString &name, QVariant::Type, Q3TextStream &ts, int indent )
 {
     const QMetaProperty *p = w->metaObject()->property( w->metaObject()->findProperty( name, true ), true );
-    QStrList l( p->valueToKeys( w->property( name ).toInt() ) );
+    Q3StrList l( p->valueToKeys( w->property( name ).toInt() ) );
     QString v;
     for ( uint i = 0; i < l.count(); ++i ) {
 	v += l.at( i );
@@ -1035,13 +1043,13 @@ void Resource::saveSetProperty( QObject *w, const QString &name, QVariant::Type,
     ts << makeIndent( indent ) << "<set>" << v << "</set>" << endl;
 }
 
-void Resource::saveEnumProperty( QObject *w, const QString &name, QVariant::Type, QTextStream &ts, int indent )
+void Resource::saveEnumProperty( QObject *w, const QString &name, QVariant::Type, Q3TextStream &ts, int indent )
 {
     const QMetaProperty *p = w->metaObject()->property( w->metaObject()->findProperty( name, true ), true );
     ts << makeIndent( indent ) << "<enum>" << p->valueToKey( w->property( name ).toInt() ) << "</enum>" << endl;
 }
 
-void Resource::saveProperty( QObject *w, const QString &name, const QVariant &value, QVariant::Type t, QTextStream &ts, int indent )
+void Resource::saveProperty( QObject *w, const QString &name, const QVariant &value, QVariant::Type t, Q3TextStream &ts, int indent )
 {
     if ( name == "hAlign" || name =="vAlign" || name == "wordwrap" || name == "layoutMargin" || name =="layoutSpacing" )
 	return;
@@ -1057,7 +1065,7 @@ void Resource::saveProperty( QObject *w, const QString &name, const QVariant &va
 	    ts << makeIndent( indent ) << "<comment>" << entitize( comment ) << "</comment>" << endl;
 	break;
     case QVariant::CString:
-	ts << makeIndent( indent ) << "<cstring>" << entitize( value.toCString() ).latin1() << "</cstring>" << endl;
+	ts << makeIndent( indent ) << "<cstring>" << entitize( value.toCString() ).toLatin1() << "</cstring>" << endl;
 	break;
     case QVariant::Bool:
 	ts << makeIndent( indent ) << "<bool>" << mkBool( value.toBool() ) << "</bool>" << endl;
@@ -1165,7 +1173,7 @@ void Resource::saveProperty( QObject *w, const QString &name, const QVariant &va
     case QVariant::Pixmap:
 	savePixmap( value.toPixmap(), ts, indent );
 	break;
-    case QVariant::IconSet:
+    case QCoreVariant::Icon:
 	savePixmap( value.toIconSet().pixmap(), ts, indent, "iconset" );
 	break;
     case QVariant::Image:
@@ -1249,11 +1257,11 @@ void Resource::saveProperty( QObject *w, const QString &name, const QVariant &va
 	break;
     }
     default:
-	qWarning( "saving the property %s of type %d not supported yet", name.latin1(), (int)t );
+	qWarning( "saving the property %s of type %d not supported yet", name.toLatin1(), (int)t );
     }
 }
 
-void Resource::saveColorGroup( QTextStream &ts, int indent, const QColorGroup &cg )
+void Resource::saveColorGroup( Q3TextStream &ts, int indent, const QColorGroup &cg )
 {
     for( int r = 0 ; r < QPalette::NColorRoles ; r++ ) {
 	ts << makeIndent( indent ) << "<color>" << endl;
@@ -1267,11 +1275,11 @@ void Resource::saveColorGroup( QTextStream &ts, int indent, const QColorGroup &c
     }
 }
 
-void Resource::saveColor( QTextStream &ts, int indent, const QColor &c )
+void Resource::saveColor( Q3TextStream &ts, int indent, const QColor &c )
 {
-    ts << makeIndent( indent ) << "<red>" << QString::number( c.red() ) << "</red>" << endl;
-    ts << makeIndent( indent ) << "<green>" << QString::number( c.green() ) << "</green>" << endl;
-    ts << makeIndent( indent ) << "<blue>" << QString::number( c.blue() ) << "</blue>" << endl;
+    ts << makeIndent( indent ) << "<red>" << QString::number( c.Qt::red() ) << "</red>" << endl;
+    ts << makeIndent( indent ) << "<green>" << QString::number( c.Qt::green() ) << "</green>" << endl;
+    ts << makeIndent( indent ) << "<blue>" << QString::number( c.Qt::blue() ) << "</blue>" << endl;
 }
 
 QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout* layout )
@@ -1303,14 +1311,14 @@ QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout*
 	}
 	w = (QWidget*)obj;
 	if ( w->inherits( "QMainWindow" ) )
-	    w = ( (QMainWindow*)w )->centralWidget();
+	    w = ( (Q3MainWindow*)w )->centralWidget();
 	if ( layout ) {
 	    switch ( WidgetFactory::layoutType( layout ) ) {
 	    case WidgetFactory::HBox:
-		( (QHBoxLayout*)layout )->addWidget( w );
+		( (Q3HBoxLayout*)layout )->addWidget( w );
 		break;
 	    case WidgetFactory::VBox:
-		( (QVBoxLayout*)layout )->addWidget( w );
+		( (Q3VBoxLayout*)layout )->addWidget( w );
 		break;
 	    case WidgetFactory::Grid:
 		( (QDesignerGridLayout*)layout )->addMultiCellWidget( w, row, row + rowspan - 1,
@@ -1363,7 +1371,7 @@ QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout*
 		    ( (QTabWidget*)parent )->insertTab( w, v.toString() );
 	    } else if ( parent->inherits( "QWizard" ) ) {
 		if ( attrib == "title" )
-		    ( (QWizard*)parent )->addPage( w, v.toString() );
+		    ( (Q3Wizard*)parent )->addPage( w, v.toString() );
 	    }
 	} else if ( n.tagName() == "item" ) {
 	    createItem( n, w );
@@ -1389,7 +1397,7 @@ void Resource::createColumn( const QDomElement &e, QWidget *widget )
 	return;
 
     if ( widget->inherits( "QListView" ) && e.tagName() == "column" ) {
-	QListView *lv = (QListView*)widget;
+	Q3ListView *lv = (Q3ListView*)widget;
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
 	bool hasPixmap = false;
@@ -1423,7 +1431,7 @@ void Resource::createColumn( const QDomElement &e, QWidget *widget )
     }
 #ifndef QT_NO_TABLE
     else if ( widget->inherits( "QTable" ) ) {
-	QTable *table = (QTable*)widget;
+	Q3Table *table = (Q3Table*)widget;
 	bool isRow;
 	if ( ( isRow = e.tagName() == "row" ) )
 	    table->setNumRows( table->numRows() + 1 );
@@ -1453,7 +1461,7 @@ void Resource::createColumn( const QDomElement &e, QWidget *widget )
 	}
 
 	int i = isRow ? table->numRows() - 1 : table->numCols() - 1;
-	QHeader *h = !isRow ? table->horizontalHeader() : table->verticalHeader();
+	Q3Header *h = !isRow ? table->horizontalHeader() : table->verticalHeader();
 	if ( hasPixmap )
 	    h->setLabel( i, pix, txt );
 	else
@@ -1484,7 +1492,7 @@ void Resource::loadItem( const QDomElement &e, QPixmap &pix, QString &txt, bool 
     }
 }
 
-void Resource::createItem( const QDomElement &e, QWidget *widget, QListViewItem *i )
+void Resource::createItem( const QDomElement &e, QWidget *widget, Q3ListViewItem *i )
 {
     if ( !widget || !WidgetFactory::hasItems( WidgetDatabase::idFromClassName( WidgetFactory::classNameOf( widget ) ) ) )
 	return;
@@ -1495,15 +1503,15 @@ void Resource::createItem( const QDomElement &e, QWidget *widget, QListViewItem 
 	bool hasPixmap = false;
 	QString txt;
 	loadItem( n, pix, txt, hasPixmap );
-	QListBox *lb = 0;
+	Q3ListBox *lb = 0;
 	if ( widget->inherits( "QListBox" ) )
-	    lb = (QListBox*)widget;
+	    lb = (Q3ListBox*)widget;
 	else
 	    lb = ( (QComboBox*)widget)->listBox();
 	if ( hasPixmap ) {
-	    new QListBoxPixmap( lb, pix, txt );
+	    new Q3ListBoxPixmap( lb, pix, txt );
 	} else {
-	    new QListBoxText( lb, txt );
+	    new Q3ListBoxText( lb, txt );
 	}
     } else if ( widget->inherits( "QIconView" ) ) {
 	QDomElement n = e.firstChild().toElement();
@@ -1512,19 +1520,19 @@ void Resource::createItem( const QDomElement &e, QWidget *widget, QListViewItem 
 	QString txt;
 	loadItem( n, pix, txt, hasPixmap );
 
-	QIconView *iv = (QIconView*)widget;
-	new QIconViewItem( iv, txt, pix );
+	Q3IconView *iv = (Q3IconView*)widget;
+	new Q3IconViewItem( iv, txt, pix );
     } else if ( widget->inherits( "QListView" ) ) {
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
-	QValueList<QPixmap> pixmaps;
+	Q3ValueList<QPixmap> pixmaps;
 	QStringList textes;
-	QListViewItem *item = 0;
-	QListView *lv = (QListView*)widget;
+	Q3ListViewItem *item = 0;
+	Q3ListView *lv = (Q3ListView*)widget;
 	if ( i )
-	    item = new QListViewItem( i, lastItem );
+	    item = new Q3ListViewItem( i, lastItem );
 	else
-	    item = new QListViewItem( lv, lastItem );
+	    item = new Q3ListViewItem( lv, lastItem );
 	while ( !n.isNull() ) {
 	    if ( n.tagName() == "property" ) {
 		QString attrib = n.attribute( "name" );
@@ -1583,7 +1591,7 @@ QWidget *Resource::createSpacer( const QDomElement &e, QWidget *parent, QLayout 
 	formwindow->insertWidget( spacer, pasting );
     if ( layout ) {
 	if ( layout->inherits( "QBoxLayout" ) )
-	    ( (QBoxLayout*)layout )->addWidget( spacer, 0, spacer->alignment() );
+	    ( (Q3BoxLayout*)layout )->addWidget( spacer, 0, spacer->alignment() );
 	else
 	    ( (QDesignerGridLayout*)layout )->addMultiCellWidget( spacer, row, row + rowspan - 1, col, col + colspan - 1,
 								  spacer->alignment() );
@@ -1601,7 +1609,7 @@ void Resource::setObjectProperty( QObject* obj, const QString &prop, const QDomE
     if ( !obj->inherits( "QLayout" )  ) {// no layouts in metadatabase... (RS)
 	if ( obj->inherits( "CustomWidget" ) ) {
 	    MetaDataBase::CustomWidget *cw = ( (CustomWidget*)obj )->customWidget();
-	    if ( cw && !cw->hasProperty( prop.latin1() ) && !p && prop != "toolTip" && prop != "whatsThis" )
+	    if ( cw && !cw->hasProperty( prop.toLatin1() ) && !p && prop != "toolTip" && prop != "whatsThis" )
 		return;
 	}
 	MetaDataBase::setPropertyChanged( obj, prop, true );
@@ -1632,7 +1640,7 @@ void Resource::setObjectProperty( QObject* obj, const QString &prop, const QDomE
 	QPixmap pix = loadPixmap( e, "iconset" );
 	if ( pix.isNull() )
 	    return;
-	v = QVariant( QIconSet( pix ) );
+	v = QVariant( QIcon( pix ) );
     } else if ( e.tagName() == "image" ) {
 	v = QVariant( loadFromCollection( v.toString() ) );
     }
@@ -1676,14 +1684,14 @@ void Resource::setObjectProperty( QObject* obj, const QString &prop, const QDomE
     } else if ( e.tagName() == "set" && p && p->isSetType() ) {
 	QString keys( v.toString() );
 	QStringList lst = QStringList::split( '|', keys );
-	QStrList l;
+	Q3StrList l;
 	for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it )
 	    l.append( *it );
 	v = QVariant( p->keysToValue( l ) );
     }
 
     if ( prop == "caption" ) {
-	QCString s1 = v.toCString();
+	Q3CString s1 = v.toCString();
 	QString s2 = v.toString();
 	if ( !s1.isEmpty() )
 	    formwindow->setCaption( s1 );
@@ -1740,7 +1748,7 @@ void Resource::setObjectProperty( QObject* obj, const QString &prop, const QDomE
 QString Resource::saveInCollection( const QImage &img )
 {
     QString imgName = "none";
-    QValueList<Image>::Iterator it = images.begin();
+    Q3ValueList<Image>::Iterator it = images.begin();
     for ( ; it != images.end(); ++it ) {
 	if ( img == ( *it ).img ) {
 	    imgName = ( *it ).name;
@@ -1758,11 +1766,11 @@ QString Resource::saveInCollection( const QImage &img )
     return imgName;
 }
 
-void Resource::saveImageData( const QImage &img, QTextStream &ts, int indent )
+void Resource::saveImageData( const QImage &img, Q3TextStream &ts, int indent )
 {
     QByteArray ba;
     QBuffer buf( ba );
-    buf.open( IO_WriteOnly | IO_Translate );
+    buf.open( QIODevice::WriteOnly | QIODevice::Text );
     QImageIO iio( &buf, "XPM" );
     iio.setImage( img );
     iio.write();
@@ -1781,12 +1789,12 @@ void Resource::saveImageData( const QImage &img, QTextStream &ts, int indent )
     ts << "</data>" << endl;
 }
 
-void Resource::saveImageCollection( QTextStream &ts, int indent )
+void Resource::saveImageCollection( Q3TextStream &ts, int indent )
 {
     ts << makeIndent( indent ) << "<images>" << endl;
     indent++;
 
-    QValueList<Image>::Iterator it = images.begin();
+    Q3ValueList<Image>::Iterator it = images.begin();
     for ( ; it != images.end(); ++it ) {
 	ts << makeIndent( indent ) << "<image name=\"" << (*it).name << "\">" << endl;
 	indent++;
@@ -1805,8 +1813,8 @@ static QImage loadImageData( QDomElement &n2 )
     QString data = n2.firstChild().toText().data();
     char *ba = new char[ data.length() / 2 ];
     for ( int i = 0; i < (int)data.length() / 2; ++i ) {
-	char h = data[ 2 * i ].latin1();
-	char l = data[ 2 * i  + 1 ].latin1();
+	char h = data[ 2 * i ].toLatin1();
+	char l = data[ 2 * i  + 1 ].toLatin1();
 	uchar r = 0;
 	if ( h <= '9' )
 	    r += h - '0';
@@ -1856,7 +1864,7 @@ void Resource::loadImageCollection( const QDomElement &e )
 
 QImage Resource::loadFromCollection( const QString &name )
 {
-    QValueList<Image>::Iterator it = images.begin();
+    Q3ValueList<Image>::Iterator it = images.begin();
     for ( ; it != images.end(); ++it ) {
 	if ( ( *it ).name == name )
 	    return ( *it ).img;
@@ -1864,12 +1872,12 @@ QImage Resource::loadFromCollection( const QString &name )
     return QImage();
 }
 
-void Resource::saveConnections( QTextStream &ts, int indent )
+void Resource::saveConnections( Q3TextStream &ts, int indent )
 {
     ts << makeIndent( indent ) << "<connections>" << endl;
     indent++;
-    QValueList<MetaDataBase::Connection> connections = MetaDataBase::connections( formwindow );
-    QValueList<MetaDataBase::Connection>::Iterator it = connections.begin();
+    Q3ValueList<MetaDataBase::Connection> connections = MetaDataBase::connections( formwindow );
+    Q3ValueList<MetaDataBase::Connection>::Iterator it = connections.begin();
     for ( ; it != connections.end(); ++it ) {
 	MetaDataBase::Connection conn = *it;
 	if ( ( knownNames.findIndex( QString( conn.sender->name() ) ) == -1 &&
@@ -1878,7 +1886,7 @@ void Resource::saveConnections( QTextStream &ts, int indent )
 	       qstrcmp( conn.receiver->name(), "this" ) != 0 ) )
 	    continue;
 	if ( formwindow->isMainContainer( (QWidget*)(*it).receiver ) &&
-	     !MetaDataBase::hasSlot( formwindow, MetaDataBase::normalizeSlot( (*it).slot ).latin1() ) )
+	     !MetaDataBase::hasSlot( formwindow, MetaDataBase::normalizeSlot( (*it).slot ).toLatin1() ) )
 	    continue;
 
 	if ( conn.sender->inherits( "CustomWidget" ) ) {
@@ -1889,7 +1897,7 @@ void Resource::saveConnections( QTextStream &ts, int indent )
 
 	if ( conn.receiver->inherits( "CustomWidget" ) && !formwindow->isMainContainer( conn.receiver ) ) {
 	    MetaDataBase::CustomWidget *cw = ( (CustomWidget*)conn.receiver )->customWidget();
-	    if ( cw && !cw->hasSlot( MetaDataBase::normalizeSlot( conn.slot ).latin1() ) )
+	    if ( cw && !cw->hasSlot( MetaDataBase::normalizeSlot( conn.slot ).toLatin1() ) )
 		continue;
 	}
 
@@ -1907,9 +1915,9 @@ void Resource::saveConnections( QTextStream &ts, int indent )
     QString lang = formwindow->project()->language();
     LanguageInterface *iface = langIface;
     if ( iface && MetaDataBase::hasEvents( lang ) ) {
-	QObjectList *l = formwindow->queryList( "QWidget" );
+	QObjectListl = formwindow->queryList( "QWidget" );
 	l->append( formwindow );
-	QPtrList<QAction> lst = formwindow->actionList();
+	Q3PtrList<QAction> lst = formwindow->actionList();
 	for ( QAction *a = lst.first(); a; a = lst.next() )
 	    l->append( a );
 	for ( QObject *o = l->first(); o; o = l->next() ) {
@@ -1951,7 +1959,7 @@ void Resource::loadConnections( const QDomElement &e )
 		    } else {
 			if ( name == "this" )
 			    name = toplevel->name();
-			QObjectList *l = toplevel->queryList( 0, name, false );
+			QObjectListl = toplevel->queryList( 0, name, false );
 			if ( l ) {
 			    if ( l->first() )
 				conn.sender = l->first();
@@ -1967,7 +1975,7 @@ void Resource::loadConnections( const QDomElement &e )
 		    if ( name == "this" || qstrcmp( toplevel->name(), name ) == 0 ) {
 			conn.receiver = toplevel;
 		    } else {
-			QObjectList *l = toplevel->queryList( 0, name, false );
+			QObjectListl = toplevel->queryList( 0, name, false );
 			if ( l ) {
 			    if ( l->first() )
 				conn.receiver = l->first();
@@ -2025,12 +2033,12 @@ void Resource::loadConnections( const QDomElement &e )
     }
 }
 
-void Resource::saveCustomWidgets( QTextStream &ts, int indent )
+void Resource::saveCustomWidgets( Q3TextStream &ts, int indent )
 {
     ts << makeIndent( indent ) << "<customwidgets>" << endl;
     indent++;
 
-    QPtrList<MetaDataBase::CustomWidget> *lst = MetaDataBase::customWidgets();
+    Q3PtrList<MetaDataBase::CustomWidget> *lst = MetaDataBase::customWidgets();
     for ( MetaDataBase::CustomWidget *w = lst->first(); w; w = lst->next() ) {
 	if ( usedCustomWidgets.findIndex( w->className ) == -1 )
 	    continue;
@@ -2057,16 +2065,16 @@ void Resource::saveCustomWidgets( QTextStream &ts, int indent )
 	ts << makeIndent( indent ) << "</sizepolicy>" << endl;
 	ts << makeIndent( indent ) << "<pixmap>" << saveInCollection( w->pixmap->convertToImage() ) << "</pixmap>" << endl;
 	if ( !w->lstSignals.isEmpty() ) {
-	    for ( QValueList<QCString>::Iterator it = w->lstSignals.begin(); it != w->lstSignals.end(); ++it )
+	    for ( Q3ValueList<Q3CString>::Iterator it = w->lstSignals.begin(); it != w->lstSignals.end(); ++it )
 		ts << makeIndent( indent ) << "<signal>" << entitize( *it ) << "</signal>" << endl;
 	}
 	if ( !w->lstSlots.isEmpty() ) {
-	    for ( QValueList<MetaDataBase::Slot>::Iterator it = w->lstSlots.begin(); it != w->lstSlots.end(); ++it )
+	    for ( Q3ValueList<MetaDataBase::Slot>::Iterator it = w->lstSlots.begin(); it != w->lstSlots.end(); ++it )
 		ts << makeIndent( indent ) << "<slot access=\"" << (*it).access << "\" specifier=\""
 		   << (*it).specifier << "\">" << entitize( (*it).slot ) << "</slot>" << endl;
 	}
 	if ( !w->lstProperties.isEmpty() ) {
-	    for ( QValueList<MetaDataBase::Property>::Iterator it = w->lstProperties.begin(); it != w->lstProperties.end(); ++it )
+	    for ( Q3ValueList<MetaDataBase::Property>::Iterator it = w->lstProperties.begin(); it != w->lstProperties.end(); ++it )
 		ts << makeIndent( indent ) << "<property type=\"" << (*it).type << "\">" << entitize( (*it).property ) << "</property>" << endl;
 	}
 	indent--;
@@ -2134,17 +2142,17 @@ void Resource::loadCustomWidgets( const QDomElement &e, Resource *r )
 		    }
 		    w->pixmap = new QPixmap( pix );
 		} else if ( n2.tagName() == "signal" ) {
-		    w->lstSignals.append( n2.firstChild().toText().data().latin1() );
+		    w->lstSignals.append( n2.firstChild().toText().data().toLatin1() );
 		} else if ( n2.tagName() == "container" ) {
 		    w->isContainer = (bool)n2.firstChild().toText().data().toInt();
 		} else if ( n2.tagName() == "slot" ) {
 		    MetaDataBase::Slot slot;
-		    slot.slot = n2.firstChild().toText().data().latin1();
+		    slot.slot = n2.firstChild().toText().data().toLatin1();
 		    slot.access = n2.attribute( "access" );
 		    w->lstSlots.append( slot );
 		} else if ( n2.tagName() == "property" ) {
 		    MetaDataBase::Property property;
-		    property.property = n2.firstChild().toText().data().latin1();
+		    property.property = n2.firstChild().toText().data().toLatin1();
 		    property.type = n2.attribute( "type" );
 		    w->lstProperties.append( property );
 		}
@@ -2156,7 +2164,7 @@ void Resource::loadCustomWidgets( const QDomElement &e, Resource *r )
     }
 }
 
-void Resource::saveTabOrder( QTextStream &ts, int indent )
+void Resource::saveTabOrder( Q3TextStream &ts, int indent )
 {
     QWidgetList l = MetaDataBase::tabOrder( toplevel );
     if ( l.isEmpty() )
@@ -2185,7 +2193,7 @@ void Resource::loadTabOrder( const QDomElement &e )
 	    QString name = n.firstChild().toText().data();
 	    if ( name.isEmpty() )
 		continue;
-	    QObjectList *l = toplevel->queryList( 0, name, false );
+	    QObjectListl = toplevel->queryList( 0, name, false );
 	    if ( l ) {
 		if ( l->first() ) {
 		    QWidget *w = (QWidget*)l->first();
@@ -2204,7 +2212,7 @@ void Resource::loadTabOrder( const QDomElement &e )
 	MetaDataBase::setTabOrder( toplevel, widgets );
 }
 
-void Resource::saveMetaInfoBefore( QTextStream &ts, int indent )
+void Resource::saveMetaInfoBefore( Q3TextStream &ts, int indent )
 {
   MetaDataBase::MetaInfo info = MetaDataBase::metaInfo(formwindow);
   QString cn = formwindow->name();
@@ -2219,17 +2227,17 @@ void Resource::saveMetaInfoBefore( QTextStream &ts, int indent )
     ts << makeIndent(indent) << "<version>" << entitize(info.version) << "</version>" << endl;
 }
 
-void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
+void Resource::saveMetaInfoAfter( Q3TextStream &ts, int indent )
 {
     MetaDataBase::MetaInfo info = MetaDataBase::metaInfo( formwindow );
-	QValueList<MetaDataBase::Include> includes = MetaDataBase::includes( formwindow );
+	Q3ValueList<MetaDataBase::Include> includes = MetaDataBase::includes( formwindow );
 	QString extensionInclude;
 	bool needExtensionInclude = false;
 	if ( !includes.isEmpty() || needExtensionInclude ) {
 	    ts << makeIndent( indent ) << "<includes>" << endl;
 	    indent++;
 
-	    for ( QValueList<MetaDataBase::Include>::Iterator it = includes.begin(); it != includes.end(); ++it ) {
+	    for ( Q3ValueList<MetaDataBase::Include>::Iterator it = includes.begin(); it != includes.end(); ++it ) {
 		ts << makeIndent( indent ) << "<include location=\"" << (*it).location
 		   << "\" impldecl=\"" << (*it).implDecl << "\">" << (*it).header << "</include>" << endl;
 		if ( needExtensionInclude )
@@ -2261,14 +2269,14 @@ void Resource::saveMetaInfoAfter( QTextStream &ts, int indent )
 	    indent--;
 	    ts << makeIndent( indent ) << "</signals>" << endl;
 
-	QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formwindow );
+	Q3ValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formwindow );
 	if ( !slotList.isEmpty() ) {
 	    ts << makeIndent( indent ) << "<slots>" << endl;
 	    indent++;
 #ifndef KOMMANDER
 	    QString lang = formwindow->project()->language();
 #endif
-	    QValueList<MetaDataBase::Slot>::Iterator it = slotList.begin();
+	    Q3ValueList<MetaDataBase::Slot>::Iterator it = slotList.begin();
 	    for ( ; it != slotList.end(); ++it ) {
 		MetaDataBase::Slot slot = *it;
 		ts << makeIndent( indent ) << "<slot";
@@ -2317,7 +2325,7 @@ QColorGroup Resource::loadColorGroup( const QDomElement &e )
     return cg;
 }
 
-void Resource::saveChildActions( QAction *a, QTextStream &ts, int indent )
+void Resource::saveChildActions( QAction *a, Q3TextStream &ts, int indent )
 {
     if ( !a->children() )
 	return;
@@ -2348,13 +2356,13 @@ void Resource::saveChildActions( QAction *a, QTextStream &ts, int indent )
     }
 }
 
-void Resource::saveActions( const QPtrList<QAction> &actions, QTextStream &ts, int indent )
+void Resource::saveActions( const Q3PtrList<QAction> &actions, Q3TextStream &ts, int indent )
 {
     if ( actions.isEmpty() )
 	return;
     ts << makeIndent( indent ) << "<actions>" << endl;
     indent++;
-    QPtrListIterator<QAction> it( actions );
+    Q3PtrListIterator<QAction> it( actions );
     while ( it.current() ) {
 	QAction *a = it.current();
 	bool isGroup = a->inherits( "QActionGroup" );
@@ -2441,23 +2449,23 @@ void Resource::loadActions( const QDomElement &e )
     }
 }
 
-void Resource::saveToolBars( QMainWindow *mw, QTextStream &ts, int indent )
+void Resource::saveToolBars( Q3MainWindow *mw, Q3TextStream &ts, int indent )
 {
     ts << makeIndent( indent ) << "<toolbars>" << endl;
     indent++;
 
-    QPtrList<QToolBar> tbList;
+    Q3PtrList<Q3ToolBar> tbList;
     for ( int i = 0; i <= (int)Qt::DockMinimized; ++i ) {
-	tbList = mw->toolBars( (Qt::Dock)i );
+	tbList = mw->toolBars( (Qt::ToolBarDock)i );
 	if ( tbList.isEmpty() )
 	    continue;
-	for ( QToolBar *tb = tbList.first(); tb; tb = tbList.next() ) {
+	for ( Q3ToolBar *tb = tbList.first(); tb; tb = tbList.next() ) {
 	    if ( tb->isHidden() )
 		continue;
 	    ts << makeIndent( indent ) << "<toolbar dock=\"" << i << "\">" << endl;
 	    indent++;
 	    saveObjectProperties( tb, ts, indent );
-	    QPtrList<QAction> actionList = ( (QDesignerToolBar*)tb )->insertedActions();
+	    Q3PtrList<QAction> actionList = ( (QDesignerToolBar*)tb )->insertedActions();
 	    for ( QAction *a = actionList.first(); a; a = actionList.next() ) {
 		if ( a->inherits( "QSeparatorAction" ) ) {
 		    ts << makeIndent( indent ) << "<separator/>" << endl;
@@ -2488,7 +2496,7 @@ void Resource::saveToolBars( QMainWindow *mw, QTextStream &ts, int indent )
     ts << makeIndent( indent ) << "</toolbars>" << endl;
 }
 
-void Resource::saveMenuBar( QMainWindow *mw, QTextStream &ts, int indent )
+void Resource::saveMenuBar( Q3MainWindow *mw, Q3TextStream &ts, int indent )
 {
     if ( !mw->child( 0, "QMenuBar" ) )
 	return;
@@ -2503,7 +2511,7 @@ void Resource::saveMenuBar( QMainWindow *mw, QTextStream &ts, int indent )
 	QMenuItem *m = mw->menuBar()->findItem( mw->menuBar()->idAt( i ) );
 	if ( !m )
 	    continue;
-	QPtrList<QAction> actionList = ( (QDesignerPopupMenu*)m->popup() )->insertedActions();
+	Q3PtrList<QAction> actionList = ( (QDesignerPopupMenu*)m->popup() )->insertedActions();
 	for ( QAction *a = actionList.first(); a; a = actionList.next() ) {
 	    if ( a->inherits( "QSeparatorAction" ) )
 		ts <<  makeIndent( indent ) << "<separator/>" << endl;
@@ -2520,11 +2528,11 @@ void Resource::saveMenuBar( QMainWindow *mw, QTextStream &ts, int indent )
 void Resource::loadToolBars( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
-    QMainWindow *mw = ( (QMainWindow*)formwindow->mainContainer() );
+    Q3MainWindow *mw = ( (Q3MainWindow*)formwindow->mainContainer() );
     QDesignerToolBar *tb = 0;
     while ( !n.isNull() ) {
 	if ( n.tagName() == "toolbar" ) {
-	    Qt::Dock dock = (Qt::Dock)n.attribute( "dock" ).toInt();
+	    Qt::Dock dock = (Qt::ToolBarDock)n.attribute( "dock" ).toInt();
 	    tb = new QDesignerToolBar( mw, dock );
 	    QDomElement n2 = n.firstChild().toElement();
 	    while ( !n2.isNull() ) {
@@ -2557,7 +2565,7 @@ void Resource::loadToolBars( const QDomElement &e )
 void Resource::loadMenuBar( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
-    QMainWindow *mw = ( (QMainWindow*)formwindow->mainContainer() );
+    Q3MainWindow *mw = ( (Q3MainWindow*)formwindow->mainContainer() );
     QDesignerMenuBar *mb = new QDesignerMenuBar( mw );
     while ( !n.isNull() ) {
 	if ( n.tagName() == "item" ) {
@@ -2608,14 +2616,14 @@ void Resource::saveFormCode()
 #else
 	QFile f( formwindow->formFile()->codeFile() );
 #endif
-	if ( f.open( IO_WriteOnly | IO_Translate ) ) {
-	    QTextStream ts( &f );
+	if ( f.open( QIODevice::WriteOnly | QIODevice::Text ) ) {
+	    Q3TextStream ts( &f );
 	    ts << formwindow->formFile()->code();
 	}
     } else {
-	QValueList<LanguageInterface::Function> funcs;
-	QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formwindow );
-	QValueList<MetaDataBase::Slot>::Iterator sit = slotList.begin();
+	Q3ValueList<LanguageInterface::Function> funcs;
+	Q3ValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formwindow );
+	Q3ValueList<MetaDataBase::Slot>::Iterator sit = slotList.begin();
 	for ( ; sit != slotList.end(); ++sit ) {
 	    MetaDataBase::Slot slot = *sit;
 	    QMap<QString, QString>::Iterator it =
@@ -2628,9 +2636,9 @@ void Resource::saveFormCode()
 	    funcs.append( func );
 	}
 
-	QValueList<LanguageInterface::Connection> conns;
-	QValueList<MetaDataBase::Connection> mconns = langConnections[ lang ];
-	for ( QValueList<MetaDataBase::Connection>::Iterator it = mconns.begin();
+	Q3ValueList<LanguageInterface::Connection> conns;
+	Q3ValueList<MetaDataBase::Connection> mconns = langConnections[ lang ];
+	for ( Q3ValueList<MetaDataBase::Connection>::Iterator it = mconns.begin();
 	      it != mconns.end(); ++it ) {
 	    LanguageInterface::Connection conn;
 	    conn.sender = (*it).sender->name();
@@ -2659,7 +2667,7 @@ static QString make_function_pretty( const QString &s )
     res.replace( QRegExp( "[*]" ), " *" );
     res.replace( QRegExp( "," ), ", " );
     res.replace( QRegExp( ":" ), " : " );
-    res = res.simplifyWhiteSpace();
+    res = res.simplified();
     return res;
 }
 
@@ -2682,8 +2690,8 @@ void Resource::loadFunctions( const QDomElement &e )
 	if ( !iface )
 	    return;
 	QString code;
-	QValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formwindow );
-	for ( QValueList<MetaDataBase::Slot>::Iterator it = slotList.begin(); it != slotList.end(); ++it ) {
+	Q3ValueList<MetaDataBase::Slot> slotList = MetaDataBase::slotList( formwindow );
+	for ( Q3ValueList<MetaDataBase::Slot>::Iterator it = slotList.begin(); it != slotList.end(); ++it ) {
 #ifndef KOMMANDER
 	    if ( (*it).language != formwindow->project()->language() )
 #else
@@ -2722,12 +2730,12 @@ void Resource::loadExtraSource()
     LanguageInterface *iface = langIface;
     if ( hasFunctions || !iface )
 	return;
-    QValueList<LanguageInterface::Function> functions;
+    Q3ValueList<LanguageInterface::Function> functions;
     QStringList forwards;
     QStringList includesImpl;
     QStringList includesDecl;
     QStringList vars;
-    QValueList<LanguageInterface::Connection> connections;
+    Q3ValueList<LanguageInterface::Connection> connections;
 
     iface->loadFormCode( formwindow->name(), currFileName + iface->formCodeExtension(),
 			 functions, forwards, includesImpl, includesDecl, vars, connections );
@@ -2739,14 +2747,14 @@ void Resource::loadExtraSource()
 	QFile f( formwindow->formFile()->codeFile()  );
 #endif
 	QString code;
-	if ( f.open( IO_ReadOnly ) ) {
-	    QTextStream ts( &f );
+	if ( f.open( QIODevice::ReadOnly ) ) {
+	    Q3TextStream ts( &f );
 	    code = ts.read();
 	}
 	formwindow->formFile()->setCode( code );
     }
 
-    for ( QValueList<LanguageInterface::Connection>::Iterator cit = connections.begin();
+    for ( Q3ValueList<LanguageInterface::Connection>::Iterator cit = connections.begin();
 	  cit != connections.end(); ++cit ) {
 	QObject *sender  = 0;
 	QString name = (*cit).sender;
@@ -2755,7 +2763,7 @@ void Resource::loadExtraSource()
 	} else {
 	    if ( name == "this" )
 		name = toplevel->name();
-	    QObjectList *l = toplevel->queryList( 0, name, false );
+	    QObjectListl = toplevel->queryList( 0, name, false );
 	    if ( l ) {
 		if ( l->first() )
 		    sender = l->first();
@@ -2770,12 +2778,12 @@ void Resource::loadExtraSource()
 
     QMap<QString, QString> bodies = MetaDataBase::functionBodies( formwindow );
 
-    for ( QValueList<LanguageInterface::Function>::Iterator fit = functions.begin();
+    for ( Q3ValueList<LanguageInterface::Function>::Iterator fit = functions.begin();
 	  fit != functions.end(); ++fit ) {
-	if ( MetaDataBase::hasSlot( formwindow, (*fit).name.latin1() ) )
-	    MetaDataBase::changeSlot( formwindow, (*fit).name.latin1(), (*fit).name.latin1() );
+	if ( MetaDataBase::hasSlot( formwindow, (*fit).name.toLatin1() ) )
+	    MetaDataBase::changeSlot( formwindow, (*fit).name.toLatin1(), (*fit).name.toLatin1() );
 	else
-	    MetaDataBase::addSlot( formwindow, (*fit).name.latin1(), "virtual", "public", lang, (*fit).returnType );
+	    MetaDataBase::addSlot( formwindow, (*fit).name.toLatin1(), "virtual", "public", lang, (*fit).returnType );
 	MetaDataBase::setFunctionComments( formwindow, (*fit).name, (*fit).comments );
 	bodies.insert( MetaDataBase::normalizeSlot( (*fit).name ), (*fit).body );
     }
@@ -2792,7 +2800,7 @@ void Resource::loadExtraSource()
 	f << *vit;
     MetaDataBase::setForwards( formwindow, f );
 
-    QValueList<MetaDataBase::Include> incls = MetaDataBase::includes( formwindow );
+    Q3ValueList<MetaDataBase::Include> incls = MetaDataBase::includes( formwindow );
     for ( vit = includesImpl.begin(); vit != includesImpl.end(); ++vit ) {
 	MetaDataBase::Include inc;
 	inc.header = *vit;

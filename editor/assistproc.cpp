@@ -20,7 +20,7 @@
 #include "assistproc.h"
 
 AssistProc::AssistProc( QObject *parent, const char *name, const QString &path )
-    : QProcess( parent, name )
+    : Q3Process( parent, name )
 {
     assistantPath = path;
     connect( this, SIGNAL(readyReadStdout()), this, SLOT(processOutput()) );
@@ -43,7 +43,7 @@ bool AssistProc::run( const QString &path )
     addArgument( "-stdin" );
 
     if ( !start() ) {
-	qWarning( "Assistant [exe]: Couldn't start \'%s\', please check path.", assistantPath.latin1() );
+	qWarning( "Assistant [exe]: Couldn't start \'%s\', please check path.", assistantPath.toLatin1() );
 	return false;
     }
     return true;

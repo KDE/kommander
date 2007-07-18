@@ -23,7 +23,7 @@
 #include "asciivalidator.h"
 #include "mainwindow.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <klineedit.h>
 #include <qspinbox.h>
 

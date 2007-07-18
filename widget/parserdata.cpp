@@ -43,7 +43,7 @@ QString ParserData::keywordToString(Parse::Keyword k) const
 
 bool ParserData::registerFunction(const QString& name, Function f) 
 {
-  m_functions[name.lower()] = f;  
+  m_functions[name.toLower()] = f;  
   return true;
 }
 
@@ -115,11 +115,11 @@ ParserData::ParserData()
 
 bool ParserData::isFunction(const QString& name)
 {
-  return m_functions.contains(name.lower());  
+  return m_functions.contains(name.toLower());  
 }
 
 const Function& ParserData::function(const QString& name)
 {
-  return m_functions[name.lower()]; 
+  return m_functions[name.toLower()]; 
 }
 

@@ -21,10 +21,10 @@
 #ifndef WIZARDEDITORIMPL_H
 #define WIZARDEDITORIMPL_H
 
-class QWizard;
+class Q3Wizard;
 class FormWindow;
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 #include "wizardeditor.h"
 #include "command.h"
@@ -34,7 +34,7 @@ class WizardEditor : public WizardEditorBase
     Q_OBJECT
 
 public:
-    WizardEditor( QWidget *parent, QWizard *wizard, FormWindow *fw );
+    WizardEditor( QWidget *parent, Q3Wizard *wizard, FormWindow *fw );
     ~WizardEditor();
 
 protected slots:
@@ -57,8 +57,8 @@ private:
 
 private:
     FormWindow *formwindow;
-    QWizard *wizard;
-    QPtrList<Command> commands;
+    Q3Wizard *wizard;
+    Q3PtrList<Command> commands;
 };
 
 #endif

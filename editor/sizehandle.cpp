@@ -19,6 +19,9 @@
 **********************************************************************/
 
 #include <qvariant.h>  // HP-UX compiler needs this here
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QMouseEvent>
 
 #include "sizehandle.h"
 #include "formwindow.h"
@@ -30,11 +33,11 @@
 
 #include <klocale.h>
 
-SizeHandle::SizeHandle( FormWindow *parent, Direction d, WidgetSelection *s )
+SizeHandle::SizeHandle( FormWindow *parent, Qt::Orientation d, WidgetSelection *s )
     : QWidget( parent )
 {
     active = true;
-    setBackgroundMode( active ? PaletteText : PaletteDark );
+    setBackgroundMode( active ? Qt::PaletteText : Qt::PaletteDark );
     setFixedSize( 6, 6 );
     widget = 0;
     dir =d ;
@@ -236,32 +239,32 @@ void SizeHandle::mouseReleaseEvent( QMouseEvent *e )
 
 void SizeHandle::trySetGeometry( QWidget *w, int x, int y, int width, int height )
 {
-    int minw = QMAX( w->minimumSizeHint().width(), w->minimumSize().width() );
-    minw = QMAX( minw, 2 * formWindow->grid().x() );
-    int minh = QMAX( w->minimumSizeHint().height(), w->minimumSize().height() );
-    minh = QMAX( minh, 2 * formWindow->grid().y() );
-    if ( QMAX( minw, width ) > w->maximumWidth() ||
-	 QMAX( minh, height ) > w->maximumHeight() )
+    int minw = qMax( w->minimumSizeHint().width(), w->minimumSize().width() );
+    minw = qMax( minw, 2 * formWindow->grid().x() );
+    int minh = qMax( w->minimumSizeHint().height(), w->minimumSize().height() );
+    minh = qMax( minh, 2 * formWindow->grid().y() );
+    if ( qMax( minw, width ) > w->maximumWidth() ||
+	 qMax( minh, height ) > w->maximumHeight() )
 	return;
     if ( width < minw && x != w->x() )
 	x -= minw - width;
     if ( height < minh && y != w->y() )
 	y -= minh - height;
-    w->setGeometry( x, y, QMAX( minw, width ), QMAX( minh, height ) );
+    w->setGeometry( x, y, qMax( minw, width ), qMax( minh, height ) );
 }
 
 void SizeHandle::tryResize( QWidget *w, int width, int height )
 {
-    int minw = QMAX( w->minimumSizeHint().width(), w->minimumSize().width() );
-    minw = QMAX( minw, 16 );
-    int minh = QMAX( w->minimumSizeHint().height(), w->minimumSize().height() );
-    minh = QMAX( minh, 16 );
-    w->resize( QMAX( minw, width ), QMAX( minh, height ) );
+    int minw = qMax( w->minimumSizeHint().width(), w->minimumSize().width() );
+    minw = qMax( minw, 16 );
+    int minh = qMax( w->minimumSizeHint().height(), w->minimumSize().height() );
+    minh = qMax( minh, 16 );
+    w->resize( qMax( minw, width ), qMax( minh, height ) );
 }
 
 // ------------------------------------------------------------------------
 
-WidgetSelection::WidgetSelection( FormWindow *parent, QPtrDict<WidgetSelection> *selDict )
+WidgetSelection::WidgetSelection( FormWindow *parent, Q3PtrDict<WidgetSelection> *selDict )
     : selectionDict( selDict )
 {
     formWindow = parent;

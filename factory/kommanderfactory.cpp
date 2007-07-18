@@ -27,6 +27,17 @@
 
 
 #include <qfeatures.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3ValueList>
+#include <Q3StrList>
+#include <Q3SqlCursor>
+#include <Q3GridLayout>
+#include <Q3CString>
+#include <Q3PtrList>
+#include <QPixmap>
+#include <Q3VBoxLayout>
+#include <Q3ActionGroup>
 #ifndef QT_NO_SQL
 #include "database2.h"
 #endif
@@ -37,17 +48,17 @@
 #include "domtool.h"
 #include <qapplication.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qobjectlist.h>
+#include <q3whatsthis.h>
+#include <qobject.h>
 #include <private/qpluginmanager_p.h>
 #include <qmime.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
 #include <zlib.h>
 
 #ifndef QT_NO_SQL
 #include <qsqlrecord.h>
 #include <qsqldatabase.h>
-#include <qdatatable.h>
+#include <q3datatable.h>
 #endif
 
 // include all Qt widgets we support
@@ -55,46 +66,46 @@
 #include <qtoolbutton.h>
 #include <qcheckbox.h>
 #include <qradiobutton.h>
-#include <qgroupbox.h>
-#include <qbuttongroup.h>
-#include <qiconview.h>
-#include <qheader.h>
+#include <q3groupbox.h>
+#include <q3buttongroup.h>
+#include <q3iconview.h>
+#include <q3header.h>
 #ifndef QT_NO_TABLE
-#include <qtable.h>
+#include <q3table.h>
 #endif
-#include <qlistbox.h>
-#include <qlistview.h>
+#include <q3listbox.h>
+#include <q3listview.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qlabel.h>
 #include <qwidget.h>
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qdialog.h>
-#include <qwizard.h>
+#include <q3wizard.h>
 #include <qlcdnumber.h>
-#include <qprogressbar.h>
-#include <qtextview.h>
-#include <qtextbrowser.h>
+#include <q3progressbar.h>
+#include <q3textview.h>
+#include <q3textbrowser.h>
 #include <qdial.h>
 #include <qslider.h>
-#include <qframe.h>
-#include <qwidgetstack.h>
-#include <qtextedit.h>
+#include <q3frame.h>
+#include <q3widgetstack.h>
+#include <q3textedit.h>
 #include <qscrollbar.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qsplitter.h>
 #include <qaction.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qmenubar.h>
-#include <qdatetimeedit.h>
+#include <q3datetimeedit.h>
 
 #include <stdlib.h>
 #include <kglobal.h>
 #include <klocale.h>
 
-static QPtrList<KommanderPlugin> widgetPlugins;
+static Q3PtrList<KommanderPlugin> widgetPlugins;
 
 QMap<QWidget*, QString> *qwf_functions = 0;
 QMap<QWidget*, QString> *qwf_forms = 0;
@@ -118,7 +129,7 @@ KommanderFactory::~KommanderFactory()
 QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QWidget *parent, const char *name )
 {
     QFile f( uiFile );
-    if ( !f.open( IO_ReadOnly ) )
+    if ( !f.open( QIODevice::ReadOnly ) )
 	return 0;
 
     qwf_currFileName = uiFile;
@@ -249,25 +260,25 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
 	}
 
 	for ( QMap<QString, QStringList>::Iterator it = widgetFactory->dbTables.begin(); it != widgetFactory->dbTables.end(); ++it ) {
-	    QDataTable *table = (QDataTable*)widgetFactory->toplevel->child( it.key(), "QDataTable" );
+	    Q3DataTable *table = (Q3DataTable*)widgetFactory->toplevel->child( it.key(), "QDataTable" );
 	    if ( !table )
 		continue;
 	    if ( widgetFactory->noDatabaseWidgets.find( table->name() ) != widgetFactory->noDatabaseWidgets.end() )
 		continue;
-	    QValueList<Field> fieldMap = *widgetFactory->fieldMaps.find( table );
+	    Q3ValueList<Field> fieldMap = *widgetFactory->fieldMaps.find( table );
 	    QString conn = (*it)[ 0 ];
-	    QSqlCursor* c = 0;
+	    Q3SqlCursor* c = 0;
 	    QSqlDatabase *db = 0;
 	    if ( conn.isEmpty() || conn == "(default)" ) {
 		db = QSqlDatabase::database();
-		c = new QSqlCursor( (*it)[ 1 ] );
+		c = new Q3SqlCursor( (*it)[ 1 ] );
 	    } else {
 		db = QSqlDatabase::database( conn );
-		c = new QSqlCursor( (*it)[ 1 ], true, db );
+		c = new Q3SqlCursor( (*it)[ 1 ], true, db );
 	    }
 	    if ( db ) {
 		table->setSqlCursor( c, fieldMap.isEmpty(), true );
-		table->refresh( QDataTable::RefreshAll );
+		table->refresh( Q3DataTable::RefreshAll );
 	    }
 	}
 #endif
@@ -307,31 +318,31 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
   else if (className == "QRadioButton")
     return new QRadioButton(parent, name);
   else if (className == "QGroupBox")
-    return new QGroupBox(parent, name);
+    return new Q3GroupBox(parent, name);
   else if (className == "QButtonGroup")
-    return new QButtonGroup(parent, name);
+    return new Q3ButtonGroup(parent, name);
   else if (className == "QIconView")
   {
 #if !defined(QT_NO_ICONVIEW)
-    return new QIconView(parent, name);
+    return new Q3IconView(parent, name);
 #endif
   } 
   else if (className == "QTable")
   {
 #if !defined(QT_NO_TABLE)
-    return new QTable(parent, name);
+    return new Q3Table(parent, name);
 #endif
   } 
   else if (className == "QListBox")
-    return new QListBox(parent, name);
+    return new Q3ListBox(parent, name);
   else if (className == "QListView")
-    return new QListView(parent, name);
+    return new Q3ListView(parent, name);
   else if (className == "QLineEdit")
     return new QLineEdit(parent, name);
   else if (className == "QSpinBox")
     return new QSpinBox(parent, name);
   else if (className == "QMultiLineEdit")
-    return new QMultiLineEdit(parent, name);
+    return new Q3MultiLineEdit(parent, name);
   else if (className == "QLabel")
     return new QLabel(parent, name);
   else if (className == "QLayoutWidget")
@@ -353,50 +364,50 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
     return new QDialog(parent, name, false, Qt::WStyle_StaysOnTop);
   } 
   else if (className == "QWizard")
-    return new QWizard(parent, name);
+    return new Q3Wizard(parent, name);
   else if (className == "QLCDNumber")
     return new QLCDNumber(parent, name);
   else if (className == "QProgressBar")
-    return new QProgressBar(parent, name);
+    return new Q3ProgressBar(parent, name);
   else if (className == "QTextView")
-    return new QTextView(parent, name);
+    return new Q3TextView(parent, name);
   else if (className == "QTextBrowser")
-    return new QTextBrowser(parent, name);
+    return new Q3TextBrowser(parent, name);
   else if (className == "QDial")
     return new QDial(parent, name);
   else if (className == "QSlider")
     return new QSlider(parent, name);
   else if (className == "QFrame")
-    return new QFrame(parent, name);
+    return new Q3Frame(parent, name);
   else if (className == "QSplitter")
     return new QSplitter(parent, name);
   else if (className == "Line")
   {
-    QFrame *f = new QFrame(parent, name);
-    f->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+    Q3Frame *f = new Q3Frame(parent, name);
+    f->setFrameStyle(Q3Frame::HLine | Q3Frame::Sunken);
     return f;
   } 
   else if (className == "QTextEdit")
-    return new QTextEdit(parent, name);
+    return new Q3TextEdit(parent, name);
   else if (className == "QDateEdit")
-    return new QDateEdit(parent, name);
+    return new Q3DateEdit(parent, name);
   else if (className == "QTimeEdit")
-    return new QTimeEdit(parent, name);
+    return new Q3TimeEdit(parent, name);
   else if (className == "QDateTimeEdit")
-    return new QDateTimeEdit(parent, name);
+    return new Q3DateTimeEdit(parent, name);
   else if (className == "QScrollBar")
     return new QScrollBar(parent, name);
   else if (className == "QPopupMenu")
-    return new QPopupMenu(parent, name);
+    return new Q3PopupMenu(parent, name);
   else if (className == "QWidgetStack")
-    return new QWidgetStack(parent, name);
+    return new Q3WidgetStack(parent, name);
   else if (className == "QMainWindow")
   {
-    QMainWindow *mw = 0;
+    Q3MainWindow *mw = 0;
     if (!qwf_stays_on_top)
-      mw = new QMainWindow(parent, name);
+      mw = new Q3MainWindow(parent, name);
     else
-      mw = new QMainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
+      mw = new Q3MainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
     mw->setCentralWidget(new QWidget(mw, "qt_central_widget"));
     mw->centralWidget()->show();
     (void) mw->statusBar();
@@ -404,7 +415,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
   }
 #if !defined(QT_NO_SQL)
   else if (className == "QDataTable")
-    return new QDataTable(parent, name);
+    return new Q3DataTable(parent, name);
   else if (className == "QDataBrowser")
     return new QDesignerDataBrowser2(parent, name);
   else if (className == "QDataView")
@@ -439,7 +450,7 @@ int KommanderFactory::loadPlugins(bool force)
   KLibLoader *f = KLibLoader::self();
   for (it = plugins.begin(); it != plugins.end(); ++it)
   {
-    KLibrary *l = f->library((*it).latin1());
+    KLibrary *l = f->library((*it).toLatin1());
     if (l)
     {
       if (l->hasSymbol("kommander_plugin"))
@@ -451,12 +462,12 @@ int KommanderFactory::loadPlugins(bool force)
       } else
       {
         qWarning("KommanderFactory::loadPlugins - '%s' isn't a Kommander Plugin library, skipping.",
-            l->fileName().latin1());
+            l->fileName().toLatin1());
       }
     } else
     {
       qWarning("KommanderFactory::loadPlugins - Can't load Kommander plugin library %s",
-          (*it).latin1());
+          (*it).toLatin1());
     }
   }
   //qDebug("KommanderFactory::loadPlugins returning %d", num_plugins_loaded);
@@ -513,17 +524,17 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    if ( !toplevel )
 		toplevel = w;
 	    if ( w->inherits( "QMainWindow" ) )
-		w = ( (QMainWindow*)w )->centralWidget();
+		w = ( (Q3MainWindow*)w )->centralWidget();
 	    if ( layout ) {
 		switch( layoutType( layout ) ) {
 		case HBox:
-		    ( (QHBoxLayout*)layout )->addWidget( w );
+		    ( (Q3HBoxLayout*)layout )->addWidget( w );
 		    break;
 		case VBox:
-		    ( (QVBoxLayout*)layout )->addWidget( w );
+		    ( (Q3VBoxLayout*)layout )->addWidget( w );
 		    break;
 		case Grid:
-		    ( (QGridLayout*)layout )->addMultiCellWidget( w, row, row + rowspan - 1,
+		    ( (Q3GridLayout*)layout )->addMultiCellWidget( w, row, row + rowspan - 1,
 								  col, col + colspan - 1 );
 		    break;
 		default:
@@ -551,7 +562,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    obj = layout;
 	    n = n.firstChild().toElement();
 	    if ( parentLayout && parentLayout->inherits( "QGridLayout" ) )
-		( (QGridLayout*)parentLayout )->addMultiCellLayout( layout, row, row + rowspan - 1, col, col + colspan - 1 );
+		( (Q3GridLayout*)parentLayout )->addMultiCellLayout( layout, row, row + rowspan - 1, col, col + colspan - 1 );
 	    continue;
 	} else if ( n.tagName() == "grid" ) {
 	    QLayout *parentLayout = layout;
@@ -562,7 +573,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    obj = layout;
 	    n = n.firstChild().toElement();
 	    if ( parentLayout && parentLayout->inherits( "QGridLayout" ) )
-		( (QGridLayout*)parentLayout )->addMultiCellLayout( layout, row, row + rowspan - 1, col, col + colspan - 1 );
+		( (Q3GridLayout*)parentLayout )->addMultiCellLayout( layout, row, row + rowspan - 1, col, col + colspan - 1 );
 	    continue;
 	} else if ( n.tagName() == "vbox" ) {
 	    QLayout *parentLayout = layout;
@@ -573,7 +584,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    obj = layout;
 	    n = n.firstChild().toElement();
 	    if ( parentLayout && parentLayout->inherits( "QGridLayout" ) )
-		( (QGridLayout*)parentLayout )->addMultiCellLayout( layout, row, row + rowspan - 1, col, col + colspan - 1 );
+		( (Q3GridLayout*)parentLayout )->addMultiCellLayout( layout, row, row + rowspan - 1, col, col + colspan - 1 );
 	    continue;
 	} else if ( n.tagName() == "property" && obj ) {
 	    setProperty( obj, n.attribute( "name" ), n.firstChild().toElement() );
@@ -585,7 +596,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 		    ( (QTabWidget*)parent )->insertTab( w, translate(v.toString()) );
 	    } else if ( parent->inherits( "QWizard" ) ) {
 		if ( attrib == "title" )
-		    ( (QWizard*)parent )->addPage( w, translate(v.toString()) );
+		    ( (Q3Wizard*)parent )->addPage( w, translate(v.toString()) );
 	    }
 	} else if ( n.tagName() == "item" ) {
 	    createItem( n, w );
@@ -608,28 +619,28 @@ QLayout *KommanderFactory::createLayout( QWidget *widget, QLayout*  layout, Layo
 	widget = ((QTabWidget*)widget)->currentPage();
 
     if ( !layout && widget && widget->inherits( "QWizard" ) )
-	widget = ((QWizard*)widget)->currentPage();
+	widget = ((Q3Wizard*)widget)->currentPage();
 
     if ( !layout && widget && widget->inherits( "QWidgetStack" ) )
-	widget = ((QWidgetStack*)widget)->visibleWidget();
+	widget = ((Q3WidgetStack*)widget)->visibleWidget();
 
     if ( !layout && widget && widget->inherits( "QGroupBox" ) ) {
-	QGroupBox *gb = (QGroupBox*)widget;
+	Q3GroupBox *gb = (Q3GroupBox*)widget;
 	gb->setColumnLayout( 0, Qt::Vertical );
 	gb->layout()->setMargin( 0 );
 	gb->layout()->setSpacing( 0 );
 	QLayout *l;
 	switch ( type ) {
 	case HBox:
-	    l = new QHBoxLayout( gb->layout() );
+	    l = new Q3HBoxLayout( gb->layout() );
 	    l->setAlignment( Qt::AlignTop );
 	    return l;
 	case VBox:
-	    l = new QVBoxLayout( gb->layout(), spacing );
+	    l = new Q3VBoxLayout( gb->layout(), spacing );
 	    l->setAlignment( Qt::AlignTop );
 	    return l;
 	case Grid:
-	    l = new QGridLayout( gb->layout() );
+	    l = new Q3GridLayout( gb->layout() );
 	    l->setAlignment( Qt::AlignTop );
 	    return l;
 	default:
@@ -640,17 +651,17 @@ QLayout *KommanderFactory::createLayout( QWidget *widget, QLayout*  layout, Layo
 	    QLayout *l;
 	    switch ( type ) {
 	    case HBox:
-		l = new QHBoxLayout( layout );
+		l = new Q3HBoxLayout( layout );
 		l->setSpacing( spacing );
 		l->setMargin( margin );
 		return l;
 	    case VBox:
-		l = new QVBoxLayout( layout );
+		l = new Q3VBoxLayout( layout );
 		l->setSpacing( spacing );
 		l->setMargin( margin );
 		return l;
 	    case Grid: {
-		l = new QGridLayout( layout );
+		l = new Q3GridLayout( layout );
 		l->setSpacing( spacing );
 		l->setMargin( margin );
 		return l;
@@ -662,21 +673,21 @@ QLayout *KommanderFactory::createLayout( QWidget *widget, QLayout*  layout, Layo
 	    QLayout *l;
 	    switch ( type ) {
 	    case HBox:
-		l = new QHBoxLayout( widget );
+		l = new Q3HBoxLayout( widget );
 		if ( !widget ) {
 		    l->setMargin( margin );
 		    l->setSpacing( spacing );
 		}
 		return l;
 	    case VBox:
-		l = new QVBoxLayout( widget );
+		l = new Q3VBoxLayout( widget );
 		if ( !widget ) {
 		    l->setMargin( margin );
 		    l->setSpacing( spacing );
 		}
 		return l;
 	    case Grid: {
-		l = new QGridLayout( widget );
+		l = new Q3GridLayout( widget );
 		if ( !widget ) {
 		    l->setMargin( margin );
 		    l->setSpacing( spacing );
@@ -725,7 +736,7 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
 	QPixmap pix = loadPixmap( e );
 	if ( pix.isNull() )
 	    return;
-	v = QVariant( QIconSet( pix ) );
+	v = QVariant( QIcon( pix ) );
     } else if ( e.tagName() == "image" ) {
 	v = QVariant( loadFromCollection( v.toString() ) );
     } else if ( e.tagName() == "string" ) {
@@ -739,7 +750,7 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
 		    QToolTip::add( (QWidget*)obj, translate(v.toString()) );
 	    } else if ( prop == "whatsThis" ) {
 		if ( !v.toString().isEmpty() )
-		    QWhatsThis::add( (QWidget*)obj, translate(v.toString()) );
+		    Q3WhatsThis::add( (QWidget*)obj, translate(v.toString()) );
 	    }
 #ifndef QT_NO_SQL
 	    if ( prop == "database" && !obj->inherits( "QDataView" )
@@ -768,7 +779,7 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
 		}
 	    } else if ( prop == "buttonGroupId" ) {
 		if ( obj->inherits( "QButton" ) && obj->parent()->inherits( "QButtonGroup" ) )
-		    ( (QButtonGroup*)obj->parent() )->insert( (QButton*)obj, v.toInt() );
+		    ( (Q3ButtonGroup*)obj->parent() )->insert( (QButton*)obj, v.toInt() );
 	    }
 
 	    return;
@@ -799,7 +810,7 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
     } else if ( e.tagName() == "set" && p && p->isSetType() ) {
 	QString keys( v.toString() );
 	QStringList lst = QStringList::split( '|', keys );
-	QStrList l;
+	Q3StrList l;
 	for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it )
 	    l.append( *it );
 	v = QVariant( p->keysToValue( l ) );
@@ -863,9 +874,9 @@ void KommanderFactory::createSpacer( const QDomElement &e, QLayout *layout )
 					 orient == Qt::Vertical ? sizeType : QSizePolicy::Minimum );
     if ( layout ) {
 	if ( layout->inherits( "QBoxLayout" ) )
-	    ( (QBoxLayout*)layout )->addItem( item );
+	    ( (Q3BoxLayout*)layout )->addItem( item );
 	else
-	    ( (QGridLayout*)layout )->addMultiCell( item, row, row + rowspan - 1, col, col + colspan - 1,
+	    ( (Q3GridLayout*)layout )->addMultiCell( item, row, row + rowspan - 1, col, col + colspan - 1,
 						    orient == Qt::Horizontal ? Qt::AlignVCenter : Qt::AlignHCenter );
     }
 }
@@ -876,8 +887,8 @@ static QImage loadImageData( QDomElement &n2 )
     QString data = n2.firstChild().toText().data();
     char *ba = new char[ data.length() / 2 ];
     for ( int i = 0; i < (int)data.length() / 2; ++i ) {
-	char h = data[ 2 * i ].latin1();
-	char l = data[ 2 * i  + 1 ].latin1();
+	char h = data[ 2 * i ].toLatin1();
+	char l = data[ 2 * i  + 1 ].toLatin1();
 	uchar r = 0;
 	if ( h <= '9' )
 	    r += h - '0';
@@ -927,7 +938,7 @@ void KommanderFactory::loadImageCollection( const QDomElement &e )
 
 QImage KommanderFactory::loadFromCollection( const QString &name )
 {
-    QValueList<Image>::Iterator it = images.begin();
+    Q3ValueList<Image>::Iterator it = images.begin();
     for ( ; it != images.end(); ++it ) {
 	if ( ( *it ).name == name )
 	    return ( *it ).img;
@@ -939,11 +950,11 @@ QPixmap KommanderFactory::loadPixmap( const QDomElement &e )
 {
     QString arg = e.firstChild().toText().data();
     if ( usePixmapCollection ) {
-	const QMimeSource *m = QMimeSourceFactory::defaultFactory()->data( arg );
+	const QMimeSource *m = Q3MimeSourceFactory::defaultFactory()->data( arg );
 	if ( !m )
 	    return QPixmap();
 	QPixmap pix;
-	QImageDrag::decode( m, pix );
+	Q3ImageDrag::decode( m, pix );
 	return pix;
     }
 
@@ -975,7 +986,7 @@ QColorGroup KommanderFactory::loadColorGroup( const QDomElement &e )
 struct Connection
 {
     QObject *sender, *receiver;
-    QCString signal, slot;
+    Q3CString signal, slot;
     bool operator==( const Connection &c ) const {
 	return sender == c.sender && receiver == c.receiver &&
 	       signal == c.signal && slot == c.slot ;
@@ -986,7 +997,7 @@ class NormalizeObject : public QObject
 {
 public:
     NormalizeObject() : QObject() {}
-    static QCString normalizeSignalSlot( const char *signalSlot ) { return QObject::normalizeSignalSlot( signalSlot ); }
+    static Q3CString normalizeSignalSlot( const char *signalSlot ) { return QObject::normalizeSignalSlot( signalSlot ); }
 };
 
 void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector )
@@ -1005,7 +1016,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 		    } else {
 			if ( name == "this" )
 			    name = toplevel->name();
-			QObjectList *l = toplevel->queryList( 0, name, false );
+			QObjectListl = toplevel->queryList( 0, name, false );
 			if ( l ) {
 			    if ( l->first() )
 				conn.sender = l->first();
@@ -1021,7 +1032,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 		    if ( name == "this" || qstrcmp( toplevel->name(), name ) == 0 ) {
 			conn.receiver = toplevel;
 		    } else {
-			QObjectList *l = toplevel->queryList( 0, name, false );
+			QObjectListl = toplevel->queryList( 0, name, false );
 			if ( l ) {
 			    if ( l->first() )
 				conn.receiver = l->first();
@@ -1038,7 +1049,7 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 	    conn.slot = NormalizeObject::normalizeSignalSlot( conn.slot );
 
 	    QObject *sender = 0, *receiver = 0;
-	    QObjectList *l = toplevel->queryList( 0, conn.sender->name(), false );
+	    QObjectListl = toplevel->queryList( 0, conn.sender->name(), false );
 	    if ( qstrcmp( conn.sender->name(), toplevel->name() ) == 0 ) {
 		sender = toplevel;
 	    } else {
@@ -1072,8 +1083,8 @@ void KommanderFactory::loadConnections( const QDomElement &e, QObject *connector
 		QString s2 = "1""%1";
 		s2 = s2.arg( conn.slot );
 
-		QStrList signalList = sender->metaObject()->signalNames( true );
-		QStrList slotList = receiver->metaObject()->slotNames( true );
+		Q3StrList signalList = sender->metaObject()->signalNames( true );
+		Q3StrList slotList = receiver->metaObject()->slotNames( true );
 
 		// if this is a connection to a custom slot and we have a connector, try this as receiver
 		if ( slotList.find( conn.slot ) == -1 && receiver == toplevel && connector ) {
@@ -1109,7 +1120,7 @@ void KommanderFactory::loadTabOrder( const QDomElement &e )
     while ( !n.isNull() ) {
 	if ( n.tagName() == "tabstop" ) {
 	    QString name = n.firstChild().toText().data();
-	    QObjectList *l = toplevel->queryList( 0, name, false );
+	    QObjectListl = toplevel->queryList( 0, name, false );
 	    if ( l ) {
 		if ( l->first() ) {
 		    QWidget *w = (QWidget*)l->first();
@@ -1127,7 +1138,7 @@ void KommanderFactory::loadTabOrder( const QDomElement &e )
 void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 {
     if ( widget->inherits( "QListView" ) && e.tagName() == "column" ) {
-	QListView *lv = (QListView*)widget;
+	Q3ListView *lv = (Q3ListView*)widget;
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
 	bool hasPixmap = false;
@@ -1161,7 +1172,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
     }
 #ifndef QT_NO_TABLE
     else if ( widget->inherits( "QTable" ) ) {
-	QTable *table = (QTable*)widget;
+	Q3Table *table = (Q3Table*)widget;
 #ifndef QT_NO_SQL
 	bool isSql = (widget->inherits( "QDataTable" ));
 #endif
@@ -1180,7 +1191,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 	bool hasPixmap = false;
 	QString txt;
 	QString field;
-	QValueList<Field> fieldMap;
+	Q3ValueList<Field> fieldMap;
 	if ( fieldMaps.find( table ) != fieldMaps.end() ) {
 	    fieldMap = *fieldMaps.find( table );
 	    fieldMaps.remove( table );
@@ -1202,18 +1213,18 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 	}
 
 	int i = isRow ? table->numRows() - 1 : table->numCols() - 1;
-	QHeader *h = !isRow ? table->horizontalHeader() : table->verticalHeader();
+	Q3Header *h = !isRow ? table->horizontalHeader() : table->verticalHeader();
 	if ( hasPixmap ) {
 #ifndef QT_NO_SQL
 	    if ( isSql )
-		((QDataTable*)table)->addColumn( field, txt, -1, pix );
+		((Q3DataTable*)table)->addColumn( field, txt, -1, pix );
 	    else
 #endif
 		h->setLabel( i, pix, txt );
 	} else {
 #ifndef QT_NO_SQL
 	    if ( isSql ) {
-		((QDataTable*)table)->addColumn( field, txt );
+		((Q3DataTable*)table)->addColumn( field, txt );
 	    }
 	    else
 #endif
@@ -1246,7 +1257,7 @@ void KommanderFactory::loadItem( const QDomElement &e, QPixmap &pix, QString &tx
     }
 }
 
-void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListViewItem *i )
+void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, Q3ListViewItem *i )
 {
     if ( widget->inherits( "QListBox" ) || widget->inherits( "QComboBox" ) ) {
 	QDomElement n = e.firstChild().toElement();
@@ -1254,15 +1265,15 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListV
 	bool hasPixmap = false;
 	QString txt;
 	loadItem( n, pix, txt, hasPixmap );
-	QListBox *lb = 0;
+	Q3ListBox *lb = 0;
 	if ( widget->inherits( "QListBox" ) )
-	    lb = (QListBox*)widget;
+	    lb = (Q3ListBox*)widget;
 	else
 	    lb = ( (QComboBox*)widget)->listBox();
 	if ( hasPixmap ) {
-	    new QListBoxPixmap( lb, pix, txt );
+	    new Q3ListBoxPixmap( lb, pix, txt );
 	} else {
-	    new QListBoxText( lb, txt );
+	    new Q3ListBoxText( lb, txt );
 	}
 #ifndef QT_NO_ICONVIEW
     } else if ( widget->inherits( "QIconView" ) ) {
@@ -1272,20 +1283,20 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, QListV
 	QString txt;
 	loadItem( n, pix, txt, hasPixmap );
 
-	QIconView *iv = (QIconView*)widget;
-	new QIconViewItem( iv, txt, pix );
+	Q3IconView *iv = (Q3IconView*)widget;
+	new Q3IconViewItem( iv, txt, pix );
 #endif
     } else if ( widget->inherits( "QListView" ) ) {
 	QDomElement n = e.firstChild().toElement();
 	QPixmap pix;
-	QValueList<QPixmap> pixmaps;
+	Q3ValueList<QPixmap> pixmaps;
 	QStringList textes;
-	QListViewItem *item = 0;
-	QListView *lv = (QListView*)widget;
+	Q3ListViewItem *item = 0;
+	Q3ListView *lv = (Q3ListView*)widget;
 	if ( i )
-	    item = new QListViewItem( i, lastItem );
+	    item = new Q3ListViewItem( i, lastItem );
 	else
-	    item = new QListViewItem( lv, lastItem );
+	    item = new Q3ListViewItem( lv, lastItem );
 	while ( !n.isNull() ) {
 	    if ( n.tagName() == "property" ) {
 		QString attrib = n.attribute( "name" );
@@ -1339,7 +1350,7 @@ void KommanderFactory::loadChildAction( QObject *parent, const QDomElement &e )
 	if ( !parent->inherits( "QAction" ) )
 	    actionList.append( a );
     } else if ( n.tagName() == "actiongroup" ) {
-	a = new QActionGroup( parent );
+	a = new Q3ActionGroup( parent );
 	QDomElement n2 = n.firstChild().toElement();
 	while ( !n2.isNull() ) {
 	    if ( n2.tagName() == "property" ) {
@@ -1376,12 +1387,12 @@ void KommanderFactory::loadActions( const QDomElement &e )
 void KommanderFactory::loadToolBars( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
-    QMainWindow *mw = ( (QMainWindow*)toplevel );
-    QToolBar *tb = 0;
+    Q3MainWindow *mw = ( (Q3MainWindow*)toplevel );
+    Q3ToolBar *tb = 0;
     while ( !n.isNull() ) {
 	if ( n.tagName() == "toolbar" ) {
-	    Qt::Dock dock = (Qt::Dock)n.attribute( "dock" ).toInt();
-	    tb = new QToolBar( QString::null, mw, dock );
+	    Qt::ToolBarDock dock = (Qt::ToolBarDock)n.attribute( "dock" ).toInt();
+	    tb = new Q3ToolBar( QString::null, mw, dock );
 	    tb->setLabel( n.attribute( "label" ) );
 	    tb->setName( n.attribute( "name" ) );
 	    QDomElement n2 = n.firstChild().toElement();
@@ -1407,11 +1418,11 @@ void KommanderFactory::loadToolBars( const QDomElement &e )
 void KommanderFactory::loadMenuBar( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
-    QMainWindow *mw = ( (QMainWindow*)toplevel );
+    Q3MainWindow *mw = ( (Q3MainWindow*)toplevel );
     QMenuBar *mb = mw->menuBar();
     while ( !n.isNull() ) {
 	if ( n.tagName() == "item" ) {
-	    QPopupMenu *popup = new QPopupMenu( mw );
+	    Q3PopupMenu *popup = new Q3PopupMenu( mw );
 	    popup->setName( n.attribute( "name" ) );
 	    QDomElement n2 = n.firstChild().toElement();
 	    while ( !n2.isNull() ) {
@@ -1438,7 +1449,7 @@ QAction *KommanderFactory::findAction( const QString &name )
     for ( QAction *a = actionList.first(); a; a = actionList.next() ) {
 	if ( QString( a->name() ) == name )
 	    return a;
-	QAction *ac = (QAction*)a->child( name.latin1(), "QAction" );
+	QAction *ac = (QAction*)a->child( name.toLatin1(), "QAction" );
 	if ( ac )
 	    return ac;
     }
@@ -1450,7 +1461,7 @@ void KommanderFactory::loadImages( const QString &dir )
   QDir d(dir);
   QStringList l = d.entryList(QDir::Files);
   for (QStringList::Iterator it = l.begin(); it != l.end(); ++it)
-    QMimeSourceFactory::defaultFactory()->setPixmap(*it, QPixmap(d.path() + "/" + *it, "PNG"));
+    Q3MimeSourceFactory::defaultFactory()->setPixmap(*it, QPixmap(d.path() + "/" + *it, "PNG"));
 }
 
 QString KommanderFactory::translate( const QString& sourceText, const QString& comment )

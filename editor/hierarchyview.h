@@ -22,19 +22,25 @@
 #define HIRARCHYVIEW_H
 
 #include <qvariant.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qtabwidget.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QPixmap>
+#include <QMouseEvent>
+#include <Q3PopupMenu>
+#include <QKeyEvent>
 #include <private/qcom_p.h>
 
 class FormWindow;
 class QCloseEvent;
-class QPopupMenu;
+class Q3PopupMenu;
 class QKeyEvent;
 class QMouseEvent;
-class QWizard;
+class Q3Wizard;
 
-class HierarchyItem:public QListViewItem
+class HierarchyItem:public Q3ListViewItem
 {
 public:
   enum Type
@@ -51,9 +57,9 @@ public:
     EventFunction
   };
 
-    HierarchyItem(Type type, QListViewItem * parent,
+    HierarchyItem(Type type, Q3ListViewItem * parent,
       const QString & txt1, const QString & txt2, const QString & txt3);
-    HierarchyItem(Type type, QListView * parent,
+    HierarchyItem(Type type, Q3ListView * parent,
       const QString & txt1, const QString & txt2, const QString & txt3);
 
   void paintCell(QPainter * p, const QColorGroup & cg, int column, int width, int align);
@@ -62,7 +68,7 @@ public:
   void setWidget(QWidget * w);
   QWidget *widget() const;
 
-  void setText(int col, const QString & txt)    {if (!txt.isEmpty()) QListViewItem::setText(col, txt);}
+  void setText(int col, const QString & txt)    {if (!txt.isEmpty()) Q3ListViewItem::setText(col, txt);}
   int rtti() const                              { return (int) typ;}
 
 private:
@@ -76,7 +82,7 @@ private:
   Type typ;
 };
 
-class HierarchyList:public QListView
+class HierarchyList:public Q3ListView
 {
   Q_OBJECT 
 public:
@@ -84,14 +90,14 @@ public:
 
   virtual void setup();
   virtual void setCurrent(QWidget * w);
-  void setOpen(QListViewItem * i, bool b);
+  void setOpen(Q3ListViewItem * i, bool b);
   void changeNameOf(QWidget * w, const QString & name);
   void changeDatabaseOf(QWidget * w, const QString & info);
   void setFormWindow(FormWindow * fw)   {formWindow = fw;}
   void drawContentsOffset(QPainter * p, int ox, int oy, int cx, int cy, int cw, int ch)
         { setUpdatesEnabled(FALSE);  triggerUpdate();  setUpdatesEnabled(TRUE);
-         QListView::drawContentsOffset(p, ox, oy, cx, cy, cw, ch); }
-  void insertEntry(QListViewItem * i, const QPixmap & pix = QPixmap(), const QString & s =
+         Q3ListView::drawContentsOffset(p, ox, oy, cx, cy, cw, ch); }
+  void insertEntry(Q3ListViewItem * i, const QPixmap & pix = QPixmap(), const QString & s =
       QString::null);
 
 protected:
@@ -105,17 +111,17 @@ public slots:
   void removeTabPage();
 
 private:
-  void insertObject(QObject * o, QListViewItem * parent);
-  QWidget *findWidget(QListViewItem * i);
-  QListViewItem *findItem(QWidget * w);
+  void insertObject(QObject * o, Q3ListViewItem * parent);
+  QWidget *findWidget(Q3ListViewItem * i);
+  Q3ListViewItem *findItem(QWidget * w);
   QWidget *current() const;
 
-  private slots: virtual void objectClicked(QListViewItem * i);
-  virtual void showRMBMenu(QListViewItem *, const QPoint &);
+  private slots: virtual void objectClicked(Q3ListViewItem * i);
+  virtual void showRMBMenu(Q3ListViewItem *, const QPoint &);
 
 protected:
   FormWindow * formWindow;
-  QPopupMenu *normalMenu, *tabWidgetMenu;
+  Q3PopupMenu *normalMenu, *tabWidgetMenu;
   bool deselect;
 };
 
@@ -137,7 +143,7 @@ public:
     void namePropertyChanged( QWidget *w, const QVariant &old );
     void databasePropertyChanged( QWidget *w, const QStringList& info );
     void tabsChanged( QTabWidget *w );
-    void pagesChanged( QWizard *w );
+    void pagesChanged( Q3Wizard *w );
     void rebuild();
     void closed( FormWindow *fw );
 

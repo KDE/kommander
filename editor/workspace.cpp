@@ -19,7 +19,14 @@
 **********************************************************************/
 
 #include <qvariant.h>  // HP-UX compiler needs this here
-#include <qlistview.h>
+#include <q3listview.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QEvent>
+#include <QCloseEvent>
 #include "workspace.h"
 #include "formwindow.h"
 #include "mainwindow.h"
@@ -34,15 +41,15 @@
 #endif
 #include "formfile.h"
 
-#include <qheader.h>
+#include <q3header.h>
 #include <qfileinfo.h>
 #include <qapplication.h>
 #include <qpainter.h>
 #include <qpen.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qworkspace.h>
-#include <qpopupmenu.h>
-#include <qtextstream.h>
+#include <q3popupmenu.h>
+#include <q3textstream.h>
 #include "qcompletionedit.h"
 
 #include <kurldrag.h>
@@ -102,11 +109,11 @@ static QPixmap *filePixmap = 0;
 static QPixmap* formPixmap = 0;
 
 #ifndef KOMMANDER
-WorkspaceItem::WorkspaceItem( QListView *parent, Project* p )
+WorkspaceItem::WorkspaceItem( Q3ListView *parent, Project* p )
 #else
-WorkspaceItem::WorkspaceItem( QListView *parent )
+WorkspaceItem::WorkspaceItem( Q3ListView *parent )
 #endif
-    : QListViewItem( parent )
+    : Q3ListViewItem( parent )
 {
     init();
 #ifndef KOMMANDER
@@ -118,8 +125,8 @@ WorkspaceItem::WorkspaceItem( QListView *parent )
 }
 
 #ifndef KOMMANDER
-WorkspaceItem::WorkspaceItem( QListViewItem *parent, SourceFile* sf )
-    : QListViewItem( parent )
+WorkspaceItem::WorkspaceItem( Q3ListViewItem *parent, SourceFile* sf )
+    : Q3ListViewItem( parent )
 {
     init();
     sourceFile = sf;
@@ -128,8 +135,8 @@ WorkspaceItem::WorkspaceItem( QListViewItem *parent, SourceFile* sf )
 }
 #endif
 
-WorkspaceItem::WorkspaceItem( QListViewItem *parent, FormFile* ff, Type type )
-    : QListViewItem( parent )
+WorkspaceItem::WorkspaceItem( Q3ListViewItem *parent, FormFile* ff, Type type )
+    : Q3ListViewItem( parent )
 {
     init();
     formFile = ff;
@@ -146,8 +153,8 @@ WorkspaceItem::WorkspaceItem( QListViewItem *parent, FormFile* ff, Type type )
     }
 }
 
-WorkspaceItem::WorkspaceItem( QListView *parent, FormFile* ff, Type type )
-    : QListViewItem( parent )
+WorkspaceItem::WorkspaceItem( Q3ListView *parent, FormFile* ff, Type type )
+    : Q3ListViewItem( parent )
 {
     init();
     formFile = ff;
@@ -200,7 +207,7 @@ void WorkspaceItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
   p->setFont( f );
     }
 
-    QListViewItem::paintCell( p, g, column, width, align );
+    Q3ListViewItem::paintCell( p, g, column, width, align );
     p->setPen( QPen( cg.dark(), 1 ) );
     if ( column == 0 )
   p->drawLine( 0, 0, 0, height() - 1 );
@@ -218,7 +225,7 @@ void WorkspaceItem::paintCell( QPainter *p, const QColorGroup &cg, int column, i
 QString WorkspaceItem::text( int column ) const
 {
     if ( column != 0 )
-  return QListViewItem::text( column );
+  return Q3ListViewItem::text( column );
     switch( t ) {
 #ifndef KOMMANDER
     case ProjectType:
@@ -318,19 +325,19 @@ QColor WorkspaceItem::backgroundColor()
 
 void WorkspaceItem::setOpen( bool b )
 {
-    QListViewItem::setOpen( b );
+    Q3ListViewItem::setOpen( b );
     autoOpen = false;
 }
 
 void WorkspaceItem::setAutoOpen( bool b )
 {
-    QListViewItem::setOpen( b );
+    Q3ListViewItem::setOpen( b );
     autoOpen = b;
 }
 
 Workspace::Workspace( QWidget *parent, MainWindow *mw )
-    : QListView( parent, 0, WStyle_Customize | WStyle_NormalBorder | WStyle_Title |
-     WStyle_Tool | WStyle_MinMax | WStyle_SysMenu ), mainWindow( mw ),
+    : Q3ListView( parent, 0, Qt::WStyle_Customize | Qt::WStyle_NormalBorder | Qt::WStyle_Title |
+     Qt::WStyle_Tool | Qt::WStyle_MinMax | Qt::WStyle_SysMenu ), mainWindow( mw ),
 #ifndef KOMMANDER
   project( 0 ), completionDirty( false )
 #else
@@ -345,7 +352,7 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     header()->setStretchEnabled( true );
     header()->hide();
     setSorting( 0 );
-    setResizePolicy( QScrollView::Manual );
+    setResizePolicy( Q3ScrollView::Manual );
 #ifndef KOMMANDER
     setIcon( PixmapChooser::loadPixmap( "logo" ) );
 #endif
@@ -355,12 +362,12 @@ Workspace::Workspace( QWidget *parent, MainWindow *mw )
     setPalette( p );
     addColumn( i18n("Files" ) );
     setAllColumnsShowFocus( true );
-    connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem *, const QPoint &, int ) ),
-       this, SLOT( itemClicked( int, QListViewItem *, const QPoint& ) ) ),
-    connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
-       this, SLOT( itemDoubleClicked( QListViewItem * ) ) ),
-    connect( this, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint &, int ) ),
-       this, SLOT( rmbClicked( QListViewItem *, const QPoint& ) ) ),
+    connect( this, SIGNAL( mouseButtonClicked( int, Q3ListViewItem *, const QPoint &, int ) ),
+       this, SLOT( itemClicked( int, Q3ListViewItem *, const QPoint& ) ) ),
+    connect( this, SIGNAL( doubleClicked( Q3ListViewItem * ) ),
+       this, SLOT( itemDoubleClicked( Q3ListViewItem * ) ) ),
+    connect( this, SIGNAL( contextMenuRequested( Q3ListViewItem *, const QPoint &, int ) ),
+       this, SLOT( rmbClicked( Q3ListViewItem *, const QPoint& ) ) ),
     setHScrollBarMode( AlwaysOff );
     setVScrollBarMode( AlwaysOn );
     viewport()->setAcceptDrops( true );
@@ -417,13 +424,13 @@ void Workspace::setCurrentProject( Project *pro )
 
     projectItem->setOpen( true );
 
-    for ( QPtrListIterator<SourceFile> sources = project->sourceFiles();
+    for ( Q3PtrListIterator<SourceFile> sources = project->sourceFiles();
     sources.current(); ++sources ) {
   SourceFile* f = sources.current();
   (void) new WorkspaceItem( projectItem, f );
     }
 
-    for ( QPtrListIterator<FormFile> forms = project->formFiles();
+    for ( Q3PtrListIterator<FormFile> forms = project->formFiles();
     forms.current(); ++forms ) {
   FormFile* f = forms.current();
   (void) new WorkspaceItem( projectItem, f );
@@ -483,7 +490,7 @@ void Workspace::update()
 
 void Workspace::update( FormFile* ff )
 {
-    QListViewItem* i = findItem( ff );
+    Q3ListViewItem* i = findItem( ff );
     if ( i ) {
   i->repaint();
   if ( (i = i->firstChild()) )
@@ -534,7 +541,7 @@ void Workspace::activeEditorChanged( SourceEditor *se )
 
 WorkspaceItem *Workspace::findItem( FormFile* ff)
 {
-    QListViewItemIterator it( this );
+    Q3ListViewItemIterator it( this );
     for ( ; it.current(); ++it ) {
   if ( ( (WorkspaceItem*)it.current() )->formFile == ff )
       return (WorkspaceItem*)it.current();
@@ -545,7 +552,7 @@ WorkspaceItem *Workspace::findItem( FormFile* ff)
 #ifndef KOMMANDER
 WorkspaceItem *Workspace::findItem( SourceFile *sf )
 {
-    QListViewItemIterator it( this );
+    Q3ListViewItemIterator it( this );
     for ( ; it.current(); ++it ) {
   if ( ( (WorkspaceItem*)it.current() )->sourceFile == sf )
       return (WorkspaceItem*)it.current();
@@ -556,7 +563,7 @@ WorkspaceItem *Workspace::findItem( SourceFile *sf )
 
 void Workspace::closeAutoOpenItems()
 {
-    QListViewItemIterator it( this );
+    Q3ListViewItemIterator it( this );
     for ( ; it.current(); ++it ) {
   WorkspaceItem* i = (WorkspaceItem*) it.current();
   WorkspaceItem* ip = (WorkspaceItem*) i->parent();
@@ -575,15 +582,15 @@ void Workspace::closeEvent( QCloseEvent *e )
     e->accept();
 }
 
-void Workspace::itemDoubleClicked( QListViewItem *i )
+void Workspace::itemDoubleClicked( Q3ListViewItem *i )
 {
     if ( ( (WorkspaceItem*)i)->type()== WorkspaceItem::ProjectType )
   i->setOpen( true );
 }
 
-void Workspace::itemClicked( int button, QListViewItem *i, const QPoint& )
+void Workspace::itemClicked( int button, Q3ListViewItem *i, const QPoint& )
 {
-    if ( !i || button != LeftButton )
+    if ( !i || button != Qt::LeftButton )
   return;
 
     closeAutoOpenItems();
@@ -648,13 +655,13 @@ void Workspace::contentsDragMoveEvent( QDragMoveEvent *e )
   e->accept();
 }
 
-void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
+void Workspace::rmbClicked( Q3ListViewItem *i, const QPoint& pos )
 {
     if ( !i )
   return;
     WorkspaceItem* wi = (WorkspaceItem*)i;
     enum { OPEN_SOURCE, REMOVE_SOURCE, OPEN_FORM, REMOVE_FORM, OPEN_FORM_SOURCE };
-    QPopupMenu menu( this );
+    Q3PopupMenu menu( this );
     switch ( wi->type() ) {
 #ifndef KOMMANDER
     case WorkspaceItem::SourceFileType:
@@ -699,7 +706,7 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
   break;
 #endif
     case OPEN_SOURCE:
-  itemClicked( LeftButton, i, pos );
+  itemClicked( Qt::LeftButton, i, pos );
   break;
 #ifndef KOMMANDER
     case REMOVE_FORM: // FIXME
@@ -707,10 +714,10 @@ void Workspace::rmbClicked( QListViewItem *i, const QPoint& pos )
   break;
 #endif
     case OPEN_FORM:
-  itemClicked( LeftButton, i, pos );
+  itemClicked( Qt::LeftButton, i, pos );
   break;
     case OPEN_FORM_SOURCE:
-  itemClicked( LeftButton, i, pos );
+  itemClicked( Qt::LeftButton, i, pos );
   break;
     default:
   break;
@@ -722,7 +729,7 @@ bool Workspace::eventFilter( QObject *o, QEvent * e )
     // Reggie, on what type of events do we have to execute updateBufferEdit()
     if ( o ==bufferEdit && e->type() != QEvent::ChildRemoved )
   updateBufferEdit();
-    return QListView::eventFilter( o, e );
+    return Q3ListView::eventFilter( o, e );
 }
 
 void Workspace::setBufferEdit( QCompletionEdit *edit )
@@ -761,7 +768,7 @@ void Workspace::bufferChosen( const QString &buffer )
     }
 #endif
 
-    QListViewItemIterator it( this );
+    Q3ListViewItemIterator it( this );
     while ( it.current() ) {
   if ( ( (WorkspaceItem*)it.current())->checkCompletion( buffer ) ) {
       itemClicked( LeftButton, it.current(), QPoint() );
@@ -773,7 +780,7 @@ void Workspace::bufferChosen( const QString &buffer )
 
 void Workspace::updateColors()
 {
-    QListViewItem* i = firstChild();
+    Q3ListViewItem* i = firstChild();
     if ( i )
   i = i->firstChild();
     bool b = true;

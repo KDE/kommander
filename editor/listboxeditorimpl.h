@@ -21,7 +21,7 @@
 #ifndef LISTBOXEDITOR_H
 #define LISTBOXEDITOR_H
 
-class QListBox;
+class Q3ListBox;
 class FormWindow;
 
 #include "listboxeditor.h"
@@ -36,7 +36,7 @@ public:
 protected slots:
     void insertNewItem();
     void deleteCurrentItem();
-    void currentItemChanged( QListBoxItem * );
+    void currentItemChanged( Q3ListBoxItem * );
     void currentTextChanged( const QString & );
     void okClicked();
     void cancelClicked();
@@ -47,7 +47,7 @@ protected slots:
     void deletePixmap();
 
 private:
-    QListBox *listbox;
+    Q3ListBox *listbox;
     FormWindow *formwindow;
     
 };

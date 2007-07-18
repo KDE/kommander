@@ -20,12 +20,12 @@
 #ifndef ASSISTPROC_H
 #define ASSISTPROC_H
 
-#include <qprocess.h>
+#include <q3process.h>
 #include <qtimer.h>
-#include <qsocket.h>
+#include <q3socket.h>
 #include <qstring.h>
 
-class AssistProc : public QProcess
+class AssistProc : public Q3Process
 {
     Q_OBJECT
 public:

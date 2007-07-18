@@ -29,11 +29,11 @@
 #include <qapplication.h>
 //#define NO_STATIC_COLORS
 #include "globaldefs.h"
-#include <qstrlist.h>
-#include <qdict.h>
+#include <q3strlist.h>
+#include <q3dict.h>
 #include <qfile.h>
-#include <qtextstream.h>
-#include <qcleanuphandler.h>
+#include <q3textstream.h>
+#include <q3cleanuphandler.h>
 
 #include <qfeatures.h>
 
@@ -46,11 +46,11 @@ const int dbsize = 300;
 const int dbcustom = 200;
 const int dbdictsize = 211;
 static WidgetDatabaseRecord* widget_db[ dbsize ];
-static QDict<int> *className2Id = 0;
+static Q3Dict<int> *className2Id = 0;
 static int dbcount  = 0;
 static int dbcustomcount = 200;
-static QStrList *wGroups;
-static QStrList *invisibleGroups;
+static Q3StrList *wGroups;
+static Q3StrList *invisibleGroups;
 static bool whatsThisLoaded = false;
 #ifndef KOMMANDER
 static QPluginManager<WidgetInterface> *widgetPluginManager = 0;
@@ -59,7 +59,7 @@ static bool plugins_set_up = false;
 static bool was_in_setup = false;
 
 #ifndef KOMMANDER
-QCleanupHandler<QPluginManager<WidgetInterface> > cleanup_manager;
+Q3CleanupHandler<QPluginManager<WidgetInterface> > cleanup_manager;
 #endif
 
 WidgetDatabaseRecord::WidgetDatabaseRecord()
@@ -122,11 +122,11 @@ void WidgetDatabase::setupDataBase( int id )
     return;
 #endif
 
-  wGroups = new QStrList;
-  invisibleGroups = new QStrList;
+  wGroups = new Q3StrList;
+  invisibleGroups = new Q3StrList;
   invisibleGroups->append("Forms");
   invisibleGroups->append("Temp");
-  className2Id = new QDict < int >(dbdictsize);
+  className2Id = new Q3Dict < int >(dbdictsize);
   className2Id->setAutoDelete(true);
 
   WidgetDatabaseRecord *r = 0;
@@ -717,19 +717,19 @@ int WidgetDatabase::startCustom()
   Returns the iconset which represents the class registered as \a id.
 */
 
-QIconSet WidgetDatabase::iconSet( int id )
+QIcon WidgetDatabase::iconSet( int id )
 {
     setupDataBase( id );
     WidgetDatabaseRecord *r = at( id );
     if ( !r )
-	return QIconSet();
+	return QIcon();
 #if !defined(UIC) && !defined(RESOURCE)
     if ( !r->icon )
-	r->icon = new QIconSet( PixmapChooser::loadPixmap( r->iconSet, PixmapChooser::Small ),
+	r->icon = new QIcon( PixmapChooser::loadPixmap( r->iconSet, PixmapChooser::Small ),
 				PixmapChooser::loadPixmap( r->iconSet, PixmapChooser::Large ) );
     return *r->icon;
 #else
-    return QIconSet();
+    return QIcon();
 #endif
 }
 
@@ -796,7 +796,7 @@ QString WidgetDatabase::includeFile( int id )
     if ( !r )
 	return QString::null;
     if ( r->includeFile.isNull() )
-	return r->name.lower() + ".h";
+	return r->name.toLower() + ".h";
     return r->includeFile;
 }
 
@@ -882,7 +882,7 @@ void WidgetDatabase::insert( int index, WidgetDatabaseRecord *r )
     widget_db[ index ] = r;
     className2Id->insert( r->name, new int( index ) );
     if ( index < dbcustom )
-	dbcount = QMAX( dbcount, index );
+	dbcount = qMax( dbcount, index );
 }
 
 void WidgetDatabase::append( WidgetDatabaseRecord *r )
@@ -960,9 +960,9 @@ void WidgetDatabase::loadWhatsThis( const QString &docPath )
 {
     QString whatsthisFile = docPath + "/whatsthis";
     QFile f( whatsthisFile );
-    if ( !f.open( IO_ReadOnly ) )
+    if ( !f.open( QIODevice::ReadOnly ) )
 	return;
-    QTextStream ts( &f );
+    Q3TextStream ts( &f );
     while ( !ts.atEnd() ) {
 	QString s = ts.readLine();
 	QStringList l = QStringList::split( " | ", s );

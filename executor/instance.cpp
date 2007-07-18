@@ -29,11 +29,13 @@
 #include <qfileinfo.h>
 #include <qiodevice.h>
 #include <qlabel.h>
-#include <qmainwindow.h>
-#include <qobjectlist.h>
+#include <q3mainwindow.h>
+#include <qobject.h>
 #include <qstring.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 /* OTHER INCLUDES */
 #include "instance.h"
@@ -190,7 +192,7 @@ bool Instance::run(QFile *a_file)
   else if (m_instance->inherits("QMainWindow"))
   {
     kapp->setMainWidget(m_instance);
-    ((QMainWindow*)m_instance)->show();
+    ((Q3MainWindow*)m_instance)->show();
     kapp->exec();
   }
   return true;

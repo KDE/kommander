@@ -21,15 +21,17 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
-#include <qgroupbox.h>
-#include <qobjectlist.h>
+#include <q3groupbox.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "groupbox.h"
 
 GroupBox::GroupBox(QWidget *a_parent, const char *a_name)
-  : QGroupBox(a_parent, a_name), KommanderWidget(this)
+  : Q3GroupBox(a_parent, a_name), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -92,7 +94,7 @@ void GroupBox::removeChild(QObject *a_child)
 
 void GroupBox::showEvent( QShowEvent *e )
 {
-  QGroupBox::showEvent(e);
+  Q3GroupBox::showEvent(e);
   emit widgetOpened();
 }
 

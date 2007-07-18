@@ -1,13 +1,15 @@
 #include "filechooser.h"
 #include <qlineedit.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
 #include <kfiledialog.h>
 #include <qlayout.h>
 
 FileChooser::FileChooser( QWidget *parent, const char *name )
     : QWidget( parent, name ), md( File )
 {
-    QHBoxLayout *layout = new QHBoxLayout( this );
+    Q3HBoxLayout *layout = new Q3HBoxLayout( this );
     layout->setMargin( 0 );
 
     lineEdit = new QLineEdit( this, "filechooser_lineedit" );

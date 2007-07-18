@@ -23,11 +23,16 @@
 #include "metadatabase.h"
 
 #include <kxmlguiwindow.h>
-#include <kdockwidget.h>
+#include <k3dockwidget.h>
 
 #include <qmap.h>
-#include <qguardedptr.h>
-#include <qobjectlist.h>
+#include <qpointer.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3PopupMenu>
+#include <QEvent>
+#include <QCloseEvent>
 
 class ActionEditor;
 class AssistProc;
@@ -53,9 +58,9 @@ class ReplaceDialog;
 class Workspace;
 
 #if defined(Q_FULL_TEMPLATE_INSTANTIATION)
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #else
-class QToolBar;
+class Q3ToolBar;
 #endif
 class Preferences;
 
@@ -88,8 +93,8 @@ public:
     void popupFormWindowMenu( const QPoint &gp, FormWindow *fw );
     void popupWidgetMenu( const QPoint &gp, FormWindow *fw, QWidget *w );
 
-    QPopupMenu *setupNormalHierarchyMenu( QWidget *parent );
-    QPopupMenu *setupTabWidgetHierarchyMenu( QWidget *parent, const char *addSlot, const char *removeSlot );
+    Q3PopupMenu *setupNormalHierarchyMenu( QWidget *parent );
+    Q3PopupMenu *setupTabWidgetHierarchyMenu( QWidget *parent, const char *addSlot, const char *removeSlot );
 
     FormWindow *openFormWindow( const QString &fn, bool validFileName = TRUE, FormFile *ff = 0 );
     
@@ -223,11 +228,11 @@ private:
     void writeConfig();
     void readConfig();
     
-    void setupRMBProperties( QValueList<int> &ids, QMap<QString, int> &props, QWidget *w );
+    void setupRMBProperties( Q3ValueList<int> &ids, QMap<QString, int> &props, QWidget *w );
     void handleRMBProperties( int id, QMap<QString, int> &props, QWidget *w );
-    void setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, int> &commands, QWidget *w );
+    void setupRMBSpecialCommands( Q3ValueList<int> &ids, QMap<QString, int> &commands, QWidget *w );
     void handleRMBSpecialCommands( int id, QMap<QString, int> &commands, QWidget *w );
-    void setupRMBSpecialCommands( QValueList<int> &ids, QMap<QString, int> &commands, FormWindow *w );
+    void setupRMBSpecialCommands( Q3ValueList<int> &ids, QMap<QString, int> &commands, FormWindow *w );
     void handleRMBSpecialCommands( int id, QMap<QString, int> &commands, FormWindow *w );
     bool openEditor( QWidget *w, FormWindow *fw );
     void checkTempFiles();
@@ -267,11 +272,11 @@ private:
     KAction *actionEditFormSettings, *actionEditAccels;
     KRecentFilesAction* actionRecent;
     
-    QPopupMenu *rmbWidgets;
-    QPopupMenu *rmbFormWindow;
-    QPopupMenu *windowMenu, *fileMenu;
+    Q3PopupMenu *rmbWidgets;
+    Q3PopupMenu *rmbFormWindow;
+    Q3PopupMenu *windowMenu, *fileMenu;
 
-    QToolBar *layoutToolBar;
+    Q3ToolBar *layoutToolBar;
 
     Preferences *prefDia;
     QMap<QString,QString> propertyDocumentation;

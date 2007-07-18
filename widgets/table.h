@@ -20,7 +20,7 @@
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
-#include <qtable.h>
+#include <q3table.h>
 #include <qobject.h>
 
 /* OTHER INCLUDES */
@@ -28,7 +28,7 @@
 
 class QWidget;
 
-class Table : public QTable, public KommanderWidget
+class Table : public Q3Table, public KommanderWidget
 {
   Q_OBJECT
 

@@ -19,11 +19,13 @@
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qobject.h>
 #include <qstringlist.h>
 #include <qstring.h>
-#include <qobjectlist.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -31,7 +33,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT GroupBox : public QGroupBox, public KommanderWidget
+class KOMMANDER_EXPORT GroupBox : public Q3GroupBox, public KommanderWidget
 {
   Q_OBJECT
 

@@ -21,8 +21,10 @@
 #ifndef __previewframe_h__
 #define __previewframe_h__
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qworkspace.h>
+//Added by qt3to4:
+#include <QPaintEvent>
 
 #include "previewwidgetimpl.h"
 
@@ -38,7 +40,7 @@ protected:
     void paintEvent( QPaintEvent* );
 };
 
-class PreviewFrame : public QVBox
+class PreviewFrame : public Q3VBox
 {
     Q_OBJECT
 

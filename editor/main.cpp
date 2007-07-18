@@ -50,7 +50,7 @@ int main( int argc, char *argv[] )
 
   KommanderWidget::inEditor = true;
 
-  KLocale::setMainCatalogue("kommander");
+  KLocale::setMainCatalog("kommander");
   KApplication a(true, true);
   
   KSharedConfig::Ptr config = KGlobal::config();

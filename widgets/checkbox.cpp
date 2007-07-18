@@ -23,6 +23,8 @@
 #include <qevent.h>
 #include <qcheckbox.h>
 #include <qbutton.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <specials.h>
@@ -49,11 +51,11 @@ CheckBox::~CheckBox()
 
 QString CheckBox::currentState() const
 {
-  if (state() == QButton::Off)
+  if (state() == QCheckBox::Off)
     return "unchecked";
-  else if (state() == QButton::NoChange)
+  else if (state() == QCheckBox::NoChange)
     return "semichecked";
-  else if (state() == QButton::On)
+  else if (state() == QCheckBox::On)
     return "checked";
   return QString::null;
 }

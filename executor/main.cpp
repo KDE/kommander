@@ -28,7 +28,7 @@
 #include <qapplication.h>
 #include <qfile.h>
 #include <qobject.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstring.h>
 
 /* OTHER INCLUDES */
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
   if (args->isSet("c"))
-    KLocale::setMainCatalogue(args->getOption("c"));
+    KLocale::setMainCatalog(args->getOption("c"));
   else if (args->count())
   {
     char buf[200];
@@ -72,11 +72,11 @@ int main(int argc, char *argv[])
     int ext = baseFile.findRev('.');
     if (ext != -1)
       baseFile = baseFile.left(ext);
-    strcpy(buf, baseFile.latin1());
-    KLocale::setMainCatalogue(buf);
+    strcpy(buf, baseFile.toLatin1());
+    KLocale::setMainCatalog(buf);
   }
   else
-    KLocale::setMainCatalogue("Kommander");
+    KLocale::setMainCatalog("Kommander");
   KApplication app;
   
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
   QFile inputFile;
   if (args->isSet("stdin"))
   {
-    inputFile.open(IO_ReadOnly, stdin);
+    inputFile.open(QIODevice::ReadOnly, stdin);
     instance = new Instance;
   }
   else if (!args->count())

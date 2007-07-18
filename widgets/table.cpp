@@ -26,7 +26,7 @@
 #include "table.h"
 
 Table::Table(QWidget *a_parent, const char *a_name)
-  : QTable(a_parent, a_name), KommanderWidget(this)
+  : Q3Table(a_parent, a_name), KommanderWidget(this)
 {
   QStringList states;
   states << "default";

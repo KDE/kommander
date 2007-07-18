@@ -21,13 +21,25 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qbitmap.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
+//Added by qt3to4:
+#include <QContextMenuEvent>
+#include <QDragLeaveEvent>
+#include <Q3CString>
+#include <QPixmap>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <Q3PopupMenu>
+#include <QMouseEvent>
+#include <QEvent>
+#include <QPaintEvent>
 #include <kinputdialog.h>
 #include <qlayout.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qmenudata.h>
 #include <qmessagebox.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qpainter.h>
 #include <qstyle.h>
 #include <qtimer.h>
@@ -72,19 +84,19 @@ void QDesignerAction::remove()
     widgetToInsert->reparent( 0, QPoint( 0, 0 ), false );
 }
 
-QDesignerToolBarSeparator::QDesignerToolBarSeparator(Orientation o , QToolBar *parent,
+QDesignerToolBarSeparator::QDesignerToolBarSeparator(Qt::Orientation o , Q3ToolBar *parent,
                                      const char* name )
     : QWidget( parent, name )
 {
-    connect( parent, SIGNAL(orientationChanged(Orientation)),
-             this, SLOT(setOrientation(Orientation)) );
+    connect( parent, SIGNAL(orientationChanged(Qt::Orientation)),
+             this, SLOT(setOrientation(Qt::Orientation)) );
     setOrientation( o );
     setBackgroundMode( parent->backgroundMode() );
     setBackgroundOrigin( ParentOrigin );
     setSizePolicy( QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum ) );
 }
 
-void QDesignerToolBarSeparator::setOrientation( Orientation o )
+void QDesignerToolBarSeparator::setOrientation( Qt::Orientation o )
 {
     orient = o;
 }
@@ -126,12 +138,12 @@ QSeparatorAction::QSeparatorAction( QObject *parent )
 bool QSeparatorAction::addTo( QWidget *w )
 {
     if ( w->inherits( "QToolBar" ) ) {
-	QToolBar *tb = (QToolBar*)w;
+	Q3ToolBar *tb = (Q3ToolBar*)w;
 	wid = new QDesignerToolBarSeparator( tb->orientation(), tb );
 	return true;
     } else if ( w->inherits( "QPopupMenu" ) ) {
-	idx = ( (QPopupMenu*)w )->count();
-	( (QPopupMenu*)w )->insertSeparator( idx );
+	idx = ( (Q3PopupMenu*)w )->count();
+	( (Q3PopupMenu*)w )->insertSeparator( idx );
 	return true;
     }
     return false;
@@ -143,7 +155,7 @@ bool QSeparatorAction::removeFrom( QWidget *w )
 	delete wid;
 	return true;
     } else if ( w->inherits( "QPopupMenu" ) ) {
-	( (QPopupMenu*)w )->removeItemAt( idx );
+	( (Q3PopupMenu*)w )->removeItemAt( idx );
 	return true;
     }
     return false;
@@ -157,8 +169,8 @@ QWidget *QSeparatorAction::widget() const
 
 
 
-QDesignerToolBar::QDesignerToolBar( QMainWindow *mw )
-    : QToolBar( mw ), lastIndicatorPos( -1, -1 )
+QDesignerToolBar::QDesignerToolBar( Q3MainWindow *mw )
+    : Q3ToolBar( mw ), lastIndicatorPos( -1, -1 )
 {
     insertAnchor = 0;
     afterAnchor = true;
@@ -170,11 +182,11 @@ QDesignerToolBar::QDesignerToolBar( QMainWindow *mw )
     installEventFilter( this );
     widgetInserting = false;
     findFormWindow();
-    mw->setDockEnabled( DockTornOff, false );
+    mw->setDockEnabled( Qt::DockTornOff, false );
 }
 
-QDesignerToolBar::QDesignerToolBar( QMainWindow *mw, Dock dock )
-    : QToolBar( QString::null, mw, dock), lastIndicatorPos( -1, -1 )
+QDesignerToolBar::QDesignerToolBar( Q3MainWindow *mw, Qt::ToolBarDock dock )
+    : Q3ToolBar( QString::null, mw, dock), lastIndicatorPos( -1, -1 )
 {
     insertAnchor = 0;
     afterAnchor = true;
@@ -185,7 +197,7 @@ QDesignerToolBar::QDesignerToolBar( QMainWindow *mw, Dock dock )
     installEventFilter( this );
     widgetInserting = false;
     findFormWindow();
-    mw->setDockEnabled( DockTornOff, false );
+    mw->setDockEnabled( Qt::DockTornOff, false );
 }
 
 void QDesignerToolBar::findFormWindow()
@@ -223,16 +235,16 @@ static void fixObject( QObject *&o )
 bool QDesignerToolBar::eventFilter( QObject *o, QEvent *e )
 {
     if ( !o || !e || o->inherits( "QDockWindowHandle" ) || o->inherits( "QDockWindowTitleBar" ) )
-	return QToolBar::eventFilter( o, e );
+	return Q3ToolBar::eventFilter( o, e );
 
     if ( o == this && e->type() == QEvent::MouseButtonPress &&
-	 ( ( QMouseEvent*)e )->button() == LeftButton ) {
+	 ( ( QMouseEvent*)e )->button() == Qt::LeftButton ) {
 	mousePressEvent( (QMouseEvent*)e );
 	return true;
     }
 
     if ( o == this )
-	return QToolBar::eventFilter( o, e );
+	return Q3ToolBar::eventFilter( o, e );
 
     if ( e->type() == QEvent::MouseButtonPress ) {
 	QMouseEvent *ke = (QMouseEvent*)e;
@@ -276,12 +288,12 @@ bool QDesignerToolBar::eventFilter( QObject *o, QEvent *e )
 	    de->accept();
     }
 
-    return QToolBar::eventFilter( o, e );
+    return Q3ToolBar::eventFilter( o, e );
 }
 
 void QDesignerToolBar::paintEvent( QPaintEvent *e )
 {
-    QToolBar::paintEvent( e );
+    Q3ToolBar::paintEvent( e );
     if ( e->rect() != rect() )
 	return;
     lastIndicatorPos = QPoint( -1, -1 );
@@ -290,7 +302,7 @@ void QDesignerToolBar::paintEvent( QPaintEvent *e )
 void QDesignerToolBar::contextMenuEvent( QContextMenuEvent *e )
 {
     e->accept();
-    QPopupMenu menu( 0 );
+    Q3PopupMenu menu( 0 );
     menu.insertItem( i18n("Delete Toolbar" ), 1 );
     int res = menu.exec( e->globalPos() );
     if ( res != -1 ) {
@@ -339,7 +351,7 @@ void QDesignerToolBar::buttonMouseReleaseEvent( QMouseEvent *e, QObject *w )
 void QDesignerToolBar::buttonContextMenuEvent( QContextMenuEvent *e, QObject *o )
 {
     e->accept();
-    QPopupMenu menu( 0 );
+    Q3PopupMenu menu( 0 );
     const int ID_DELETE = 1;
     const int ID_SEP = 2;
     const int ID_DELTOOLBAR = 3;
@@ -432,7 +444,7 @@ void QDesignerToolBar::buttonMouseMoveEvent( QMouseEvent *e, QObject *o )
 {
     if ( widgetInserting || ( e->state() & LeftButton ) == 0 )
 	return;
-    if ( QABS( QPoint( dragStartPos - e->pos() ).manhattanLength() ) < QApplication::startDragDistance() )
+    if ( qAbs( QPoint( dragStartPos - e->pos() ).manhattanLength() ) < QApplication::startDragDistance() )
 	return;
     QMap<QWidget*, QAction*>::Iterator it = actionMap.find( (QWidget*)o );
     if ( it == actionMap.end() )
@@ -452,9 +464,9 @@ void QDesignerToolBar::buttonMouseMoveEvent( QMouseEvent *e, QObject *o )
 
     QString type = a->inherits( "QActionGroup" ) ? QString( "application/x-designer-actiongroup" ) :
 	a->inherits( "QSeparatorAction" ) ? QString( "application/x-designer-separator" ) : QString( "application/x-designer-actions" );
-    QStoredDrag *drag = new QStoredDrag( type, this );
+    Q3StoredDrag *drag = new Q3StoredDrag( type, this );
     QString s = QString::number( (long)a ); // #### huha, that is evil
-    drag->setEncodedData( QCString( s.latin1() ) );
+    drag->setEncodedData( Q3CString( s.toLatin1() ) );
     drag->setPixmap( a->iconSet().pixmap() );
     if ( a->inherits( "QDesignerAction" ) ) {
 	if ( formWindow->widgets()->find( ( (QDesignerAction*)a )->widget() ) )
@@ -682,14 +694,14 @@ void QDesignerToolBar::clear()
 	if ( a->inherits( "QDesignerAction" ) )
 	    ( (QDesignerAction*)a )->remove();
     }
-    QToolBar::clear();
+    Q3ToolBar::clear();
 }
 
 void QDesignerToolBar::installEventFilters( QWidget *w )
 {
     if ( !w )
 	return;
-    QObjectList *l = w->queryList( "QWidget" );
+    QObjectListl = w->queryList( "QWidget" );
     for ( QObject *o = l->first(); o; o = l->next() )
 	o->installEventFilter( this );
     delete l;
@@ -731,7 +743,7 @@ void QDesignerMenuBar::contextMenuEvent( QContextMenuEvent *e )
 	    formWindow->mainWindow()->popupFormWindowMenu( e->globalPos(), formWindow );
 	return;
     }
-    QPopupMenu menu( this );
+    Q3PopupMenu menu( this );
     menu.insertItem( i18n("Delete Item" ), 1 );
     menu.insertItem( i18n("Rename Item..." ), 2 );
     int res = menu.exec( e->globalPos() );
@@ -739,7 +751,7 @@ void QDesignerMenuBar::contextMenuEvent( QContextMenuEvent *e )
 	QMenuItem *item = findItem( idAt( itm ) );
 	RemoveMenuCommand *cmd = new RemoveMenuCommand( i18n("Delete Menu '%1'", item->text() ),
 							formWindow,
-							(QMainWindow*)parentWidget(), this,
+							(Q3MainWindow*)parentWidget(), this,
 							(QDesignerPopupMenu*)item->popup(),
 							idAt( itm ), itm, item->text() );
 	formWindow->commandHistory()->addCommand( cmd );
@@ -780,21 +792,21 @@ void QDesignerMenuBar::mouseMoveEvent( QMouseEvent *e )
 	QMenuBar::mouseMoveEvent( e );
 	return;
     }
-    if ( QABS( QPoint( dragStartPos - e->pos() ).manhattanLength() ) < QApplication::startDragDistance() )
+    if ( qAbs( QPoint( dragStartPos - e->pos() ).manhattanLength() ) < QApplication::startDragDistance() )
 	return;
     hidePopups();
     activateItemAt( -1 );
     int itm = itemAtPos( dragStartPos );
     if ( itm == -1 )
 	return;
-    QPopupMenu *popup = findItem( idAt( itm ) )->popup();
+    Q3PopupMenu *popup = findItem( idAt( itm ) )->popup();
     QString txt = findItem( idAt( itm ) )->text();
     removeItemAt( itm );
 
-    QStoredDrag *drag = new QStoredDrag( "application/x-designer-menuitem", this );
+    Q3StoredDrag *drag = new Q3StoredDrag( "application/x-designer-menuitem", this );
     QString s = QString::number( (long)popup );
     s += "/" + txt;
-    drag->setEncodedData( QCString( s.latin1() ) );
+    drag->setEncodedData( Q3CString( s.toLatin1() ) );
     QSize sz( fontMetrics().boundingRect( txt ).size() );
     QPixmap pix( sz.width() + 20, sz.height() * 2 );
     pix.fill( white );
@@ -874,7 +886,7 @@ void QDesignerMenuBar::dropEvent( QDropEvent *e )
     QString s( e->encodedData( "application/x-designer-menuitem" ) );
     QString s1 = s.left( s.find( "/" ) );
     QString s2 = s.mid( s.find( "/" ) + 1 );
-    QPopupMenu *popup = (QPopupMenu*)s1.toLong();  // #### huha, that is evil
+    Q3PopupMenu *popup = (Q3PopupMenu*)s1.toLong();  // #### huha, that is evil
     QString txt = s2;
     insertItem( txt, popup, -1, insertAt );
 
@@ -942,14 +954,14 @@ QString QDesignerMenuBar::itemText() const
     return text( idAt( itemNum ) );
 }
 
-void QDesignerMenuBar::setItemName( const QCString &s )
+void QDesignerMenuBar::setItemName( const Q3CString &s )
 {
     if ( itemNum < 0 || itemNum >= (int)count() )
 	return;
     findItem( idAt( itemNum ) )->popup()->setName( s );
 }
 
-QCString QDesignerMenuBar::itemName() const
+Q3CString QDesignerMenuBar::itemName() const
 {
     if ( itemNum < 0 || itemNum >= (int)count() )
 	return "";
@@ -959,7 +971,7 @@ QCString QDesignerMenuBar::itemName() const
 
 
 QDesignerPopupMenu::QDesignerPopupMenu( QWidget *w )
-    : QPopupMenu( w, 0 ),
+    : Q3PopupMenu( w, 0 ),
       popupMenu( 0 )
 {
     findFormWindow();
@@ -975,7 +987,7 @@ void QDesignerPopupMenu::contextMenuEvent( QContextMenuEvent *e )
 {
 #if defined( Q_WS_MAC ) //the mac needs us to use context menu rather than right click
     e->accept();
-    QMouseEvent me( QEvent::MouseButtonPress, e->pos(), e->globalPos(), RightButton, RightButton );
+    QMouseEvent me( QEvent::MouseButtonPress, e->pos(), e->globalPos(), Qt::RightButton, Qt::RightButton );
     mousePressEvent(&me);
 #else
     Q_UNUSED( e );
@@ -1001,13 +1013,13 @@ void QDesignerPopupMenu::mousePressEvent( QMouseEvent *e )
     }
     mousePressed = true;
     dragStartPos = e->pos();
-    QPopupMenu::mousePressEvent( e );
+    Q3PopupMenu::mousePressEvent( e );
 }
 
 void QDesignerPopupMenu::createPopupMenu()
 {
     // actually creates our popup for the popupmenu.
-    QPopupMenu menu( 0 );
+    Q3PopupMenu menu( 0 );
     popupMenu = &menu;
     int itm;
     const int ID_DELETE = 1;
@@ -1042,8 +1054,8 @@ void QDesignerPopupMenu::createPopupMenu()
 								   formWindow, a, this, insertAt );
 	formWindow->commandHistory()->addCommand( cmd );
 	cmd->execute();
-	( (QDesignerMenuBar*)( (QMainWindow*)parentWidget() )->menuBar() )->hidePopups();
-	( (QDesignerMenuBar*)( (QMainWindow*)parentWidget() )->menuBar() )->activateItemAt( -1 );
+	( (QDesignerMenuBar*)( (Q3MainWindow*)parentWidget() )->menuBar() )->hidePopups();
+	( (QDesignerMenuBar*)( (Q3MainWindow*)parentWidget() )->menuBar() )->activateItemAt( -1 );
 	popup( p );
     }
     // set this back to zero so we know a popup (will soon) not exist.
@@ -1053,11 +1065,11 @@ void QDesignerPopupMenu::createPopupMenu()
 void QDesignerPopupMenu::mouseMoveEvent( QMouseEvent *e )
 {
     if ( !mousePressed || e->state() == NoButton ) {
-	QPopupMenu::mouseMoveEvent( e );
+	Q3PopupMenu::mouseMoveEvent( e );
 	return;
     }
-    if ( QABS( QPoint( dragStartPos - e->pos() ).manhattanLength() ) < QApplication::startDragDistance() ) {
-	QPopupMenu::mouseMoveEvent( e );
+    if ( qAbs( QPoint( dragStartPos - e->pos() ).manhattanLength() ) < QApplication::startDragDistance() ) {
+	Q3PopupMenu::mouseMoveEvent( e );
 	return;
     }
     int itm = itemAtPos( dragStartPos, false );
@@ -1074,9 +1086,9 @@ void QDesignerPopupMenu::mouseMoveEvent( QMouseEvent *e )
 
     QString type = a->inherits( "QActionGroup" ) ? QString( "application/x-designer-actiongroup" ) :
 	a->inherits( "QSeparatorAction" ) ? QString( "application/x-designer-separator" ) : QString( "application/x-designer-actions" );
-    QStoredDrag *drag = new QStoredDrag( type, this );
+    Q3StoredDrag *drag = new Q3StoredDrag( type, this );
     QString s = QString::number( (long)a ); // #### huha, that is evil
-    drag->setEncodedData( QCString( s.latin1() ) );
+    drag->setEncodedData( Q3CString( s.toLatin1() ) );
     drag->setPixmap( a->iconSet().pixmap() );
     if ( !drag->drag() ) {
 	AddActionToPopupCommand *cmd = new AddActionToPopupCommand( i18n("Add Action '%1' to Popup Menu '%2'" , 
@@ -1093,7 +1105,7 @@ void QDesignerPopupMenu::mouseMoveEvent( QMouseEvent *e )
 void QDesignerPopupMenu::mouseReleaseEvent( QMouseEvent *e )
 {
     mousePressed = false;
-    QPopupMenu::mouseReleaseEvent( e );
+    Q3PopupMenu::mouseReleaseEvent( e );
 }
 
 #ifndef QT_NO_DRAGANDDROP
@@ -1167,8 +1179,8 @@ void QDesignerPopupMenu::dropEvent( QDropEvent *e )
     formWindow->commandHistory()->addCommand( cmd );
     cmd->execute();
 
-    ( (QDesignerMenuBar*)( (QMainWindow*)parentWidget() )->menuBar() )->hidePopups();
-    ( (QDesignerMenuBar*)( (QMainWindow*)parentWidget() )->menuBar() )->activateItemAt( -1 );
+    ( (QDesignerMenuBar*)( (Q3MainWindow*)parentWidget() )->menuBar() )->hidePopups();
+    ( (QDesignerMenuBar*)( (Q3MainWindow*)parentWidget() )->menuBar() )->activateItemAt( -1 );
     indicator->hide();
     popup( p );
 }
@@ -1225,7 +1237,7 @@ void QDesignerPopupMenu::actionRemoved()
 
 void QDesignerPopupMenu::paintEvent( QPaintEvent *e )
 {
-    QPopupMenu::paintEvent( e );
+    Q3PopupMenu::paintEvent( e );
     if ( e->rect() != rect() )
 	return;
     lastIndicatorPos = QPoint( -1, -1 );

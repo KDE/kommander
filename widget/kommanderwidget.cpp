@@ -17,7 +17,6 @@
  
  
  /* KDE INCLUDES */
-#include <dcopclient.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -26,16 +25,18 @@
 #include <k3process.h>
 
 /* QT INCLUDES */
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <qdatastream.h>
 #include <qfileinfo.h>
 #include <qobject.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qregexp.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 #include <qvariant.h>
+//Added by qt3to4:
+#include <Q3MemArray>
 
 
 /* UNIX INCLUDES */
@@ -242,10 +243,10 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
   return evalText;
 }
 
-
+/* FIX ME DCOP to dbus
 QString KommanderWidget::DCOPQuery(const QStringList& a_query)
 {
-  QCString appId = a_query[0].latin1(), object = a_query[1].latin1();
+  Q3CString appId = a_query[0].toLatin1(), object = a_query[1].toLatin1();
   
   // parse function arguments
   QString function = a_query[2], pTypes;
@@ -266,9 +267,9 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     return QString::null;
   }
   
-  QCString replyType;
+  Q3CString replyType;
   QByteArray byteData, byteReply;
-  QDataStream byteDataStream(byteData, IO_WriteOnly);
+  QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
   for (uint i=0 ; i<argTypes.count(); i++) {
     if (argTypes[i] == "int")
       byteDataStream << a_query[i+3].toInt();
@@ -290,13 +291,13 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   }
 
   DCOPClient *cl = KApplication::dcopClient();
-  if (!cl || !cl->call(appId, object, function.latin1(), byteData, replyType, byteReply))
+  if (!cl || !cl->call(appId, object, function.toLatin1(), byteData, replyType, byteReply))
   {
     printError(i18n("Tried to perform DCOP query, but failed."));
     return QString::null;
   }
 
-  QDataStream byteReplyStream(byteReply, IO_ReadOnly);
+  QDataStream byteReplyStream(byteReply, QIODevice::ReadOnly);
   if (replyType == "QString")
   {
     QString text;
@@ -328,7 +329,8 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
 
   return QString::null;
 }
-
+*/
+/* DCOP to DBUS conversion
 QString KommanderWidget::localDCOPQuery(const QString function, const QStringList& args)
 {
   QStringList pArgs;
@@ -355,19 +357,19 @@ QString KommanderWidget::localDCOPQuery(const QString function, const QString& a
     pArgs.append(arg4);
   return DCOPQuery(pArgs);
 }
-
+*/
 
 QString KommanderWidget::execCommand(const QString& a_command, const QString& a_shell) const
 {
   MyProcess proc(this);
-  QString text = proc.run(a_command.local8Bit(), a_shell.latin1());
+  QString text = proc.run(a_command.local8Bit(), a_shell.toLatin1());
 //FIXME check if exec was successful
   return text;
 }
 
 QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_params)
 {
-  QString pFileName = localDCOPQuery("global(QString)", "_KDDIR") + QString("/") + a_dialog;
+  QString pFileName = /* fixme DBUS localDCOPQuery("global(QString)", "_KDDIR") + */ QString("/") + a_dialog;
   QFileInfo pDialogFile(pFileName);
   if (!pDialogFile.exists()) 
   {
@@ -409,7 +411,7 @@ void KommanderWidget::printError(const QString& a_error) const
   }
   else 
   {
-    kdError() << i18n("Error in widget %1:\n  %2\n", m_thisObject->name(), a_error);
+    kError() << i18n("Error in widget %1:\n  %2\n", m_thisObject->name(), a_error);
   }
 }
 
@@ -502,7 +504,7 @@ QString KommanderWidget::parseQuotes(const QString& s) const
 {
   if (s[0] == s[s.length()-1] && (s[0] == '\'' || s[0] == '\"'))
   {
-    QMemArray<QChar> buf(s.length());
+    Q3MemArray<QChar> buf(s.length());
     int start = 0;
     int end = s.length() - 1;
     for (int i=1; i<end; i++)
@@ -544,7 +546,7 @@ KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
   if (QString(parentDialog()->name()) == widgetName) 
     return dynamic_cast <KommanderWidget*>(parentDialog());
-  QObject* childObj = parentDialog()->child(widgetName.latin1());
+  QObject* childObj = parentDialog()->child(widgetName.toLatin1());
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
@@ -653,7 +655,7 @@ void KommanderWidget::setGlobal(const QString& variableName, const QString& valu
 {
   m_globals.insert(variableName, value); 
 }  
-
+/* dcop Replacement necessary
 QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
 {
   QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
@@ -671,7 +673,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
     case DCOP::children:
     {
       QStringList matching;
-      QObjectList* widgets = current->queryList("QWidget", 0, false, args.count() == 0 || args[0] != "false");
+      QObjectList widgets = current->queryList("QWidget", 0, false, args.count() == 0 || args[0] != "false");
       for (QObject* w = widgets->first(); w; w = widgets->next())
         if (w->name() && (dynamic_cast<KommanderWidget*>(w)))
             matching.append(w->name());
@@ -680,6 +682,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
   }
   return QString::null;
 }
+
 
 bool KommanderWidget::isFunctionSupported(int f)
 {
@@ -690,7 +693,7 @@ bool KommanderWidget::isCommonFunction(int f)
 {
   return f == DCOP::setEnabled || f == DCOP::setVisible || f == DCOP::children || f == DCOP::type;
 }
-
+*/
 ParserData* KommanderWidget::internalParserData()
 {
   return m_parserData;

@@ -22,16 +22,19 @@
 #include <qstringlist.h>
 #include <qstring.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <Q3Frame>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 
 /* Forward Decls */
-class QTextEdit;
-class QFrame;
+class Q3TextEdit;
+class Q3Frame;
 class QToolButton;
-class QHButtonGroup;
+class Q3HButtonGroup;
 
 class QShowEvent;
 class KOMMANDER_EXPORT RichTextEditor : public QWidget, public KommanderWidget
@@ -70,13 +73,13 @@ signals:
 protected:
     void showEvent( QShowEvent *e );
 private:
-  QFrame *m_toolbar;
-  QTextEdit *m_textedit;
+  Q3Frame *m_toolbar;
+  Q3TextEdit *m_textedit;
 
   QToolButton *m_buttonTextBold, *m_buttonTextUnder, *m_buttonTextItalic, 
     *m_buttonTextLeft,  *m_buttonTextCenter, *m_buttonTextRight;
 
-  QHButtonGroup *m_formatGroup, *m_alignGroup;
+  Q3HButtonGroup *m_formatGroup, *m_alignGroup;
 
 };
 

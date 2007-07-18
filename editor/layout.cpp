@@ -29,8 +29,15 @@
 #include <qpen.h>
 #include <qbitmap.h>
 #include <qsplitter.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3ValueList>
+#include <Q3GridLayout>
+#include <QResizeEvent>
+#include <Q3VBoxLayout>
+#include <QPaintEvent>
 
-bool operator<( const QGuardedPtr<QWidget> &p1, const QGuardedPtr<QWidget> &p2 )
+bool operator<( const QPointer<QWidget> &p1, const QPointer<QWidget> &p2 )
 {
     return p1.operator->() < p2.operator->();
 }
@@ -71,7 +78,7 @@ Layout::Layout( const QWidgetList &wl, QWidget *p, FormWindow *fw, QWidget *lb, 
 void Layout::setup()
 {
     startPoint = QPoint( 32767, 32767 );
-    QValueList<QWidgetList> lists;
+    Q3ValueList<QWidgetList> lists;
     QWidget *lastParent = 0;
     QWidgetList *lastList = 0;
     QWidget *w = 0;
@@ -88,7 +95,7 @@ void Layout::setup()
 	if ( lastParent != w->parentWidget() ) {
 	    lastList = 0;
 	    lastParent = w->parentWidget();
-	    QValueList<QWidgetList>::Iterator it = lists.begin();
+	    Q3ValueList<QWidgetList>::Iterator it = lists.begin();
 	    for ( ; it != lists.end(); ++it ) {
 		if ( ( *it ).first()->parentWidget() == w->parentWidget() )
 		    lastList = &( *it );
@@ -105,7 +112,7 @@ void Layout::setup()
 
     // So, now find the list with the most entries
     lastList = 0;
-    QValueList<QWidgetList>::Iterator it = lists.begin();
+    Q3ValueList<QWidgetList>::Iterator it = lists.begin();
     for ( ; it != lists.end(); ++it ) {
 	if ( !lastList || ( *it ).count() > lastList->count() )
 	    lastList = &( *it );
@@ -136,8 +143,8 @@ void Layout::setup()
     for ( w = widgets.first(); w; w = widgets.next() ) {
 	connect( w, SIGNAL( destroyed() ),
 		 this, SLOT( widgetDestroyed() ) );
-	startPoint = QPoint( QMIN( startPoint.x(), w->x() ),
-			     QMIN( startPoint.y(), w->y() ) );
+	startPoint = QPoint( qMin( startPoint.x(), w->x() ),
+			     qMin( startPoint.y(), w->y() ) );
 	geometries.insert( w, QRect( w->pos(), w->size() ) );
 	// Change the Z-order, as saving/loading uses the Z-order for
 	// writing/creating widgets and this has to be the same as in
@@ -199,7 +206,7 @@ void Layout::undoLayout()
 {
     if ( !widgets.count() )
 	return;
-    QMap<QGuardedPtr<QWidget>, QRect>::Iterator it = geometries.begin();
+    QMap<QPointer<QWidget>, QRect>::Iterator it = geometries.begin();
     for ( ; it != geometries.end(); ++it ) {
 	if ( !it.key() )
 	    continue;
@@ -270,7 +277,7 @@ public:
     HorizontalLayoutList( const QWidgetList &l )
 	: QWidgetList( l ) {}
 
-    int compareItems( QPtrCollection::Item item1, QPtrCollection::Item item2 ) {
+    int compareItems( Q3PtrCollection::Item item1, Q3PtrCollection::Item item2 ) {
 	QWidget *w1 = (QWidget*)item1;
 	QWidget *w2 = (QWidget*)item2;
 	if ( w1->x() == w2->x() )
@@ -303,7 +310,7 @@ void HorizontalLayout::doLayout()
     if ( !prepareLayout( needMove, needReparent ) )
 	return;
 
-    QHBoxLayout *layout = (QHBoxLayout*)WidgetFactory::createLayout( layoutBase, 0, WidgetFactory::HBox );
+    Q3HBoxLayout *layout = (Q3HBoxLayout*)WidgetFactory::createLayout( layoutBase, 0, WidgetFactory::HBox );
 
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	if ( needReparent && w->parent() != layoutBase )
@@ -334,7 +341,7 @@ public:
     VerticalLayoutList( const QWidgetList &l )
 	: QWidgetList( l ) {}
 
-    int compareItems( QPtrCollection::Item item1, QPtrCollection::Item item2 ) {
+    int compareItems( Q3PtrCollection::Item item1, Q3PtrCollection::Item item2 ) {
 	QWidget *w1 = (QWidget*)item1;
 	QWidget *w2 = (QWidget*)item2;
 	if ( w1->y() == w2->y() )
@@ -367,7 +374,7 @@ void VerticalLayout::doLayout()
     if ( !prepareLayout( needMove, needReparent ) )
 	return;
 
-    QVBoxLayout *layout = (QVBoxLayout*)WidgetFactory::createLayout( layoutBase, 0, WidgetFactory::VBox );
+    Q3VBoxLayout *layout = (Q3VBoxLayout*)WidgetFactory::createLayout( layoutBase, 0, WidgetFactory::VBox );
 
     for ( QWidget *w = widgets.first(); w; w = widgets.next() ) {
 	if ( needReparent && w->parent() != layoutBase )
@@ -802,8 +809,8 @@ void GridLayout::buildGrid()
 
 
 Spacer::Spacer( QWidget *parent, const char *name )
-    : QWidget( parent, name, WMouseNoMask ),
-      orient( Vertical ), interactive(true), sh( QSize(20,20) )
+    : QWidget( parent, name, Qt::WMouseNoMask ),
+      orient( Qt::Vertical ), interactive(true), sh( QSize(20,20) )
 {
     setSizeType( Expanding );
     setAutoMask( true );
@@ -816,7 +823,7 @@ void Spacer::paintEvent( QPaintEvent * )
 
     if ( orient == Horizontal ) {
 	const int dist = 3;
-	const int amplitude = QMIN( 3, height() / 3 );
+	const int amplitude = qMin( 3, height() / 3 );
 	const int base = height() / 2;
 	int i = 0;
 	p.setPen( white );
@@ -829,7 +836,7 @@ void Spacer::paintEvent( QPaintEvent * )
 	p.drawLine( width() - 1, 0, width() - 1, height());
     } else {
 	const int dist = 3;
-	const int amplitude = QMIN( 3, width() / 3 );
+	const int amplitude = qMin( 3, width() / 3 );
 	const int base = width() / 2;
 	int i = 0;
 	p.setPen( white );
@@ -854,12 +861,12 @@ void Spacer::updateMask()
 {
     QRegion r( rect() );
     if ( orient == Horizontal ) {
-	const int amplitude = QMIN( 3, height() / 3 );
+	const int amplitude = qMin( 3, height() / 3 );
 	const int base = height() / 2;
 	r = r.subtract( QRect(1, 0, width() - 2, base - amplitude ) );
 	r = r.subtract( QRect(1, base + amplitude, width() - 2, height() - base - amplitude ) );
     } else {
-	const int amplitude = QMIN( 3, width() / 3 );
+	const int amplitude = qMin( 3, width() / 3 );
 	const int base = width() / 2;
 	r = r.subtract( QRect(0, 1, base - amplitude, height() - 2 ) );
 	r = r.subtract( QRect( base + amplitude, 1, width() - base - amplitude, height() - 2 ) );
@@ -888,8 +895,8 @@ Spacer::SizeType Spacer::sizeType() const
 int Spacer::alignment() const
 {
     if ( orient == Vertical )
-	return AlignHCenter;
-    return AlignVCenter;
+	return Qt::AlignHCenter;
+    return Qt::AlignVCenter;
 }
 
 QSize Spacer::minimumSize() const
@@ -944,13 +951,13 @@ void Spacer::setOrientation( Qt::Orientation o )
 void QDesignerGridLayout::addWidget( QWidget *w, int row, int col, int align_ )
 {
     items.insert( w, Item(row, col, 1, 1) );
-    QGridLayout::addWidget( w, row, col, align_ );
+    Q3GridLayout::addWidget( w, row, col, align_ );
 }
 
 void QDesignerGridLayout::addMultiCellWidget( QWidget *w, int fromRow, int toRow,
 					      int fromCol, int toCol, int align_ )
 {
     items.insert( w, Item(fromRow, fromCol, toRow - fromRow + 1, toCol - fromCol +1) );
-    QGridLayout::addMultiCellWidget( w, fromRow, toRow, fromCol, toCol, align_ );
+    Q3GridLayout::addMultiCellWidget( w, fromRow, toRow, fromCol, toCol, align_ );
 }
 #include "layout.moc"

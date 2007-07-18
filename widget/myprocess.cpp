@@ -83,7 +83,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   m_input = at.local8Bit();
 
   mProcess = new K3Process;
-  (*mProcess) << shellName.latin1();
+  (*mProcess) << shellName.toLatin1();
 
   connect(mProcess, SIGNAL(receivedStdout(K3Process*, char*, int)),
       SLOT(slotReceivedStdout(K3Process*, char*, int)));
@@ -101,7 +101,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
     return QString::null;
   else 
   {
-    QWidget dummy(0, 0, WType_Dialog | WShowModal);
+    QWidget dummy(0, 0, Qt::WType_Dialog | WShowModal);
     dummy.setFocusPolicy(QWidget::NoFocus);
     m_loopStarted = true;
     qt_enter_modal(&dummy);

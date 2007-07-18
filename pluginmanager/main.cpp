@@ -42,7 +42,7 @@ static const char *description =
 
 int main(int argc, char *argv[])
 {
-  KLocale::setMainCatalogue("kommander");
+  KLocale::setMainCatalog("kommander");
   KAboutData aboutData( "kmdr-plugins", 0, ki18n("Kommander Plugin Manager"),
     KOMMANDER_VERSION, ki18n(description), KAboutData::License_GPL,
     ki18n("(C) 2004-2005 Kommander authors"));

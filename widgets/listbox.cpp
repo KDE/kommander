@@ -23,6 +23,9 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -30,7 +33,7 @@
 #include "listbox.h"
 
 ListBox::ListBox(QWidget *a_parent, const char *a_name)
-  : KListBox(a_parent, a_name), KommanderWidget(this)
+  : K3ListBox(a_parent, a_name), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -87,7 +90,7 @@ void ListBox::setWidgetText(const QString& a_text)
 
 void ListBox::showEvent(QShowEvent *e)
 {
-  QListBox::showEvent(e);
+  Q3ListBox::showEvent(e);
   emit widgetOpened();
 }
 
@@ -118,7 +121,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     }
     case DCOP::setSelection:
     {
-      QListBoxItem* found = findItem(args[0], Qt::ExactMatch);
+      Q3ListBoxItem* found = findItem(args[0], Qt::ExactMatch);
       if (found)
         setCurrentItem(index(found));
       break;
@@ -160,7 +163,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::findItem:
     {
-      QListBoxItem* found = findItem(args[0], Qt::ExactMatch);
+      Q3ListBoxItem* found = findItem(args[0], Qt::ExactMatch);
       if (!found) found = findItem(args[0], Qt::BeginsWith);
       if (!found) found = findItem(args[0], Qt::Contains);
       if (found)
@@ -169,7 +172,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     }
     case DCOP::setPixmap:
     {
-      QPixmap pixmap = KGlobal::iconLoader()->loadIcon(args[0], KIcon::Small);
+      QPixmap pixmap = KIconLoader::global()->loadIcon(args[0], KIcon::Small);
       if (pixmap.isNull())
         pixmap.load(args[0]);
       int index = args[1].toInt();

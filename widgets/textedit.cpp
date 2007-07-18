@@ -20,6 +20,8 @@
 #include <qlineedit.h>
 #include <qstringlist.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <specials.h>
@@ -88,7 +90,7 @@ void TextEdit::setTextChanged()
 
 void TextEdit::showEvent(QShowEvent * e)
 {
-  QTextEdit::showEvent(e);
+  Q3TextEdit::showEvent(e);
   emit widgetOpened();
 }
 

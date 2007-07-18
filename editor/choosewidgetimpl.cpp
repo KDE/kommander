@@ -15,13 +15,13 @@
  ***************************************************************************/
 
  /** KDE INCLUDES */ 
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 
 /** QT INCLUDES */
-#include <qptrstack.h>
+#include <q3ptrstack.h>
 #include <qobject.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qlineedit.h>
 #include "qmetaobject.h"
 
@@ -33,7 +33,7 @@ ChooseWidget::ChooseWidget(QWidget* a_parent, const char* a_name, bool a_modal)
    : ChooseWidgetBase(a_parent, a_name, a_modal)
 {
   connect( nameEdit, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
-  connect( widgetView, SIGNAL(executed(QListViewItem*)), SLOT(selectedItem(QListViewItem*)));
+  connect( widgetView, SIGNAL(executed(Q3ListViewItem*)), SLOT(selectedItem(Q3ListViewItem*)));
   widgetView->setFullWidth(true);
   widgetView->addColumn(i18n("Widgets"));
   widgetView->setRootIsDecorated(true);
@@ -51,11 +51,11 @@ void ChooseWidget::setWidget(QWidget* w)
   if (!w)
     return;
   
-  QListViewItem* item;
-  QPtrStack<QWidget> p_widgets;
-  QPtrStack<QListViewItem> p_items;
+  Q3ListViewItem* item;
+  Q3PtrStack<QWidget> p_widgets;
+  Q3PtrStack<Q3ListViewItem> p_items;
   
-  item = new QListViewItem(widgetView, QString("%1 (%2)").arg(w->name()).arg(w->className()));
+  item = new Q3ListViewItem(widgetView, QString("%1 (%2)").arg(w->name()).arg(w->className()));
   item->setOpen(true);
   
   p_widgets.push(w);
@@ -64,11 +64,11 @@ void ChooseWidget::setWidget(QWidget* w)
   while (!p_widgets.isEmpty()) {
     w = p_widgets.pop();
     item = p_items.pop();
-    QObjectList *objectList = w->queryList(0, 0, true, false);
+    QObjectListobjectList = w->queryList(0, 0, true, false);
     for (QObjectListIt it(*objectList); it.current(); ++it) {
-      QListViewItem* newItem = item;
+      Q3ListViewItem* newItem = item;
       if (isKommanderWidget(*it)) 
-        newItem = new QListViewItem(item, QString("%1 (%2)").arg((*it)->name()).arg((*it)->className()));
+        newItem = new Q3ListViewItem(item, QString("%1 (%2)").arg((*it)->name()).arg((*it)->className()));
       if ((*it)->children()) {
           p_widgets.push((QWidget*)(*it));
           p_items.push(newItem);
@@ -93,7 +93,7 @@ QString ChooseWidget::selection()
 
 void ChooseWidget::textChanged(const QString& text)
 {
-  QListViewItem* item = widgetView->findItem(text, 0, Qt::BeginsWith);
+  Q3ListViewItem* item = widgetView->findItem(text, 0, Qt::BeginsWith);
   if (item) {
     widgetView->setCurrentItem(item);
     widgetView->ensureItemVisible(item);
@@ -120,7 +120,7 @@ bool ChooseWidget::isKommanderWidget(QObject* w)
   return false;
 }
 
-void ChooseWidget::selectedItem(QListViewItem* item)
+void ChooseWidget::selectedItem(Q3ListViewItem* item)
 {
   if (item)
     accept();

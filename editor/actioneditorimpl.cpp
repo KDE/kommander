@@ -29,22 +29,25 @@
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qtoolbutton.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
-#include <qpopupmenu.h>
-#include <qobjectlist.h>
+#include <q3popupmenu.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QCloseEvent>
 
 #include <klocale.h>
 
-ActionEditor::ActionEditor( QWidget* parent,  const char* name, WFlags fl )
+ActionEditor::ActionEditor( QWidget* parent,  const char* name, Qt::WFlags fl )
     : ActionEditorBase( parent, name, fl ), currentAction( 0 ), formWindow( 0 )
 {
     listActions->addColumn( i18n("Actions" ) );
     setEnabled( false );
     buttonConnect->setEnabled( false );
 
-    QPopupMenu *popup = new QPopupMenu( this );
+    Q3PopupMenu *popup = new Q3PopupMenu( this );
     popup->insertItem( i18n("New &Action" ), this, SLOT( newAction() ) );
     popup->insertItem( i18n("New Action &Group" ), this, SLOT( newActionGroup() ) );
     popup->insertItem( i18n("New &Dropdown Action Group" ), this, SLOT( newDropDownActionGroup() ) );
@@ -64,7 +67,7 @@ void ActionEditor::closeEvent( QCloseEvent *e )
     e->accept();
 }
 
-void ActionEditor::currentActionChanged( QListViewItem *i )
+void ActionEditor::currentActionChanged( Q3ListViewItem *i )
 {
     buttonConnect->setEnabled( i != 0 );
     if ( !i )
@@ -81,14 +84,14 @@ void ActionEditor::deleteAction()
     if ( !currentAction )
 	return;
 
-    QListViewItemIterator it( listActions );
+    Q3ListViewItemIterator it( listActions );
     while ( it.current() ) {
 	if ( ( (ActionItem*)it.current() )->action() == currentAction ) {
 	    formWindow->actionList().removeRef( currentAction );
 	    delete currentAction;
-	    QValueList<MetaDataBase::Connection> conns =
+	    Q3ValueList<MetaDataBase::Connection> conns =
 		MetaDataBase::connections( formWindow, currentAction );
-	    for ( QValueList<MetaDataBase::Connection>::Iterator it2 = conns.begin();
+	    for ( Q3ValueList<MetaDataBase::Connection>::Iterator it2 = conns.begin();
 		  it2 != conns.end(); ++it2 )
 		MetaDataBase::removeConnection( formWindow, (*it2).sender, (*it2).signal,
 						(*it2).receiver, (*it2).slot );
@@ -97,9 +100,9 @@ void ActionEditor::deleteAction()
 	} else if ( ( (ActionItem*)it.current() )->actionGroup() == currentAction ) {
 	    formWindow->actionList().removeRef( currentAction );
 	    delete currentAction;
-	    QValueList<MetaDataBase::Connection> conns =
+	    Q3ValueList<MetaDataBase::Connection> conns =
 		MetaDataBase::connections( formWindow, currentAction );
-	    for ( QValueList<MetaDataBase::Connection>::Iterator it2 = conns.begin();
+	    for ( Q3ValueList<MetaDataBase::Connection>::Iterator it2 = conns.begin();
 		  it2 != conns.end(); ++it2 )
 		MetaDataBase::removeConnection( formWindow, (*it2).sender, (*it2).signal,
 						(*it2).receiver, (*it2).slot );
@@ -220,7 +223,7 @@ void ActionEditor::insertChildActions( ActionItem *i )
 	if ( !o->inherits( "QAction" ) )
 	    continue;
 	QAction *a = (QAction*)o;
-	ActionItem *i2 = new ActionItem( (QListViewItem*)i, a );
+	ActionItem *i2 = new ActionItem( (Q3ListViewItem*)i, a );
 	i->setOpen( true );
 	i2->setText( 0, a->name() );
 	i2->setPixmap( 0, a->iconSet().pixmap() );
@@ -231,7 +234,7 @@ void ActionEditor::insertChildActions( ActionItem *i )
 
 void ActionEditor::updateActionName( QAction *a )
 {
-    QListViewItemIterator it( listActions );
+    Q3ListViewItemIterator it( listActions );
     while ( it.current() ) {
 	if ( ( (ActionItem*)it.current() )->action() == a )
 	    ( (ActionItem*)it.current() )->setText( 0, a->name() );
@@ -243,7 +246,7 @@ void ActionEditor::updateActionName( QAction *a )
 
 void ActionEditor::updateActionIcon( QAction *a )
 {
-    QListViewItemIterator it( listActions );
+    Q3ListViewItemIterator it( listActions );
     while ( it.current() ) {
 	if ( ( (ActionItem*)it.current() )->action() == a )
 	    ( (ActionItem*)it.current() )->setPixmap( 0, a->iconSet().pixmap() );

@@ -24,20 +24,23 @@
 #include "pixmapchooser.h"
 #include "command.h"
 
-#include <qlistview.h>
-#include <qheader.h>
-#include <qlistbox.h>
+#include <q3listview.h>
+#include <q3header.h>
+#include <q3listbox.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qtabwidget.h>
 #include <qspinbox.h>
 #include <qpushbutton.h>
-#include <qptrstack.h>
+#include <q3ptrstack.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QPixmap>
 
 #include <klocale.h>
 
-ListViewEditor::ListViewEditor( QWidget *parent, QListView *lv, FormWindow *fw )
+ListViewEditor::ListViewEditor( QWidget *parent, Q3ListView *lv, FormWindow *fw )
     : ListViewEditorBase( parent, 0, true ), listview( lv ), formwindow( fw )
 {
     connect( helpButton, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );
@@ -92,8 +95,8 @@ void ListViewEditor::columnDownClicked()
 	return;
 
     colPreview->clearSelection();
-    QListBoxItem *i = colPreview->item( colPreview->currentItem() );
-    QListBoxItem *below = i->next();
+    Q3ListBoxItem *i = colPreview->item( colPreview->currentItem() );
+    Q3ListBoxItem *below = i->next();
 
     colPreview->takeItem( i );
     colPreview->insertItem( i, below );
@@ -177,8 +180,8 @@ void ListViewEditor::columnUpClicked()
 	return;
 
     colPreview->clearSelection();
-    QListBoxItem *i = colPreview->item( colPreview->currentItem() );
-    QListBoxItem *above = i->prev();
+    Q3ListBoxItem *i = colPreview->item( colPreview->currentItem() );
+    Q3ListBoxItem *above = i->prev();
 
     colPreview->takeItem( above );
     colPreview->insertItem( above, i );
@@ -187,7 +190,7 @@ void ListViewEditor::columnUpClicked()
     colPreview->setSelected( i, true );
 }
 
-void ListViewEditor::currentColumnChanged( QListBoxItem *i )
+void ListViewEditor::currentColumnChanged( Q3ListBoxItem *i )
 {
     Column *c = findColumn( i );
     if ( !i || !c ) {
@@ -227,9 +230,9 @@ void ListViewEditor::newColumnClicked()
     col.clickable = true;
     col.resizable = true;
     if ( !col.pixmap.isNull() )
-	col.item = new QListBoxPixmap( colPreview, col.pixmap, col.text );
+	col.item = new Q3ListBoxPixmap( colPreview, col.pixmap, col.text );
     else
-	col.item = new QListBoxText( colPreview, col.text );
+	col.item = new Q3ListBoxText( colPreview, col.text );
     columns.append( col );
     colPreview->setCurrentItem( col.item );
     colPreview->setSelected( col.item, true );
@@ -237,11 +240,11 @@ void ListViewEditor::newColumnClicked()
 
 void ListViewEditor::deleteColumnClicked()
 {
-    QListBoxItem *i = colPreview->item( colPreview->currentItem() );
+    Q3ListBoxItem *i = colPreview->item( colPreview->currentItem() );
     if ( !i )
 	return;
 
-    for ( QValueList<Column>::Iterator it = columns.begin(); it != columns.end(); ++it ) {
+    for ( Q3ValueList<Column>::Iterator it = columns.begin(); it != columns.end(); ++it ) {
 	if ( ( *it ).item == i ) {
 	    delete (*it).item;
 	    columns.remove( it );
@@ -258,7 +261,7 @@ void ListViewEditor::deleteColumnClicked()
 
 
 
-void ListViewEditor::currentItemChanged( QListViewItem *i )
+void ListViewEditor::currentItemChanged( Q3ListViewItem *i )
 {
     if ( !i ) {
 	itemText->setEnabled( false );
@@ -277,7 +280,7 @@ void ListViewEditor::currentItemChanged( QListViewItem *i )
     displayItem( i, itemColumn->value() );
 }
 
-void ListViewEditor::displayItem( QListViewItem *i, int col )
+void ListViewEditor::displayItem( Q3ListViewItem *i, int col )
 {
     itemText->blockSignals( true );
     itemText->setText( i->text( col ) );
@@ -293,7 +296,7 @@ void ListViewEditor::displayItem( QListViewItem *i, int col )
 
 void ListViewEditor::itemColChanged( int col )
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
@@ -303,7 +306,7 @@ void ListViewEditor::itemColChanged( int col )
 
 void ListViewEditor::itemDeleteClicked()
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
@@ -316,12 +319,12 @@ void ListViewEditor::itemDeleteClicked()
 
 void ListViewEditor::itemDownClicked()
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
-    QListViewItemIterator it( i );
-    QListViewItem *parent = i->parent();
+    Q3ListViewItemIterator it( i );
+    Q3ListViewItem *parent = i->parent();
     it++;
     while ( it.current() ) {
 	if ( it.current()->parent() == parent )
@@ -331,14 +334,14 @@ void ListViewEditor::itemDownClicked()
 
     if ( !it.current() )
 	return;
-    QListViewItem *other = it.current();
+    Q3ListViewItem *other = it.current();
 
     i->moveItem( other );
 }
 
 void ListViewEditor::itemNewClicked()
 {
-    QListViewItem *item = new QListViewItem( itemsPreview );
+    Q3ListViewItem *item = new Q3ListViewItem( itemsPreview );
     item->setText( 0, "Item" );
     itemsPreview->setCurrentItem( item );
     itemsPreview->setSelected( item, true );
@@ -346,13 +349,13 @@ void ListViewEditor::itemNewClicked()
 
 void ListViewEditor::itemNewSubClicked()
 {
-    QListViewItem *parent = itemsPreview->currentItem();
-    QListViewItem *item = 0;
+    Q3ListViewItem *parent = itemsPreview->currentItem();
+    Q3ListViewItem *item = 0;
     if ( parent ) {
-	item = new QListViewItem( parent );
+	item = new Q3ListViewItem( parent );
 	parent->setOpen( true );
     } else {
-	item = new QListViewItem( itemsPreview );
+	item = new Q3ListViewItem( itemsPreview );
     }
     item->setText( 0, "Subitem" );
     itemsPreview->setCurrentItem( item );
@@ -361,7 +364,7 @@ void ListViewEditor::itemNewSubClicked()
 
 void ListViewEditor::itemPixmapChoosen()
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
@@ -381,7 +384,7 @@ void ListViewEditor::itemPixmapChoosen()
 
 void ListViewEditor::itemPixmapDeleted()
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
@@ -392,7 +395,7 @@ void ListViewEditor::itemPixmapDeleted()
 
 void ListViewEditor::itemTextChanged( const QString &txt )
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
     i->setText( itemColumn->value(), txt );
@@ -400,12 +403,12 @@ void ListViewEditor::itemTextChanged( const QString &txt )
 
 void ListViewEditor::itemUpClicked()
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
-    QListViewItemIterator it( i );
-    QListViewItem *parent = i->parent();
+    Q3ListViewItemIterator it( i );
+    Q3ListViewItem *parent = i->parent();
     --it;
     while ( it.current() ) {
 	if ( it.current()->parent() == parent )
@@ -415,19 +418,19 @@ void ListViewEditor::itemUpClicked()
 
     if ( !it.current() )
 	return;
-    QListViewItem *other = it.current();
+    Q3ListViewItem *other = it.current();
 
     other->moveItem( i );
 }
 
 void ListViewEditor::itemRightClicked()
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
-    QListViewItemIterator it( i );
-    QListViewItem *parent = i->parent();
+    Q3ListViewItemIterator it( i );
+    Q3ListViewItem *parent = i->parent();
     parent = parent ? parent->firstChild() : itemsPreview->firstChild();
     if ( !parent )
 	return;
@@ -440,7 +443,7 @@ void ListViewEditor::itemRightClicked()
 
     if ( !it.current() )
 	return;
-    QListViewItem *other = it.current();
+    Q3ListViewItem *other = it.current();
 
     for ( int c = 0; c < itemsPreview->columns(); ++c ) {
 	QString s = i->text( c );
@@ -462,12 +465,12 @@ void ListViewEditor::itemRightClicked()
 
 void ListViewEditor::itemLeftClicked()
 {
-    QListViewItem *i = itemsPreview->currentItem();
+    Q3ListViewItem *i = itemsPreview->currentItem();
     if ( !i )
 	return;
 
-    QListViewItemIterator it( i );
-    QListViewItem *parent = i->parent();
+    Q3ListViewItemIterator it( i );
+    Q3ListViewItem *parent = i->parent();
     if ( !parent )
 	return;
     parent = parent->parent();
@@ -480,7 +483,7 @@ void ListViewEditor::itemLeftClicked()
 
     if ( !it.current() )
 	return;
-    QListViewItem *other = it.current();
+    Q3ListViewItem *other = it.current();
 
     for ( int c = 0; c < itemsPreview->columns(); ++c ) {
 	QString s = i->text( c );
@@ -502,7 +505,7 @@ void ListViewEditor::itemLeftClicked()
 
 void ListViewEditor::setupColumns()
 {
-    QHeader *h = listview->header();
+    Q3Header *h = listview->header();
     for ( int i = 0; i < (int)h->count(); ++i ) {
 	Column col;
 	col.text = h->label( i );
@@ -512,9 +515,9 @@ void ListViewEditor::setupColumns()
 	col.clickable = h->isClickEnabled( i );
 	col.resizable = h->isResizeEnabled( i );
 	if ( !col.pixmap.isNull() )
-	    col.item = new QListBoxPixmap( colPreview, col.pixmap, col.text );
+	    col.item = new Q3ListBoxPixmap( colPreview, col.pixmap, col.text );
 	else
-	    col.item = new QListBoxText( colPreview, col.text );
+	    col.item = new Q3ListBoxText( colPreview, col.text );
 	columns.append( col );
     }
 
@@ -531,10 +534,10 @@ void ListViewEditor::setupColumns()
 void ListViewEditor::setupItems()
 {
     itemColumn->setMinValue( 0 );
-    itemColumn->setMaxValue( QMAX( numColumns - 1, 0 ) );
+    itemColumn->setMaxValue( qMax( numColumns - 1, 0 ) );
     int i = 0;
-    QHeader *header = itemsPreview->header();
-    for ( QListBoxItem *item = colPreview->firstItem(); item; item = item->next() ) {
+    Q3Header *header = itemsPreview->header();
+    for ( Q3ListBoxItem *item = colPreview->firstItem(); item; item = item->next() ) {
 	Column *col = findColumn( item );
 	if ( !col )
 	    continue;
@@ -548,15 +551,15 @@ void ListViewEditor::setupItems()
     while ( itemsPreview->columns() > i )
 	itemsPreview->removeColumn( i );
 
-    itemColumn->setValue( QMIN( numColumns - 1, itemColumn->value() ) );
+    itemColumn->setValue( qMin( numColumns - 1, itemColumn->value() ) );
 }
 
-ListViewEditor::Column *ListViewEditor::findColumn( QListBoxItem *i )
+ListViewEditor::Column *ListViewEditor::findColumn( Q3ListBoxItem *i )
 {
     if ( !i )
 	return 0;
 
-    for ( QValueList<Column>::Iterator it = columns.begin(); it != columns.end(); ++it ) {
+    for ( Q3ValueList<Column>::Iterator it = columns.begin(); it != columns.end(); ++it ) {
 	if ( ( *it ).item == i )
 	    return &( *it );
     }

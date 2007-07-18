@@ -21,8 +21,10 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
-#include <qwizard.h>
+#include <q3wizard.h>
 #include <qdialog.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderfactory.h>
@@ -30,7 +32,7 @@
 #include "wizard.h"
 
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-  : QWizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
+  : Q3Wizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -88,7 +90,7 @@ void Wizard::setWidgetText(const QString &a_text)
 
 void Wizard::exec()
 {
-  QWizard::exec();
+  Q3Wizard::exec();
   emit finished();
 }
 
@@ -130,7 +132,7 @@ void Wizard::setHelpActionText(const QString& a_helpActionText)
 
 void Wizard::showEvent(QShowEvent *e)
 {
-  QWizard::showEvent( e );
+  Q3Wizard::showEvent( e );
   emit widgetOpened();
 }
 

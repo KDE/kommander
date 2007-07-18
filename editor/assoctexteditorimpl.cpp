@@ -30,7 +30,9 @@
 #include <qstring.h>
 #include <qfile.h>
 #include <qobject.h>
-#include <qobjectlist.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -53,7 +55,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   associatedTextEdit->setTextFormat(Qt::PlainText);
   
   // icon for non-empty scripts
-  scriptPixmap = KGlobal::iconLoader()->loadIcon("source", KIcon::Small);
+  scriptPixmap = KIconLoader::global()->loadIcon("source", KIcon::Small);
 
   // signals and slots connections
   m_formWindow = a_form;
@@ -179,7 +181,7 @@ QStringList AssocTextEditor::buildWidgetList()
 {
   QStringList widgetList;
   QObject* thisObject = m_formWindow->mainContainer();
-  QObjectList *objectList = thisObject->queryList();
+  QObjectListobjectList = thisObject->queryList();
   objectList->prepend(thisObject);
 
   for (QObjectListIt it(*objectList); it.current(); ++it)
@@ -272,12 +274,12 @@ void AssocTextEditor::insertFile()
     return;
 
   QFile insertFile(fileName);
-  if(!insertFile.open(IO_ReadOnly))
+  if(!insertFile.open(QIODevice::ReadOnly))
   {
     KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt", fileName ) );
     return;
   }
-  QTextStream insertStream(&insertFile);
+  Q3TextStream insertStream(&insertFile);
   QString insertText = insertStream.read();
   insertAssociatedText(insertText);
   insertFile.close();

@@ -20,16 +20,18 @@
 #define NEWFORMIMPL_H
 
 #include "newform.h"
-#include <qiconview.h>
+#include <q3iconview.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 class FormFile;
 
 
-class NewItem : public QIconViewItem
+class NewItem : public Q3IconViewItem
 {
 public:
   enum Type {Form, CustomForm};
-  NewItem( QIconView *view, const QString &text ) : QIconViewItem( view, text ) {}
+  NewItem( Q3IconView *view, const QString &text ) : Q3IconViewItem( view, text ) {}
   virtual void insert( ) = 0;
 };
 
@@ -37,7 +39,7 @@ class FormItem : public NewItem
 {
 public:
   enum FormType {Dialog, Wizard, MainWindow};
-  FormItem( QIconView *view, const QString &text);
+  FormItem( Q3IconView *view, const QString &text);
   void insert();
   int rtti() const              {return (int)Form;}
   void setFormType(FormType ft) {fType = ft;}
@@ -49,7 +51,7 @@ private:
 class CustomFormItem : public NewItem
 {
 public:
-  CustomFormItem( QIconView *view, const QString &text );
+  CustomFormItem( Q3IconView *view, const QString &text );
   void insert();
   int rtti() const                        {return (int)CustomForm; }
   void setTemplateFile(const QString &tf) {templFile = tf;}
@@ -65,9 +67,9 @@ public:
   NewForm( QWidget *parent, const QString &templatePath );
   void accept();
 protected slots:
-  void itemChanged(QIconViewItem *item);
+  void itemChanged(Q3IconViewItem *item);
 private:
-    QPtrList<QIconViewItem> allItems;
+    Q3PtrList<Q3IconViewItem> allItems;
 };
 
 #endif

@@ -25,7 +25,10 @@
 #include <stdlib.h> 
 
 #include <qfile.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3ValueList>
 
 #include <kmessagebox.h>
 #include <dcopclient.h>
@@ -35,7 +38,7 @@
 #include <kglobal.h>
 #include <kinputdialog.h>
 #include <klocale.h>
-#include <kpassdlg.h>
+#include <kpassworddialog.h>
 
 using namespace Parse;
 
@@ -88,12 +91,12 @@ static ParseNode f_stringReplace(Parser*, const ParameterList& params)
 
 static ParseNode f_stringLower(Parser*, const ParameterList& params)
 {
-  return params[0].toString().lower();
+  return params[0].toString().toLower();
 }
     
 static ParseNode f_stringUpper(Parser*, const ParameterList& params)
 {
-  return params[0].toString().upper();
+  return params[0].toString().toUpper();
 }
   
 static ParseNode f_stringIsEmpty(Parser*, const ParameterList& params)
@@ -156,18 +159,18 @@ static ParseNode f_echo(Parser*, const ParameterList& params)
 static ParseNode f_fileRead(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
-  if (!file.open(IO_ReadOnly))
+  if (!file.open(QIODevice::ReadOnly))
     return ParseNode("");
-  QTextStream text(&file);
+  Q3TextStream text(&file);
   return text.read();
 }
 
 static ParseNode f_fileWrite(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
-  if (!file.open(IO_WriteOnly))
+  if (!file.open(QIODevice::WriteOnly))
     return 0;
-  QTextStream text(&file);
+  Q3TextStream text(&file);
   for (uint i=1; i<params.count(); i++)
     text << params[i].toString();
   return 1;
@@ -176,9 +179,9 @@ static ParseNode f_fileWrite(Parser*, const ParameterList& params)
 static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
-  if (!file.open(IO_WriteOnly | IO_Append))
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Append))
     return 0;
-  QTextStream text(&file);
+  Q3TextStream text(&file);
   for (uint i=1; i<params.count(); i++)
     text << params[i].toString();
   return 1;
@@ -219,15 +222,15 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
 
 static ParseNode f_externalDcop(Parser*, const ParameterList& params)
 {
-  QCString appId = kapp->dcopClient()->appId();
-  QCString object = "KommanderIf";
+  Q3CString appId = kapp->dcopClient()->appId();
+  Q3CString object = "KommanderIf";
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
   
   if (!function.isValidArg(params.count() - 1))
     return ParseNode();
   
   QByteArray byteData;
-  QDataStream byteDataStream(byteData, IO_WriteOnly);
+  QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
   for (uint i=0 ; i<params.count()-1; i++) 
   {
     if (function.argumentType(i) == "int")
@@ -249,16 +252,16 @@ static ParseNode f_externalDcop(Parser*, const ParameterList& params)
       byteDataStream << params[i+1].toString();
   }
   
-  QCString replyType, byteReply;
+  Q3CString replyType, byteReply;
   DCOPClient* cl = KApplication::dcopClient();
-  if (!cl || !cl->call(appId, object, function.prototype(SpecialFunction::NoSpaces).latin1(), 
+  if (!cl || !cl->call(appId, object, function.prototype(SpecialFunction::NoSpaces).toLatin1(), 
        byteData, replyType, byteReply))
   {
     //printError(i18n("Tried to perform DCOP query, but failed."));
     qDebug("Failure");
     return ParseNode();
   }
-  QDataStream byteReplyStream(byteReply, IO_ReadOnly);
+  QDataStream byteReplyStream(byteReply, QIODevice::ReadOnly);
   if (replyType == "QString")
   {
     QString text;
@@ -296,7 +299,7 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
 {
   MyProcess proc(P->currentWidget());
   QString text;
-  qDebug("Trying %s", params[0].toString().latin1());
+  qDebug("Trying %s", params[0].toString().toLatin1());
   if (params.count() > 1)
     text = proc.run(params[0].toString().local8Bit(), params[1].toString());
   else
@@ -311,7 +314,7 @@ static ParseNode f_i18n(Parser*, const ParameterList& params)
 
 static ParseNode f_env(Parser*, const ParameterList& params)
 {
-  return QString(getenv(params[0].toString().latin1())); 
+  return QString(getenv(params[0].toString().toLatin1())); 
 }
 
 /******************* Array functions ********************************/
@@ -340,9 +343,9 @@ static ParseNode f_arrayValues(Parser* P, const ParameterList& params)
 {
   if (!P->isArray(params[0].toString()))
     return ParseNode();
-  QValueList<ParseNode> values = P->array(params[0].toString()).values(); 
+  Q3ValueList<ParseNode> values = P->array(params[0].toString()).values(); 
   QString array;
-  for (QValueList<ParseNode>::Iterator it = values.begin(); it != values.end(); ++it ) 
+  for (Q3ValueList<ParseNode>::Iterator it = values.begin(); it != values.end(); ++it ) 
     array += (*it).toString();
   return array;
 }
@@ -361,10 +364,10 @@ static ParseNode f_arrayToString(Parser* P, const ParameterList& params)
     return ParseNode();
   QString array;
   QStringList keys = P->array(name).keys();
-  QValueList<ParseNode> values = P->array(name).values();
+  Q3ValueList<ParseNode> values = P->array(name).values();
   
   QStringList::Iterator it = keys.begin(); 
-  QValueList<ParseNode>::Iterator itval = values.begin();
+  Q3ValueList<ParseNode>::Iterator itval = values.begin();
   while (*it)
   {
     array += QString("%1\t%2\n").arg(*it).arg((*itval).toString());
@@ -409,7 +412,7 @@ static ParseNode f_inputText(Parser*, const ParameterList& params)
     
 static ParseNode f_inputPassword(Parser*, const ParameterList& params)
 {
-  QCString value;
+  Q3CString value;
   if (params.count() > 1)
     value = params[1].toString().local8Bit();
   KPasswordDialog::getPassword(value, params[0].toString());

@@ -21,10 +21,10 @@
 
 #include <klocale.h>
 
-class KListBox;
+class K3ListBox;
 class K3Process;
-class KPopupMenu;
-class QListBoxItem;
+class KMenu;
+class Q3ListBoxItem;
    
 class MessageLog : public QTabWidget
 {
@@ -43,13 +43,13 @@ public slots:
   void copyLine();
   void copyContent();
   void saveToFile();
-  void showMenu(QListBoxItem*, const QPoint& l_point);
+  void showMenu(Q3ListBoxItem*, const QPoint& l_point);
 private:
   static const int m_listCount = 2;
   static QString m_listNames[m_listCount];
-  KListBox* m_lists[m_listCount];
+  K3ListBox* m_lists[m_listCount];
   bool m_seenEOL[m_listCount];
-  KPopupMenu* m_popupMenu;
+  KMenu* m_popupMenu;
 };
 
 #endif

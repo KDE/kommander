@@ -21,12 +21,14 @@
 #include "parser.h"
 #include <qobject.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 class NormalizeObject : public QObject
 {
 public:
     NormalizeObject() : QObject() {}
-    static QCString normalizeSignalSlot( const char *signalSlot ) { return QObject::normalizeSignalSlot( signalSlot ); }
+    static Q3CString normalizeSignalSlot( const char *signalSlot ) { return QObject::normalizeSignalSlot( signalSlot ); }
 };
 
 QString Parser::cleanArgs( const QString &func )
@@ -47,9 +49,9 @@ QString Parser::cleanArgs( const QString &func )
 	} else if ( ( pos = arg.find( "*" ) ) != -1 ) {
 	    arg = arg.left( pos + 1 );
 	} else {
-	    arg = arg.simplifyWhiteSpace();
+	    arg = arg.simplified();
 	    if ( ( pos = arg.find( ':' ) ) != -1 )
-		arg = arg.left( pos ).simplifyWhiteSpace() + ":" + arg.mid( pos + 1 ).simplifyWhiteSpace();
+		arg = arg.left( pos ).simplified() + ":" + arg.mid( pos + 1 ).simplified();
 	    QStringList l = QStringList::split( ' ', arg );
 	    if ( l.count() == 2 ) {
 		if ( l[ 0 ] != "const" && l[ 0 ] != "unsigned" && l[ 0 ] != "var" )
@@ -62,5 +64,5 @@ QString Parser::cleanArgs( const QString &func )
     }	
     res += ")";
 
-    return QString::fromLatin1( NormalizeObject::normalizeSignalSlot( res.latin1() ) );
+    return QString::fromLatin1( NormalizeObject::normalizeSignalSlot( res.toLatin1() ) );
 }

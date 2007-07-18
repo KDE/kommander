@@ -19,23 +19,26 @@
 **********************************************************************/
 
 #include "actionlistview.h"
-#include <qdragobject.h>
-#include <qheader.h>
+#include <q3dragobject.h>
+#include <q3header.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3PopupMenu>
 
 #include <klocale.h>
 
 ActionListView::ActionListView( QWidget *parent, const char *name )
-    : QListView( parent, name )
+    : Q3ListView( parent, name )
 {
     header()->setStretchEnabled( true );
     setRootIsDecorated( true );
     setSorting( -1 );
-    connect( this, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint &, int ) ),
-	     this, SLOT( rmbMenu( QListViewItem *, const QPoint & ) ) );
+    connect( this, SIGNAL( contextMenuRequested( Q3ListViewItem *, const QPoint &, int ) ),
+	     this, SLOT( rmbMenu( Q3ListViewItem *, const QPoint & ) ) );
 }
 
-ActionItem::ActionItem( QListView *lv, QAction *ac )
-    : QListViewItem( lv ), a( 0 ), g( 0 )
+ActionItem::ActionItem( Q3ListView *lv, QAction *ac )
+    : Q3ListViewItem( lv ), a( 0 ), g( 0 )
 {
     if ( ac->inherits( "QActionGroup" ) )
 	g = (QDesignerActionGroup*)ac;
@@ -44,8 +47,8 @@ ActionItem::ActionItem( QListView *lv, QAction *ac )
     setDragEnabled( true );
 }
 
-ActionItem::ActionItem( QListViewItem *i, QAction *ac )
-    : QListViewItem( i ), a( 0 ), g( 0 )
+ActionItem::ActionItem( Q3ListViewItem *i, QAction *ac )
+    : Q3ListViewItem( i ), a( 0 ), g( 0 )
 {
     if ( ac->inherits( "QActionGroup" ) )
 	g = (QDesignerActionGroup*)ac;
@@ -57,36 +60,36 @@ ActionItem::ActionItem( QListViewItem *i, QAction *ac )
 
 void ActionItem::moveToEnd()
 {
-    QListViewItem *i = this;
+    Q3ListViewItem *i = this;
     while ( i->nextSibling() )
 	i = i->nextSibling();
     if ( i != this )
 	moveItem( i );
 }
 
-QDragObject *ActionListView::dragObject()
+Q3DragObject *ActionListView::dragObject()
 {
     ActionItem *i = (ActionItem*)currentItem();
     if ( !i )
 	return 0;
-    QStoredDrag *drag = 0;
+    Q3StoredDrag *drag = 0;
     if ( i->action() ) {
-	drag = new QStoredDrag( "application/x-designer-actions", viewport() );
+	drag = new Q3StoredDrag( "application/x-designer-actions", viewport() );
 	QString s = QString::number( (long)i->action() ); // #### huha, that is evil
-	drag->setEncodedData( QCString( s.latin1() ) );
+	drag->setEncodedData( Q3CString( s.toLatin1() ) );
 	drag->setPixmap( i->action()->iconSet().pixmap() );
     } else {
-	drag = new QStoredDrag( "application/x-designer-actiongroup", viewport() );
+	drag = new Q3StoredDrag( "application/x-designer-actiongroup", viewport() );
 	QString s = QString::number( (long)i->actionGroup() ); // #### huha, that is evil
-	drag->setEncodedData( QCString( s.latin1() ) );
+	drag->setEncodedData( Q3CString( s.toLatin1() ) );
 	drag->setPixmap( i->actionGroup()->iconSet().pixmap() );
     }
     return drag;
 }
 
-void ActionListView::rmbMenu( QListViewItem *i, const QPoint &p )
+void ActionListView::rmbMenu( Q3ListViewItem *i, const QPoint &p )
 {
-    QPopupMenu *popup = new QPopupMenu( this );
+    Q3PopupMenu *popup = new Q3PopupMenu( this );
     popup->insertItem( i18n("New &Action" ), 0 );
     popup->insertItem( i18n("New Action &Group" ), 1 );
     popup->insertItem( i18n("New &Dropdown Action Group" ), 2 );

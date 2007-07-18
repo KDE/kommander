@@ -20,14 +20,14 @@
 
 #include <kxmlguiwindow.h>
 
-class KListBox;
+class K3ListBox;
 class PluginManager;
 
 class MainWindow : public KXmlGuiWindow
 {
   Q_OBJECT
 public:
-  MainWindow( QWidget* parent = 0, const char *name = 0, WFlags f = WType_TopLevel | WDestructiveClose );
+  MainWindow( QWidget* parent = 0, const char *name = 0, Qt::WFlags f = Qt::WType_TopLevel | Qt::WDestructiveClose );
   ~MainWindow();
 
 protected slots:
@@ -48,7 +48,7 @@ private:
   void refresh();
   
   // ListBox of available plugins 
-  KListBox *m_list;
+  K3ListBox *m_list;
   // plugin manager
   PluginManager* m_pluginManager;
 };

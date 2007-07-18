@@ -18,7 +18,7 @@
 
 #include <qfile.h>
 #include <qregexp.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
  
 #include <dcopclient.h>
 #include <kapplication.h>
@@ -52,7 +52,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
     case Kommander::parentPid:
       return global("_PARENTPID").isEmpty() ? QString().setNum(getppid()) : global("_PARENTPID");
     case Kommander::env:
-      return QString(getenv(args[0].latin1())); 
+      return QString(getenv(args[0].toLatin1())); 
     case Kommander::i18n:
       return KGlobal::locale()->translate(args[0]);
     case Kommander::global:
@@ -61,7 +61,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       setGlobal(args[0], args[1]); 
       return QString::null;
     case Kommander::debug:
-      qDebug("%s", args[0].latin1());
+      qDebug("%s", args[0].toLatin1());
       return QString::null;
     case Kommander::readSetting:
     {

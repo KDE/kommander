@@ -19,6 +19,8 @@
 **********************************************************************/
 
 #include <qvariant.h> // HP-UX compiler needs this here
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "pixmapchooser.h"
 #include "formwindow.h"
@@ -43,7 +45,7 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
-#include <qiconview.h>
+#include <q3iconview.h>
 
 #include <klocale.h>
 
@@ -877,7 +879,7 @@ static PixmapChooser *pixmapChooser = 0;
 #endif
 
 PixmapView::PixmapView( QWidget *parent )
-    : QScrollView( parent )
+    : Q3ScrollView( parent )
 {
     viewport()->setBackgroundMode( PaletteBase );
 }
@@ -895,7 +897,7 @@ void PixmapView::drawContents( QPainter *p, int cx, int cy, int cw, int ch )
     p->drawPixmap( 0, 0, pixmap );
 }
 
-void PixmapView::previewUrl( const QUrl &u )
+void PixmapView::previewUrl( const Q3Url &u )
 {
     if ( u.isLocalFile() ) {
 	QString path = u.path();
@@ -909,27 +911,27 @@ void PixmapView::previewUrl( const QUrl &u )
 
 QStringList qChoosePixmaps( QWidget *parent )
 {
-    if ( !imageIconProvider && !QFileDialog::iconProvider() )
-	QFileDialog::setIconProvider( ( imageIconProvider = new ImageIconProvider ) );
+    if ( !imageIconProvider && !Q3FileDialog::iconProvider() )
+	Q3FileDialog::setIconProvider( ( imageIconProvider = new ImageIconProvider ) );
 
     QString filter;
     QString all = qApp->translate( "qChoosePixmap", "All Pixmaps (" );
     for ( uint i = 0; i < QImageIO::outputFormats().count(); i++ ) {
 	filter += qApp->translate( "qChoosePixmap", "%1-Pixmaps (%2)\n" ).
 		  arg( QImageIO::outputFormats().at( i ) ).
-		  arg( "*." + QString( QImageIO::outputFormats().at( i ) ).lower() );
-	all += "*." + QString( QImageIO::outputFormats().at( i ) ).lower() + ";";
+		  arg( "*." + QString( QImageIO::outputFormats().at( i ) ).toLower() );
+	all += "*." + QString( QImageIO::outputFormats().at( i ) ).toLower() + ";";
     }
     filter.prepend( all + qApp->translate( "qChoosePixmap", ")\n" ) );
     filter += qApp->translate( "qChoosePixmap", "All Files (*)" );
 
-    QFileDialog fd( QString::null, filter, parent, 0, true );
-    fd.setMode( QFileDialog::ExistingFiles );
+    Q3FileDialog fd( QString::null, filter, parent, 0, true );
+    fd.setMode( Q3FileDialog::ExistingFiles );
     fd.setContentsPreviewEnabled( true );
     PixmapView *pw = new PixmapView( &fd );
     fd.setContentsPreview( pw, pw );
-    fd.setViewMode( QFileDialog::List );
-    fd.setPreviewMode( QFileDialog::Contents );
+    fd.setViewMode( Q3FileDialog::List );
+    fd.setPreviewMode( Q3FileDialog::Contents );
     fd.setCaption( qApp->translate( "qChoosePixmap", "Choose Images" ) );
     if ( fd.exec() == QDialog::Accepted )
 	return fd.selectedFiles();
@@ -940,8 +942,8 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 {
 #if defined(DESIGNER)
     if ( !fw || fw->savePixmapInline() ) {
-	if ( !imageIconProvider && !QFileDialog::iconProvider() )
-	    QFileDialog::setIconProvider( ( imageIconProvider = new ImageIconProvider ) );
+	if ( !imageIconProvider && !Q3FileDialog::iconProvider() )
+	    Q3FileDialog::setIconProvider( ( imageIconProvider = new ImageIconProvider ) );
 
 	QString filter;
 	QString all = i18n( "All Pixmaps" );
@@ -949,18 +951,18 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	for ( uint i = 0; i < QImageIO::outputFormats().count(); i++ ) {
 	    filter += i18n( "%1-Pixmaps (%2)\n" , 
 		      QImageIO::outputFormats().at( i ) , 
-		      "*." + QString( QImageIO::outputFormats().at( i ) ).lower() );
-	    all += "*." + QString( QImageIO::outputFormats().at( i ) ).lower() + ";";
+		      "*." + QString( QImageIO::outputFormats().at( i ) ).toLower() );
+	    all += "*." + QString( QImageIO::outputFormats().at( i ) ).toLower() + ";";
 	}
 	filter.prepend( all + ")\n" );
 	filter += i18n( "All Files (*)" );
 
-	QFileDialog fd( QString::null, filter, parent, 0, true );
+	Q3FileDialog fd( QString::null, filter, parent, 0, true );
 	fd.setContentsPreviewEnabled( true );
 	PixmapView *pw = new PixmapView( &fd );
 	fd.setContentsPreview( pw, pw );
-	fd.setViewMode( QFileDialog::List );
-	fd.setPreviewMode( QFileDialog::Contents );
+	fd.setViewMode( Q3FileDialog::List );
+	fd.setPreviewMode( Q3FileDialog::Contents );
 	fd.setCaption( i18n( "Choose Pixmap" ) );
 	if ( fd.exec() == QDialog::Accepted ) {
 	    QPixmap pix( fd.selectedFile() );
@@ -1004,7 +1006,7 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 }
 
 ImageIconProvider::ImageIconProvider( QWidget *parent, const char *name )
-    : QFileIconProvider( parent, name ), imagepm( PixmapChooser::loadPixmap( "image.xpm", PixmapChooser::Mini ) )
+    : Q3FileIconProvider( parent, name ), imagepm( PixmapChooser::loadPixmap( "image.xpm", PixmapChooser::Mini ) )
 {
     fmts = QImage::inputFormats();
 }
@@ -1015,11 +1017,11 @@ ImageIconProvider::~ImageIconProvider()
 
 const QPixmap * ImageIconProvider::pixmap( const QFileInfo &fi )
 {
-    QString ext = fi.extension().upper();
+    QString ext = fi.extension().toUpper();
     if ( fmts.contains( ext ) ) {
 	return &imagepm;
     } else {
-	return QFileIconProvider::pixmap( fi );
+	return Q3FileIconProvider::pixmap( fi );
     }
 }
 

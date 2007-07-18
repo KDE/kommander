@@ -3,9 +3,11 @@
 
 #include <qlineedit.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QEvent>
 
-class QListBox;
-class QVBox;
+class Q3ListBox;
+class Q3VBox;
 
 class QCompletionEdit : public QLineEdit
 {
@@ -42,8 +44,8 @@ private:
 private:
     bool aAdd;
     QStringList compList;
-    QListBox *listbox;
-    QVBox *popup;
+    Q3ListBox *listbox;
+    Q3VBox *popup;
     bool caseSensitive;
 
 };

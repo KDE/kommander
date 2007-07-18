@@ -23,7 +23,7 @@
 #include "command.h"
 #include "mainwindow.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qpushbutton.h>
 
 #include <klocale.h>
@@ -32,7 +32,7 @@ MultiLineEditor::MultiLineEditor( QWidget *parent, QWidget *editWidget, FormWind
     : MultiLineEditorBase( parent, 0, true ), formwindow( fw )
 {
     connect( buttonHelp, SIGNAL( clicked() ), MainWindow::self, SLOT( showDialogHelp() ) );
-    mlined = (QMultiLineEdit*)editWidget;
+    mlined = (Q3MultiLineEdit*)editWidget;
     // #### complete list of properties here
     preview->setAlignment( mlined->alignment() );
     preview->setMaxLines( mlined->maxLines() );

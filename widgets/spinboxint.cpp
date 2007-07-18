@@ -22,6 +22,8 @@
 #include <qstringlist.h>
 #include <qevent.h>
 #include <qspinbox.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <specials.h>

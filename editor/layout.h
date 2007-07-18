@@ -23,10 +23,15 @@
 
 #include <qwidget.h>
 #include <qmap.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
 #include <qobject.h>
 #include <qlayout.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <Q3GridLayout>
+#include <Q3CString>
+#include <QPaintEvent>
 
 class FormWindow;
 class QPaintEvent;
@@ -49,7 +54,7 @@ protected:
     QWidgetList widgets;
     QWidget *parent;
     QPoint startPoint;
-    QMap<QGuardedPtr<QWidget>, QRect> geometries;
+    QMap<QPointer<QWidget>, QRect> geometries;
     QWidget *layoutBase;
     FormWindow *formWindow;
     QRect oldGeometry;
@@ -112,8 +117,8 @@ class Spacer : public QWidget
 {
     Q_OBJECT
 
-    Q_OVERRIDE( QCString name )
-    Q_PROPERTY( Orientation orientation READ orientation WRITE setOrientation )
+    Q_OVERRIDE( Q3CString name )
+    Q_PROPERTY( Qt::Orientation orientation READ orientation WRITE setOrientation )
     Q_ENUMS( SizeType )
     Q_PROPERTY( SizeType sizeType READ sizeType WRITE setSizeType )
     Q_PROPERTY( QSize sizeHint READ sizeHint WRITE setSizeHint DESIGNABLE true STORED true )
@@ -139,7 +144,7 @@ public:
     SizeType sizeType() const;
     int alignment() const;
     Orientation orientation() const;
-    void setOrientation( Orientation o );
+    void setOrientation( Qt::Orientation o );
     void setInteraciveMode( bool b ) { interactive = b; };
     void setSizeHint( const QSize &s );
 
@@ -152,12 +157,12 @@ protected:
     QSize sh;
 };
 
-class QDesignerGridLayout : public QGridLayout
+class QDesignerGridLayout : public Q3GridLayout
 {
    Q_OBJECT
 public:
-    QDesignerGridLayout( QWidget *parent ) : QGridLayout( parent ){};
-    QDesignerGridLayout( QLayout *parentLayout ) : QGridLayout( parentLayout ){};
+    QDesignerGridLayout( QWidget *parent ) : Q3GridLayout( parent ){};
+    QDesignerGridLayout( QLayout *parentLayout ) : Q3GridLayout( parentLayout ){};
 
     void addWidget( QWidget *, int row, int col, int align = 0 );
     void addMultiCellWidget( QWidget *, int fromRow, int toRow,

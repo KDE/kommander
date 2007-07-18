@@ -19,18 +19,18 @@
 #include <kapplication.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
-#include <klistbox.h>
+#include <k3listbox.h>
 #include <kmessagebox.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <k3process.h>
 
 #include <qclipboard.h>
 #include <qfile.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 
 MessageLog::MessageLog(QWidget* parent, const char* name) : QTabWidget(parent, name)
 {
-  m_popupMenu = new KPopupMenu(this);
+  m_popupMenu = new KMenu(this);
   m_popupMenu->insertItem(SmallIconSet("edit-copy"), i18n("Copy Current &Line"), this, SLOT(copyLine()));
   m_popupMenu->insertItem(SmallIconSet("edit-copy"), i18n("&Copy Content"), this, SLOT(copyContent()));
   m_popupMenu->insertItem(SmallIconSet("document-save-as"), i18n("&Save As..."), this, SLOT(saveToFile()));
@@ -39,11 +39,11 @@ MessageLog::MessageLog(QWidget* parent, const char* name) : QTabWidget(parent, n
   
   for (int i = 0; i < m_listCount; i++)
   {
-    m_lists[i] = new KListBox(this);
+    m_lists[i] = new K3ListBox(this);
     addTab(m_lists[i], m_listNames[i]);
     m_seenEOL[i] = false;
-    connect(m_lists[i], SIGNAL(contextMenuRequested(QListBoxItem*, const QPoint&)),
-            this, SLOT(showMenu(QListBoxItem*, const QPoint&)));
+    connect(m_lists[i], SIGNAL(contextMenuRequested(Q3ListBoxItem*, const QPoint&)),
+            this, SLOT(showMenu(Q3ListBoxItem*, const QPoint&)));
   }
 }
   
@@ -72,7 +72,7 @@ void MessageLog::insertItem(InfoType i, QString text)
 QString MessageLog::content()
 {
   QString p_content;
-  KListBox* list = m_lists[currentPageIndex()];
+  K3ListBox* list = m_lists[currentPageIndex()];
   for (uint i=0; i < list->count(); i++)
     p_content.append(list->text(i) + "\n");
   return p_content;
@@ -118,7 +118,7 @@ void MessageLog::copyContent()
 
 void MessageLog::saveToFile()
 {
-  KUrl url=KFileDialog::getSaveUrl(QDir::currentDirPath(),
+  KUrl url=KFileDialog::getSaveUrl(QDir::currentPath(),
                                    i18n("*.log|Log Files (*.log)\n*|All Files"), this, i18n("Save Log File"));
   if (url.isEmpty())
     return;
@@ -128,17 +128,17 @@ void MessageLog::saveToFile()
            url.path()), QString::null, i18n("Overwrite")) == KMessageBox::Cancel)
     return;
   QFile file(url.path());
-  if (!file.open(IO_WriteOnly)) {
+  if (!file.open(QIODevice::WriteOnly)) {
     KMessageBox::error(0, i18n("<qt>Cannot save log file<br><b>%1</b></qt>",
          url.url()));
     return;
   }
-  QTextStream textfile(&file);
+  Q3TextStream textfile(&file);
   textfile << content();
   file.close();
 }
 
-void MessageLog::showMenu(QListBoxItem*, const QPoint& l_point)
+void MessageLog::showMenu(Q3ListBoxItem*, const QPoint& l_point)
 {
   m_popupMenu->exec(l_point);
 }

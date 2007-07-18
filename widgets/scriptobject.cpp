@@ -16,6 +16,9 @@
 /* QT INCLUDES */
 #include <qstringlist.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <Q3Frame>
 
 /* KDE INCLUDES */
 #include <kglobal.h>
@@ -37,8 +40,8 @@ ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KGlobal::iconLoader()->loadIcon("exec", KIcon::NoGroup, KIcon::SizeMedium));
-    setFrameStyle(QFrame::Box | QFrame::Plain);
+    setPixmap(KIconLoader::global()->loadIcon("exec", KIcon::NoGroup, KIcon::SizeMedium));
+    setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
   }

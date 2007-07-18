@@ -22,23 +22,28 @@
 #define WIDGETFACTORY_H
 
 #include <qvariant.h>
-#include <qiconset.h>
+#include <qicon.h>
 #include <qstring.h>
-#include <qintdict.h>
+#include <q3intdict.h>
 #include <qtabwidget.h>
 #include <qpixmap.h>
 #include <qsize.h>
 #include <qpainter.h>
 #include <qevent.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qlabel.h>
-#include <qwizard.h>
-#include <qptrdict.h>
+#include <q3wizard.h>
+#include <q3ptrdict.h>
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
 #include <qcheckbox.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QShowEvent>
+#include <QPaintEvent>
+#include <Q3Frame>
 
 #include "metadatabase.h"
 #ifndef KOMMANDER
@@ -112,7 +117,7 @@ class QDesignerTabWidget : public QTabWidget
     Q_OBJECT
     Q_PROPERTY( int currentPage READ currentPage WRITE setCurrentPage STORED false DESIGNABLE true )
     Q_PROPERTY( QString pageTitle READ pageTitle WRITE setPageTitle STORED false DESIGNABLE true )
-    Q_PROPERTY( QCString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
+    Q_PROPERTY( Q3CString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
 public:
     QDesignerTabWidget( QWidget *parent, const char *name );
 
@@ -120,8 +125,8 @@ public:
     void setCurrentPage( int i );
     QString pageTitle() const;
     void setPageTitle( const QString& title );
-    QCString pageName() const;
-    void setPageName( const QCString& name );
+    Q3CString pageName() const;
+    void setPageName( const Q3CString& name );
 
     int count() const;
     QTabBar *tabBar() const { return QTabWidget::tabBar(); }
@@ -141,7 +146,7 @@ class EditorTabWidget : public TabWidget
     Q_OBJECT
     Q_PROPERTY( int currentPage READ currentPage WRITE setCurrentPage STORED false DESIGNABLE true )
     Q_PROPERTY( QString pageTitle READ pageTitle WRITE setPageTitle STORED false DESIGNABLE true )
-    Q_PROPERTY( QCString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
+    Q_PROPERTY( Q3CString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
 public:
     EditorTabWidget( QWidget *parent, const char *name );
 
@@ -149,8 +154,8 @@ public:
     void setCurrentPage( int i );
     QString pageTitle() const;
     void setPageTitle( const QString& title );
-    QCString pageName() const;
-    void setPageName( const QCString& name );
+    Q3CString pageName() const;
+    void setPageName( const Q3CString& name );
 
     int count() const;
     QTabBar *tabBar() const { return QTabWidget::tabBar(); }
@@ -165,21 +170,21 @@ private:
      bool mousePressed;
 };
 
-class QDesignerWizard : public QWizard
+class QDesignerWizard : public Q3Wizard
 {
     Q_OBJECT
     Q_PROPERTY( int currentPage READ currentPageNum WRITE setCurrentPage STORED false DESIGNABLE true )
     Q_PROPERTY( QString pageTitle READ pageTitle WRITE setPageTitle STORED false DESIGNABLE true )
-    Q_PROPERTY( QCString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
+    Q_PROPERTY( Q3CString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
 public:
-    QDesignerWizard( QWidget *parent, const char *name ) : QWizard( parent, name ) {}
+    QDesignerWizard( QWidget *parent, const char *name ) : Q3Wizard( parent, name ) {}
     
     int currentPageNum() const;
     void setCurrentPage( int i );
     QString pageTitle() const;
     void setPageTitle( const QString& title );
-    QCString pageName() const;
-    void setPageName( const QCString& name );
+    Q3CString pageName() const;
+    void setPageName( const Q3CString& name );
     int pageNum( QWidget *page );
     void addPage( QWidget *p, const QString & );
     void removePage( QWidget *p );
@@ -196,7 +201,7 @@ private:
 	QWidget *p;
 	QString t;
     };
-    QPtrDict<QWidget> removedPages;
+    Q3PtrDict<QWidget> removedPages;
 
 };
 
@@ -250,28 +255,28 @@ protected:
 };
 
 
-class Line : public QFrame
+class Line : public Q3Frame
 {
     Q_OBJECT
 
-    Q_PROPERTY( Orientation orientation READ orientation WRITE setOrientation )
+    Q_PROPERTY( Qt::Orientation orientation READ orientation WRITE setOrientation )
     Q_OVERRIDE( int frameWidth DESIGNABLE false )
     Q_OVERRIDE( Shape frameShape DESIGNABLE false )
     Q_OVERRIDE( QRect frameRect DESIGNABLE false )
     Q_OVERRIDE( QRect contentsRect DESIGNABLE false )
 public:
     Line( QWidget *parent, const char *name )
-	: QFrame( parent, name, WMouseNoMask ) {
+	: Q3Frame( parent, name, Qt::WMouseNoMask ) {
 	    setFrameStyle( HLine | Sunken );
     }
 
-    void setOrientation( Orientation orient ) {
+    void setOrientation( Qt::Orientation orient ) {
 	if ( orient == Horizontal )
 	    setFrameShape( HLine );
 	else
 	    setFrameShape( VLine );
     }
-    Orientation orientation() const {
+    Qt::Orientation orientation() const {
 	return frameShape() == HLine ? Horizontal : Vertical;
     }
 };
@@ -280,17 +285,17 @@ class QDesignerLabel : public QLabel
 {
     Q_OBJECT
 
-    Q_PROPERTY( QCString buddy READ buddyWidget WRITE setBuddyWidget )
+    Q_PROPERTY( Q3CString buddy READ buddyWidget WRITE setBuddyWidget )
 
 public:
     QDesignerLabel( QWidget *parent = 0, const char *name = 0 )
 	: QLabel( parent, name ) { myBuddy = 0; }
 
-    void setBuddyWidget( const QCString &b ) {
+    void setBuddyWidget( const Q3CString &b ) {
 	myBuddy = b;
 	updateBuddy();
     }
-    QCString buddyWidget() const {
+    Q3CString buddyWidget() const {
 	return myBuddy;
     };
 
@@ -304,7 +309,7 @@ protected:
 private:
     void updateBuddy();
 
-    QCString myBuddy;
+    Q3CString myBuddy;
 
 };
 
@@ -314,7 +319,7 @@ class QDesignerWidget : public QWidget
 
 public:
     QDesignerWidget( FormWindow *fw, QWidget *parent, const char *name )
-	: QWidget( parent, name, WResizeNoErase ), formwindow( fw ) {}
+	: QWidget( parent, name, Qt::WResizeNoErase ), formwindow( fw ) {}
 
 protected:
     void paintEvent( QPaintEvent *e );
@@ -330,7 +335,7 @@ class QDesignerDialog : public QDialog
 
 public:
     QDesignerDialog( FormWindow *fw, QWidget *parent, const char *name )
-	: QDialog( parent, name, FALSE, WResizeNoErase ), formwindow( fw ) {}
+	: QDialog( parent, name, FALSE, Qt::WResizeNoErase ), formwindow( fw ) {}
 
 protected:
     void paintEvent( QPaintEvent *e );
@@ -353,12 +358,12 @@ public:
 	return parentWidget() && parentWidget()->inherits( "QButtonGroup" );
     }
     int buttonGroupId() const {
-	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (QButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
+	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (Q3ButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
     }
     void setButtonGroupId( int id ) {
 	if ( parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ) {
-	    ( (QButtonGroup*)parentWidget() )->remove( this );
-	    ( (QButtonGroup*)parentWidget() )->insert( this, id );
+	    ( (Q3ButtonGroup*)parentWidget() )->remove( this );
+	    ( (Q3ButtonGroup*)parentWidget() )->insert( this, id );
 	}
     }
 };
@@ -376,12 +381,12 @@ public:
 	return parentWidget() && parentWidget()->inherits( "QButtonGroup" );
     }
     int buttonGroupId() const {
-	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (QButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
+	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (Q3ButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
     }
     void setButtonGroupId( int id ) {
 	if ( parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ) {
-	    ( (QButtonGroup*)parentWidget() )->remove( this );
-	    ( (QButtonGroup*)parentWidget() )->insert( this, id );
+	    ( (Q3ButtonGroup*)parentWidget() )->remove( this );
+	    ( (Q3ButtonGroup*)parentWidget() )->insert( this, id );
 	}
     }
 
@@ -400,12 +405,12 @@ public:
 	return parentWidget() && parentWidget()->inherits( "QButtonGroup" );
     }
     int buttonGroupId() const {
-	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (QButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
+	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (Q3ButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
     }
     void setButtonGroupId( int id ) {
 	if ( parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ) {
-	    ( (QButtonGroup*)parentWidget() )->remove( this );
-	    ( (QButtonGroup*)parentWidget() )->insert( this, id );
+	    ( (Q3ButtonGroup*)parentWidget() )->remove( this );
+	    ( (Q3ButtonGroup*)parentWidget() )->insert( this, id );
 	}
     }
 
@@ -424,12 +429,12 @@ public:
 	return parentWidget() && parentWidget()->inherits( "QButtonGroup" );
     }
     int buttonGroupId() const {
-	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (QButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
+	return parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ? ( (Q3ButtonGroup*)parentWidget() )->id( (QButton*)this ) : -1;
     }
     void setButtonGroupId( int id ) {
 	if ( parentWidget() && parentWidget()->inherits( "QButtonGroup" ) ) {
-	    ( (QButtonGroup*)parentWidget() )->remove( this );
-	    ( (QButtonGroup*)parentWidget() )->insert( this, id );
+	    ( (Q3ButtonGroup*)parentWidget() )->remove( this );
+	    ( (Q3ButtonGroup*)parentWidget() )->insert( this, id );
 	}
     }
 
@@ -441,7 +446,7 @@ class EditorDialog : public Dialog
 
 public:
     EditorDialog( FormWindow *fw, QWidget *parent, const char *name )
-	: Dialog( parent, name, FALSE, WResizeNoErase ), formwindow( fw ) { }
+	: Dialog( parent, name, FALSE, Qt::WResizeNoErase ), formwindow( fw ) { }
 
 protected:
     void paintEvent( QPaintEvent *e );

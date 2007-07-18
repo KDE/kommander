@@ -22,6 +22,8 @@
 #define ACTIONEDITOR_H
 
 #include "actioneditor.h"
+//Added by qt3to4:
+#include <QCloseEvent>
 
 class QAction;
 class FormWindow;
@@ -32,7 +34,7 @@ class ActionEditor : public ActionEditorBase
     Q_OBJECT
 
 public:
-    ActionEditor( QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
+    ActionEditor( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
     void setFormWindow( FormWindow *fw );
     void updateActionName( QAction *a );
     void updateActionIcon( QAction *a );
@@ -42,7 +44,7 @@ protected:
     void closeEvent( QCloseEvent *e );
 
 protected slots:
-    void currentActionChanged( QListViewItem * );
+    void currentActionChanged( Q3ListViewItem * );
     void deleteAction();
     void newAction();
     void newActionGroup();

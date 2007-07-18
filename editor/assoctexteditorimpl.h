@@ -16,13 +16,13 @@
 #ifndef _HAVE_ASSOCTEXTEDITORIMPL_H_
 #define _HAVE_ASSOCTEXTEDITORIMPL_H_
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qstringlist.h>
 #include <qstring.h>
 #include <qwidget.h>
 #include <qobject.h>
 #include <qmap.h>
-#include <qptrvector.h>
+#include <q3ptrvector.h>
 #include <qpixmap.h>
 
 
@@ -83,7 +83,7 @@ private:
   // List of states for current widget
   QStringList m_states;
   // Current widget list
-  QDict<QWidget> m_widgetList;
+  Q3Dict<QWidget> m_widgetList;
   // Dictionary for current widget; contains pairs (state, script associated with current state)
   QMap<QString, QString> m_atdict;
   // Current population text

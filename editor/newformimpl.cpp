@@ -28,7 +28,7 @@
 #include "resource.h"
 #include "formfile.h"
 
-#include <qiconview.h>
+#include <q3iconview.h>
 #include <qlabel.h>
 #include <qfileinfo.h>
 #include <qdir.h>
@@ -45,7 +45,7 @@
 
 static int _forms = 0;
 
-FormItem::FormItem(QIconView *view, const QString &text)    : NewItem(view, text)
+FormItem::FormItem(Q3IconView *view, const QString &text)    : NewItem(view, text)
 {
 }
 
@@ -58,12 +58,12 @@ void FormItem::insert()
   MetaDataBase::addEntry(fw);
   if (fType == Dialog)
   {
-    QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("Dialog"), fw, n.latin1());
+    QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("Dialog"), fw, n.toLatin1());
     fw->setMainContainer(w);
   } 
   else if (fType == Wizard)
   {
-    QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("Wizard"), fw, n.latin1());
+    QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("Wizard"), fw, n.toLatin1());
     fw->setMainContainer(w);
   }
 
@@ -80,7 +80,7 @@ void FormItem::insert()
 
 
 
-CustomFormItem::CustomFormItem(QIconView *view, const QString &text)
+CustomFormItem::CustomFormItem(Q3IconView *view, const QString &text)
     : NewItem(view, text)
 {
 }
@@ -133,7 +133,7 @@ NewForm::NewForm(QWidget *parent, const QString &templatePath)
 {
   connect(helpButton, SIGNAL(clicked()), MainWindow::self, SLOT(showDialogHelp()));
 
-  QIconViewItem *cur = 0;
+  Q3IconViewItem *cur = 0;
   FormItem *fi = new FormItem(templateView, i18n("Dialog"));
   allItems.append(fi);
   fi->setFormType(FormItem::Dialog);
@@ -158,7 +158,7 @@ NewForm::NewForm(QWidget *parent, const QString &templatePath)
     if (!QFile::exists(*it))
       continue;
     QDir dir(*it);
-    const QFileInfoList* fileList = dir.entryInfoList(QDir::DefaultFilter, QDir::DirsFirst | QDir::Name);
+    const QFileInfoList* fileList = dir.entryInfoList(QDir::NoFilter, QDir::DirsFirst | QDir::Name);
     if (fileList)
       for (QFileInfoListIterator fit(*fileList); fit.current(); ++fit)
       {
@@ -171,7 +171,7 @@ NewForm::NewForm(QWidget *parent, const QString &templatePath)
         allItems.append(ci);
         ci->setDragEnabled(false);
         ci->setPixmap(PixmapChooser::loadPixmap("newform.xpm"));
-        ci->setTemplateFile(fi->absFilePath());
+        ci->setTemplateFile(fi->absoluteFilePath());
       }
   }
   templateView->viewport()->setFocus();
@@ -187,7 +187,7 @@ void NewForm::accept()
 }
 
 
-void NewForm::itemChanged(QIconViewItem *item)
+void NewForm::itemChanged(Q3IconViewItem *item)
 {
     Q_UNUSED(item);
 }

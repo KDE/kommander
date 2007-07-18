@@ -21,7 +21,7 @@
 #include <kcombobox.h>
 #include <kglobal.h>
 #include <kiconloader.h>
-#include <klistbox.h>
+#include <k3listbox.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kpushbutton.h>
@@ -34,12 +34,12 @@
 const int MaxFunctionArgs = 6;
 
  
-FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widgetList, char* a_name, 
+FunctionsDialog::FunctionsDialog(QWidget* a_parent, const Q3Dict<QWidget>& a_widgetList, char* a_name, 
   bool a_modal)
   : FunctionsDialogBase(a_parent, a_name, a_modal), m_widgetList(a_widgetList)
 {
-  clearButton->setPixmap(KGlobal::iconLoader()->loadIcon("locationbar-erase", KIcon::Toolbar));
-  copyButton->setPixmap(KGlobal::iconLoader()->loadIcon("arrow-down", KIcon::Toolbar));
+  clearButton->setPixmap(KIconLoader::global()->loadIcon("locationbar-erase", KIcon::Toolbar));
+  copyButton->setPixmap(KIconLoader::global()->loadIcon("arrow-down", KIcon::Toolbar));
   
   groupComboBox->insertStringList(SpecialInformation::groups());
   connect(groupComboBox, SIGNAL(activated(int)), SLOT(groupChanged(int)));
@@ -50,7 +50,7 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
   
   // build widget name list
   QStringList widgets;
-  for (QDictIterator<QWidget> It(m_widgetList); It.current(); ++It)
+  for (Q3DictIterator<QWidget> It(m_widgetList); It.current(); ++It)
     widgets.append(It.currentKey());
   widgets.sort();
   widgetComboBox->insertStringList(widgets);

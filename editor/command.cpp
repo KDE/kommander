@@ -38,15 +38,20 @@
 #include <qapplication.h>
 #include <qlayout.h>
 #include <qmessagebox.h>
-#include <qlistbox.h>
-#include <qiconview.h>
-#include <qmultilineedit.h>
-#include <qptrstack.h>
-#include <qheader.h>
+#include <q3listbox.h>
+#include <q3iconview.h>
+#include <q3multilineedit.h>
+#include <q3ptrstack.h>
+#include <q3header.h>
 #ifndef QT_NO_TABLE
-#include <qtable.h>
+#include <q3table.h>
 #endif
 #include <qaction.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
+#include <Q3PtrList>
+#include <Q3ActionGroup>
 
 #include <klocale.h>
 
@@ -84,7 +89,7 @@ void CommandHistory::addCommand( Command *cmd, bool tryCompress )
 	if ( current < savedAt )
 	    savedAt = -2;
 
-	QPtrList<Command> commands;
+	Q3PtrList<Command> commands;
 	commands.setAutoDelete( false );
 
 	for( int i = 0; i <= current; ++i ) {
@@ -287,8 +292,8 @@ void InsertCommand::unexecute()
 
 MoveCommand::MoveCommand( const QString &n, FormWindow *fw,
 			  const QWidgetList &w,
-			  const QValueList<QPoint> op,
-			  const QValueList<QPoint> np,
+			  const Q3ValueList<QPoint> op,
+			  const Q3ValueList<QPoint> np,
 			  QWidget *opr, QWidget *npr )
     : Command( n, fw ), widgets( w ), oldPos( op ), newPos( np ),
       oldParent( opr ), newParent( npr )
@@ -371,9 +376,9 @@ void DeleteCommand::execute()
 	w->setName( s );
 	formWindow()->selectWidget( w, false );
 	formWindow()->widgets()->remove( w );
-	QValueList<MetaDataBase::Connection> conns = MetaDataBase::connections( formWindow(), w );
+	Q3ValueList<MetaDataBase::Connection> conns = MetaDataBase::connections( formWindow(), w );
 	connections.insert( w, conns );
-	QValueList<MetaDataBase::Connection>::Iterator it = conns.begin();
+	Q3ValueList<MetaDataBase::Connection>::Iterator it = conns.begin();
 	for ( ; it != conns.end(); ++it ) {
 	    MetaDataBase::removeConnection( formWindow(), (*it).sender,
 					    (*it).signal, (*it).receiver, (*it).slot );
@@ -396,8 +401,8 @@ void DeleteCommand::unexecute()
 	w->setName( s );
 	formWindow()->widgets()->insert( w, w );
 	formWindow()->selectWidget( w );
-	QValueList<MetaDataBase::Connection> conns = *connections.find( w );
-	QValueList<MetaDataBase::Connection>::Iterator it = conns.begin();
+	Q3ValueList<MetaDataBase::Connection> conns = *connections.find( w );
+	Q3ValueList<MetaDataBase::Connection>::Iterator it = conns.begin();
 	for ( ; it != conns.end(); ++it ) {
 	    MetaDataBase::addConnection( formWindow(), (*it).sender,
 					 (*it).signal, (*it).receiver, (*it).slot );
@@ -469,7 +474,7 @@ bool SetPropertyCommand::canMerge( Command *c )
 	    MetaDataBase::CustomWidget *cw = ( (CustomWidget*)widget )->customWidget();
 	    if ( !cw )
 		return false;
-	    for ( QValueList<MetaDataBase::Property>::Iterator it = cw->lstProperties.begin(); it != cw->lstProperties.end(); ++it ) {
+	    for ( Q3ValueList<MetaDataBase::Property>::Iterator it = cw->lstProperties.begin(); it != cw->lstProperties.end(); ++it ) {
 		if ( QString( (*it ).property ) == propName ) {
 		    if ( (*it).type == "String" || (*it).type == "CString" || (*it).type == "Int" || (*it).type == "UInt" )
 			return true;
@@ -722,7 +727,7 @@ void LayoutVerticalSplitCommand::unexecute()
 LayoutGridCommand::LayoutGridCommand( const QString &n, FormWindow *fw,
 				      QWidget *parent, QWidget *layoutBase,
 				      const QWidgetList &wl, int xres, int yres )
-    : Command( n, fw ), layout( wl, parent, fw, layoutBase, QSize( QMAX(5,xres), QMAX(5,yres) ) )
+    : Command( n, fw ), layout( wl, parent, fw, layoutBase, QSize( qMax(5,xres), qMax(5,yres) ) )
 {
 }
 
@@ -755,7 +760,7 @@ BreakLayoutCommand::BreakLayoutCommand( const QString &n, FormWindow *fw,
     else if ( lay == WidgetFactory::VBox )
 	layout = new VerticalLayout( wl, layoutBase, fw, layoutBase, false, layoutBase->inherits( "QSplitter" ) );
     else if ( lay == WidgetFactory::Grid )
-	layout = new GridLayout( wl, layoutBase, fw, layoutBase, QSize( QMAX( 5, fw->grid().x()), QMAX( 5, fw->grid().y()) ), false );
+	layout = new GridLayout( wl, layoutBase, fw, layoutBase, QSize( qMax( 5, fw->grid().x()), qMax( 5, fw->grid().y()) ), false );
 }
 
 void BreakLayoutCommand::execute()
@@ -766,7 +771,7 @@ void BreakLayoutCommand::execute()
     layout->breakLayout();
     formWindow()->mainWindow()->objectHierarchy()->rebuild();
     for ( QWidget *w = widgets.first(); w; w = widgets.next() )
-	w->resize( QMAX( 16, w->width() ), QMAX( 16, w->height() ) );
+	w->resize( qMax( 16, w->width() ), qMax( 16, w->height() ) );
 }
 
 void BreakLayoutCommand::unexecute()
@@ -783,7 +788,7 @@ void BreakLayoutCommand::unexecute()
 // ------------------------------------------------------------
 
 MacroCommand::MacroCommand( const QString &n, FormWindow *fw,
-			    const QPtrList<Command> &cmds )
+			    const Q3PtrList<Command> &cmds )
     : Command( n, fw ), commands( cmds )
 {
 }
@@ -887,7 +892,7 @@ void DeleteTabPageCommand::unexecute()
 // ------------------------------------------------------------
 
 AddWizardPageCommand::AddWizardPageCommand( const QString &n, FormWindow *fw,
-					    QWizard *w, const QString &label, int i, bool s )
+					    Q3Wizard *w, const QString &label, int i, bool s )
     : Command( n, fw ), wizard( w ), pageLabel( label )
 {
     page = new QDesignerWidget( formWindow(), wizard, "page" );
@@ -919,7 +924,7 @@ void AddWizardPageCommand::unexecute()
 // ------------------------------------------------------------
 
 DeleteWizardPageCommand::DeleteWizardPageCommand( const QString &n, FormWindow *fw,
-						  QWizard *w, int i, bool s )
+						  Q3Wizard *w, int i, bool s )
     : Command( n, fw ), wizard( w ), index( i )
 {
     show = s;
@@ -947,7 +952,7 @@ void DeleteWizardPageCommand::unexecute()
 // ------------------------------------------------------------
 
 RenameWizardPageCommand::RenameWizardPageCommand( const QString &n, FormWindow *fw,
-						  QWizard *w, int i, const QString& name )
+						  Q3Wizard *w, int i, const QString& name )
     : Command( n, fw ), wizard( w ), index( i ), label( name )
 {
 
@@ -970,7 +975,7 @@ void RenameWizardPageCommand::unexecute()
 
 // ------------------------------------------------------------
 
-SwapWizardPagesCommand::SwapWizardPagesCommand( const QString &n, FormWindow *fw, QWizard *w, int i1, int i2 )
+SwapWizardPagesCommand::SwapWizardPagesCommand( const QString &n, FormWindow *fw, Q3Wizard *w, int i1, int i2 )
     : Command( n, fw ), wizard( w ), index1( i1 ), index2( i2 )
 {
 }
@@ -1065,7 +1070,7 @@ void RemoveConnectionCommand::unexecute()
 // ------------------------------------------------------------
 
 /* TODO : We don't need these commands. */
-AddSlotCommand::AddSlotCommand( const QString &name, FormWindow *fw, const QCString &s,
+AddSlotCommand::AddSlotCommand( const QString &name, FormWindow *fw, const Q3CString &s,
 				const QString& spec, const QString &a, const QString &l, const QString &rt )
     : Command( name, fw ), slot( s ), specifier( spec ), access( a ), language( l ), returnType( rt )
 {
@@ -1094,7 +1099,7 @@ void AddSlotCommand::unexecute()
 
 // ------------------------------------------------------------
 
-RemoveSlotCommand::RemoveSlotCommand( const QString &name, FormWindow *fw, const QCString &s,
+RemoveSlotCommand::RemoveSlotCommand( const QString &name, FormWindow *fw, const Q3CString &s,
 				      const QString& spec, const QString &a, const QString &l, const QString &rt )
     : Command( name, fw ), slot( s ), specifier( spec ), access( a ), language( l ), returnType( rt )
 {
@@ -1229,10 +1234,10 @@ void TabOrderCommand::unexecute()
 // ------------------------------------------------------------
 
 PopulateListBoxCommand::PopulateListBoxCommand( const QString &n, FormWindow *fw,
-						QListBox *lb, const QValueList<Item> &items )
+						Q3ListBox *lb, const Q3ValueList<Item> &items )
     : Command( n, fw ), newItems( items ), listbox( lb )
 {
-    QListBoxItem *i = 0;
+    Q3ListBoxItem *i = 0;
     for ( i = listbox->firstItem(); i; i = i->next() ) {
 	Item item;
 	if ( i->pixmap() )
@@ -1245,12 +1250,12 @@ PopulateListBoxCommand::PopulateListBoxCommand( const QString &n, FormWindow *fw
 void PopulateListBoxCommand::execute()
 {
     listbox->clear();
-    for ( QValueList<Item>::Iterator it = newItems.begin(); it != newItems.end(); ++it ) {
+    for ( Q3ValueList<Item>::Iterator it = newItems.begin(); it != newItems.end(); ++it ) {
 	Item i = *it;
 	if ( !i.pix.isNull() )
-	    (void)new QListBoxPixmap( listbox, i.pix, i.text );
+	    (void)new Q3ListBoxPixmap( listbox, i.pix, i.text );
 	else
-	    (void)new QListBoxText( listbox, i.text );
+	    (void)new Q3ListBoxText( listbox, i.text );
     }
     formWindow()->mainWindow()->propertyeditor()->refetchData();
 }
@@ -1258,12 +1263,12 @@ void PopulateListBoxCommand::execute()
 void PopulateListBoxCommand::unexecute()
 {
     listbox->clear();
-    for ( QValueList<Item>::Iterator it = oldItems.begin(); it != oldItems.end(); ++it ) {
+    for ( Q3ValueList<Item>::Iterator it = oldItems.begin(); it != oldItems.end(); ++it ) {
 	Item i = *it;
 	if ( !i.pix.isNull() )
-	    (void)new QListBoxPixmap( listbox, i.pix, i.text );
+	    (void)new Q3ListBoxPixmap( listbox, i.pix, i.text );
 	else
-	    (void)new QListBoxText( listbox, i.text );
+	    (void)new Q3ListBoxText( listbox, i.text );
     }
     formWindow()->mainWindow()->propertyeditor()->refetchData();
 }
@@ -1271,11 +1276,11 @@ void PopulateListBoxCommand::unexecute()
 // ------------------------------------------------------------
 
 PopulateIconViewCommand::PopulateIconViewCommand( const QString &n, FormWindow *fw,
-						  QIconView *iv, const QValueList<Item> &items )
+						  Q3IconView *iv, const Q3ValueList<Item> &items )
     : Command( n, fw ), newItems( items ), iconview( iv )
 {
 #ifndef QT_NO_ICONVIEW
-    QIconViewItem *i = 0;
+    Q3IconViewItem *i = 0;
     for ( i = iconview->firstItem(); i; i = i->nextItem() ) {
 	Item item;
 	if ( i->pixmap() )
@@ -1290,9 +1295,9 @@ void PopulateIconViewCommand::execute()
 {
 #ifndef QT_NO_ICONVIEW
     iconview->clear();
-    for ( QValueList<Item>::Iterator it = newItems.begin(); it != newItems.end(); ++it ) {
+    for ( Q3ValueList<Item>::Iterator it = newItems.begin(); it != newItems.end(); ++it ) {
 	Item i = *it;
-	(void)new QIconViewItem( iconview, i.text, i.pix );
+	(void)new Q3IconViewItem( iconview, i.text, i.pix );
     }
 #endif
 }
@@ -1301,9 +1306,9 @@ void PopulateIconViewCommand::unexecute()
 {
 #ifndef QT_NO_ICONVIEW
     iconview->clear();
-    for ( QValueList<Item>::Iterator it = oldItems.begin(); it != oldItems.end(); ++it ) {
+    for ( Q3ValueList<Item>::Iterator it = oldItems.begin(); it != oldItems.end(); ++it ) {
 	Item i = *it;
-	(void)new QIconViewItem( iconview, i.text, i.pix );
+	(void)new Q3IconViewItem( iconview, i.text, i.pix );
     }
 #endif
 }
@@ -1311,13 +1316,13 @@ void PopulateIconViewCommand::unexecute()
 // ------------------------------------------------------------
 
 PopulateListViewCommand::PopulateListViewCommand( const QString &n, FormWindow *fw,
-						  QListView *lv, QListView *from )
+						  Q3ListView *lv, Q3ListView *from )
     : Command( n, fw ), listview( lv )
 {
-    newItems = new QListView();
+    newItems = new Q3ListView();
     newItems->hide();
     transferItems( from, newItems );
-    oldItems = new QListView();
+    oldItems = new Q3ListView();
     oldItems->hide();
     transferItems( listview, oldItems );
 }
@@ -1334,12 +1339,12 @@ void PopulateListViewCommand::unexecute()
     transferItems( oldItems, listview );
 }
 
-void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
+void PopulateListViewCommand::transferItems( Q3ListView *from, Q3ListView *to )
 {
-    QHeader *header = to->header();
+    Q3Header *header = to->header();
     while ( header->count() )
 	to->removeColumn( 0 );
-    QHeader *h2 = from->header();
+    Q3Header *h2 = from->header();
     for ( int i = 0; i < h2->count(); ++i ) {
 	to->addColumn( h2->label( i ) );
 	if ( h2->iconSet( i ) && !h2->iconSet( i )->pixmap().isNull() )
@@ -1348,25 +1353,25 @@ void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
 	header->setClickEnabled( h2->isClickEnabled( i ), i );
     }
 
-    QListViewItemIterator it( from );
-    QPtrStack<QListViewItem> fromParents, toParents;
+    Q3ListViewItemIterator it( from );
+    Q3PtrStack<Q3ListViewItem> fromParents, toParents;
     fromParents.push( 0 );
     toParents.push( 0 );
-    QPtrStack<QListViewItem> toLasts;
-    QListViewItem *fromLast = 0;
+    Q3PtrStack<Q3ListViewItem> toLasts;
+    Q3ListViewItem *fromLast = 0;
     toLasts.push( 0 );
     int cols = from->columns();
     to->setSorting( -1 );
     from->setSorting( -1 );
     for ( ; it.current(); ++it ) {
-	QListViewItem *i = it.current();
+	Q3ListViewItem *i = it.current();
 	if ( i->parent() == fromParents.top() ) {
-	    QListViewItem *pi = toParents.top();
-	    QListViewItem *ni = 0;
+	    Q3ListViewItem *pi = toParents.top();
+	    Q3ListViewItem *ni = 0;
 	    if ( pi )
-		ni = new QListViewItem( pi, toLasts.top() );
+		ni = new Q3ListViewItem( pi, toLasts.top() );
 	    else
-		ni = new QListViewItem( to, toLasts.top() );
+		ni = new Q3ListViewItem( to, toLasts.top() );
 	    for ( int c = 0; c < cols; ++c ) {
 		ni->setText( c, i->text( c ) );
 		if ( i->pixmap( c ) )
@@ -1381,12 +1386,12 @@ void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
 		fromParents.push( fromLast );
 		toParents.push( toLasts.top() );
 		toLasts.push( 0 );
-		QListViewItem *pi = toParents.top();
-		QListViewItem *ni = 0;
+		Q3ListViewItem *pi = toParents.top();
+		Q3ListViewItem *ni = 0;
 		if ( pi )
-		    ni = new QListViewItem( pi );
+		    ni = new Q3ListViewItem( pi );
 		else
-		    ni = new QListViewItem( to );
+		    ni = new Q3ListViewItem( to );
 		for ( int c = 0; c < cols; ++c ) {
 		    ni->setText( c, i->text( c ) );
 		    if ( i->pixmap( c ) )
@@ -1403,12 +1408,12 @@ void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
 		    toLasts.pop();
 		}
 
-		QListViewItem *pi = toParents.top();
-		QListViewItem *ni = 0;
+		Q3ListViewItem *pi = toParents.top();
+		Q3ListViewItem *ni = 0;
 		if ( pi )
-		    ni = new QListViewItem( pi, toLasts.top() );
+		    ni = new Q3ListViewItem( pi, toLasts.top() );
 		else
-		    ni = new QListViewItem( to, toLasts.top() );
+		    ni = new Q3ListViewItem( to, toLasts.top() );
 		for ( int c = 0; c < cols; ++c ) {
 		    ni->setText( c, i->text( c ) );
 		    if ( i->pixmap( c ) )
@@ -1429,7 +1434,7 @@ void PopulateListViewCommand::transferItems( QListView *from, QListView *to )
 // ------------------------------------------------------------
 
 PopulateMultiLineEditCommand::PopulateMultiLineEditCommand( const QString &n, FormWindow *fw,
-							    QMultiLineEdit *mle, const QString &txt )
+							    Q3MultiLineEdit *mle, const QString &txt )
     : Command( n, fw ), newText( txt ), mlined( mle )
 {
     oldText = mlined->text();
@@ -1452,9 +1457,9 @@ void PopulateMultiLineEditCommand::unexecute()
 
 // ------------------------------------------------------------
 
-PopulateTableCommand::PopulateTableCommand( const QString &n, FormWindow *fw, QTable *t,
-					    const QValueList<Row> &rows,
-					    const QValueList<Column> &columns )
+PopulateTableCommand::PopulateTableCommand( const QString &n, FormWindow *fw, Q3Table *t,
+					    const Q3ValueList<Row> &rows,
+					    const Q3ValueList<Column> &columns )
     : Command( n, fw ), newRows( rows ), newColumns( columns ), table( t )
 {
 #ifndef QT_NO_TABLE
@@ -1484,7 +1489,7 @@ void PopulateTableCommand::execute()
     QMap<QString, QString> columnFields;
     table->setNumCols( newColumns.count() );
     int i = 0;
-    for ( QValueList<Column>::Iterator cit = newColumns.begin(); cit != newColumns.end(); ++cit, ++i ) {
+    for ( Q3ValueList<Column>::Iterator cit = newColumns.begin(); cit != newColumns.end(); ++cit, ++i ) {
 	table->horizontalHeader()->setLabel( i, (*cit).pix, (*cit).text );
 	if ( !(*cit).field.isEmpty() )
 	    columnFields.insert( (*cit).text, (*cit).field );
@@ -1492,7 +1497,7 @@ void PopulateTableCommand::execute()
     MetaDataBase::setColumnFields( table, columnFields );
     table->setNumRows( newRows.count() );
     i = 0;
-    for ( QValueList<Row>::Iterator rit = newRows.begin(); rit != newRows.end(); ++rit, ++i )
+    for ( Q3ValueList<Row>::Iterator rit = newRows.begin(); rit != newRows.end(); ++rit, ++i )
 	table->verticalHeader()->setLabel( i, (*rit).pix, (*rit).text );
 #endif
 }
@@ -1503,7 +1508,7 @@ void PopulateTableCommand::unexecute()
     QMap<QString, QString> columnFields;
     table->setNumCols( oldColumns.count() );
     int i = 0;
-    for ( QValueList<Column>::Iterator cit = oldColumns.begin(); cit != oldColumns.end(); ++cit, ++i ) {
+    for ( Q3ValueList<Column>::Iterator cit = oldColumns.begin(); cit != oldColumns.end(); ++cit, ++i ) {
 	table->horizontalHeader()->setLabel( i, (*cit).pix, (*cit).text );
 	if ( !(*cit).field.isEmpty() )
 	    columnFields.insert( (*cit).text, (*cit).field );
@@ -1511,7 +1516,7 @@ void PopulateTableCommand::unexecute()
     MetaDataBase::setColumnFields( table, columnFields );
     table->setNumRows( oldRows.count() );
     i = 0;
-    for ( QValueList<Row>::Iterator rit = oldRows.begin(); rit != oldRows.end(); ++rit, ++i )
+    for ( Q3ValueList<Row>::Iterator rit = oldRows.begin(); rit != oldRows.end(); ++rit, ++i )
 	table->verticalHeader()->setLabel( i, (*rit).pix, (*rit).text );
 #endif
 }
@@ -1548,7 +1553,7 @@ void AddActionToToolBarCommand::execute()
 	toolBar->insertAction( ( (QSeparatorAction*)action )->widget(), action );
 	( (QSeparatorAction*)action )->widget()->installEventFilter( toolBar );
     }
-    if ( !action->inherits( "QActionGroup" ) || ( (QActionGroup*)action )->usesDropDown()) {
+    if ( !action->inherits( "QActionGroup" ) || ( (Q3ActionGroup*)action )->usesDropDown()) {
 	if ( index == -1 )
 	    toolBar->appendAction( action );
 	else
@@ -1592,7 +1597,7 @@ void AddActionToToolBarCommand::unexecute()
     toolBar->removeAction( action );
     action->removeFrom( toolBar );
     QObject::disconnect( action, SIGNAL( destroyed() ), toolBar, SLOT( actionRemoved() ) );
-    if ( !action->inherits( "QActionGroup" ) || ( (QActionGroup*)action )->usesDropDown()) {
+    if ( !action->inherits( "QActionGroup" ) || ( (Q3ActionGroup*)action )->usesDropDown()) {
 	action->removeEventFilter( toolBar );
     } else {
 	if ( action->children() ) {
@@ -1622,7 +1627,7 @@ AddActionToPopupCommand::AddActionToPopupCommand( const QString &n, FormWindow *
 void AddActionToPopupCommand::execute()
 {
     if ( action->inherits( "QActionGroup" ) ) {
-	if ( ( (QActionGroup*)action )->usesDropDown() ) {
+	if ( ( (Q3ActionGroup*)action )->usesDropDown() ) {
 	    action->addTo( popup );
 	    popup->insertAction( index, action );
 	} else {
@@ -1657,7 +1662,7 @@ void AddActionToPopupCommand::unexecute()
     action->removeFrom( popup );
     popup->removeAction( action );
     QObject::disconnect( action, SIGNAL( destroyed() ), popup, SLOT( actionRemoved() ) );
-    if ( !action->inherits( "QActionGroup" ) || ( (QActionGroup*)action )->usesDropDown()) {
+    if ( !action->inherits( "QActionGroup" ) || ( (Q3ActionGroup*)action )->usesDropDown()) {
 	action->removeEventFilter( popup );
     } else {
 	if ( action->children() ) {
@@ -1678,7 +1683,7 @@ void AddActionToPopupCommand::unexecute()
 
 // ------------------------------------------------------------
 
-AddMenuCommand::AddMenuCommand( const QString &n, FormWindow *fw, QMainWindow *mw )
+AddMenuCommand::AddMenuCommand( const QString &n, FormWindow *fw, Q3MainWindow *mw )
     : Command( n, fw ), menuBar( 0 ), popup( 0 ), mainWindow( mw ), id( -1 ), name( "Menu" )
 {
 }
@@ -1756,7 +1761,7 @@ void MoveMenuCommand::unexecute()
 
 // ------------------------------------------------------------
 
-AddToolBarCommand::AddToolBarCommand( const QString &n, FormWindow *fw, QMainWindow *mw )
+AddToolBarCommand::AddToolBarCommand( const QString &n, FormWindow *fw, Q3MainWindow *mw )
     : Command( n, fw ), toolBar( 0 ), mainWindow( mw )
 {
 }

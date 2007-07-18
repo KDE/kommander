@@ -20,6 +20,9 @@
 #include <qstringlist.h>
 #include <qevent.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QLabel>
 
 /* KDE INCLUDES */
 #include <kglobal.h>
@@ -38,7 +41,7 @@ PixmapLabel::PixmapLabel(QWidget *a_parent, const char *a_name)
   setStates(states);
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
-    setPixmap(KGlobal::iconLoader()->loadIcon("tux", KIcon::NoGroup, 128));
+    setPixmap(KIconLoader::global()->loadIcon("tux", KIcon::NoGroup, 128));
   setAutoResize(false);
 }
 

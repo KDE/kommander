@@ -23,12 +23,14 @@
 #include <qstringlist.h>
 #include <qstring.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 
-class QBoxLayout;
+class Q3BoxLayout;
 class KPushButton;
 class KLineEdit;
 
@@ -91,7 +93,7 @@ protected:
   SelectionType m_selectionType;
   KLineEdit *m_lineEdit;
   KPushButton *m_selectButton;
-  QBoxLayout *m_boxLayout;
+  Q3BoxLayout *m_boxLayout;
   void showEvent(QShowEvent *e);
 private:
 };

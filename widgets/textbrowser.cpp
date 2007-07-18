@@ -17,6 +17,8 @@
 /* QT INCLUDES */
 #include <qstringlist.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <specials.h>
@@ -78,7 +80,7 @@ void TextBrowser::setWidgetText(const QString & a_text)
 
 void TextBrowser::showEvent(QShowEvent * e)
 {
-  QTextBrowser::showEvent(e);
+  Q3TextBrowser::showEvent(e);
   emit widgetOpened();
 }
 

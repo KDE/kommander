@@ -18,12 +18,12 @@
 #define _HAVE_FUNCTION_H_
 
 #include "parsenode.h"
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 
 class Parser;
 
-typedef QValueVector<ParseNode> ParameterList;
-typedef QValueVector<Parse::ValueType> TypeList;
+typedef Q3ValueVector<ParseNode> ParameterList;
+typedef Q3ValueVector<Parse::ValueType> TypeList;
 typedef ParseNode(*FunctionPointer)(Parser*, const ParameterList&);
 
 class Function

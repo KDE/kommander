@@ -22,6 +22,8 @@
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include "kommander_export.h"
 
 class KommanderWidget;
@@ -48,7 +50,7 @@ private slots:
 protected:
   const KommanderWidget *m_atw;
   QString m_output;
-  QCString m_input;
+  Q3CString m_input;
   bool m_loopStarted;
   bool m_blocking;
   bool m_handleOutput;

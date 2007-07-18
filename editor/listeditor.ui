@@ -1,147 +1,126 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>ListEditor</class>
-<widget class="QDialog">
-    <property name="name">
-        <cstring>ListEditor</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>ListEditor</class>
+  <widget class="QDialog" name="ListEditor" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>331</width>
+        <height>301</height>
+      </rect>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>331</width>
-            <height>301</height>
-        </rect>
+    <property name="windowTitle" >
+      <string>Edit</string>
     </property>
-    <property name="caption">
-        <string>Edit</string>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>11</number>
-        </property>
-        <property name="spacing">
-            <number>6</number>
-        </property>
-        <widget class="QListView" row="0" column="0" rowspan="5" colspan="1">
-            <column>
-                <property name="text">
-                    <string>Column 1</string>
-                </property>
-                <property name="clickable">
-                    <bool>true</bool>
-                </property>
-                <property name="resizable">
-                    <bool>true</bool>
-                </property>
-            </column>
-            <property name="name">
-                <cstring>listview</cstring>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>11</number>
+      </property>
+      <property name="spacing" >
+        <number>6</number>
+      </property>
+      <item rowspan="5" row="0" column="0" colspan="1" >
+        <widget class="Q3ListView" name="listview" >
+          <property name="selectionMode" >
+            <enum>Q3ListView::Extended</enum>
+          </property>
+          <property name="resizeMode" >
+            <enum>Q3ListView::AllColumns</enum>
+          </property>
+          <column>
+            <property name="text" >
+              <string>Column 1</string>
             </property>
-            <property name="selectionMode">
-                <enum>Extended</enum>
+            <property name="clickable" >
+              <bool>true</bool>
             </property>
-            <property name="resizeMode">
-                <enum>AllColumns</enum>
+            <property name="resizable" >
+              <bool>true</bool>
             </property>
+          </column>
         </widget>
-        <widget class="QPushButton" row="0" column="1">
-            <property name="name">
-                <cstring>PushButton1</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Add</string>
-            </property>
+      </item>
+      <item row="0" column="1" >
+        <widget class="QPushButton" name="PushButton1" >
+          <property name="text" >
+            <string>&amp;Add</string>
+          </property>
         </widget>
-        <widget class="QPushButton" row="1" column="1">
-            <property name="name">
-                <cstring>PushButton2</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Remove</string>
-            </property>
+      </item>
+      <item row="1" column="1" >
+        <widget class="QPushButton" name="PushButton2" >
+          <property name="text" >
+            <string>&amp;Remove</string>
+          </property>
         </widget>
-        <widget class="QPushButton" row="2" column="1">
-            <property name="name">
-                <cstring>PushButton3</cstring>
-            </property>
-            <property name="text">
-                <string>Re&amp;name</string>
-            </property>
+      </item>
+      <item row="2" column="1" >
+        <widget class="QPushButton" name="PushButton3" >
+          <property name="text" >
+            <string>Re&amp;name</string>
+          </property>
         </widget>
-        <widget class="QPushButton" row="4" column="1">
-            <property name="name">
-                <cstring>PushButton4</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Close</string>
-            </property>
+      </item>
+      <item row="4" column="1" >
+        <widget class="QPushButton" name="PushButton4" >
+          <property name="text" >
+            <string>&amp;Close</string>
+          </property>
         </widget>
-        <spacer row="3" column="1">
-            <property name="name">
-                <cstring>Spacer1</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item row="3" column="1" >
+        <spacer name="Spacer1" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Qt::Vertical</enum>
+          </property>
         </spacer>
-    </grid>
-</widget>
-<connections>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
     <connection>
-        <sender>PushButton1</sender>
-        <signal>clicked()</signal>
-        <receiver>ListEditor</receiver>
-        <slot>addItem()</slot>
+      <sender>PushButton1</sender>
+      <signal>clicked()</signal>
+      <receiver>ListEditor</receiver>
+      <slot>addItem()</slot>
     </connection>
     <connection>
-        <sender>PushButton2</sender>
-        <signal>clicked()</signal>
-        <receiver>ListEditor</receiver>
-        <slot>removeItems()</slot>
+      <sender>PushButton2</sender>
+      <signal>clicked()</signal>
+      <receiver>ListEditor</receiver>
+      <slot>removeItems()</slot>
     </connection>
     <connection>
-        <sender>PushButton4</sender>
-        <signal>clicked()</signal>
-        <receiver>ListEditor</receiver>
-        <slot>accept()</slot>
+      <sender>PushButton4</sender>
+      <signal>clicked()</signal>
+      <receiver>ListEditor</receiver>
+      <slot>accept()</slot>
     </connection>
     <connection>
-        <sender>listview</sender>
-        <signal>itemRenamed(QListViewItem*,int)</signal>
-        <receiver>ListEditor</receiver>
-        <slot>renamed(QListViewItem*)</slot>
+      <sender>listview</sender>
+      <signal>itemRenamed(Q3ListViewItem*,int)</signal>
+      <receiver>ListEditor</receiver>
+      <slot>renamed(Q3ListViewItem*)</slot>
     </connection>
     <connection>
-        <sender>PushButton3</sender>
-        <signal>clicked()</signal>
-        <receiver>ListEditor</receiver>
-        <slot>renameItem()</slot>
+      <sender>PushButton3</sender>
+      <signal>clicked()</signal>
+      <receiver>ListEditor</receiver>
+      <slot>renameItem()</slot>
     </connection>
-</connections>
-<forwards>
-    <forward>class QStringList;</forward>
-</forwards>
-<slots>
-    <slot>init()</slot>
-    <slot>setList( const QStringList &amp; l )</slot>
-    <slot>addItem()</slot>
-    <slot>renamed( QListViewItem * i )</slot>
-    <slot>removeItems()</slot>
-    <slot returnType="QStringList">items()</slot>
-    <slot>renameItem()</slot>
-</slots>
-<pixmapinproject/>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+  </connections>
+</ui>

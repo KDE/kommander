@@ -18,12 +18,14 @@
 #define _HAVE_TREEWIDGET_H_
 
 /* KDE INCLUDES */
-#include <klistview.h>
+#include <k3listview.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qptrvector.h>
+#include <q3ptrvector.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -32,7 +34,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT TreeWidget : public KListView, public KommanderWidget
+class KOMMANDER_EXPORT TreeWidget : public K3ListView, public KommanderWidget
 {
   Q_OBJECT
   
@@ -44,7 +46,7 @@ class KOMMANDER_EXPORT TreeWidget : public KListView, public KommanderWidget
 public:
   TreeWidget(QWidget *a_parent, const char *a_name);
   ~TreeWidget();
-  virtual void setCurrentItem(QListViewItem* item);  
+  virtual void setCurrentItem(Q3ListViewItem* item);  
   QString pathSeparator() const;
   void setPathSeparator(const QString& a_pathSep);
   
@@ -65,15 +67,15 @@ signals:
   void widgetTextChanged(const QString&);
 protected:
   void showEvent(QShowEvent *e);
-  int itemToIndex(QListViewItem* item);
-  QString itemText(QListViewItem* item);
+  int itemToIndex(Q3ListViewItem* item);
+  QString itemText(Q3ListViewItem* item);
   QString itemsText();
-  QListViewItem* indexToItem(int index);
-  QString itemPath(QListViewItem* item);
+  Q3ListViewItem* indexToItem(int index);
+  QString itemPath(Q3ListViewItem* item);
 private:
   void addItemFromString(const QString& s);
-  QListViewItem* itemFromString(QListViewItem* parent, const QString& s);
-  QPtrVector<QListViewItem> m_lastPath;
+  Q3ListViewItem* itemFromString(Q3ListViewItem* parent, const QString& s);
+  Q3PtrVector<Q3ListViewItem> m_lastPath;
   QString m_pathSeparator;
 };
 

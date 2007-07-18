@@ -18,7 +18,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qwidget.h>
-#include <qdict.h>
+#include <q3dict.h>
 
 #include "functions.h"
 #include "specials.h"
@@ -27,7 +27,7 @@ class FunctionsDialog : public FunctionsDialogBase
 {
   Q_OBJECT
 public:
-  FunctionsDialog(QWidget*, const QDict<QWidget>&, char* = 0, bool = true);
+  FunctionsDialog(QWidget*, const Q3Dict<QWidget>&, char* = 0, bool = true);
   ~FunctionsDialog();
   // Return current content of text box
   QString functionText() const;
@@ -47,7 +47,7 @@ private:
   QString params();
   SpecialFunction m_function;
   int m_DCOP;
-  const QDict<QWidget> m_widgetList;
+  const Q3Dict<QWidget> m_widgetList;
   const QStringList m_widgetNames;
 };  
 
