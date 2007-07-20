@@ -50,7 +50,7 @@ ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
 TARGET_LINK_LIBRARIES(kommanderwidgets  ${QT_AND_KDECORE_LIBS} kio kommanderwidget kommanderplugin kommanderfactory )
 
 SET_TARGET_PROPERTIES(kommanderwidgets PROPERTIES VERSION 4.2.0 SOVERSION 4 )
-INSTALL(TARGETS kommanderwidgets DESTINATION lib} )
+INSTALL(TARGETS kommanderwidgets DESTINATION ${LIB_INSTALL_DIR} )
 
 
 ########### install files ###############

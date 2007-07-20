@@ -23,7 +23,7 @@ ADD_EXECUTABLE(kommander ${kommander_SRCS})
 
 TARGET_LINK_LIBRARIES(kommander  ${QT_AND_KDECORE_LIBS} )
 
-INSTALL( TARGETS kommander DESTINATION bin)
+INSTALL( TARGETS kommander DESTINATION ${BIN_INSTALL_DIR})
 
 
 ########### install files ###############

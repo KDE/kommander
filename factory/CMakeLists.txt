@@ -19,8 +19,7 @@ ADD_LIBRARY(kommanderfactory STATIC ${kommanderfactory_STAT_SRCS})
 
 ########### install files ###############
 
-INSTALL_FILES( /include FILES  kommanderfactory.h )
-
+INSTALL(FILES kommanderfactory.h DESTINATION ${INCLUDE_INSTALL_DIR})
 
 
 #original Makefile.am contents follow:

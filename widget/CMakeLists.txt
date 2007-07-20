@@ -23,20 +23,16 @@ SET(kommanderwidget_LIB_SRCS
    functionlib.cpp
    )
 
-#KDE4_AUTOMOC(${kommanderwidget_LIB_SRCS})
-
-ADD_LIBRARY(kommanderwidget SHARED ${kommanderwidget_LIB_SRCS})
-
-TARGET_LINK_LIBRARIES(kommanderwidget  ${QT_AND_KDECORE_LIBS} kio kdeui )
+KDE4_ADD_LIBRARY(kommanderwidget SHARED ${kommanderwidget_LIB_SRCS}) 
+TARGET_LINK_LIBRARIES(kommanderwidget  ${KDE4_KIO_LIBS} )
 
 SET_TARGET_PROPERTIES(kommanderwidget PROPERTIES VERSION 4.2.0 SOVERSION 4 )
-INSTALL(TARGETS kommanderwidget DESTINATION lib} )
+INSTALL(TARGETS kommanderwidget DESTINATION ${LIB_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-INSTALL_FILES( /include FILES  kommanderwidget.h kommander_export.h )
-
+INSTALL(FILES kommanderwidget.h kommander_export.h DESTINATION ${INCLUDE_INSTALL_DIR})
 
 
 #original Makefile.am contents follow:
