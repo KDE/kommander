@@ -28,9 +28,8 @@ INSTALL( TARGETS kommander DESTINATION ${BIN_INSTALL_DIR})
 
 ########### install files ###############
 
-INSTALL_FILES( /share/applications/kde FILES  kommander.desktop )
-INSTALL_FILES( /share/apps/katepart/syntax FILES  kommander.xml )
-
+install(FILES kommander.desktop DESTINATION ${XDG_APPS_DIR} )
+install(FILES kommander.xml DESTINATION ${DATA_INSTALL_DIR}/katepart/syntax)
 
 
 #original Makefile.am contents follow:

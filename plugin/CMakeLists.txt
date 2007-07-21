@@ -13,19 +13,17 @@ SET(kommanderplugin_LIB_SRCS
    kommanderplugin.cpp
    )
 
-# kde4_automoc(${kommanderplugin_LIB_SRCS})
-
 ADD_LIBRARY(kommanderplugin SHARED ${kommanderplugin_LIB_SRCS})
 
 TARGET_LINK_LIBRARIES(kommanderplugin  ${QT_AND_KDECORE_LIBS} )
 
 SET_TARGET_PROPERTIES(kommanderplugin PROPERTIES VERSION 4.2.0 SOVERSION 4 )
-INSTALL(TARGETS kommanderplugin DESTINATION lib} )
+INSTALL(TARGETS kommanderplugin DESTINATION ${LIB_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-INSTALL_FILES( /include FILES  kommanderplugin.h )
+INSTALL( FILES  kommanderplugin.h DESTINATION ${INCLUDE_INSTALL_DIR} )
 
 
 
