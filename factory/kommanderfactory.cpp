@@ -38,9 +38,9 @@
 #include <QPixmap>
 #include <Q3VBoxLayout>
 #include <Q3ActionGroup>
-#ifndef QT_NO_SQL
-#include "database2.h"
-#endif
+//#ifndef QT_NO_SQL
+//#include "database2.h"
+//#endif
 #include <qdom.h>
 #include <qdir.h>
 #include <qlayout.h>
@@ -50,7 +50,10 @@
 #include <qtooltip.h>
 #include <q3whatsthis.h>
 #include <qobject.h>
-#include <private/qpluginmanager_p.h>
+
+// FIXME This looks for troubles!!!
+//#include <private/qpluginmanager_p.h>b
+// Looks like being replaced by klibrary
 #include <qmime.h>
 #include <q3dragobject.h>
 #include <zlib.h>
