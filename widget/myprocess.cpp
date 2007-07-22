@@ -74,13 +74,13 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
 
   // Look for shell
   if (at.startsWith("#!")) {
-    int eol = at.find("\n");
+    int eol = at.indexOf("\n");
     if (eol == -1)
       eol = at.length();
     shellName = at.mid(2, eol-1).trimmed();
     at = at.mid(eol+1);
   }
-  m_input = at.local8Bit();
+  m_input = at.toLocal8Bit();
 
   mProcess = new K3Process;
   (*mProcess) << shellName.toLatin1();
@@ -101,13 +101,14 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
     return QString::null;
   else 
   {
-    QWidget dummy(0, 0, Qt::WType_Dialog | WShowModal);
+    //FIXME KProcess with blocking feature
+/*    QWidget dummy(0, 0);
     dummy.setFocusPolicy(QWidget::NoFocus);
     m_loopStarted = true;
     qt_enter_modal(&dummy);
     qApp->enter_loop();
     qt_leave_modal(&dummy);
-  
+*/  
     if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
       return m_output.left(m_output.length()-1);
     else
@@ -134,4 +135,4 @@ void MyProcess::slotProcessExited(K3Process* process)
   mProcess = 0;
 }
 
-#include "myprocess.moc"
+//#include "myprocess.moc"

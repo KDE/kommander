@@ -20,7 +20,6 @@
 #include <qregexp.h>
 #include <q3textstream.h>
  
-#include <dcopclient.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <klocale.h>
@@ -34,11 +33,12 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
 { 
   switch (SpecialInformation::function(Group::Kommander, function)) {
     case Kommander::widgetText:
-      return handleDCOP(DCOP::text);
+      return handleDBUS(DBUS::text);
     case Kommander::selectedWidgetText:
-      return handleDCOP(DCOP::selection);
+      return handleDBUS(DBUS::selection);
     case Kommander::dcopid:
-      return kapp->dcopClient()->appId();
+      //FIXME return kapp->dcopClient()->appId();
+      return QString::null;
     case Kommander::pid:
       return QString().setNum(getpid());
     case Kommander::null:
@@ -48,29 +48,28 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
     case Kommander::exec:
       return execCommand(args[0]);
     case Kommander::dcop:
-      return DCOPQuery(args);
+      return DBUSQuery(args);
     case Kommander::parentPid:
       return global("_PARENTPID").isEmpty() ? QString().setNum(getppid()) : global("_PARENTPID");
     case Kommander::env:
       return QString(getenv(args[0].toLatin1())); 
     case Kommander::i18n:
-      return KGlobal::locale()->translate(args[0]);
+      return KGlobal::locale()->translateQt("kommander",args[0].toUtf8(),"");
     case Kommander::global:
       return global(args[0]);
     case Kommander::setGlobal:
       setGlobal(args[0], args[1]); 
       return QString::null;
     case Kommander::debug:
-      qDebug("%s", args[0].toLatin1());
+      qDebug("%s", args[0].toLatin1().data());
       return QString::null;
     case Kommander::readSetting:
     {
       QString fname = fileName();
       if (!fname.isEmpty())
       {
-        KConfig cfg("kommanderrc", true);
-        cfg.setGroup(fname);
-        return cfg.readEntry(args[0], args[1]);
+        KConfig cfg(QString("kommanderrc"));
+        return cfg.group(fname).readEntry(args[0], args[1]);
       }
       return QString::null;
     }
@@ -79,9 +78,8 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       QString fname = fileName();
       if (!fname.isEmpty())
       {
-        KConfig cfg("kommanderrc", false);
-        cfg.setGroup(fname);
-        cfg.writeEntry(args[0], args[1]);
+        KConfig cfg("kommanderrc");
+        cfg.group(fname).writeEntry(args[0], args[1]);
       }
       return QString::null;
     }
@@ -105,7 +103,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
 
 QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s, int& pos) 
 {
-  int f = s.find("@execEnd", pos);  
+  int f = s.indexOf("@execEnd", pos);  
   if (f == -1)
   {
     printError(i18n("Unterminated @execBegin ... @execEnd block."));
@@ -122,7 +120,7 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
  
 QString KommanderWidget::evalForEachBlock(const QStringList& args, const QString& s, int& pos) 
 {
-  int f = s.find("@end", pos);  
+  int f = s.indexOf("@end", pos);  
 //FIXME: better detection of block boundaries  
   if (f == -1)
   {
@@ -134,12 +132,12 @@ QString KommanderWidget::evalForEachBlock(const QStringList& args, const QString
     int start = pos;
     pos = f + QString("@end").length()+1;
     QString var = args[0];
-    QStringList loop = QStringList::split("\n", args[1]);
+    QStringList loop = args[1].split("\n");
     QString output;
     QString block = substituteVariable(s.mid(start, f - start), QString("%1_count").arg(var),
       QString::number(loop.count()));
     QString varidx = QString("%1_index").arg(var);
-    for (uint i=0; i<loop.count(); i++)
+    for (int i=0; i<loop.count(); i++)
       output += evalAssociatedText(substituteVariable(substituteVariable(block, varidx, QString::number(i+1)),
         var, loop[i]));
     return output;
@@ -148,7 +146,7 @@ QString KommanderWidget::evalForEachBlock(const QStringList& args, const QString
 
 QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s, int& pos) 
 {
-  int f = s.find("@end", pos);  
+  int f = s.indexOf("@end", pos);  
 //FIXME: better detection of block boundaries  
   if (f == -1)
   {
@@ -184,7 +182,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
 
 QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, int& pos) 
 {
-  int f = s.find("@endif", pos);
+  int f = s.indexOf("@endif", pos);
 //FIXME: better detection of block boundaries; add error message
   if (f == -1)
   {
@@ -205,7 +203,7 @@ QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, 
 
 QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString& s, int& pos) 
 {
-  int f = s.find("@end", pos);
+  int f = s.indexOf("@end", pos);
 //FIXME: better detection of block boundaries; add error message
   if (f == -1)
   {
@@ -216,12 +214,14 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
   {
     QString block = s.mid(pos, f - pos);
     pos = f + QString("@end").length()+1;
-    f = parseBlockBoundary(block, 0, "@case");
+    //FIXME: parseBlockBoundary
+    //f = parseBlockBoundary(block, 0, "@case");
     bool finished = f == -1;
     while (!finished)
     {
       f += 5;
-      int end = parseBlockBoundary(block, f, "@case");
+      //FIXME int end = parseBlockBoundary(block, f, "@case");
+      int end =-1;
       if (end == -1) 
       {
         end = block.length();
@@ -303,13 +303,13 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
     pos++;
     bool ok = true;
     QString function = parseIdentifier(s, pos);
-    QStringList args = parseFunction("DCOP", function, s, pos, ok);
+    QStringList args = parseFunction("DBUS", function, s, pos, ok);
     if (!ok)
       return QString::null;
     args.prepend(identifier);
-    QString prototype = SpecialInformation::prototype(Group::DCOP,
-      SpecialInformation::function(Group::DCOP, function));
-    return localDCOPQuery(prototype, args);
+    QString prototype = SpecialInformation::prototype(Group::DBUS,
+      SpecialInformation::function(Group::DBUS, function));
+    return localDBUSQuery(prototype, args);
   }
   else if (pWidget == this)
   {

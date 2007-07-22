@@ -199,7 +199,10 @@ ParseNode Parser::parseValue(Mode mode)
       QString index = parseValue(mode).toString();
       tryKeyword(RightBracket);
       QString arr = p.variableName();
-      return (isArray(arr) && array(arr).contains(index)) ? array(arr)[index] : QString::null;
+      if (isArray(arr) && array(arr).contains(index)) 
+        return array(arr)[index];
+      //FIXME QString::null return null;
+      return ParseNode();
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
@@ -544,7 +547,7 @@ void Parser::parseForeach(Mode mode)
   if (isArray(arr) && array(arr).count())
   {
     const QMap<QString, ParseNode> A = array(arr);
-    for (QMapConstIterator<QString, ParseNode> It = A.begin(); It != A.end(); ++It)
+    for (QMap<QString, ParseNode>::const_iterator It = A.constBegin(); It != A.constEnd(); ++It)
     {
       m_start = start;
       setVariable(var, It.key());

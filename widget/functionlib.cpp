@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+//FIXME DCOP to DBUS conversion
+
 #include "parserdata.h"
 #include "parser.h"
 #include "specials.h"
@@ -31,7 +33,6 @@
 #include <Q3ValueList>
 
 #include <kmessagebox.h>
-#include <dcopclient.h>
 #include <kapplication.h>
 #include <kcolordialog.h>
 #include <kfiledialog.h>
@@ -50,17 +51,19 @@ static ParseNode f_stringLength(Parser*, const ParameterList& params)
 
 static ParseNode f_stringContains(Parser*, const ParameterList& params)
 {
-  return params[0].toString().contains(params[1].toString());
+  //FIXME parsenode
+  //return params[0].toString().contains(params[1].toString());
+  return ParseNode();
 }
 
 static ParseNode f_stringFind(Parser*, const ParameterList& params)
 {
-  return params[0].toString().find(params[1].toString(), params.count() == 3 ? params[2].toInt() : 0);
+  return params[0].toString().indexOf(params[1].toString(), params.count() == 3 ? params[2].toInt() : 0);
 }
 
 static ParseNode f_stringFindRev(Parser*, const ParameterList& params)
 {
-  return params[0].toString().find(params[1].toString(), 
+  return params[0].toString().indexOf(params[1].toString(), 
     params.count() == 3 ? params[2].toInt() : params[0].toString().length());
 }
 
@@ -141,7 +144,7 @@ static ParseNode f_stringToDouble(Parser*, const ParameterList& params)
 static ParseNode f_debug(Parser*, const ParameterList& params)
 {
   for (uint i=0; i<params.count(); i++)
-    std::cerr << params[i].toString();
+    std::cerr << params[i].toString().toUtf8().data();
   std::cerr << "\n";
   return ParseNode();
 }
@@ -149,7 +152,7 @@ static ParseNode f_debug(Parser*, const ParameterList& params)
 static ParseNode f_echo(Parser*, const ParameterList& params)
 {
   for (uint i=0; i<params.count(); i++)
-    std::cout << params[i].toString();
+    std::cout << params[i].toString().toUtf8().data();
   return ParseNode();
 }
 
@@ -191,11 +194,11 @@ static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 
 
 
-/******************* DCOP function ********************************/
+/******************* DBUS function ********************************/
 static ParseNode f_dcop(Parser* parser, const ParameterList& params)
 {
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
-  int functionId = SpecialInformation::function(Group::DCOP, params[0].toString());
+  int functionId = SpecialInformation::function(Group::DBUS, params[0].toString());
   if (functionId == -1)
     return ParseNode::error("unknown function");
   else if ((uint)function.minArg() > params.count() - 1)
@@ -216,19 +219,19 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
     args += (*it).toString(); 
     ++it;
   }
-  return widget->handleDCOP(functionId, args);
+  return widget->handleDBUS(functionId, args);
 }
 
-
+//FIXME dcop to dbus
 static ParseNode f_externalDcop(Parser*, const ParameterList& params)
 {
-  Q3CString appId = kapp->dcopClient()->appId();
-  Q3CString object = "KommanderIf";
+//  Q3CString appId = kapp->dcopClient()->appId();
+  QString object = "KommanderIf";
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
   
   if (!function.isValidArg(params.count() - 1))
     return ParseNode();
-  
+  /*
   QByteArray byteData;
   QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
   for (uint i=0 ; i<params.count()-1; i++) 
@@ -290,7 +293,7 @@ static ParseNode f_externalDcop(Parser*, const ParameterList& params)
   {
   //printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
   }
-
+  */
   return ParseNode();
 }
 
@@ -309,7 +312,7 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
 
 static ParseNode f_i18n(Parser*, const ParameterList& params)
 {
-  return KGlobal::locale()->translate(params[0].toString()); 
+  return KGlobal::locale()->translateQt("kommander",params[0].toString().toUtf8(),""); 
 }
 
 static ParseNode f_env(Parser*, const ParameterList& params)
@@ -363,24 +366,25 @@ static ParseNode f_arrayToString(Parser* P, const ParameterList& params)
   if (!P->isArray(name))
     return ParseNode();
   QString array;
-  QStringList keys = P->array(name).keys();
-  Q3ValueList<ParseNode> values = P->array(name).values();
+//FIXME Q3ValueList
+  /*QStringList keys = P->array(name).keys();
+  QList<ParseNode> values = P->array(name).values();
   
   QStringList::Iterator it = keys.begin(); 
-  Q3ValueList<ParseNode>::Iterator itval = values.begin();
+  QList<ParseNode>::Iterator itval = values.begin();
   while (*it)
   {
     array += QString("%1\t%2\n").arg(*it).arg((*itval).toString());
     ++it;
     ++itval;
-  }
+  }*/
   return array;
 }
 
 static ParseNode f_arrayFromString(Parser* P, const ParameterList& params)
 {
   QString name = params[0].toString();
-  QStringList lines = QStringList::split("\n", params[1].toString());
+  QStringList lines = params[1].toString().split("\n");
   for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) 
   {
     QString key = (*it).section('\t', 0, 0).trimmed();
@@ -412,19 +416,20 @@ static ParseNode f_inputText(Parser*, const ParameterList& params)
     
 static ParseNode f_inputPassword(Parser*, const ParameterList& params)
 {
-  Q3CString value;
-  if (params.count() > 1)
-    value = params[1].toString().local8Bit();
-  KPasswordDialog::getPassword(value, params[0].toString());
-  return QString::fromLocal8Bit(value);
+  //FIXME Q3CString value;
+  //if (params.count() > 1)
+  //  value = params[1].toString().toLocal8Bit();
+  //KPasswordDialog::getPassword(value, params[0].toString());
+  return ParseNode();
 }
     
 static ParseNode f_inputValue(Parser*, const ParameterList& params)
 {
-  return KInputDialog::getInteger(params[0].toString(), params[1].toString(), 
-                                  params[2].toInt(), params[3].toInt(), params[4].toInt(),
-                                  params.count() > 5 ? params[5].toInt() : 1,
-                                  (bool*)0);
+  //FIXME
+  //return KInputDialog::getInteger(params[0].toString(), params[1].toString(), 
+  //                                params[2].toInt(), params[3].toInt(), params[4].toInt(),
+  //                                params.count() > 5 ? params[5].toInt() : 1,
+  //                                (bool*)0);
 }
   
 static ParseNode f_inputValueDouble(Parser*, const ParameterList& params)
@@ -504,7 +509,7 @@ static ParseNode f_message_error(Parser*, const ParameterList& params)
 
 static ParseNode f_message_warning(Parser*, const ParameterList& params)
 {
-  int result;
+  int result = 0;
   QString text, caption, button1, button2, button3;
   if (params.count() > 0)
     text = params[0].toString();
@@ -516,12 +521,13 @@ static ParseNode f_message_warning(Parser*, const ParameterList& params)
     button2 = params[3].toString();
   if (params.count() > 4)
     button3 = params[4].toString();
-  if (button1.isNull())
+/* FIXME KMessageBox
+   if (button1.isNull())
     result = KMessageBox::warningYesNo(0, text, caption);
   else if (button3.isNull())
     result = KMessageBox::warningYesNo(0, text, caption, button1, button2);
   else 
-    result = KMessageBox::warningYesNoCancel(0, text, caption, button1, button2, button3);
+    result = KMessageBox::warningYesNoCancel(0, text, caption, button1, button2, button3);*/
   switch(result)
   {
     case KMessageBox::Yes:  
@@ -537,7 +543,7 @@ static ParseNode f_message_warning(Parser*, const ParameterList& params)
 
 static ParseNode f_message_question(Parser*, const ParameterList& params)
 {
-  int result;
+  int result = 0;
   QString text, caption, button1, button2, button3;
   if (params.count() > 0)
     text = params[0].toString();
@@ -549,12 +555,13 @@ static ParseNode f_message_question(Parser*, const ParameterList& params)
     button2 = params[3].toString();
   if (params.count() > 4)
     button3 = params[4].toString();
-  if (button1.isNull())
+/* FIXME
+    if (button1.isNull())
     result = KMessageBox::questionYesNo(0, text, caption);
   else if (button3.isNull())
     result = KMessageBox::questionYesNo(0, text, caption, button1, button2);
   else 
-    result = KMessageBox::questionYesNoCancel(0, text, caption, button1, button2, button3);
+    result = KMessageBox::questionYesNoCancel(0, text, caption, button1, button2, button3);*/
   switch(result)
   {
     case KMessageBox::Yes:  
@@ -578,9 +585,8 @@ static ParseNode f_read_setting(Parser* parser, const ParameterList& params)
     QString fname = parser->currentWidget()->fileName();
     if (fname.isEmpty())
       return ParseNode();
-    KConfig cfg("kommanderrc", true);
-    cfg.setGroup(fname);
-    return cfg.readEntry(params[0].toString(), def);
+    KConfig cfg("kommanderrc");
+    return cfg.group(fname).readEntry(params[0].toString(), def);
   }
   return ParseNode();
 }
@@ -592,9 +598,8 @@ static ParseNode f_write_setting(Parser* parser, const ParameterList& params)
     QString fname = parser->currentWidget()->fileName();
     if (fname.isEmpty())
       return ParseNode();
-    KConfig cfg("kommanderrc", false);
-    cfg.setGroup(fname);
-    cfg.writeEntry(params[0].toString(), params[1].toString());
+    KConfig cfg("kommanderrc");
+    cfg.group(fname).writeEntry(params[0].toString(), params[1].toString());
   }
   return ParseNode();
 }

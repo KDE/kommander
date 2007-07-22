@@ -22,10 +22,10 @@ namespace Special
 {
   namespace Group
   {
-    enum {DCOP, Kommander, String, Array, File, Input, Message};
+    enum {DBUS, Kommander, String, Array, File, Input, Message};
   }
   
-  namespace DCOP
+  namespace DBUS
   {
     enum {addUniqueItem, associatedText, cancel, cellText, clear, checked, children, count, currentColumn,
       currentItem, currentRow, execute, findItem, global, insertColumn, insertItem, insertItems, insertRow, 
@@ -34,7 +34,7 @@ namespace Special
       setRowCaption, setSelection, setText, 
       setVisible, text, type};
   }
-
+//FIXME DCOP to DBUS conversion
   namespace Kommander
   {   
     enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,

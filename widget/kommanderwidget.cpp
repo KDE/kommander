@@ -20,7 +20,7 @@
 #include <kapplication.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kmessagebox.h>
 #include <k3process.h>
 
@@ -75,7 +75,7 @@ QStringList KommanderWidget::associatedText() const
 
 bool KommanderWidget::hasAssociatedText()
 {
-  int index = states().findIndex(currentState());
+  int index = states().indexOf(currentState());
   if (index == -1 || m_associatedText[index].isEmpty())
     return false;
   return true;
@@ -114,7 +114,7 @@ void KommanderWidget::setDisplayStates(const QStringList& a_displayStates)
 
 QString KommanderWidget::evalAssociatedText() // expands and returns associated text as a string
 {
-  int index = ( states().findIndex( currentState()) );
+  int index = ( states().indexOf( currentState()) );
   if (index == -1)
   {
     printError(i18n("Invalid state for associated text."));
@@ -146,7 +146,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
   int pos = 0, baseTextLength = a_text.length();
   while (pos < baseTextLength)
   {
-    int ident = a_text.find(ESCCHAR, pos);
+    int ident = a_text.indexOf(ESCCHAR, pos);
     if (ident == -1) {
       evalText += a_text.mid(pos);
       break;
@@ -167,7 +167,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     if (identifier.isEmpty()) 
     {
       if (pos < baseTextLength && a_text[pos] == '#') {   // comment 
-        int newpos = a_text.find('\n', pos+1);
+        int newpos = a_text.indexOf('\n', pos+1);
         if (newpos == -1) 
           newpos = a_text.length();
         if (pos > 1 && a_text[pos-2] == '\n')
@@ -243,31 +243,32 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
   return evalText;
 }
 
-/* FIX ME DCOP to dbus
-QString KommanderWidget::DCOPQuery(const QStringList& a_query)
+// FIX ME DCOP to dbus
+QString KommanderWidget::DBUSQuery(const QStringList& a_query)
 {
+  return QString::null;
   Q3CString appId = a_query[0].toLatin1(), object = a_query[1].toLatin1();
   
   // parse function arguments
   QString function = a_query[2], pTypes;
   function.remove(' ');
-  int start = function.find('(');
+  int start = function.indexOf('(');
   bool ok = false;
   if (start != -1)
     pTypes = parseBrackets(function, start, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.", a_query[2]));
+    printError(i18n("Unmatched parenthesis in DBUS call \'%1\'.", a_query[2]));
     return QString::null;
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
-    printError(i18n("Incorrect arguments in DCOP call \'%1\'.", a_query[2]));
+    printError(i18n("Incorrect arguments in DBUS call \'%1\'.", a_query[2]));
     return QString::null;
   }
   
-  Q3CString replyType;
+  /*Q3CString replyType;
   QByteArray byteData, byteReply;
   QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
   for (uint i=0 ; i<argTypes.count(); i++) {
@@ -282,7 +283,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     else if (argTypes[i] == "bool")
       byteDataStream << (bool)(a_query[i+3] != "false" && a_query[i+3] != "false" && a_query[i+3] != "0");
     else if (argTypes[i] == "QStringList")
-      if (a_query[i+3].find('\n') != -1)
+      if (a_query[i+3].indexOf('\n') != -1)
         byteDataStream << QStringList::split("\n", a_query[i+3], true);
       else
         byteDataStream << QStringList::split("\\n", a_query[i+3], true);
@@ -290,11 +291,11 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
       byteDataStream << a_query[i+3];
   }
 
-  DCOPClient *cl = KApplication::dcopClient();
+  DBUSClient *cl = KApplication::dcopClient();
   if (!cl || !cl->call(appId, object, function.toLatin1(), byteData, replyType, byteReply))
   {
-    printError(i18n("Tried to perform DCOP query, but failed."));
-    return QString::null;
+    printError(i18n("Tried to perform DBUS query, but failed."));
+    return QString::null; 
   }
 
   QDataStream byteReplyStream(byteReply, QIODevice::ReadOnly);
@@ -324,29 +325,30 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   }
   else if(replyType != "void")
   {
-    printError(i18n("DCOP return type %1 is not yet implemented.", replyType.data()));
+    printError(i18n("DBUS return type %1 is not yet implemented.", replyType.data()));
   }
-
+*/
   return QString::null;
 }
-*/
-/* DCOP to DBUS conversion
-QString KommanderWidget::localDCOPQuery(const QString function, const QStringList& args)
+
+//FIXME DCOP to DBUS conversion
+QString KommanderWidget::localDBUSQuery(const QString function, const QStringList& args)
 {
+  return QString::null;
   QStringList pArgs;
-  pArgs.append(kapp->dcopClient()->appId());
+  //pArgs.append(kapp->dcopClient()->appId());
   pArgs.append("KommanderIf");
   pArgs.append(function);
-  for (uint i=0; i<args.count(); i++)
+  for (int i=0; i<args.count(); i++)
     pArgs.append(args[i]);
-  return DCOPQuery(pArgs);
+  return DBUSQuery(pArgs);
 }
-  
-QString KommanderWidget::localDCOPQuery(const QString function, const QString& arg1, 
+//FIXME DCOP to DBUS
+QString KommanderWidget::localDBUSQuery(const QString function, const QString& arg1, 
      const QString& arg2, const QString& arg3, const QString& arg4)
 {
   QStringList pArgs;
-  pArgs.append(kapp->dcopClient()->appId());
+  //pArgs.append(kapp->dcopClient()->appId());
   pArgs.append("KommanderIf");
   pArgs.append(function);
   pArgs.append(arg1);
@@ -355,21 +357,22 @@ QString KommanderWidget::localDCOPQuery(const QString function, const QString& a
     pArgs.append(arg3);
   if (!arg4.isNull())
     pArgs.append(arg4);
-  return DCOPQuery(pArgs);
+  return DBUSQuery(pArgs);
 }
-*/
+
 
 QString KommanderWidget::execCommand(const QString& a_command, const QString& a_shell) const
 {
   MyProcess proc(this);
-  QString text = proc.run(a_command.local8Bit(), a_shell.toLatin1());
+  QString text = proc.run(a_command.toLocal8Bit(), a_shell.toLatin1());
 //FIXME check if exec was successful
   return text;
 }
 
 QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_params)
 {
-  QString pFileName = /* fixme DBUS localDCOPQuery("global(QString)", "_KDDIR") + */ QString("/") + a_dialog;
+  //FIXME dcop to dbus conversion
+  /*QString pFileName =  localDBUSQuery("DBUSal(QString)", "_KDDIR") +  QString("/") + a_dialog;
   QFileInfo pDialogFile(pFileName);
   if (!pDialogFile.exists()) 
   {
@@ -381,6 +384,9 @@ QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_par
   QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
     .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
   return execCommand(cmd);
+*/
+  return QString::null;
+ 
 }
 
 
@@ -388,18 +394,19 @@ void KommanderWidget::printError(const QString& a_error) const
 {
   if (showErrors) 
   {
-    KDialogBase* dialog = new KDialogBase("Error", KDialogBase::Yes | KDialogBase::No | KDialogBase::Cancel,
-                KDialogBase::Yes, KDialogBase::No, 0, 0, true, false, 
+    //FIXME create a warningYesNoCancel
+ /*   KDialog* dialog = new KDialog("Error", KDialog::Yes | KDialog::No | KDialog::Cancel,
+                KDialog::Yes, KDialog::No, 0, 0, true, false, 
                 i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
     switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
                 i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->name()),
                      a_error), QStringList(), QString::null, 0, 0))
     {
-      case KDialogBase::No:
+      case KDialog::No:
         showErrors = false;
-      case KDialogBase::Yes:
+      case KDialog::Yes:
         break;
-      case KDialogBase::Cancel:
+      case KDialog::Cancel:
         if (parentDialog()->inherits("QDialog"))
         {
           parentDialog()->close();
@@ -408,10 +415,11 @@ void KommanderWidget::printError(const QString& a_error) const
         else if (parentDialog()->inherits("QMainWindow"))
           kapp->quit();
     }
+    */
   }
   else 
   {
-    kError() << i18n("Error in widget %1:\n  %2\n", m_thisObject->name(), a_error);
+    kError() << i18n("Error in widget %1:\n  %2\n", m_thisObject->objectName(), a_error);
   }
 }
 
@@ -419,10 +427,10 @@ void KommanderWidget::printError(const QString& a_error) const
 
 QString KommanderWidget::parseIdentifier(const QString& s, int& from) const
 {
-  uint start = from;
+  int start = from;
   while (start < s.length() && s[start].isSpace())
     start++;
-  uint end = start; 
+  int end = start; 
   while (end < s.length() && (s[end].isLetterOrNumber() || s[end] == '_'))
     end++;
   from = end;
@@ -432,14 +440,14 @@ QString KommanderWidget::parseIdentifier(const QString& s, int& from) const
 QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) const
 {
   ok = true;
-  uint start = from;
+  int start = from;
   while (start < s.length() && s[start].isSpace())
     start++;
   if (start == s.length() || s[start] != '(')
     return QString::null;
   bool quoteSingle = false, quoteDouble = false;
   int brackets = 1;
-  for (uint end = start+1; end < s.length(); end++) 
+  for (int end = start+1; end < s.length(); end++) 
   {
     if (!quoteDouble && s[end] == '\'' && s[end-1] != '\\')
       quoteSingle = !quoteSingle;
@@ -465,7 +473,7 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
 {
   QStringList argList;
   bool quoteDouble = false, quoteSingle = false;
-  uint i, start = 0, brackets=0;
+  int i, start = 0, brackets=0;
   for (i = 0; i < s.length(); i++) 
   {
     /* Handle brackets */
@@ -544,9 +552,9 @@ KommanderWidget* KommanderWidget::widgetByName(const QString& a_name) const
 
 KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
-  if (QString(parentDialog()->name()) == widgetName) 
+  if (QString(parentDialog()->objectName()) == widgetName) 
     return dynamic_cast <KommanderWidget*>(parentDialog());
-  QObject* childObj = parentDialog()->child(widgetName.toLatin1());
+  QWidget* childObj = parentDialog()->findChild<QWidget *>(widgetName.toLatin1());
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
@@ -559,12 +567,12 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis after \'%1\'.", function));
-    return QString::null;
+    return QStringList();
   }
   const QStringList args = parseArgs(arg, ok);
   int gname = SpecialInformation::group(group);
   int fname = SpecialInformation::function(gname, function);
-  bool extraArg = gname == Group::DCOP;
+  bool extraArg = gname == Group::DBUS;
   
   if (!ok)
     printError(i18n("Unmatched quotes in argument of \'%1\'.", function));
@@ -593,9 +601,9 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
 int KommanderWidget::parseBlockBoundary(const QString& s, int from, const QStringList& args) const
 {
   int shortest = -1;
-  for (uint i=0; i<args.count(); i++)
+  for (int i=0; i<args.count(); i++)
   {
-    int match = s.find(args[i], from);
+    int match = s.indexOf(args[i], from);
     if (shortest > match || shortest == -1) 
       shortest = match;
   }
@@ -611,7 +619,7 @@ QString KommanderWidget::substituteVariable(QString text, QString variable, QStr
   int newpos, pos = 0;
   while (true)
   {
-    newpos = text.find(var, pos);
+    newpos = text.indexOf(var, pos);
     if (newpos != -1)
     {
       newtext += text.mid(pos, newpos-pos);
@@ -655,28 +663,34 @@ void KommanderWidget::setGlobal(const QString& variableName, const QString& valu
 {
   m_globals.insert(variableName, value); 
 }  
-/* dcop Replacement necessary
-QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
+// FIXME dcop to dbusReplacement necessary
+QString KommanderWidget::handleDBUS(const int function, const QStringList& args)
 {
   QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
   if (!current) 
     return QString::null;
   switch(function) {
-    case DCOP::setEnabled:
+    case DBUS::setEnabled:
       current->setEnabled(args[0] != "false" && args[0] != "0");
       break;
-    case DCOP::setVisible:
-      current->setShown(args[0] != "false" && args[0] != "0");
+    case DBUS::setVisible:
+      current->setVisible(args[0] != "false" && args[0] != "0");
       break;
-    case DCOP::type:
-      return current->className();      
-    case DCOP::children:
+    case DBUS::type:
+      return current->metaObject()->className();      
+    case DBUS::children:
     {
       QStringList matching;
-      QObjectList widgets = current->queryList("QWidget", 0, false, args.count() == 0 || args[0] != "false");
-      for (QObject* w = widgets->first(); w; w = widgets->next())
-        if (w->name() && (dynamic_cast<KommanderWidget*>(w)))
-            matching.append(w->name());
+      //FIXME Recursive search before: args.count() == 0 || args[0] != "false"
+      QList<QWidget *> widgets = current->findChildren<QWidget *>( );
+      QListIterator<QWidget *> it(widgets);
+      while(it.hasNext())
+      { 
+        QWidget * w =  it.next();
+        if (!w->objectName().isNull() && (dynamic_cast<KommanderWidget*>(w)))
+            matching.append(w->objectName());
+         
+      }
       return matching.join("\n");  
     }  
   }
@@ -686,14 +700,14 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
 
 bool KommanderWidget::isFunctionSupported(int f)
 {
-  return f == DCOP::setEnabled || f == DCOP::setVisible || f == DCOP::children || f == DCOP::type;
+  return f == DBUS::setEnabled || f == DBUS::setVisible || f == DBUS::children || f == DBUS::type;
 }
 
 bool KommanderWidget::isCommonFunction(int f)
 {
-  return f == DCOP::setEnabled || f == DCOP::setVisible || f == DCOP::children || f == DCOP::type;
+  return f == DBUS::setEnabled || f == DBUS::setVisible || f == DBUS::children || f == DBUS::type;
 }
-*/
+
 ParserData* KommanderWidget::internalParserData()
 {
   return m_parserData;

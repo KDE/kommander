@@ -57,7 +57,7 @@ public:
   virtual QString evalAssociatedText(const QString&);
   // Evaluate given Kommander function using given args.
   virtual QString evalFunction(const QString& function, const QStringList& args);
-  // Parse and evaluate function for given widget, converting it to appropriate DCOP call.
+  // Parse and evaluate function for given widget, converting it to appropriate DBUS call.
   virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos);
   // Evaluate given array function using given args.
   virtual QString evalArrayFunction(const QString&, const QStringList&) const;
@@ -80,8 +80,8 @@ public:
 
   
   
-  // Handles all widget-specific DCOP calls 
-  virtual QString handleDCOP(int function, const QStringList& args = QStringList());
+  // Handles all widget-specific DBUS calls 
+  virtual QString handleDBUS(int function, const QStringList& args = QStringList());
   // Checks if appropriate function is supported by widget. By default all functions
   // are reported as supported: use this to allow recognizing incorrect function calls.
   virtual bool isFunctionSupported(int function);
@@ -110,11 +110,11 @@ protected:
   virtual void setStates(const QStringList& a_states);
   virtual void setDisplayStates(const QStringList& a_displayStates);
   
-  // Execute DCOP query and return its result or null on failure
+  // Execute DBUS query and return its result or null on failure
   // Only QString and int are now handled
-  QString DCOPQuery(const QStringList& args);
-  QString localDCOPQuery(const QString function, const QStringList& args = QStringList());
-  QString localDCOPQuery(const QString function, const QString& arg1, 
+  QString DBUSQuery(const QStringList& args);
+  QString localDBUSQuery(const QString function, const QStringList& args = QStringList());
+  QString localDBUSQuery(const QString function, const QString& arg1, 
      const QString& arg2, const QString& arg3 = QString::null,
      const QString& arg4 = QString::null);
   // Execute given command, return its result

@@ -18,15 +18,15 @@
 SpecialFunction::SpecialFunction(const QString& name, const QString& description,
     int minArgs, int maxArgs)
 {
-  int lbracket = name.find('(');
-  int rbracket = name.find(')');
+  int lbracket = name.indexOf('(');
+  int rbracket = name.indexOf(')');
   m_function = (lbracket != -1) ? name.left(lbracket) : name;
   m_description = description;
   if (lbracket != -1 && rbracket != -1)
   {
     QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
-    QStringList args = QStringList::split(",", part);
-    for (uint i=0; i<args.count(); i++)
+    QStringList args =  part.split(",");
+    for (int i=0; i<args.count(); i++)
     {
       m_types.append(args[i].trimmed().section(' ', 0, 0));
       m_args.append(args[i].trimmed().section(' ', 1, 1));
@@ -42,7 +42,7 @@ QString SpecialFunction::prototype(uint prototypeFlags) const
     return m_function;
   int start = (prototypeFlags & SkipFirstArgument) ? 1 : 0;
   QStringList params;
-  for (uint i=start; i<m_types.count(); i++)
+  for (int i=start; i<m_types.count(); i++)
     if (prototypeFlags & ShowArgumentNames)
       params.append(QString("%1 %2").arg(m_types[i]).arg(m_args[i]));
     else
@@ -216,7 +216,7 @@ QStringList SpecialInformation::functions(const QString& g)
     QStringList list;
     const QMap<int, SpecialFunction> fgroup = m_specials[gid];
     for(QMap<int, SpecialFunction>::ConstIterator it = fgroup.begin(); it != fgroup.end(); ++it)
-       list.append(it.data().name());
+       list.append(it.value().name());
     return list;
   }
 }

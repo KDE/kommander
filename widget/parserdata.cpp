@@ -35,8 +35,8 @@ Keyword ParserData::stringToKeyword(const QString& s) const
 
 QString ParserData::keywordToString(Parse::Keyword k) const
 {
-  for (QMapConstIterator<QString, Keyword> it = m_keywords.begin(); it != m_keywords.end(); ++it) 
-    if (it.data() == k)
+  for (QMap<QString, Keyword>::const_iterator it = m_keywords.constBegin(); it != m_keywords.constEnd(); ++it) 
+    if (it.value() == k)
       return it.key();
   return QString::null;
 }
