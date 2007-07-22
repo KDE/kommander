@@ -95,24 +95,24 @@ void LineEdit::setWidgetText(const QString& a_text)
 
 bool LineEdit::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
-    f == DCOP::clear;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
+    f == DBUS::clear;
 }
 
 QString LineEdit::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return text();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::selection:
+    case DBUS::selection:
       return selectedText();
-    case DCOP::setSelection:
+    case DBUS::setSelection:
       setSelectedWidgetText(args[0]);
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       setWidgetText("");
       break;
     default:

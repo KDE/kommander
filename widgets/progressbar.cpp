@@ -84,21 +84,21 @@ void ProgressBar::showEvent(QShowEvent *e)
 
 bool ProgressBar::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::setMaximum;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::setMaximum;
 }
 
 QString ProgressBar::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return QString::number(progress());
-    case DCOP::setText:
+    case DBUS::setText:
       setProgress(args[0].toUInt());
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       setProgress(0);
       break;
-    case DCOP::setMaximum:
+    case DBUS::setMaximum:
       setTotalSteps(args[0].toUInt());
       break;
     default:

@@ -86,25 +86,25 @@ void StatusBar::showEvent(QShowEvent *e)
 
 bool StatusBar::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear;
+  return f == DBUS::setText || f == DBUS::insertItem || f == DBUS::removeItem || f == DBUS::clear;
 }
 
 QString StatusBar::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::setText:
+    case DBUS::setText:
       changeItem(args[0], 0);
       break;
-    case DCOP::insertItem:
+    case DBUS::insertItem:
       if (hasItem(args[1].toInt()))
         changeItem(args[0], args[1].toInt());
       else 
         insertItem(args[0], args[1].toInt());
       break;
-    case DCOP::removeItem:
+    case DBUS::removeItem:
       removeItem(args[0].toInt());
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       clear();
       break;
     default:

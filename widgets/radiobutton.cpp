@@ -96,21 +96,21 @@ void RadioButton::showEvent( QShowEvent *e )
 
 bool RadioButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::setChecked;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::setChecked;
 }
 
 QString RadioButton::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return text();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::setChecked:
+    case DBUS::setChecked:
       setChecked(args[0] != "false");
       break;
-    case DCOP::checked:
+    case DBUS::checked:
       return QString::number(isOn());
     default:
       return KommanderWidget::handleDCOP(function, args);

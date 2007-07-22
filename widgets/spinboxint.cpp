@@ -91,18 +91,18 @@ void SpinBoxInt::showEvent( QShowEvent *e )
 
 bool SpinBoxInt::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::setMaximum;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::setMaximum;
 }
 
 QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return cleanText();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::setMaximum:
+    case DBUS::setMaximum:
       setMaxValue(args[0].toUInt());
       break;
     default:

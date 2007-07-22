@@ -79,32 +79,32 @@ void Table::setWidgetText(const QString&)
 
 bool Table::isFunctionSupported(int f)
 {
-  return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
-      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText ||
-      f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
-      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText;
+  return f == DBUS::currentColumn || f == DBUS::currentRow || f == DBUS::insertColumn || 
+      f == DBUS::insertRow || f == DBUS::cellText || f == DBUS::setCellText ||
+      f == DBUS::removeRow || f == DBUS::removeColumn || f == DBUS::setColumnCaption ||
+      f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText;
 }
 
 QString Table::handleDCOP(int function, const QStringList& args)
 {
   switch (function) 
   {
-    case DCOP::cellText:
+    case DBUS::cellText:
       return text(args[0].toInt(), args[1].toInt());
-    case DCOP::setCellText:
+    case DBUS::setCellText:
       setText(args[0].toInt(), args[1].toInt(), args[2]);
       break;
-    case DCOP::insertRow:
+    case DBUS::insertRow:
       insertRows(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());
       break;
-    case DCOP::insertColumn:
+    case DBUS::insertColumn:
       insertColumns(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());
       break;
-    case DCOP::currentColumn:
+    case DBUS::currentColumn:
       return QString::number(currentColumn());
-    case DCOP::currentRow:
+    case DBUS::currentRow:
       return QString::number(currentRow());
-    case DCOP::removeColumn:
+    case DBUS::removeColumn:
     {
       int column = args[0].toInt();
       int lines = args[1].toInt();
@@ -112,7 +112,7 @@ QString Table::handleDCOP(int function, const QStringList& args)
         removeColumn(column);
       break;
     }  
-    case DCOP::removeRow:
+    case DBUS::removeRow:
     {
       int row = args[0].toInt();
       int lines = args[1].toInt();
@@ -120,13 +120,13 @@ QString Table::handleDCOP(int function, const QStringList& args)
         removeRow(row);
       break;
     }
-    case DCOP::setColumnCaption:
+    case DBUS::setColumnCaption:
       horizontalHeader()->setLabel(args[0].toInt(), args[1]);
       break;
-    case DCOP::setRowCaption:
+    case DBUS::setRowCaption:
       verticalHeader()->setLabel(args[0].toInt(), args[1]);
       break;
-    case DCOP::text:
+    case DBUS::text:
     {
       QString row;
       QString rows;
@@ -145,7 +145,7 @@ QString Table::handleDCOP(int function, const QStringList& args)
       }
       return rows;
     }
-    case DCOP::setText:
+    case DBUS::setText:
     {
       int r = 0, c = 0;
       setNumCols(0);

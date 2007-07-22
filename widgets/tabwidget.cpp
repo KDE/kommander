@@ -84,15 +84,15 @@ void TabWidget::showEvent(QShowEvent* e)
 
 bool TabWidget::isFunctionSupported(int f)
 {
-  return f == DCOP::currentItem || f == DCOP::setCurrentItem;
+  return f == DBUS::currentItem || f == DBUS::setCurrentItem;
 }
 
 QString TabWidget::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::currentItem:
+    case DBUS::currentItem:
       return QString::number(currentPageIndex());
-    case DCOP::setCurrentItem:
+    case DBUS::setCurrentItem:
       setCurrentPage(args[0].toUInt());
       break;
     default:

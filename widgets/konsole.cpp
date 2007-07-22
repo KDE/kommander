@@ -123,24 +123,24 @@ void Konsole::processExited(MyProcess*)
 
 bool Konsole::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::text || f == DCOP::clear || f == DCOP::execute || f == DCOP::cancel;
+  return f == DBUS::setText || f == DBUS::text || f == DBUS::clear || f == DBUS::execute || f == DBUS::cancel;
 }
 
 QString Konsole::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::text:
+    case DBUS::text:
       return text();
-    case DCOP::clear:
+    case DBUS::clear:
       clear();
       break;
-    case DCOP::execute:
+    case DBUS::execute:
       execute();
       break;
-    case DCOP::cancel:
+    case DBUS::cancel:
       cancel();
       break;
     default:

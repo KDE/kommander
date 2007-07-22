@@ -107,19 +107,19 @@ void ScriptObject::execute()
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute;
+  return f == DBUS::setText || f == DBUS::clear || f == DBUS::execute;
 }
 
 QString ScriptObject::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::setText:
+    case DBUS::setText:
       setAssociatedText(args[0]);
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       setAssociatedText(QString::null);
       break;
-    case DCOP::execute:
+    case DBUS::execute:
       executeProcess(true);
       break;
     default:

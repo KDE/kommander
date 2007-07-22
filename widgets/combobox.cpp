@@ -98,55 +98,55 @@ void ComboBox::showEvent(QShowEvent *e)
 
 bool ComboBox::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::selection || f == DCOP::setSelection ||
-      f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || 
-      f == DCOP::removeItem || f == DCOP::insertItem || f == DCOP::insertItems ||
-      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count;
+  return f == DBUS::text || f == DBUS::selection || f == DBUS::setSelection ||
+      f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || 
+      f == DBUS::removeItem || f == DBUS::insertItem || f == DBUS::insertItems ||
+      f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count;
 }
 
 QString ComboBox::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return currentText();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::selection:
+    case DBUS::selection:
       return currentText();
-    case DCOP::currentItem:
+    case DBUS::currentItem:
       return QString::number(currentItem());
-    case DCOP::setCurrentItem:
+    case DBUS::setCurrentItem:
       setCurrentItem(args[0].toUInt());
       break;
-    case DCOP::item:
+    case DBUS::item:
     {
       int i = args[0].toInt();
       if (i >= 0 && i < count()) 
         return text(i);
       break;
     }
-    case DCOP::removeItem:
+    case DBUS::removeItem:
       removeItem(args[0].toInt());
       break;
-    case DCOP::insertItem:
+    case DBUS::insertItem:
       insertItem(args[0], args[1].toInt());
       break;
-    case DCOP::insertItems:
+    case DBUS::insertItems:
       insertStringList(QStringList::split("\n", args[0]), args[1].toInt());
       break;
-    case DCOP::addUniqueItem:
+    case DBUS::addUniqueItem:
       for (int i=0; i<count(); i++)
         if (text(i) == args[0])
           return QString::null;
       insertItem(args[0]);
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       clear();
       break;
-    case DCOP::count:
+    case DBUS::count:
       return QString::number(count());
-    case DCOP::setSelection:
+    case DBUS::setSelection:
     {
       for (int i = 0; i < count(); i++)
         if (text(i) == args[0])

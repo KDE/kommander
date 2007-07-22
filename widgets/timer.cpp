@@ -149,19 +149,19 @@ void Timer::cancel()
 
 bool Timer::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::execute || f == DCOP::cancel;
+  return f == DBUS::setText || f == DBUS::execute || f == DBUS::cancel;
 }
 
 QString Timer::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::setText:
+    case DBUS::setText:
       setAssociatedText(args[0]);
       break;
-    case DCOP::execute:
+    case DBUS::execute:
       execute();
       break;
-    case DCOP::cancel:
+    case DBUS::cancel:
       cancel();
       break;
     default:

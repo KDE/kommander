@@ -201,28 +201,28 @@ void FileSelector::showEvent(QShowEvent * e)
 
 bool FileSelector::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
-      f == DCOP::clear;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
+      f == DBUS::clear;
 }
 
 QString FileSelector::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return m_lineEdit->text();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::selection:
+    case DBUS::selection:
       return m_lineEdit->selectedText();
-    case DCOP::setSelection:
+    case DBUS::setSelection:
     { 
       int f = m_lineEdit->text().find(args[0]);
       if (f != -1)
         m_lineEdit->setSelection(f, args[0].length());
       break;
     }
-    case DCOP::clear:
+    case DBUS::clear:
       setWidgetText(QString::null);
       break;
     default:

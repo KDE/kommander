@@ -96,20 +96,20 @@ void ListBox::showEvent(QShowEvent *e)
 
 bool ListBox::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
-    f == DCOP::insertItems || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear ||
-    f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || f == DCOP::addUniqueItem ||
-      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::count;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
+    f == DBUS::insertItems || f == DBUS::insertItem || f == DBUS::removeItem || f == DBUS::clear ||
+    f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || f == DBUS::addUniqueItem ||
+      f == DBUS::findItem || f == DBUS::setPixmap || f == DBUS::count;
 }
 
 
 QString ListBox::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::selection:
+    case DBUS::selection:
     {
       if (selectionMode() == Single)
         return currentText();
@@ -119,37 +119,37 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
           value += (value.length() ? "\n" : "") + item(i)->text();
       return value;
     }
-    case DCOP::setSelection:
+    case DBUS::setSelection:
     {
       Q3ListBoxItem* found = findItem(args[0], Qt::ExactMatch);
       if (found)
         setCurrentItem(index(found));
       break;
     }
-    case DCOP::insertItems:
+    case DBUS::insertItems:
       insertStringList(QStringList::split("\n", args[0]), args[1].toInt());
       break;
-    case DCOP::insertItem:
+    case DBUS::insertItem:
       insertItem(args[0], args[1].toInt());
       break;
-    case DCOP::removeItem:
+    case DBUS::removeItem:
       removeItem(args[0].toInt());
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       clear();
       break;
-    case DCOP::count:
+    case DBUS::count:
       return QString::number(count());
-    case DCOP::currentItem:
+    case DBUS::currentItem:
       return QString::number(currentItem());
-    case DCOP::setCurrentItem:
+    case DBUS::setCurrentItem:
     {
       int index = args[0].toInt();
       if (index < (int)count())
         setCurrentItem(index);
       break;
     }
-    case DCOP::item:
+    case DBUS::item:
     {
       int index = args[0].toInt();
       if (index >= 0 && index < (int)count())
@@ -157,11 +157,11 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       else
         return QString::null;
     }
-    case DCOP::addUniqueItem:
+    case DBUS::addUniqueItem:
       if (!findItem(args[0], Qt::ExactMatch))
         insertItem(args[0]);
       break;
-    case DCOP::findItem:
+    case DBUS::findItem:
     {
       Q3ListBoxItem* found = findItem(args[0], Qt::ExactMatch);
       if (!found) found = findItem(args[0], Qt::BeginsWith);
@@ -170,7 +170,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
         return QString::number(index(found));
       break;
     }
-    case DCOP::setPixmap:
+    case DBUS::setPixmap:
     {
       QPixmap pixmap = KIconLoader::global()->loadIcon(args[0], KIcon::Small);
       if (pixmap.isNull())
@@ -185,7 +185,7 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
         changeItem(pixmap, text(index), index);
       break;
     }
-    case DCOP::text:
+    case DBUS::text:
     {
       QStringList strings;
       for(uint i=0; i < count() ; ++i)

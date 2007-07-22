@@ -99,19 +99,19 @@ void PixmapLabel::showEvent(QShowEvent *e)
 
 bool PixmapLabel::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear;
 }
 
 QString PixmapLabel::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       setPixmap(QPixmap());
       break;
-    case DCOP::text:
+    case DBUS::text:
       return text();
     default:
       return KommanderWidget::handleDCOP(function, args);

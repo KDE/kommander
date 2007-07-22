@@ -127,7 +127,7 @@ void SubDialog::showEvent( QShowEvent *e )
 QString SubDialog::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
     {
       if (!m_dialog)
         return QString::null;

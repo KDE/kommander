@@ -91,18 +91,18 @@ void Label::showEvent(QShowEvent *e)
 
 bool Label::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear;
 }
 
 QString Label::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return text();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       setWidgetText("");
       break;
     default:

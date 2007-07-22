@@ -227,7 +227,7 @@ void TreeWidget::populate()
 
 void TreeWidget::setWidgetText(const QString &a_text)
 {
-  handleDCOP(DCOP::setText, a_text);
+  handleDCOP(DBUS::setText, a_text);
   emit widgetTextChanged(a_text);
 }
 
@@ -239,60 +239,60 @@ void TreeWidget::showEvent( QShowEvent *e )
 
 bool TreeWidget::isFunctionSupported(int f)
 {
-  return f == DCOP::insertItem || f == DCOP::text || f == DCOP::setText || f == DCOP::insertItems ||
-    f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::removeItem || 
-    f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::findItem || f == DCOP::item || 
-      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap || f == DCOP::setColumnCaption;
+  return f == DBUS::insertItem || f == DBUS::text || f == DBUS::setText || f == DBUS::insertItems ||
+    f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear || f == DBUS::removeItem || 
+    f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::findItem || f == DBUS::item || 
+      f == DBUS::itemPath || f == DBUS::itemDepth || f == DBUS::setPixmap || f == DBUS::setColumnCaption;
 }
 
 QString TreeWidget::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::insertItem:
+    case DBUS::insertItem:
       addItemFromString(args[0]);
       break;
-    case DCOP::text:
+    case DBUS::text:
       return itemsText();
-    case DCOP::setText:
+    case DBUS::setText:
       clear();       /* break omitted: setText is equivalent to clear and insertItems */
       m_lastPath.clear();
-    case DCOP::insertItems:
+    case DBUS::insertItems:
     {
       QStringList items(QStringList::split("\n", args[0], true));
       for (QStringList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) 
         addItemFromString(*it);
       break;
     }
-    case DCOP::selection:
+    case DBUS::selection:
       return itemText(currentItem());
-    case DCOP::setSelection:
+    case DBUS::setSelection:
       setCurrentItem(findItem(args[0], 0));
       break;
-    case DCOP::clear:
+    case DBUS::clear:
       clear();
       m_lastPath.clear();
       break;
-    case DCOP::removeItem:
+    case DBUS::removeItem:
       delete indexToItem(args[0].toInt());
       m_lastPath.clear();
       break;
-    case DCOP::currentItem:
+    case DBUS::currentItem:
       return QString::number(itemToIndex(currentItem()));
-    case DCOP::setCurrentItem:
+    case DBUS::setCurrentItem:
       setCurrentItem(indexToItem(args[0].toInt()));
       break;
-    case DCOP::findItem:
+    case DBUS::findItem:
       return QString::number(itemToIndex(findItem(args[0], 0)));
-    case DCOP::item:
+    case DBUS::item:
       return itemText(indexToItem(args[0].toInt()));
-    case DCOP::itemPath:
+    case DBUS::itemPath:
       return itemPath(indexToItem(args[0].toInt()));
-    case DCOP::itemDepth:
+    case DBUS::itemDepth:
     {
       Q3ListViewItem* item = indexToItem(args[0].toInt());
       return (item) ? QString::number(item->depth()) : QString::number(-1);
     }
-    case DCOP::setPixmap:
+    case DBUS::setPixmap:
     {
       QPixmap pixmap = KIconLoader::global()->loadIcon(args[0], KIcon::Small);
       if (args[1].toInt() == -1)
@@ -306,7 +306,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       }
       break;
     }
-    case DCOP::setColumnCaption:
+    case DBUS::setColumnCaption:
       setColumnText(args[0].toInt(), args[1]);
       break;
     default:

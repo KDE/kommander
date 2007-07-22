@@ -93,14 +93,14 @@ void ButtonGroup::showEvent(QShowEvent* e)
 
 bool ButtonGroup::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked;
+  return f == DBUS::text || f == DBUS::checked || f == DBUS::setChecked;
 }
     
 
 QString ButtonGroup::handleDCOP(int function, const QStringList& args) 
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
     {
       QString text;
       for (int i = 0; i < count(); i++)
@@ -108,9 +108,9 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
           text += (dynamic_cast<KommanderWidget*>(find(i)))->evalAssociatedText();
       return text;
     }
-    case DCOP::checked:
+    case DBUS::checked:
       return QString::number(isChecked());
-    case DCOP::setChecked:
+    case DBUS::setChecked:
       setCheckable(true);
       setChecked(args[0] != "false");
       break;

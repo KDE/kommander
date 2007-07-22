@@ -145,15 +145,15 @@ void Dialog::showEvent(QShowEvent *e)
 
 bool Dialog::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText;
+  return f == DBUS::text || f == DBUS::setText;
 }
 
 QString Dialog::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return caption();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
     default:

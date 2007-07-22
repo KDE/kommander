@@ -165,15 +165,15 @@ void CloseButton::showEvent(QShowEvent *e)
 
 bool CloseButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText;
+  return f == DBUS::text || f == DBUS::setText;
 }
 
 QString CloseButton::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return m_output;
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
     default:

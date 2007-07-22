@@ -218,20 +218,20 @@ void RichTextEditor::showEvent( QShowEvent *e )
 
 bool RichTextEditor::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::selection;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::selection;
 }
 
 QString RichTextEditor::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
       return m_textedit->text();
-    case DCOP::setText:
+    case DBUS::setText:
       setWidgetText(args[0]);
       break;
-    case DCOP::selection:
+    case DBUS::selection:
       return m_textedit->selectedText();
-    case DCOP::clear:
+    case DBUS::clear:
       setWidgetText("");
       break;
     default:

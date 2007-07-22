@@ -100,13 +100,13 @@ void GroupBox::showEvent( QShowEvent *e )
 
 bool GroupBox::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText;
+  return f == DBUS::text || f == DBUS::setText;
 }
 
 QString GroupBox::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case DCOP::text:
+    case DBUS::text:
     {
       QString text;
       for (QObjectListIt it(m_childList); it.current(); ++it)
@@ -114,7 +114,7 @@ QString GroupBox::handleDCOP(int function, const QStringList& args)
           text += (dynamic_cast<KommanderWidget*>(it.current()))->evalAssociatedText();
       return text;
     }
-    case DCOP::setText:
+    case DBUS::setText:
       setTitle(args[0]);
       break;
     default:
