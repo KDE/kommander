@@ -28,7 +28,7 @@ INSTALL( TARGETS kommander DESTINATION ${BIN_INSTALL_DIR})
 
 ########### install files ###############
 
-install(FILES kommander.desktop DESTINATION ${XDG_APPS_DIR} )
+install(FILES kommander.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install(FILES kommander.xml DESTINATION ${DATA_INSTALL_DIR}/katepart/syntax)
 
 
