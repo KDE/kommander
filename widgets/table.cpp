@@ -26,7 +26,7 @@
 #include "table.h"
 
 Table::Table(QWidget *a_parent, const char *a_name)
-  : Q3Table(a_parent, a_name), KommanderWidget(this)
+  : Q3Table(this), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -85,20 +85,27 @@ bool Table::isFunctionSupported(int f)
       f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText;
 }
 
-QString Table::handleDCOP(int function, const QStringList& args)
+QString Table::handleDBUS(int function, const QStringList& args)
 {
   switch (function) 
   {
     case DBUS::cellText:
-      return text(args[0].toInt(), args[1].toInt());
+      return item(args[0].toInt(), args[1].toInt());
     case DBUS::setCellText:
-      setText(args[0].toInt(), args[1].toInt(), args[2]);
+      setItem(args[0].toInt(), args[1].toInt(), new QTableWidgetItem(args[2]));
       break;
     case DBUS::insertRow:
-      insertRows(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());
-      break;
+      if (args.count() == 1)
+        insertRow(args[0].toInt());
+      else
+        for(int i=args[0].toInt(); i < args[1].toInt();++i)
+          insertRow(i);
     case DBUS::insertColumn:
-      insertColumns(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());
+      if (args.count() == 1)
+        insertColumn(args[0].toInt());
+      else
+        for(int i=args[0].toInt(); i < args[1].toInt();++i)
+          insertColumn(i);
       break;
     case DBUS::currentColumn:
       return QString::number(currentColumn());
@@ -130,10 +137,10 @@ QString Table::handleDCOP(int function, const QStringList& args)
     {
       QString row;
       QString rows;
-      for (int r = 0; r < numRows(); r++)
+      for (int r = 0; r < rowCount(); r++)
       {
         row = "";
-        for (int c = 0; c < numCols(); c++)
+        for (int c = 0; c < columnCount(); c++)
         {
           if (c)
             row += "\t";
@@ -148,26 +155,26 @@ QString Table::handleDCOP(int function, const QStringList& args)
     case DBUS::setText:
     {
       int r = 0, c = 0;
-      setNumCols(0);
-      setNumRows(0);
+      setColumnCount(0);
+      setRowCount(0);
       QStringList rows;
       QStringList row;
       rows = QStringList::split("\n", args[0]);
-      setNumRows(rows.count());
+      setRowCount(rows.count());
       for (QStringList::Iterator it = rows.begin(); it != rows.end(); ++it, ++r) 
       {
         
         row = QStringList::split("\t", *it);
         if (!r)
-          setNumCols(row.count());
+          setColumCount(row.count());
         c = 0;
         for (QStringList::Iterator itr = row.begin(); itr != row.end(); ++itr, ++c)
-          setText(r, c, *itr);
+          setItem(r, c, new QTableWidgetItem(*itr));
       }
       break;
     }
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
       
   }  
   return QString::null;

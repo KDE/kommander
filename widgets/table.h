@@ -20,7 +20,7 @@
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
-#include <q3table.h>
+#include <qtablewidget.h>
 #include <qobject.h>
 
 /* OTHER INCLUDES */
