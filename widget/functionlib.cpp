@@ -27,10 +27,10 @@
 #include <stdlib.h> 
 
 #include <qfile.h>
-#include <q3textstream.h>
+#include <qtextstream.h>
 //Added by qt3to4:
-#include <Q3CString>
-#include <Q3ValueList>
+#include <QString>
+#include <QList>
 
 #include <kmessagebox.h>
 #include <kapplication.h>
@@ -143,7 +143,7 @@ static ParseNode f_stringToDouble(Parser*, const ParameterList& params)
 /******************* Debug function ********************************/
 static ParseNode f_debug(Parser*, const ParameterList& params)
 {
-  for (uint i=0; i<params.count(); i++)
+  for (int i=0; i<params.count(); i++)
     std::cerr << params[i].toString().toUtf8().data();
   std::cerr << "\n";
   return ParseNode();
@@ -151,7 +151,7 @@ static ParseNode f_debug(Parser*, const ParameterList& params)
 
 static ParseNode f_echo(Parser*, const ParameterList& params)
 {
-  for (uint i=0; i<params.count(); i++)
+  for (int i=0; i<params.count(); i++)
     std::cout << params[i].toString().toUtf8().data();
   return ParseNode();
 }
@@ -164,7 +164,7 @@ static ParseNode f_fileRead(Parser*, const ParameterList& params)
   QFile file(params[0].toString());
   if (!file.open(QIODevice::ReadOnly))
     return ParseNode("");
-  Q3TextStream text(&file);
+  QTextStream text(&file);
   return text.read();
 }
 
@@ -173,9 +173,10 @@ static ParseNode f_fileWrite(Parser*, const ParameterList& params)
   QFile file(params[0].toString());
   if (!file.open(QIODevice::WriteOnly))
     return 0;
-  Q3TextStream text(&file);
-  for (uint i=1; i<params.count(); i++)
+  QTextStream text(&file);
+  for (int i=1; i<params.count(); i++)
     text << params[i].toString();
+  text.flush();
   return 1;
 }
 
@@ -184,9 +185,10 @@ static ParseNode f_fileAppend(Parser*, const ParameterList& params)
   QFile file(params[0].toString());
   if (!file.open(QIODevice::WriteOnly | QIODevice::Append))
     return 0;
-  Q3TextStream text(&file);
-  for (uint i=1; i<params.count(); i++)
+  QTextStream text(&file);
+  for (int i=1; i<params.count(); i++)
     text << params[i].toString();
+  text.flush();
   return 1;
 }
 
@@ -201,9 +203,9 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
   int functionId = SpecialInformation::function(Group::DBUS, params[0].toString());
   if (functionId == -1)
     return ParseNode::error("unknown function");
-  else if ((uint)function.minArg() > params.count() - 1)
+  else if ((int)function.minArg() > params.count() - 1)
     return ParseNode::error("too few parameters");
-  else if ((uint)function.maxArg() < params.count() - 1)
+  else if ((int)function.maxArg() < params.count() - 1)
     return ParseNode::error("too many parameters");
   KommanderWidget* widget = parser->currentWidget();
   if (widget)
@@ -234,7 +236,7 @@ static ParseNode f_externalDcop(Parser*, const ParameterList& params)
   /*
   QByteArray byteData;
   QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
-  for (uint i=0 ; i<params.count()-1; i++) 
+  for (int i=0 ; i<params.count()-1; i++) 
   {
     if (function.argumentType(i) == "int")
       byteDataStream << params[i+1].toInt();
@@ -330,9 +332,9 @@ static ParseNode f_arrayClear(Parser* P, const ParameterList& params)
 static ParseNode f_arrayCount(Parser* P, const ParameterList& params)
 {
   if (P->isArray(params[0].toString()))
-    return (uint)(P->array(params[0].toString()).count());
+    return (int)(P->array(params[0].toString()).count());
   else
-    return (uint)0;
+    return (int)0;
 }
 
 static ParseNode f_arrayKeys(Parser* P, const ParameterList& params)
@@ -346,9 +348,9 @@ static ParseNode f_arrayValues(Parser* P, const ParameterList& params)
 {
   if (!P->isArray(params[0].toString()))
     return ParseNode();
-  Q3ValueList<ParseNode> values = P->array(params[0].toString()).values(); 
+  QList<ParseNode> values = P->array(params[0].toString()).values(); 
   QString array;
-  for (Q3ValueList<ParseNode>::Iterator it = values.begin(); it != values.end(); ++it ) 
+  for (QList<ParseNode>::Iterator it = values.begin(); it != values.end(); ++it ) 
     array += (*it).toString();
   return array;
 }
@@ -367,17 +369,17 @@ static ParseNode f_arrayToString(Parser* P, const ParameterList& params)
     return ParseNode();
   QString array;
 //FIXME Q3ValueList
-  /*QStringList keys = P->array(name).keys();
+  QStringList keys = P->array(name).keys();
   QList<ParseNode> values = P->array(name).values();
   
   QStringList::Iterator it = keys.begin(); 
   QList<ParseNode>::Iterator itval = values.begin();
-  while (*it)
+  while (it!=keys.end())
   {
     array += QString("%1\t%2\n").arg(*it).arg((*itval).toString());
     ++it;
     ++itval;
-  }*/
+  }
   return array;
 }
 
@@ -426,10 +428,10 @@ static ParseNode f_inputPassword(Parser*, const ParameterList& params)
 static ParseNode f_inputValue(Parser*, const ParameterList& params)
 {
   //FIXME
-  //return KInputDialog::getInteger(params[0].toString(), params[1].toString(), 
-  //                                params[2].toInt(), params[3].toInt(), params[4].toInt(),
-  //                                params.count() > 5 ? params[5].toInt() : 1,
-  //                                (bool*)0);
+  return KInputDialog::getInteger(params[0].toString(), params[1].toString(), 
+                                 params[2].toInt(), params[3].toInt(), params[4].toInt(),
+                                 params.count() > 5 ? params[5].toInt() : 1,
+                                  (bool*)0);
 }
   
 static ParseNode f_inputValueDouble(Parser*, const ParameterList& params)

@@ -18,12 +18,12 @@
 #define _HAVE_FUNCTION_H_
 
 #include "parsenode.h"
-#include <q3valuevector.h>
+#include <qvector.h>
 
 class Parser;
 
-typedef Q3ValueVector<ParseNode> ParameterList;
-typedef Q3ValueVector<Parse::ValueType> TypeList;
+typedef QVector<ParseNode> ParameterList;
+typedef QVector<Parse::ValueType> TypeList;
 typedef ParseNode(*FunctionPointer)(Parser*, const ParameterList&);
 
 class Function
@@ -32,30 +32,30 @@ class Function
     /* default constructor - empty function */
     Function();
     /* construct a function from parameterlist */
-    Function(FunctionPointer fp, Parse::ValueType value, const TypeList& params, uint min = 99999, 
-             uint max = 0);
+    Function(FunctionPointer fp, Parse::ValueType value, const TypeList& params, int min = 99999, 
+             int max = 0);
     /* construct a function from parameters */
-    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, uint min = 99999, 
-             uint max = 0);
+    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, int min = 99999, 
+             int max = 0);
     Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
-             uint min = 99999, uint max = 0);
+             int min = 99999, int max = 0);
     Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
-             Parse::ValueType param3, uint min = 99999, uint max = 0);
+             Parse::ValueType param3, int min = 99999, int max = 0);
     Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
-             Parse::ValueType param3, Parse::ValueType param4, uint min = 99999, uint max = 0);
+             Parse::ValueType param3, Parse::ValueType param4, int min = 99999, int max = 0);
     Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
              Parse::ValueType param3, Parse::ValueType param4, Parse::ValueType param5, 
-             uint min = 99999, uint max = 0);
+             int min = 99999, int max = 0);
     /* if function returns value */
     bool isVoid() const;
     /* type of returned value */
     Parse::ValueType returnValue() const;
     /* type of i-th argument */
-    Parse::ValueType argType(uint i) const;
+    Parse::ValueType argType(int i) const;
     /* minimum number of arguments */
-    uint minArgs() const;
+    int minArgs() const;
     /* maximum number of arguments */
-    uint maxArgs() const;
+    int maxArgs() const;
     /* check whether given list is appropriate for this function */
     bool isValid(const ParameterList& params) const;
     /* execute */
@@ -65,8 +65,8 @@ private:
     FunctionPointer m_function;
     TypeList m_params;
     Parse::ValueType m_returnValue;
-    uint m_minArgs;
-    uint m_maxArgs;
+    int m_minArgs;
+    int m_maxArgs;
 };
 
 #endif

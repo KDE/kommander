@@ -18,7 +18,7 @@
 #define _HAVE_EXPRESSION_H_
 
 #include <qstring.h>
-#include <q3valuelist.h>
+#include <qlist.h>
 #include <qvariant.h>
 
 class Expression
@@ -73,10 +73,10 @@ private:
   /* return common type for binary operations */
   Type commonType(const QVariant v1, const QVariant v2) const; 
         
-  Q3ValueList<QVariant> m_parts;
-  uint m_start;
+  QList<QVariant> m_parts;
+  int m_start;
   bool m_error;
-  uint m_errorPosition;
+  int m_errorPosition;
 
 };
 

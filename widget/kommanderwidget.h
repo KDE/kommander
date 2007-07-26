@@ -138,6 +138,7 @@ protected:
     const QString& s, int& from, bool& ok);
   // Detect and return block boundary
   int parseBlockBoundary(const QString& s, int from, const QStringList& args) const;
+  int parseBlockBoundary(const QString& s, int from, const QString& arg) const;
     
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;

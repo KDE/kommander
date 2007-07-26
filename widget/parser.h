@@ -153,11 +153,11 @@ private:
   // parsing data
   ParserData* m_data;
   // current parsing position
-  uint m_start;
+  int m_start;
   // current error message
   QString m_error;
   // in case of error, this keeps position of first error
-  uint m_errorPosition;
+  int m_errorPosition;
   // parsing nodes
   Q3ValueVector<ParseNode> m_parts;
   // variables

@@ -22,7 +22,7 @@ Function::Function() : m_function(0), m_minArgs(0), m_maxArgs(0)
 {
 }
 
-Function::Function(FunctionPointer fp, ValueType value, const TypeList& params, uint min, uint max)
+Function::Function(FunctionPointer fp, ValueType value, const TypeList& params, int min, int max)
   : m_params(params)
 {
   m_function = fp;
@@ -31,7 +31,7 @@ Function::Function(FunctionPointer fp, ValueType value, const TypeList& params, 
   m_maxArgs = max >= m_minArgs ? max : m_params.count();
 }
     
-Function::Function(FunctionPointer fp, ValueType value, ValueType param1, uint min, uint max)
+Function::Function(FunctionPointer fp, ValueType value, ValueType param1, int min, int max)
 {
   m_function = fp;
   m_returnValue = value;
@@ -40,8 +40,8 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, uint m
   m_maxArgs = max >= m_minArgs ? max : 1;
 }
     
-Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, uint min , 
-         uint max)
+Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, int min , 
+         int max)
 {
   m_function = fp;
   m_returnValue = value;
@@ -52,7 +52,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
 }
 
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
-         uint min, uint max)
+         int min, int max)
 {
   m_function = fp;
   m_returnValue = value;
@@ -64,7 +64,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
 }
     
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
-                   ValueType param4, uint min, uint max)
+                   ValueType param4, int min, int max)
 {
   m_function = fp;
   m_returnValue = value;
@@ -77,7 +77,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
 }
 
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
-                   ValueType param4, ValueType param5, uint min, uint max)
+                   ValueType param4, ValueType param5, int min, int max)
 {
   m_function = fp;
   m_returnValue = value;
@@ -100,7 +100,7 @@ ValueType Function::returnValue() const
   return m_returnValue;
 }
     
-ValueType Function::argType(uint i) const
+ValueType Function::argType(int i) const
 {
   if (i < m_params.count())
     return m_params[i];
@@ -110,12 +110,12 @@ ValueType Function::argType(uint i) const
     return ValueNone;
 }
     
-uint Function::minArgs() const
+int Function::minArgs() const
 {
   return m_minArgs;
 }
     
-uint Function::maxArgs() const
+int Function::maxArgs() const
 {
   return m_maxArgs;
 }

@@ -36,7 +36,7 @@ SpecialFunction::SpecialFunction(const QString& name, const QString& description
   m_maxArgs = (maxArgs == -1) ? m_types.count() : maxArgs;
 }
 
-QString SpecialFunction::prototype(uint prototypeFlags) const
+QString SpecialFunction::prototype(int prototypeFlags) const
 {
   if (!m_types.count())
     return m_function;
@@ -55,14 +55,14 @@ QString SpecialFunction::prototype(uint prototypeFlags) const
     return QString("%1(%2)").arg(m_function).arg(params.join(", "));
 }
 
-QString SpecialFunction::argumentName(uint i) const
+QString SpecialFunction::argumentName(int i) const
 {
   if (i < m_args.count())
     return m_args[i];
   return QString::null;
 }
 
-QString SpecialFunction::argumentType(uint i) const
+QString SpecialFunction::argumentType(int i) const
 {
   if (i < m_types.count())
     return m_types[i];
@@ -145,7 +145,7 @@ QString SpecialInformation::description(int gname, int fname)
   return QString::null;
 }
 
-QString SpecialInformation::prototype(int gname, int fname, uint flags)
+QString SpecialInformation::prototype(int gname, int fname, int flags)
 {
  if (isValid(gname, fname))
     return m_specials[gname][fname].prototype(flags);

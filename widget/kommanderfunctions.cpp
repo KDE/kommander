@@ -18,7 +18,7 @@
 
 #include <qfile.h>
 #include <qregexp.h>
-#include <q3textstream.h>
+#include <qtextstream.h>
  
 #include <kapplication.h>
 #include <kconfig.h>
@@ -215,13 +215,12 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
     QString block = s.mid(pos, f - pos);
     pos = f + QString("@end").length()+1;
     //FIXME: parseBlockBoundary
-    //f = parseBlockBoundary(block, 0, "@case");
+    f = parseBlockBoundary(block, 0, "@case");
     bool finished = f == -1;
     while (!finished)
     {
       f += 5;
-      //FIXME int end = parseBlockBoundary(block, f, "@case");
-      int end =-1;
+      int end = parseBlockBoundary(block, f, "@case");
       if (end == -1) 
       {
         end = block.length();
@@ -250,7 +249,7 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
   else if (fname == Array::fromString)
   {
     QStringList lines = QStringList::split("\n", args[1]);
-    for (uint i=0; i<lines.count(); i++)
+    for (int i=0; i<lines.count(); i++)
     {
         QString key = lines[i].section('\t', 0, 0).trimmed();
         if (!key.isEmpty())
@@ -279,7 +278,7 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
       QStringList keys = m_arrays[args[0]].keys();
       QStringList values = m_arrays[args[0]].values();
       QString array;
-      for (uint i=0; i<keys.count(); i++)
+      for (int i=0; i<keys.count(); i++)
           array += QString("%1\t%2\n").arg(keys[i]).arg(values[i]);
       return array;
     }

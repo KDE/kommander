@@ -42,9 +42,9 @@ void Parser::setString(const QString& s)
 {
   reset();
   m_parts.clear();
-  uint lines = 0;
-  uint start = 0;
-  uint i = 0;
+  int lines = 0;
+  int start = 0;
+  int i = 0;
   while (start < s.length())
   {
     if (s[start].isSpace() && s[start] != '\n')

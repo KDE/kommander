@@ -48,11 +48,11 @@ public:
    /* function name */
    QString name() const {return m_function;}
    /* function prototype: with parameter types and optional names */
-   QString prototype(uint prototypeFlags = 0) const;
+   QString prototype(int prototypeFlags = 0) const;
    /* i-th parameter name */
-   QString argumentName(uint i) const;
+   QString argumentName(int i) const;
    /* i-th parameter type */
-   QString argumentType(uint i) const;
+   QString argumentType(int i) const;
    /* number of named arguments */
    int argumentCount() const;
 protected:
@@ -80,7 +80,7 @@ public:
   static int argCount(int gname, int fname);
   static bool isValidArg(int gname, int fname, int args);
   static QString description(int gname, int fname);
-  static QString prototype(int gname, int fname, uint prototypeFlags = 0);
+  static QString prototype(int gname, int fname, int prototypeFlags = 0);
   static bool insert(int id, const QString& function, const QString description = QString::null,
     int minArgs = -1, int maxArgs = -1);
   static bool insertAlias(int id, const QString& alias);

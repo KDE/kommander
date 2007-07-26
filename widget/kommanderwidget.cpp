@@ -25,7 +25,7 @@
 #include <k3process.h>
 
 /* QT INCLUDES */
-#include <q3cstring.h>
+#include <qstring.h>
 #include <qdatastream.h>
 #include <qfileinfo.h>
 #include <qobject.h>
@@ -33,10 +33,10 @@
 #include <qregexp.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <q3valuelist.h>
+#include <qlist.h>
 #include <qvariant.h>
 //Added by qt3to4:
-#include <Q3MemArray>
+//#include <Q3MemArray>
 
 
 /* UNIX INCLUDES */
@@ -247,7 +247,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
 QString KommanderWidget::DBUSQuery(const QStringList& a_query)
 {
   return QString::null;
-  Q3CString appId = a_query[0].toLatin1(), object = a_query[1].toLatin1();
+  QString appId = a_query[0].toLatin1(), object = a_query[1].toLatin1();
   
   // parse function arguments
   QString function = a_query[2], pTypes;
@@ -271,7 +271,7 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
   /*Q3CString replyType;
   QByteArray byteData, byteReply;
   QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
-  for (uint i=0 ; i<argTypes.count(); i++) {
+  for (int i=0 ; i<argTypes.count(); i++) {
     if (argTypes[i] == "int")
       byteDataStream << a_query[i+3].toInt();
     else if (argTypes[i] == "long")
@@ -512,28 +512,28 @@ QString KommanderWidget::parseQuotes(const QString& s) const
 {
   if (s[0] == s[s.length()-1] && (s[0] == '\'' || s[0] == '\"'))
   {
-    Q3MemArray<QChar> buf(s.length());
+    QString buf;
     int start = 0;
     int end = s.length() - 1;
     for (int i=1; i<end; i++)
       if (s[i] == '\\')
       {
         if (s[i+1] == 't')
-          buf[start++] = '\t';
+          buf += '\t';
         else if (s[i+1] == 'n')
-          buf[start++] = '\n';
+          buf += '\n';
         else if (s[i+1] == '\\')
-          buf[start++] = '\\';
+          buf += '\\';
         else 
         {
-          buf[start++] = s[i];
+          buf += s[i];
           i--;
         } 
         i++;
       }
       else
-        buf[start++] = s[i];
-    return QString(buf, start);
+        buf += s[i];
+    return QString(buf);
     //return s.mid(1, s.length()-2);
   }
   else return s;
@@ -610,6 +610,12 @@ int KommanderWidget::parseBlockBoundary(const QString& s, int from, const QStrin
   return shortest;
 }
 
+int KommanderWidget::parseBlockBoundary(const QString& s, int from, const QString& arg) const
+{
+  int shortest = -1;
+  shortest = s.indexOf(arg, from);
+  return shortest;
+}
 
 
 QString KommanderWidget::substituteVariable(QString text, QString variable, QString value) const
