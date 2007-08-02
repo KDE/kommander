@@ -27,7 +27,7 @@
 class QDomElement;
 class QDomDocument;
 
-class DomTool : public Qt
+class DomTool //: public Qt
 {
 public:
     static QVariant readProperty( const QDomElement& e, const QString& name, const QVariant& defValue );

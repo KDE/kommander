@@ -136,16 +136,16 @@ private:
 	QString functions;
     };
 
-    Q3ValueList<Image> images;
+    QList<Image> images;
     QWidget *toplevel;
     Q3ListViewItem *lastItem;
     QMap<QString, QString> *dbControls;
     QMap<QString, QStringList> dbTables;
     QMap<QWidget*, SqlWidgetConnection> sqlWidgetConnections;
     QMap<QString, QString> buddies;
-    QMap<Q3Table*, Q3ValueList<Field> > fieldMaps;
-    Q3PtrList<QAction> actionList;
-   QMap<QObject *, EventFunction> eventMap;
+    QMap<Q3Table, QList<Field> > fieldMaps;
+    QList<QAction *> actionList;
+    QMap<QObject *, EventFunction> eventMap;
     QMap<QString, QString> languageSlots;
     QMap<QString, Functions*> languageFunctions;
     QStringList variables;

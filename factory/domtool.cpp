@@ -147,7 +147,7 @@ QVariant DomTool::elementToVariant( const QDomElement& e, const QVariant& defVal
 	v = QVariant( readColor( e ) );
     } else if ( e.tagName() == "font" ) {
 	QDomElement n3 = e.firstChild().toElement();
-	QFont f( defValue.toFont()  );
+	QFont f( defValue.toString() );
 	while ( !n3.isNull() ) {
 	    if ( n3.tagName() == "family" )
 		f.setFamily( n3.firstChild().toText().data() );
@@ -171,7 +171,7 @@ QVariant DomTool::elementToVariant( const QDomElement& e, const QVariant& defVal
 	if ( n.tagName() == "comment" )
 	    comment = n.firstChild().toText().data();
     } else if ( e.tagName() == "cstring" ) {
-	v = QVariant( Q3CString( e.firstChild().toText().data() ) );
+	v = QVariant( Q3CString( e.firstChild().toText().data().toAscii() ) );
     } else if ( e.tagName() == "number" ) {
 	bool ok = true;
 	v = QVariant( e.firstChild().toText().data().toInt( &ok ) );
@@ -337,7 +337,7 @@ void DomTool::fixDocument( QDomDocument& doc )
     QDomElement e;
     QDomNode n;
     QDomNodeList nl;
-    uint i = 0;
+    int i = 0;
 
     e = doc.firstChild().toElement();
     if ( e.tagName() != "UI" )
@@ -349,7 +349,7 @@ void DomTool::fixDocument( QDomDocument& doc )
 
     e.setAttribute("stdsetdef", 1 );
     nl = doc.elementsByTagName( "property" );
-    uint nllen = nl.length();
+    int nllen = nl.length();
     for ( i = 0; i < nllen; i++ ) {
 	e = nl.item(i).toElement();
 	QString name;
