@@ -66,7 +66,7 @@ public:
   virtual void setBlockGUI(Blocking a_enable);
   Blocking blockGUI() const;
   
-  virtual QString handleDCOP(int function, const QStringList& args);
+  virtual QString handleDBUS(int function, const QStringList& args);
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void populate();

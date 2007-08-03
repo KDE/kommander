@@ -18,12 +18,14 @@
 #define _HAVE_TREEWIDGET_H_
 
 /* KDE INCLUDES */
-#include <k3listview.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qstringlist.h>
-#include <q3ptrvector.h>
+#include <qvector.h>
+#include <QTreeView>
+#include <QDirModel>
+
 //Added by qt3to4:
 #include <QShowEvent>
 
@@ -34,7 +36,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT TreeWidget : public K3ListView, public KommanderWidget
+class KOMMANDER_EXPORT TreeWidget : public QTreeView, public KommanderWidget
 {
   Q_OBJECT
   
@@ -46,7 +48,7 @@ class KOMMANDER_EXPORT TreeWidget : public K3ListView, public KommanderWidget
 public:
   TreeWidget(QWidget *a_parent, const char *a_name);
   ~TreeWidget();
-  virtual void setCurrentItem(Q3ListViewItem* item);  
+  virtual void setCurrentItem(QListViewItem* item);  
   QString pathSeparator() const;
   void setPathSeparator(const QString& a_pathSep);
   
@@ -57,7 +59,7 @@ public:
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   
-  virtual QString handleDCOP(int function, const QStringList& args);
+  virtual QString handleDBUS(int function, const QStringList& args);
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void setWidgetText(const QString&);
@@ -67,15 +69,15 @@ signals:
   void widgetTextChanged(const QString&);
 protected:
   void showEvent(QShowEvent *e);
-  int itemToIndex(Q3ListViewItem* item);
-  QString itemText(Q3ListViewItem* item);
+  int itemToIndex(QListViewItem* item);
+  QString itemText(QListViewItem* item);
   QString itemsText();
-  Q3ListViewItem* indexToItem(int index);
-  QString itemPath(Q3ListViewItem* item);
+  QListViewItem* indexToItem(int index);
+  QString itemPath(QListViewItem* item);
 private:
   void addItemFromString(const QString& s);
-  Q3ListViewItem* itemFromString(Q3ListViewItem* parent, const QString& s);
-  Q3PtrVector<Q3ListViewItem> m_lastPath;
+  QListViewItem* itemFromString(QListViewItem* parent, const QString& s);
+  QVector<QListViewItem> m_lastPath;
   QString m_pathSeparator;
 };
 

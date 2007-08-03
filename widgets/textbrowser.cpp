@@ -89,7 +89,7 @@ bool TextBrowser::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::clear;
 }
 
-QString TextBrowser::handleDCOP(int function, const QStringList& args)
+QString TextBrowser::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -103,7 +103,7 @@ QString TextBrowser::handleDCOP(int function, const QStringList& args)
       clear();
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

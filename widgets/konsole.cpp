@@ -26,8 +26,9 @@
 #include <myprocess.h>
 
 Konsole::Konsole(QWidget* a_parent, const char* a_name)
-  : KTextEdit(a_parent, a_name), KommanderWidget(this), mSeenEOL(false), mProcess(false)
+  : KTextEdit(a_parent), KommanderWidget(this), mSeenEOL(false), mProcess(false)
 {
+  this->setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -126,7 +127,7 @@ bool Konsole::isFunctionSupported(int f)
   return f == DBUS::setText || f == DBUS::text || f == DBUS::clear || f == DBUS::execute || f == DBUS::cancel;
 }
 
-QString Konsole::handleDCOP(int function, const QStringList& args)
+QString Konsole::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::setText:
@@ -144,7 +145,7 @@ QString Konsole::handleDCOP(int function, const QStringList& args)
       cancel();
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

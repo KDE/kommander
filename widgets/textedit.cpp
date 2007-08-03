@@ -27,9 +27,10 @@
 #include <specials.h>
 #include "textedit.h"
 
-TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent, a_name),
+TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent),
 KommanderWidget((QObject *) this)
 {
+  this->setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -90,7 +91,7 @@ void TextEdit::setTextChanged()
 
 void TextEdit::showEvent(QShowEvent * e)
 {
-  Q3TextEdit::showEvent(e);
+  KTextEdit::showEvent(e);
   emit widgetOpened();
 }
 
@@ -99,7 +100,7 @@ bool TextEdit::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear;
 }
 
-QString TextEdit::handleDCOP(int function, const QStringList& args)
+QString TextEdit::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -116,7 +117,7 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       setWidgetText("");
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

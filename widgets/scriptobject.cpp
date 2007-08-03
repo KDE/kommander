@@ -23,7 +23,7 @@
 /* KDE INCLUDES */
 #include <kglobal.h>
 #include <kiconloader.h>
-
+#include <kicon.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -32,18 +32,20 @@
 #include "specials.h"
 
 ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
-  : QLabel(a_parent, a_name), KommanderWidget(this)
+  : QLabel(a_parent), KommanderWidget(this)
 {
   QStringList states;
+  this->setObjectName(a_name);
   states << "default";
   setStates(states);
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KIconLoader::global()->loadIcon("exec", KIcon::NoGroup, KIcon::SizeMedium));
+   /* setPixmap(KIconLoader::global()->loadIcon("exec")); //FIXME  KIcon::NoGroup, KIcon::SizeMedium));
     setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
+    */
   }
   else
     setHidden(true);
@@ -75,7 +77,7 @@ void ScriptObject::setAssociatedText(const QStringList& a_at)
 
 void ScriptObject::setWidgetText(const QString& a_text)
 {
-  KommanderWidget::setAssociatedText(a_text);
+  KommanderWidget::setAssociatedText(a_text.split("\n"));
 }
 
 void ScriptObject::setPopulationText(const QString& a_text)
@@ -90,7 +92,7 @@ QString ScriptObject::populationText() const
 
 void ScriptObject::populate()
 {
-  setAssociatedText(KommanderWidget::evalAssociatedText(populationText()));
+  setAssociatedText(KommanderWidget::evalAssociatedText(populationText()).split("\n"));
 }
 
 void ScriptObject::executeProcess(bool blocking)
@@ -110,20 +112,20 @@ bool ScriptObject::isFunctionSupported(int f)
   return f == DBUS::setText || f == DBUS::clear || f == DBUS::execute;
 }
 
-QString ScriptObject::handleDCOP(int function, const QStringList& args)
+QString ScriptObject::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::setText:
-      setAssociatedText(args[0]);
+      setAssociatedText(args[0].split("\n"));
       break;
     case DBUS::clear:
-      setAssociatedText(QString::null);
+      setAssociatedText(QStringList());
       break;
     case DBUS::execute:
       executeProcess(true);
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

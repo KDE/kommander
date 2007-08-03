@@ -205,7 +205,7 @@ bool FileSelector::isFunctionSupported(int f)
       f == DBUS::clear;
 }
 
-QString FileSelector::handleDCOP(int function, const QStringList& args)
+QString FileSelector::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -226,7 +226,7 @@ QString FileSelector::handleDCOP(int function, const QStringList& args)
       setWidgetText(QString::null);
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

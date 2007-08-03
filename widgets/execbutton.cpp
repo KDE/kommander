@@ -38,9 +38,10 @@
 using namespace std;
 
 ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
-  : KPushButton(a_parent, a_name), KommanderWidget(this)
+  : KPushButton(a_parent), KommanderWidget(this)
 {
   QStringList states;
+  this->setObjectName(a_name);
   states << "default";
   setStates(states);
   setDisplayStates(states);
@@ -112,7 +113,7 @@ void ExecButton::startProcess()
     setEnabled(true);
     KApplication::restoreOverrideCursor();
     if (writeStdout())
-      cout << m_output << flush;
+      cout << flush; //FIXME m_output.data() << flush;
   }
 }
 
@@ -145,7 +146,7 @@ void ExecButton::processExited(MyProcess* p)
   {
     m_output = p->output();
     if (writeStdout())
-      cout << m_output << flush;
+      cout << flush; //FIXME m_output << flush;
     delete p;
   }
 }
@@ -161,7 +162,7 @@ bool ExecButton::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText;
 }
 
-QString ExecButton::handleDCOP(int function, const QStringList& args)
+QString ExecButton::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -170,7 +171,7 @@ QString ExecButton::handleDCOP(int function, const QStringList& args)
       setWidgetText(args[0]);
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

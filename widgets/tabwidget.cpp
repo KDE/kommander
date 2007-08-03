@@ -30,7 +30,7 @@
 #include "tabwidget.h"
 
 TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
-	: QTabWidget(a_parent, a_name, a_flags), KommanderWidget(this)
+	: QTabWidget(a_parent, a_name), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -87,16 +87,16 @@ bool TabWidget::isFunctionSupported(int f)
   return f == DBUS::currentItem || f == DBUS::setCurrentItem;
 }
 
-QString TabWidget::handleDCOP(int function, const QStringList& args)
+QString TabWidget::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::currentItem:
       return QString::number(currentPageIndex());
     case DBUS::setCurrentItem:
-      setCurrentPage(args[0].toUInt());
+      setCurrentPage(args[0].toInt());
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

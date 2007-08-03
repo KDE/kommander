@@ -103,22 +103,26 @@ bool GroupBox::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText;
 }
 
-QString GroupBox::handleDCOP(int function, const QStringList& args)
+QString GroupBox::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
     {
       QString text;
-      for (QObjectListIt it(m_childList); it.current(); ++it)
-        if (dynamic_cast<KommanderWidget*>(it.current()))
-          text += (dynamic_cast<KommanderWidget*>(it.current()))->evalAssociatedText();
+      QListIterator<QObject *> it(m_childList);
+      while( it.hasNext())
+      {
+        QObject *a = it.next(); 
+        if (dynamic_cast<KommanderWidget*>(a))
+          text += (dynamic_cast<KommanderWidget*>(a))->evalAssociatedText();
+      }
       return text;
     }
     case DBUS::setText:
       setTitle(args[0]);
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
   

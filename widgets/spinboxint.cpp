@@ -94,7 +94,7 @@ bool SpinBoxInt::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::setMaximum;
 }
 
-QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
+QString SpinBoxInt::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -103,10 +103,10 @@ QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
       setWidgetText(args[0]);
       break;
     case DBUS::setMaximum:
-      setMaxValue(args[0].toUInt());
+      setMaxValue(args[0].toInt());
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

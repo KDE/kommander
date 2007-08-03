@@ -124,7 +124,7 @@ void SubDialog::showEvent( QShowEvent *e )
     emit widgetOpened();
 }
 
-QString SubDialog::handleDCOP(int function, const QStringList& args)
+QString SubDialog::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -136,7 +136,7 @@ QString SubDialog::handleDCOP(int function, const QStringList& args)
         return atw->evalAssociatedText();
     }
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

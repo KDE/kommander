@@ -89,7 +89,7 @@ bool Slider::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::setMaximum;
 }
 
-QString Slider::handleDCOP(int function, const QStringList& args)
+QString Slider::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -104,7 +104,7 @@ QString Slider::handleDCOP(int function, const QStringList& args)
       setMaxValue(args[0].toInt());
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

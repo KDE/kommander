@@ -32,18 +32,18 @@ SET(kommanderwidgets_LIB_SRCS
    textedit.cpp
    scriptobject.cpp
    richtexteditor.cpp
-   treewidget.cpp
-   plugin.cpp
-   statusbar.cpp
-   progressbar.cpp
-   textbrowser.cpp
    slider.cpp
    label.cpp
-   pixmaplabel.cpp
    konsole.cpp
    timer.cpp
-   table.cpp
    )
+   #table.cpp
+   # treewidget.cpp
+   # plugin.cpp
+   # statusbar.cpp
+   # progressbar.cpp
+   # textbrowser.cpp
+   # pixmaplabel.cpp
 
 ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
 

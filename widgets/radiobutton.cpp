@@ -30,9 +30,10 @@
 #include "radiobutton.h"
 
 RadioButton::RadioButton(QWidget *a_parent, const char *a_name)
-  : QRadioButton(a_parent, a_name), KommanderWidget(this)
+  : QRadioButton(a_parent), KommanderWidget(this)
 {
   QStringList states;
+  this->setObjectName(a_name);
   states << "unchecked";
   states << "checked";
   setStates(states);
@@ -99,7 +100,7 @@ bool RadioButton::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::setChecked;
 }
 
-QString RadioButton::handleDCOP(int function, const QStringList& args)
+QString RadioButton::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -113,7 +114,7 @@ QString RadioButton::handleDCOP(int function, const QStringList& args)
     case DBUS::checked:
       return QString::number(isOn());
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

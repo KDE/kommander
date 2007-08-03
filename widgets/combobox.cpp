@@ -29,7 +29,7 @@
 #include "combobox.h"
 
 ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
-  : KComboBox(a_parent, a_name), KommanderWidget(this)
+  : KComboBox( a_parent ), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -104,7 +104,7 @@ bool ComboBox::isFunctionSupported(int f)
       f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count;
 }
 
-QString ComboBox::handleDCOP(int function, const QStringList& args)
+QString ComboBox::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -117,7 +117,7 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
     case DBUS::currentItem:
       return QString::number(currentItem());
     case DBUS::setCurrentItem:
-      setCurrentItem(args[0].toUInt());
+      setCurrentItem(args[0]);
       break;
     case DBUS::item:
     {
@@ -151,13 +151,13 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
       for (int i = 0; i < count(); i++)
         if (text(i) == args[0])
         {
-          setCurrentItem(i);
+          setCurrentItem(QString(i));
           break;
         }
       break;
     }
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

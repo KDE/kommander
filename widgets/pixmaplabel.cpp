@@ -102,7 +102,7 @@ bool PixmapLabel::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::clear;
 }
 
-QString PixmapLabel::handleDCOP(int function, const QStringList& args)
+QString PixmapLabel::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::setText:
@@ -114,7 +114,7 @@ QString PixmapLabel::handleDCOP(int function, const QStringList& args)
     case DBUS::text:
       return text();
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

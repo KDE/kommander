@@ -16,6 +16,7 @@
 /* KDE INCLUDES */
 #include <kglobal.h>
 #include <kiconloader.h>
+#include <kicon.h>
 
 /* QT INCLUDES */
 #include <qobject.h>
@@ -103,7 +104,7 @@ bool ListBox::isFunctionSupported(int f)
 }
 
 
-QString ListBox::handleDCOP(int function, const QStringList& args)
+QString ListBox::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::setText:
@@ -114,14 +115,14 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
       if (selectionMode() == Single)
         return currentText();
       QString value;
-      for (uint i=0; i<count(); i++)
+      for (int i=0; i<count(); i++)
         if (isSelected(i)) 
           value += (value.length() ? "\n" : "") + item(i)->text();
       return value;
     }
     case DBUS::setSelection:
     {
-      Q3ListBoxItem* found = findItem(args[0], Qt::ExactMatch);
+      Q3ListBoxItem* found = findItem(args[0]);
       if (found)
         setCurrentItem(index(found));
       break;
@@ -158,42 +159,43 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
         return QString::null;
     }
     case DBUS::addUniqueItem:
-      if (!findItem(args[0], Qt::ExactMatch))
+      if (!findItem(args[0]))
         insertItem(args[0]);
       break;
     case DBUS::findItem:
     {
-      Q3ListBoxItem* found = findItem(args[0], Qt::ExactMatch);
-      if (!found) found = findItem(args[0], Qt::BeginsWith);
-      if (!found) found = findItem(args[0], Qt::Contains);
+      Q3ListBoxItem* found = findItem(args[0]); // exact match
+      if (!found) found = findItem(args[0]); // startswith FIXME
+      if (!found) found = findItem(args[0]); //contains FIXME
       if (found)
         return QString::number(index(found));
       break;
     }
     case DBUS::setPixmap:
     {
-      QPixmap pixmap = KIconLoader::global()->loadIcon(args[0], KIcon::Small);
+      /*
+      QPixmap pixmap = KIconLoader::global()->loadIcon(args[0]); // FIXME, KIcon::Small);
       if (pixmap.isNull())
         pixmap.load(args[0]);
       int index = args[1].toInt();
       if (index == -1)
       {
-        for (uint i=0; i<count(); i++)
+        for (int i=0; i<count(); i++)
           changeItem(pixmap, text(i), i);
       }
       else if (index < (int)count())
-        changeItem(pixmap, text(index), index);
+        changeItem(pixmap, text(index), index);*/
       break;
     }
     case DBUS::text:
     {
       QStringList strings;
-      for(uint i=0; i < count() ; ++i)
+      for(int i=0; i < count() ; ++i)
         strings += item(i)->text();
       return strings.join("\n");
     }
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

@@ -54,7 +54,7 @@ public:
   virtual void insertChild(QObject*);
   virtual void removeChild(QObject*);
   
-  virtual QString handleDCOP(int function, const QStringList& args);
+  virtual QString handleDBUS(int function, const QStringList& args);
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void populate();
@@ -62,7 +62,7 @@ signals:
   void widgetOpened();
   void widgetTextChanged(const QString &);
 protected:
-  QObjectList m_childList;
+  QList<QObject *> m_childList;
   void showEvent(QShowEvent *e);
 private:
 };

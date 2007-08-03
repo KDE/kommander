@@ -73,7 +73,7 @@ QString ProgressBar::populationText() const
 
 void ProgressBar::populate()
 {
-  setProgress(KommanderWidget::evalAssociatedText(populationText()).toUInt());
+  setProgress(KommanderWidget::evalAssociatedText(populationText()).toInt());
 }
 
 void ProgressBar::showEvent(QShowEvent *e)
@@ -87,22 +87,22 @@ bool ProgressBar::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::setMaximum;
 }
 
-QString ProgressBar::handleDCOP(int function, const QStringList& args)
+QString ProgressBar::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
       return QString::number(progress());
     case DBUS::setText:
-      setProgress(args[0].toUInt());
+      setProgress(args[0].toInt());
       break;
     case DBUS::clear:
       setProgress(0);
       break;
     case DBUS::setMaximum:
-      setTotalSteps(args[0].toUInt());
+      setTotalSteps(args[0].toInt());
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

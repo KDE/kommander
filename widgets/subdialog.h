@@ -53,7 +53,7 @@ public:
   virtual void setPopulationText(const QString&);
   QString kmdrFile() const;
 
-  virtual QString handleDCOP(int function, const QStringList& args);  
+  virtual QString handleDBUS(int function, const QStringList& args);  
 public slots:
   void setKmdrFile(QString);
   virtual void showDialog();

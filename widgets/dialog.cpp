@@ -30,7 +30,7 @@
 #include "myprocess.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-  : QDialog(a_parent, a_name, a_modal, a_flags), KommanderWindow(this)
+  : QDialog(a_parent, a_name, a_modal), KommanderWindow(this)
 {
   QStringList states;
   states << "default";
@@ -148,7 +148,7 @@ bool Dialog::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText;
 }
 
-QString Dialog::handleDCOP(int function, const QStringList& args)
+QString Dialog::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -157,7 +157,7 @@ QString Dialog::handleDCOP(int function, const QStringList& args)
       setWidgetText(args[0]);
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

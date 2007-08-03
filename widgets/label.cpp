@@ -94,7 +94,7 @@ bool Label::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::clear;
 }
 
-QString Label::handleDCOP(int function, const QStringList& args)
+QString Label::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -106,7 +106,7 @@ QString Label::handleDCOP(int function, const QStringList& args)
       setWidgetText("");
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;  
 }

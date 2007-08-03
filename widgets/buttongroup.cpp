@@ -97,7 +97,7 @@ bool ButtonGroup::isFunctionSupported(int f)
 }
     
 
-QString ButtonGroup::handleDCOP(int function, const QStringList& args) 
+QString ButtonGroup::handleDBUS(int function, const QStringList& args) 
 {
   switch (function) {
     case DBUS::text:
@@ -115,7 +115,7 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
       setChecked(args[0] != "false");
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

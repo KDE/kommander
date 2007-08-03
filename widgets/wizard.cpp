@@ -32,7 +32,7 @@
 #include "wizard.h"
 
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-  : Q3Wizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
+  : Q3Wizard(a_parent, a_name, a_modal), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -136,9 +136,9 @@ void Wizard::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
-QString Wizard::handleDCOP(int function, const QStringList& args)
+QString Wizard::handleDBUS(int function, const QStringList& args)
 {
-  return KommanderWidget::handleDCOP(function, args);
+  return KommanderWidget::handleDBUS(function, args);
 }
 
 

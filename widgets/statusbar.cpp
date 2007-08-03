@@ -89,7 +89,7 @@ bool StatusBar::isFunctionSupported(int f)
   return f == DBUS::setText || f == DBUS::insertItem || f == DBUS::removeItem || f == DBUS::clear;
 }
 
-QString StatusBar::handleDCOP(int function, const QStringList& args)
+QString StatusBar::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::setText:
@@ -108,7 +108,7 @@ QString StatusBar::handleDCOP(int function, const QStringList& args)
       clear();
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

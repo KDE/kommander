@@ -19,13 +19,13 @@
 /* QT INCLUDES */
 #include <qlayout.h>
 #include <qevent.h>
-#include <q3textedit.h>
-#include <q3frame.h>
+#include <qtextedit.h>
+#include <qframe.h>
 #include <qwidget.h>
 #include <qlayout.h>
 #include <qtoolbutton.h>
 #include <qpixmap.h>
-#include <qhbuttongroup.h>
+#include <qbuttongroup.h>
 #include <qfont.h>
 #include <qstringlist.h>
 #include <qevent.h>
@@ -47,26 +47,26 @@
 #include "pixmaps/textright.xpm"
 
 RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
-	: QWidget(a_parent, a_name), KommanderWidget((QObject *)this)
+	: QWidget(a_parent), KommanderWidget((QObject *)this)
 {
-
+        this->setObjectName(a_name);
 	QStringList states;
 	states << "default";
 	setStates(states);
 	setDisplayStates(states);
 
 	// setup toolbar
-	m_toolbar = new Q3Frame(this, "buttonBar");
+	m_toolbar = new QFrame(this);
 	m_toolbar->setMinimumSize(0, 32);
-	m_toolbar->setFrameShape(Q3Frame::NoFrame);
-	m_toolbar->setFrameShadow(Q3Frame::Plain);
+	m_toolbar->setFrameShape(QFrame::NoFrame);
+	m_toolbar->setFrameShadow(QFrame::Plain);
 
 	//setup textedit
-	m_textedit = new Q3TextEdit(this, "editor");
+	m_textedit = new QTextEdit(this);
 	m_textedit->setTextFormat(Qt::RichText);
 
 	// layout the widgets
-	Q3VBoxLayout *layout = new Q3VBoxLayout(this);
+	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->addWidget(m_toolbar);
 	layout->addWidget(m_textedit);
 	layout->setSpacing(1);
@@ -75,16 +75,16 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 	Q3HBoxLayout *tbLayout = new Q3HBoxLayout(m_toolbar);
 
 	//bold italic underline left right center link
-	m_formatGroup = new Q3HButtonGroup(m_toolbar, "formatGroup");
+	m_formatGroup = new QButtonGroup(m_toolbar);//, "formatGroup");
 	//m_formatGroup->setFlat(true);
-	m_alignGroup = new Q3HButtonGroup(m_toolbar, "alignGroup");
+	m_alignGroup = new QButtonGroup(m_toolbar);//, "alignGroup");
 	//m_alignGroup->setFlat(true);
 	m_alignGroup->setExclusive(true);
 	tbLayout->insertStretch(0);
-	tbLayout->addWidget(m_formatGroup);
-	tbLayout->addWidget(m_alignGroup);
+	//tbLayout->addWidget(m_formatGroup,1);
+	//tbLayout->addWidget(m_alignGroup,2);
 	tbLayout->insertStretch(3);
-
+/*
 	m_buttonTextBold = new QToolButton(m_formatGroup, "textBold");
 	m_buttonTextBold->setPixmap(QPixmap((const char **)bold_xpm));
 	m_buttonTextBold->setToggleButton(true);
@@ -113,7 +113,7 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 	connect(m_textedit, SIGNAL(currentAlignmentChanged(int)), this, SLOT(alignmentChanged(int)));
 	
 	connect(m_textedit, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
-
+*/
 }
 
 QString RichTextEditor::currentState() const
@@ -184,13 +184,13 @@ void RichTextEditor::textItalic(bool a_isOn)
 
 void RichTextEditor::textAlign(int a_id)
 {
-  QToolButton *b = (QToolButton *)m_alignGroup->find(a_id);
+/* FIXME  QToolButton *b = (QToolButton *)m_alignGroup->indexOf(a_id);
   if(b == m_buttonTextLeft)
     m_textedit->setAlignment(Qt::AlignLeft);
   else if(b == m_buttonTextCenter)
     m_textedit->setAlignment(Qt::AlignCenter);
   else if(b == m_buttonTextRight)
-    m_textedit->setAlignment(Qt::AlignRight);
+    m_textedit->setAlignment(Qt::AlignRight);*/
 }
 
 void RichTextEditor::fontChanged(const QFont &a_font)
@@ -221,7 +221,7 @@ bool RichTextEditor::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::selection;
 }
 
-QString RichTextEditor::handleDCOP(int function, const QStringList& args)
+QString RichTextEditor::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -235,7 +235,7 @@ QString RichTextEditor::handleDCOP(int function, const QStringList& args)
       setWidgetText("");
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }      
   return QString::null;
 }

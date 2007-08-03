@@ -40,10 +40,10 @@ Timer::Timer(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KIconLoader::global()->loadIcon("kalarm", KIcon::NoGroup, KIcon::SizeMedium));
+   /*FIXME setPixmap(KIconLoader::global()->loadIcon("kalarm", KIcon::NoGroup, KIcon::SizeMedium));
     setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
     setLineWidth(1);
-    setFixedSize(pixmap()->size());
+    setFixedSize(pixmap()->size());*/
   }
   else
     setHidden(true);
@@ -100,7 +100,7 @@ void Timer::setAssociatedText(const QStringList& a_at)
 
 void Timer::setWidgetText(const QString& a_text)
 {
-  KommanderWidget::setAssociatedText(a_text);
+  KommanderWidget::setAssociatedText(a_text.split("\n"));
 }
 
 void Timer::setPopulationText(const QString& a_text)
@@ -115,7 +115,7 @@ QString Timer::populationText() const
 
 void Timer::populate()
 {
-  setAssociatedText(KommanderWidget::evalAssociatedText(populationText()));
+  setAssociatedText(KommanderWidget::evalAssociatedText(populationText()).split("\n"));
 }
 
 void Timer::executeProcess(bool blocking)
@@ -152,11 +152,11 @@ bool Timer::isFunctionSupported(int f)
   return f == DBUS::setText || f == DBUS::execute || f == DBUS::cancel;
 }
 
-QString Timer::handleDCOP(int function, const QStringList& args)
+QString Timer::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::setText:
-      setAssociatedText(args[0]);
+      setAssociatedText(args[0].split("\n"));
       break;
     case DBUS::execute:
       execute();
@@ -165,7 +165,7 @@ QString Timer::handleDCOP(int function, const QStringList& args)
       cancel();
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

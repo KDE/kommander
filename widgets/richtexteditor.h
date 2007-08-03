@@ -31,8 +31,8 @@
 #include "kommander_export.h"
 
 /* Forward Decls */
-class Q3TextEdit;
-class Q3Frame;
+class QTextEdit;
+class QFrame;
 class QToolButton;
 class Q3HButtonGroup;
 
@@ -55,7 +55,7 @@ public:
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   
-  virtual QString handleDCOP(int function, const QStringList& args);
+  virtual QString handleDBUS(int function, const QStringList& args);
   virtual bool isFunctionSupported(int function);
 public slots:
   void setTextChanged();
@@ -73,13 +73,13 @@ signals:
 protected:
     void showEvent( QShowEvent *e );
 private:
-  Q3Frame *m_toolbar;
-  Q3TextEdit *m_textedit;
+  QFrame *m_toolbar;
+  QTextEdit *m_textedit;
 
   QToolButton *m_buttonTextBold, *m_buttonTextUnder, *m_buttonTextItalic, 
     *m_buttonTextLeft,  *m_buttonTextCenter, *m_buttonTextRight;
 
-  Q3HButtonGroup *m_formatGroup, *m_alignGroup;
+  QButtonGroup *m_formatGroup, *m_alignGroup;
 
 };
 

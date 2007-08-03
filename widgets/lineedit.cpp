@@ -25,9 +25,10 @@
 #include "lineedit.h"
 
 LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
-	: KLineEdit(a_parent, a_name), KommanderWidget((QObject *)this)
+	: KLineEdit(a_parent), KommanderWidget((QObject *)this)
 {
   QStringList states;
+  this->setObjectName(a_name);
   states << "default";
   setStates(states);
   setDisplayStates(states);
@@ -99,7 +100,7 @@ bool LineEdit::isFunctionSupported(int f)
     f == DBUS::clear;
 }
 
-QString LineEdit::handleDCOP(int function, const QStringList& args)
+QString LineEdit::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -116,7 +117,7 @@ QString LineEdit::handleDCOP(int function, const QStringList& args)
       setWidgetText("");
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

@@ -33,7 +33,7 @@
 #include "closebutton.h"
 
 CloseButton::CloseButton(QWidget* a_parent, const char* a_name)
-  : KPushButton(a_parent, a_name), KommanderWidget(this)
+  : KPushButton(QString( a_name), a_parent), KommanderWidget(this)
 {
   QStringList states;
   states << "default";
@@ -168,7 +168,7 @@ bool CloseButton::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText;
 }
 
-QString CloseButton::handleDCOP(int function, const QStringList& args)
+QString CloseButton::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -177,7 +177,7 @@ QString CloseButton::handleDCOP(int function, const QStringList& args)
       setWidgetText(args[0]);
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

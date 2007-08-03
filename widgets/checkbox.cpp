@@ -22,7 +22,6 @@
 #include <qstringlist.h>
 #include <qevent.h>
 #include <qcheckbox.h>
-#include <qbutton.h>
 //Added by qt3to4:
 #include <QShowEvent>
 
@@ -107,7 +106,7 @@ bool CheckBox::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::checked || f == DBUS::setChecked;
 }
 
-QString CheckBox::handleDCOP(int function, const QStringList& args)
+QString CheckBox::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
@@ -121,7 +120,7 @@ QString CheckBox::handleDCOP(int function, const QStringList& args)
       setChecked(args[0] != "false");
       break;
     default:
-      return KommanderWidget::handleDCOP(function, args);
+      return KommanderWidget::handleDBUS(function, args);
   }
   return QString::null;
 }

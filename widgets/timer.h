@@ -48,7 +48,7 @@ class Timer : public QLabel, public KommanderWidget
     virtual void setInterval(int a_interval);
     virtual bool singleShot() const;
     virtual void setSingleShot(bool a_shot);
-    virtual QString handleDCOP(int function, const QStringList& args);
+    virtual QString handleDBUS(int function, const QStringList& args);
     virtual bool isFunctionSupported(int function);
   public slots:
     virtual void setWidgetText(const QString &);
