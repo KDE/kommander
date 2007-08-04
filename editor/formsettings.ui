@@ -30,9 +30,6 @@
         <height>490</height>
       </rect>
     </property>
-    <property name="windowTitle" >
-      <string>Form Settings</string>
-    </property>
     <property name="sizeGripEnabled" >
       <bool>true</bool>
     </property>
