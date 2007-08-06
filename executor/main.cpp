@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
   if (args->isSet("c"))
-    KLocale::setMainCatalog(args->getOption("c"));
+    KLocale::setMainCatalog(args->getOption("c").toUtf8());
   else if (args->count())
   {
     char buf[200];

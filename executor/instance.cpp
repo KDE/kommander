@@ -46,14 +46,14 @@
 #include <fileselector.h>
 
 Instance::Instance()
-  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0),
+  : m_instance(0), m_textInstance(0), m_parent(0),
   m_cmdArguments(0)
 {
   SpecialInformation::registerSpecials();
 }
 
 Instance::Instance(const KUrl& a_uiFileName, QWidget *a_parent)
-  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
+  :  m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
   m_parent(a_parent), m_cmdArguments(0)
 {
   SpecialInformation::registerSpecials();
@@ -154,18 +154,18 @@ bool Instance::run(QFile *a_file)
 
   if (inTemp)
   {
-     if (KMessageBox::warningContinueCancel(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
-         " This may mean that it was run from a KMail attachment or from a webpage. "
-         "<p>Any script contained in this dialog will have write access to all of your home directory; "
-         "<b>running such dialogs may be dangerous: </b>"
-         "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)
+//      if (KMessageBox::warningContinueCancel(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
+//          " This may mean that it was run from a KMail attachment or from a webpage. "
+//          "<p>Any script contained in this dialog will have write access to all of your home directory; "
+//          "<b>running such dialogs may be dangerous: </b>"
+//          "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)
        return false;
   }
   
   /* add runtime arguments */
   if (m_cmdArguments) {
     QString args;
-    for (uint i=1; i<=m_cmdArguments; i++)
+    for (int i=1; i<=m_cmdArguments; i++)
     {
       args += global(QString("ARG%1").arg(i));
       if (i < m_cmdArguments) 
@@ -233,7 +233,7 @@ void Instance::setText(const QString& widgetName, const QString& text)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::setText, text);
+    kommanderWidget(child)->handleDBUS(DBUS::setText, text);
   else if (child && child->inherits("QLabel"))
   {
     QLabel* label = (QLabel*)child;
@@ -252,7 +252,7 @@ QString Instance::text(const QString& widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::text);
+    return kommanderWidget(child)->handleDBUS(DBUS::text);
   else if (child && child->inherits("QLabel"))
     return ((QLabel*)child)->text();  
   return QString::null;
@@ -262,7 +262,7 @@ void Instance::setSelection(const QString& widgetName, const QString& text)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::setSelection, text);
+    kommanderWidget(child)->handleDBUS(DBUS::setSelection, text);
   else if (child && child->inherits("QLabel"))
     ((QLabel*)child)->setText(text);  
 }
@@ -271,7 +271,7 @@ QString Instance::selection(const QString& widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::selection);
+    return kommanderWidget(child)->handleDBUS(DBUS::selection);
   return QString::null;
 }
 
@@ -279,7 +279,7 @@ int Instance::currentItem(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::currentItem).toInt();
+    return kommanderWidget(child)->handleDBUS(DBUS::currentItem).toInt();
   return -1;
 }
 
@@ -287,7 +287,7 @@ QString Instance::item(const QString &widgetName, int i)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::item, QString::number(i));
+    return kommanderWidget(child)->handleDBUS(DBUS::item, QString::number(i));
   return QString::null;      
 }
 
@@ -295,7 +295,7 @@ void Instance::removeItem(const QString &widgetName, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::removeItem, QString::number(index));
+    kommanderWidget(child)->handleDBUS(DBUS::removeItem, QString::number(index));
 }
 
 void Instance::insertItem(const QString &widgetName, const QString &item, int index)
@@ -305,7 +305,7 @@ void Instance::insertItem(const QString &widgetName, const QString &item, int in
   {
     QStringList args(item);
     args += QString::number(index);
-    kommanderWidget(child)->handleDCOP(DCOP::insertItem, args);
+    kommanderWidget(child)->handleDBUS(DBUS::insertItem, args);
   }
 }
 
@@ -316,7 +316,7 @@ void Instance::insertItems(const QString &widgetName, const QStringList &items, 
   {
     QStringList args(items.join("\n"));
     args += QString::number(index);
-    kommanderWidget(child)->handleDCOP(DCOP::insertItems, args);
+    kommanderWidget(child)->handleDBUS(DBUS::insertItems, args);
   }
 }
 
@@ -324,7 +324,7 @@ int Instance::findItem(const QString &widgetName, const QString& item)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::findItem, item).toInt();
+    return kommanderWidget(child)->handleDBUS(DBUS::findItem, item).toInt();
   return -1;
 }
 
@@ -332,14 +332,14 @@ void Instance::addUniqueItem(const QString &widgetName, const QString &item)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::addUniqueItem, item);
+    kommanderWidget(child)->handleDBUS(DBUS::addUniqueItem, item);
 }
 
 int Instance::itemDepth(const QString &widgetName, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::itemDepth, QString::number(index)).toInt();
+    return kommanderWidget(child)->handleDBUS(DBUS::itemDepth, QString::number(index)).toInt();
   return -1;
 }
 
@@ -347,7 +347,7 @@ QString Instance::itemPath(const QString &widgetName, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::itemPath, QString::number(index));
+    return kommanderWidget(child)->handleDBUS(DBUS::itemPath, QString::number(index));
   return QString::null;
 }
   
@@ -359,7 +359,7 @@ void Instance::setPixmap(const QString &widgetName, const QString& iconName, int
   {
     QStringList args(iconName);
     args += QString::number(index);
-    kommanderWidget(child)->handleDCOP(DCOP::setPixmap, args);
+    kommanderWidget(child)->handleDBUS(DBUS::setPixmap, args);
   }
 }
 
@@ -367,28 +367,28 @@ void Instance::clear(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::clear);
+    kommanderWidget(child)->handleDBUS(DBUS::clear);
 }
 
 void Instance::setCurrentItem(const QString &widgetName, int index)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::setCurrentItem, QString::number(index));
+    kommanderWidget(child)->handleDBUS(DBUS::setCurrentItem, QString::number(index));
 }
 
 void Instance::setChecked(const QString &widgetName, bool checked)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::setChecked, checked ? "true" : "false");
+    kommanderWidget(child)->handleDBUS(DBUS::setChecked, checked ? "true" : "false");
 }
 
 bool Instance::checked(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::checked, widgetName) == "1";
+    return kommanderWidget(child)->handleDBUS(DBUS::checked, widgetName) == "1";
   return false;
 }
 
@@ -404,7 +404,7 @@ QStringList Instance::associatedText(const QString &widgetName)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     kommanderWidget(child)->associatedText();  
-  return QString::null;
+  return QStringList();
 }
 
 QString Instance::type(const QString& widget)
@@ -419,15 +419,19 @@ QStringList Instance::children(const QString& parent, bool recursive)
 {
   QStringList matching;
   QObject* child = stringToWidget(parent);  
-  QObjectList* widgets;
+  QList<QWidget *> widgets;
   if (!child)
      child = m_instance; 
   if (child->inherits("QWidget"))
   {
-    widgets = child->queryList("QWidget", 0, false, recursive);
-    for (QObject* w = widgets->first(); w; w = widgets->next())
+    widgets = child->findChildren<QWidget *>();
+    QListIterator<QWidget *> widgetsit(widgets);
+    while(widgetsit.hasNext())
+    {
+      QWidget* w = widgetsit.next();
       if (w->name() && kommanderWidget(w))
         matching.append(w->name());
+    }
   }
   return matching;
 } 
@@ -436,28 +440,28 @@ void Instance::setMaximum(const QString &widgetName, int value)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::setMaximum, QString::number(value));
+    kommanderWidget(child)->handleDBUS(DBUS::setMaximum, QString::number(value));
 }
 
 void Instance::execute(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::execute);
+    kommanderWidget(child)->handleDBUS(DBUS::execute);
 }
     
 void Instance::cancel(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::cancel);
+    kommanderWidget(child)->handleDBUS(DBUS::cancel);
 }
 
 int Instance::count(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::count).toInt();
+    return kommanderWidget(child)->handleDBUS(DBUS::count).toInt();
   return -1;
 }
 
@@ -465,7 +469,7 @@ int Instance::currentColumn(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::currentColumn).toInt();
+    return kommanderWidget(child)->handleDBUS(DBUS::currentColumn).toInt();
   return -1;
 }
 
@@ -473,7 +477,7 @@ int Instance::currentRow(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    return kommanderWidget(child)->handleDCOP(DCOP::currentRow).toInt();
+    return kommanderWidget(child)->handleDBUS(DBUS::currentRow).toInt();
   return -1;
 }
 
@@ -484,7 +488,7 @@ void Instance::insertRow(const QString &widgetName, int row, int count)
   {
     QStringList args(QString::number(row));
     args += QString::number(count);
-    kommanderWidget(child)->handleDCOP(DCOP::insertRow, args);
+    kommanderWidget(child)->handleDBUS(DBUS::insertRow, args);
   }
 }
 
@@ -495,7 +499,7 @@ void Instance::insertColumn(const QString &widgetName, int column, int count)
   {
     QStringList args(QString::number(column));
     args += QString::number(count);
-    kommanderWidget(child)->handleDCOP(DCOP::insertColumn, args);
+    kommanderWidget(child)->handleDBUS(DBUS::insertColumn, args);
   }
 }
 
@@ -507,7 +511,7 @@ void Instance::setCellText(const QString &widgetName, int row, int column, const
     QStringList args(QString::number(row));
     args += QString::number(column);
     args += text;
-    kommanderWidget(child)->handleDCOP(DCOP::setCellText, args);
+    kommanderWidget(child)->handleDBUS(DBUS::setCellText, args);
   }
 }
 
@@ -518,7 +522,7 @@ QString Instance::cellText(const QString &widgetName, int row, int column)
   {
     QStringList args(QString::number(row));
     args += QString::number(column);
-    return kommanderWidget(child)->handleDCOP(DCOP::cellText, args);
+    return kommanderWidget(child)->handleDBUS(DBUS::cellText, args);
   }
   else return QString::null;
 }
@@ -530,7 +534,7 @@ void Instance::removeRow(const QString &widgetName, int row, int count)
   {
     QStringList args(QString::number(row));
     args += QString::number(count);
-    kommanderWidget(child)->handleDCOP(DCOP::removeRow, args);
+    kommanderWidget(child)->handleDBUS(DBUS::removeRow, args);
   }
 }
 
@@ -541,7 +545,7 @@ void Instance::removeColumn(const QString &widgetName, int column, int count)
   {
     QStringList args(QString::number(column));
     args += QString::number(count);
-    kommanderWidget(child)->handleDCOP(DCOP::removeColumn, args);
+    kommanderWidget(child)->handleDBUS(DBUS::removeColumn, args);
   }
 }
 
@@ -552,7 +556,7 @@ void Instance::setRowCaption(const QString &widgetName, int row, const QString& 
   {
     QStringList args(QString::number(row));
     args += text;
-    kommanderWidget(child)->handleDCOP(DCOP::setRowCaption, args);
+    kommanderWidget(child)->handleDBUS(DBUS::setRowCaption, args);
   }
 }
 
@@ -563,7 +567,7 @@ void Instance::setColumnCaption(const QString &widgetName, int column, const QSt
   {
     QStringList args(QString::number(column));
     args += text;
-    kommanderWidget(child)->handleDCOP(DCOP::setColumnCaption, args);
+    kommanderWidget(child)->handleDBUS(DBUS::setColumnCaption, args);
   }
 }
 
@@ -588,7 +592,7 @@ void Instance::setGlobal(const QString& variableName, const QString& value)
 
 QObject* Instance::stringToWidget(const QString& name)
 {
-  return m_instance->child(name);
+  return m_instance->findChild<QObject *>(name);
 }
 
 KommanderWidget* Instance::kommanderWidget(QObject* object)
