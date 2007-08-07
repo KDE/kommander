@@ -77,7 +77,7 @@ QString PluginManager::libraryName(const QString& plugin) const
 {
   KLibrary *l = KLibLoader::self()->library(plugin.toLatin1());
   QString libname;
-  if (l && l->hasSymbol("kommander_plugin"))
+  if (l && l->resolveSymbol("kommander_plugin")!=0)
     libname = l->fileName();
   return libname;
 } 

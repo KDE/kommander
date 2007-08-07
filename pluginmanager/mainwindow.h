@@ -48,7 +48,7 @@ private:
   void refresh();
   
   // ListBox of available plugins 
-  K3ListBox *m_list;
+  //K3ListBox *m_list;
   // plugin manager
   PluginManager* m_pluginManager;
 };

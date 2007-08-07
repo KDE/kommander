@@ -71,21 +71,21 @@ int main(int argc, char *argv[])
     if (args->isSet("check"))
       P.verify();
     
-    QCStringList items = args->getOptionList("add");
-    for (QCStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
+    QStringList items = args->getOptionList("add");
+    for (QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
       if (!P.add(*it))
-        cerr << i18n("Error adding plugin '%1'", *it).local8Bit();
+        cerr << i18n("Error adding plugin '%1'", *it).toLocal8Bit().data();
     
     items = args->getOptionList("remove");
-    for (QCStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
+    for (QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
       if (!P.remove(*it))
-        cerr << i18n("Error removing plugin '%1'", *it).local8Bit();
+        cerr << i18n("Error removing plugin '%1'", *it).toLocal8Bit().data();
     
     if (args->isSet("list"))
     {
       QStringList plugins = P.items();
       for (QStringList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
-        cout << (*it).local8Bit() << "\n";
+        cout << (*it).toLocal8Bit().data() << "\n";
     }
   }
   else 

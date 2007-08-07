@@ -19,7 +19,7 @@
 #include "pluginmanager.h"
 
 #include <ktoolbar.h>
-#include <k3listbox.h>
+//#include <k3listbox.h>
 #include <kconfig.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
@@ -29,19 +29,20 @@
 #include <kstandarddirs.h>
 
 MainWindow::MainWindow( QWidget* parent, const char *name, Qt::WFlags f )
-    : KXmlGuiWindow( parent, name, f )
+    : KXmlGuiWindow( parent, f )
 {
+  setObjectName(name);
   KToolBar *toolBar = new KToolBar( this );
-  toolBar->insertButton("document-open", Add, true, i18n("Add") );
-  toolBar->insertButton("no", Remove, true, i18n("Remove") );
-  toolBar->insertButton("view-refresh", Refresh, true, i18n("Refresh") );
+  //toolBar->insertButton("document-open", Add, true, i18n("Add") );
+  //toolBar->insertButton("no", Remove, true, i18n("Remove") );
+  //toolBar->insertButton("view-refresh", Refresh, true, i18n("Refresh") );
   connect( toolBar, SIGNAL(clicked(int)), this, SLOT(toolButton(int)) );
 
-  m_list = new K3ListBox( this );
-  setCentralWidget(m_list);
+  //m_list = new K3ListBox( this );
+  //setCentralWidget(m_list);
   
   m_pluginManager = new PluginManager;
-  m_list->insertStringList(m_pluginManager->items());
+  //m_list->insertStringList(m_pluginManager->items());
 }
 
 MainWindow::~MainWindow()
@@ -67,10 +68,7 @@ void MainWindow::toolButton( int id )
 
 void MainWindow::add()
 {
-  QString libDir = KGlobal::dirs()->findResourceDir("lib", "libkommanderplugin.la");
-  QString plugin = KFileDialog::getOpenFileName(libDir, "lib*", this, 
-    i18n("Add Kommander Plugin"));
-  add(plugin);
+  
 }
 
 void MainWindow::add(const QString &plugin)
@@ -86,15 +84,16 @@ void MainWindow::add(const QString &plugin)
 
 void MainWindow::remove()
 {
-  QString plugin = m_list->currentText();
+  /*QString plugin = m_list->currentText();
   if (m_pluginManager->remove(plugin))
     refresh();
+  */
 }
 
 void MainWindow::refresh()
 {
-  m_list->clear();
-  m_list->insertStringList(m_pluginManager->items()); 
+  //m_list->clear();
+  //m_list->insertStringList(m_pluginManager->items()); 
 }
 
 void MainWindow::verify()
