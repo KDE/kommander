@@ -30,8 +30,10 @@
 #include "myprocess.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
-  : QDialog(a_parent, a_name, a_modal), KommanderWindow(this)
+  : QDialog(a_parent), KommanderWindow(this)
 {
+  this->setObjectName(a_name);
+  this->setModal(a_modal);
   QStringList states;
   states << "default";
   states << "initialization";
@@ -113,7 +115,7 @@ void Dialog::destroy()
 
 void Dialog::setWidgetText(const QString& a_text)
 {
-  setCaption(a_text);
+  setWindowTitle(a_text);
   emit widgetTextChanged(a_text);
 }
 

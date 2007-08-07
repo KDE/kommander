@@ -58,8 +58,8 @@ public slots:
   virtual void setWriteStdout(bool);
   virtual void setWidgetText(const QString &);
   virtual void startProcess();
-  virtual void appendOutput(K3Process*, char*, int);
-  virtual void endProcess(K3Process*);
+  virtual void appendOutput();
+  virtual void endProcess(int, QProcess::ExitStatus);
   virtual void populate();
 signals:
   void widgetOpened();

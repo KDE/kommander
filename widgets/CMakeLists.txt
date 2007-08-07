@@ -1,4 +1,5 @@
 ### Kommander Widgets ###
+add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 INCLUDE_DIRECTORIES( 
 	${CMAKE_SOURCE_DIR}/kommander/widget 
@@ -14,30 +15,31 @@ INCLUDE_DIRECTORIES(
 ########### next target ###############
 
 SET(kommanderwidgets_LIB_SRCS
-   buttongroup.cpp
-   subdialog.cpp
-   checkbox.cpp
-   closebutton.cpp
-   combobox.cpp
-   listbox.cpp
-   wizard.cpp
-   dialog.cpp
-   tabwidget.cpp
-   execbutton.cpp
-   fileselector.cpp
-   groupbox.cpp
-   lineedit.cpp
-   radiobutton.cpp
-   spinboxint.cpp
-   textedit.cpp
-   scriptobject.cpp
-   richtexteditor.cpp
-   slider.cpp
    label.cpp
-   konsole.cpp
-   timer.cpp
    )
-   #table.cpp
+   # buttongroup.cpp
+   # subdialog.cpp
+   # checkbox.cpp
+   # closebutton.cpp
+   # combobox.cpp
+   # listbox.cpp
+   # wizard.cpp
+   # dialog.cpp
+   # tabwidget.cpp
+   # execbutton.cpp
+   # fileselector.cpp
+   # groupbox.cpp
+   # lineedit.cpp
+   # radiobutton.cpp
+   # spinboxint.cpp
+   # textedit.cpp
+   # scriptobject.cpp
+   # richtexteditor.cpp
+   # slider.cpp
+   # label.cpp
+   # konsole.cpp
+   # timer.cpp
+   # table.cpp
    # treewidget.cpp
    # plugin.cpp
    # statusbar.cpp
@@ -47,7 +49,16 @@ SET(kommanderwidgets_LIB_SRCS
 
 ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
 
-TARGET_LINK_LIBRARIES(kommanderwidgets  ${QT_AND_KDECORE_LIBS} kio kommanderwidget kommanderplugin kommanderfactory )
+TARGET_LINK_LIBRARIES(
+ kommanderwidgets  
+ ${QT_QTCORE_LIBS}
+ ${QT_UI_LIBS}
+ ${KDE4_KDECORE_LIBS}
+ ${KDE4_KDEUI_LIBS}
+ kio 
+ kommanderwidget 
+ kommanderplugin 
+ kommanderfactory )
 
 SET_TARGET_PROPERTIES(kommanderwidgets PROPERTIES VERSION 4.2.0 SOVERSION 4 )
 INSTALL(TARGETS kommanderwidgets DESTINATION ${LIB_INSTALL_DIR} )

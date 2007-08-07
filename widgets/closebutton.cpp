@@ -33,14 +33,15 @@
 #include "closebutton.h"
 
 CloseButton::CloseButton(QWidget* a_parent, const char* a_name)
-  : KPushButton(QString( a_name), a_parent), KommanderWidget(this)
+  : KPushButton(a_parent), KommanderWidget(this)
 {
+  this->setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
   setDisplayStates(states);
   setWriteStdout(true);
-
+  m_process = 0;
   connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
 
   QObject *parent = this;
@@ -104,47 +105,57 @@ void CloseButton::startProcess()
 
   if (!at.isEmpty())
   {
-    K3ShellProcess *process = new K3ShellProcess("/bin/sh");
-    *process << at;
+    m_process = new KProcess();
+    m_process << "/bin/sh" << at;
+    //should emit output and block
+    connect(m_process, SIGNAL(finished(int,  QProcess::ExitStatus)), SLOT(endProcess(int,  QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(appendOutput()));
+    connect(m_process, SIGNAL(readyReadStandardError()), SLOT(appendError()));
 
-    connect(process, SIGNAL(processExited(K3Process *)), SLOT(endProcess(K3Process *)));
-    connect(process, SIGNAL(receivedStdout(K3Process *, char *, int)), SLOT(appendOutput(K3Process *,
-                char *, int)));
-    connect(process, SIGNAL(receivedStderr(K3Process *, char *, int)), SLOT(appendOutput(K3Process *,
-                char *, int)));
-
-    if (!process->start(K3Process::Block, K3Process::Stdout))
+    m_process->start();
+    if (!m_process->waitForStarted())
     {
       KMessageBox::error(this, i18n("Failed to start shell process."));
-      endProcess(process);
+      endProcess(m_process->exitCode(), m_process->exitStatus());
       return;
     }
   } else
-    endProcess(0);
+    if (m_process->waitForFinished())
+    { 
+      KMessageBox::error(this, i18n("Shell process exited with an error."));
+      endProcess(m_process->exitCode(), m_process->exitStatus());
+      return;
+    }
 }
 
-void CloseButton::appendOutput(K3Process *, char *a_buffer, int a_len)
+void CloseButton::appendOutput()
 {
-  char *buffer = new char[a_len + 1];
-  buffer[a_len] = 0;
-  for (int i = 0; i < a_len; ++i)
-    buffer[i] = a_buffer[i];
-
-  QString bufferString(buffer);
-  m_output += bufferString;
+  QByteArray a = m_process->readAllStandardOutput();
+  m_output += a;
   if (writeStdout())
   {
-    fputs(buffer, stdout);
-    fflush(stdout);
+    stdout << a <<flush;
   }
-  delete buffer;
 }
 
-void CloseButton::endProcess(K3Process *a_process)
+void CloseButton::appendError()
+{
+  QByteArray a = m_process->readAllStandardError();
+  m_output += a;
+  if (writeStdout())
+  {
+    stderr << a <<flush;
+  }
+  
+}
+
+
+void CloseButton::endProcess(int exitCode, QProcess::ExitStatus exitStatus)
 {
   emit widgetTextChanged(m_output);
   m_output = "";
-  delete a_process;
+  delete m_process;
+  m_process = 0;
 }
 
 bool CloseButton::writeStdout() const

@@ -31,6 +31,7 @@
 ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
   : KComboBox( a_parent ), KommanderWidget(this)
 {
+  this->setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);

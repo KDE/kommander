@@ -18,6 +18,7 @@
 #include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qcursor.h>
@@ -32,7 +33,6 @@
 #include <kommanderwidget.h>
 #include <specials.h>
 #include "execbutton.h"
-#include <myprocess.h>
 #include <iostream>
 
 using namespace std;
@@ -48,6 +48,7 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   setWriteStdout(true);
   setBlockGUI(Button);
   connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
+  m_process = 0;
 }
 
 ExecButton::~ExecButton()
@@ -104,16 +105,23 @@ void ExecButton::startProcess()
     setEnabled(false);
   if (m_blockGUI == GUI)
     KApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-  MyProcess* process = new MyProcess(this);
-  process->setBlocking(m_blockGUI == GUI);
-  connect(process, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
-  m_output = process->run(at);
+  m_process = new KProcess();
+  connect(m_process, SIGNAL(finished(MyProcess*)), SLOT(finished()));
+  //m_blockGUI == GUI;
+  m_process << at;
+  m_process->start();
+  if (m_blockGUI == GUI)
+    if (m_process->waitForFinished())
+    {
+    }
   if (m_blockGUI == GUI)
   {
     setEnabled(true);
     KApplication::restoreOverrideCursor();
     if (writeStdout())
-      cout << flush; //FIXME m_output.data() << flush;
+      cout << m_process.readAll() << flush; //FIXME m_output.data() << flush;
+    delete m_process;
+    m_process = 0;
   }
 }
 
@@ -138,16 +146,19 @@ ExecButton::Blocking ExecButton::blockGUI() const
   return m_blockGUI;
 }
 
-void ExecButton::processExited(MyProcess* p)
+void ExecButton::processExited(int c, QProcess::ExitStatus exitStatus)
 {
   if (blockGUI() != None)
     setEnabled(true);
-  if (p)
+  if (m_process != 0)
   {
-    m_output = p->output();
     if (writeStdout())
-      cout << flush; //FIXME m_output << flush;
-    delete p;
+    {
+      m_output = m_process->readAll();
+      cout << m_output << flush;
+    }
+    delete m_process;
+    m_process = 0;
   }
 }
 

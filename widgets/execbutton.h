@@ -31,8 +31,7 @@
 #include "kommander_export.h"
 
 class QWidget;
-class K3Process;
-class MyProcess;
+class KProcess;
 
 class QShowEvent;
 class KOMMANDER_EXPORT ExecButton : public KPushButton, public KommanderWidget
@@ -87,6 +86,7 @@ protected:
   Blocking m_blockGUI;
   // Output from process
   QString m_output;
+  KProcess m_process;
   void showEvent( QShowEvent *e );
 private:
 };

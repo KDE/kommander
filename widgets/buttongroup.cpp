@@ -20,7 +20,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
-#include <q3buttongroup.h>
+#include <qbuttongroup.h>
 #include <qevent.h>
 //Added by qt3to4:
 #include <QShowEvent>
@@ -28,12 +28,12 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "buttongroup.h"
-
 #include "radiobutton.h" // include a button header for the compiler with dynamic cast below
 
 ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
-	: Q3ButtonGroup(a_parent, a_name), KommanderWidget(this)
+	: QButtonGroup(a_parent), KommanderWidget(this)
 {
+  this->setObjectName(a_name);
   QStringList states;
   states << "checked";
   states << "unchecked";
@@ -86,7 +86,7 @@ void ButtonGroup::populate()
 
 void ButtonGroup::showEvent(QShowEvent* e)
 {
-  Q3ButtonGroup::showEvent(e);
+  QButtonGroup::showEvent(e);
   emit widgetOpened();
 }
 
