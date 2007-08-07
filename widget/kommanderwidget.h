@@ -82,6 +82,11 @@ public:
   
   // Handles all widget-specific DBUS calls 
   virtual QString handleDBUS(int function, const QStringList& args = QStringList());
+  // helper function
+  virtual QString handleDBUS(int function, const QString arg){
+    return handleDBUS(function, arg.split("\n"));
+  }
+  
   // Checks if appropriate function is supported by widget. By default all functions
   // are reported as supported: use this to allow recognizing incorrect function calls.
   virtual bool isFunctionSupported(int function);

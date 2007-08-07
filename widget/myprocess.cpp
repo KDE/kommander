@@ -15,7 +15,7 @@
  ***************************************************************************/
 /* KDE INCLUDES */
 #include <klocale.h>
-#include <k3process.h>
+#include <kprocess.h>
 #include <klocale.h>
 
 /* QT INCLUDES */
@@ -82,47 +82,45 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   }
   m_input = at.toLocal8Bit();
 
-  mProcess = new K3Process;
+  mProcess = new KProcess;
   (*mProcess) << shellName.toLatin1();
 
-  connect(mProcess, SIGNAL(receivedStdout(K3Process*, char*, int)),
-      SLOT(slotReceivedStdout(K3Process*, char*, int)));
-  connect(mProcess, SIGNAL(processExited(K3Process*)), SLOT(slotProcessExited(K3Process*)));
-
-  if(!mProcess->start(K3Process::NotifyOnExit, K3Process::All))
+  //connect(mProcess, SIGNAL(receivedStdout(KProcess*, char*, int)),
+  //    SLOT(slotReceivedStdout(KProcess*, char*, int)));
+  //connect(mProcess, SIGNAL(processExited(KProcess*)), SLOT(slotProcessExited(KProcess*)));
+  /*
+  if (!m_blocking)
   {
-    m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>", shellName));
+    if(!mProcess->start())
+    {
+      m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>", shellName));
+      return QString::null;
+    }
+    //mProcess->writeStdin(m_input, m_input.length());
+    //mProcess->closeStdin();
+
     return QString::null;
   }
-  mProcess->writeStdin(m_input, m_input.length());
-  mProcess->closeStdin();
-
-  if (!m_blocking)
-    return QString::null;
   else 
   {
     //FIXME KProcess with blocking feature
-/*    QWidget dummy(0, 0);
-    dummy.setFocusPolicy(QWidget::NoFocus);
-    m_loopStarted = true;
-    qt_enter_modal(&dummy);
-    qApp->enter_loop();
-    qt_leave_modal(&dummy);
-*/  
+    int returncode;
+    returncode = mProcess->execute();
     if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
       return m_output.left(m_output.length()-1);
     else
       return m_output;
-  }
+  }*/
+  return QString::null;
 }
 
-void MyProcess::slotReceivedStdout(K3Process*, char* a_buffer, int a_len)
+void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
 {
   m_output += QString::fromLocal8Bit(a_buffer, a_len);
   emit processReceivedStdout(this, a_buffer, a_len);
 }
 
-void MyProcess::slotProcessExited(K3Process* process)
+void MyProcess::slotProcessExited(KProcess* process)
 {
   if (m_loopStarted)
   {

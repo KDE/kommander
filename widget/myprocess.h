@@ -17,13 +17,12 @@
 #define _HAVE_MYPROCESS_H_
 
 /* KDE INCLUDES */
-#include <k3process.h>
+#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qobject.h>
 //Added by qt3to4:
-#include <Q3CString>
 #include "kommander_export.h"
 
 class KommanderWidget;
@@ -45,16 +44,16 @@ signals:
   void processExited(MyProcess*);
   void processReceivedStdout(MyProcess*, char*, int);
 private slots:
-  void slotReceivedStdout(K3Process*, char*, int);
-  void slotProcessExited(K3Process*);
+  void slotReceivedStdout(KProcess*, char*, int);
+  void slotProcessExited(KProcess*);
 protected:
   const KommanderWidget *m_atw;
   QString m_output;
-  Q3CString m_input;
+  QString m_input;
   bool m_loopStarted;
   bool m_blocking;
   bool m_handleOutput;
-  K3Process* mProcess;
+  KProcess* mProcess;
 };
 
 #endif
