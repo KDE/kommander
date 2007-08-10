@@ -258,13 +258,13 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
     pTypes = parseBrackets(function, start, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis in DBUS call \'%1\'.", a_query[2]));
+    printError(i18n("Unmatched parenthesis in D-Bus call \'%1\'.", a_query[2]));
     return QString::null;
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
-    printError(i18n("Incorrect arguments in DBUS call \'%1\'.", a_query[2]));
+    printError(i18n("Incorrect arguments in D-Bus call \'%1\'.", a_query[2]));
     return QString::null;
   }
   
@@ -294,7 +294,7 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
   DBUSClient *cl = KApplication::dcopClient();
   if (!cl || !cl->call(appId, object, function.toLatin1(), byteData, replyType, byteReply))
   {
-    printError(i18n("Tried to perform DBUS query, but failed."));
+    printError(i18n("Tried to perform D-Bus query, but failed."));
     return QString::null; 
   }
 
@@ -325,7 +325,7 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
   }
   else if(replyType != "void")
   {
-    printError(i18n("DBUS return type %1 is not yet implemented.", replyType.data()));
+    printError(i18n("D-Bus return type %1 is not yet implemented.", replyType.data()));
   }
 */
   return QString::null;
