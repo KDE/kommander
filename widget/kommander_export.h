@@ -1,6 +1,5 @@
-/*
-    This file is part of kommander project
-    Copyright (c) 2005 Laurent Montel <montel@kde.org>
+/*  This file is part of the KDE project
+    Copyright (C) 2007 David Faure <faure@kde.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -18,18 +17,24 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef _KOMMANDER_EXPORT_H
-#define _KOMMANDER_EXPORT_H
+#ifndef KOMMANDER_EXPORT_H
+#define KOMMANDER_EXPORT_H
 
-#include <kdeversion.h>
-
-#if KDE_IS_VERSION(3,3,90)
-
+/* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
 
-#define KOMMANDER_EXPORT KDE_EXPORT
-
-#else
-#define KOMMANDER_EXPORT
+#ifndef KOMMANDER_EXPORT
+# if defined(MAKE_KOMMANDERWIDGET_LIB)
+   /* We are building this library */ 
+#  define KOMMANDER_EXPORT KDE_EXPORT
+# else
+   /* We are using this library */ 
+#  define KOMMANDER_EXPORT KDE_IMPORT
+# endif
 #endif
-#endif /* _KOMMANDER_EXPORT_H */
+
+# ifndef KOMMANDER_EXPORT_DEPRECATED
+#  define KOMMANDER_EXPORT_DEPRECATED KDE_DEPRECATED KOMMANDER_EXPORT
+# endif
+
+#endif
