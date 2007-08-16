@@ -115,7 +115,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
       ++at_it;
     }
     else
-      m_atdict[(*s_it)].clear();
+      m_atdict[(*s_it)] = QString();
   }
   m_populationText = a_atw->populationText();
 

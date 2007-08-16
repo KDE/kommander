@@ -669,7 +669,7 @@ bool Parser::isWidget() const
 void Parser::reset()
 {
   m_start = 0;
-  m_error.clear();
+  m_error = QString();
   m_errorPosition = 0;
 }
 
