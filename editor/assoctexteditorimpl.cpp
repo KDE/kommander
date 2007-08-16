@@ -115,7 +115,7 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
       ++at_it;
     }
     else
-      m_atdict[(*s_it)] = QString::null;
+      m_atdict[(*s_it)].clear();
   }
   m_populationText = a_atw->populationText();
 
@@ -146,7 +146,7 @@ void AssocTextEditor::save() const
     QString text = i18n("Set the \'text association\' of \'%1\'", m_widget->name());
     SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow,
         m_widget, m_propertyEditor, "associations", atw->associatedText(),
-        associatedText(), QString::null, QString::null, false);
+        associatedText(), QString::null, QString::null, false);	//krazy:exclude=nullstrassign for old broken gcc
     cmd->execute();
     m_formWindow->commandHistory()->addCommand(cmd);
     MetaDataBase::setPropertyChanged(m_widget, "associations", true);
@@ -156,7 +156,7 @@ void AssocTextEditor::save() const
     QString text = i18n("Set the \'population text\' of \'%1\'", m_widget->name());
     SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow, m_widget,
         m_propertyEditor, "populationText", atw->populationText(),
-        populationText(), QString::null, QString::null, false);
+        populationText(), QString::null, QString::null, false);	//krazy:exclude=nullstrassign for old broken gcc
     cmd->execute();
     m_formWindow->commandHistory()->addCommand(cmd);
     MetaDataBase::setPropertyChanged(m_widget, "populationText", true);
@@ -303,7 +303,7 @@ void AssocTextEditor::insertFunction()
 QString AssocTextEditor::widgetToString(QWidget* widget, bool formatted)
 {
    if (!widget)
-     return QString::null;
+     return QString();
    else if (formatted)
      return QString("%1 (%2)").arg(widget->name()).arg(widget->className());
    else

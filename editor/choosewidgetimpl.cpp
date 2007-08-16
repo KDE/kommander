@@ -88,7 +88,7 @@ QString ChooseWidget::selection()
    if (widgetView->currentItem())
      return widgetView->currentItem()->text(0);
    else
-     return QString::null;
+     return QString();
 }
 
 void ChooseWidget::textChanged(const QString& text)

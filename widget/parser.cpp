@@ -27,13 +27,13 @@ QString unescape(QString s)
   return s.replace("\\\"", "\"").replace("\\t", "\t").replace("\\n", "\n").replace("\\\\", "\\");
 }
 
-Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(QString::null), m_errorPosition(0), 
-  m_widget(0)
+Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(QString::null),	//krazy:exclude=nullstrassign for old broken gcc
+  m_errorPosition(0), m_widget(0)
 {
 }
   
 Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), 
-  m_error(QString::null), m_errorPosition(0), m_widget(0)
+  m_error(QString::null), m_errorPosition(0), m_widget(0)	//krazy:exclude=nullstrassign for old broken gcc
 {
   setString(expr);
 }
@@ -153,12 +153,12 @@ QString Parser::expression(Mode mode)
   if (!isError())
     return p.toString();
   else
-    return QString::null;
+    return QString();
 }
 
 bool Parser::isError() const
 {
-  return m_error != QString::null;
+  return m_error != QString::null;	//krazy:exclude=nullstrassign for old broken gcc
 }
 
 
@@ -201,7 +201,7 @@ ParseNode Parser::parseValue(Mode mode)
       QString arr = p.variableName();
       if (isArray(arr) && array(arr).contains(index)) 
         return array(arr)[index];
-      //FIXME QString::null return null;
+      //FIXME QString() return null;
       return ParseNode();
     }
     else if (tryKeyword(Dot, CheckOnly))
@@ -652,7 +652,7 @@ QString Parser::nextVariable()
   }
   else 
     setError(i18n("Expected variable"));
-  return QString::null;
+  return QString();
 }
 
 
@@ -669,7 +669,7 @@ bool Parser::isWidget() const
 void Parser::reset()
 {
   m_start = 0;
-  m_error = QString::null;
+  m_error.clear();
   m_errorPosition = 0;
 }
 
@@ -680,7 +680,7 @@ void Parser::setError(const QString& msg)
 
 void Parser::setError(const QString& msg, int pos)
 {
-  if (m_error == QString::null)
+  if (m_error == QString::null)	//krazy:exclude=nullstrassign for old broken gcc
   {
     m_errorPosition = pos;
     m_error = msg;
@@ -746,14 +746,14 @@ void Parser::unsetArray(const QString& name, const QString& key)
 {
   if (isGlobal(name))
   {
-    if (key == QString::null)
+    if (key == QString::null)	//krazy:exclude=nullstrassign for old broken gcc
       m_globalArrays.remove(name);
     else if (isArray(name))
       m_globalArrays[name].remove(key);
   }
   else
   {
-    if (key == QString::null)
+    if (key == QString::null)	//krazy:exclude=nullstrassign for old broken gcc
       m_arrays.remove(name);
     else if (isArray(name))
       m_arrays[name].remove(key);

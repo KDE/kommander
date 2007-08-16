@@ -156,7 +156,7 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
       if (index >= 0 && index < (int)count())
         return item(index)->text();
       else
-        return QString::null;
+        return QString();
     }
     case DBUS::addUniqueItem:
       if (!findItem(args[0]))
@@ -197,7 +197,7 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "listbox.moc"

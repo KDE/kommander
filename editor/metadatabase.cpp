@@ -215,7 +215,7 @@ QString MetaDataBase::propertyComment( QObject *o, const QString &property )
     if ( !r ) {
         qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
                   o, o->name(), o->className() );
-        return QString::null;
+        return QString();
     }
 
     return *r->propertyComments.find( property );
@@ -691,7 +691,7 @@ QString MetaDataBase::languageOfSlot( QObject *o, const Q3CString &slot )
     if ( !r ) {
         qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
                   o, o->name(), o->className() );
-        return QString::null;
+        return QString();
     }
 
     QString sl = slot;
@@ -703,7 +703,7 @@ QString MetaDataBase::languageOfSlot( QObject *o, const Q3CString &slot )
         if ( sl == sl2 )
             return s.language;
     }
-    return QString::null;
+    return QString();
 }
 
 bool MetaDataBase::addCustomWidget( CustomWidget *wid )
@@ -1066,13 +1066,13 @@ void MetaDataBase::setPixmapArgument( QObject *o, int pixmap, const QString &arg
 QString MetaDataBase::pixmapArgument( QObject *o, int pixmap )
 {
     if ( !o )
-        return QString::null;
+        return QString();
     setupDataBase();
     MetaDataBaseRecord *r = db->find( (void*)o );
     if ( !r ) {
         qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
                   o, o->name(), o->className() );
-        return QString::null;
+        return QString();
     }
 
     return *r->pixmapArguments.find( pixmap );
@@ -1113,13 +1113,13 @@ void MetaDataBase::setPixmapKey( QObject *o, int pixmap, const QString &arg )
 QString MetaDataBase::pixmapKey( QObject *o, int pixmap )
 {
     if ( !o )
-        return QString::null;
+        return QString();
     setupDataBase();
     MetaDataBaseRecord *r = db->find( (void*)o );
     if ( !r ) {
         qWarning( "No entry for %p (%s, %s) found in MetaDataBase",
                   o, o->name(), o->className() );
-        return QString::null;
+        return QString();
     }
 
     return *r->pixmapKeys.find( pixmap );

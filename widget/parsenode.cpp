@@ -38,13 +38,13 @@ ParseNode::ParseNode(double d) : m_type(ValueDouble), m_double(d), m_context(-1)
 {  
 }
 
-ParseNode::ParseNode(Keyword k) : m_type(ValueKeyword), m_keyword(k), m_string(QString::null), m_context(-1)
+ParseNode::ParseNode(Keyword k) : m_type(ValueKeyword), m_keyword(k), m_string(QString::null), m_context(-1)	//krazy:exclude=nullstrassign for old broken gcc
 {
 }
   
 ParseNode::ParseNode(Keyword k, const QString& name) : m_type(ValueKeyword), m_keyword(k), m_context(-1)
 {
-  m_string = (k == Variable) ? name : QString::null;
+  m_string = (k == Variable) ? name : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
 }
 
 ParseNode ParseNode::error(const QString& s)
@@ -71,7 +71,7 @@ QString ParseNode::toString() const
     case ValueString: return m_string;
     case ValueInt:    return QString::number(m_int);
     case ValueDouble: return QString::number(m_double);
-    default:          return QString::null;
+    default:          return QString();
   }
 }
 
@@ -122,12 +122,12 @@ bool ParseNode::isVariable() const
 
 QString ParseNode::variableName() const
 {
-  return isVariable() ? m_string : QString::null;
+  return isVariable() ? m_string : QString();
 }
 
 QString ParseNode::errorMessage() const
 {
-  return isValid() ? QString::null : m_string;
+  return isValid() ? QString::null : m_string;	//krazy:exclude=nullstrassign for old broken gcc
 }
 
 

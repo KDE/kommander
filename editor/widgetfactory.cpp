@@ -1638,7 +1638,7 @@ QString WidgetFactory::defaultCurrentItem( QObject *w, const QString &propName )
 	    if ( ( v & Qt::AlignBottom ) == Qt::AlignBottom )
 		return "AlignBottom";
 	}
-	return QString::null;
+	return QString();
 
     }
     return p->valueToKey( defaultValue( w, propName ).toInt() );

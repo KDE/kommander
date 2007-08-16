@@ -223,12 +223,12 @@ QString FileSelector::handleDBUS(int function, const QStringList& args)
       break;
     }
     case DBUS::clear:
-      setWidgetText(QString::null);
+      setWidgetText(QString::null);	//krazy:exclude=nullstrassign for old broken gcc
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

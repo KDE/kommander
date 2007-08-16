@@ -38,7 +38,7 @@ QString ParserData::keywordToString(Parse::Keyword k) const
   for (QMap<QString, Keyword>::const_iterator it = m_keywords.constBegin(); it != m_keywords.constEnd(); ++it) 
     if (it.value() == k)
       return it.key();
-  return QString::null;
+  return QString();
 }
 
 bool ParserData::registerFunction(const QString& name, Function f) 

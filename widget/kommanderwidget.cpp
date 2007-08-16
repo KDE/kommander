@@ -65,7 +65,7 @@ void KommanderWidget::setAssociatedText(const QStringList& a_associations)
 {
   m_associatedText = a_associations;
   while(m_associatedText.count() < (states().count()))
-  m_associatedText += QString::null; // sync states and associations
+  m_associatedText += QString(); // sync states and associations
 }
 
 QStringList KommanderWidget::associatedText() const
@@ -118,7 +118,7 @@ QString KommanderWidget::evalAssociatedText() // expands and returns associated 
   if (index == -1)
   {
     printError(i18n("Invalid state for associated text."));
-    return QString::null;
+    return QString();
   }
   return evalAssociatedText(m_associatedText[index]);
 }
@@ -136,7 +136,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       // FIXME add widget's name to KommanderWidget class      
       printError(i18n("Line %1: %2.\n", p.errorLine()+1, p.errorMessage()));
     }
-    return QString::null;
+    return QString();
   }
   
   /* Old macro-only parser is implemented below  */
@@ -187,7 +187,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     {    
       args = parseFunction("Kommander", identifier, a_text, pos, ok);
       if (!ok)
-        return QString::null;
+        return QString();
       else if (identifier == "execBegin")
         evalText += evalExecBlock(args, a_text, pos);  
       else if (identifier == "forEach")
@@ -211,7 +211,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       QString function = parseIdentifier(a_text, pos);
       args = parseFunction(identifier, function, a_text, pos, ok);
       if (!ok)
-        return QString::null;
+        return QString();
       switch (SpecialInformation::group(identifier))
       {
         case Group::Array:
@@ -230,13 +230,13 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
           evalText += Parser::function(internalParserData(), "input_" + function, args);
           break;
         default:
-          return QString::null;
+          return QString();
       }
     }
     else
     {
       printError(i18n("Unknown special: \'%1\'.", identifier));
-      return QString::null;
+      return QString();
     }
   }
           
@@ -246,7 +246,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
 // FIX ME DCOP to dbus
 QString KommanderWidget::DBUSQuery(const QStringList& a_query)
 {
-  return QString::null;
+  return QString();
   QString appId = a_query[0].toLatin1(), object = a_query[1].toLatin1();
   
   // parse function arguments
@@ -259,13 +259,13 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis in D-Bus call \'%1\'.", a_query[2]));
-    return QString::null;
+    return QString();
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
     printError(i18n("Incorrect arguments in D-Bus call \'%1\'.", a_query[2]));
-    return QString::null;
+    return QString();
   }
   
   /*Q3CString replyType;
@@ -295,7 +295,7 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
   if (!cl || !cl->call(appId, object, function.toLatin1(), byteData, replyType, byteReply))
   {
     printError(i18n("Tried to perform D-Bus query, but failed."));
-    return QString::null; 
+    return QString(); 
   }
 
   QDataStream byteReplyStream(byteReply, QIODevice::ReadOnly);
@@ -328,13 +328,13 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
     printError(i18n("D-Bus return type %1 is not yet implemented.", replyType.data()));
   }
 */
-  return QString::null;
+  return QString();
 }
 
 //FIXME DCOP to DBUS conversion
 QString KommanderWidget::localDBUSQuery(const QString function, const QStringList& args)
 {
-  return QString::null;
+  return QString();
   QStringList pArgs;
   //pArgs.append(kapp->dcopClient()->appId());
   pArgs.append("KommanderIf");
@@ -379,13 +379,13 @@ QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_par
     pFileName = a_dialog;
     pDialogFile.setFile(pFileName);
     if (!pDialogFile.exists())
-      return QString::null;
+      return QString();
   }
   QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
     .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
   return execCommand(cmd);
 */
-  return QString::null;
+  return QString();
  
 }
 
@@ -400,7 +400,7 @@ void KommanderWidget::printError(const QString& a_error) const
                 i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
     switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
                 i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->name()),
-                     a_error), QStringList(), QString::null, 0, 0))
+                     a_error), QStringList(), QString::null, 0, 0))	//krazy:exclude=nullstrassign for old broken gcc
     {
       case KDialog::No:
         showErrors = false;
@@ -444,7 +444,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
   while (start < s.length() && s[start].isSpace())
     start++;
   if (start == s.length() || s[start] != '(')
-    return QString::null;
+    return QString();
   bool quoteSingle = false, quoteDouble = false;
   int brackets = 1;
   for (int end = start+1; end < s.length(); end++) 
@@ -465,7 +465,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
     }
   }
   ok = false;
-  return QString::null;
+  return QString();
 }
 
 
@@ -662,7 +662,7 @@ QString KommanderWidget::global(const QString& variableName)
   if (m_globals.contains(variableName))
     return m_globals[variableName];
   else
-    return QString::null;
+    return QString();
 }
 
 void KommanderWidget::setGlobal(const QString& variableName, const QString& value)
@@ -674,7 +674,7 @@ QString KommanderWidget::handleDBUS(const int function, const QStringList& args)
 {
   QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
   if (!current) 
-    return QString::null;
+    return QString();
   switch(function) {
     case DBUS::setEnabled:
       current->setEnabled(args[0] != "false" && args[0] != "0");
@@ -700,7 +700,7 @@ QString KommanderWidget::handleDBUS(const int function, const QStringList& args)
       return matching.join("\n");  
     }  
   }
-  return QString::null;
+  return QString();
 }
 
 
@@ -725,7 +725,7 @@ QString KommanderWidget::fileName()
   if (window)
     return QString(window->fileName());
   else
-    return QString::null;
+    return QString();
 }  
 
 

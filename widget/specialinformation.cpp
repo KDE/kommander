@@ -59,14 +59,14 @@ QString SpecialFunction::argumentName(int i) const
 {
   if (i < m_args.count())
     return m_args[i];
-  return QString::null;
+  return QString();
 }
 
 QString SpecialFunction::argumentType(int i) const
 {
   if (i < m_types.count())
     return m_types[i];
-  return QString::null;
+  return QString();
 }
 
 int SpecialFunction::argumentCount() const
@@ -142,14 +142,14 @@ QString SpecialInformation::description(int gname, int fname)
 {
  if (isValid(gname, fname))
     return m_specials[gname][fname].description();
-  return QString::null;
+  return QString();
 }
 
 QString SpecialInformation::prototype(int gname, int fname, int flags)
 {
  if (isValid(gname, fname))
     return m_specials[gname][fname].prototype(flags);
-  return QString::null;
+  return QString();
 }
 
 bool SpecialInformation::insert(int id, const QString& function, const QString description,

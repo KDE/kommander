@@ -243,7 +243,7 @@ QString WorkspaceItem::text( int column ) const
 #endif
     }
 
-    return QString::null; // shut up compiler
+    return QString(); // shut up compiler
 }
 
 void WorkspaceItem::fillCompletionList( QStringList& completion )

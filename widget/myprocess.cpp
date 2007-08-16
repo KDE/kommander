@@ -65,7 +65,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   if (at.isEmpty())
   {
     emit processExited(0);
-    return QString::null;
+    return QString();
   }
   
   QString shellName = a_shell;
@@ -94,12 +94,12 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
     if(!mProcess->start())
     {
       m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>", shellName));
-      return QString::null;
+      return QString();
     }
     //mProcess->writeStdin(m_input, m_input.length());
     //mProcess->closeStdin();
 
-    return QString::null;
+    return QString();
   }
   else 
   {
@@ -111,7 +111,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
     else
       return m_output;
   }*/
-  return QString::null;
+  return QString();
 }
 
 void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)

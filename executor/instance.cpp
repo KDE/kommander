@@ -158,7 +158,7 @@ bool Instance::run(QFile *a_file)
 //          " This may mean that it was run from a KMail attachment or from a webpage. "
 //          "<p>Any script contained in this dialog will have write access to all of your home directory; "
 //          "<b>running such dialogs may be dangerous: </b>"
-//          "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)
+//          "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)	//krazy:exclude=nullstrassign for old broken gcc
        return false;
   }
   
@@ -255,7 +255,7 @@ QString Instance::text(const QString& widgetName)
     return kommanderWidget(child)->handleDBUS(DBUS::text);
   else if (child && child->inherits("QLabel"))
     return ((QLabel*)child)->text();  
-  return QString::null;
+  return QString();
 }
 
 void Instance::setSelection(const QString& widgetName, const QString& text)
@@ -272,7 +272,7 @@ QString Instance::selection(const QString& widgetName)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::selection);
-  return QString::null;
+  return QString();
 }
 
 int Instance::currentItem(const QString &widgetName)
@@ -288,7 +288,7 @@ QString Instance::item(const QString &widgetName, int i)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::item, QString::number(i));
-  return QString::null;      
+  return QString();      
 }
 
 void Instance::removeItem(const QString &widgetName, int index)
@@ -348,7 +348,7 @@ QString Instance::itemPath(const QString &widgetName, int index)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::itemPath, QString::number(index));
-  return QString::null;
+  return QString();
 }
   
 
@@ -412,7 +412,7 @@ QString Instance::type(const QString& widget)
   QObject* child = stringToWidget(widget);  
   if (child->inherits("QWidget"))
     return child->className();
-  return QString::null;
+  return QString();
 }
 
 QStringList Instance::children(const QString& parent, bool recursive)
@@ -524,7 +524,8 @@ QString Instance::cellText(const QString &widgetName, int row, int column)
     args += QString::number(column);
     return kommanderWidget(child)->handleDBUS(DBUS::cellText, args);
   }
-  else return QString::null;
+  else
+    return QString();
 }
 
 void Instance::removeRow(const QString &widgetName, int row, int count)

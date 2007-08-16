@@ -139,7 +139,7 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
     case DBUS::addUniqueItem:
       for (int i=0; i<count(); i++)
         if (text(i) == args[0])
-          return QString::null;
+          return QString();
       insertItem(args[0]);
       break;
     case DBUS::clear:
@@ -160,7 +160,7 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "combobox.moc"

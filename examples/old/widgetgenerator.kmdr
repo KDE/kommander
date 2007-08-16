@@ -227,7 +227,7 @@ void @className::setWidgetText(const QString &amp;a_text)
 QString @className::widgetText() const
 {
 	// implement your widget text here
-	return QString::null;
+	return QString();
 }
 
 void @className::showEvent( QShowEvent *e )

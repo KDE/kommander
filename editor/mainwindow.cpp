@@ -788,7 +788,7 @@ void MainWindow::activeWindowChanged(QWidget *w)
     emit hasActiveForm(false);
     propertyEditor->clear();
     hierarchyView->clear();
-    updateUndoRedo(false, false, QString::null, QString::null);
+    updateUndoRedo(false, false, QString::null, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
   }
 
   selectionChanged();
@@ -1000,7 +1000,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
             QString pn(i18n("Set the 'text' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "text", w->property("text"),
-                                                              text, QString::null, QString::null);
+                                                              text, QString::null, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
             MetaDataBase::setPropertyChanged(w, "text", true);
@@ -1012,7 +1012,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
             QString pn(i18n("Set the 'title' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "title", w->property("title"),
-                                                              title, QString::null, QString::null);
+                                                              title, QString::null, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
             MetaDataBase::setPropertyChanged(w, "title", true);
@@ -1024,7 +1024,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
             QString pn(i18n("Set the 'pageTitle' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "pageTitle", w->property("pageTitle"),
-                                                              text, QString::null, QString::null);
+                                                              text, QString::null, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
             MetaDataBase::setPropertyChanged(w, "pageTitle", true);
@@ -1036,7 +1036,7 @@ void MainWindow::handleRMBProperties(int id, QMap<QString, int> &props, QWidget 
             QString pn(i18n("Set the 'pixmap' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "pixmap", w->property("pixmap"),
-                                                              pix, QString::null, QString::null);
+                                                              pix, QString::null, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
             MetaDataBase::setPropertyChanged(w, "pixmap", true);
@@ -1319,7 +1319,7 @@ void MainWindow::readConfig()
   restoreConfig = config->readBoolEntry("RestoreWorkspace", true);
   splashScreen = config->readBoolEntry("SplashScreen", true);
   docPath = config->readEntry("DocPath", docPath);
-  templPath = config->readEntry("TemplatePath", QString::null);
+  templPath = config->readEntry("TemplatePath", QString::null);	//krazy:exclude=nullstrassign for old broken gcc
 
   config->setGroup("Grid");
   sGrid = config->readBoolEntry("Snap", true);
@@ -1470,7 +1470,7 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
             QString pn(i18n("Set the 'text' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "text", w->property("text"),
-                                                              text, QString::null, QString::null);
+                                                              text, QString::null, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
             MetaDataBase::setPropertyChanged(w, "text", true);
@@ -1485,7 +1485,7 @@ bool MainWindow::openEditor(QWidget* w, FormWindow*)
             QString pn(i18n("Set the 'title' of '%1'", w->name()));
             SetPropertyCommand *cmd = new SetPropertyCommand(pn, formWindow(), w, propertyEditor,
                                                               "title", w->property("title"),
-                                                              text, QString::null, QString::null);
+                                                              text, QString::null, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
             cmd->execute();
             formWindow()->commandHistory()->addCommand(cmd);
             MetaDataBase::setPropertyChanged(w, "title", true);
@@ -1710,7 +1710,7 @@ int MainWindow::currentLayoutDefaultMargin() const
 
 QString MainWindow::whatsThisFrom(const QString&)
 {
-  return QString::null;
+  return QString();
 }
 #include "mainwindow.moc"
 

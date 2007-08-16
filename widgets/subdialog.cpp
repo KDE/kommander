@@ -130,7 +130,7 @@ QString SubDialog::handleDBUS(int function, const QStringList& args)
     case DBUS::text:
     {
       if (!m_dialog)
-        return QString::null;
+        return QString();
       KommanderWidget *atw = dynamic_cast<KommanderWidget *>(m_dialog);
       if(atw)
         return atw->evalAssociatedText();
@@ -138,7 +138,7 @@ QString SubDialog::handleDBUS(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

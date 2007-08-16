@@ -108,7 +108,7 @@ QString SpinBoxInt::handleDBUS(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "spinboxint.moc"

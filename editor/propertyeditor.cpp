@@ -523,7 +523,7 @@ void PropertyItem::drawCustomContents( QPainter *, const QRect & )
 
 QString PropertyItem::currentItem() const
 {
-    return QString::null;
+    return QString();
 }
 
 int PropertyItem::currentIntItem() const
@@ -546,7 +546,7 @@ int PropertyItem::currentIntItemFromObject() const
 
 QString PropertyItem::currentItemFromObject() const
 {
-    return QString::null;
+    return QString();
 }
 
 void PropertyItem::setFocus( QWidget *w )
@@ -3238,7 +3238,7 @@ void PropertyList::showCurrentWhatsThis()
 QString PropertyList::whatsThisText( Q3ListViewItem *i )
 {
     if ( !i || !editor->widget() )
-	return QString::null;
+	return QString();
     readPropertyDocs();
     if ( ( (PropertyItem*)i )->propertyParent() )
 	i = ( (PropertyItem*)i )->propertyParent();
@@ -3321,7 +3321,7 @@ void EventList::setup()
 	    return;
 	for ( Q3ValueList<MetaDataBase::EventDescription>::Iterator it = events.begin(); it != events.end(); ++it ) {
 	    HierarchyItem *eventItem = new HierarchyItem( HierarchyItem::Event, this, (*it).name,
-							  QString::null, QString::null );
+							  QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
 	    eventItem->setOpen( true );
 	    QStringList funcs = MetaDataBase::eventFunctions( editor->widget(),
 							      (*it).name,
@@ -3332,7 +3332,7 @@ void EventList::setup()
 #endif
 	    for ( QStringList::Iterator fit = funcs.begin(); fit != funcs.end(); ++fit ) {
 		HierarchyItem *item = new HierarchyItem( HierarchyItem::EventFunction, eventItem,
-							 *fit, QString::null, QString::null );
+							 *fit, QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
 		item->setPixmap( 0, PixmapChooser::loadPixmap( "editslots.xpm" ) );
 	    }
 #if 0 // ### for conversation from old to new
@@ -3346,7 +3346,7 @@ void EventList::setup()
 	QStrListIterator it( sigs );
 	while ( it.current() ) {
 	    HierarchyItem *eventItem = new HierarchyItem( HierarchyItem::Event, this,
-							  it.current(), QString::null, QString::null );
+							  it.current(), QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
 	    eventItem->setOpen( true );
 	    Q3ValueList<MetaDataBase::Connection> conns =
 		MetaDataBase::connections( formWindow, editor->widget(), formWindow->mainContainer() );
@@ -3355,7 +3355,7 @@ void EventList::setup()
 		     MetaDataBase::normalizeSlot( QString( it.current() ) ) )
 		    continue;
 		HierarchyItem *item = new HierarchyItem( HierarchyItem::EventFunction, eventItem,
-							 (*cit).slot, QString::null, QString::null );
+							 (*cit).slot, QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
 		item->setPixmap( 0, PixmapChooser::loadPixmap( "editslots.xpm" ) );
 	    }
 	    ++it;
@@ -3676,7 +3676,7 @@ FormWindow *PropertyEditor::formWindow() const
 QString PropertyEditor::currentProperty() const
 {
     if ( !wid )
-	return QString::null;
+	return QString();
     if ( ( (PropertyItem*)listview->currentItem() )->propertyParent() )
 	return ( (PropertyItem*)listview->currentItem() )->propertyParent()->name();
     return ( (PropertyItem*)listview->currentItem() )->name();
@@ -3685,7 +3685,7 @@ QString PropertyEditor::currentProperty() const
 QString PropertyEditor::classOfCurrentProperty() const
 {
     if ( !wid )
-	return QString::null;
+	return QString();
     QObject *o = wid;
     QString curr = currentProperty();
     QMetaObject *mo = o->metaObject();
@@ -3695,7 +3695,7 @@ QString PropertyEditor::classOfCurrentProperty() const
 	    return mo->className();
 	mo = mo->superClass();
     }
-    return QString::null;
+    return QString();
 }
 
 QMetaObject* PropertyEditor::metaObjectOfCurrentProperty() const

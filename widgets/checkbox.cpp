@@ -56,7 +56,7 @@ QString CheckBox::currentState() const
     return "semichecked";
   else if (state() == QCheckBox::On)
     return "checked";
-  return QString::null;
+  return QString();
 }
 
 bool CheckBox::isKommanderWidget() const
@@ -122,7 +122,7 @@ QString CheckBox::handleDBUS(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

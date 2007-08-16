@@ -35,7 +35,7 @@ StatusBar::StatusBar(QWidget *a_parent, const char *a_name)
   states << "default";
   setStates(states);
   setDisplayStates(states);
-  insertItem(QString::null, 0, 1);
+  insertItem(QString::null, 0, 1);	//krazy:exclude=nullstrassign for old broken gcc
   setItemAlignment(0, Qt::AlignLeft);
 }
 
@@ -110,7 +110,7 @@ QString StatusBar::handleDBUS(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "statusbar.moc"

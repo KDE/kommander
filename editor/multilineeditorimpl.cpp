@@ -84,7 +84,7 @@ QString TextEditor::getText( QWidget *parent, const QString &text )
 	}
 	return txt;
     }
-    return QString::null;
+    return QString();
 }
 
 void TextEditor::okClicked()

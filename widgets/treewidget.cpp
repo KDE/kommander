@@ -146,7 +146,7 @@ QListViewItem* TreeWidget::indexToItem(int item)
 QString TreeWidget::itemText(QListViewItem* item)
 {
   if (!item)
-    return QString::null;
+    return QString();
   QStringList items;
   for (int i=0; i<columns(); i++)
     items.append(item->text(i));
@@ -173,7 +173,7 @@ QString TreeWidget::itemsText()
 QString TreeWidget::itemPath(QListViewItem* item)
 {
   if (!item) 
-    return QString::null;
+    return QString();
   item = item->parent();
   QStringList path;
   while (item) 
@@ -313,7 +313,7 @@ QString TreeWidget::handleDBUS(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "treewidget.moc"

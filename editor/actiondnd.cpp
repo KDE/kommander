@@ -186,7 +186,7 @@ QDesignerToolBar::QDesignerToolBar( Q3MainWindow *mw )
 }
 
 QDesignerToolBar::QDesignerToolBar( Q3MainWindow *mw, Qt::ToolBarDock dock )
-    : Q3ToolBar( QString::null, mw, dock), lastIndicatorPos( -1, -1 )
+    : Q3ToolBar( QString::null, mw, dock), lastIndicatorPos( -1, -1 )	//krazy:exclude=nullstrassign for old broken gcc
 {
     insertAnchor = 0;
     afterAnchor = true;
@@ -950,7 +950,7 @@ void QDesignerMenuBar::setItemText( const QString &s )
 QString QDesignerMenuBar::itemText() const
 {
     if ( itemNum < 0 || (int)itemNum >= (int)count() )
-	return QString::null;
+	return QString();
     return text( idAt( itemNum ) );
 }
 

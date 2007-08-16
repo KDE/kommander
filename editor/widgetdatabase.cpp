@@ -742,7 +742,7 @@ QString WidgetDatabase::className( int id )
     setupDataBase( id );
     WidgetDatabaseRecord *r = at( id );
     if ( !r )
-	return QString::null;
+	return QString();
     return r->name;
 }
 
@@ -755,7 +755,7 @@ QString WidgetDatabase::group( int id )
     setupDataBase( id );
     WidgetDatabaseRecord *r = at( id );
     if ( !r )
-	return QString::null;
+	return QString();
     return r->group;
 }
 
@@ -768,7 +768,7 @@ QString WidgetDatabase::toolTip( int id )
     setupDataBase( id );
     WidgetDatabaseRecord *r = at( id );
     if ( !r )
-	return QString::null;
+	return QString();
     return r->toolTip;
 }
 
@@ -781,7 +781,7 @@ QString WidgetDatabase::whatsThis( int id )
     setupDataBase( id );
     WidgetDatabaseRecord *r = at( id );
     if ( !r )
-	return QString::null;
+	return QString();
     return r->whatsThis;
 }
 
@@ -794,7 +794,7 @@ QString WidgetDatabase::includeFile( int id )
     setupDataBase( id );
     WidgetDatabaseRecord *r = at( id );
     if ( !r )
-	return QString::null;
+	return QString();
     if ( r->includeFile.isNull() )
 	return r->name.toLower() + ".h";
     return r->includeFile;
@@ -923,7 +923,7 @@ QString WidgetDatabase::widgetGroup( int i )
     setupDataBase( -1 );
     if ( i >= 0 && i < (int)wGroups->count() )
 	return wGroups->at( i );
-    return QString::null;
+    return QString();
 }
 
 int WidgetDatabase::numWidgetGroups()

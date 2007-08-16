@@ -177,7 +177,7 @@ QString Table::handleDBUS(int function, const QStringList& args)
       return KommanderWidget::handleDBUS(function, args);
       
   }  
-  return QString::null;
+  return QString();
 }
 
 #include "table.moc"
