@@ -588,7 +588,7 @@ void MainWindow::setupHelpActions()
 void MainWindow::fileNew()
 {
   statusBar()->message(i18n("Create a new dialog..."));
-  NewForm dlg(this, QString::null);
+  NewForm dlg(this, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
   dlg.exec();
   statusBar()->clear();
 }
@@ -615,7 +615,7 @@ void MainWindow::fileOpen(const QString & fn)
 
   QStringList filenames;
   if (fn.isEmpty())
-    filenames = KFileDialog::getOpenFileNames(QString::null, i18n("*.kmdr|Kommander Files"), this, i18n("Open Files"));
+    filenames = KFileDialog::getOpenFileNames(QString::null, i18n("*.kmdr|Kommander Files"), this, i18n("Open Files"));	//krazy:exclude=nullstrassign for old broken gcc
   else
     filenames << fn;
   for (QStringList::ConstIterator fit = filenames.constBegin(); fit != filenames.constEnd(); ++fit)
@@ -660,7 +660,7 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
         ff = new FormFile(filename, false);
       bool b = resource.load(ff) && (FormWindow *) resource.widget();
       if (!validFileName && resource.widget())
-        ((FormWindow *) resource.widget())->setFileName(QString::null);
+        ((FormWindow *) resource.widget())->setFileName(QString::null);	//krazy:exclude=nullstrassign for old broken gcc
       QApplication::restoreOverrideCursor();
       if (b)
       {
@@ -1156,9 +1156,7 @@ void MainWindow::chooseDocPath()
 {
   if (!prefDia)
     return;
-  QString fn = KFileDialog::getExistingDirectory(QString::null, this);
+  QString fn = KFileDialog::getExistingDirectory(QString::null, this);	//krazy:exclude=nullstrassign for old broken gcc
   if (!fn.isEmpty())
     prefDia->editDocPath->setText(fn);
 }
-
-

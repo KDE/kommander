@@ -925,7 +925,7 @@ QStringList qChoosePixmaps( QWidget *parent )
     filter.prepend( all + qApp->translate( "qChoosePixmap", ")\n" ) );
     filter += qApp->translate( "qChoosePixmap", "All Files (*)" );
 
-    Q3FileDialog fd( QString::null, filter, parent, 0, true );
+    Q3FileDialog fd( QString::null, filter, parent, 0, true );	//krazy:exclude=nullstrassign for old broken gcc
     fd.setMode( Q3FileDialog::ExistingFiles );
     fd.setContentsPreviewEnabled( true );
     PixmapView *pw = new PixmapView( &fd );
@@ -957,7 +957,7 @@ QPixmap qChoosePixmap( QWidget *parent, FormWindow *fw, const QPixmap &old, QStr
 	filter.prepend( all + ")\n" );
 	filter += i18n( "All Files (*)" );
 
-	Q3FileDialog fd( QString::null, filter, parent, 0, true );
+	Q3FileDialog fd( QString::null, filter, parent, 0, true );	//krazy:exclude=nullstrassign for old broken gcc
 	fd.setContentsPreviewEnabled( true );
 	PixmapView *pw = new PixmapView( &fd );
 	fd.setContentsPreview( pw, pw );

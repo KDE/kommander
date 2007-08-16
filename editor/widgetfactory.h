@@ -197,7 +197,7 @@ private:
     struct Page
     {
 	Page( QWidget *a, const QString &b ) : p( a ), t( b ) {}
-	Page() : p( 0 ), t( QString::null ) {}
+	Page() : p( 0 ), t( QString::null ) {}	//krazy:exclude=nullstrassign for old broken gcc
 	QWidget *p;
 	QString t;
     };

@@ -98,7 +98,7 @@ public:
         { setUpdatesEnabled(FALSE);  triggerUpdate();  setUpdatesEnabled(TRUE);
          Q3ListView::drawContentsOffset(p, ox, oy, cx, cy, cw, ch); }
   void insertEntry(Q3ListViewItem * i, const QPixmap & pix = QPixmap(), const QString & s =
-      QString::null);
+      QString::null);	//krazy:exclude=nullstrassign for old broken gcc
 
 protected:
   void keyPressEvent(QKeyEvent * e);

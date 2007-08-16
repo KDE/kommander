@@ -1288,7 +1288,7 @@ void FormWindow::endRectDraw()
 
   if (oldRectValid)
     unclippedPainter->drawRect(currRect);
-  drawSizePreview(QPoint(-1, -1), QString::null);
+  drawSizePreview(QPoint(-1, -1), QString::null);	//krazy:exclude=nullstrassign for old broken gcc
   endUnclippedPainter();
 }
 

@@ -35,7 +35,7 @@ public:
    */
    enum PrototypeFlags {SkipFirstArgument = 1, ShowArgumentNames = 2, NoSpaces = 4};
    SpecialFunction(const QString& function, const QString& description
-     = QString::null, int minArgs = -1, int maxArgs = -1);
+     = QString::null, int minArgs = -1, int maxArgs = -1);	//krazy:exclude=nullstrassign for old broken gcc
    SpecialFunction()   {m_minArgs = m_maxArgs = 0;}
    /* minimum number of arguments */
    int minArg() const    {return m_minArgs;}
@@ -81,7 +81,7 @@ public:
   static bool isValidArg(int gname, int fname, int args);
   static QString description(int gname, int fname);
   static QString prototype(int gname, int fname, int prototypeFlags = 0);
-  static bool insert(int id, const QString& function, const QString description = QString::null,
+  static bool insert(int id, const QString& function, const QString description = QString::null,	//krazy:exclude=nullstrassign for old broken gcc
     int minArgs = -1, int maxArgs = -1);
   static bool insertAlias(int id, const QString& alias);
   static void insertGroup(int id, const QString& name, const QString& parserName);

@@ -1379,7 +1379,7 @@ void KommanderFactory::loadToolBars( const QDomElement &e )
     while ( !n.isNull() ) {
 	if ( n.tagName() == "toolbar" ) {
 	    Qt::ToolBarDock dock = (Qt::ToolBarDock)n.attribute( "dock" ).toInt();
-	    tb = new Q3ToolBar( QString::null, mw, dock );
+	    tb = new Q3ToolBar( QString::null, mw, dock );	//krazy:exclude=nullstrassign for old broken gcc
 	    tb->setLabel( n.attribute( "label" ) );
 	    tb->setObjectName( n.attribute( "name" ) );
 	    QDomElement n2 = n.firstChild().toElement();
