@@ -29,9 +29,9 @@ class AssistProc : public Q3Process
 {
     Q_OBJECT
 public:
-    AssistProc( QObject *parent=0, const char * name = 0, const QString &path = QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+    AssistProc( QObject *parent=0, const char * name = 0, const QString &path = QString() );
     ~AssistProc();
-    bool run( const QString &path = QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+    bool run( const QString &path = QString() );
 
 public slots:
     bool sendRequest( const QString &data );

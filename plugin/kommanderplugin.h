@@ -48,7 +48,7 @@ class KOMMANDER_EXPORT KommanderPlugin : public QObject
     KommanderPlugin();
     ~KommanderPlugin();
 
-    virtual void addWidget( const QString &name, const QString &group, const QString &toolTip, const QString &whatsThis = QString::null, bool isContainer = FALSE );	//krazy:exclude=nullstrassign for old broken gcc
+    virtual void addWidget( const QString &name, const QString &group, const QString &toolTip, const QString &whatsThis = QString(), bool isContainer = FALSE );
     virtual void removeWidget( const QString &name );
     virtual QStringList widgets() const;
 
@@ -61,7 +61,7 @@ private:
     struct WidgetInfo
     {
 	WidgetInfo() { }
-	WidgetInfo( const QString &g, const QString &t, const QString &w = QString::null, bool c = FALSE )	//krazy:exclude=nullstrassign for old broken gcc
+	WidgetInfo( const QString &g, const QString &t, const QString &w = QString(), bool c = FALSE )
 	    : group( g ), toolTip( t ), whatsThis( w ), isContainer( c )
 	{
 	}

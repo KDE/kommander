@@ -2684,7 +2684,7 @@ void Resource::loadFunctions( const QDomElement &e )
 	}
 	n = n.nextSibling().toElement();
     }
-    MetaDataBase::setFunctionBodies( formwindow, bodies, QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+    MetaDataBase::setFunctionBodies( formwindow, bodies, QString(), QString() );
     if ( !bodies.isEmpty() ) {
 	LanguageInterface *iface = langIface;
 	if ( !iface )
@@ -2787,7 +2787,7 @@ void Resource::loadExtraSource()
 	MetaDataBase::setFunctionComments( formwindow, (*fit).name, (*fit).comments );
 	bodies.insert( MetaDataBase::normalizeSlot( (*fit).name ), (*fit).body );
     }
-    MetaDataBase::setFunctionBodies( formwindow, bodies, QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+    MetaDataBase::setFunctionBodies( formwindow, bodies, QString(), QString() );
 
     QStringList v = MetaDataBase::variables( formwindow );
     QStringList::Iterator vit;

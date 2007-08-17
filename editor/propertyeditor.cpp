@@ -3321,7 +3321,7 @@ void EventList::setup()
 	    return;
 	for ( Q3ValueList<MetaDataBase::EventDescription>::Iterator it = events.begin(); it != events.end(); ++it ) {
 	    HierarchyItem *eventItem = new HierarchyItem( HierarchyItem::Event, this, (*it).name,
-							  QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+							  QString(), QString() );
 	    eventItem->setOpen( true );
 	    QStringList funcs = MetaDataBase::eventFunctions( editor->widget(),
 							      (*it).name,
@@ -3332,7 +3332,7 @@ void EventList::setup()
 #endif
 	    for ( QStringList::Iterator fit = funcs.begin(); fit != funcs.end(); ++fit ) {
 		HierarchyItem *item = new HierarchyItem( HierarchyItem::EventFunction, eventItem,
-							 *fit, QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+							 *fit, QString(), QString() );
 		item->setPixmap( 0, PixmapChooser::loadPixmap( "editslots.xpm" ) );
 	    }
 #if 0 // ### for conversation from old to new
@@ -3346,7 +3346,7 @@ void EventList::setup()
 	QStrListIterator it( sigs );
 	while ( it.current() ) {
 	    HierarchyItem *eventItem = new HierarchyItem( HierarchyItem::Event, this,
-							  it.current(), QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+							  it.current(), QString(), QString() );
 	    eventItem->setOpen( true );
 	    Q3ValueList<MetaDataBase::Connection> conns =
 		MetaDataBase::connections( formWindow, editor->widget(), formWindow->mainContainer() );
@@ -3355,7 +3355,7 @@ void EventList::setup()
 		     MetaDataBase::normalizeSlot( QString( it.current() ) ) )
 		    continue;
 		HierarchyItem *item = new HierarchyItem( HierarchyItem::EventFunction, eventItem,
-							 (*cit).slot, QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+							 (*cit).slot, QString(), QString() );
 		item->setPixmap( 0, PixmapChooser::loadPixmap( "editslots.xpm" ) );
 	    }
 	    ++it;

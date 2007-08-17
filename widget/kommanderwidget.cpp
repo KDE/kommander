@@ -400,7 +400,7 @@ void KommanderWidget::printError(const QString& a_error) const
                 i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
     switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
                 i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->name()),
-                     a_error), QStringList(), QString::null, 0, 0))	//krazy:exclude=nullstrassign for old broken gcc
+                     a_error), QStringList(), QString(), 0, 0))
     {
       case KDialog::No:
         showErrors = false;

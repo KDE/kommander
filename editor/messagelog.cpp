@@ -125,7 +125,7 @@ void MessageLog::saveToFile()
   QFileInfo fileinfo(url.path());
   if (fileinfo.exists() && KMessageBox::warningContinueCancel(0,
       i18n("<qt>File<br><b>%1</b><br>already exists. Overwrite it?</qt>",
-           url.path()), QString::null, i18n("Overwrite")) == KMessageBox::Cancel)	//krazy:exclude=nullstrassign for old broken gcc
+           url.path()), QString(), i18n("Overwrite")) == KMessageBox::Cancel)
     return;
   QFile file(url.path());
   if (!file.open(QIODevice::WriteOnly)) {

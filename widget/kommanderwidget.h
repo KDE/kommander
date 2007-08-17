@@ -120,12 +120,12 @@ protected:
   QString DBUSQuery(const QStringList& args);
   QString localDBUSQuery(const QString function, const QStringList& args = QStringList());
   QString localDBUSQuery(const QString function, const QString& arg1, 
-     const QString& arg2, const QString& arg3 = QString::null,	//krazy:exclude=nullstrassign for old broken gcc
-     const QString& arg4 = QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+     const QString& arg2, const QString& arg3 = QString(),
+     const QString& arg4 = QString());
   // Execute given command, return its result
-  QString execCommand(const QString& a_command, const QString& a_shell = QString::null) const;	//krazy:exclude=nullstrassign for old broken gcc
+  QString execCommand(const QString& a_command, const QString& a_shell = QString()) const;
   // Find and run dialog (with optional parameters)
-  QString runDialog(const QString& a_dialog, const QString& a_params = QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+  QString runDialog(const QString& a_dialog, const QString& a_params = QString());
   // Display error message a_error; display current class name if no other is given
   void printError(const QString& a_error) const;
   

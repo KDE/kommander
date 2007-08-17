@@ -146,7 +146,7 @@ void AssocTextEditor::save() const
     QString text = i18n("Set the \'text association\' of \'%1\'", m_widget->name());
     SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow,
         m_widget, m_propertyEditor, "associations", atw->associatedText(),
-        associatedText(), QString::null, QString::null, false);	//krazy:exclude=nullstrassign for old broken gcc
+        associatedText(), QString(), QString(), false);
     cmd->execute();
     m_formWindow->commandHistory()->addCommand(cmd);
     MetaDataBase::setPropertyChanged(m_widget, "associations", true);
@@ -156,7 +156,7 @@ void AssocTextEditor::save() const
     QString text = i18n("Set the \'population text\' of \'%1\'", m_widget->name());
     SetPropertyCommand *cmd  = new SetPropertyCommand(text, m_formWindow, m_widget,
         m_propertyEditor, "populationText", atw->populationText(),
-        populationText(), QString::null, QString::null, false);	//krazy:exclude=nullstrassign for old broken gcc
+        populationText(), QString(), QString(), false);
     cmd->execute();
     m_formWindow->commandHistory()->addCommand(cmd);
     MetaDataBase::setPropertyChanged(m_widget, "populationText", true);

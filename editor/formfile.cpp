@@ -112,7 +112,7 @@ bool FormFile::save(bool withMsgBox)
   if (!resource.save(filename, false))
   {
     if (KMessageBox::questionYesNo(MainWindow::self, i18n("Failed to save file '%1'.\n"
-        "Do you want to use another file name?", filename), QString::null, i18n("Try Another"), i18n("Do Not Try")) == KMessageBox::Yes)	//krazy:exclude=nullstrassign for old broken gcc
+        "Do you want to use another file name?", filename), QString(), i18n("Try Another"), i18n("Do Not Try")) == KMessageBox::Yes)	//krazy:exclude=nullstrassign for old broken gcc
       return saveAs();
     else 
       return false;

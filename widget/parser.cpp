@@ -158,7 +158,7 @@ QString Parser::expression(Mode mode)
 
 bool Parser::isError() const
 {
-  return m_error != QString::null;	//krazy:exclude=nullstrassign for old broken gcc
+  return m_error != QString();
 }
 
 
@@ -680,7 +680,7 @@ void Parser::setError(const QString& msg)
 
 void Parser::setError(const QString& msg, int pos)
 {
-  if (m_error == QString::null)	//krazy:exclude=nullstrassign for old broken gcc
+  if (m_error == QString())
   {
     m_errorPosition = pos;
     m_error = msg;
@@ -746,14 +746,14 @@ void Parser::unsetArray(const QString& name, const QString& key)
 {
   if (isGlobal(name))
   {
-    if (key == QString::null)	//krazy:exclude=nullstrassign for old broken gcc
+    if (key == QString())
       m_globalArrays.remove(name);
     else if (isArray(name))
       m_globalArrays[name].remove(key);
   }
   else
   {
-    if (key == QString::null)	//krazy:exclude=nullstrassign for old broken gcc
+    if (key == QString())
       m_arrays.remove(name);
     else if (isArray(name))
       m_arrays[name].remove(key);

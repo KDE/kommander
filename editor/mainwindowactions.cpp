@@ -588,7 +588,7 @@ void MainWindow::setupHelpActions()
 void MainWindow::fileNew()
 {
   statusBar()->message(i18n("Create a new dialog..."));
-  NewForm dlg(this, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+  NewForm dlg(this, QString());
   dlg.exec();
   statusBar()->clear();
 }
@@ -660,7 +660,7 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
         ff = new FormFile(filename, false);
       bool b = resource.load(ff) && (FormWindow *) resource.widget();
       if (!validFileName && resource.widget())
-        ((FormWindow *) resource.widget())->setFileName(QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+        ((FormWindow *) resource.widget())->setFileName(QString());
       QApplication::restoreOverrideCursor();
       if (b)
       {

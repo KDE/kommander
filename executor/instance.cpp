@@ -158,7 +158,7 @@ bool Instance::run(QFile *a_file)
 //          " This may mean that it was run from a KMail attachment or from a webpage. "
 //          "<p>Any script contained in this dialog will have write access to all of your home directory; "
 //          "<b>running such dialogs may be dangerous: </b>"
-//          "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)	//krazy:exclude=nullstrassign for old broken gcc
+//          "<p>are you sure you want to continue?</qt>"), QString(), i18n("Run Nevertheless")) == KMessageBox::Cancel)
        return false;
   }
   

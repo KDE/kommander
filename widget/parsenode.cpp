@@ -44,7 +44,7 @@ ParseNode::ParseNode(Keyword k) : m_type(ValueKeyword), m_keyword(k), m_string(Q
   
 ParseNode::ParseNode(Keyword k, const QString& name) : m_type(ValueKeyword), m_keyword(k), m_context(-1)
 {
-  m_string = (k == Variable) ? name : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
+  m_string = (k == Variable) ? name : QString();
 }
 
 ParseNode ParseNode::error(const QString& s)
@@ -127,7 +127,7 @@ QString ParseNode::variableName() const
 
 QString ParseNode::errorMessage() const
 {
-  return isValid() ? QString::null : m_string;	//krazy:exclude=nullstrassign for old broken gcc
+  return isValid() ? QString() : m_string;
 }
 
 

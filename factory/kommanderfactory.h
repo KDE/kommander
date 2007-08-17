@@ -41,8 +41,8 @@ class KommanderPlugin;
 struct KommanderWidgetInfo
 {
     KommanderWidgetInfo() {}
-    KommanderWidgetInfo( const QString &g, const QString &t, const QString &w = QString::null, bool c = FALSE )	//krazy:exclude=nullstrassign for old broken gcc
-	: group( g ), toolTip( t ), whatsThis( w ), isContainer( c )
+    KommanderWidgetInfo( const QString &g, const QString &t, const QString &w = QString(), bool c = FALSE )
+    			 : group( g ), toolTip( t ), whatsThis( w ), isContainer( c )
     {
     }
     QString group;

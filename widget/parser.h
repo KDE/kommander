@@ -63,7 +63,7 @@ public:
   // set array key
   void setArray(const QString& name, const QString& key, ParseNode value);
   // unset array key or whole array
-  void unsetArray(const QString& name, const QString& key = QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+  void unsetArray(const QString& name, const QString& key = QString());
     
   // get associated widget
   KommanderWidget* currentWidget() const;

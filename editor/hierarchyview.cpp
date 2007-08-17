@@ -580,7 +580,7 @@ static HierarchyItem::Type getChildType( int type )
 void HierarchyList::insertEntry( Q3ListViewItem *i, const QPixmap &pix, const QString &s )
 {
     HierarchyItem *item = new HierarchyItem( getChildType( i->rtti() ), i, s,
-               QString::null, QString::null );
+               QString(), QString() );
     if ( !pix.isNull() )
   item->setPixmap( 0, pix );
     item->setRenameEnabled( 0, true );

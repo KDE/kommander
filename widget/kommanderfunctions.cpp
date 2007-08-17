@@ -93,7 +93,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       Expression expr(args[0]);
       bool ok;
       QVariant value = expr.value(&ok);
-      return ok ? value.toString() : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
+      return ok ? value.toString() : QString();
     }
     default:
       return QString();
@@ -111,7 +111,7 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
   } 
   else
   {
-    QString shell = args.count() ? args[0] : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
+    QString shell = args.count() ? args[0] : QString();
     int start = pos;
     pos = f + QString("@execEnd").length()+1;
     return execCommand(evalAssociatedText(s.mid(start, f - start)), shell);
@@ -260,7 +260,7 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     return QString();
   else switch (fname) {
     case Array::value:
-      return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
+      return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString();
     case Array::keys:
       return QStringList(m_arrays[args[0]].keys()).join("\n");
     case Array::values:

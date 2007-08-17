@@ -118,10 +118,10 @@ void CustomFormItem::insert()
       delete ff;
       return;
     }
-    ff->setFileName(QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+    ff->setFileName(QString());
     if (MainWindow::self->formWindow())
     {
-      MainWindow::self->formWindow()->setFileName(QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+      MainWindow::self->formWindow()->setFileName(QString());
       unifyFormName(MainWindow::self->formWindow(), MainWindow::self->qWorkspace());
     }
   }

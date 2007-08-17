@@ -52,7 +52,7 @@ void FileChooser::chooseFile()
 {
     QString fn;
     if ( mode() == File )
-	fn = KFileDialog::getOpenFileName( lineEdit->text(), QString::null, this );	//krazy:exclude=nullstrassign for old broken gcc
+	fn = KFileDialog::getOpenFileName( lineEdit->text(), QString(), this );
     else
 	fn = KFileDialog::getExistingDirectory( lineEdit->text(),this );
 
