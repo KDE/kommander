@@ -29,7 +29,7 @@
 #include <qfont.h>
 #include <qdom.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QString>
 
 /*!
   \class DomTool domtool.h
@@ -171,7 +171,7 @@ QVariant DomTool::elementToVariant( const QDomElement& e, const QVariant& defVal
 	if ( n.tagName() == "comment" )
 	    comment = n.firstChild().toText().data();
     } else if ( e.tagName() == "cstring" ) {
-	v = QVariant( Q3CString( e.firstChild().toText().data().toAscii() ) );
+	v = QVariant( QString( e.firstChild().toText().data().toAscii() ) );
     } else if ( e.tagName() == "number" ) {
 	bool ok = true;
 	v = QVariant( e.firstChild().toText().data().toInt( &ok ) );
@@ -342,10 +342,10 @@ void DomTool::fixDocument( QDomDocument& doc )
     e = doc.firstChild().toElement();
     if ( e.tagName() != "UI" )
 	return;
-    if ( e.hasAttribute("version") && e.attribute("version").toDouble() >= 3.0 )
+    if ( e.hasAttribute("version") && e.attribute("version").toDouble() >= 4.0 )
 	return;
 
-    e.setAttribute( "version", 3.0 );
+    e.setAttribute( "version", 4.0 );
 
     e.setAttribute("stdsetdef", 1 );
     nl = doc.elementsByTagName( "property" );

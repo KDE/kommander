@@ -23,10 +23,9 @@
 #define _HAVE_KOMMANDERFACTORY_H_
 
 #include <qstring.h>
-#include <q3ptrlist.h>
+#include <qlist.h>
 #include <qimage.h>
 #include <qpixmap.h>
-#include <q3valuelist.h>
 #include <qmap.h>
 #include <qaction.h>
 #include "kommander_export.h"
@@ -34,8 +33,8 @@
 class QWidget;
 class QLayout;
 class QDomElement;
-class Q3ListViewItem;
-class Q3Table;
+class QListWidgetItem;
+class QTableWidget;
 class KommanderPlugin;
 
 struct KommanderWidgetInfo
@@ -82,7 +81,7 @@ private:
     QColorGroup loadColorGroup( const QDomElement &e );
     void createColumn( const QDomElement &e, QWidget *widget );
     void loadItem( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap );
-    void createItem( const QDomElement &e, QWidget *widget, Q3ListViewItem *i = 0 );
+    void createItem( const QDomElement &e, QWidget *widget, QListWidgetItem *i = 0 );
     void loadChildAction( QObject *parent, const QDomElement &e );
     void loadActions( const QDomElement &e );
     void loadToolBars( const QDomElement &e );
@@ -118,7 +117,7 @@ private:
 	EventFunction( const QString &e, const QStringList &f )
 	    : events( e ) { functions.append( f ); }
 	QStringList events;
-	Q3ValueList<QStringList> functions;
+	QList<QStringList> functions;
     };
 
     struct SqlWidgetConnection
@@ -138,12 +137,12 @@ private:
 
     QList<Image> images;
     QWidget *toplevel;
-    Q3ListViewItem *lastItem;
+    QListWidgetItem *lastItem;
     QMap<QString, QString> *dbControls;
     QMap<QString, QStringList> dbTables;
     QMap<QWidget*, SqlWidgetConnection> sqlWidgetConnections;
     QMap<QString, QString> buddies;
-    QMap<Q3Table, QList<Field> > fieldMaps;
+    QMap<QTableWidget*, QList<Field> > fieldMaps;
     QList<QAction *> actionList;
     QMap<QObject *, EventFunction> eventMap;
     QMap<QString, QString> languageSlots;
