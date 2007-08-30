@@ -13,6 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
+/* KDE INCLUDES */
+#include <kprocess.h>
+
 /* QT INCLUDES */
 #include <qcursor.h>
 #include <qstring.h>
@@ -23,20 +26,21 @@
 #include <kommanderwidget.h>
 #include <specials.h>
 #include "konsole.h"
-#include <myprocess.h>
 
 Konsole::Konsole(QWidget* a_parent, const char* a_name)
-  : KTextEdit(a_parent), KommanderWidget(this), mSeenEOL(false), mProcess(false)
+  : KTextEdit(a_parent), KommanderWidget(this), mSeenEOL(false)
 {
-  this->setObjectName(a_name);
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
   setDisplayStates(states);
+  mProcess = 0;
 }
 
 Konsole::~Konsole()
 {
+  delete mProcess;
 }
 
 QString Konsole::currentState() const
@@ -86,26 +90,30 @@ void Konsole::execute()
   if (mProcess)
     cancel();
   mSeenEOL = false;
-  mProcess = new MyProcess(this);
-  mProcess->setBlocking(false);
-  connect(mProcess, SIGNAL(processExited(MyProcess*)), SLOT(processExited(MyProcess*)));
-  connect(mProcess, SIGNAL(processReceivedStdout(MyProcess*, char*, int)), SLOT(processReceivedStdout(MyProcess*, char*, int)));
+  mProcess = new KProcess(this);
+  connect(mProcess, SIGNAL(processExited(int, QProcess::ExitStatus)), SLOT(processExited(int, QProcess::ExitStatus)));
+  connect(mProcess, SIGNAL(readyReadStandardOutput()), SLOT(processReceivedStdout()));
   setCursor(QCursor(Qt::WaitCursor));
-  mProcess->run(at);
+  mProcess->setProgram(at);
+  mProcess->start();
+  if (!mProcess->waitForStarted()) {
+    delete mProcess;
+    mProcess = 0;
+  }
 }
 
 void Konsole::cancel()
 {
   if (!mProcess) 
     return;
-  mProcess->cancel();
-  processExited(mProcess);
+  mProcess->kill(); // terminate FIXME
+  processExited(mProcess->exitCode(), mProcess->exitStatus());
 }
 
 
-void Konsole::processReceivedStdout(MyProcess*, char* buffer, int buflen)
+void Konsole::processReceivedStdout()
 {
-  QString pBuf = QString::fromLocal8Bit(buffer, buflen);  
+  QString pBuf = QString::fromLocal8Bit(mProcess->readAllStandardOutput().data());  
   if (mSeenEOL)
     pBuf = "\n" + pBuf;
   mSeenEOL = pBuf[pBuf.length()-1] == '\n';
@@ -114,9 +122,10 @@ void Konsole::processReceivedStdout(MyProcess*, char* buffer, int buflen)
   insert(pBuf);
 }
 
-void Konsole::processExited(MyProcess*)
+void Konsole::processExited(int c, QProcess::ExitStatus exitStatus)
 {
   unsetCursor();
+  processReceivedStdout();
   delete mProcess;
   mProcess = 0;
   emit finished();

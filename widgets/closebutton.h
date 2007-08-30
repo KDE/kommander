@@ -30,6 +30,7 @@
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 class QWidget;
+class KProcess;
 
 class QShowEvent;
 class KOMMANDER_EXPORT CloseButton : public KPushButton, public KommanderWidget
@@ -59,6 +60,7 @@ public slots:
   virtual void setWidgetText(const QString &);
   virtual void startProcess();
   virtual void appendOutput();
+  virtual void appendError();
   virtual void endProcess(int, QProcess::ExitStatus);
   virtual void populate();
 signals:
@@ -69,6 +71,7 @@ protected:
   QString m_output;
   void showEvent(QShowEvent* e);
 private:
+  KProcess* m_process;
 };
 
 #endif

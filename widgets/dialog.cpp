@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <kprocess.h>;
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -27,7 +28,6 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "dialog.h"
-#include "myprocess.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : QDialog(a_parent), KommanderWindow(this)
@@ -97,8 +97,10 @@ void Dialog::initialize()
   const QStringList assoc = associatedText();
   if (assoc.count() > 1 && !assoc[1].isEmpty()) 
   {
-    MyProcess proc(this);
-    proc.run( KommanderWidget::evalAssociatedText(assoc[1]) );
+    KProcess proc(this);
+    proc.setProgram( KommanderWidget::evalAssociatedText(assoc[1]) );
+    proc.start();
+    proc.waitForFinished();
   }
 }
 
@@ -107,8 +109,10 @@ void Dialog::destroy()
   const QStringList assoc = associatedText();
   if (assoc.count() > 2 && !assoc[2].isEmpty()) 
   {
-    MyProcess proc(this);
-    proc.run( KommanderWidget::evalAssociatedText(assoc[2]) );
+    KProcess proc(this);
+    proc.setProgram( KommanderWidget::evalAssociatedText(assoc[1]) );
+    proc.start();
+    proc.waitForFinished();
   }
 }
 

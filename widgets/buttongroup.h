@@ -17,9 +17,9 @@
 #define _HAVE_BUTTONGROUP_H_
 
 /* KDE INCLUDES */
+#include <kbuttongroup.h>
 
 /* QT INCLUDES */
-#include <qbuttongroup.h>
 #include <qobject.h>
 #include <qstringlist.h>
 #include <qstring.h>
@@ -33,7 +33,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ButtonGroup : public QButtonGroup, public KommanderWidget
+class KOMMANDER_EXPORT ButtonGroup : public KButtonGroup, public KommanderWidget
 {
   Q_OBJECT
 

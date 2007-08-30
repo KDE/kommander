@@ -18,17 +18,16 @@
 #include <qwidget.h>
 //Added by qt3to4:
 #include <QLabel>
-#include <Q3Frame>
+//#include <QFrame>
 
 /* KDE INCLUDES */
 #include <kglobal.h>
 #include <kiconloader.h>
-
+#include <kprocess.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "timer.h"
-#include "myprocess.h"
 #include "specials.h"
 
 Timer::Timer(QWidget *a_parent, const char *a_name)
@@ -40,10 +39,10 @@ Timer::Timer(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-   /*FIXME setPixmap(KIconLoader::global()->loadIcon("kalarm", KIcon::NoGroup, KIcon::SizeMedium));
-    setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
+    setPixmap(KIconLoader::global()->loadIcon("kalarm", K3Icon::NoGroup, K3Icon::SizeMedium));
+    //setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
     setLineWidth(1);
-    setFixedSize(pixmap()->size());*/
+    setFixedSize(pixmap()->size());
   }
   else
     setHidden(true);
@@ -120,11 +119,18 @@ void Timer::populate()
 
 void Timer::executeProcess(bool blocking)
 {
-  MyProcess process(this);
-  process.setBlocking(blocking);
-  process.run(evalAssociatedText());
+  KProcess process(this);
+  process.setProgram(evalAssociatedText());
+  process.start();
   if (blocking)
+  {  
+    process.waitForFinished();
     emit finished();
+  }
+  else
+  {
+    //do something
+  }
 }
 
 void Timer::timeout()

@@ -23,28 +23,27 @@
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <kicon.h>
+#include <kprocess.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "scriptobject.h"
-#include "myprocess.h"
 #include "specials.h"
 
 ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   : QLabel(a_parent), KommanderWidget(this)
 {
   QStringList states;
-  this->setObjectName(a_name);
+  setObjectName(a_name);
   states << "default";
   setStates(states);
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-   /* FIXME_ICON setPixmap(KIconLoader::global()->loadIcon("exec")); //FIXME  KIcon::NoGroup, KIcon::SizeMedium));
-    setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
+    setPixmap(KIconLoader::global()->loadIcon("exec",K3Icon::NoGroup)); //FIXME  KIcon::NoGroup, KIcon::SizeMedium));
+    //setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
-    */
   }
   else
     setHidden(true);
@@ -96,9 +95,11 @@ void ScriptObject::populate()
 
 void ScriptObject::executeProcess(bool blocking)
 {
-  MyProcess process(this);
-  process.setBlocking(blocking);
-  process.run(evalAssociatedText());
+  KProcess process(this);
+  process.setProgram(evalAssociatedText());
+  process.start();
+  if (blocking)
+    process.waitForFinished();
 }
 
 void ScriptObject::execute()

@@ -24,15 +24,15 @@
 #include <qstring.h>
 //Added by qt3to4:
 #include <QShowEvent>
+#include <qprogressbar.h>
 
 /* OTHER INCLUDES */
-#include <kprogress.h>
 #include <kommanderwidget.h>
 
 class QWidget;
 
 class QShowEvent;
-class ProgressBar: public KProgress, public KommanderWidget
+class ProgressBar: public QProgressBar, public KommanderWidget
 {
   Q_OBJECT
 

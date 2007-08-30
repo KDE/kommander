@@ -19,14 +19,16 @@
 #include <qevent.h>
 //Added by qt3to4:
 #include <QShowEvent>
+#include <QTextBrowser>
 
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "textbrowser.h"
 
-TextBrowser::TextBrowser(QWidget * a_parent)
-  : KTextBrowser(a_parent), KommanderWidget((QObject *) this)
+TextBrowser::TextBrowser(QWidget * a_parent, const char *a_name)
+  : QTextBrowser(a_parent), KommanderWidget((QObject *) this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -80,7 +82,7 @@ void TextBrowser::setWidgetText(const QString & a_text)
 
 void TextBrowser::showEvent(QShowEvent * e)
 {
-  Q3TextBrowser::showEvent(e);
+  QTextBrowser::showEvent(e);
   emit widgetOpened();
 }
 

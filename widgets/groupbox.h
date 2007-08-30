@@ -33,7 +33,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT GroupBox : public Q3GroupBox, public KommanderWidget
+class KOMMANDER_EXPORT GroupBox : public QWidget, public KommanderWidget
 {
   Q_OBJECT
 

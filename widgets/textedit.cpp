@@ -17,7 +17,6 @@
 
 /* QT INCLUDES */
 #include <qlayout.h>
-#include <qlineedit.h>
 #include <qstringlist.h>
 #include <qevent.h>
 //Added by qt3to4:
@@ -30,7 +29,7 @@
 TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent),
 KommanderWidget((QObject *) this)
 {
-  this->setObjectName(a_name);
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);

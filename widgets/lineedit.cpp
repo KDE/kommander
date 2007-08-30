@@ -28,7 +28,7 @@ LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
 	: KLineEdit(a_parent), KommanderWidget((QObject *)this)
 {
   QStringList states;
-  this->setObjectName(a_name);
+  setObjectName(a_name);
   states << "default";
   setStates(states);
   setDisplayStates(states);

@@ -17,6 +17,7 @@
 /* KDE INCLUDES */
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qdialog.h>
@@ -106,7 +107,8 @@ void CloseButton::startProcess()
   if (!at.isEmpty())
   {
     m_process = new KProcess();
-    m_process << "/bin/sh" << at;
+    m_process->setShellCommand("/bin/sh");
+    m_process->setProgram(at);
     //should emit output and block
     connect(m_process, SIGNAL(finished(int,  QProcess::ExitStatus)), SLOT(endProcess(int,  QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(appendOutput()));
@@ -134,7 +136,7 @@ void CloseButton::appendOutput()
   m_output += a;
   if (writeStdout())
   {
-    stdout << a <<flush;
+    // FIXME stdout << a <<flush;
   }
 }
 
@@ -144,7 +146,7 @@ void CloseButton::appendError()
   m_output += a;
   if (writeStdout())
   {
-    stderr << a <<flush;
+    // FIXME stderr << a <<flush;
   }
   
 }

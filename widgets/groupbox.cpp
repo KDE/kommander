@@ -21,8 +21,8 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
-#include <q3groupbox.h>
 #include <qobject.h>
+#include <qwidget.h>
 //Added by qt3to4:
 #include <QShowEvent>
 
@@ -31,8 +31,9 @@
 #include "groupbox.h"
 
 GroupBox::GroupBox(QWidget *a_parent, const char *a_name)
-  : Q3GroupBox(a_parent, a_name), KommanderWidget(this)
+  : QWidget(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -94,7 +95,7 @@ void GroupBox::removeChild(QObject *a_child)
 
 void GroupBox::showEvent( QShowEvent *e )
 {
-  Q3GroupBox::showEvent(e);
+  QWidget::showEvent(e);
   emit widgetOpened();
 }
 
@@ -119,7 +120,7 @@ QString GroupBox::handleDBUS(int function, const QStringList& args)
       return text;
     }
     case DBUS::setText:
-      setTitle(args[0]);
+      //setTitle(args[0]);
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

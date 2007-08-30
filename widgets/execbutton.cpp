@@ -41,7 +41,7 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   : KPushButton(a_parent), KommanderWidget(this)
 {
   QStringList states;
-  this->setObjectName(a_name);
+  setObjectName(a_name);
   states << "default";
   setStates(states);
   setDisplayStates(states);
@@ -99,6 +99,8 @@ void ExecButton::setWidgetText(const QString& a_text)
 
 void ExecButton::startProcess()
 {
+  if (m_process != 0)
+    return;
   QString at = evalAssociatedText().trimmed();
   
   if (m_blockGUI != None)
@@ -106,9 +108,9 @@ void ExecButton::startProcess()
   if (m_blockGUI == GUI)
     KApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
   m_process = new KProcess();
-  connect(m_process, SIGNAL(finished(MyProcess*)), SLOT(finished()));
+  connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(finished(int, QProcess::ExitStatus)));
   //m_blockGUI == GUI;
-  m_process << at;
+  m_process->setProgram(at);
   m_process->start();
   if (m_blockGUI == GUI)
     if (m_process->waitForFinished())
@@ -119,7 +121,7 @@ void ExecButton::startProcess()
     setEnabled(true);
     KApplication::restoreOverrideCursor();
     if (writeStdout())
-      cout << m_process.readAll() << flush; //FIXME m_output.data() << flush;
+      cout << m_process->readAll().data() << flush; //FIXME m_output.data() << flush;
     delete m_process;
     m_process = 0;
   }
@@ -155,7 +157,7 @@ void ExecButton::processExited(int c, QProcess::ExitStatus exitStatus)
     if (writeStdout())
     {
       m_output = m_process->readAll();
-      cout << m_output << flush;
+      cout << m_output.data() << flush;
     }
     delete m_process;
     m_process = 0;

@@ -18,6 +18,7 @@
 
 /* KDE INCLUDES */
 #include <ktextbrowser.h>
+#include <qtextbrowser.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -29,13 +30,13 @@
 #include <kommanderwidget.h>
 
 class QShowEvent;
-class TextBrowser: public KTextBrowser, public KommanderWidget
+class TextBrowser: public QTextBrowser, public KommanderWidget
 {
   Q_OBJECT Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget) 
+  Q_PROPERTY(bool KommanderWidget READ isKomconst char *a_nammanderWidget) 
 public:
-  TextBrowser(QWidget*);
+  TextBrowser(QWidget*,const char *a_name);
   virtual ~TextBrowser();
   
   virtual bool isKommanderWidget() const;

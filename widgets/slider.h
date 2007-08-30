@@ -17,11 +17,12 @@
 #define _HAVE_SLIDER_H_
 
 /* KDE INCLUDES */
-#include <qslider.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
 #include <qstring.h>
+#include <qslider.h>
+
 //Added by qt3to4:
 #include <QShowEvent>
 

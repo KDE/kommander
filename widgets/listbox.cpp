@@ -34,8 +34,9 @@
 #include "listbox.h"
 
 ListBox::ListBox(QWidget *a_parent, const char *a_name)
-  : K3ListBox(a_parent, a_name), KommanderWidget(this)
+  : KListWidget(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -85,13 +86,13 @@ void ListBox::populate()
 void ListBox::setWidgetText(const QString& a_text)
 {
   clear();
-  insertStringList(QStringList::split("\n", a_text));
+  addItems( a_text.split('\n'));
   emit widgetTextChanged(a_text);
 }
 
 void ListBox::showEvent(QShowEvent *e)
 {
-  Q3ListBox::showEvent(e);
+  QListWidget::showEvent(e);
   emit widgetOpened();
 }
 
@@ -122,7 +123,7 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
     }
     case DBUS::setSelection:
     {
-      Q3ListBoxItem* found = findItem(args[0]);
+      QListWidgetItem* found = findItem(args[0]);
       if (found)
         setCurrentItem(index(found));
       break;
@@ -164,7 +165,7 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
       break;
     case DBUS::findItem:
     {
-      Q3ListBoxItem* found = findItem(args[0]); // exact match
+      QListWidgetItem* found = findItem(args[0]); // exact match
       if (!found) found = findItem(args[0]); // startswith FIXME
       if (!found) found = findItem(args[0]); //contains FIXME
       if (found)

@@ -74,7 +74,7 @@ public slots:
   // Execute script from associastedText
   virtual void startProcess();
   // Process has ended
-  virtual void processExited(MyProcess* p);
+  virtual void processExited(int, QProcess::ExitStatus);
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
@@ -86,7 +86,7 @@ protected:
   Blocking m_blockGUI;
   // Output from process
   QString m_output;
-  KProcess m_process;
+  KProcess* m_process;
   void showEvent( QShowEvent *e );
 private:
 };

@@ -30,7 +30,7 @@
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 
-class Q3BoxLayout;
+class QBoxLayout;
 class KPushButton;
 class KLineEdit;
 
@@ -93,7 +93,7 @@ protected:
   SelectionType m_selectionType;
   KLineEdit *m_lineEdit;
   KPushButton *m_selectButton;
-  Q3BoxLayout *m_boxLayout;
+  QBoxLayout *m_boxLayout;
   void showEvent(QShowEvent *e);
 private:
 };

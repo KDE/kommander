@@ -22,7 +22,7 @@
 #include <qstringlist.h>
 #include <qevent.h>
 #include <qpushbutton.h>
-#include <qdialog.h>
+#include <kdialog.h>
 //Added by qt3to4:
 #include <QShowEvent>
 
@@ -33,8 +33,9 @@
 #include "subdialog.h"
 
 SubDialog::SubDialog(QWidget *a_parent, const char *a_name)
-  : QPushButton(a_parent, a_name), KommanderWidget(this), m_dialog(0)
+  : KPushButton(a_parent), KommanderWidget(this), m_dialog(0)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -100,7 +101,7 @@ void SubDialog::showDialog()
   delete m_dialog;
 
   KommanderFactory::loadPlugins();
-  m_dialog = (QDialog *)KommanderFactory::create(kmdrFile());
+  m_dialog = (KDialog *)KommanderFactory::create(kmdrFile());
   if(!m_dialog)
     qWarning("Creation of sub dialog failed ..");
   connect(m_dialog, SIGNAL(finished()), this, SLOT(slotFinished()));

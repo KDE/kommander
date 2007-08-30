@@ -2,9 +2,12 @@
 add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 INCLUDE_DIRECTORIES( 
-	${CMAKE_SOURCE_DIR}/kommander/widget 
+ 	${CMAKE_SOURCE_DIR}/kommander/widget 
 	${CMAKE_SOURCE_DIR}/kommander/factory 
 	${CMAKE_SOURCE_DIR}/kommander/plugin 
+ 	${CMAKE_SOURCE_DIR}/widget 
+	${CMAKE_SOURCE_DIR}/factory 
+	${CMAKE_SOURCE_DIR}/plugin 
 	${CMAKE_CURRENT_SOURCE_DIR} 
 	${CMAKE_CURRENT_BINARY_DIR} 
 	${KDE4_INCLUDE_DIR} 
@@ -15,37 +18,37 @@ INCLUDE_DIRECTORIES(
 ########### next target ###############
 
 SET(kommanderwidgets_LIB_SRCS
+   # FIXME LATER listbox.cpp
+   # FIXME LATER wizard.cpp
+   # FIXME LATER table.cpp
+   # FIXME LATER richtexteditor.cpp
+   # FIXME LATER treewidget.cpp
+   execbutton.cpp
+   fileselector.cpp
+   groupbox.cpp
+   konsole.cpp
+   lineedit.cpp
+   pixmaplabel.cpp
+   progressbar.cpp
+   scriptobject.cpp
+   slider.cpp
+   spinboxint.cpp
+   statusbar.cpp
+   tabwidget.cpp
+#    textbrowser.cpp
+   textedit.cpp
+   timer.cpp
+   buttongroup.cpp
+   checkbox.cpp
+   closebutton.cpp
+   combobox.cpp
+   dialog.cpp
    label.cpp
-   )
-   # buttongroup.cpp
-   # subdialog.cpp
-   # checkbox.cpp
-   # closebutton.cpp
-   # combobox.cpp
-   # listbox.cpp
-   # wizard.cpp
-   # dialog.cpp
-   # tabwidget.cpp
-   # execbutton.cpp
-   # fileselector.cpp
-   # groupbox.cpp
-   # lineedit.cpp
-   # radiobutton.cpp
-   # spinboxint.cpp
-   # textedit.cpp
-   # scriptobject.cpp
-   # richtexteditor.cpp
-   # slider.cpp
-   # label.cpp
-   # konsole.cpp
-   # timer.cpp
-   # table.cpp
-   # treewidget.cpp
-   # plugin.cpp
-   # statusbar.cpp
-   # progressbar.cpp
-   # textbrowser.cpp
-   # pixmaplabel.cpp
+   radiobutton.cpp
+   subdialog.cpp
+   
+   plugin.cpp  # this is the plugin factory!
+)
 
 ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
 

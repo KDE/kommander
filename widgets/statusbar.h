@@ -17,6 +17,7 @@
 #define _HAVE_STATUSBAR_H_
 
 /* KDE INCLUDES */
+#include <kstatusbar.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -26,7 +27,6 @@
 #include <QShowEvent>
 
 /* OTHER INCLUDES */
-#include <kstatusbar.h>
 #include <kommanderwidget.h>
 
 class QWidget;

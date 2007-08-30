@@ -18,6 +18,7 @@
 #define _HAVE_COMBOBOX_H_
 
 /* KDE INCLUDES */
+#include <kcombobox.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -27,7 +28,6 @@
 #include <QShowEvent>
 
 /* OTHER INCLUDES */
-#include <kcombobox.h>
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 class QWidget;

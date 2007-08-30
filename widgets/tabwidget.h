@@ -19,7 +19,7 @@
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
-#include <qtabwidget.h>
+#include <ktabwidget.h>
 //Added by qt3to4:
 #include <QShowEvent>
 
@@ -27,7 +27,7 @@
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 class QShowEvent;
-class KOMMANDER_EXPORT TabWidget : public QTabWidget, public KommanderWidget
+class KOMMANDER_EXPORT TabWidget : public KTabWidget, public KommanderWidget
 {
   Q_OBJECT
   

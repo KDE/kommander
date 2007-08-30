@@ -29,8 +29,9 @@
 #include "statusbar.h"
 
 StatusBar::StatusBar(QWidget *a_parent, const char *a_name)
-  : KStatusBar(a_parent, a_name), KommanderWidget(this)
+  : KStatusBar(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);

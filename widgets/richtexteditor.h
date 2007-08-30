@@ -24,7 +24,7 @@
 #include <qwidget.h>
 //Added by qt3to4:
 #include <QShowEvent>
-#include <Q3Frame>
+#include <QFrame>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -34,7 +34,7 @@
 class QTextEdit;
 class QFrame;
 class QToolButton;
-class Q3HButtonGroup;
+class QHButtonGroup;
 
 class QShowEvent;
 class KOMMANDER_EXPORT RichTextEditor : public QWidget, public KommanderWidget

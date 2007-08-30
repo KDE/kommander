@@ -18,6 +18,7 @@
 #define _HAVE_LISTBOX_H_
 
 /* KDE INCLUDES */
+#include <klistwidget.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -28,12 +29,11 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include <k3listbox.h>
 #include "kommander_export.h"
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ListBox : public K3ListBox, public KommanderWidget
+class KOMMANDER_EXPORT ListBox : public KListWidget, public KommanderWidget
 {
   Q_OBJECT
   

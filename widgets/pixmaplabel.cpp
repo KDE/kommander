@@ -13,6 +13,11 @@
  *                                                                         *
  ***************************************************************************/
 
+/* KDE INCLUDES */
+#include <kglobal.h>
+#include <kiconloader.h>
+#include <kicon.h>
+
 /* QT INCLUDES */
 #include <qobject.h>
 #include <qstring.h>
@@ -24,9 +29,6 @@
 #include <QShowEvent>
 #include <QLabel>
 
-/* KDE INCLUDES */
-#include <kglobal.h>
-#include <kiconloader.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -34,15 +36,16 @@
 #include "pixmaplabel.h"
 
 PixmapLabel::PixmapLabel(QWidget *a_parent, const char *a_name)
-  : QLabel(a_parent, a_name), KommanderWidget(this)
+  : QLabel(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
-    setPixmap(KIconLoader::global()->loadIcon("tux", KIcon::NoGroup, 128));
-  setAutoResize(false);
+    setPixmap(KIconLoader::global()->loadIcon(QString("tux"),K3Icon::NoGroup));
+  //setAutoResize(false);
 }
 
 PixmapLabel::~PixmapLabel()

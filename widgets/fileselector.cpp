@@ -30,15 +30,16 @@
 #include <qsizepolicy.h>
 //Added by qt3to4:
 #include <QShowEvent>
-#include <Q3HBoxLayout>
+#include <QHBoxLayout>
 
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "fileselector.h"
 
 FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
-   : QWidget(a_parent, a_name), KommanderWidget(this)
+   : QWidget(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -48,7 +49,7 @@ FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
   
   m_selectButton = new KPushButton("...", this);
 
-  m_boxLayout = new Q3HBoxLayout(this, 0, 11);
+  m_boxLayout = new QHBoxLayout(this, 0, 11);
   m_boxLayout->addWidget(m_lineEdit);
   m_boxLayout->addWidget(m_selectButton);
 

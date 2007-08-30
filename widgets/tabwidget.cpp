@@ -14,13 +14,13 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <ktabwidget.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
-#include <qtabwidget.h>
 //Added by qt3to4:
 #include <QShowEvent>
 
@@ -30,8 +30,9 @@
 #include "tabwidget.h"
 
 TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
-	: QTabWidget(a_parent, a_name), KommanderWidget(this)
+	: KTabWidget(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);

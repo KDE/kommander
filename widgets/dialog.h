@@ -18,9 +18,9 @@
 #define _HAVE_DIALOG_H_
 
 /* KDE INCLUDES */
+#include <kdialog.h>
 
 /* QT INCLUDES */
-#include <qdialog.h>
 //Added by qt3to4:
 #include <QShowEvent>
 

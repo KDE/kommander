@@ -17,9 +17,9 @@
 #define _HAVE_SUBDIALOG_H_
 
 /* KDE INCLUDES */
+#include <kpushbutton.h>
 
 /* QT INCLUDES */
-#include <qpushbutton.h>
 #include <qobject.h>
 #include <qstring.h>
 #include <qstringlist.h>
@@ -30,10 +30,10 @@
 #include <kommanderwidget.h>
 #include "kommander_export.h"
 class QWidget;
-class QDialog;
+class KDialog;
 
 class QShowEvent;
-class KOMMANDER_EXPORT SubDialog : public QPushButton, public KommanderWidget
+class KOMMANDER_EXPORT SubDialog : public KPushButton, public KommanderWidget
 {
   Q_OBJECT
   
@@ -63,7 +63,7 @@ signals:
   void widgetOpened();
   void widgetTextChanged(const QString &);
 protected:
-  QDialog *m_dialog;
+  KDialog *m_dialog;
   QString m_kmdrFile;
   void showEvent( QShowEvent *e );
 private:

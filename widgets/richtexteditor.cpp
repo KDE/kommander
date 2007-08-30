@@ -31,8 +31,8 @@
 #include <qevent.h>
 //Added by qt3to4:
 #include <QShowEvent>
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 /* OTHER INCLUDES */
 #include "specials.h"
@@ -49,7 +49,7 @@
 RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 	: QWidget(a_parent), KommanderWidget((QObject *)this)
 {
-        this->setObjectName(a_name);
+        setObjectName(a_name);
 	QStringList states;
 	states << "default";
 	setStates(states);
@@ -72,7 +72,7 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 	layout->setSpacing(1);
 
 	// setup buttons
-	Q3HBoxLayout *tbLayout = new Q3HBoxLayout(m_toolbar);
+	QHBoxLayout *tbLayout = new Q3HBoxLayout(m_toolbar);
 
 	//bold italic underline left right center link
 	m_formatGroup = new QButtonGroup(m_toolbar);//, "formatGroup");

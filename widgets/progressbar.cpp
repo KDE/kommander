@@ -29,8 +29,9 @@
 #include "progressbar.h"
 
 ProgressBar::ProgressBar(QWidget *a_parent, const char *a_name)
-  : KProgress(a_parent, a_name), KommanderWidget(this)
+  : QProgressBar(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -73,12 +74,12 @@ QString ProgressBar::populationText() const
 
 void ProgressBar::populate()
 {
-  setProgress(KommanderWidget::evalAssociatedText(populationText()).toInt());
+  setValue(KommanderWidget::evalAssociatedText(populationText()).toInt());
 }
 
 void ProgressBar::showEvent(QShowEvent *e)
 {
-  Q3ProgressBar::showEvent(e);
+  QProgressBar::showEvent(e);
   emit widgetOpened();
 }
 
@@ -91,15 +92,15 @@ QString ProgressBar::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
-      return QString::number(progress());
+      return QString::number(value());
     case DBUS::setText:
-      setProgress(args[0].toInt());
+      setValue(args[0].toInt());
       break;
     case DBUS::clear:
-      setProgress(0);
+      setValue(0);
       break;
     case DBUS::setMaximum:
-      setTotalSteps(args[0].toInt());
+      setRange(0, args[0].toInt());
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

@@ -27,7 +27,7 @@
 #include <kommanderwidget.h>
 
 class QWidget;
-class MyProcess;
+class KProcess;
 
 class Konsole : public KTextEdit, public KommanderWidget
 {
@@ -60,15 +60,15 @@ class Konsole : public KTextEdit, public KommanderWidget
     // Stop executing current script
     virtual void cancel();
     // Process has ended
-    virtual void processReceivedStdout(MyProcess*, char* a_buffer, int a_len);
-    virtual void processExited(MyProcess* p);
+    virtual void processReceivedStdout();
+    virtual void processExited(int, QProcess::ExitStatus);
   signals:
     void finished();
   protected:
     // Whether last line of output was ended with EOL
     bool mSeenEOL;
     // Current process or NULL if there is no process running
-    MyProcess* mProcess;
+    KProcess* mProcess;
 };
 
 #endif

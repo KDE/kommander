@@ -25,8 +25,9 @@
 #include "slider.h"
 
 Slider::Slider(QWidget * a_parent, const char *a_name)
-  : QSlider(a_parent, a_name), KommanderWidget((QObject *) this)
+  : QSlider(a_parent), KommanderWidget((QObject *) this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);

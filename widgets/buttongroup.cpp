@@ -14,13 +14,13 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <kbuttongroup.h>
 
 /* QT INCLUDES */
 #include <qobject.h>
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
-#include <qbuttongroup.h>
 #include <qevent.h>
 //Added by qt3to4:
 #include <QShowEvent>
@@ -31,7 +31,7 @@
 #include "radiobutton.h" // include a button header for the compiler with dynamic cast below
 
 ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
-	: QButtonGroup(a_parent), KommanderWidget(this)
+	: KButtonGroup(a_parent), KommanderWidget(this)
 {
   this->setObjectName(a_name);
   QStringList states;
@@ -39,7 +39,6 @@ ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
   states << "unchecked";
   setStates(states);
   setDisplayStates(states);
-
 }
 
 ButtonGroup::~ButtonGroup()
@@ -86,7 +85,7 @@ void ButtonGroup::populate()
 
 void ButtonGroup::showEvent(QShowEvent* e)
 {
-  QButtonGroup::showEvent(e);
+  KButtonGroup::showEvent(e);
   emit widgetOpened();
 }
 
@@ -103,9 +102,9 @@ QString ButtonGroup::handleDBUS(int function, const QStringList& args)
     case DBUS::text:
     {
       QString text;
-      for (int i = 0; i < count(); i++)
-        if (dynamic_cast<KommanderWidget*>(find(i)))
-          text += (dynamic_cast<KommanderWidget*>(find(i)))->evalAssociatedText();
+// FIXME count()      for (int i = 0; i < count(); i++)
+//         if (dynamic_cast<KommanderWidget*>(find(i)))
+//           text += (dynamic_cast<KommanderWidget*>(find(i)))->evalAssociatedText();
       return text;
     }
     case DBUS::checked:

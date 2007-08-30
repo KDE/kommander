@@ -21,7 +21,6 @@
 #include <klineedit.h>
 
 /* QT INCLUDES */
-#include <q3textedit.h>
 #include <qstringlist.h>
 #include <qstring.h>
 //Added by qt3to4:
