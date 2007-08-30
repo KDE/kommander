@@ -41,7 +41,7 @@ class KommanderWidget;
 class Instance : public QObject
 {
   Q_OBJECT
-  Q_CLASSINFO("D-Bus Interface", "org.kde.kommanderIf")   
+  Q_CLASSINFO("D-Bus Interface", "org.kdewebdev.kommander")   
   
 public: 
   Instance();

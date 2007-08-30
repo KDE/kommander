@@ -22,6 +22,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <kguiitem.h>
 
 /* QT INCLUDES */
 #include <qdialog.h>
@@ -29,7 +30,7 @@
 #include <qfileinfo.h>
 #include <qiodevice.h>
 #include <qlabel.h>
-#include <q3mainwindow.h>
+#include <qmainwindow.h>
 #include <qobject.h>
 #include <qstring.h>
 #include <qtabwidget.h>
@@ -39,6 +40,7 @@
 
 /* OTHER INCLUDES */
 #include "instance.h"
+#include "kommanderadaptor.h"  //d-bus include
 #include <kommanderwidget.h>
 #include <kommanderwindow.h>
 #include <kommanderfactory.h>
@@ -49,14 +51,12 @@ Instance::Instance()
   : m_instance(0), m_textInstance(0), m_parent(0),
   m_cmdArguments(0)
 {
-  SpecialInformation::registerSpecials();
 }
 
 Instance::Instance(const KUrl& a_uiFileName, QWidget *a_parent)
   :  m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
   m_parent(a_parent), m_cmdArguments(0)
 {
-  SpecialInformation::registerSpecials();
 }
 
 void Instance::addArgument(const QString& argument)
@@ -103,10 +103,14 @@ bool Instance::build()
   
   KommanderWindow* window = dynamic_cast<KommanderWindow*>(m_instance);
   if (window)
-    window->setFileName(m_uiFileName.path().local8Bit());
+    window->setFileName(m_uiFileName.path().toLocal8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
   m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
+  
+  new KommanderAdaptor(this);
+  QDBusConnection dbus = QDBusConnection::sessionBus();
+  dbus.registerObject(m_uiFileName.path().toLocal8Bit(), this);
 
   return true;
 }
@@ -128,6 +132,11 @@ bool Instance::build(QFile *a_file)
   }
 
   m_textInstance = kommanderWidget(m_instance);
+  
+  new KommanderAdaptor(this);
+  QDBusConnection dbus = QDBusConnection::sessionBus();
+  dbus.registerObject(a_file->fileName(), this);
+  
   return true;
 }
 
@@ -154,11 +163,11 @@ bool Instance::run(QFile *a_file)
 
   if (inTemp)
   {
-//      if (KMessageBox::warningContinueCancel(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
-//          " This may mean that it was run from a KMail attachment or from a webpage. "
-//          "<p>Any script contained in this dialog will have write access to all of your home directory; "
-//          "<b>running such dialogs may be dangerous: </b>"
-//          "<p>are you sure you want to continue?</qt>"), QString(), i18n("Run Nevertheless")) == KMessageBox::Cancel)
+     if (KMessageBox::warningContinueCancel(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
+         " This may mean that it was run from a KMail attachment or from a webpage. "
+         "<p>Any script contained in this dialog will have write access to all of your home directory; "
+         "<b>running such dialogs may be dangerous: </b>"
+             "<p>are you sure you want to continue?</qt>"), QString(),KStandardGuiItem::cont() ,KGuiItem(i18n("Run Nevertheless"))))
        return false;
   }
   
@@ -192,7 +201,7 @@ bool Instance::run(QFile *a_file)
   else if (m_instance->inherits("QMainWindow"))
   {
     kapp->setMainWidget(m_instance);
-    ((Q3MainWindow*)m_instance)->show();
+    ((QMainWindow*)m_instance)->show();
     kapp->exec();
   }
   return true;

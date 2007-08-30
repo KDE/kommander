@@ -28,7 +28,6 @@
 #include <qapplication.h>
 #include <qfile.h>
 #include <qobject.h>
-#include <q3ptrlist.h>
 #include <qstring.h>
 
 /* OTHER INCLUDES */

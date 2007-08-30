@@ -15,16 +15,27 @@ SET(kmdr-executor_SRCS
     instance.cpp 
     main.cpp
 )
+QT4_ADD_DBUS_ADAPTOR(kmdr-executor_SRCS org.kdewebdev.kommander.xml instance.h Instance )
 
 ADD_EXECUTABLE(kmdr-executor ${kmdr-executor_SRCS})
-
+link_directories (
+  ${CMAKE_CURRENT_BINARY_DIR}/../widget/
+  ${CMAKE_CURRENT_BINARY_DIR}/../factory/
+  ${CMAKE_CURRENT_BINARY_DIR}/../widgets/
+)
 TARGET_LINK_LIBRARIES(
   kmdr-executor  
   ${QT_QTCORE_LIBS} 
   ${QT_QTUI_LIBS} 
   ${KDE4_KDECORE_LIBS}
   ${KDE4_KDEUI_LIBS}
+  kommanderwidget
+  kommanderwidgets
+  kommanderfactory
 )
+#  ${CMAKE_CURRENT_BINARY_DIR}/../widget/libkommanderwidget.la
+#  ${CMAKE_CURRENT_BINARY_DIR}/../factory/libkommanderfactory.la
+#  ${CMAKE_CURRENT_BINARY_DIR}/../widgets/libkommanderwidgets.la
 
 INSTALL( TARGETS kmdr-executor DESTINATION ${BIN_INSTALL_DIR})
 
@@ -40,7 +51,7 @@ INSTALL_FILES( /share/applnk/.hidden FILES  kmdr-executor.desktop )
 #bin_PROGRAMS = kmdr-executor
 #
 #kmdr_executor_SOURCES = instance.cpp main.cpp dcopkommanderif.skel
-#kmdr_executor_LDADD   = $(top_builddir)/kommander/widget/libkommanderwidget.la $(top_builddir)/kommander/widgets/libkommanderwidgets.la $(top_builddir)/kommander/factory/libkommanderfactory.la  $(LIB_KIO)
+#kmdr_executor_LDADD   = $(top_builddir)/kommander/widget5C/libkommanderwidget.la $(top_builddir)/kommander/widgets/libkommanderwidgets.la $(top_builddir)/kommander/factory/libkommanderfactory.la  $(LIB_KIO)
 #
 ##KDE_ICON = kmdr_executor
 #

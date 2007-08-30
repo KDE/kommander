@@ -1,0 +1,222 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kdewebdev.kommander">
+    <method name="setEnabled">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="enable" type="b" direction="in"/>
+    </method>
+    <method name="enableWidget">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="enable" type="b" direction="in"/>
+    </method>
+    <method name="setVisible">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="enable" type="b" direction="in"/>
+    </method>
+    <method name="setText">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="changeWidgetText">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="text">
+      <arg type="s" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="setSelection">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="setCurrentListItem">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="selection">
+      <arg type="s" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="currentItem">
+      <arg type="i" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="item">
+      <arg type="s" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="itemDepth">
+      <arg type="i" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="itemPath">
+      <arg type="s" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="removeItem">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="removeListItem">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="insertItem">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="item" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="addListItem">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="item" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="setPixmap">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="iconName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="insertItems">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="items" type="as" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="addListItems">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="items" type="as" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="addUniqueItem">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="item" type="s" direction="in"/>
+    </method>
+    <method name="findItem">
+      <arg type="i" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="item" type="s" direction="in"/>
+    </method>
+    <method name="clear">
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="clearList">
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="setCurrentItem">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="setCurrentTab">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="index" type="i" direction="in"/>
+    </method>
+    <method name="setChecked">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="checked" type="b" direction="in"/>
+    </method>
+    <method name="checked">
+      <arg type="b" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="setAssociatedText">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="associatedText">
+      <arg type="as" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="type">
+      <arg type="s" direction="out"/>
+      <arg name="widget" type="s" direction="in"/>
+    </method>
+    <method name="children">
+      <arg type="as" direction="out"/>
+      <arg name="parent1" type="s" direction="in"/>
+      <arg name="recursive" type="b" direction="in"/>
+    </method>
+    <method name="global">
+      <arg type="s" direction="out"/>
+      <arg name="variableName" type="s" direction="in"/>
+    </method>
+    <method name="setGlobal">
+      <arg name="variableName" type="s" direction="in"/>
+      <arg name="value" type="s" direction="in"/>
+    </method>
+    <method name="setMaximum">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="value" type="i" direction="in"/>
+    </method>
+    <method name="execute">
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="cancel">
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="count">
+      <arg type="i" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="currentColumn">
+      <arg type="i" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="currentRow">
+      <arg type="i" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+    </method>
+    <method name="insertRow">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="row" type="i" direction="in"/>
+      <arg name="count" type="i" direction="in"/>
+    </method>
+    <method name="insertColumn">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="column" type="i" direction="in"/>
+      <arg name="count" type="i" direction="in"/>
+    </method>
+    <method name="setCellText">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="row" type="i" direction="in"/>
+      <arg name="column" type="i" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="cellText">
+      <arg type="s" direction="out"/>
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="row" type="i" direction="in"/>
+      <arg name="column" type="i" direction="in"/>
+    </method>
+    <method name="removeRow">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="row" type="i" direction="in"/>
+      <arg name="count" type="i" direction="in"/>
+    </method>
+    <method name="removeColumn">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="column" type="i" direction="in"/>
+      <arg name="count" type="i" direction="in"/>
+    </method>
+    <method name="setRowCaption">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="row" type="i" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="setColumnCaption">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="column" type="i" direction="in"/>
+      <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="run">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="isBuilt">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="build">
+      <arg type="b" direction="out"/>
+    </method>
+  </interface>
+</node>
