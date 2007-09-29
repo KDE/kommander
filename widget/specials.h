@@ -30,7 +30,7 @@ namespace Special
     enum {addUniqueItem, associatedText, cancel, cellText, clear, checked, children, count, currentColumn,
       currentItem, currentRow, execute, findItem, global, insertColumn, insertItem, insertItems, insertRow, 
       item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
-      setCellText, setCurrentItem, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
+      setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
       setRowCaption, setSelection, setText, 
       setVisible, text, type};
   }

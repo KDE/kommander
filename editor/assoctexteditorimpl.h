@@ -65,7 +65,7 @@ public slots:
   void textEditChanged();
   // Current widget has changed - store script and update interface
   void widgetChanged(int);
-  // Current widget has changed - store script and show new script
+  // Current script has changed - store script and show new script
   void stateChanged(int);
   // Select widget via widget tree dialog
   void selectWidget();

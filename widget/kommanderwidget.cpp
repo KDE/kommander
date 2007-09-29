@@ -64,7 +64,7 @@ void KommanderWidget::setAssociatedText(const QStringList& a_associations)
 {
   m_associatedText = a_associations;
   while(m_associatedText.count() < (states().count()))
-  m_associatedText += QString::null; // sync states and associations
+    m_associatedText += QString(); // sync states and associations
 }
 
 QStringList KommanderWidget::associatedText() const
@@ -117,7 +117,7 @@ QString KommanderWidget::evalAssociatedText() // expands and returns associated 
   if (index == -1)
   {
     printError(i18n("Invalid state for associated text."));
-    return QString::null;
+    return QString();
   }
   return evalAssociatedText(m_associatedText[index]);
 }
@@ -128,20 +128,15 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
   if ((KommanderWidget::useInternalParser && !a_text.startsWith("#!")) || a_text.startsWith("#!kommander"))
   {
     Parser p(internalParserData());
-    p.setString(a_text);
     p.setWidget(this);
-    if (!p.parse())
-    {
-      // FIXME add widget's name to KommanderWidget class      
+    p.setString(a_text);
+    if (!p.setString(a_text) || !p.parse())
       printError(i18n("Line %1: %2.\n").arg(p.errorLine()+1).arg(p.errorMessage()));
-    }
-    return QString::null;
+    return QString();
   }
-  
   /* Old macro-only parser is implemented below  */
-  
+
   QString evalText;
-  
   int pos = 0, baseTextLength = a_text.length();
   while (pos < baseTextLength)
   {
@@ -182,11 +177,19 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     QStringList args;
     
     /* Standard, non-prefixed special */
-    if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
-    {    
+    if (identifier == "if") // if required special handling as it takes expression
+    {
+      QString arg = parseBrackets(a_text, pos, ok);
+      if (!ok)
+        return QString();
+      args.append(evalAssociatedText(arg));
+      evalText += evalIfBlock(args, a_text, pos);
+    }
+    else if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
+    {
       args = parseFunction("Kommander", identifier, a_text, pos, ok);
       if (!ok)
-        return QString::null;
+        return QString();
       else if (identifier == "execBegin")
         evalText += evalExecBlock(args, a_text, pos);  
       else if (identifier == "forEach")
@@ -196,7 +199,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       else if (identifier == "switch")
         evalText += evalSwitchBlock(args, a_text, pos);  
       else if (identifier == "if")
-        evalText += evalIfBlock(args, a_text, pos);  
+        evalText += evalIfBlock(args, a_text, pos);
       else
         evalText += evalFunction(identifier, args);
     }
@@ -210,7 +213,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       QString function = parseIdentifier(a_text, pos);
       args = parseFunction(identifier, function, a_text, pos, ok);
       if (!ok)
-        return QString::null;
+        return QString();
       switch (SpecialInformation::group(identifier))
       {
         case Group::Array:
@@ -229,13 +232,13 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
           evalText += Parser::function(internalParserData(), "input_" + function, args);
           break;
         default:
-          return QString::null;
+          return QString();
       }
     }
     else
     {
       printError(i18n("Unknown special: \'%1\'.").arg(identifier));
-      return QString::null;
+      return QString();
     }
   }
           
@@ -262,13 +265,13 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis in DCOP call \'%1\'.").arg(a_query[2]));
-    return QString::null;
+    return QString();
   }
   const QStringList argTypes = parseArgs(pTypes, ok);
   if (!ok || argTypes.count() != a_query.count() - 3)
   {
     printError(i18n("Incorrect arguments in DCOP call \'%1\'.").arg(a_query[2]));
-    return QString::null;
+    return QString();
   }
   
   QCString replyType;
@@ -298,7 +301,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
   if (!cl || !cl->call(appId, object, function.latin1(), byteData, replyType, byteReply))
   {
     printError(i18n("Tried to perform DCOP query, but failed."));
-    return QString::null;
+    return QString();
   }
 
   QDataStream byteReplyStream(byteReply, IO_ReadOnly);
@@ -331,7 +334,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
   }
 
-  return QString::null;
+  return QString();
 }
 
 QString KommanderWidget::localDCOPQuery(const QString function, const QStringList& args)
@@ -379,7 +382,7 @@ QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_par
     pFileName = a_dialog;
     pDialogFile.setFile(pFileName);
     if (!pDialogFile.exists())
-      return QString::null;
+      return QString();
   }
   QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
     .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
@@ -396,7 +399,7 @@ void KommanderWidget::printError(const QString& a_error) const
                 i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
     switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
                 i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>").arg(QString(m_thisObject->name()))
-                    .arg(a_error), QStringList(), QString::null, 0, 0))
+                    .arg(a_error), QStringList(), QString(), 0, 0))
     {
       case KDialogBase::No:
         showErrors = false;
@@ -439,7 +442,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
   while (start < s.length() && s[start].isSpace())
     start++;
   if (start == s.length() || s[start] != '(')
-    return QString::null;
+    return QString();
   bool quoteSingle = false, quoteDouble = false;
   int brackets = 1;
   for (uint end = start+1; end < s.length(); end++) 
@@ -460,7 +463,7 @@ QString KommanderWidget::parseBrackets(const QString& s, int& from, bool& ok) co
     }
   }
   ok = false;
-  return QString::null;
+  return QString();
 }
 
 
@@ -487,9 +490,9 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
       {
         QString arg = s.mid(start, i - start).stripWhiteSpace();
         if (!arg.isEmpty())
-          argList.append(evalAssociatedText(parseQuotes(arg)));
+         argList.append(evalAssociatedText(parseQuotes(arg)));
         start = i+1;
-      }  
+      }
     }
   }
   if (!quoteDouble && !quoteSingle) 
@@ -549,11 +552,12 @@ KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
   if (QString(parentDialog()->name()) == widgetName) 
     return dynamic_cast <KommanderWidget*>(parentDialog());
-  QObject* childObj = parentDialog()->child(widgetName.latin1());
+  QCString s = widgetName.lower() == "self" ? m_thisObject->name() : widgetName.latin1();
+  QObject* childObj = parentDialog()->child(s);
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
-QStringList KommanderWidget::parseFunction(const QString group, const QString& function, 
+QStringList KommanderWidget::parseFunction(const QString& group, const QString& function, 
     const QString& s, int& from, bool& ok)
 {
   ok = true;
@@ -562,7 +566,7 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis after \'%1\'.").arg(function));
-    return QString::null;
+    return QString();
   }
   const QStringList args = parseArgs(arg, ok);
   int gname = SpecialInformation::group(group);
@@ -648,22 +652,23 @@ QWidget* KommanderWidget::parentDialog() const
 
 QString KommanderWidget::global(const QString& variableName)
 {
-  if (m_globals.contains(variableName))
-    return m_globals[variableName];
-  else
-    return QString::null;
+  QString var = variableName.startsWith("_") ? variableName : QString("_")+ variableName;
+  Parser parser(internalParserData());
+  return parser.variable(var).toString();
 }
 
 void KommanderWidget::setGlobal(const QString& variableName, const QString& value)
 {
-  m_globals.insert(variableName, value); 
-}  
+  QString var = variableName.startsWith("_") ? variableName : QString("_")+ variableName;
+  Parser parser(internalParserData());
+  parser.setVariable(var, value);
+}
 
 QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
 {
   QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
   if (!current) 
-    return QString::null;
+    return QString();
   switch(function) {
     case DCOP::setEnabled:
       current->setEnabled(args[0] != "false" && args[0] != "0");
@@ -672,7 +677,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
       current->setShown(args[0] != "false" && args[0] != "0");
       break;
     case DCOP::type:
-      return current->className();      
+      return current->className();
     case DCOP::children:
     {
       QStringList matching;
@@ -683,7 +688,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
       return matching.join("\n");  
     }  
   }
-  return QString::null;
+  return QString();
 }
 
 bool KommanderWidget::isFunctionSupported(int f)
@@ -707,14 +712,19 @@ QString KommanderWidget::fileName()
   if (window)
     return QString(window->fileName());
   else
-    return QString::null;
-}  
+    return QString();
+}
 
+QString KommanderWidget::widgetName() const
+{
+  if (m_thisObject)
+    return QString::fromLatin1(m_thisObject->name());
+  else
+    return QString();
+}
 
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
 bool KommanderWidget::useInternalParser = false;
-QMap<QString, QString> KommanderWidget::m_globals;
-QMap<QString, QMap<QString, QString> > KommanderWidget::m_arrays;
 ParserData* KommanderWidget::m_parserData = new ParserData;
 

@@ -44,26 +44,37 @@
 #include <fileselector.h>
 
 Instance::Instance()
-  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0),
-  m_cmdArguments(0)
+  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0)
 {
   SpecialInformation::registerSpecials();
 }
 
-Instance::Instance(const KURL& a_uiFileName, QWidget *a_parent)
-  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
-  m_parent(a_parent), m_cmdArguments(0)
+Instance::Instance(QWidget *a_parent)
+  : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0),
+  m_parent(a_parent)
 {
   SpecialInformation::registerSpecials();
 }
 
-void Instance::addArgument(const QString& argument)
+void Instance::addCmdlineArguments(const QStringList& args)
 {
-  int pos = argument.find('=');
-  if (pos == -1)
-    KommanderWidget::setGlobal(QString("ARG%1").arg(++m_cmdArguments), argument);
-  else 
-    KommanderWidget::setGlobal(argument.left(pos), argument.mid(pos+1));
+  if (!m_textInstance)
+    return;
+  // Filter out variable arguments ('var=value')
+  QStringList stdArgs;
+  for (QStringList::ConstIterator it = args.begin(); it != args.end(); ++it)
+  {
+    int pos = (*it).find('=');
+    if (pos != -1)
+       m_textInstance->setGlobal((*it).left(pos), (*it).mid(pos+1));
+    else
+       stdArgs.append(*it);
+  }
+  int i = 0;
+  for (QStringList::ConstIterator it = stdArgs.begin(); it != stdArgs.end(); ++it)
+    m_textInstance->setGlobal(QString("_ARG%1").arg(++i), *it);
+  m_textInstance->setGlobal("_ARGS", stdArgs.join(" "));
+  m_textInstance->setGlobal("_ARGCOUNT", QString::number(stdArgs.count()));
 }
 
 
@@ -74,65 +85,107 @@ Instance::~Instance()
 }
 
 /** Builds the instance */
-bool Instance::build()
+bool Instance::build(const KURL& fname)
 {
   delete m_instance;
   m_instance = 0;
- 
-  if (m_uiFileName.isEmpty())
-    return false;
+  m_textInstance = 0;
 
-  if (!QFileInfo(m_uiFileName.path()).exists())
-  {
-    KMessageBox::sorry(0, i18n("<qt>Kommander file<br><b>%1</b><br>does not "
-      "exist.</qt>").arg(m_uiFileName.path()));
-    return false;
-  }
-  
+  if (!fname.isValid() || !isFileValid(fname))
+    return false; // Check if file is correct
+
   // create the main instance, must inherit QDialog
   KommanderFactory::loadPlugins();
-  m_instance = KommanderFactory::create(m_uiFileName.path());
+
+  if (fname.isValid())
+    m_instance = KommanderFactory::create(fname.path());
+  else
+  {
+    QFile inputFile;
+    inputFile.open(IO_ReadOnly, stdin);
+    m_instance = KommanderFactory::create(&inputFile);
+  }
+
+  // check if build was successful
   if (!m_instance)
   {
-    KMessageBox::sorry(0, i18n("<qt>Unable to create dialog from "
-      "file<br><b>%1</b></qt>").arg(m_uiFileName.path()));
+    KMessageBox::sorry(0, i18n("<qt>Unable to create dialog.</qt>"));
     return false;
   }
-  
-  KommanderWindow* window = dynamic_cast<KommanderWindow*>(m_instance);
-  if (window)
-    window->setFileName(m_uiFileName.path().local8Bit());
+
+  KommanderWindow* window = dynamic_cast<KommanderWindow*>(m_instance);  if (window)
+    window->setFileName(fname.path().local8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
-  m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
+  m_textInstance = kommanderWidget(m_instance);
 
+  if (!m_textInstance)  // Main dialog/window is not a Kommander widget - look for one
+  {
+    if (m_instance)
+    {
+      QObjectList* widgets = m_instance->queryList();
+      for (QObject* w = widgets->first(); w; w = widgets->next())
+        if (kommanderWidget(w))
+        {
+          m_textInstance = kommanderWidget(w);
+          break;
+        }
+    }
+    if (!m_textInstance)
+    {
+      qDebug("Warning: no Kommander widget present!");
+      return true;
+    }
+  }
+
+  if (fname.isValid())
+  {
+      m_textInstance->setGlobal("KDDIR", fname.directory());
+      m_textInstance->setGlobal("NAME", fname.fileName());
+  }
   return true;
 }
 
-bool Instance::build(QFile *a_file)
+bool Instance::run()
 {
-  if(!(a_file->isOpen()))
+  if (!isBuilt())
     return false;
 
-  delete m_instance;
-  m_instance = 0;
-
-  KommanderFactory::loadPlugins();
-  m_instance = KommanderFactory::create(a_file);
-  if (!m_instance)
+  // Handle both dialogs and main windows
+  if (m_instance->inherits("QDialog"))
+    ((QDialog*)m_instance)->exec();
+  else if (m_instance->inherits("QMainWindow"))
   {
-    KMessageBox::sorry(0, i18n("Unable to create dialog from input."));
+    kapp->setMainWidget(m_instance);
+    ((QMainWindow*)m_instance)->show();
+    kapp->exec();
+  }
+  else return false;
+  return true;
+}
+
+bool Instance::isBuilt() const
+{
+  return m_instance;
+}
+
+void Instance::setParent(QWidget *a_parent)
+{
+  m_parent = a_parent;
+}
+
+bool Instance::isFileValid(const KURL& fname) const
+{
+  if (!QFileInfo(fname.path()).exists())
+  {
+    KMessageBox::sorry(0, i18n("<qt>Kommander file<br><b>%1</b><br>does not "
+      "exist.</qt>").arg(fname.path()));
     return false;
   }
 
-  m_textInstance = kommanderWidget(m_instance);
-  return true;
-}
-
-bool Instance::run(QFile *a_file)
-{
   // Check whether extension is *.kmdr
-  if (!m_uiFileName.fileName().endsWith(".kmdr")) {
+  if (!fname.fileName().endsWith(".kmdr"))
+  {
     KMessageBox::error(0, i18n("<qt>This file does not have a <b>.kmdr</b> extension. As a security precaution "
            "Kommander will only run Kommander scripts with a clear identity.</qt>"),
            i18n("Wrong Extension"));
@@ -147,7 +200,7 @@ bool Instance::run(QFile *a_file)
   
   bool inTemp = false;
   for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
-    if (m_uiFileName.directory(false).startsWith(*I))
+    if (fname.directory(false).startsWith(*I))
       inTemp = true;
 
   if (inTemp)
@@ -159,57 +212,11 @@ bool Instance::run(QFile *a_file)
          "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)
        return false;
   }
-  
-  /* add runtime arguments */
-  if (m_cmdArguments) {
-    QString args;
-    for (uint i=1; i<=m_cmdArguments; i++)
-    {
-      args += global(QString("ARG%1").arg(i));
-      if (i < m_cmdArguments) 
-        args += " ";
-    }
-    KommanderWidget::setGlobal("ARGS", args);
-  }
-  KommanderWidget::setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
-     
-  if (!m_uiFileName.isEmpty()) 
-  {
-    KommanderWidget::setGlobal("_KDDIR", m_uiFileName.directory());
-    KommanderWidget::setGlobal("_NAME", m_uiFileName.fileName());
-  }
-  
-  if (!m_instance)
-    if (!a_file && !build())
-      return false;
-    else if(a_file && !build(a_file))
-      return false;
-
-  if (m_instance->inherits("QDialog"))
-    ((QDialog*)m_instance)->exec();
-  else if (m_instance->inherits("QMainWindow"))
-  {
-    kapp->setMainWidget(m_instance);
-    ((QMainWindow*)m_instance)->show();
-    kapp->exec();
-  }
   return true;
 }
 
-bool Instance::isBuilt()
-{
-  return m_instance;
-}
 
-void Instance::setUIFileName(const KURL& a_uiFileName)
-{
-  m_uiFileName = a_uiFileName;
-}
 
-void Instance::setParent(QWidget *a_parent)
-{
-  m_parent = a_parent;
-}
 
 
 // Widget functions
@@ -576,13 +583,14 @@ void Instance::setColumnCaption(const QString &widgetName, int column, const QSt
 
 QString Instance::global(const QString& variableName)
 {
-  return KommanderWidget::global(variableName);
+  return m_textInstance ? m_textInstance->global(variableName) : QString();
 }
 
 void Instance::setGlobal(const QString& variableName, const QString& value)
 {
-  KommanderWidget::setGlobal(variableName, value); 
-}  
+  if (m_textInstance)
+    m_textInstance->setGlobal(variableName, value);
+}
 
 QObject* Instance::stringToWidget(const QString& name)
 {
@@ -593,10 +601,6 @@ KommanderWidget* Instance::kommanderWidget(QObject* object)
 {
   return dynamic_cast<KommanderWidget*>(object);  
 }
-
-
-
-  
 
 
 /*** Deprecated methods: just call appropriate method  ***/
@@ -618,6 +622,16 @@ void Instance::setCurrentListItem(const QString& widgetName, const QString& item
 void Instance::setCurrentTab(const QString &widgetName, int index)
 {
   setCurrentItem(widgetName, index);
+}
+
+void Instance::insertTab(const QString &widgetName, const QString &label, int index)
+{
+  QObject* child = stringToWidget(widgetName);  
+  QStringList l;
+  l << label;
+  l << QString::number(index);
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDCOP(DCOP::insertTab, l);  
 }
 
 void Instance::addListItems(const QString &widgetName, const QStringList &items, int index)

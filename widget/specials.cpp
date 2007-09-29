@@ -42,7 +42,7 @@ void SpecialInformation::registerSpecials()
          i18n("Returns index of current item."), 1);
   insert(DCOP::currentRow, "currentRow(QString widget)", 
          i18n("Returns index of current row."), 1);
-  insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1);
+  insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1, 9);
   insert(DCOP::findItem, "findItem(QString widget, QString item)",
          i18n("Returns the index of an item with the given text."), 2);
   insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
@@ -85,6 +85,8 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::setCurrentItem, "setCurrentItem(QString widget, int index)",
          i18n("Selects the item at the specified index. Indexes are zero based."), 2);
   insertAlias(DCOP::setCurrentItem, "setCurrentTab");
+  insert(DCOP::insertTab, "insertTab(QString widget, QString label,int index)",
+         i18n("Inserts a tab to the tabwidget with the specified label at the given index. Indexes are zero based."), 3); //enable for 3.5.8
   insert(DCOP::setMaximum, "setMaximum(QString widget, int value)",
          i18n("Sets maximum numeric value"), 2);
   insert(DCOP::setPixmap, "setPixmap(QString widget, QString iconName, int index)",

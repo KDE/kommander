@@ -28,7 +28,7 @@ Function::Function(FunctionPointer fp, ValueType value, const TypeList& params, 
   m_function = fp;
   m_returnValue = value;
   m_minArgs = min <= m_params.count() ? min : m_params.count();
-  m_maxArgs = max >= m_minArgs ? max : m_params.count();
+  m_maxArgs = max >= m_params.count() ? max : m_params.count();
 }
     
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, uint min, uint max)
@@ -37,7 +37,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, uint m
   m_returnValue = value;
   m_params.append(param1);
   m_minArgs = min <= 1 ? min : 1;
-  m_maxArgs = max >= m_minArgs ? max : 1;
+  m_maxArgs = max >= 1 ? max : 1;
 }
     
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, uint min , 
@@ -48,7 +48,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
   m_params.append(param1);
   m_params.append(param2);
   m_minArgs = min <= 2 ? min : 2;
-  m_maxArgs = max >= m_minArgs ? max : 2;
+  m_maxArgs = max >= 2 ? max : 2;
 }
 
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
@@ -60,7 +60,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
   m_params.append(param2);
   m_params.append(param3);
   m_minArgs = min <= 3 ? min : 3;
-  m_maxArgs = max >= m_minArgs ? max : 3;
+  m_maxArgs = max >= 3 ? max : 3;
 }
     
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
@@ -73,7 +73,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
   m_params.append(param3);
   m_params.append(param4);
   m_minArgs = min <= 4 ? min : 4;
-  m_maxArgs = max >= m_minArgs ? max : 4;
+  m_maxArgs = max >= 4 ? max : 4;
 }
 
 Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueType param2, ValueType param3, 
@@ -87,7 +87,7 @@ Function::Function(FunctionPointer fp, ValueType value, ValueType param1, ValueT
   m_params.append(param4);
   m_params.append(param5);
   m_minArgs = min <= 5 ? min : 5;
-  m_maxArgs = max >= m_minArgs ? max : 5;
+  m_maxArgs = max >= 5 ? max : 5;
 }
 
 bool Function::isVoid() const

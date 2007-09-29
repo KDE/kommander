@@ -21,6 +21,7 @@
 
 /* QT INCLUDES */
 #include <qstring.h>
+#include <qstringlist.h>
 #include <qobject.h>
 #include <qmap.h>
 
@@ -41,19 +42,18 @@ class KommanderWidget;
 class Instance : public QObject, virtual public DCOPKommanderIf
 {
   Q_OBJECT
-    
+
 public: 
   Instance();
-  Instance(const KURL&, QWidget*);
+  Instance(QWidget*);
   ~Instance();
-  
   /* passing global variables: two forms are accepted.
      kdmr-executor file.kmdr COUNT=45 PATH=/tmp     - this adds global variables 45 and PATH
      kmdr-executor file.kmdr 45 /tmp                - this adds global variables ARG1 and ARG2
      ARGS holds space-separated list of all second-type variables (like Bash $@)
      ARGCOUNT holds number of second-type arguments
   */
-  virtual void addArgument(const QString& argument);
+  virtual void addCmdlineArguments(const QStringList& args);
 
   //DCOP methods. The documentation is in the widgets/specials.cpp file.
   virtual void setEnabled(const QString& widgetName, bool enable);  
@@ -82,6 +82,7 @@ public:
   virtual void clearList(const QString &widgetName); /* DEPRECATED */
   virtual void setCurrentItem(const QString &widgetName, int index);
   virtual void setCurrentTab(const QString &widgetName, int index); /* DEPRECATED */
+  virtual void insertTab(const QString &widgetName, const QString &label, int index);
   virtual void setChecked(const QString &widgetName, bool checked);
   virtual bool checked(const QString &widgetName);
   virtual void setAssociatedText(const QString &widgetName, const QString &text);
@@ -104,35 +105,29 @@ public:
   virtual void removeColumn(const QString &widgetName, int column, int count);
   virtual void setRowCaption(const QString &widgetName, int row, const QString& text);
   virtual void setColumnCaption(const QString &widgetName, int column, const QString& text);
-   
+
 public slots:
-  /** Builds the instance then executes it */
-  bool run(QFile* = 0);
   /** Sets the instance's parent */
   void setParent(QWidget*);
-  /** Sets the UI file name */
-  void setUIFileName(const KURL&);
   /** Returns whether the instance is built */
-  bool isBuilt();
-  /** Builds the instance */
-  bool build();
-  /** Builds the instance from an input file */
-  bool build(QFile*);
-protected:
+  bool isBuilt() const;
+  /** Builds the instance. Uses stdin if no filename is given */
+  bool build(const KURL& fname);
+  /** Executes the instance which was built before */
+  bool run();
+private:
+  /** Check if the file exists, has correct extension and is not in a temporary (insecure) directory */
+  bool isFileValid(const KURL& fname) const;
   /* Dialog Instance */
   QWidget *m_instance;
   /* Associated Text Instance */
   KommanderWidget *m_textInstance;
-  /* UI Dialog file name to open */
-  KURL m_uiFileName;
   /** The parent widget */
   QWidget *m_parent;
   /* Get object by name */
   QObject* stringToWidget(const QString& name);
   /* Cast to Kommander widget if possible */
   KommanderWidget* kommanderWidget(QObject* object);
-  /* Number of global command-line arguments */
-  uint m_cmdArguments;
 };
 
 #endif

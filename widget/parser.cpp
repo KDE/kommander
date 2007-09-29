@@ -1,8 +1,8 @@
 /***************************************************************************
                     parser.cpp - Internal parser
                              -------------------
-    copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+    copyright          : (C) 2004-2006  Michal Rudolf <mrudolf@kdewebdwev.org>
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -38,7 +38,7 @@ Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(
   setString(expr);
 }
 
-void Parser::setString(const QString& s)
+bool Parser::setString(const QString& s)
 {
   reset();
   m_parts.clear();
@@ -69,7 +69,6 @@ void Parser::setString(const QString& s)
       for (i = start + 1; i < s.length() && (s[i] != '\"' || s[i-1] == '\\'); i++)
         if (!escaped) 
           escaped = s[i] == '\\';
-      
       if (escaped)
         insertNode(unescape(s.mid(start + 1, i - start - 1)), lines);
       else
@@ -88,7 +87,7 @@ void Parser::setString(const QString& s)
         insertNode(s.mid(start, i - start).toInt(), lines);
       start = i;
     }
-    else if (s[start].isLetter() || s[start] == '_')
+    else if (s[start].isLetter() || s[start] == '_')  // keyword
     {
       for (i = start+1; s[i].isLetterOrNumber() || s[i] == '_'; i++)
         ;
@@ -113,15 +112,17 @@ void Parser::setString(const QString& s)
     }
     else                          // Bad character
     {
-      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count());
-      return;
+      insertNode(s.mid(start, 1), lines);
+      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count()-1);
+      return false;
     }
   }
+  return true;
 }
 
 void Parser::setWidget(KommanderWidget* w)
 {
-  m_widget = w;  
+  m_widget = w;
 }
 
 void Parser::insertNode(ParseNode p, int line)
@@ -129,9 +130,8 @@ void Parser::insertNode(ParseNode p, int line)
   p.setContext(line);
   m_parts.append(p);
 }
-  
 
-QString Parser::errorMessage()
+QString Parser::errorMessage() const
 {
   return m_error;
 }
@@ -145,7 +145,6 @@ QString Parser::function(ParserData* data, const QString& name, const QStringLis
   return f.execute(0, par).toString();
 }
 
-  
 QString Parser::expression(Mode mode)
 {
   reset();
@@ -153,12 +152,12 @@ QString Parser::expression(Mode mode)
   if (!isError())
     return p.toString();
   else
-    return QString::null;
+    return QString();
 }
 
 bool Parser::isError() const
 {
-  return m_error != QString::null;
+  return !m_error.isNull();
 }
 
 
@@ -182,7 +181,18 @@ int Parser::errorLine() const
     return m_parts[m_errorPosition].context();
   else 
     return -1;
-  
+}
+
+ParseNode Parser::parseConstant(Parse::Mode)
+{
+  ParseNode p = next();
+  m_start++;
+  if (!p.isValue())
+  {
+    setError(i18n("Constant value expected"));
+    return ParseNode();
+    }
+  return p;
 }
 
 ParseNode Parser::parseValue(Mode mode)
@@ -199,7 +209,7 @@ ParseNode Parser::parseValue(Mode mode)
       QString index = parseValue(mode).toString();
       tryKeyword(RightBracket);
       QString arr = p.variableName();
-      return (isArray(arr) && array(arr).contains(index)) ? array(arr)[index] : QString::null;
+      return arrayValue(arr, index);
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
@@ -240,12 +250,21 @@ ParseNode Parser::parseMultiply(Mode mode)
       else
         p = p.toInt() * p2.toInt();
     else if (k == Divide)
-      if (type == ValueDouble)
+    {
+      if (p2.toDouble() == 0.0)
+        setError(i18n("Divide by zero"));
+      else if (type == ValueDouble)
         p = p.toDouble() / p2.toDouble();
       else
         p = p.toInt() / p2.toInt();
+    }
     else  /* k == Mod */
-      p = p.toInt() % p2.toInt();
+    {
+      if (p2.toInt() == 0)
+        setError(i18n("Divide by zero"));
+      else
+        p = p.toInt() + p2.toInt();
+    }
   }
   return p;
 }
@@ -342,7 +361,7 @@ ParseNode Parser::parseAnd(Mode mode)
       p = parseNot(mode);
   }
   return p;
-}    
+}
 
 ParseNode Parser::parseOr(Mode mode)
 {
@@ -404,8 +423,8 @@ ParseNode Parser::parseWidget(Mode mode)
 {
   int pos = m_start;
   QString widget = nextVariable();
-  Function f = m_data->function("dcop");
-  
+  Function f = m_data->function("internalDcop");
+
   if (!tryKeyword(Dot))
     return ParseNode();
   QString var = nextVariable();
@@ -491,7 +510,6 @@ Flow Parser::parseIf(Mode mode)
 
 void Parser::parseWhile(Mode mode)
 {
-  next();
   m_start++;
   int start = m_start;
   bool running = true;
@@ -510,7 +528,6 @@ void Parser::parseWhile(Mode mode)
 
 void Parser::parseFor(Mode mode)
 {
-  next();
   m_start++;
   QString var = nextVariable();
   tryKeyword(Assign);
@@ -531,10 +548,9 @@ void Parser::parseFor(Mode mode)
   }
   tryKeyword(End);
 }
-  
+
 void Parser::parseForeach(Mode mode)
 {
-  next();
   m_start++;
   QString var = nextVariable();
   tryKeyword(In);
@@ -558,6 +574,26 @@ void Parser::parseForeach(Mode mode)
   tryKeyword(End);
 }
 
+void Parser::parseSwitch(Mode mode)
+{
+  m_start++;
+  QString var = nextVariable();
+  ParseNode caseValue = variable(var);
+  bool executed = false;
+  tryKeyword(Semicolon, CheckOnly);
+  while (tryKeyword(Case, CheckOnly))
+  {
+    ParseNode p = parseConstant();
+    bool matched = mode == Execute && p == caseValue;
+    parseBlock(matched ? Execute : CheckOnly);
+    if (matched)
+      executed = true;
+  }
+  if (tryKeyword(Else, CheckOnly))
+    parseBlock(executed ? CheckOnly : mode);
+  tryKeyword(End);
+}
+
 Flow Parser::parseCommand(Mode mode)
 {
   ParseNode p = next();
@@ -569,6 +605,8 @@ Flow Parser::parseCommand(Mode mode)
     parseFor(mode);
   else if (next().isKeyword(Foreach))
     parseForeach(mode);
+  else if (next().isKeyword(Switch))
+    parseSwitch(mode);
   else if (tryKeyword(Continue, CheckOnly))
     return FlowContinue;
   else if (tryKeyword(Break, CheckOnly))
@@ -577,13 +615,13 @@ Flow Parser::parseCommand(Mode mode)
     parseFunction(mode);
   else if (isWidget())
     parseWidget(mode);
-  else if (next().isVariable()) 
+  else if (next().isVariable())
     parseAssignment(mode);
   else if (tryKeyword(Exit, CheckOnly))
   {
     if (mode == Execute)
       setError("Exit");
-#warning FIXME!    
+#warning FIXME!
     return FlowBreak;
   }
   return FlowStandard;
@@ -675,7 +713,7 @@ void Parser::setError(const QString& msg)
 
 void Parser::setError(const QString& msg, int pos)
 {
-  if (m_error == QString::null)
+  if (m_error.isNull())
   {
     m_errorPosition = pos;
     m_error = msg;
@@ -716,7 +754,7 @@ void Parser::unsetVariable(const QString& key)
     m_variables.remove(key);
 }
 
-const QMap<QString, ParseNode>& Parser::array(const QString& name)
+const QMap<QString, ParseNode>& Parser::array(const QString& name) const
 {
   if (isGlobal(name))
     return m_globalArrays[name];
@@ -741,25 +779,35 @@ void Parser::unsetArray(const QString& name, const QString& key)
 {
   if (isGlobal(name))
   {
-    if (key == QString::null)
+    if (key.isNull())
       m_globalArrays.remove(name);
     else if (isArray(name))
       m_globalArrays[name].remove(key);
   }
   else
   {
-    if (key == QString::null)
+    if (key.isNull())
       m_arrays.remove(name);
     else if (isArray(name))
       m_arrays[name].remove(key);
   }
 }
 
+ParseNode Parser::arrayValue(const QString& name, const QString& key) const
+{
+  if (!isArray(name))
+    return ParseNode();
+  if (isGlobal(name))
+    return m_globalArrays[name].contains(key) ? m_globalArrays[name][key] : ParseNode();
+  else
+    return m_arrays[name].contains(key) ? m_arrays[name][key] : ParseNode();
+}
+
 
 
 KommanderWidget* Parser::currentWidget() const
 {
-  return m_widget;  
+  return m_widget;
 }
   
 QMap<QString, ParseNode> Parser::m_globalVariables;

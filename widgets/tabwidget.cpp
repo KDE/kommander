@@ -82,7 +82,7 @@ void TabWidget::showEvent(QShowEvent* e)
 
 bool TabWidget::isFunctionSupported(int f)
 {
-  return f == DCOP::currentItem || f == DCOP::setCurrentItem;
+  return f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::insertTab;
 }
 
 QString TabWidget::handleDCOP(int function, const QStringList& args)
@@ -92,6 +92,9 @@ QString TabWidget::handleDCOP(int function, const QStringList& args)
       return QString::number(currentPageIndex());
     case DCOP::setCurrentItem:
       setCurrentPage(args[0].toUInt());
+      break;
+    case DCOP::insertTab:
+      insertTab(0L, args[0], args[1].toUInt());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

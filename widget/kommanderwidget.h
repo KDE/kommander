@@ -60,7 +60,7 @@ public:
   // Parse and evaluate function for given widget, converting it to appropriate DCOP call.
   virtual QString evalWidgetFunction(const QString& identifier, const QString& s, int& pos);
   // Evaluate given array function using given args.
-  virtual QString evalArrayFunction(const QString&, const QStringList&) const;
+  virtual QString evalArrayFunction(const QString&, const QStringList&);
   // Parse and evaluate given execBegin..execEnd block.
   virtual QString evalExecBlock(const QStringList&, const QString& s, int& pos);
   // Parse and evaluate given forEach..end block.
@@ -91,6 +91,8 @@ public:
   virtual bool isWidget(const QString& a_name) const;
   // Returns widget from name 
   virtual KommanderWidget* widgetByName(const QString& a_name) const;
+  // Returns current widget name;
+  virtual QString widgetName() const;
   // Returns filename associated with the dialog
   virtual QString fileName();
 
@@ -102,9 +104,9 @@ public:
   // Default parser
   static bool useInternalParser;
   // Return global variable value
-  static QString global(const QString& variableName);
+  QString global(const QString& variableName);
   // Set global variable value
-  static void setGlobal(const QString& variableName, const QString& value);
+  void setGlobal(const QString& variableName, const QString& value);
 
 protected:
   virtual void setStates(const QStringList& a_states);
@@ -134,7 +136,7 @@ protected:
   // Remove quotes from given identifier
   QString parseQuotes(const QString& s) const;
   // Parse function
-  QStringList parseFunction(const QString group, const QString& function,
+  QStringList parseFunction(const QString& group, const QString& function,
     const QString& s, int& from, bool& ok);
   // Detect and return block boundary
   int parseBlockBoundary(const QString& s, int from, const QStringList& args) const;
@@ -152,11 +154,7 @@ protected:
   QStringList m_displayStates;
   QStringList m_associatedText;
   QString m_populationText;
-  
-  // Global variables 
-  static QMap<QString, QString> m_globals;
-  // Global arrays 
-  static QMap<QString, QMap<QString, QString> > m_arrays;
+
   // Internal parser data
   static ParserData* m_parserData;
 };

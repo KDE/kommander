@@ -1,3 +1,17 @@
+Thu Sep 14 20:01:18 2006 - Michal Rudolf <mrudolf@kdewebdev.org>
+(actually imported from a work branch on Sep 29, 2007 by Andras Mantia <amantia@kde.org>)
+	o function str_findrev works now
+	o fix crash when diving by zero
+  o make function names case insensitive
+  o fix dcop() function (external DCOP) in new parser
+	o add missing EOLs to array_values()
+  o don't open files with no filename given
+  o fix crash on incorrect syntax in new parser
+  o fix input_file() function
+  o add switch/case to new parser
+  o fix importing tables with empty cells
+  o Kommander 1.3.0 (development branch) released
+
 Thu Sep 7 20:01:18 2006 - Andras Mantia <amantia@kde.org>
   o fix crash on exit in the editor
 

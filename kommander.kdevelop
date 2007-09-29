@@ -16,6 +16,7 @@
     <ignoreparts/>
     <secondaryLanguages/>
     <defaultencoding/>
+    <projectname>kommander</projectname>
   </general>
   <kdevfileview>
     <groups>
@@ -223,6 +224,8 @@
       <usePermanentCaching>true</usePermanentCaching>
       <alwaysIncludeNamespaces>false</alwaysIncludeNamespaces>
       <includePaths>.;</includePaths>
+      <parseMissingHeadersExperimental>false</parseMissingHeadersExperimental>
+      <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
     </codecompletion>
     <references/>
     <qt>
@@ -231,6 +234,9 @@
       <root>/usr/lib/qt3</root>
       <includestyle>3</includestyle>
       <designerintegration>EmbeddedKDevDesigner</designerintegration>
+      <qmake>/usr/lib/qt3/bin/qmake</qmake>
+      <designer>/usr/lib/qt3/bin/designer</designer>
+      <designerpluginpaths/>
     </qt>
     <creategettersetter>
       <prefixGet/>

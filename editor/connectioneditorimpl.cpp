@@ -104,14 +104,13 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   lst << m_formWindow->name();
   for (QPtrDictIterator<QWidget> it(*m_formWindow->widgets()); it.current(); ++it)
   {
-    QWidget *current = it.current();
-    if (current->isVisibleTo(this) &&
-        !current->inherits("QLayoutWidget") &&
-        !current->inherits("Spacer") &&
-        qstrcmp(current->name(), "central widget") &&
-        !m_formWindow->isMainContainer(current) &&
-        !lst.contains(current->name()))
-      lst << current->name();
+    if (it.current()->isVisibleTo(this) &&
+        !it.current()->inherits("QLayoutWidget") &&
+        !it.current()->inherits("Spacer") &&
+        qstrcmp(it.current()->name(), "central widget") &&
+        !m_formWindow->isMainContainer(it.current()) &&
+        !lst.contains(it.current()->name()))
+      lst << it.current()->name();
   }
   lst.sort();
   

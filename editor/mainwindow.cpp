@@ -472,8 +472,17 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
              }
                 }
                 break;
-    case QEvent::ContextMenu:
     case QEvent::MouseButtonPress:
+      if (((QMouseEvent*)e)->button() == MidButton && dynamic_cast<KommanderWidget *>(o))
+      {
+        AssocTextEditor *editor = new AssocTextEditor((QWidget*)o, formWindow(), propertyEditor, m_partManager,
+             this, "AssocTextEditor", false);
+         editor->exec();
+         delete editor;
+         ((QKeyEvent*)e)->accept();
+          return true;
+      }
+    case QEvent::ContextMenu:
       if (o->inherits("QDesignerPopupMenu"))
         break;
       if (o && currentTool() == POINTER_TOOL && (o->inherits("QDesignerMenuBar") ||

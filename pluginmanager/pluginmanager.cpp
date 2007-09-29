@@ -34,7 +34,7 @@ PluginManager::~PluginManager()
   
 int PluginManager::count() const
 {
-  return m_list->count();  
+  return m_list->count();
 }
   
 QString PluginManager::item(int i) const
@@ -56,7 +56,7 @@ bool PluginManager::add(const QString& plugin, bool)
 bool PluginManager::remove(const QString& plugin)
 {
   if (!m_list->contains(plugin))
-    return false;  
+    return false;
   m_list->remove(plugin);
   return true;
 }
@@ -80,7 +80,7 @@ QString PluginManager::libraryName(const QString& plugin) const
   if (l && l->hasSymbol("kommander_plugin"))
     libname = l->fileName();
   return libname;
-} 
+}
 
 QStringList PluginManager::items() const
 {

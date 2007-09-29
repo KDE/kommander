@@ -31,7 +31,7 @@ public:
   Parser(ParserData* data);
   Parser(ParserData* data, const QString& expr);
   // set string to parse
-  void setString(const QString& s);
+  bool setString(const QString& s);
   // set Kommander widget associated with parser
   void setWidget(KommanderWidget* w);
   
@@ -46,10 +46,10 @@ public:
   // return line of errorneous node
   int errorLine() const;
   // return error message
-  QString errorMessage();
-  
+  QString errorMessage() const;
+
   // check if this is a name of standard variable
-  bool isVariable(const QString& name);
+  bool isVariable(const QString& name) const;
   // set variable value
   void setVariable(const QString& name, ParseNode value);
   // unset variable
@@ -57,20 +57,23 @@ public:
   // get variable value
   ParseNode variable(const QString& name) const;
   // access associative array 
-  const QMap<QString, ParseNode>& array(const QString& name);
+  const QMap<QString, ParseNode>& array(const QString& name) const;
   // check if this is a name of an array
   bool isArray(const QString& name) const;
   // set array key
   void setArray(const QString& name, const QString& key, ParseNode value);
   // unset array key or whole array
   void unsetArray(const QString& name, const QString& key = QString::null);
-    
+  // array value 
+  ParseNode arrayValue(const QString& name, const QString& key) const;
   // get associated widget
   KommanderWidget* currentWidget() const;
 
 private:
   // parsing function - top-down approach
-  
+
+  // parse const
+  ParseNode parseConstant(Parse::Mode mode = Parse::Execute);
   // parse value (literal or variable)
   ParseNode parseValue(Parse::Mode mode = Parse::Execute);
   // parse multiplication, division and mod (x*y, x/y, x%y)
@@ -106,7 +109,7 @@ private:
   ParseNode parseFunction(Parse::Mode mode = Parse::Execute);
   // parse widget function
   ParseNode parseWidget(Parse::Mode mode = Parse::Execute);
-  
+
   // parse assignment
   void parseAssignment(Parse::Mode mode = Parse::Execute);
   // parse conditional
@@ -119,6 +122,8 @@ private:
   void parseFor(Parse::Mode mode = Parse::Execute);
   // parse foreach loop
   void parseForeach(Parse::Mode mode = Parse::Execute);
+  // parse switch block
+  void parseSwitch(Parse::Mode mode = Parse::Execute);
   // parse whole block
   Parse::Flow parseBlock(Parse::Mode mode = Parse::Execute);
   
@@ -133,9 +138,7 @@ private:
     
   // get the name of the next node treated as variable
   QString nextVariable();
-  // check whether name is a valid variable is global
-  bool isVariable(const QString& name) const;
-  // check whether variable/array name is global (preceeded with _)
+  // check whether variable/array name is global (preceded with _)
   bool isGlobal(const QString& name) const;
   // check if next item is a function
   bool isFunction() const;
