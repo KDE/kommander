@@ -45,14 +45,14 @@ public:
   virtual QString currentState() const = 0;
 
   virtual bool isKommanderWidget() const = 0;
-  
+
   // Associated script
   virtual void setAssociatedText(const QStringList& a_associations);
   virtual QStringList associatedText() const;
   virtual bool hasAssociatedText();
-  
+
   // Execute default script, expanding all @macros.
-    virtual QString evalAssociatedText();
+  virtual QString evalAssociatedText();
   // Execute given script, expanding all @macros.
   virtual QString evalAssociatedText(const QString&);
   // Evaluate given Kommander function using given args.
@@ -71,15 +71,11 @@ public:
   virtual QString evalSwitchBlock(const QStringList&, const QString& s, int& pos);
   // Parse and evaluate given if..endif block.
   virtual QString evalIfBlock(const QStringList&, const QString& s, int& pos);
-  
-  
   // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   virtual void populate() = 0;
 
-  
-  
   // Handles all widget-specific DCOP calls 
   virtual QString handleDCOP(int function, const QStringList& args = QStringList());
   // Checks if appropriate function is supported by widget. By default all functions
@@ -96,7 +92,7 @@ public:
   // Returns filename associated with the dialog
   virtual QString fileName();
 
-  
+
   // Recognizes editor vs executor mode
   static bool inEditor;
   // Prints errors in message boxes, not in stderr
@@ -111,7 +107,7 @@ public:
 protected:
   virtual void setStates(const QStringList& a_states);
   virtual void setDisplayStates(const QStringList& a_displayStates);
-  
+
   // Execute DCOP query and return its result or null on failure
   // Only QString and int are now handled
   QString DCOPQuery(const QStringList& args);
@@ -125,14 +121,13 @@ protected:
   QString runDialog(const QString& a_dialog, const QString& a_params = QString::null);
   // Display error message a_error; display current class name if no other is given
   void printError(const QString& a_error) const;
-  
   // Auxiliary functions for parser
   // Find matching brackets starting from current position
   QString parseBrackets(const QString& s, int& from, bool& ok) const;
   // Return identifier: the longest string of letters and numbers starting from i
   QString parseIdentifier(const QString& s, int& from) const;
   // Parse arguments for given function. Returns list of arguments without quotations
-  QStringList parseArgs(const QString& s, bool &ok );
+  QStringList parseArgs(const QString& s, bool &ok);
   // Remove quotes from given identifier
   QString parseQuotes(const QString& s) const;
   // Parse function
@@ -140,15 +135,15 @@ protected:
     const QString& s, int& from, bool& ok);
   // Detect and return block boundary
   int parseBlockBoundary(const QString& s, int from, const QStringList& args) const;
-    
+
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
   // Return parent dialog of this widget
   QWidget* parentDialog() const;
   QString substituteVariable(QString text, QString variable, QString value) const;
-   
+
   ParserData* internalParserData();
-      
+
   QObject *m_thisObject;
   QStringList m_states;
   QStringList m_displayStates;

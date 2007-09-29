@@ -25,8 +25,8 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "scriptobject.h"
-#include "myprocess.h"
-#include "specials.h"
+#include <myprocess.h>
+#include <specials.h>
 
 ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   : QLabel(a_parent, a_name), KommanderWidget(this)
@@ -99,12 +99,36 @@ void ScriptObject::executeProcess(bool blocking)
 
 void ScriptObject::execute()
 {
+  m_params.clear();
+  executeProcess(true);
+}
+
+void ScriptObject::execute(const QString& s)
+{
+  m_params.clear();
+  m_params.append(s);
+  executeProcess(true);
+}
+
+void ScriptObject::execute(int i)
+{
+  m_params.clear();
+  m_params.append(QString::number(i));
+  executeProcess(true);
+}
+
+void ScriptObject::execute(int i, int j)
+{
+  m_params.clear();
+  m_params.append(QString::number(i));
+  m_params.append(QString::number(j));
   executeProcess(true);
 }
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute;
+  return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute || f == DCOP::item 
+      || f == DCOP::count;
 }
 
 QString ScriptObject::handleDCOP(int function, const QStringList& args)
@@ -117,12 +141,20 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
       setAssociatedText(QString::null);
       break;
     case DCOP::execute:
+      m_params = args;
       executeProcess(true);
       break;
+    case DCOP::item:
+    {
+      uint index = args[0].toInt();
+      return index < m_params.count() ? m_params[index] : QString::null;
+    }
+    case DCOP::count:
+      return QString::number(m_params.count());
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "scriptobject.moc"

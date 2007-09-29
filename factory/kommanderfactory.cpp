@@ -95,7 +95,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 
-static QPtrList<KommanderPlugin> widgetPlugins;
+QPtrList<KommanderPlugin> widgetPlugins;
 
 QMap<QWidget*, QString> *qwf_functions = 0;
 QMap<QWidget*, QString> *qwf_forms = 0;
@@ -128,7 +128,6 @@ QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QW
 
     if (!qwf_currFileName)
       qwf_currFileName = new QString();
-
     *qwf_currFileName = uiFile;
     QWidget *w = KommanderFactory::create( &f, connector, parent, name );
     if ( !qwf_forms )

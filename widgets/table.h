@@ -28,7 +28,7 @@
 
 class QWidget;
 
-class Table : public QTable, public KommanderWidget
+class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
 {
   Q_OBJECT
 

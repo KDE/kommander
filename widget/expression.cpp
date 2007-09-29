@@ -89,7 +89,7 @@ QString Expression::next() const
   if (m_start < m_parts.count())
     return m_parts[m_start].toString();
   else 
-    return QString::null;
+    return QString();
 }
 
 bool Expression::validate()
@@ -98,7 +98,6 @@ bool Expression::validate()
     setError();
   return !m_error;
 }
-
 Expression::Type Expression::commonType(const QVariant v1, const QVariant v2) const
 {
   if (v1.type() == QVariant::String || v2.type() == QVariant::String)

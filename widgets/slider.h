@@ -25,7 +25,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 class QShowEvent;
 class KOMMANDER_EXPORT Slider: public QSlider, public KommanderWidget
 {

@@ -25,11 +25,11 @@
 #include <qdialog.h>
 
 /* OTHER INCLUDES */
+#include <myprocess.h>
 #include <kommanderfactory.h>
-#include <kommanderwidget.h>
 #include <specials.h>
 #include "wizard.h"
-#include "myprocess.h"
+
 
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : QWizard(a_parent, a_name, a_modal, a_flags), KommanderWidget(this)
@@ -178,7 +178,7 @@ QString Wizard::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

@@ -27,7 +27,7 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include <klistbox.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 class QWidget;
 
 class QShowEvent;

@@ -26,9 +26,7 @@
 
 /* QT INCLUDES */
 #include <qapplication.h>
-#include <qfile.h>
 #include <qobject.h>
-#include <qptrlist.h>
 #include <qstring.h>
 
 /* OTHER INCLUDES */
@@ -81,7 +79,7 @@ int main(int argc, char *argv[])
   else
     KLocale::setMainCatalogue("Kommander");
   KApplication app;
-  
+
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
   if (!args->count())
   {

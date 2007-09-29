@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h> 
- 
+#include <klocale.h>
+
 #include "parser.h"
 #include "parserdata.h"
 #include "kommanderwidget.h"
@@ -31,7 +31,7 @@ Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(QString::
   m_widget(0)
 {
 }
-  
+
 Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), 
   m_error(QString::null), m_errorPosition(0), m_widget(0)
 {
@@ -380,7 +380,7 @@ ParseNode Parser::parseCondition(Mode mode)
 {
   return parseOr(mode);
 }
-  
+
 ParseNode Parser::parseExpression(Mode mode)
 {
   return parseOr(mode);
@@ -433,7 +433,7 @@ ParseNode Parser::parseWidget(Mode mode)
   ParameterList params;
   params.append(var);
   params.append(widget);
-  
+
   if (tryKeyword(LeftParenthesis, CheckOnly) && !tryKeyword(RightParenthesis, CheckOnly))
   {
     do {
@@ -626,7 +626,7 @@ Flow Parser::parseCommand(Mode mode)
   }
   return FlowStandard;
 }
-  
+
 Flow Parser::parseBlock(Mode mode)
 {
   Flow flow = parseCommand(mode);
@@ -636,7 +636,7 @@ Flow Parser::parseBlock(Mode mode)
       flow = parseCommand(mode);
     else
       parseCommand(CheckOnly);
-  }    
+  }
   return flow;
 }
 
@@ -685,7 +685,7 @@ QString Parser::nextVariable()
   }
   else 
     setError(i18n("Expected variable"));
-  return QString::null;
+  return QString();
 }
 
 
@@ -717,7 +717,7 @@ void Parser::setError(const QString& msg, int pos)
   {
     m_errorPosition = pos;
     m_error = msg;
-  } 
+  }
 }
 
 void Parser::setVariable(const QString& name, ParseNode value)
@@ -774,7 +774,7 @@ void Parser::setArray(const QString& name, const QString& key, ParseNode value)
   else
     m_arrays[name][key] = value;
 }
-  
+
 void Parser::unsetArray(const QString& name, const QString& key)
 {
   if (isGlobal(name))
@@ -809,7 +809,8 @@ KommanderWidget* Parser::currentWidget() const
 {
   return m_widget;
 }
-  
+
 QMap<QString, ParseNode> Parser::m_globalVariables;
 QMap<QString, QMap<QString, ParseNode> > Parser::m_globalArrays;
+
 

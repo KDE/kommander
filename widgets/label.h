@@ -30,10 +30,10 @@
 class QWidget;
 
 class QShowEvent;
-class Label : public QLabel, public KommanderWidget
+class KOMMANDER_EXPORT Label : public QLabel, public KommanderWidget
 {
   Q_OBJECT
-  
+
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)

@@ -17,7 +17,9 @@
 #ifndef _HAVE_PARSER_H_
 #define _HAVE_PARSER_H_
 
+#include "kommander_export.h"
 #include "parsenode.h"
+
 #include <qvaluevector.h>
 #include <qstringlist.h>
 #include <qmap.h>
@@ -34,7 +36,7 @@ public:
   bool setString(const QString& s);
   // set Kommander widget associated with parser
   void setWidget(KommanderWidget* w);
-  
+
   // parse generic expression
   QString expression(Parse::Mode mode = Parse::Execute);
   // execute single command; return true if ok
@@ -89,7 +91,7 @@ private:
   // parse string concatenation (x+y)
   ParseNode parseConcatenation(Parse::Mode mode = Parse::Execute);
   */
-    
+
   // parse comparisons (x==y, x<y, x>y, x!=y, x<>y, x<=y, x>=y
   ParseNode parseComparison(Parse::Mode mode = Parse::Execute);
   // parse boolean not (!x, not x)
@@ -100,7 +102,7 @@ private:
   ParseNode parseOr(Parse::Mode mode = Parse::Execute);
   // parse generic condition
   ParseNode parseCondition(Parse::Mode mode = Parse::Execute);
-  
+
   // parse (x) expression
   ParseNode parseParenthesis(Parse::Mode mode = Parse::Execute);
   // parse generic expression
@@ -126,7 +128,7 @@ private:
   void parseSwitch(Parse::Mode mode = Parse::Execute);
   // parse whole block
   Parse::Flow parseBlock(Parse::Mode mode = Parse::Execute);
-  
+
   // insert next node
   void insertNode(ParseNode p, int line);
   // next item to be parsed
@@ -135,7 +137,7 @@ private:
   bool tryKeyword(Parse::Keyword k, Parse::Mode mode = Parse::Execute);
   // check if next item is a variable, if so, return its name
   bool tryVariable(Parse::Mode mode = Parse::Execute);
-    
+
   // get the name of the next node treated as variable
   QString nextVariable();
   // check whether variable/array name is global (preceded with _)
@@ -144,7 +146,7 @@ private:
   bool isFunction() const;
   // check if next item is a widget
   bool isWidget() const;
-   
+
   // reset to default state
   void reset();
   // set error state if no error was set before; err is expected symbol that wasn't found
@@ -152,7 +154,7 @@ private:
   void setError(const QString& msg, int pos);
   // check whether parsing was successful
   bool isError() const;
-  
+
   // parsing data
   ParserData* m_data;
   // current parsing position

@@ -26,7 +26,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 
 class QBoxLayout;
 class KPushButton;

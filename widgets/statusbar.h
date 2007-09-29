@@ -30,7 +30,7 @@
 class QWidget;
 
 class QShowEvent;
-class StatusBar : public KStatusBar, public KommanderWidget
+class KOMMANDER_EXPORT StatusBar : public KStatusBar, public KommanderWidget
 {
   Q_OBJECT
 

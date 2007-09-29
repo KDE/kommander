@@ -19,12 +19,12 @@
 
 /* QT INCLUDES */
 #include <qlabel.h>
- 
+
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 
 class QTimer;
-class Timer : public QLabel, public KommanderWidget
+class KOMMANDER_EXPORT Timer : public QLabel, public KommanderWidget
 {
   Q_OBJECT
 
@@ -33,7 +33,7 @@ class Timer : public QLabel, public KommanderWidget
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   Q_PROPERTY(int interval READ interval WRITE setInterval)
   Q_PROPERTY(bool singleShot READ singleShot WRITE setSingleShot)
-            
+
   public:
     Timer(QWidget *a_parent, const char *a_name);
     ~Timer();

@@ -147,7 +147,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     }
     evalText += a_text.mid(pos, ident - pos);
     pos = ident+1;
-    
+
     /* escaped @ */
     if (pos < baseTextLength-1 && a_text[pos] == ESCCHAR)
     {
@@ -155,7 +155,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       pos++;
       continue;
     }
-    
+
     QString identifier = parseIdentifier(a_text, pos);
     /* comment */
     if (identifier.isEmpty()) 
@@ -172,10 +172,11 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
          evalText += ESCCHAR;    // single @
       continue;
     }
-    
     bool ok = true;
     QStringList args;
-    
+
+
+
     /* Standard, non-prefixed special */
     if (identifier == "if") // if required special handling as it takes expression
     {
@@ -203,7 +204,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       else
         evalText += evalFunction(identifier, args);
     }
-    
+
     /* Widget special */
     else if (parseWidget(identifier))
       evalText += evalWidgetFunction(identifier, a_text, pos);
@@ -241,7 +242,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       return QString();
     }
   }
-          
+
   return evalText;
 }
 
@@ -273,7 +274,7 @@ QString KommanderWidget::DCOPQuery(const QStringList& a_query)
     printError(i18n("Incorrect arguments in DCOP call \'%1\'.").arg(a_query[2]));
     return QString();
   }
-  
+
   QCString replyType;
   QByteArray byteData, byteReply;
   QDataStream byteDataStream(byteData, IO_WriteOnly);
@@ -539,7 +540,7 @@ QString KommanderWidget::parseQuotes(const QString& s) const
 
 bool KommanderWidget::isWidget(const QString& a_name) const
 {
-  return parseWidget(a_name);  
+  return parseWidget(a_name);
 }
 
 KommanderWidget* KommanderWidget::widgetByName(const QString& a_name) const
@@ -550,7 +551,7 @@ KommanderWidget* KommanderWidget::widgetByName(const QString& a_name) const
 
 KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
-  if (QString(parentDialog()->name()) == widgetName) 
+  if (QString(parentDialog()->name()) == widgetName)
     return dynamic_cast <KommanderWidget*>(parentDialog());
   QCString s = widgetName.lower() == "self" ? m_thisObject->name() : widgetName.latin1();
   QObject* childObj = parentDialog()->child(s);
@@ -572,7 +573,7 @@ QStringList KommanderWidget::parseFunction(const QString& group, const QString& 
   int gname = SpecialInformation::group(group);
   int fname = SpecialInformation::function(gname, function);
   bool extraArg = gname == Group::DCOP;
-  
+
   if (!ok)
     printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
   else if (gname == -1)
@@ -727,4 +728,5 @@ bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
 bool KommanderWidget::useInternalParser = false;
 ParserData* KommanderWidget::m_parserData = new ParserData;
+
 

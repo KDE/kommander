@@ -106,7 +106,7 @@ void Konsole::processReceivedStdout(MyProcess*, char* buffer, int buflen)
 {
   QString pBuf = QString::fromLocal8Bit(buffer, buflen);  
   if (mSeenEOL)
-    pBuf = "\n" + pBuf;
+    pBuf = '\n' + pBuf;
   mSeenEOL = pBuf[pBuf.length()-1] == '\n';
   if (mSeenEOL)
     pBuf = pBuf.left(pBuf.length()-1);
@@ -146,7 +146,7 @@ QString Konsole::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

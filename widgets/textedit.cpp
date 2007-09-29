@@ -111,12 +111,12 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       insert(args[0]);
       break;
     case DCOP::clear:
-      setWidgetText("");
+      setWidgetText(QString());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 

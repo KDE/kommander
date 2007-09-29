@@ -191,13 +191,13 @@ bool Instance::isFileValid(const KURL& fname) const
            i18n("Wrong Extension"));
     return false;
   }
-  
+
   // Check whether file is not in some temporary directory.
   QStringList tmpDirs = KGlobal::dirs()->resourceDirs("tmp");
   tmpDirs += KGlobal::dirs()->resourceDirs("cache");
   tmpDirs.append("/tmp/");
   tmpDirs.append("/var/tmp/");
-  
+
   bool inTemp = false;
   for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
     if (fname.directory(false).startsWith(*I))
@@ -209,7 +209,7 @@ bool Instance::isFileValid(const KURL& fname) const
          " This may mean that it was run from a KMail attachment or from a webpage. "
          "<p>Any script contained in this dialog will have write access to all of your home directory; "
          "<b>running such dialogs may be dangerous: </b>"
-         "<p>are you sure you want to continue?</qt>"), QString::null, i18n("Run Nevertheless")) == KMessageBox::Cancel)
+             "<p>are you sure you want to continue?</qt>"), QString(), i18n("Run Nevertheless")) == KMessageBox::Cancel)
        return false;
   }
   return true;
@@ -222,21 +222,21 @@ bool Instance::isFileValid(const KURL& fname) const
 // Widget functions
 void Instance::setEnabled(const QString& widgetName, bool enable)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (child && child->inherits("QWidget"))
     ((QWidget*)child)->setEnabled(enable);
 }
 
 void Instance::setVisible(const QString& widgetName, bool visible)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (child && child->inherits("QWidget"))
     ((QWidget*)child)->setShown(visible);
 }
 
 void Instance::setText(const QString& widgetName, const QString& text)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::setText, text);
   else if (child && child->inherits("QLabel"))
@@ -255,34 +255,34 @@ void Instance::setText(const QString& widgetName, const QString& text)
 
 QString Instance::text(const QString& widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::text);
   else if (child && child->inherits("QLabel"))
-    return ((QLabel*)child)->text();  
-  return QString::null;
+    return ((QLabel*)child)->text();
+  return QString();
 }
 
 void Instance::setSelection(const QString& widgetName, const QString& text)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::setSelection, text);
   else if (child && child->inherits("QLabel"))
-    ((QLabel*)child)->setText(text);  
+    ((QLabel*)child)->setText(text);
 }
 
 QString Instance::selection(const QString& widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::selection);
-  return QString::null;
+  return QString();
 }
 
 int Instance::currentItem(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::currentItem).toInt();
   return -1;
@@ -290,22 +290,22 @@ int Instance::currentItem(const QString &widgetName)
 
 QString Instance::item(const QString &widgetName, int i)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::item, QString::number(i));
-  return QString::null;      
+  return QString();
 }
 
 void Instance::removeItem(const QString &widgetName, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::removeItem, QString::number(index));
 }
 
 void Instance::insertItem(const QString &widgetName, const QString &item, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
   {
     QStringList args(item);
@@ -316,7 +316,7 @@ void Instance::insertItem(const QString &widgetName, const QString &item, int in
 
 void Instance::insertItems(const QString &widgetName, const QStringList &items, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
   {
     QStringList args(items.join("\n"));
@@ -327,7 +327,7 @@ void Instance::insertItems(const QString &widgetName, const QStringList &items, 
 
 int Instance::findItem(const QString &widgetName, const QString& item)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::findItem, item).toInt();
   return -1;
@@ -335,14 +335,14 @@ int Instance::findItem(const QString &widgetName, const QString& item)
 
 void Instance::addUniqueItem(const QString &widgetName, const QString &item)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::addUniqueItem, item);
 }
 
 int Instance::itemDepth(const QString &widgetName, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::itemDepth, QString::number(index)).toInt();
   return -1;
@@ -350,12 +350,12 @@ int Instance::itemDepth(const QString &widgetName, int index)
 
 QString Instance::itemPath(const QString &widgetName, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::itemPath, QString::number(index));
-  return QString::null;
+  return QString();
 }
-  
+
 
 void Instance::setPixmap(const QString &widgetName, const QString& iconName, int index)
 {
@@ -391,7 +391,7 @@ void Instance::setChecked(const QString &widgetName, bool checked)
 
 bool Instance::checked(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::checked, widgetName) == "1";
   return false;
@@ -409,7 +409,7 @@ QStringList Instance::associatedText(const QString &widgetName)
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
     kommanderWidget(child)->associatedText();  
-  return QString::null;
+  return QString();
 }
 
 QString Instance::type(const QString& widget)
@@ -417,13 +417,13 @@ QString Instance::type(const QString& widget)
   QObject* child = stringToWidget(widget);  
   if (child->inherits("QWidget"))
     return child->className();
-  return QString::null;
+  return QString();
 }
 
 QStringList Instance::children(const QString& parent, bool recursive)
 {
   QStringList matching;
-  QObject* child = stringToWidget(parent);  
+  QObject* child = stringToWidget(parent);
   QObjectList* widgets;
   if (!child)
      child = m_instance; 
@@ -435,8 +435,8 @@ QStringList Instance::children(const QString& parent, bool recursive)
         matching.append(w->name());
   }
   return matching;
-} 
-  
+}
+
 void Instance::setMaximum(const QString &widgetName, int value)
 {
   QObject* child = stringToWidget(widgetName);  
@@ -450,7 +450,7 @@ void Instance::execute(const QString &widgetName)
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDCOP(DCOP::execute);
 }
-    
+
 void Instance::cancel(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
@@ -460,7 +460,7 @@ void Instance::cancel(const QString &widgetName)
 
 int Instance::count(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::count).toInt();
   return -1;
@@ -468,7 +468,7 @@ int Instance::count(const QString &widgetName)
 
 int Instance::currentColumn(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::currentColumn).toInt();
   return -1;
@@ -476,7 +476,7 @@ int Instance::currentColumn(const QString &widgetName)
 
 int Instance::currentRow(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDCOP(DCOP::currentRow).toInt();
   return -1;
@@ -525,7 +525,7 @@ QString Instance::cellText(const QString &widgetName, int row, int column)
     args += QString::number(column);
     return kommanderWidget(child)->handleDCOP(DCOP::cellText, args);
   }
-  else return QString::null;
+  else return QString();
 }
 
 void Instance::removeRow(const QString &widgetName, int row, int count)
@@ -599,7 +599,7 @@ QObject* Instance::stringToWidget(const QString& name)
 
 KommanderWidget* Instance::kommanderWidget(QObject* object)
 {
-  return dynamic_cast<KommanderWidget*>(object);  
+  return dynamic_cast<KommanderWidget*>(object);
 }
 
 
@@ -653,5 +653,6 @@ void Instance::addListItem(const QString & widgetName, const QString & item, int
 {
   insertItem(widgetName, item, index);
 }
+
 
 #include "instance.moc"

@@ -24,7 +24,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 
 class KOMMANDER_EXPORT ScriptObject : public QLabel, public KommanderWidget
 {
@@ -51,11 +51,16 @@ public slots:
   virtual void setWidgetText(const QString &);
   virtual void populate();
   virtual void execute();
+  virtual void execute(const QString&);
+  virtual void execute(int);
+  virtual void execute(int, int);
 signals:
   void widgetOpened();
 
 protected:
   virtual void executeProcess(bool blocking);
+private:
+  QStringList m_params;
 };
 
 #endif

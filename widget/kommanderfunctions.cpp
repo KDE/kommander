@@ -2,7 +2,7 @@
                     kommanderfunctions.cpp - Text widget core functionality 
                              -------------------
     copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -43,7 +43,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
     case Kommander::pid:
       return QString().setNum(getpid());
     case Kommander::null:
-      return QString::null;
+      return QString();
     case Kommander::comment:
       return QString("#");
     case Kommander::exec:
@@ -60,7 +60,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return global(args[0]);
     case Kommander::setGlobal:
       setGlobal(args[0], args[1]); 
-      return QString::null;
+      return QString();
     case Kommander::debug:
       qDebug("%s", args[0].latin1());
       return QString::null;
@@ -96,10 +96,10 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       Expression expr(args[0]);
       bool ok;
       QVariant value = expr.value(&ok);
-      return ok ? value.toString() : QString::null;
+      return ok ? value.toString() : QString();
     }
     default:
-      return QString::null;
+      return QString();
   }
 }
 
@@ -110,11 +110,11 @@ QString KommanderWidget::evalExecBlock(const QStringList& args, const QString& s
   if (f == -1)
   {
     printError(i18n("Unterminated @execBegin ... @execEnd block."));
-    return QString::null;
+    return QString();
   } 
   else
   {
-    QString shell = args.count() ? args[0] : QString::null;
+    QString shell = args.count() ? args[0] : QString();
     int start = pos;
     pos = f + QString("@execEnd").length()+1;
     return execCommand(evalAssociatedText(s.mid(start, f - start)), shell);
@@ -128,8 +128,8 @@ QString KommanderWidget::evalForEachBlock(const QStringList& args, const QString
   if (f == -1)
   {
     printError(i18n("Unterminated @forEach ... @end block."));
-    return QString::null;
-  } 
+    return QString();
+  }
   else
   {
     int start = pos;
@@ -154,7 +154,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
   if (f == -1)
   {
     printError(i18n("Unterminated @forEach ... @end block."));
-    return QString::null;
+    return QString();
   } 
   else
   {
@@ -162,7 +162,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
     pos = f + QString("@end").length()+1;
     QString block = s.mid(start, f - start);
     QString variable = args[0];
-    
+
     Expression expr;
     int loopstart = expr.value(args[1]).toInt();
     int loopend = expr.value(args[2]).toInt();
@@ -173,7 +173,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
       if (!loopstep)
         loopstep = 1;
     }
-    
+
     QString output;
     for (int i=loopstart; i<=loopend; i+=loopstep)
     {
@@ -191,7 +191,7 @@ QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, 
   {
     pos = s.length()+1;
     printError(i18n("Unterminated @if ... @endif block."));
-    return QString::null;
+    return QString();
   }
   else
   {
@@ -200,7 +200,7 @@ QString KommanderWidget::evalIfBlock(const QStringList& args, const QString& s, 
     Expression expr;
     if (expr.isTrue(args[0]))
       return evalAssociatedText(block);
-    return QString::null;
+    return QString();
   }
 }
 
@@ -211,7 +211,7 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
   if (f == -1)
   {
     printError(i18n("Unterminated @switch ... @end block."));
-    return QString::null;
+    return QString();
   }
   else
   {
@@ -236,7 +236,7 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
         return evalAssociatedText(block.mid(f, end-f));
       f = end;
     }
-    return QString::null;
+    return QString();
   }
 }
 

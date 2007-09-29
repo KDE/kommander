@@ -30,7 +30,7 @@
 class QWidget;
 
 class QShowEvent;
-class ProgressBar: public KProgress, public KommanderWidget
+class KOMMANDER_EXPORT ProgressBar: public KProgress, public KommanderWidget
 {
   Q_OBJECT
 

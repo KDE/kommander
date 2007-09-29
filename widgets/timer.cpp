@@ -23,10 +23,9 @@
 
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include <myprocess.h>
+#include <specials.h>
 #include "timer.h"
-#include "myprocess.h"
-#include "specials.h"
 
 Timer::Timer(QWidget *a_parent, const char *a_name)
   : QLabel(a_parent, a_name), KommanderWidget(this)
@@ -164,7 +163,7 @@ QString Timer::handleDCOP(int function, const QStringList& args)
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
-  return QString::null;
+  return QString();
 }
 
 #include "timer.moc"

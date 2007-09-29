@@ -29,7 +29,7 @@
 class QWidget;
 class MyProcess;
 
-class Konsole : public KTextEdit, public KommanderWidget
+class KOMMANDER_EXPORT Konsole : public KTextEdit, public KommanderWidget
 {
   Q_OBJECT
 
