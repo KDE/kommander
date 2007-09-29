@@ -41,6 +41,7 @@ class KActionCollection;
 class KProcess;
 class KRecentFilesAction;
 class KToggleAction;
+class KToolBar;
 class KURL;
 class PropertyEditor;
 class QCloseEvent;
@@ -278,6 +279,7 @@ private:
     QPopupMenu *windowMenu, *fileMenu;
 
     QToolBar *layoutToolBar;
+    KToolBar *fileTb;
 
     Preferences *prefDia;
     QMap<QString,QString> propertyDocumentation;

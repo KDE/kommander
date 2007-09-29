@@ -396,24 +396,24 @@ void MainWindow::setupToolActions()
 
 void MainWindow::setupFileActions()
 {
-  KToolBar *tb = new KToolBar(this, "File");
-  tb->setFullSize(false);
+  fileTb = new KToolBar(this, "File");
+  fileTb->setFullSize(false);
 
-  QWhatsThis::add(tb, i18n("<b>The File toolbar</b>%1").arg(toolbarHelp));
-  addToolBar(tb, i18n("File"));
+  QWhatsThis::add(fileTb, i18n("<b>The File toolbar</b>%1").arg(toolbarHelp));
+  addToolBar(fileTb, i18n("File"));
   fileMenu = new QPopupMenu(this, "File");
   menuBar()->insertItem(i18n("&File"), fileMenu);
 
   KAction *a = KStdAction::openNew(this, SLOT(fileNew()), actionCollection());
   a->setToolTip(i18n("Creates a new dialog"));
   a->setWhatsThis(whatsThisFrom("File|New"));
-  a->plug(tb);
+  a->plug(fileTb);
   a->plug(fileMenu);
 
   a = KStdAction::open(this, SLOT(fileOpen()), actionCollection());
   a->setToolTip(i18n("Opens an existing dialog"));
   a->setWhatsThis(whatsThisFrom("File|Open"));
-  a->plug(tb);
+  a->plug(fileTb);
   a->plug(fileMenu);
 
   actionRecent = KStdAction::openRecent(this,  SLOT(fileOpenRecent(const KURL&)), actionCollection());
@@ -433,7 +433,7 @@ void MainWindow::setupFileActions()
   a->setToolTip(i18n("Saves the current dialog"));
   a->setWhatsThis(whatsThisFrom("File|Save"));
   connect(this, SIGNAL(hasActiveWindow(bool)), a, SLOT(setEnabled(bool)));
-  a->plug(tb);
+  a->plug(fileTb);
   a->plug(fileMenu);
 
   a = KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
@@ -468,6 +468,7 @@ void MainWindow::setupRunActions()
   a->setToolTip(i18n("Executes dialog"));
   a->setWhatsThis(whatsThisFrom("Run|Run dialog"));
   connect(this, SIGNAL(hasActiveForm(bool)), a, SLOT(setEnabled(bool)));
+  a->plug(fileTb);
   a->plug(menu);
 }
 

@@ -650,7 +650,7 @@ void WidgetDatabase::setupDataBase( int id )
   
   r = new WidgetDatabaseRecord;
   r->name = "ScriptObject";
-  r->iconSet = "exec.png";
+  r->iconSet = "shellscript.png";
   r->group = widgetGroup( "Kommander" );
   r->toolTip = i18n("A hidden script container");
   append(r);
