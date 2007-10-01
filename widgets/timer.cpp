@@ -39,7 +39,7 @@ Timer::Timer(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KIconLoader::global()->loadIcon("kalarm", K3Icon::NoGroup, K3Icon::SizeMedium));
+    setPixmap(KIconLoader::global()->loadIcon("kalarm", KIconLoader::NoGroup, KIconLoader::SizeMedium));
     //setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());

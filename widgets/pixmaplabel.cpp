@@ -44,7 +44,7 @@ PixmapLabel::PixmapLabel(QWidget *a_parent, const char *a_name)
   setStates(states);
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
-    setPixmap(KIconLoader::global()->loadIcon(QString("tux"),K3Icon::NoGroup));
+    setPixmap(KIconLoader::global()->loadIcon(QString("tux"),KIconLoader::NoGroup));
   //setAutoResize(false);
 }
 
