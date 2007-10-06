@@ -669,9 +669,11 @@ FormWindow *MainWindow::openFormWindow(const QString &filename, bool validFileNa
         statusBar()->message(i18n("Loaded file '%1'").arg(filename), 3000);
       } else
       {
+ 	emit removedFormFile(ff);
+	ff->close();
+        delete ff;
         statusBar()->message(i18n("Could not load file '%1'").arg(filename), 5000);
         KMessageBox::information(this, i18n("Could not load file '%1'").arg(filename), i18n("Load File"));
-        delete ff;
       }
       return (FormWindow *) resource.widget();
     } else

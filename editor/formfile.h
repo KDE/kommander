@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. ï¿½All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -57,6 +57,7 @@ signals:
 
 private slots:
     void formWindowChangedSomehow();
+  void init();
 
 private:
     bool isFormWindowModified() const;

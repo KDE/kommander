@@ -30,6 +30,7 @@
 #include <qfile.h>
 #include <qregexp.h>
 #include <qstatusbar.h>
+#include <qtimer.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -42,6 +43,11 @@
 
 FormFile::FormFile(const QString &fn, bool temp)
     : filename(fn), fileNameTemp(temp), fw(0)
+{
+  QTimer::singleShot(0, this, SLOT(init()));
+}
+
+void FormFile::init()
 {
   connect(this, SIGNAL(addedFormFile(FormFile *)), MainWindow::self->workspace(),
     SLOT(formFileAdded(FormFile*)));
