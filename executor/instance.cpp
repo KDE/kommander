@@ -654,5 +654,11 @@ void Instance::addListItem(const QString & widgetName, const QString & item, int
   insertItem(widgetName, item, index);
 }
 
+int Instance::getWinID()
+{
+  return m_instance->winId();
+}
+
+
 
 #include "instance.moc"

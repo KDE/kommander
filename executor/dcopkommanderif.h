@@ -75,7 +75,7 @@ virtual void removeRow(const QString &widgetName, int row, int count) = 0;
 virtual void removeColumn(const QString &widgetName, int column, int count) = 0;
 virtual void setRowCaption(const QString &widgetName, int row, const QString& text) = 0;
 virtual void setColumnCaption(const QString &widgetName, int column, const QString& text) = 0;
-
+virtual int getWinID() = 0;
 };
 
 #endif
