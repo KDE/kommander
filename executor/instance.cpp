@@ -34,6 +34,7 @@
 #include <qstring.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
+#include <qcursor.h>
 
 /* OTHER INCLUDES */
 #include "instance.h"
@@ -659,6 +660,13 @@ int Instance::getWinID()
   return m_instance->winId();
 }
 
+void Instance::setBusyCursor(bool busy)
+{
+  if (busy)
+    m_instance->setCursor(QCursor(Qt::WaitCursor));
+ else
+    m_instance->setCursor(QCursor(Qt::ArrowCursor));
+}
 
 
 #include "instance.moc"

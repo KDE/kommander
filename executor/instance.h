@@ -106,6 +106,7 @@ public:
   virtual void setRowCaption(const QString &widgetName, int row, const QString& text);
   virtual void setColumnCaption(const QString &widgetName, int column, const QString& text);
   virtual int getWinID();
+  virtual void setBusyCursor(bool busy);
 
 public slots:
   /** Sets the instance's parent */
