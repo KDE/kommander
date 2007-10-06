@@ -245,7 +245,7 @@ ParseNode Parser::parseMultiply(Mode mode)
     ParseNode p2 = parseParenthesis(mode);
     ValueType type = p.commonType(p2);
     if (k == Multiply)
-      if (type == ValueDouble)
+      if (type == ValueDouble || p.toInt() != p.toDouble() || p2.toInt() != p2.toDouble())
         p = p.toDouble() * p2.toDouble();
       else
         p = p.toInt() * p2.toInt();

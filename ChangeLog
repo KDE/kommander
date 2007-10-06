@@ -1,3 +1,7 @@
+Sat Oct 6 17:53:47 2007 - Andras Mantia <amantia@kde.org>
+	o make multiplying work correctly for floating point values
+
+
 Thu Sep 14 20:01:18 2006 - Michal Rudolf <mrudolf@kdewebdev.org>
 (actually imported from a work branch on Sep 29, 2007 by Andras Mantia <amantia@kde.org>)
 	o function str_findrev works now
