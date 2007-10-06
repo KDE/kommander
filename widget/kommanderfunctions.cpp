@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream>
 #include <stdlib.h> 
 
 #include <qfile.h>
@@ -63,6 +64,11 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return QString();
     case Kommander::debug:
       qDebug("%s", args[0].latin1());
+      return QString::null;
+    case Kommander::echo:
+      for (uint i=0; i<args.count(); i++)
+         std::cout << args[i].latin1();
+      fflush(stdout);
       return QString::null;
     case Kommander::readSetting:
     {
