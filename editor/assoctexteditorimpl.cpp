@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kpopupmenu.h>
 #include <kactioncollection.h>
+#include <kdebug.h>
 
 #include <ktexteditor/view.h>
 #include <ktexteditor/editorchooser.h>
@@ -33,6 +34,7 @@
 #include <ktexteditor/viewcursorinterface.h>
 #include <ktexteditor/highlightinginterface.h>
 #include <ktexteditor/popupmenuinterface.h>
+#include <ktexteditor/undointerface.h>
 
 #include <kparts/partmanager.h>
 
@@ -220,6 +222,8 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   m_currentState = stateComboBox->currentText();
   stateChanged(active);
 
+  KTextEditor::UndoInterface *undoIf = dynamic_cast<KTextEditor::UndoInterface*>(doc);
+  undoIf->clearUndo();
 }
 
 void AssocTextEditor::save() const
