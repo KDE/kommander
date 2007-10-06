@@ -141,6 +141,15 @@ void Dialog::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+void Dialog::keyPressEvent( QKeyEvent *e )
+{
+  if ( e->state() == 0 && e->key() == Key_Escape)
+	return;
+  else
+   QDialog::keyPressEvent(e);
+  
+}
+
 bool Dialog::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText;

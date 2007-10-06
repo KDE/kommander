@@ -66,7 +66,8 @@ signals:
   void finished();
 protected:
   void showEvent( QShowEvent *e );
-  
+  void	keyPressEvent( QKeyEvent * );
+
 private:
   QString m_fileName;
 };
