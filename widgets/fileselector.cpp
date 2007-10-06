@@ -20,6 +20,7 @@
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <kurlcompletion.h>
+#include <kiconloader.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -43,7 +44,7 @@ FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
 
   m_lineEdit = new KLineEdit(this);
   
-  m_selectButton = new KPushButton("...", this);
+  m_selectButton = new KPushButton(BarIconSet("fileopen"), "", this);
 
   m_boxLayout = new QHBoxLayout(this, 0, 11);
   m_boxLayout->addWidget(m_lineEdit);
