@@ -672,7 +672,7 @@ QString KommanderWidget::handleDCOP(const int function, const QStringList& args)
     return QString();
   switch(function) {
     case DCOP::setEnabled:
-      current->setEnabled(args[0] != "false" && args[0] != "0");
+      current->setEnabled( args[0] != "false" && args[0] != "0");
       break;
     case DCOP::setVisible:
       current->setShown(args[0] != "false" && args[0] != "0");

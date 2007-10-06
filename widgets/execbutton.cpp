@@ -96,7 +96,7 @@ void ExecButton::setWidgetText(const QString& a_text)
 void ExecButton::startProcess()
 {
   QString at = evalAssociatedText().stripWhiteSpace();
-  
+  bool enabledStatus = isEnabled();
   if (m_blockGUI != None)
     setEnabled(false);
   if (m_blockGUI == GUI)
@@ -107,11 +107,11 @@ void ExecButton::startProcess()
   m_output = process->run(at);
   if (m_blockGUI == GUI)
   {
-    setEnabled(true);
     KApplication::restoreOverrideCursor();
     if (writeStdout())
       cout << m_output << flush;
   }
+  setEnabled(enabledStatus);
 }
 
 
