@@ -1,3 +1,7 @@
+Fri Oct 19 16:08:32 2007 - Andras Mantia <amantia@kde.org>
+	o make CheckBox.setChecked accept as argument false, "false", true, "true",
+ 	  0 (meaning false), everything else (meaning true)
+
 Sat Oct 6 17:53:47 2007 - Andras Mantia <amantia@kde.org>
 	o make multiplying work correctly for floating point values
 	o do not remove the whole text after undoing the changes in the editor [#147817]
