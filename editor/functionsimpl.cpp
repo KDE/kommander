@@ -38,7 +38,7 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const Q3Dict<QWidget>& a_wid
   bool a_modal)
   : FunctionsDialogBase(a_parent, a_name, a_modal), m_widgetList(a_widgetList)
 {
-  clearButton->setPixmap(KIconLoader::global()->loadIcon("locationbar-erase", KIcon::Toolbar));
+  clearButton->setPixmap(KIconLoader::global()->loadIcon("edit-clear-locationbar", KIcon::Toolbar));
   copyButton->setPixmap(KIconLoader::global()->loadIcon("arrow-down", KIcon::Toolbar));
   
   groupComboBox->insertStringList(SpecialInformation::groups());
