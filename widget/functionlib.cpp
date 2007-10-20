@@ -140,6 +140,7 @@ static ParseNode f_debug(Parser*, const ParameterList& params)
   for (uint i=0; i<params.count(); i++)
     std::cerr << params[i].toString();
   std::cerr << "\n";
+  fflush(stderr);
   return ParseNode();
 }
 
@@ -312,6 +313,30 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
     text = proc.run(params[0].toString().local8Bit(), params[1].toString());
   else
     text = proc.run(params[0].toString().local8Bit());
+  return text;
+}
+
+static ParseNode f_dialog(Parser* P, const ParameterList& params)
+{
+  QString a_dialog = params[0].toString().local8Bit();
+  QString a_params = params[1].toString().local8Bit();
+
+  QString pFileName = P->currentWidget()->global("_KDDIR") + QString("/") + a_dialog;
+  QFileInfo pDialogFile(pFileName);
+  if (!pDialogFile.exists()) 
+  {
+    pFileName = a_dialog;
+    pDialogFile.setFile(pFileName);
+    if (!pDialogFile.exists())
+      return QString();
+  }
+  QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
+    .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
+
+  MyProcess proc(P->currentWidget());
+  QString text;
+  text = proc.run(cmd);
+
   return text;
 }
 
@@ -636,6 +661,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));
+  registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
   registerFunction("env", Function(&f_env, ValueString, ValueString));

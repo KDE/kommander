@@ -143,6 +143,7 @@ bool Instance::build(const KURL& fname)
   {
       m_textInstance->setGlobal("KDDIR", fname.directory());
       m_textInstance->setGlobal("NAME", fname.fileName());
+      m_textInstance->setGlobal("_PID", QString().setNum(getpid()));
   }
   return true;
 }

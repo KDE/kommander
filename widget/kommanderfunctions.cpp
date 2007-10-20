@@ -64,6 +64,7 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       return QString();
     case Kommander::debug:
       qDebug("%s", args[0].latin1());
+      fflush(stderr);
       return QString::null;
     case Kommander::echo:
       for (uint i=0; i<args.count(); i++)
