@@ -122,6 +122,6 @@ Comment[x-test]=xxDynamic Dialog Editorxx
 Comment[zh_CN]=动态对话框编辑器
 Comment[zh_HK]=動態對話盒編輯器
 Comment[zh_TW]=動態對話盒編輯器
-MimeType=application/x-kommander
+MimeType=application/x-kommander;
 DocPath=kommander/index.html
 Categories=Qt;KDE;Development;

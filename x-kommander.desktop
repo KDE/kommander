@@ -43,7 +43,7 @@ Comment[zh_HK]=Kommander 檔案
 Comment[zh_TW]=Kommander 檔案
 Icon=widget_doc
 Type=MimeType
-MimeType=application/x-kommander
+MimeType=application/x-kommander;
 Patterns=*.kmdr;
 
 [Property::X-KDE-text]
