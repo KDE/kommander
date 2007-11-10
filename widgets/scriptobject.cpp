@@ -40,7 +40,7 @@ ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KIconLoader::global()->loadIcon("exec",KIconLoader::NoGroup)); //FIXME  KIcon::NoGroup, KIcon::SizeMedium));
+    setPixmap(KIconLoader::global()->loadIcon("system-run",KIconLoader::NoGroup)); //FIXME  KIcon::NoGroup, KIcon::SizeMedium));
     //setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
