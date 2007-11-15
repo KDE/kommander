@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 GenericName=Dynamic Dialog Editor
 GenericName[ca]=Editor de diàlegs dinàmics
 GenericName[cs]=Editor dynamických dialogů
@@ -123,5 +122,5 @@ Comment[zh_CN]=动态对话框编辑器
 Comment[zh_HK]=動態對話盒編輯器
 Comment[zh_TW]=動態對話盒編輯器
 MimeType=application/x-kommander;
-DocPath=kommander/index.html
+X-DocPath=kommander/index.html
 Categories=Qt;KDE;Development;
