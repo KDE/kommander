@@ -94,7 +94,7 @@ void RadioButton::showEvent( QShowEvent *e )
 
 bool RadioButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::setChecked;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::setChecked || f == DCOP::checked;
 }
 
 QString RadioButton::handleDCOP(int function, const QStringList& args)

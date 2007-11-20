@@ -1,3 +1,6 @@
+Tue Nov 20 20:03:34 2007 - Andras Mantia <amantia@kde.org>
+    o show the checked function for RadioButton widgets in the function browser
+
 Fri Oct 19 16:08:32 2007 - Andras Mantia <amantia@kde.org>
 	o make CheckBox.setChecked accept as argument false, "false", true, "true",
  	  0 (meaning false), everything else (meaning true)

@@ -12,10 +12,10 @@
     </keywords>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
+    <description></description>
     <ignoreparts/>
     <secondaryLanguages/>
-    <defaultencoding/>
+    <defaultencoding></defaultencoding>
     <projectname>kommander</projectname>
   </general>
   <kdevfileview>
@@ -101,16 +101,17 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
+      <dbgshell></dbgshell>
       <programargs>/opt/kde3/bin/DVDAuthorWizard.kmdr</programargs>
-      <gdbpath/>
+      <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
+      <raiseGDBOnStart>false</raiseGDBOnStart>
     </general>
     <display>
       <staticmembers>false</staticmembers>
@@ -164,7 +165,7 @@
     </configurations>
     <run>
       <mainprogram>/data/development/build/kde-3.5/kdewebdev/kommander/executor/.libs/kmdr-executor</mainprogram>
-      <programargs>/data/development/quanta/104775.kmdr</programargs>
+      <programargs>/data/development/sources/khwholesale.kmdr</programargs>
       <terminal>false</terminal>
       <envvars/>
       <directoryradio>build</directoryradio>
@@ -172,7 +173,7 @@
       <autocompile>true</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <globaldebugarguments>/data/development/quanta/test.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/sources/khwholesale.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-3.5/kdewebdev/</globalcwd>
       <useglobalprogram>true</useglobalprogram>
     </run>
@@ -244,7 +245,7 @@
       <designerpluginpaths/>
     </qt>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet></prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
