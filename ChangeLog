@@ -1,3 +1,7 @@
+
+Wed Nov 28 13:21:34 2007 - Andras Mantia <amantia@kde.org>
+    o do not set array values when the assignment is in a code path which shouldn't be executed
+
 Tue Nov 20 20:03:34 2007 - Andras Mantia <amantia@kde.org>
     o show the checked function for RadioButton widgets in the function browser
 

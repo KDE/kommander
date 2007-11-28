@@ -465,7 +465,8 @@ void Parser::parseAssignment(Mode mode)
     tryKeyword(RightBracket);
     tryKeyword(Assign);
     ParseNode p = parseExpression(mode);
-    setArray(var, index, p);
+    if (mode == Execute)
+      setArray(var, index, p);
   }
   else if (tryKeyword(Assign, CheckOnly))
   {
