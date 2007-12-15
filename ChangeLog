@@ -1,3 +1,6 @@
+Sat Dec 15 23:58:45 2007 - Andras Mantia <amantia@kde.org>
+    o return the result of a division in floating form if the result is not an integer.
+      Changed the behavior in both the old and new parser.
 
 Wed Nov 28 13:21:34 2007 - Andras Mantia <amantia@kde.org>
     o do not set array values when the assignment is in a code path which shouldn't be executed

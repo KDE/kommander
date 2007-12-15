@@ -253,7 +253,7 @@ ParseNode Parser::parseMultiply(Mode mode)
     {
       if (p2.toDouble() == 0.0)
         setError(i18n("Divide by zero"));
-      else if (type == ValueDouble)
+      else if (type == ValueDouble || p.toInt() != p.toInt() / p2.toInt() * p2.toInt())
         p = p.toDouble() / p2.toDouble();
       else
         p = p.toInt() / p2.toInt();

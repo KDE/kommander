@@ -190,7 +190,7 @@ QVariant Expression::parseMultiply()
       else
         value = value.toInt() * value2.toInt();
     else if (op == "/")
-      if (mode == TypeDouble)
+      if (mode == TypeDouble || value.toInt() != value.toInt() / value2.toInt() * value2.toInt())
         value = value.toDouble() / value2.toDouble();
       else
         value = value.toInt() / value2.toInt();
