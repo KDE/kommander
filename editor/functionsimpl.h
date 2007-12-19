@@ -27,7 +27,7 @@ class FunctionsDialog : public FunctionsDialogBase
 {
   Q_OBJECT
 public:
-  FunctionsDialog(QWidget*, const QDict<QWidget>&, char* = 0, bool = true);
+  FunctionsDialog(QWidget*, const QDict<QWidget>&, bool m_useInternalParser, char* = 0, bool = true);
   ~FunctionsDialog();
   // Return current content of text box
   QString functionText() const;
@@ -49,6 +49,7 @@ private:
   int m_DCOP;
   const QDict<QWidget> m_widgetList;
   const QStringList m_widgetNames;
+  bool m_useInternalParser;
 };  
 
 

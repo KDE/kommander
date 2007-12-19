@@ -34,9 +34,9 @@
 const int MaxFunctionArgs = 6;
 
  
-FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widgetList, char* a_name, 
+FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widgetList, bool useInternalParser, char* a_name, 
   bool a_modal)
-  : FunctionsDialogBase(a_parent, a_name, a_modal), m_widgetList(a_widgetList)
+  : FunctionsDialogBase(a_parent, a_name, a_modal), m_widgetList(a_widgetList), m_useInternalParser(useInternalParser)
 {
   clearButton->setPixmap(KGlobal::iconLoader()->loadIcon("locationbar_erase", KIcon::Toolbar));
   copyButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow", KIcon::Toolbar));
@@ -78,7 +78,7 @@ QString FunctionsDialog::functionText() const
 QString FunctionsDialog::currentFunctionText()
 {
   QString prefix, function;
-  if (KommanderWidget::useInternalParser)
+  if (m_useInternalParser)
   {
     function = SpecialInformation::parserGroupName(groupComboBox->currentText());
     if (!function.isEmpty())
@@ -108,7 +108,7 @@ void FunctionsDialog::groupChanged(int index)
   if (index == m_DCOP)
     a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
   int pGroup = SpecialInformation::group(groupComboBox->text(index));
-  SpecialFunction::ParserType pType = KommanderWidget::useInternalParser 
+  SpecialFunction::ParserType pType = m_useInternalParser 
       ? SpecialFunction::InternalParser : SpecialFunction::MacroParser;
 
   for (uint i=0; i<pFunctions.count(); i++)

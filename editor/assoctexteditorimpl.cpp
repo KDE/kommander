@@ -382,14 +382,14 @@ void AssocTextEditor::insertFile()
 void AssocTextEditor::insertWidgetName(int index)
 {
   QString prefix;
-  if (!KommanderWidget::useInternalParser)
+  if (!useInternalParser())
     prefix = QString(QChar(ESCCHAR));
   insertAssociatedText(prefix + widgetToString(widgetFromString(widgetComboBox->text(index)), false));
 }
 
 void AssocTextEditor::insertFunction()
 {
-  FunctionsDialog pDialog(this, m_widgetList, 0);
+  FunctionsDialog pDialog(this, m_widgetList, useInternalParser(), 0);
   if (pDialog.exec())
     insertAssociatedText(pDialog.functionText());
 }
@@ -421,6 +421,21 @@ void AssocTextEditor::slotHighlightingChanged(int mode)
     hlIf->setHlMode(mode);
   highlightPopup->setItemChecked(mode, true);
   oldHlMode = mode;
+}
+
+bool AssocTextEditor::useInternalParser()
+{
+  QString s = "";
+  int line = -1;
+  while (s.isEmpty() && line < (int)associatedTextEdit->numLines())
+  {
+    line++;
+    s = associatedTextEdit->textLine(line);
+  }
+  s = s.stripWhiteSpace();
+  if (KommanderWidget::useInternalParser || s == "#!kommander")
+    return true;
+  return false;
 }
 
 #include "assoctexteditorimpl.moc"

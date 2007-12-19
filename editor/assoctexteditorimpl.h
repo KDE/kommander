@@ -86,6 +86,8 @@ protected slots:
   void slotHighlightingChanged(int mode);
 
 private:
+  bool useInternalParser();
+
   // Current widget
   QWidget *m_widget;
   KommanderWidget* m_kommanderWidget;
