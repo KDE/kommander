@@ -439,7 +439,7 @@ static ParseNode f_inputText(Parser*, const ParameterList& params)
 {
   QString value;
   if (params.count() > 2)
-    value = params[0].toString();
+    value = params[2].toString();
   return KInputDialog::getText(params[0].toString(), params[1].toString(), value);
 }
 
