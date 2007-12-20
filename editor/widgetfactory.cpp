@@ -109,6 +109,7 @@
 #include <richtexteditor.h>
 #include <treewidget.h>
 #include <slider.h>
+#include <datepicker.h>
 
 
 
@@ -1149,6 +1150,8 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     return new ScriptObject(parent, name);
   else if (className == "RichTextEditor")
     return new RichTextEditor(parent, name);
+  else if (className == "DatePicker")
+    return new DatePicker(parent, name);
   else if (className == "TreeWidget")
   {
     QListView *lv = new TreeWidget(parent, name);

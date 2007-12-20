@@ -21,6 +21,7 @@
 #include "checkbox.h"
 #include "closebutton.h"
 #include "combobox.h"
+#include "datepicker.h"
 #include "dialog.h"
 #include "execbutton.h"
 #include "fileselector.h"
@@ -85,6 +86,7 @@ KomStdPlugin::KomStdPlugin()
   addWidget("TextBrowser", group, "");
   addWidget("Slider", group, "");
   addWidget("Table", group, "");
+  addWidget("DatePicker", group, "");
 }
 
 QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *name )
@@ -117,6 +119,7 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
   else if (key == "Timer") return new Timer(parent, name);
   else if (key == "TreeWidget") return new TreeWidget(parent, name);
   else if (key == "Wizard") return new Wizard(parent, name);
+  else if (key == "DatePicker") return new DatePicker(parent, name);
   else return 0;
 }
 

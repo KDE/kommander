@@ -661,6 +661,13 @@ void WidgetDatabase::setupDataBase( int id )
   r->group = widgetGroup( "Kommander" );
   r->toolTip = i18n("A timer for running scripts periodically");
   append(r);
+ 
+ r = new WidgetDatabaseRecord;
+  r->iconSet = "datepicker.xpm";
+  r->name = "DatePicker";
+  r->group = widgetGroup("Kommander");
+  r->toolTip = i18n("A date selection widget");
+  append(r);
 
 #ifndef UIC
   setupPlugins();
