@@ -245,25 +245,26 @@ ParseNode Parser::parseMultiply(Mode mode)
     ParseNode p2 = parseParenthesis(mode);
     ValueType type = p.commonType(p2);
     if (k == Multiply)
-      if (type == ValueDouble || p.toInt() != p.toDouble() || p2.toInt() != p2.toDouble())
-        p = p.toDouble() * p2.toDouble();
-      else
-        p = p.toInt() * p2.toInt();
+       if (type == ValueInt)
+         p = p.toInt() * p2.toInt();
+       else
+         p = p.toDouble() * p2.toDouble();
     else if (k == Divide)
     {
       if (p2.toDouble() == 0.0)
         setError(i18n("Divide by zero"));
-      else if (type == ValueDouble || p.toInt() != p.toInt() / p2.toInt() * p2.toInt())
-        p = p.toDouble() / p2.toDouble();
-      else
+      else 
+       if (type == ValueInt)
         p = p.toInt() / p2.toInt();
+      else
+        p = p.toDouble() / p2.toDouble();
     }
     else  /* k == Mod */
     {
       if (p2.toInt() == 0)
         setError(i18n("Divide by zero"));
       else
-        p = p.toInt() + p2.toInt();
+        p = p.toInt() -  p.toInt() / p2.toInt() * p2.toInt();
     }
   }
   return p;
