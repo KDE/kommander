@@ -94,7 +94,7 @@ void DatePicker::showEvent(QShowEvent *e)
 
 bool DatePicker::isFunctionSupported(int f)
 {
-  return f == DCOP::text;
+  return f == DCOP::text || f == DCOP::setText;
 }
 
 QString DatePicker::handleDCOP(int function, const QStringList& args)
