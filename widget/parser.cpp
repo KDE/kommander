@@ -541,13 +541,17 @@ void Parser::parseFor(Mode mode)
     step = parseExpression(mode).toInt();
   tryKeyword(Do);
   int block = m_start;
-  for (int i = start; i <= end; i+=step)
+  if (end >= start)
   {
-    m_start = block;
-    setVariable(var, ParseNode(i));
-    if (parseBlock(mode) == FlowBreak)
-      break;
-  }
+    for (int i = start; i <= end; i+=step)
+    {
+      m_start = block;
+      setVariable(var, ParseNode(i));
+      if (parseBlock(mode) == FlowBreak)
+        break;
+    }
+  } else
+    parseBlock(Parse::CheckOnly);
   tryKeyword(End);
 }
 
