@@ -244,27 +244,30 @@ ParseNode Parser::parseMultiply(Mode mode)
     m_start++;
     ParseNode p2 = parseParenthesis(mode);
     ValueType type = p.commonType(p2);
-    if (k == Multiply)
-       if (type == ValueInt)
-         p = p.toInt() * p2.toInt();
-       else
-         p = p.toDouble() * p2.toDouble();
-    else if (k == Divide)
+    if (mode == Execute)
     {
-      if (p2.toDouble() == 0.0)
-        setError(i18n("Divide by zero"));
-      else 
-       if (type == ValueInt)
-        p = p.toInt() / p2.toInt();
-      else
-        p = p.toDouble() / p2.toDouble();
-    }
-    else  /* k == Mod */
-    {
-      if (p2.toInt() == 0)
-        setError(i18n("Divide by zero"));
-      else
-        p = p.toInt() -  p.toInt() / p2.toInt() * p2.toInt();
+      if (k == Multiply)
+        if (type == ValueInt)
+          p = p.toInt() * p2.toInt();
+        else
+          p = p.toDouble() * p2.toDouble();
+      else if (k == Divide)
+      {
+        if (p2.toDouble() == 0.0)
+          setError(i18n("Divide by zero"));
+        else 
+        if (type == ValueInt)
+          p = p.toInt() / p2.toInt();
+        else
+          p = p.toDouble() / p2.toDouble();
+      }
+      else  /* k == Mod */
+      {
+        if (p2.toInt() == 0)
+          setError(i18n("Divide by zero"));
+        else
+          p = p.toInt() -  p.toInt() / p2.toInt() * p2.toInt();
+      }
     }
   }
   return p;
@@ -279,18 +282,21 @@ ParseNode Parser::parseAdd(Mode mode)
     m_start++;
     ParseNode p2 = parseMultiply(mode);
     ValueType type = p.commonType(p2);
-    if (k == Plus)
-      if (type == ValueString)
-        p = QString(p.toString() + p2.toString());
-      else if (type == ValueDouble)
-        p = p.toDouble() + p2.toDouble();
-      else
-        p = p.toInt() + p2.toInt();
-    else  /* k == Minus */
-      if (type == ValueDouble)
-        p = p.toDouble() - p2.toDouble();
-      else
-        p = p.toInt() - p2.toInt();
+    if (mode == Execute)
+    {
+      if (k == Plus)
+        if (type == ValueString)
+          p = QString(p.toString() + p2.toString());
+        else if (type == ValueDouble)
+          p = p.toDouble() + p2.toDouble();
+        else
+          p = p.toInt() + p2.toInt();
+      else  /* k == Minus */
+        if (type == ValueDouble)
+          p = p.toDouble() - p2.toDouble();
+        else
+          p = p.toInt() - p2.toInt();
+    }
   }
   return p;
 }
