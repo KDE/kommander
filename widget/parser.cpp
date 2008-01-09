@@ -670,7 +670,12 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
     return true;
   }
   if (mode == Execute)
-    setError(i18n("Expected '%1'").arg(m_data->keywordToString(k)));
+  {
+    if (k == Dot)
+      setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget").arg(m_data->keywordToString(k)));
+    else
+     setError(i18n("Expected '%1'").arg(m_data->keywordToString(k)));
+  }
   return false;
 }
 
