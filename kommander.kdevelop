@@ -134,10 +134,10 @@
         <envvar value="1" name="WANT_AUTOMAKE_1_6" />
       </envvars>
       <abortonerror>true</abortonerror>
-      <numberofjobs>1</numberofjobs>
+      <numberofjobs>2</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
-      <runmultiplejobs>false</runmultiplejobs>
+      <makebin>makeobj</makebin>
+      <runmultiplejobs>true</runmultiplejobs>
       <prio>0</prio>
     </make>
     <general>
@@ -165,7 +165,7 @@
     </configurations>
     <run>
       <mainprogram>/data/development/build/kde-3.5/kdewebdev/kommander/executor/.libs/kmdr-executor</mainprogram>
-      <programargs>/data/development/sources/khwholesale.kmdr</programargs>
+      <programargs>/data/development/quanta/eric/newstore.kmdr</programargs>
       <terminal>false</terminal>
       <envvars/>
       <directoryradio>build</directoryradio>
@@ -173,7 +173,7 @@
       <autocompile>true</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <globaldebugarguments>/data/development/sources/khwholesale.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/quanta/test-table.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-3.5/kdewebdev/</globalcwd>
       <useglobalprogram>true</useglobalprogram>
     </run>

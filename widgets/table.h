@@ -54,6 +54,8 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
   public slots:
     virtual void populate();
     virtual void setWidgetText(const QString &);
+  private:
+    QString selectedArea();
 };
 
 #endif

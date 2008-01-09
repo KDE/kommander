@@ -70,7 +70,7 @@ void SpecialInformation::registerSpecials()
          i18n("Removes the row (or <i>count</i> consecutive rows) with the given index."), 3);
   insertAlias(DCOP::removeItem, "removeListItem");
   insert(DCOP::selection, "selection(QString widget)", 
-         i18n("Returns selected text or text of current item."), 1);
+         i18n("Returns selected text or text of current item.\nIn case of Table widgets, returns the selection coordinates, separated by commas in TopRow,LeftColumn,BottomRow,RightColumn form. "), 1);
   insert(DCOP::setAssociatedText, "setAssociatedText(QString widget, QString text)",
          i18n("Sets scripts associated with widget. This is an advanced feature that would not be commonly used."), 2);
   insert(DCOP::setEnabled, "setEnabled(QString widget, bool enabled)", 

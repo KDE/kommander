@@ -77,12 +77,19 @@ void Table::setWidgetText(const QString&)
 {
 }
 
+QString Table::selectedArea()
+{
+  QTableSelection sel = selection(currentSelection());
+  return QString("%1,%2,%3,%4").arg(sel.topRow()).arg(sel.leftCol()).arg(sel.bottomRow()).arg(sel.rightCol());
+}
+
+
 bool Table::isFunctionSupported(int f)
 {
   return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
       f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText ||
       f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
-      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText;
+      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection;
 }
 
 QString Table::handleDCOP(int function, const QStringList& args)
@@ -164,6 +171,9 @@ QString Table::handleDCOP(int function, const QStringList& args)
       }
       break;
     }
+    case DCOP::selection:
+      return selectedArea();
+      break;
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

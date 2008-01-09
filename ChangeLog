@@ -1,4 +1,7 @@
-Sun Dec 30 00:02:34 2007- Andras Mantia <amantia@kde.org>
+Wed Jan 9 21:35:38 2008 - Andras Mantia <amantia@kde.org>
+    o add Table.selection to get back the selection coordinates
+
+Sun Dec 30 00:02:34 2007 - Andras Mantia <amantia@kde.org>
     o don't do math operations in check only mode
 
 Thu Dec 22 00:38:31 2007 - Andras Mantia <amantia@kde.org>

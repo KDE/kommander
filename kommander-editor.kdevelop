@@ -112,6 +112,7 @@
       <configGdbScript></configGdbScript>
       <runShellScript></runShellScript>
       <runGdbScript></runGdbScript>
+      <raiseGDBOnStart>false</raiseGDBOnStart>
     </general>
     <display>
       <staticmembers>false</staticmembers>
@@ -134,10 +135,10 @@
         <envvar value="1" name="WANT_AUTOMAKE_1_6" />
       </envvars>
       <abortonerror>true</abortonerror>
-      <numberofjobs>1</numberofjobs>
+      <numberofjobs>2</numberofjobs>
       <dontact>false</dontact>
-      <makebin></makebin>
-      <runmultiplejobs>false</runmultiplejobs>
+      <makebin>makeobj</makebin>
+      <runmultiplejobs>true</runmultiplejobs>
       <prio>0</prio>
     </make>
     <general>
@@ -148,12 +149,12 @@
       <default>
         <configargs>--with-kommander --enable-debug=full</configargs>
         <builddir>/data/development/build/kde-3.5/kdewebdev/</builddir>
-        <topsourcedir>/data/development/source/kde-3.5/kdewebdev/</topsourcedir>
+        <topsourcedir>/data/development/sources/kde-3.5/kdewebdev/</topsourcedir>
         <cppflags></cppflags>
         <ldflags></ldflags>
-        <ccompiler></ccompiler>
-        <cxxcompiler></cxxcompiler>
-        <f77compiler></f77compiler>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevpgf77options</f77compiler>
         <ccompilerbinary></ccompilerbinary>
         <cxxcompilerbinary></cxxcompilerbinary>
         <f77compilerbinary></f77compilerbinary>
