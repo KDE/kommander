@@ -43,9 +43,10 @@ int main( int argc, char *argv[] )
   KAboutData aboutData( "kommander", I18N_NOOP("Kommander"),
                         KOMMANDER_VERSION, description, KAboutData::License_GPL,
                         "(C) 2002-2005 Kommander authors", text);
-  aboutData.addAuthor("Marc Britton", "Original author", "consume@optusnet.com.au");
-  aboutData.addAuthor("Eric Laffoon", "Project manager", "eric@kdewebdev.org");
-  aboutData.addAuthor("Michal Rudolf", "Current maintainer", "mrudolf@kdewebdev.org");
+  aboutData.addAuthor("Eric Laffoon", I18N_NOOP("Project manager"), "eric@kdewebdev.org");
+  aboutData.addAuthor("Andras Mantia", I18N_NOOP("Current maintainer"), "amantia@kdewebdev.org");
+  aboutData.addAuthor("Michal Rudolf", I18N_NOOP("Previous maintainer"), "mrudolf@kdewebdev.org");
+  aboutData.addAuthor("Marc Britton", I18N_NOOP("Original author"), "consume@optusnet.com.au");
   aboutData.setTranslator (I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"),
                            I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
   KCmdLineArgs::init(argc, argv, &aboutData);
