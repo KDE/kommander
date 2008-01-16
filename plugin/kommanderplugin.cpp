@@ -15,9 +15,10 @@
  ***************************************************************************/
 
 #include "kommanderplugin.h"
+#include "specialinformation.h"
 
 KommanderPlugin::KommanderPlugin()
-{
+{ 
 }
 
 KommanderPlugin::~KommanderPlugin()
@@ -61,6 +62,16 @@ QString KommanderPlugin::whatsThis( const QString &name ) const
 bool KommanderPlugin::isContainer( const QString &name ) const
 {
     return m_widgets[name].isContainer;
+}
+
+void KommanderPlugin::setDefaultGroup( int id )
+{
+    SpecialInformation::setDefaultGroup(id);
+}
+
+bool KommanderPlugin::registerFunction(int id, const QString& function, const QString description , int minArgs, int maxArgs)
+{
+   return SpecialInformation::insert(id, function, description, minArgs, maxArgs); 
 }
 
 #include "kommanderplugin.moc"

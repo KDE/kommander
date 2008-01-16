@@ -38,11 +38,12 @@
 
 /* OTHER INCLUDES */
 #include "instance.h"
-#include <kommanderwidget.h>
-#include <kommanderwindow.h>
-#include <kommanderfactory.h>
-#include <specials.h>
-#include <fileselector.h>
+#include "kommanderwidget.h"
+#include "kommanderwindow.h"
+#include "kommanderfactory.h"
+#include "specials.h"
+#include "specialinformation.h"
+#include "fileselector.h"
 
 Instance::Instance()
   : DCOPObject("KommanderIf"), m_instance(0), m_textInstance(0), m_parent(0)

@@ -4,7 +4,7 @@ SUBDIRS = pics
 bin_PROGRAMS = kmdr-editor
 
 # set the include path for X, qt and KDE
-AM_CPPFLAGS = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/factory -Ishared -Iinterfaces -Ipics $(all_includes)
+AM_CPPFLAGS = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/widgets -I$(top_srcdir)/kommander/plugin -I$(top_srcdir)/kommander/factory -Ishared -Iinterfaces -Ipics $(all_includes)
 
 # the library search path.
 kmdr_editor_LDFLAGS = $(KDE_RPATH) $(all_libraries)

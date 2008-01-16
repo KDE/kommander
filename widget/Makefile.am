@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libkommanderwidget.la
 
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes)
+INCLUDES = -I$(top_srcdir)/kommander/plugin $(all_includes)
 
 # the library search path. 
 libkommanderwidget_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
@@ -11,8 +11,7 @@ libkommanderwidget_la_LIBADD  = $(top_builddir)/kommander/factory/libkommanderfa
 
 libkommanderwidget_la_SOURCES = expression.cpp function.cpp functionlib.cpp \
 	invokeclass.cpp kommanderfunctions.cpp kommanderwidget.cpp kommanderwindow.cpp \
-	myprocess.cpp parsenode.cpp parser.cpp parserdata.cpp specialinformation.cpp \
-	specials.cpp
+	myprocess.cpp parsenode.cpp parser.cpp parserdata.cpp
 
 include_HEADERS = kommanderwidget.h kommander_export.h
 

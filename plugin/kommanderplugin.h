@@ -57,6 +57,27 @@ class KOMMANDER_EXPORT KommanderPlugin : public QObject
     virtual QString toolTip( const QString &key ) const;
     virtual QString whatsThis( const QString &key ) const;
     virtual bool isContainer( const QString &key ) const;
+
+    /**
+     * Sets the default group for functions. Must be called before registerFunction.
+     * @param group the groups ID
+     */
+    static void setDefaultGroup(int group);
+
+    /**
+     * Register a function of the plugin.
+     * @param id Kommander wide unique ID
+     * @param function function signature
+     * @param description description of what the function does
+     * @param minArgs minimum number of accepted arguments
+     * @param maxArgs maximum number of accepted arguments
+     * @return true if registration was successful
+     */
+    static bool registerFunction(int id, const QString& function, const QString description = QString::null,
+    int minArgs = -1, int maxArgs = -1);
+
+    
+
 private:
     struct WidgetInfo
     {

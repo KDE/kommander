@@ -21,7 +21,7 @@
 #include <qdict.h>
 
 #include "functions.h"
-#include "specials.h"
+#include "specialinformation.h"
 
 class FunctionsDialog : public FunctionsDialogBase
 {

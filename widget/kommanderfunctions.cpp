@@ -29,6 +29,7 @@
 
 #include "kommanderwidget.h"
 #include "specials.h"
+#include "specialinformation.h"
 #include "expression.h"
 #include "parser.h"
 

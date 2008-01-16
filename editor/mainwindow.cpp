@@ -38,7 +38,7 @@
 #include "pixmapchooser.h"
 #include "propertyeditor.h"
 #include "resource.h"
-#include "specials.h"
+#include "specialinformation.h"
 #include "widgetdatabase.h"
 #include "widgetfactory.h"
 #include "wizardeditorimpl.h"

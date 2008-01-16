@@ -7,11 +7,11 @@ INCLUDES = -I$(top_srcdir)/kommander/widget $(all_includes)
 libkommanderplugin_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
 
 # the libraries to link against.
-libkommanderplugin_la_LIBADD  = $(LIB_QT)
+libkommanderplugin_la_LIBADD  =  $(LIB_KDEUI) $(LIB_QT)
 
-libkommanderplugin_la_SOURCES = kommanderplugin.cpp
+libkommanderplugin_la_SOURCES = kommanderplugin.cpp specialinformation.cpp
 
-include_HEADERS = kommanderplugin.h
+include_HEADERS = kommanderplugin.h specials.h
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
