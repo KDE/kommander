@@ -119,11 +119,11 @@ private:
   // parse assignment
   Parse::Flow parseCommand(Parse::Mode mode = Parse::Execute);
   // parse while loop
-  void parseWhile(Parse::Mode mode = Parse::Execute);
+  Parse::Flow parseWhile(Parse::Mode mode = Parse::Execute);
   // parse for loop
-  void parseFor(Parse::Mode mode = Parse::Execute);
+  Parse::Flow parseFor(Parse::Mode mode = Parse::Execute);
   // parse foreach loop
-  void parseForeach(Parse::Mode mode = Parse::Execute);
+  Parse::Flow parseForeach(Parse::Mode mode = Parse::Execute);
   // parse switch block
   void parseSwitch(Parse::Mode mode = Parse::Execute);
   // parse whole block

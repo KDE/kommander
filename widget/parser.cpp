@@ -500,7 +500,11 @@ Flow Parser::parseIf(Mode mode)
     tryKeyword(Then);
     bool condition = !matched && p.toBool();
     if (condition)
+    {
       flow = parseBlock(mode);
+      if (flow == FlowExit)
+        return flow;
+    }
     else 
       parseBlock(CheckOnly);
     matched = matched || p.toBool();
@@ -516,11 +520,12 @@ Flow Parser::parseIf(Mode mode)
   return flow;
 }
 
-void Parser::parseWhile(Mode mode)
+Parse::Flow Parser::parseWhile(Mode mode)
 {
   m_start++;
   int start = m_start;
   bool running = true;
+  Parse::Flow flow = FlowStandard;
   while (running)
   {
     m_start = start;
@@ -528,13 +533,20 @@ void Parser::parseWhile(Mode mode)
     if (!tryKeyword(Do))
       break;
     running = p.toBool();
-    if (parseBlock(running ? mode : CheckOnly) == FlowBreak)
+    flow = parseBlock(running ? mode : CheckOnly);
+    if ( flow == FlowBreak || flow == FlowExit)
       break;
   }
-  tryKeyword(End);
+  if (flow != FlowExit)
+  {
+    tryKeyword(End);
+    return FlowStandard;
+  }
+  else 
+    return FlowExit;
 }
 
-void Parser::parseFor(Mode mode)
+Parse::Flow Parser::parseFor(Mode mode)
 {
   m_start++;
   QString var = nextVariable();
@@ -547,21 +559,29 @@ void Parser::parseFor(Mode mode)
     step = parseExpression(mode).toInt();
   tryKeyword(Do);
   int block = m_start;
+  Parse::Flow flow = FlowStandard;
   if (end >= start)
   {
     for (int i = start; i <= end; i+=step)
     {
       m_start = block;
       setVariable(var, ParseNode(i));
-      if (parseBlock(mode) == FlowBreak)
+      flow = parseBlock(mode);
+      if (flow == FlowBreak || flow == FlowExit)
         break;
     }
   } else
     parseBlock(Parse::CheckOnly);
-  tryKeyword(End);
+  if (flow != FlowExit)
+  {
+    tryKeyword(End);
+    return FlowStandard;
+  }
+  else 
+    return FlowExit;
 }
 
-void Parser::parseForeach(Mode mode)
+Parse::Flow Parser::parseForeach(Mode mode)
 {
   m_start++;
   QString var = nextVariable();
@@ -569,6 +589,7 @@ void Parser::parseForeach(Mode mode)
   QString arr = nextVariable();
   tryKeyword(Do);
   int start = m_start;
+  Parse::Flow flow = FlowStandard;
   if (isArray(arr) && array(arr).count())
   {
     const QMap<QString, ParseNode> A = array(arr);
@@ -576,14 +597,20 @@ void Parser::parseForeach(Mode mode)
     {
       m_start = start;
       setVariable(var, It.key());
-      Flow flow = parseBlock(mode);
-      if (flow == FlowBreak)
+      flow = parseBlock(mode);
+      if (flow == FlowBreak || flow == FlowExit)
         break;
     }
   }
   else 
     parseBlock(CheckOnly);
-  tryKeyword(End);
+  if (flow != FlowExit)
+  {
+    tryKeyword(End);
+    return FlowStandard;
+  }
+  else 
+    return FlowExit;
 }
 
 void Parser::parseSwitch(Mode mode)
@@ -612,11 +639,11 @@ Flow Parser::parseCommand(Mode mode)
   if (next().isKeyword(If))
     return parseIf(mode);
   else if (next().isKeyword(While))
-    parseWhile(mode);
+    return parseWhile(mode);
   else if (next().isKeyword(For))
-    parseFor(mode);
+    return parseFor(mode);
   else if (next().isKeyword(Foreach))
-    parseForeach(mode);
+    return parseForeach(mode);
   else if (next().isKeyword(Switch))
     parseSwitch(mode);
   else if (tryKeyword(Continue, CheckOnly))
@@ -627,8 +654,8 @@ Flow Parser::parseCommand(Mode mode)
   {
     QString name = next().variableName();    
     parseFunction(mode);
-    if (name == "return")
-      return FlowBreak;
+    if (name == "return" && mode == Execute)
+      return FlowExit;
   }
   else if (isWidget())
     parseWidget(mode);
@@ -636,10 +663,8 @@ Flow Parser::parseCommand(Mode mode)
     parseAssignment(mode);
   else if (tryKeyword(Exit, CheckOnly))
   {
-    if (mode == Execute)
-      setError("Exit");
-#warning FIXME!
-    return FlowBreak;
+     if (mode == Execute)
+       return FlowExit;
   } 
   return FlowStandard;
 }
@@ -647,7 +672,7 @@ Flow Parser::parseCommand(Mode mode)
 Flow Parser::parseBlock(Mode mode)
 {
   Flow flow = parseCommand(mode);
-  while (tryKeyword(Semicolon, CheckOnly))
+  while (tryKeyword(Semicolon, CheckOnly) && flow != FlowExit)
   {
     if (flow == FlowStandard)
       flow = parseCommand(mode);

@@ -32,7 +32,7 @@ namespace Parse
 
   enum Mode{Execute, CheckOnly};
 
-  enum Flow{FlowStandard, FlowContinue, FlowBreak};
+  enum Flow{FlowStandard, FlowContinue, FlowBreak, FlowExit};
 }
 
 class ParseNode {
