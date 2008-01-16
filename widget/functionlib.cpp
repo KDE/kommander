@@ -224,7 +224,6 @@ static ParseNode f_executeSlot(Parser* parser, const ParameterList& params)
     return ParseNode::error("unknown widget");
   QStrList slotSignatures = object->metaObject()->slotNames(true);
   QStringList slotNames = QStringList::fromStrList(slotSignatures);
-  QStringList args;
   int slotNum = -1;
   uint i = 0;
   while (i < slotNames.count())
@@ -238,17 +237,15 @@ static ParseNode f_executeSlot(Parser* parser, const ParameterList& params)
   }
   if (slotNum == -1)
     return ParseNode::error("unknown function");
-/*  ++it;   // skip function
+  QStringList args;
   ++it;   // skip widget
   while (it != params.end())
   {
     args += (*it).toString(); 
     ++it;
   }
-  kdDebug(24000) << slotNames << endl;
-  kdDebug(24000) <<  args << endl; */
   InvokeClass* inv = new InvokeClass(0);
-  inv->invokeSlot(object, slotSignatures.at(slotNum));
+  inv->invokeSlot(object, slotSignatures.at(slotNum), args);
   inv->deleteLater();
 
   return ParseNode();

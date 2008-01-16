@@ -17,6 +17,7 @@
 #include <qlabel.h>
 #include <qmetaobject.h>
 #include <qstringlist.h>
+#include <qregexp.h>
 
 /* KDE INCLUDES */
 #include <kcombobox.h>
@@ -27,10 +28,12 @@
 #include <klocale.h>
 #include <kpushbutton.h>
 #include <ktextbrowser.h>
+#include <kdebug.h>
 
 /* OTHER INCLUDES */ 
 #include "functionsimpl.h"
 #include "kommanderwidget.h"
+#include "invokeclass.h"
 
 const int MaxFunctionArgs = 6;
 
@@ -55,6 +58,8 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
     widgets.append(It.currentKey());
   widgets.sort();
   widgetComboBox->insertStringList(widgets);
+
+  m_acceptedSlots = InvokeClass::acceptedSlots();
   
   m_DCOP = -1;    // Select DCOP functions by default
   m_Slots = -1;
@@ -116,8 +121,10 @@ void FunctionsDialog::groupChanged(int index)
     QStringList pFunctions = QStringList::fromStrList(a_atw->object()->metaObject()->slotNames(true));
     for (uint i=0; i<pFunctions.count(); i++)
     {
-      if (pFunctions[i].endsWith("()"))
-        functionListBox->insertItem(pFunctions[i]);
+      QString slot = pFunctions[i];
+      QString slotArgStr = slot.section(QRegExp("\\(|\\)"), 1);
+      if (slotArgStr.isEmpty() || m_acceptedSlots.contains(slotArgStr))
+        functionListBox->insertItem(slot);
     }
   } else
   {

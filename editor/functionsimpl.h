@@ -51,6 +51,7 @@ private:
   const QDict<QWidget> m_widgetList;
   const QStringList m_widgetNames;
   bool m_useInternalParser;
+  QStringList m_acceptedSlots;
 };  
 
 
