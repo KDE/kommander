@@ -95,7 +95,7 @@ void ExecButton::setWidgetText(const QString& a_text)
 
 void ExecButton::startProcess()
 {
-  QString at = KommanderWidget::evalAssociatedText(associatedText()[0]).stripWhiteSpace();
+  QString at = evalAssociatedText().stripWhiteSpace();
   bool enabledStatus = isEnabled();
   if (m_blockGUI != None)
     setEnabled(false);

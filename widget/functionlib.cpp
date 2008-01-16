@@ -21,6 +21,7 @@
 #include "myprocess.h"
 #include "kommanderwidget.h"
 #include "invokeclass.h"
+#include "kommanderfactory.h"
 
 #include <iostream>
 #include <stdlib.h> 
@@ -240,6 +241,8 @@ static ParseNode f_executeSlot(Parser* parser, const ParameterList& params)
   InvokeClass* inv = new InvokeClass(0);
   inv->invokeSlot(object, slotSignatures.at(slotNum));
   inv->deleteLater();
+
+  return ParseNode();
 }
 
 
@@ -350,6 +353,22 @@ static ParseNode f_dcop(Parser*, const ParameterList& params)
 
   return ParseNode();
 }
+
+static ParseNode f_createWidget(Parser* p, const ParameterList& params)
+{
+  QString widgetName = params[0].toString();
+  QString widgetType = params[1].toString();
+  QString parentName = params[2].toString();
+  KommanderWidget *widget = p->currentWidget()->widgetByName(parentName);
+  if (!widget)
+    return ParseNode::error("unknown widget");
+  QWidget *parent = dynamic_cast<QWidget*>(widget->object());
+  QWidget *w = KommanderFactory::createWidget(widgetType, parent, widgetName.latin1());
+  if (w)
+    w->adjustSize();
+  return ParseNode();
+}
+
 
 
 static ParseNode f_exec(Parser* P, const ParameterList& params)
@@ -709,6 +728,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("executeSlot", Function(&f_executeSlot, ValueString, ValueString, ValueString, 2, 100));
+  registerFunction("createWidget", Function(&f_createWidget, ValueString, ValueString, ValueString, 3, 100));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));
   registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));

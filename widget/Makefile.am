@@ -7,7 +7,7 @@ INCLUDES = $(all_includes)
 libkommanderwidget_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
 
 # the libraries to link against.
-libkommanderwidget_la_LIBADD  = $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
+libkommanderwidget_la_LIBADD  = $(top_builddir)/kommander/factory/libkommanderfactory.la $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
 
 libkommanderwidget_la_SOURCES = expression.cpp function.cpp functionlib.cpp \
 	invokeclass.cpp kommanderfunctions.cpp kommanderwidget.cpp kommanderwindow.cpp \

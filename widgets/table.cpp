@@ -87,9 +87,24 @@ QString Table::selectedArea()
 bool Table::isFunctionSupported(int f)
 {
   return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
-      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText ||
+      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText || f == DCOP::setCellWidget ||
       f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
       f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection;
+}
+
+void Table::setCellWidget(int row, int col, const QString & _widgetName)
+{
+  KommanderWidget *w = widgetByName(_widgetName);
+  if (w)
+  {
+    QWidget *widget = static_cast<QWidget*>(w->object());
+    if (cellWidget(row, col) != widget)
+    { 
+      clearCellWidget(row, col);
+      QTable::setCellWidget(row, col, widget);
+    }
+  } else
+    clearCellWidget(row, col);
 }
 
 QString Table::handleDCOP(int function, const QStringList& args)
@@ -100,6 +115,9 @@ QString Table::handleDCOP(int function, const QStringList& args)
       return text(args[0].toInt(), args[1].toInt());
     case DCOP::setCellText:
       setText(args[0].toInt(), args[1].toInt(), args[2]);
+      break;
+    case DCOP::setCellWidget:
+      setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);
       break;
     case DCOP::insertRow:
       insertRows(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());

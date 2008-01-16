@@ -2,6 +2,7 @@ Wed Jan 16 14:06:37 2008 - Andras Mantia <amantia@kde.org>
     o support executing of slots that don't have arguments
     o add "execute" method for PushButton
     o possibility to pass parameters for ScriptObject added
+    o add createWidget function for on-the-fly widget creation
 
 Wed Jan 9 21:35:38 2008 - Andras Mantia <amantia@kde.org>
     o add Table.selection to get back the selection coordinates

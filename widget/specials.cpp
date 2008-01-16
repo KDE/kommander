@@ -78,6 +78,8 @@ void SpecialInformation::registerSpecials()
   insertAlias(DCOP::setEnabled, "enableWidget");
   insert(DCOP::setCellText, "setCellText(QString widget, int row, int col, QString text)",
          i18n("Sets text of a cell in a table."), 4);
+  insert(DCOP::setCellWidget, "setCellWidget(QString widget, int row, int col, QString cellWidget)",
+         i18n("Inserts a widget into a cell of a table."), 4);
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)",
          i18n("Sets/unsets checkbox."), 2);
   insert(DCOP::setColumnCaption, "setColumnCaption(QString widget, int column, QString text)",
@@ -157,6 +159,8 @@ void SpecialInformation::registerSpecials()
      i18n("Executes an external DCOP call."), 3, 9);
   insert(Kommander::comment, "#",
      i18n("Adds a comment to EOL that Kommander will not parse"), 0);
+  insert(Kommander::createWidget, "createWidget(QString widgetName, QString widgetType, QString parent)",
+     i18n("Creates a new widget with the specified type and as the child of parent."), 3, 9);
 
   insertGroup(Group::Array, "Array", "array");
   insert(Array::values, "values(QString array)", 

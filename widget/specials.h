@@ -32,14 +32,14 @@ namespace Special
       item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
       setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
       setRowCaption, setSelection, setText, 
-      setVisible, text, type};
+      setVisible, text, type, setCellWidget};
   }
 
   namespace Kommander
   {
     enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
     echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
-    switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment};
+    switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget};
   }
  
   namespace Array
