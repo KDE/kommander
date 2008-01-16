@@ -92,6 +92,8 @@ public:
   // Returns filename associated with the dialog
   virtual QString fileName();
 
+  QObject* object() { return m_thisObject;}
+
 
   // Recognizes editor vs executor mode
   static bool inEditor;

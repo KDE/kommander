@@ -47,6 +47,7 @@ private:
   QString params();
   SpecialFunction m_function;
   int m_DCOP;
+  int m_Slots;
   const QDict<QWidget> m_widgetList;
   const QStringList m_widgetNames;
   bool m_useInternalParser;

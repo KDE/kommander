@@ -15,6 +15,7 @@
 
 /* QT INCLUDES */
 #include <qlabel.h>
+#include <qmetaobject.h>
 #include <qstringlist.h>
 
 /* KDE INCLUDES */
@@ -56,12 +57,18 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
   widgetComboBox->insertStringList(widgets);
   
   m_DCOP = -1;    // Select DCOP functions by default
+  m_Slots = -1;
   for (int i=0; i<groupComboBox->count(); i++)
+  {
      if (groupComboBox->text(i) == "DCOP")
      {
        m_DCOP = i; 
-       break;
      }
+     if (groupComboBox->text(i) == i18n("Slots"))
+     {
+       m_Slots = i; 
+     }
+  }
   groupComboBox->setCurrentItem(m_DCOP);
   groupChanged(groupComboBox->currentItem());
 }
@@ -91,7 +98,7 @@ QString FunctionsDialog::currentFunctionText()
   }
   if (groupComboBox->currentText() == "Kommander")
     return QString("%1%2%3").arg(prefix).arg(functionListBox->currentText()).arg(params());
-  else if (groupComboBox->currentText() == "DCOP")
+  else if (groupComboBox->currentItem() == m_DCOP || groupComboBox->currentItem() == m_Slots)
     return QString("%1%2.%3%4").arg(prefix).arg(widgetComboBox->currentText().section(' ', 0, 0))
         .arg(functionListBox->currentText()).arg(params());
   else 
@@ -103,22 +110,34 @@ void FunctionsDialog::groupChanged(int index)
 {
   index = groupComboBox->currentItem();
   functionListBox->clear();
-  QStringList pFunctions = SpecialInformation::functions(groupComboBox->text(index));
-  KommanderWidget* a_atw = 0;
-  if (index == m_DCOP)
-    a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
-  int pGroup = SpecialInformation::group(groupComboBox->text(index));
-  SpecialFunction::ParserType pType = m_useInternalParser 
-      ? SpecialFunction::InternalParser : SpecialFunction::MacroParser;
-
-  for (uint i=0; i<pFunctions.count(); i++)
+  if (index == m_Slots && m_useInternalParser)
   {
-    int pFunction = SpecialInformation::function(pGroup, pFunctions[i]);
-    if (!SpecialInformation::isValid(pGroup, pFunction, pType))
-      continue;
-    if (a_atw && !a_atw->isFunctionSupported(pFunction) && !a_atw->isCommonFunction(pFunction))
+    KommanderWidget* a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
+    QStringList pFunctions = QStringList::fromStrList(a_atw->object()->metaObject()->slotNames(true));
+    for (uint i=0; i<pFunctions.count(); i++)
+    {
+      if (pFunctions[i].endsWith("()"))
+        functionListBox->insertItem(pFunctions[i]);
+    }
+  } else
+  {
+    QStringList pFunctions = SpecialInformation::functions(groupComboBox->text(index));
+    KommanderWidget* a_atw = 0;
+    if (index == m_DCOP)
+      a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
+    int pGroup = SpecialInformation::group(groupComboBox->text(index));
+    SpecialFunction::ParserType pType = m_useInternalParser 
+        ? SpecialFunction::InternalParser : SpecialFunction::MacroParser;
+  
+    for (uint i=0; i<pFunctions.count(); i++)
+    {
+      int pFunction = SpecialInformation::function(pGroup, pFunctions[i]);
+      if (!SpecialInformation::isValid(pGroup, pFunction, pType))
         continue;
-    functionListBox->insertItem(pFunctions[i]);
+      if (a_atw && !a_atw->isFunctionSupported(pFunction) && !a_atw->isCommonFunction(pFunction))
+          continue;
+      functionListBox->insertItem(pFunctions[i]);
+    }
   }
 
   functionListBox->sort();
@@ -166,8 +185,8 @@ void FunctionsDialog::showParameters()
   QLabel* labels[MaxFunctionArgs] = {argLabel1, argLabel2, argLabel3, argLabel4, argLabel5, argLabel6};
   int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
 
-  widgetComboBox->setShown(start);
-  widgetLabel->setShown(start);
+  widgetComboBox->setShown(start || groupComboBox->currentItem() == m_Slots);
+  widgetLabel->setShown(start || groupComboBox->currentItem() == m_Slots);
   if (start)
   {
     arg1Edit->setShown(false);

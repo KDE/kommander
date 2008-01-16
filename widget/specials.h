@@ -22,7 +22,7 @@ namespace Special
 {
   namespace Group
   {
-    enum {DCOP, Kommander, String, Array, File, Input, Message};
+    enum {DCOP, Kommander, String, Array, File, Input, Message, Slots};
   }
 
   namespace DCOP

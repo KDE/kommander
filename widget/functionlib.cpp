@@ -20,13 +20,17 @@
 #include "specialinformation.h"
 #include "myprocess.h"
 #include "kommanderwidget.h"
+#include "invokeclass.h"
 
 #include <iostream>
 #include <stdlib.h> 
 
 #include <qfile.h>
 #include <qtextstream.h>
+#include <qstringlist.h>
+#include <qmetaobject.h>
 
+#include <kdebug.h>
 #include <kmessagebox.h>
 #include <dcopclient.h>
 #include <kapplication.h>
@@ -193,7 +197,50 @@ static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 }
 
 
-
+static ParseNode f_executeSlot(Parser* parser, const ParameterList& params)
+{
+  ParameterList::ConstIterator it = params.begin(); 
+  QString slotName = (*it).toString()+"("; 
+  ++it;
+  QString widgetName = (*it).toString();
+  KommanderWidget* widget = parser->currentWidget();
+  if (!widget)
+    return ParseNode::error("unknown widget");
+  widget = widget->widgetByName(widgetName);
+  if (!widget)
+    return ParseNode::error("unknown widget");
+  QObject *object = widget->object();
+  if (!object)
+    return ParseNode::error("unknown widget");
+  QStrList slotSignatures = object->metaObject()->slotNames(true);
+  QStringList slotNames = QStringList::fromStrList(slotSignatures);
+  QStringList args;
+  int slotNum = -1;
+  uint i = 0;
+  while (i < slotNames.count())
+  {
+    if (slotNames[i].startsWith(slotName))
+    {
+      slotNum = i;
+      break;
+    }  
+    i++;
+  }
+  if (slotNum == -1)
+    return ParseNode::error("unknown function");
+/*  ++it;   // skip function
+  ++it;   // skip widget
+  while (it != params.end())
+  {
+    args += (*it).toString(); 
+    ++it;
+  }
+  kdDebug(24000) << slotNames << endl;
+  kdDebug(24000) <<  args << endl; */
+  InvokeClass* inv = new InvokeClass(0);
+  inv->invokeSlot(object, slotSignatures.at(slotNum));
+  inv->deleteLater();
+}
 
 
 /******************* DCOP function ********************************/
@@ -202,7 +249,8 @@ static ParseNode f_internalDcop(Parser* parser, const ParameterList& params)
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
   int functionId = SpecialInformation::function(Group::DCOP, params[0].toString());
   if (functionId == -1)
-    return ParseNode::error("unknown function");
+    return f_executeSlot(parser, params);
+    //return ParseNode::error("unknown function");
   else if ((uint)function.minArg() > params.count() - 1)
     return ParseNode::error("too few parameters");
   else if ((uint)function.maxArg() < params.count() - 1)
@@ -660,6 +708,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
+  registerFunction("executeSlot", Function(&f_executeSlot, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));
   registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));

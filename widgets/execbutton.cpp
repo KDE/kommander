@@ -95,7 +95,7 @@ void ExecButton::setWidgetText(const QString& a_text)
 
 void ExecButton::startProcess()
 {
-  QString at = evalAssociatedText().stripWhiteSpace();
+  QString at = KommanderWidget::evalAssociatedText(associatedText()[0]).stripWhiteSpace();
   bool enabledStatus = isEnabled();
   if (m_blockGUI != None)
     setEnabled(false);
@@ -156,7 +156,7 @@ void ExecButton::showEvent(QShowEvent* e)
 
 bool ExecButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::execute;
 }
 
 QString ExecButton::handleDCOP(int function, const QStringList& args)
@@ -166,6 +166,9 @@ QString ExecButton::handleDCOP(int function, const QStringList& args)
       return m_output;
     case DCOP::setText:
       setWidgetText(args[0]);
+      break;
+    case DCOP::execute:
+      startProcess();
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

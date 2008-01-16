@@ -104,6 +104,9 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DCOP::type, "type(QString widget)",
      i18n("Returns type(class) of widget."), 1);
+
+  insertGroup(Group::Slots, i18n("Slots"), "");
+
   insertGroup(Group::Kommander, "Kommander", "");
   insertMacro(Kommander::widgetText, "widgetText", 
     i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
