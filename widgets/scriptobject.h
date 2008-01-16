@@ -58,7 +58,7 @@ signals:
   void widgetOpened();
 
 protected:
-  virtual void executeProcess(bool blocking);
+  virtual QString executeProcess(bool blocking);
 private:
   QStringList m_params;
 };

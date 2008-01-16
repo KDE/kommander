@@ -139,6 +139,15 @@ static ParseNode f_stringToDouble(Parser*, const ParameterList& params)
   return params[0].toString().toDouble();
 }
 
+static ParseNode f_return(Parser* p, const ParameterList& params)
+{
+  KommanderWidget * w = p->currentWidget();
+  if (w)
+    w->setGlobal(w->widgetName() + "_RESULT", params[0].toString());
+  return params[0];
+}
+
+
 /******************* Debug function ********************************/
 static ParseNode f_debug(Parser*, const ParameterList& params)
 {
@@ -721,6 +730,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("str_isempty", Function(&f_stringIsEmpty, ValueInt, ValueString));
   registerFunction("str_toint", Function(&f_stringToInt, ValueString, ValueInt, 1));
   registerFunction("str_todouble", Function(&f_stringToDouble, ValueString, ValueDouble, 1));
+  registerFunction("return", Function(&f_return, ValueNone, ValueString, 1, 1));
   registerFunction("debug", Function(&f_debug, ValueNone, ValueString, 1, 100));
   registerFunction("echo", Function(&f_echo, ValueNone, ValueString, 1, 100));
   registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));

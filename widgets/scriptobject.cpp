@@ -90,11 +90,19 @@ void ScriptObject::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText(populationText()));
 }
 
-void ScriptObject::executeProcess(bool blocking)
+QString ScriptObject::executeProcess(bool blocking)
 {
-  MyProcess process(this);
-  process.setBlocking(blocking);
-  process.run(evalAssociatedText());
+  if (KommanderWidget::useInternalParser)
+  {
+    evalAssociatedText();
+    return global(widgetName() + "_RESULT");
+  } else
+  {
+    MyProcess process(this);
+    process.setBlocking(blocking);
+    process.run(evalAssociatedText());
+    return QString();
+  }
 }
 
 void ScriptObject::execute()
@@ -142,7 +150,7 @@ QString ScriptObject::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::execute:
       m_params = args;
-      executeProcess(true);
+      return executeProcess(true);
       break;
     case DCOP::item:
     {
