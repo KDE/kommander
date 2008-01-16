@@ -622,9 +622,14 @@ Flow Parser::parseCommand(Mode mode)
   else if (tryKeyword(Continue, CheckOnly))
     return FlowContinue;
   else if (tryKeyword(Break, CheckOnly))
-    return FlowBreak;
+    return FlowBreak;  
   else if (isFunction())
+  {
+    QString name = next().variableName();    
     parseFunction(mode);
+    if (name == "return")
+      return FlowBreak;
+  }
   else if (isWidget())
     parseWidget(mode);
   else if (next().isVariable())
@@ -635,7 +640,7 @@ Flow Parser::parseCommand(Mode mode)
       setError("Exit");
 #warning FIXME!
     return FlowBreak;
-  }
+  } 
   return FlowStandard;
 }
 
