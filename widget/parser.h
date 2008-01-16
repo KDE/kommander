@@ -110,10 +110,10 @@ private:
   // parse parameters
   ParseNode parseFunction(Parse::Mode mode = Parse::Execute);
   // parse widget function
-  ParseNode parseWidget(Parse::Mode mode = Parse::Execute);
+  ParseNode parseWidget(Parse::Mode mode = Parse::Execute, const QString &widgetName = QString::null);
 
   // parse assignment
-  void parseAssignment(Parse::Mode mode = Parse::Execute);
+  ParseNode parseAssignment(Parse::Mode mode = Parse::Execute);
   // parse conditional
   Parse::Flow parseIf(Parse::Mode mode = Parse::Execute);
   // parse assignment

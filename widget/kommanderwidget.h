@@ -144,7 +144,7 @@ protected:
   QWidget* parentDialog() const;
   QString substituteVariable(QString text, QString variable, QString value) const;
 
-  ParserData* internalParserData();
+  ParserData* internalParserData() const;
 
   QObject *m_thisObject;
   QStringList m_states;

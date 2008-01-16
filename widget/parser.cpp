@@ -426,10 +426,14 @@ ParseNode Parser::parseFunction(Mode mode)
   return ParseNode();
 }
 
-ParseNode Parser::parseWidget(Mode mode)
+ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
 {
   int pos = m_start;
-  QString widget = nextVariable();
+  QString widget;
+  if (widgetName.isNull())
+   widget = nextVariable();
+  else
+   widget = widgetName; 
   Function f = m_data->function("internalDcop");
 
   if (!tryKeyword(Dot))
@@ -463,7 +467,7 @@ ParseNode Parser::parseWidget(Mode mode)
 }
 
 
-void Parser::parseAssignment(Mode mode)
+ParseNode Parser::parseAssignment(Mode mode)
 {
   QString var = nextVariable();
   if (tryKeyword(LeftBracket, CheckOnly))
@@ -482,11 +486,22 @@ void Parser::parseAssignment(Mode mode)
       setVariable(var, p);
   }
   else if (tryKeyword(Dot, CheckOnly))
-    setError(i18n("'%1' is not a widget").arg(var));
+  {
+    QString value = variable(var).toString();
+    if (m_widget && m_widget->isWidget(value))
+    {
+      m_start--;
+      return parseWidget(mode, value);
+    }
+    else
+      setError(i18n("'%1' is not a widget").arg(var));
+  }
   else if (tryKeyword(LeftParenthesis, CheckOnly))
     setError(i18n("'%1' is not a function").arg(var));
   else 
     setError(i18n("Unexpected symbol after variable '%1'").arg(var));
+
+  return ParseNode();
 }
 
 Flow Parser::parseIf(Mode mode)

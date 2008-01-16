@@ -555,6 +555,13 @@ KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
     return dynamic_cast <KommanderWidget*>(parentDialog());
   QCString s = widgetName.lower() == "self" ? m_thisObject->name() : widgetName.latin1();
   QObject* childObj = parentDialog()->child(s);
+/*  if (!childObj)
+  {
+     Parser parser(internalParserData());
+     QString variableValue = parser.variable(widgetName).toString();
+     s = variableValue.lower() == "self" ? m_thisObject->name() : variableValue.latin1();
+     childObj = parentDialog()->child(s);  
+  }*/
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
@@ -702,7 +709,7 @@ bool KommanderWidget::isCommonFunction(int f)
   return f == DCOP::setEnabled || f == DCOP::setVisible || f == DCOP::children || f == DCOP::type;
 }
 
-ParserData* KommanderWidget::internalParserData()
+ParserData* KommanderWidget::internalParserData() const
 {
   return m_parserData;
 }
