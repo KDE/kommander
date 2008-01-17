@@ -166,7 +166,7 @@
       <item> until </item>
       <item> while </item>
       <item> . </item>
-      <item> elif </item>
+      <item> elseif </item>
       <item> then </item>
       <item> set </item>
       <item> foreach </item>
@@ -213,10 +213,12 @@
         <!-- start a group command with { -->
         <RegExpr attribute="Keyword" context="Group" String="\{&eos;" beginRegion="group" />
         <!-- match do and if blocks -->
-        <RegExpr attribute="Keyword" context="#stay" String="\bdo&noword;" beginRegion="do" />
-      	<RegExpr attribute="Keyword" context="#stay" String="\bdone&noword;" endRegion="do" />
+        <RegExpr attribute="Keyword" context="#stay" String="\bfor&noword;" beginRegion="for" />
+      	<RegExpr attribute="Keyword" context="#stay" String="\bend&noword;" endRegion="for" />
       	<RegExpr attribute="Keyword" context="#stay" String="\bif&noword;" beginRegion="if" />
-      	<RegExpr attribute="Keyword" context="#stay" String="\bfi&noword;" endRegion="if" />
+        <RegExpr attribute="Keyword" context="#stay" String="\belseif&noword;" beginRegion="if" endRegion="if"/>
+        <RegExpr attribute="Keyword" context="#stay" String="\belse&noword;"  beginRegion="if" endRegion="if"/>
+        <RegExpr attribute="Keyword" context="#stay" String="\bendif&noword;" endRegion="if"/>
       	<!-- handle case as a special case -->
         <RegExpr attribute="Keyword" context="Case" String="\bcase&noword;" beginRegion="case" />
         <!-- handle command line options -->
