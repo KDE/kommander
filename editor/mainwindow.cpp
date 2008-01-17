@@ -476,9 +476,8 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
       if (((QMouseEvent*)e)->button() == MidButton && dynamic_cast<KommanderWidget *>(o))
       {
         AssocTextEditor *editor = new AssocTextEditor((QWidget*)o, formWindow(), propertyEditor, m_partManager,
-             this, "AssocTextEditor", false);
-         editor->exec();
-         delete editor;
+             this, "AssocTextEditor", false); //deletes itself!
+         editor->show();
          ((QKeyEvent*)e)->accept();
           return true;
       }
@@ -1054,9 +1053,8 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
     if(id == commands["assoc"])
     {
          AssocTextEditor *editor = new AssocTextEditor(w, formWindow(), propertyEditor, m_partManager,
-             this, "AssocTextEditor", false);
-         editor->exec();
-         delete editor;
+             this, "AssocTextEditor", false); //deletes itself!
+         editor->show();
     }
 
     if (w->inherits("QTabWidget")) {
@@ -1089,9 +1087,8 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
     if(id == commands["assoc"])
     {
          AssocTextEditor *editor = new AssocTextEditor(fw->mainContainer(), formWindow(), propertyEditor, m_partManager,
-             this, "AssocTextEditor", false);
-         editor->exec();
-         delete editor;
+             this, "AssocTextEditor", false); //deletes itself!
+         editor->show();
     }
 
 

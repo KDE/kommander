@@ -43,6 +43,7 @@ namespace KParts{
   class PartManager;
 }
 
+class KAction;
 class KPopupMenu;
 
 class AssocTextEditor : public AssocTextEditorBase
@@ -80,6 +81,9 @@ public slots:
   void insertFunction();
   // Insert selected function at cursor position
   void insertWidgetName(int);
+
+protected:
+  virtual void closeEvent(QCloseEvent * e);
 
 protected slots:
 
@@ -122,6 +126,8 @@ private:
   KTextEditor::View *view;
   KPopupMenu *highlightPopup;
   int oldHlMode;
+  bool readOnly;
+  KAction *readOnlyAction;
 };
 
 #endif

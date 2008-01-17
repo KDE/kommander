@@ -47,7 +47,8 @@
 #include <qobject.h>
 #include <qobjectlist.h>
 #include <qtimer.h>
-
+#include <qevent.h>
+#include <qvaluelist.h>
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -59,6 +60,8 @@
 #include "metadatabase.h"
 #include "choosewidgetimpl.h"
 #include "functionsimpl.h"
+
+QValueList<QWidget *> openedWidgets;
 
 AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
     PropertyEditor* a_property, KParts::PartManager *partManager, QWidget *a_parent, const char *a_name, bool a_modal)
@@ -122,7 +125,7 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   a = view->actionCollection()->action("edit_replace");
   if (a)
     a->plug(popup);
-
+  readOnlyAction = view->actionCollection()->action("tools_toggle_write_lock");
   popup->insertSeparator();
   highlightPopup = new KPopupMenu(popup);
   connect(highlightPopup, SIGNAL(activated(int)), SLOT(slotHighlightingChanged(int)));
@@ -133,6 +136,9 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   popupIf->installPopup(popup);
 
   associatedTextEdit = dynamic_cast<KTextEditor::EditInterface*>(doc);
+  readOnly = true;
+  if (readOnlyAction)
+     readOnlyAction->activate();
   setWidget(a_widget);
 
   connect(doc, SIGNAL(textChanged()), SLOT(textEditChanged()));
@@ -150,6 +156,8 @@ AssocTextEditor::~AssocTextEditor()
 {
   save();
   delete doc;
+  if (!readOnly)
+    openedWidgets.remove(m_widget);
 }
 
 void AssocTextEditor::setWidget(QWidget *a_widget)
@@ -158,6 +166,16 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   if (!a_widget || !a_atw)
     return;
 
+
+  if (!readOnly)
+    openedWidgets.remove(m_widget);
+  if (readOnly)
+  {
+     if (readOnlyAction)
+      readOnlyAction->activate();
+     readOnly = false;
+     setCaption(i18n("Edit text"));
+  }
 
   m_widget = a_widget;
   m_states = a_atw->states();
@@ -207,6 +225,20 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
 
   KTextEditor::UndoInterface *undoIf = dynamic_cast<KTextEditor::UndoInterface*>(doc);
   undoIf->clearUndo();
+
+
+  if (openedWidgets.contains(m_widget))
+  {
+    if (readOnlyAction && !readOnly)
+      readOnlyAction->activate();
+    setCaption(i18n("Edit text - read only mode"));
+    readOnly = true;
+  }
+  else
+  {
+    openedWidgets.append(m_widget);
+  }
+
 }
 
 void AssocTextEditor::save() const
@@ -298,7 +330,8 @@ void AssocTextEditor::stateChanged(int a_index)
     associatedTextEdit->setText(m_populationText);
   else
     associatedTextEdit->setText(m_atdict[m_currentState]);
-
+  KTextEditor::ViewCursorInterface *viewCursorIf = dynamic_cast<KTextEditor::ViewCursorInterface*>(view);
+  viewCursorIf->setCursorPositionReal(0, 0);
   highlightPopup->clear();
   QString hlType = "Kommander (old parser)";
   if (useInternalParser())
@@ -441,6 +474,12 @@ bool AssocTextEditor::useInternalParser()
   if (KommanderWidget::useInternalParser || s == "#!kommander")
     return true;
   return false;
+}
+
+void AssocTextEditor::closeEvent ( QCloseEvent * e )
+{
+  deleteLater();
+  e->accept();
 }
 
 #include "assoctexteditorimpl.moc"
