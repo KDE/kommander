@@ -231,7 +231,7 @@
         <!-- Kommander rules -->        
         <RegExpr attribute="KmdrMethod" context="DetectKmdr" String="\b&varname;[\.|\[]" lookAhead="true"/>
         <RegExpr attribute="KmdrMethod" context="DetectKmdrMethod" String="kmdrfunctions\(" />        
-        <keyword attribute="DCOPMethod" context="#pop" String="kmdrfunctions" />  
+        <keyword attribute="DCOPMethod" context="#stay" String="kmdrfunctions" />  
         <keyword attribute="KmdrArray" context="#stay" String="kmdrarray" />      
         <keyword attribute="KmdrString" context="#stay" String="kmdrstring" />        
         <keyword attribute="KmdrFile" context="#stay" String="kmdrfile" />        
@@ -250,13 +250,14 @@
         <DetectChar attribute="Normal Text" context="#pop" char=")" lookAhead="true"/>
         <DetectChar attribute="Normal Text" context="#pop" char="[" lookAhead="true"/>
         <DetectChar attribute="Normal Text" context="#pop" char="]" lookAhead="true"/>
-       <DetectChar attribute="KmdrMethod" context="DetectKmdrMethod" char="." lookAhead="true"/>
+        <DetectChar attribute="KmdrMethod" context="DetectKmdrMethod" char="." lookAhead="true"/>
         <RegExpr attribute="Normal Text" context="#pop" String="[\s\=\;\+\-\*\/\%]+" />
      
       </context>
       <context attribute="DCOPMethod" lineEndContext="FindAll" name="DetectKmdrMethod">
         <DetectChar attribute="Normal Text" context="FindAll" char="(" lookAhead="true"/>
         <DetectChar attribute="Normal Text" context="FindAll" char=")" lookAhead="true"/>
+        <RegExpr attribute="Normal Text" context="FindAll" String="[\s\=\;\+\-\*\/\%]+" />
       </context>
 
       <!-- FindOthers contains various rules to mark different shell input -->
