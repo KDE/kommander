@@ -209,6 +209,7 @@ void FunctionsDialog::showParameters()
 {
   KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
   QLabel* labels[MaxFunctionArgs] = {argLabel1, argLabel2, argLabel3, argLabel4, argLabel5, argLabel6};
+  KComboBox* combos[MaxFunctionArgs] = {combo1, combo2, combo3, combo4, combo5, combo6};
 
   if (groupComboBox->currentItem() == m_Slots)
   {
@@ -219,10 +220,22 @@ void FunctionsDialog::showParameters()
     int argsCount = slotArgs.count();
     for (int i = 0; i < MaxFunctionArgs; i++)
     {
-      edits[i]->setShown(i < argsCount);
-      edits[i]->clear();
+      QString type = slotArgs[i].remove(QRegExp("\\*|\\&|const\\s"));
       labels[i]->setShown(i < argsCount);
-      labels[i]->setText(QString("%1:").arg(slotArgs[i].remove(QRegExp("\\*|\\&|const\\s"))));
+      labels[i]->setText(QString("%1:").arg(type));
+      if (type == "bool")
+      {
+        edits[i]->setShown(false);
+        combos[i]->setShown(i < argsCount);
+        combos[i]->clear();
+        combos[i]->insertItem("true");
+        combos[i]->insertItem("false");    
+      } else
+      {
+        combos[i]->setShown(false);
+        edits[i]->setShown(i < argsCount);
+        edits[i]->clear();
+      }
     }
   } else
   {
@@ -234,29 +247,55 @@ void FunctionsDialog::showParameters()
     {
       arg1Edit->setShown(false);
       argLabel1->setShown(false);
+      combo1->setShown(false);
     }
+    int argsCount = m_function.argumentCount();
     for (int i=start; i<MaxFunctionArgs; i++)
     {
-      edits[i]->setShown(i<m_function.argumentCount());
-      edits[i]->clear();
-      labels[i]->setShown(i<m_function.argumentCount());
-      if (i<m_function.argumentCount())
-        labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
+      labels[i]->setShown(i < argsCount);
+      labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
+      if (m_function.argumentType(i) == "bool")
+      {
+        edits[i]->setShown(false);
+        combos[i]->setShown(i < argsCount);
+        combos[i]->clear();
+        combos[i]->insertItem("true");
+        combos[i]->insertItem("false");    
+      } else
+      {
+        combos[i]->setShown(false);
+        edits[i]->setShown(i < argsCount);
+        edits[i]->clear();
+      }
     }
   }
 }
 
 QString FunctionsDialog::params()
 {
+  QLabel* labels[MaxFunctionArgs] = {argLabel1, argLabel2, argLabel3, argLabel4, argLabel5, argLabel6};
   KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
+  KComboBox* combos[MaxFunctionArgs] = {combo1, combo2, combo3, combo4, combo5, combo6};
   QStringList pars;
   bool params = false;
+  bool slotsShown = (groupComboBox->currentItem() == m_Slots);
   for (int i=0; i<MaxFunctionArgs; i++)
-    if (edits[i]->isShown() && (i < m_function.minArg() || !edits[i]->text().isEmpty()))
+  {
+    if (edits[i]->isShown())
     {
-      pars.append(edits[i]->text());
+      QString s = edits[i]->text();
+      if ( (!slotsShown && m_function.argumentType(i) == "QString") 
+            || (slotsShown && labels[i]->text().startsWith("QString")) )
+        s = '"' + s + '"';
+      pars.append(s);
+      params = true;
+    } else
+    if (combos[i]->isShown())
+    {
+      pars.append(combos[i]->currentText());
       params = true;
     }
+  }
   QString a_param = pars.join(", ");
   if (params)
     return QString("(%1)").arg(a_param);
