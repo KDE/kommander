@@ -52,6 +52,7 @@ private:
   const QStringList m_widgetNames;
   bool m_useInternalParser;
   QStringList m_acceptedSlots;
+  QMap<QString, QString> m_slotList;
 };  
 
 

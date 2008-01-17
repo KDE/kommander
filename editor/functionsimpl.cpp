@@ -115,6 +115,7 @@ void FunctionsDialog::groupChanged(int index)
 {
   index = groupComboBox->currentItem();
   functionListBox->clear();
+  m_slotList.clear();
   if (index == m_Slots && m_useInternalParser)
   {
     KommanderWidget* a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
@@ -124,7 +125,11 @@ void FunctionsDialog::groupChanged(int index)
       QString slot = pFunctions[i];
       QString slotArgStr = slot.section(QRegExp("\\(|\\)"), 1);
       if (slotArgStr.isEmpty() || m_acceptedSlots.contains(slotArgStr))
-        functionListBox->insertItem(slot);
+      {
+        QString name = slot.left(slot.find('('));
+        m_slotList[name] = slot;
+        functionListBox->insertItem(name);
+      }
     }
   } else
   {
@@ -154,27 +159,41 @@ void FunctionsDialog::groupChanged(int index)
 
 void FunctionsDialog::functionChanged(int)
 {
-  m_function = SpecialInformation::functionObject(groupComboBox->currentText(),
-      functionListBox->currentText());
-  QString defArgs;
-  if (m_function.minArg() < m_function.argumentCount()) 
-     if (!m_function.minArg())
-        defArgs = i18n("<p>Parameters are not obligatory.");
-     else
-        defArgs = i18n("<p>Only first argument is obligatory.", 
-           "<p>Only first %n arguments are obligatory.", 
-           m_function.minArg());
-
-  uint pflags = SpecialFunction::ShowArgumentNames;
-  if (m_function.maxArg() && m_function.argumentName(0) == "widget")
-     pflags = pflags | SpecialFunction::SkipFirstArgument;
-
-  descriptionText->clear();
-  descriptionText->setText(i18n("<qt><h3>%1</h3>"
-    "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
-    .arg(functionListBox->currentText()).arg(m_function.description())
-    .arg(m_function.prototype(pflags)).arg(defArgs));
-
+  if (groupComboBox->currentItem() == m_Slots)
+  { 
+    KommanderWidget* w = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
+    QObject *o = w->object();
+    QString slotHelp = i18n("To learn more about the slot, look at the documentation of the base Qt/KDE class, most probably <i>%1</i>.").arg(o->metaObject()->superClassName() ? QString(o->metaObject()->superClassName()) : QString(o->className()) );
+    QString slotName = functionListBox->currentText();
+    QString slot = m_slotList[slotName];
+    descriptionText->clear();
+    descriptionText->setText(i18n("<qt><h3>%1</h3>"
+      "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
+      .arg(slotName).arg(slotHelp).arg(slot).arg(""));
+  } else
+  {
+    m_function = SpecialInformation::functionObject(groupComboBox->currentText(),
+        functionListBox->currentText());
+    QString defArgs;
+    if (m_function.minArg() < m_function.argumentCount()) 
+      if (!m_function.minArg())
+          defArgs = i18n("<p>Parameters are not obligatory.");
+      else
+          defArgs = i18n("<p>Only first argument is obligatory.", 
+            "<p>Only first %n arguments are obligatory.", 
+            m_function.minArg());
+  
+    uint pflags = SpecialFunction::ShowArgumentNames;
+    if (m_function.maxArg() && m_function.argumentName(0) == "widget")
+      pflags = pflags | SpecialFunction::SkipFirstArgument;
+  
+    descriptionText->clear();
+    descriptionText->setText(i18n("<qt><h3>%1</h3>"
+      "<p><b>Description:</b> %2\n<p><b>Syntax:</b> <i>%3</i>%4</qt>")
+      .arg(functionListBox->currentText()).arg(m_function.description())
+      .arg(m_function.prototype(pflags)).arg(defArgs));
+  
+  }
   showParameters();
 }
 
@@ -190,22 +209,40 @@ void FunctionsDialog::showParameters()
 {
   KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
   QLabel* labels[MaxFunctionArgs] = {argLabel1, argLabel2, argLabel3, argLabel4, argLabel5, argLabel6};
-  int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
 
-  widgetComboBox->setShown(start || groupComboBox->currentItem() == m_Slots);
-  widgetLabel->setShown(start || groupComboBox->currentItem() == m_Slots);
-  if (start)
+  if (groupComboBox->currentItem() == m_Slots)
   {
-    arg1Edit->setShown(false);
-    argLabel1->setShown(false);
-  }
-  for (int i=start; i<MaxFunctionArgs; i++)
+    widgetComboBox->setShown(true);
+    widgetLabel->setShown(true);
+    QString slot = m_slotList[functionListBox->currentText()];
+    QStringList slotArgs = QStringList::split(',', slot.section(QRegExp("\\(|\\)"), 1), false);
+    int argsCount = slotArgs.count();
+    for (int i = 0; i < MaxFunctionArgs; i++)
+    {
+      edits[i]->setShown(i < argsCount);
+      edits[i]->clear();
+      labels[i]->setShown(i < argsCount);
+      labels[i]->setText(QString("%1:").arg(slotArgs[i].remove(QRegExp("\\*|\\&|const\\s"))));
+    }
+  } else
   {
-    edits[i]->setShown(i<m_function.argumentCount());
-    edits[i]->clear();
-    labels[i]->setShown(i<m_function.argumentCount());
-    if (i<m_function.argumentCount())
-      labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
+    int start = (m_function.argumentCount() && m_function.argumentName(0) == "widget");
+  
+    widgetComboBox->setShown(start);
+    widgetLabel->setShown(start);
+    if (start)
+    {
+      arg1Edit->setShown(false);
+      argLabel1->setShown(false);
+    }
+    for (int i=start; i<MaxFunctionArgs; i++)
+    {
+      edits[i]->setShown(i<m_function.argumentCount());
+      edits[i]->clear();
+      labels[i]->setShown(i<m_function.argumentCount());
+      if (i<m_function.argumentCount())
+        labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
+    }
   }
 }
 
