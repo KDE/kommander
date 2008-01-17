@@ -70,6 +70,7 @@ protected:
 
 private:
   QString m_fileName;
+  bool m_useInternalParser;
 };
 
 #endif

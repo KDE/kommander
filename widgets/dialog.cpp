@@ -36,6 +36,7 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   states << "destroy";
   setStates(states);
   setDisplayStates(states);
+  m_useInternalParser = false;
 }
 
 Dialog::~Dialog()
@@ -54,12 +55,13 @@ bool Dialog::isKommanderWidget() const
 
 bool Dialog::useInternalParser() const
 {
-  return KommanderWidget::useInternalParser; 
+  return m_useInternalParser; 
 }
 
 void Dialog::setUseInternalParser(bool b) 
 {
   KommanderWidget::useInternalParser = b; 
+  m_useInternalParser = b;
 }
 
 

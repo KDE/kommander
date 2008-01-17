@@ -1514,6 +1514,12 @@ void FormWindow::checkPreviewGeometry(QRect & r)
 
 void FormWindow::focusInEvent(QFocusEvent *)
 {
+  if (mContainer)
+  {
+    QVariant prop = mContainer->property("useInternalParser");
+    KommanderWidget::useInternalParser = prop.toBool();
+    
+  }
 }
 
 void FormWindow::focusOutEvent(QFocusEvent *)
