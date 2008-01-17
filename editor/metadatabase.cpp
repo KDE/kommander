@@ -729,7 +729,7 @@ bool MetaDataBase::addCustomWidget( CustomWidget *wid )
     r->name = wid->className;
     r->group = WidgetDatabase::widgetGroup( "Custom" );
     r->toolTip = wid->className;
-    r->icon = new QIconSet( *wid->pixmap, *wid->pixmap );
+    r->iconSet = new QIconSet( *wid->pixmap, *wid->pixmap );
     r->isContainer = wid->isContainer;
     wid->id = WidgetDatabase::addCustomWidget( r );
     cWidgets->append( wid );

@@ -25,9 +25,9 @@ KommanderPlugin::~KommanderPlugin()
 {
 }
 
-void KommanderPlugin::addWidget( const QString &name, const QString &group, const QString &toolTip, const QString &whatsThis, bool isContainer )
+void KommanderPlugin::addWidget( const QString &name, const QString &group, const QString &toolTip, QIconSet *iconSet, const QString &whatsThis, bool isContainer)
 {
-    m_widgets[name] = WidgetInfo( group, toolTip, whatsThis, isContainer );
+    m_widgets[name] = WidgetInfo( group, toolTip, iconSet, whatsThis, isContainer );
 }
 
 void KommanderPlugin::removeWidget( const QString &name )
@@ -62,6 +62,11 @@ QString KommanderPlugin::whatsThis( const QString &name ) const
 bool KommanderPlugin::isContainer( const QString &name ) const
 {
     return m_widgets[name].isContainer;
+}
+
+QIconSet* KommanderPlugin::iconSet( const QString &name ) const
+{
+    return m_widgets[name].iconSet;
 }
 
 void KommanderPlugin::setDefaultGroup( int id )

@@ -59,34 +59,34 @@ public:
 KomStdPlugin::KomStdPlugin()
 {
   const char *group = "Kommander";
-  addWidget("Label", group, "");
-  addWidget("PixmapLabel", group, "");
-  addWidget("LineEdit", group, "");
-  addWidget("Dialog", group, "");
-  addWidget("ExecButton", group, "");
-  addWidget("CloseButton", group, "");
-  addWidget("Konsole", group, "");
-  addWidget("TextEdit", group, "");
-  addWidget("RadioButton", group, "");
+  addWidget("Label", group, "", 0);
+  addWidget("PixmapLabel", group, "", 0);
+  addWidget("LineEdit", group, "", 0);
+  addWidget("Dialog", group, "", 0);
+  addWidget("ExecButton", group, "", 0);
+  addWidget("CloseButton", group, "", 0);
+  addWidget("Konsole", group, "", 0);
+  addWidget("TextEdit", group, "", 0);
+  addWidget("RadioButton", group, "", 0);
   // addWidget("", group, "");
-  addWidget("GroupBox", group, "");
-  addWidget("ButtonGroup", group, "");
-  addWidget("CheckBox", group, "");
-  addWidget("ComboBox", group, "");
-  addWidget("SpinBoxInt", group, "");
+  addWidget("GroupBox", group, "", 0);
+  addWidget("ButtonGroup", group, "", 0);
+  addWidget("CheckBox", group, "", 0);
+  addWidget("ComboBox", group, "", 0);
+  addWidget("SpinBoxInt", group, "", 0);
   // addWidget("Wizard", group, "");
-  addWidget("TabWidget", group, "");
+  addWidget("TabWidget", group, "", 0);
   // addWidget("SubDialog", group, "");
-  addWidget("ListBox", group, "");
-  addWidget("Timer", group, "");
-  addWidget("ScriptObject", group, "");
-  addWidget("RichTextEditor", group, "");
-  addWidget("TreeWidget", group, "");
-  addWidget("StatusBar", group, "");
-  addWidget("TextBrowser", group, "");
-  addWidget("Slider", group, "");
-  addWidget("Table", group, "");
-  addWidget("DatePicker", group, "");
+  addWidget("ListBox", group, "", 0);
+  addWidget("Timer", group, "", 0);
+  addWidget("ScriptObject", group, "", 0);
+  addWidget("RichTextEditor", group, "", 0);
+  addWidget("TreeWidget", group, "", 0);
+  addWidget("StatusBar", group, "", 0);
+  addWidget("TextBrowser", group, "", 0);
+  addWidget("Slider", group, "", 0);
+  addWidget("Table", group, "", 0);
+  addWidget("DatePicker", group, "", 0);
 }
 
 QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *name )

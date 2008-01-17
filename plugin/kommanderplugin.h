@@ -40,6 +40,7 @@
 #include "kommander_export.h"
 
 class QWidget;
+class QIconSet;
 
 class KOMMANDER_EXPORT KommanderPlugin : public QObject 
 {
@@ -48,7 +49,7 @@ class KOMMANDER_EXPORT KommanderPlugin : public QObject
     KommanderPlugin();
     ~KommanderPlugin();
 
-    virtual void addWidget( const QString &name, const QString &group, const QString &toolTip, const QString &whatsThis = QString::null, bool isContainer = false);
+    virtual void addWidget( const QString &name, const QString &group, const QString &toolTip, QIconSet *iconSet, const QString &whatsThis = QString::null, bool isContainer = false);
     virtual void removeWidget( const QString &name );
     virtual QStringList widgets() const;
 
@@ -57,6 +58,7 @@ class KOMMANDER_EXPORT KommanderPlugin : public QObject
     virtual QString toolTip( const QString &key ) const;
     virtual QString whatsThis( const QString &key ) const;
     virtual bool isContainer( const QString &key ) const;
+    virtual QIconSet *iconSet( const QString &key ) const;
 
     /**
      * Sets the default group for functions. Must be called before registerFunction.
@@ -81,15 +83,16 @@ class KOMMANDER_EXPORT KommanderPlugin : public QObject
 private:
     struct WidgetInfo
     {
-	WidgetInfo() { }
-	WidgetInfo( const QString &g, const QString &t, const QString &w = QString::null, bool c = false)
-	    : group( g ), toolTip( t ), whatsThis( w ), isContainer( c )
-	{
-	}
-	QString group;
-	QString toolTip;
-	QString whatsThis;
-	bool isContainer;
+      WidgetInfo() { }
+      WidgetInfo( const QString &g, const QString &t, QIconSet *i, const QString &w = QString::null, bool c = false)
+          : group( g ), toolTip( t ), iconSet(i), whatsThis( w ), isContainer( c )
+      {}
+
+      QString group;
+      QString toolTip;
+      QIconSet *iconSet;
+      QString whatsThis;
+      bool isContainer;
     };
     typedef QMap<QString, WidgetInfo> WidgetInfos;
     WidgetInfos m_widgets;

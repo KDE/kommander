@@ -480,7 +480,7 @@ FeatureList KommanderFactory::featureList()
 	for( it = widgets.begin() ; it != widgets.end() ; ++it )
 	{
 	    QString wn = *it;
-	    features[wn] = KommanderWidgetInfo( p->group(wn), p->toolTip(wn), p->whatsThis(wn), p->isContainer(wn) );
+	    features[wn] = KommanderWidgetInfo( p->group(wn), p->toolTip(wn),p->iconSet(wn), p->whatsThis(wn), p->isContainer(wn) );
 	}
     }
     return features;

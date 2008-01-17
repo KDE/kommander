@@ -36,17 +36,19 @@ class QLayout;
 class QDomElement;
 class QListViewItem;
 class QTable;
+class QIconSet;
 class KommanderPlugin;
 
 struct KommanderWidgetInfo
 {
     KommanderWidgetInfo() {}
-    KommanderWidgetInfo( const QString &g, const QString &t, const QString &w = QString::null, bool c = FALSE )
-	: group( g ), toolTip( t ), whatsThis( w ), isContainer( c )
+    KommanderWidgetInfo( const QString &g, const QString &t, QIconSet *i, const QString &w = QString::null, bool c = FALSE )
+	: group( g ), toolTip( t ), iconSet(i), whatsThis( w ), isContainer( c )
     {
     }
     QString group;
     QString toolTip;
+    QIconSet *iconSet;
     QString whatsThis;
     bool isContainer;
 };

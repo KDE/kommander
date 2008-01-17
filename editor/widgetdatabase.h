@@ -35,10 +35,10 @@ struct WidgetDatabaseRecord
 {
     WidgetDatabaseRecord();
     ~WidgetDatabaseRecord();
-    QString iconSet, name, group, toolTip, whatsThis, includeFile;
+    QString iconName, name, group, toolTip, whatsThis, includeFile;
     uint isContainer : 1;
     uint isForm : 1;
-    QIconSet *icon;
+    QIconSet *iconSet;
     int nameCounter;
 };
 

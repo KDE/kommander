@@ -130,6 +130,7 @@
   <kdevautoproject>
     <make>
       <envvars>
+        <envvar value="no" name="UNSERMAKE" />
         <envvar value="1" name="WANT_AUTOCONF_2_5" />
         <envvar value="1" name="WANT_AUTOMAKE_1_6" />
       </envvars>
@@ -165,7 +166,7 @@
     </configurations>
     <run>
       <mainprogram>/data/development/build/kde-3.5/kdewebdev/kommander/executor/.libs/kmdr-executor</mainprogram>
-      <programargs>/data/development/quanta/test-script.kmdr</programargs>
+      <programargs>/data/development/quanta/test-buttons.kmdr</programargs>
       <terminal>false</terminal>
       <envvars/>
       <directoryradio>build</directoryradio>
@@ -173,7 +174,7 @@
       <autocompile>true</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <globaldebugarguments>/data/development/quanta/test-script.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/quanta/test-buttons.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-3.5/kdewebdev/</globalcwd>
       <useglobalprogram>true</useglobalprogram>
     </run>
