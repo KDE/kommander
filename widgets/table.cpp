@@ -17,6 +17,7 @@
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
+#include <qmetaobject.h>
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
@@ -87,7 +88,7 @@ QString Table::selectedArea()
 bool Table::isFunctionSupported(int f)
 {
   return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
-      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText || f == DCOP::setCellWidget ||
+      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText || f == DCOP::setCellWidget || f == DCOP::cellWidget ||
       f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
       f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection;
 }
@@ -98,13 +99,26 @@ void Table::setCellWidget(int row, int col, const QString & _widgetName)
   if (w)
   {
     QWidget *widget = static_cast<QWidget*>(w->object());
-    if (cellWidget(row, col) != widget)
+    if (QTable::cellWidget(row, col) != widget)
     { 
       clearCellWidget(row, col);
       QTable::setCellWidget(row, col, widget);
     }
   } else
     clearCellWidget(row, col);
+}
+
+QString Table::cellWidget(int row, int col)
+{
+
+  QWidget *widget = QTable::cellWidget(row, col);
+  if (widget)  
+  {
+    KommanderWidget *w = widgetByName(widget->name());
+    if (w)
+      return widget->name();
+  }
+  return QString();
 }
 
 QString Table::handleDCOP(int function, const QStringList& args)
@@ -118,6 +132,9 @@ QString Table::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::setCellWidget:
       setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);
+      break;
+    case DCOP::cellWidget:
+      return cellWidget(args[0].toInt(), args[1].toInt());
       break;
     case DCOP::insertRow:
       insertRows(args[0].toInt(), args.count() == 1 ? 1 : args[1].toInt());

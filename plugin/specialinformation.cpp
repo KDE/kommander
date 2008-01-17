@@ -304,7 +304,7 @@ void SpecialInformation::registerSpecials()
          i18n("Returns index of current item."), 1);
   insert(DCOP::currentRow, "currentRow(QString widget)", 
          i18n("Returns index of current row."), 1);
-  insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1, 9);
+  insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget. In case of scriptobject, the execute method can take one or more arguments."), 1, 9);
   insert(DCOP::findItem, "findItem(QString widget, QString item)",
          i18n("Returns the index of an item with the given text."), 2);
   insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
@@ -342,6 +342,8 @@ void SpecialInformation::registerSpecials()
          i18n("Sets text of a cell in a table."), 4);
   insert(DCOP::setCellWidget, "setCellWidget(QString widget, int row, int col, QString cellWidget)",
          i18n("Inserts a widget into a cell of a table."), 4);
+  insert(DCOP::cellWidget, "cellWidget(QString widget, int row, int col)",
+         i18n("Returns the name of a widget inserted into a cell, or an empty string if the cell contains no widget or an unknown widget type."), 3);
   insert(DCOP::setChecked, "setChecked(QString widget, bool checked)",
          i18n("Sets/unsets checkbox."), 2);
   insert(DCOP::setColumnCaption, "setColumnCaption(QString widget, int column, QString text)",
@@ -368,6 +370,8 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DCOP::type, "type(QString widget)",
      i18n("Returns type(class) of widget."), 1);
+  insert(DCOP::setEditable, "setEditable(QString widget, bool editable)", 
+     i18n("Makes the widget editable or read only, depending on the editable argument."), 2);
 
   insertGroup(Group::Slots, i18n("Slots"), "");
 

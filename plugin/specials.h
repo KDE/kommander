@@ -33,7 +33,7 @@ namespace DCOP
     item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
     setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
     setRowCaption, setSelection, setText, 
-    setVisible, text, type, setCellWidget};
+    setVisible, text, type, setCellWidget, cellWidget, setEditable};
 }
 
 namespace Kommander

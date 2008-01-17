@@ -214,7 +214,7 @@ void RichTextEditor::showEvent( QShowEvent *e )
 
 bool RichTextEditor::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::selection;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::selection || f == DCOP::setEditable;
 }
 
 QString RichTextEditor::handleDCOP(int function, const QStringList& args)
@@ -229,6 +229,9 @@ QString RichTextEditor::handleDCOP(int function, const QStringList& args)
       return m_textedit->selectedText();
     case DCOP::clear:
       setWidgetText("");
+      break;
+    case DCOP::setEditable:
+      m_textedit->setReadOnly(args[0] == "false" || args[0] == "0");
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

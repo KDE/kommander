@@ -56,7 +56,8 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
     virtual void setWidgetText(const QString &);
   private:
     QString selectedArea();
-    virtual void setCellWidget(int row, int col, const QString &widgetName);
+    QString cellWidget(int row, int col);
+    void setCellWidget(int row, int col, const QString &widgetName);
 };
 
 #endif

@@ -94,7 +94,7 @@ void TextEdit::showEvent(QShowEvent * e)
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable;
 }
 
 QString TextEdit::handleDCOP(int function, const QStringList& args)
@@ -112,6 +112,9 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::clear:
       setWidgetText(QString());
+      break;
+    case DCOP::setEditable:
+      setReadOnly(args[0] == "false" || args[0] == "0");
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

@@ -99,7 +99,7 @@ bool ComboBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::selection || f == DCOP::setSelection ||
       f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || 
       f == DCOP::removeItem || f == DCOP::insertItem || f == DCOP::insertItems ||
-      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count;
+      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count || f == DCOP::setEditable;
 }
 
 QString ComboBox::handleDCOP(int function, const QStringList& args)
@@ -154,6 +154,9 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
         }
       break;
     }
+    case DCOP::setEditable:
+      setEditable(args[0] != "false" && args[0] != "0");
+      break;
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

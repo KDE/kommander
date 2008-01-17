@@ -94,7 +94,7 @@ void LineEdit::setWidgetText(const QString& a_text)
 bool LineEdit::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
-    f == DCOP::clear;
+    f == DCOP::clear || f == DCOP::setEditable;
 }
 
 QString LineEdit::handleDCOP(int function, const QStringList& args)
@@ -112,6 +112,9 @@ QString LineEdit::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::clear:
       setWidgetText("");
+      break;
+    case DCOP::setEditable:
+      setReadOnly(args[0] == "false" || args[0] == "0");
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);
