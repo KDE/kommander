@@ -48,6 +48,6 @@ METASOURCES = AUTO
 xdg_apps_DATA = kmdr-editor.desktop
 
 syntaxkatedir = $(kde_datadir)/katepart/syntax
-syntaxkate_DATA = kommander.xml
+syntaxkate_DATA = kommander.xml kommander-new.xml
 
 

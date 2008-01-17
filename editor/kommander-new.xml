@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd"
+[
+	<!ENTITY funcname "[A-Za-z_:][A-Za-z0-9_:#&#37;@-]*">
+	<!ENTITY varname  "[A-Za-z_][A-Za-z0-9_]*">
+	<!ENTITY word     "[^|&amp;;()&lt;&gt;\s]+">	<!-- see man bash -->
+	<!ENTITY eos      "(?=($|\s))">			<!-- eol or space following -->
+	<!ENTITY noword   "(?![\w$+-])">		<!-- no word, $, + or - following -->
+]>
+<language name="Kommander (new parser)" version="1.0" kateversion="2.4" section="Scripts" extensions="*.kmdr" mimetype="application/x-shellscript" casesensitive="1" author="Wilbert Berendsen (wilbert@kde.nl), Andras Mantia (amantia@kde.org)" license="LGPL">
+
+<!-- (c) 2004 by Wilbert Berendsen, wilbert@kde.nl
+    Released under the LGPL, part of kdelibs/kate 
+    
+   Added Kommander specific highlighting.    
+   (c) 2006 Andras Mantia, amantia@kde.org
+-->
+
+  <highlighting>
+  
+    <list name="kmdrdcopfunctions">
+      <item>addUniqueItem</item>
+      <item>associatedText</item>
+      <item>cancel</item>
+      <item>cellText</item>
+      <item>clear</item>
+      <item>checked</item>
+      <item>children</item>
+      <item>count</item>
+      <item>currentColumn</item>
+      <item>currentItem</item>
+      <item>currentRow</item>
+      <item>execute</item> 
+      <item>findItem</item>
+      <item>global</item>
+      <item>insertColumn</item>
+      <item>insertItem</item>
+      <item>insertItems</item>
+      <item>insertRow</item>
+      <item>item</item>
+      <item>itemDepth</item>
+      <item>itemPath</item>
+      <item>removeColumn</item>
+      <item>removeItem</item>
+      <item>removeRow</item>
+      <item>selection</item>
+      <item>setAssociatedText</item>
+      <item>setChecked</item>
+      <item>setCellText</item>
+      <item>setCurrentItem</item>
+      <item>setColumnCaption</item>
+      <item>setEnabled</item>
+      <item>setGlobal</item>
+      <item>setMaximum</item>
+      <item>setPixmap</item>
+      <item>setRowCaption</item>
+      <item>setSelection</item>
+      <item>setText</item>
+      <item>setVisible</item>
+      <item>text</item>
+      <item>type</item>
+      <item>setCellWidget</item>
+      <item>cellWidget</item>
+      <item>setEditable</item>
+      <item>type</item>
+      <item>insertTab</item>
+    </list>
+    
+    <list name="kmdrfunctions">
+      <item>widgetText</item>
+      <item>selectedWidgetText</item>
+      <item>null</item>
+      <item>pid</item>
+      <item>dcopid</item>
+      <item>parentPid</item>
+      <item>debug</item>
+      <item>echo</item>
+      <item>env</item>
+      <item>exec</item>
+      <item>expr</item>
+      <item>global</item>
+      <item>i18n</item>
+      <item>dialog</item>
+      <item>readSetting</item>
+      <item>setGlobal</item>
+      <item>writeSetting</item>
+      <item>dcop</item>
+      <item>switchBlock</item>
+      <item>execBegin</item>
+      <item>forBlock</item>
+      <item>forEachBlock</item>
+      <item>ifBlock</item>
+      <item>comment</item>
+      <item>createWidget</item>
+      <item>return</item>
+      <item>internalDcop</item>
+      <item>executeSlot</item>
+    </list>
+    
+    <list name="kmdrarray">
+      <item>array_values</item>
+      <item>array_keys</item>
+      <item>array_clear</item>
+      <item>array_count</item>
+      <item>array_value</item>
+      <item>array_remove</item>
+      <item>array_setValue</item>
+      <item>array_fromString</item>
+      <item>array_toString</item>
+    </list>
+    
+    <list name="kmdrstring">
+      <item>str_length</item>
+      <item>str_contains</item>
+      <item>str_find</item>
+      <item>str_findRev</item>
+      <item>str_left</item>
+      <item>str_right</item>
+      <item>str_mid</item>
+      <item>str_remove</item>
+      <item>str_replace</item>
+      <item>str_upper</item>
+      <item>str_lower</item>
+      <item>str_compare</item>
+      <item>str_isEmpty</item>
+      <item>str_isNumber</item>
+      <item>str_section</item>
+      <item>str_args</item>
+      <item>str_toint</item>
+      <item>str_todouble</item>
+    </list>
+    
+    <list name="kmdrfile">
+      <item>file_read</item>
+      <item>file_write</item>
+      <item>file_append</item>
+    </list>
+    
+    <list name="kmdrinput">
+      <item>input_color</item>
+      <item>input_text</item>
+      <item>input_password</item>
+      <item>input_value</item>
+      <item>input_double</item>
+      <item>input_valueDouble</item>
+      <item>input_openfile</item>
+      <item>input_openfiles</item>
+      <item>input_savefile</item>
+      <item>input_directory</item>
+    </list>
+    
+    <list name="kmdrmessage">
+      <item>message_info</item>
+      <item>message_error</item>
+      <item>message_question</item>
+      <item>message_warning</item>
+    </list>
+    
+  
+    <list name="keywords">
+      <item> else </item>
+      <item> for </item>
+      <item> function </item>
+      <item> in </item>
+      <item> select </item>
+      <item> until </item>
+      <item> while </item>
+      <item> . </item>
+      <item> elif </item>
+      <item> then </item>
+      <item> set </item>
+      <item> foreach </item>
+      <item> end </item>
+      <item> endif </item>
+      <item> do </item>
+    </list>
+            
+    <contexts>
+      <context attribute="Normal Text" lineEndContext="#stay" name="Start">
+      	<IncludeRules context="FindAll" />
+      </context>
+
+<!-- ====== The following rulessets are meant to be included ======== -->
+      <!-- FindAll tries to interpret everything -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="FindAll">
+      	<IncludeRules context="FindComments" />
+      	<IncludeRules context="FindCommands" />
+	    <IncludeRules context="FindStrings" />
+	    <IncludeRules context="FindSubstitutions" />      
+	    <IncludeRules context="FindOthers" />
+      </context>
+
+      <!-- FindComments consumes shell comments till EOL -->
+      <context attribute="Normal Text" lineEndContext="#pop" name="FindComments">
+        <Detect2Chars attribute="Comment" context="Comment" char="/" char1="/" firstNonSpace="true"/>
+	    <RegExpr attribute="Normal Text" context="Comment" String="[\s;](?=/)" />
+      </context>
+      
+      <context attribute="Comment" lineEndContext="#pop" name="Comment">
+	     <IncludeRules context="##Alerts" />
+      </context>
+                  
+      <!-- FindCommands matches many items that can be expected outside strings, substitutions etc. -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="FindCommands">
+      	<!-- start expression in double parentheses -->
+      	<Detect2Chars attribute="Keyword" context="ExprDblParen" char="(" char1="(" beginRegion="expression" />
+        <!-- start expression in double brackets -->
+        <RegExpr attribute="Keyword" context="ExprDblBracket" String="\[\[&eos;" beginRegion="expression" column="0"/>
+        <RegExpr attribute="Keyword" context="ExprDblBracket" String="\s\[\[&eos;" beginRegion="expression" />
+        <!-- start expression in single brackets -->
+        <RegExpr attribute="Builtin" context="ExprBracket" String="\[&eos;" beginRegion="expression" column="0"/>
+        <RegExpr attribute="Builtin" context="ExprBracket" String="\s\[&eos;" beginRegion="expression" />
+        <!-- start a group command with { -->
+        <RegExpr attribute="Keyword" context="Group" String="\{&eos;" beginRegion="group" />
+        <!-- match do and if blocks -->
+        <RegExpr attribute="Keyword" context="#stay" String="\bdo&noword;" beginRegion="do" />
+      	<RegExpr attribute="Keyword" context="#stay" String="\bdone&noword;" endRegion="do" />
+      	<RegExpr attribute="Keyword" context="#stay" String="\bif&noword;" beginRegion="if" />
+      	<RegExpr attribute="Keyword" context="#stay" String="\bfi&noword;" endRegion="if" />
+      	<!-- handle case as a special case -->
+        <RegExpr attribute="Keyword" context="Case" String="\bcase&noword;" beginRegion="case" />
+        <!-- handle command line options -->
+        <RegExpr attribute="Option" context="#stay" String="-[A-Za-z0-9]+" />
+        <RegExpr attribute="Option" context="#stay" String="--[a-z][A-Za-z0-9_-]*" />
+        <!-- handle keywords -->
+        <keyword attribute="Keyword" context="#stay" String="keywords" />
+            <!-- handle here-string -->
+        <StringDetect attribute="Redirection" context="#stay" String="&lt;&lt;&lt;" />
+        <!-- handle &, &&, | and || -->
+        <RegExpr attribute="Control" context="#stay" String="([|&amp;])\1?" />
+        <!-- Kommander rules -->        
+        <RegExpr attribute="KmdrMethod" context="DetectKmdr" String="\b&varname;[\.|\[]" lookAhead="true"/>
+        <RegExpr attribute="KmdrMethod" context="DetectKmdrMethod" String="kmdrfunctions\(" />        
+        <keyword attribute="DCOPMethod" context="#pop" String="kmdrfunctions" />  
+        <keyword attribute="KmdrArray" context="#stay" String="kmdrarray" />      
+        <keyword attribute="KmdrString" context="#stay" String="kmdrstring" />        
+        <keyword attribute="KmdrFile" context="#stay" String="kmdrfile" />        
+        <keyword attribute="KmdrInput" context="#stay" String="kmdrinput" />        
+        <keyword attribute="KmdrMessage" context="#stay" String="kmdrmessage" />   
+        <!-- handle variable assignments -->
+        <RegExpr attribute="GlobalVariable" context="#stay" String="\b_&varname;" />
+        <RegExpr attribute="Variable" context="#stay" String="\b&varname;" />
+      </context>
+      
+      <!-- Kommander rules -->      
+        
+      <context attribute="KmdrVariable" lineEndContext="FindAll" name="DetectKmdr">
+        <RegExpr attribute="KmdrMethod" context="#stay" String="&varname;" />        
+        <DetectChar attribute="Normal Text" context="#pop" char="(" lookAhead="true"/>
+        <DetectChar attribute="Normal Text" context="#pop" char=")" lookAhead="true"/>
+        <DetectChar attribute="Normal Text" context="#pop" char="[" lookAhead="true"/>
+        <DetectChar attribute="Normal Text" context="#pop" char="]" lookAhead="true"/>
+       <DetectChar attribute="KmdrMethod" context="DetectKmdrMethod" char="." lookAhead="true"/>
+        <RegExpr attribute="Normal Text" context="#pop" String="[\s\=\;\+\-\*\/\%]+" />
+     
+      </context>
+      <context attribute="DCOPMethod" lineEndContext="FindAll" name="DetectKmdrMethod">
+        <DetectChar attribute="Normal Text" context="FindAll" char="(" lookAhead="true"/>
+        <DetectChar attribute="Normal Text" context="FindAll" char=")" lookAhead="true"/>
+      </context>
+
+      <!-- FindOthers contains various rules to mark different shell input -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="FindOthers">
+      	<RegExpr attribute="Escape" context="#stay" String="\\[][;&quot;\\'$`{}()|&amp;&lt;&gt;* ]" />
+	    <RegExpr attribute="Keyword" context="#stay" String="\\$" />
+	    <RegExpr attribute="Escape" context="#stay" String="\{(?!(\s|$))\S*\}" />
+        <RegExpr attribute="Path" context="#stay" String="\.?/[\w_@.+-]+(?=([\s/):]|$))" />
+	<!-- TODO: shell globs -->
+      </context>
+      
+      <!-- FindStrings looks for single and double quoted strings, also with $-prefix -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="FindStrings">
+	<DetectChar attribute="String SingleQ" context="StringSQ" char="'" />
+	<DetectChar attribute="String DoubleQ" context="StringDQ" char="&quot;" />
+	<Detect2Chars attribute="String SingleQ" context="StringEsc" char="$" char1="'" />
+	<Detect2Chars attribute="String Transl." context="StringDQ" char="$" char1="&quot;" />
+      </context>
+            
+      <!-- FindSubstitutions goes after anything starting with $ and ` and their escapes -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="FindSubstitutions">
+	<RegExpr attribute="Variable" context="#stay" String="\$[*@#?$!_0-9-]" />
+	<RegExpr attribute="Variable" context="Subscript" String="\$&varname;\[" />
+	<RegExpr attribute="Variable" context="#stay" String="\$&varname;" />
+	<RegExpr attribute="Variable" context="#stay" String="\$\{[*@#?$!_0-9-]\}" />
+	<RegExpr attribute="Variable" context="#stay" String="\$\{#&varname;\}" />
+	<RegExpr attribute="Variable" context="#stay" String="\$\{!&varname;\*?\}" />
+	<RegExpr attribute="Variable" context="VarBrace" String="\$\{&varname;" />
+	<RegExpr attribute="Variable" context="VarBrace" String="\$\{[*@#?$!_0-9-](?=[:#%/])" />
+	<StringDetect attribute="Variable" context="ExprDblParenSubst" String="$((" beginRegion="expression" />
+	<StringDetect attribute="Redirection" context="SubstFile" String="$(&lt;" />
+        <StringDetect attribute="Variable" context="SubstCommand" String="$(" />
+	<DetectChar attribute="Backquote" context="SubstBackq" char="`" />
+	<RegExpr attribute="Escape" context="#stay" String="\\[`$\\]" />
+      </context>
+
+      
+      
+
+      
+<!-- ====== These are the contexts that can be branched to ======= -->
+
+      <!-- ExprDblParen consumes an expression started in command mode till )) -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="ExprDblParen">
+      	<Detect2Chars attribute="Keyword" context="#pop" char=")" char1=")" endRegion="expression" />
+	<DetectChar attribute="Normal Text" context="ExprSubParen" char="(" />
+	<IncludeRules context="FindAll" />
+      </context>
+      
+      <!-- ExprDblParenSubst like ExprDblParen but matches )) as Variable -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="ExprDblParenSubst">
+      	<Detect2Chars attribute="Variable" context="#pop" char=")" char1=")" endRegion="expression" />
+	<DetectChar attribute="Normal Text" context="ExprSubParen" char="(" />
+	<IncludeRules context="FindAll" />
+      </context>
+
+      <!-- ExprSubParen consumes an expression till ) -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="ExprSubParen">
+      	<DetectChar attribute="Normal Text" context="#pop" char=")" />
+	<DetectChar attribute="Normal Text" context="ExprSubParen" char="(" />
+	<IncludeRules context="FindAll" />
+      </context>
+
+      <!-- ExprBracket consumes an expression till ] -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="ExprBracket">
+      	<RegExpr attribute="Builtin" context="#pop" String="\s\](?=($|[\s;|&amp;]))" endRegion="expression" />
+      	<RegExpr attribute="Builtin" context="#pop" String="\](?=($|[\s;|&amp;]))" endRegion="expression" column="0"/>
+	<DetectChar attribute="Normal Text" context="ExprSubParen" char="(" />
+	<IncludeRules context="FindAll" />
+      </context>
+
+      <!-- ExprDblBracket consumes an expression till ]] -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="ExprDblBracket">
+      	<RegExpr attribute="Keyword" context="#pop" String="\s\]\](?=($|[\s;|&amp;]))" endRegion="expression" />
+      	<RegExpr attribute="Keyword" context="#pop" String="\]\](?=($|[\s;|&amp;]))" endRegion="expression" column="0"/>
+	<DetectChar attribute="Normal Text" context="ExprSubParen" char="(" />
+	<IncludeRules context="FindAll" />
+      </context>
+
+      <!-- Group consumes shell input till } -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="Group">
+	<DetectChar attribute="Keyword" context="#pop" char="}" endRegion="group" />
+      	<IncludeRules context="FindAll" />
+      </context>      
+
+      <!-- SubShell consumes shell input till ) -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="SubShell">
+	<DetectChar attribute="Keyword" context="#pop" char=")" endRegion="subshell" />
+      	<IncludeRules context="FindAll" />
+      </context>      
+
+      <!-- Assign consumes an expression till EOL or whitespace -->
+      <context attribute="Normal Text" lineEndContext="#pop" name="Assign" fallthrough="true" fallthroughContext="#pop">
+      	<DetectChar attribute="Variable" context="AssignArray" char="(" />
+	<IncludeRules context="FindStrings" />
+	<IncludeRules context="FindSubstitutions" />      
+	<IncludeRules context="FindOthers" />
+	<RegExpr attribute="Normal Text" context="#stay" String="[\w:,+_./-]+" />
+      </context>
+
+      <!-- AssignArray consumes everything till ), marking assignments -->
+      <context attribute="Normal Text" lineEndContext="#pop" name="AssignArray">
+      	<DetectChar attribute="Variable" context="#pop" char=")" />
+	<DetectChar attribute="Variable" context="Subscript" char="[" />
+	<DetectChar attribute="Variable" context="Assign" char="=" />
+	<IncludeRules context="FindAll" />
+      </context>
+      
+      <!-- AssignSubscr first expects a [ then parses subscript and continues with '=value' -->
+      <context attribute="Normal Text" lineEndContext="#pop" name="AssignSubscr" fallthrough="true" fallthroughContext="#pop">
+      	<DetectChar attribute="Variable" context="Subscript" char="[" />
+	<DetectChar attribute="Variable" context="Assign" char="=" />
+	<IncludeRules context="FindStrings" />
+	<IncludeRules context="FindSubstitutions" />      
+	<IncludeRules context="FindOthers" />
+      </context>
+
+      <!-- Subscript consumes anything till ], marks as Variable -->
+      <context attribute="Variable" lineEndContext="#stay" name="Subscript">
+      	<DetectChar attribute="Variable" context="#pop" char="]" />
+	<IncludeRules context="FindStrings" />
+	<IncludeRules context="FindSubstitutions" />      
+	<IncludeRules context="FindOthers" />
+      </context>
+      
+      <!-- FunctionDef consumes a name, possibly with (), marks as Function -->
+      <context attribute="Function" lineEndContext="#pop" name="FunctionDef" fallthrough="true" fallthroughContext="#pop">
+      	<RegExpr attribute="Function" context="#pop" String="\s+&funcname;(\s*\(\))?" />
+      </context>            
+      
+      <!-- VarName consumes spare variable names and assignments -->
+      <context attribute="Normal Text" lineEndContext="#pop" name="VarName" fallthrough="true" fallthroughContext="#pop">
+	<!-- handle command line options -->
+	<RegExpr attribute="Option" context="#stay" String="-[A-Za-z0-9]+" />
+	<RegExpr attribute="Option" context="#stay" String="--[a-z][A-Za-z0-9_-]*" />
+	<RegExpr attribute="Variable" context="#stay" String="\b&varname;" />
+	<DetectChar attribute="Variable" context="Subscript" char="[" />
+	<DetectChar attribute="Variable" context="Assign" char="=" />
+	<IncludeRules context="FindAll" />
+	<!-- stay here in spaces and other safe characters -->
+	<RegExpr attribute="Normal Text" context="#stay" String="[^]})|;`&amp;&gt;&lt;]" />
+      </context>
+      
+      <!-- StringSQ consumes anything till ' -->            
+      <context attribute="String SingleQ" lineEndContext="#stay" name="StringSQ">
+        
+      	<DetectChar attribute="String SingleQ" context="#pop" char="'" />
+      </context>
+
+      <!-- StringDQ consumes anything till ", substitutes vars and expressions -->
+      <context attribute="String DoubleQ" lineEndContext="#stay" name="StringDQ">
+      	<DetectChar attribute="String DoubleQ" context="#pop" char="&quot;" />
+      	<RegExpr attribute="String Escape" context="#stay" String="\\[`&quot;\\$\n]" />
+	<IncludeRules context="FindSubstitutions" />
+      </context>
+      
+      <!-- StringEsc eats till ', but escaping many characters -->
+      <context attribute="String SingleQ" lineEndContext="#stay" name="StringEsc">
+      	<DetectChar attribute="String SingleQ" context="#pop" char="'" />
+      	<RegExpr attribute="String Escape" context="#stay" String="\\[abefnrtv\\']" />
+      	<RegExpr attribute="String Escape" context="#stay" String="\\([0-7]{1,3}|x[A-Fa-f0-9]{1,2}|c.)" />
+      </context>
+
+      <!-- VarBrace is called as soon as ${xxx is encoutered -->
+      <context attribute="Variable" lineEndContext="#stay" name="VarBrace">
+        <DetectChar attribute="Variable" context="#pop" char="}" />
+      	<DetectChar attribute="Variable" context="Subscript" char="[" />
+	<IncludeRules context="FindStrings" />
+	<IncludeRules context="FindSubstitutions" />
+	<!-- TODO: highlight various special parameter expansions } -->
+      </context>
+      
+      <!-- SubstFile is called after a <( or >( is encoutered -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="SubstFile">
+      	<DetectChar attribute="Redirection" context="#pop" char=")" />
+	<IncludeRules context="FindStrings" />
+	<IncludeRules context="FindSubstitutions" />      
+	<IncludeRules context="FindOthers" />
+      </context>
+      
+      <!-- SubstCommand is called after a $( is encountered -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="SubstCommand">
+      	<DetectChar attribute="Variable" context="#pop" char=")" />
+	<IncludeRules context="FindCommands" />
+	<IncludeRules context="FindStrings" />
+	<IncludeRules context="FindSubstitutions" />      
+	<IncludeRules context="FindOthers" />
+      </context>
+      
+      <!-- SubstBackq is called when a backquote is encountered -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="SubstBackq">
+      	<DetectChar attribute="Keyword" context="#pop" char="`" />
+	<IncludeRules context="FindCommands" />
+	<IncludeRules context="FindStrings" />
+	<IncludeRules context="FindSubstitutions" />      
+	<IncludeRules context="FindOthers" />
+      </context>
+
+      <!-- Case is called after the case keyword is encoutered. We handle this because of
+           the lonely closing parentheses that would otherwise disturb the expr matching -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="Case">
+        <RegExpr attribute="Keyword" context="CaseIn" String="\sin\b" />
+        <IncludeRules context="FindAll" />
+      </context>
+
+      <!-- CaseIn is called when the construct 'case ... in' has been found. -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="CaseIn">
+        <RegExpr attribute="Keyword" context="#pop#pop" String="\besac(?=$|[\s;)])" endRegion="case" />
+      	<DetectChar attribute="Keyword" context="CaseExpr" char=")" beginRegion="caseexpr" />
+	<AnyChar attribute="Keyword" context="#stay" String="(|" />
+        <IncludeRules context="FindAll" />
+      </context>
+
+      <!-- CaseExpr eats shell input till ;; -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="CaseExpr">
+        <Detect2Chars attribute="Keyword" context="#pop" char=";" char1=";" endRegion="caseexpr" />
+	<IncludeRules context="FindAll" />
+      </context>
+
+
+    </contexts>
+    
+    <itemDatas>
+      <itemData name="Normal Text"	defStyleNum="dsNormal" />
+      <itemData name="Comment"		defStyleNum="dsComment" />
+      <itemData name="Keyword" 		defStyleNum="dsKeyword" />
+      <itemData name="Control" 		defStyleNum="dsKeyword" />
+      <itemData name="Builtin" 		defStyleNum="dsKeyword" color="#808" />
+      <itemData name="Command" 		defStyleNum="dsKeyword" color="#c0c" />
+      <itemData name="Redirection" 	defStyleNum="dsKeyword" color="#238" />
+      <itemData name="Escape" 		defStyleNum="dsDataType" />
+      <itemData name="String SingleQ" 	defStyleNum="dsString" />
+      <itemData name="String DoubleQ" 	defStyleNum="dsString" />
+      <itemData name="Backquote" 	defStyleNum="dsKeyword" />
+      <itemData name="String Transl." 	defStyleNum="dsString" />
+      <itemData name="String Escape" 	defStyleNum="dsDataType" />
+      <itemData name="Variable" 	defStyleNum="dsOthers" />
+      <itemData name="Expression" 	defStyleNum="dsOthers" />
+      <itemData name="Function" 	defStyleNum="dsChar" bold="1" />
+      <itemData name="Path" 		defStyleNum="dsNormal" />
+      <itemData name="Option" 		defStyleNum="dsNormal" />
+      <itemData name="GlobalVariable"     defStyleNum="dsOthers" bold="1" />
+      <itemData name="KmdrMethod" defStyleNum="dsKeyword" italic="1" color="#008000" />
+      <itemData name="DCOPMethod" defStyleNum="dsKeyword" italic="1" color="#21E52B" />
+      <itemData name="KmdrString" defStyleNum="dsKeyword" italic="1" color="#D0D000" />
+      <itemData name="KmdrArray" defStyleNum="dsKeyword" italic="1" color="#C0C0FF" />
+      <itemData name="KmdrFile" defStyleNum="dsKeyword" italic="1" color="#FF0000" />
+      <itemData name="KmdrInput" defStyleNum="dsKeyword" italic="1" color="#FF8000" />
+      <itemData name="KmdrMessage" defStyleNum="dsKeyword" italic="1" color="#800000" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start="//"/>
+    </comments>
+    <keywords casesensitive="1" weakDeliminator="^%#[]$._{}:-" additionalDeliminator="`."/>
+  </general>
+</language>

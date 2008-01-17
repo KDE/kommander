@@ -127,23 +127,6 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   highlightPopup = new KPopupMenu(popup);
   connect(highlightPopup, SIGNAL(activated(int)), SLOT(slotHighlightingChanged(int)));
 
-  KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
-  if (hlIf)
-  {
-    uint hlCount = hlIf->hlModeCount();
-    for (uint i = 0; i < hlCount; i++)
-    {
-      if (hlIf->hlModeSectionName(i) == "Scripts")
-        highlightPopup->insertItem(hlIf->hlModeName(i), i);
-      if (hlIf->hlModeName(i).contains("Kommander", false) > 0)
-      {
-        hlIf->setHlMode(i);
-        highlightPopup->setItemChecked(i, true);
-        oldHlMode = i;
-      }
-    }
-  }
-
   popup->insertItem(i18n("&Highlighting"), highlightPopup);
 
   KTextEditor::PopupMenuInterface *popupIf = dynamic_cast<KTextEditor::PopupMenuInterface *>(view);
@@ -315,6 +298,28 @@ void AssocTextEditor::stateChanged(int a_index)
     associatedTextEdit->setText(m_populationText);
   else
     associatedTextEdit->setText(m_atdict[m_currentState]);
+
+  highlightPopup->clear();
+  QString hlType = "Kommander (old parser)";
+  if (useInternalParser())
+    hlType = "Kommander (new parser)";  
+  KTextEditor::HighlightingInterface *hlIf = dynamic_cast<KTextEditor::HighlightingInterface*>(doc);
+  if (hlIf)
+  {
+    uint hlCount = hlIf->hlModeCount();
+    for (uint i = 0; i < hlCount; i++)
+    {
+      if (hlIf->hlModeSectionName(i) == "Scripts")
+        highlightPopup->insertItem(hlIf->hlModeName(i), i);
+      if (hlIf->hlModeName(i).contains(hlType, false) > 0)
+      {
+        hlIf->setHlMode(i);
+        highlightPopup->setItemChecked(i, true);
+        oldHlMode = i;
+      }
+    }
+  }
+
 }
 
 void AssocTextEditor::textEditChanged()

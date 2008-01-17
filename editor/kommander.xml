@@ -7,7 +7,7 @@
 	<!ENTITY eos      "(?=($|\s))">			<!-- eol or space following -->
 	<!ENTITY noword   "(?![\w$+-])">		<!-- no word, $, + or - following -->
 ]>
-<language name="Kommander" version="2.06" kateversion="2.4" section="Scripts" extensions="*.kmdr" mimetype="application/x-shellscript" casesensitive="1" author="Wilbert Berendsen (wilbert@kde.nl), Andras Mantia (amantia@kde.org)" license="LGPL">
+<language name="Kommander (old parser)" version="2.07" kateversion="2.4" section="Scripts" extensions="*.kmdr" mimetype="application/x-shellscript" casesensitive="1" author="Wilbert Berendsen (wilbert@kde.nl), Andras Mantia (amantia@kde.org)" license="LGPL">
 
 <!-- (c) 2004 by Wilbert Berendsen, wilbert@kde.nl
     Released under the LGPL, part of kdelibs/kate 
