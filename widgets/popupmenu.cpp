@@ -51,14 +51,14 @@ PopupMenu::PopupMenu(QWidget *parent, const char *name)
   connect(m_menu, SIGNAL(activated(int)), this, SLOT(slotMenuItemActivated(int)));
 
   KommanderPlugin::setDefaultGroup(Group::DCOP);
-  KommanderPlugin::registerFunction(INSERTMENUITEM, "insertMenuItem(QString widget, QString text, QString executeWidget, int index)",  i18n("Insert an item into the popup menu. The executeWidget's execute method will be run when this item is selected. Returns the id of the inserted item."), 3);
-  KommanderPlugin::registerFunction(INSERTSEPARATOR, "insertSeparator(QString widget, int index)",  i18n("Insert a separator item into the popup menu."), 1);
+  KommanderPlugin::registerFunction(INSERTMENUITEM, "insertMenuItem(QString widget, QString text, QString executeWidget, int index)",  i18n("Insert an item into the popup menu. The executeWidget's execute method will be run when this item is selected. Returns the id of the inserted item. Use -1 for index to insert to the end."), 3);
+  KommanderPlugin::registerFunction(INSERTSEPARATOR, "insertSeparator(QString widget, int index)",  i18n("Insert a separator item into the popup menu. Use -1 for index to insert to the end."), 1);
   KommanderPlugin::registerFunction(CHANGEMENUITEM, "changeMenuItem(QString widget, int id, QString text, QString executeWidget)",  i18n("Change an item specified by id in the popup menu. The executeWidget's execute method will be run when this item is selected."), 3);
   KommanderPlugin::registerFunction(SETITEMENABLED, "setItemEnabled(QString widget, int id, bool enable)",  i18n("Enable the item specified by id in the popup menu."), 2);
   KommanderPlugin::registerFunction(ITEMENABLED, "itemEnabled(QString widget, int id)",  i18n("Check if the item specified by id is enabled."), 1);
   KommanderPlugin::registerFunction(SETITEMVISIBLE, "setItemVisible(QString widget, int id, bool enable)",  i18n("Make the item specified by id visible."), 2);
   KommanderPlugin::registerFunction(ITEMVISIBLE, "itemVisible(QString widget, int id)",  i18n("Check if the item specified by id is visible."), 1);
-  KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString text, QString menuWidget, int index)",  i18n("Insert submenu widget into the popup menu."), 3);
+  KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString text, QString menuWidget, int index)",  i18n("Insert submenu widget into the popup menu. Use -1 for index to insert to the end."), 3);
 }
 
 
