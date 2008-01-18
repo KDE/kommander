@@ -213,13 +213,22 @@ ParseNode Parser::parseValue(Mode mode)
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
-      setError(i18n("'%1' is not a widget").arg(p.variableName()));
-      return ParseNode();
+      if (mode == Execute)
+      {
+        setError(i18n("'%1' is not a widget").arg(p.variableName()));
+        return ParseNode();
+      } else
+      {
+        //this means it looks like a widget, but it is unknown. As we only check
+        //the syntax, we should ignore the error an parse as a widget. 
+        m_start = m_start - 2;
+        return parseWidget(mode); 
+      }
     }
     else if (tryKeyword(LeftParenthesis, CheckOnly))
     {
-      setError(i18n("'%1' is not a function").arg(p.variableName()));
-      return ParseNode();
+       setError(i18n("'%1' is not a function").arg(p.variableName()));
+       return ParseNode();
     }
     else
       p = variable(p.variableName());
