@@ -52,6 +52,7 @@ private slots:
 private:
   KPopupMenu *m_menu;
   QMap<int, QString> m_associations;
+  QStringList m_params;
 };
 
 #endif

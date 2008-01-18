@@ -108,7 +108,7 @@ void PopupMenu::popup(int x, int y)
 void PopupMenu::slotMenuItemActivated(int id)
 {
   QString widget = m_associations[id];
-  KommanderWidget::evalAssociatedText(QString("#!kommander\n%1.execute()").arg(widget)); 
+  KommanderWidget::evalAssociatedText(QString("#!kommander\n%1.execute(%2)").arg(widget).arg(id)); 
 }
 
 void PopupMenu::populate()
@@ -129,7 +129,8 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
       m_associations.clear();
       break;
     case DCOP::execute:
-      m_menu->exec(QCursor::pos());
+      m_params = args;
+      evalAssociatedText();
       break;
     case INSERTMENUITEM:
     {
@@ -148,7 +149,7 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
     }
     case INSERTSEPARATOR:
     {
-      uint index = args[2].toInt();
+      uint index = args[0].toInt();
       m_menu->insertSeparator(index);     
     }
     case SETITEMENABLED:
@@ -178,7 +179,7 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
     case DCOP::item:
     {
       uint index = args[0].toInt();
-      return index < m_menu->count() ? m_menu->text(index) : QString::null;
+      return index < m_params.count() ? m_params[index] : QString::null;
     }
     case DCOP::count:
       return QString::number(m_menu->count());
