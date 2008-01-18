@@ -92,6 +92,8 @@
       <item>ifBlock</item>
       <item>comment</item>
       <item>createWidget</item>
+      <item>connect</item>
+      <item>disconnect</item>
       <item>return</item>
       <item>internalDcop</item>
       <item>executeSlot</item>

@@ -426,7 +426,11 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::comment, "#",
      i18n("Adds a comment to EOL that Kommander will not parse"), 0);
   insert(Kommander::createWidget, "createWidget(QString widgetName, QString widgetType, QString parent)",
-     i18n("Creates a new widget with the specified type and as the child of parent."), 3, 9);
+     i18n("Creates a new widget with the specified type and as the child of parent."), 3);
+  insert(Kommander::connect, "connect(QString sender, QString signal, QString receiver, QString slot)",
+     i18n("Connects the signal of sender with the slot of the receiver"), 4);
+  insert(Kommander::disconnect, "disconnect(QString sender, QString signal, QString receiver, QString slot)",
+     i18n("Disconnects the signal of sender from the slot of the receiver"), 4);
 
   insertGroup(Group::Array, "Array", "array");
   insert(Array::values, "values(QString array)", 
