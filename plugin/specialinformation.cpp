@@ -427,6 +427,8 @@ void SpecialInformation::registerSpecials()
      i18n("Adds a comment to EOL that Kommander will not parse"), 0);
   insert(Kommander::createWidget, "createWidget(QString widgetName, QString widgetType, QString parent)",
      i18n("Creates a new widget with the specified type and as the child of parent."), 3);
+  insert(Kommander::widgetExists, "widgetExists(QString widgetName)",
+     i18n("Returns true if there is a widget with the passed name, false otherwise."), 1);
   insert(Kommander::connect, "connect(QString sender, QString signal, QString receiver, QString slot)",
      i18n("Connects the signal of sender with the slot of the receiver"), 4);
   insert(Kommander::disconnect, "disconnect(QString sender, QString signal, QString receiver, QString slot)",

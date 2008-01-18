@@ -41,7 +41,7 @@ void InvokeClass::invokeSlot(QObject *object, const QString& slot, QStringList a
     else if (slotArgStr == m_acceptedSlots[1])
       emit invoke(args[0], args[1]);
     else if (slotArgStr == m_acceptedSlots[2])
-      emit invoke(args[0].upper()=="TRUE" ? true : false);
+      emit invoke(args[0].upper()=="TRUE" || args[0] =="1"? true : false);
     else if (slotArgStr == m_acceptedSlots[3])
       emit invoke(args[0].toInt());
     else if (slotArgStr == m_acceptedSlots[4])

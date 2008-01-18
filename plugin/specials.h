@@ -40,7 +40,7 @@ namespace Kommander
 {
   enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
   echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
-  switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect};
+  switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists};
 }
 
 namespace Array

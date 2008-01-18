@@ -375,6 +375,14 @@ static ParseNode f_createWidget(Parser* p, const ParameterList& params)
   return ParseNode();
 }
 
+static ParseNode f_widgetExists(Parser* p, const ParameterList& params)
+{
+  QString widgetName = params[0].toString();
+  KommanderWidget *widget = p->currentWidget()->widgetByName(widgetName);
+  return (widget ? true : false);
+}
+
+
 static ParseNode f_connect(Parser* p, const ParameterList& params)
 {
   QString sender = params[0].toString();
@@ -767,6 +775,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("executeSlot", Function(&f_executeSlot, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("createWidget", Function(&f_createWidget, ValueString, ValueString, ValueString, 3, 100));
+  registerFunction("widgetExists", Function(&f_widgetExists, ValueString, 1));
   registerFunction("connect", Function(&f_connect, ValueString, ValueString, ValueString, ValueString, 4, 4));
   registerFunction("disconnect", Function(&f_disconnect, ValueString, ValueString, ValueString, ValueString, 4, 4));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));

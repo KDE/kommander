@@ -160,7 +160,7 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
     case ITEMENABLED:
     {
       uint id = args[0].toInt();
-      return m_menu->isItemEnabled(id) ? "true" : "false";
+      return m_menu->isItemEnabled(id) ? "1" : "0";
       break;
     }
     case SETITEMVISIBLE:
@@ -172,7 +172,7 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
     case ITEMVISIBLE:
     {
       uint id = args[0].toInt();
-      return m_menu->isItemVisible(id) ? "true" : "false";
+      return m_menu->isItemVisible(id) ? "1" : "0";
       break;
     }
     case DCOP::item:
