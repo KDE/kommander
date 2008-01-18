@@ -91,6 +91,13 @@ void DatePicker::showEvent(QShowEvent *e)
     KDatePicker::showEvent( e );
     emit widgetOpened();
 }
+void DatePicker::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 
 bool DatePicker::isFunctionSupported(int f)
 {

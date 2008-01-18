@@ -94,6 +94,14 @@ void ComboBox::showEvent(QShowEvent *e)
     emit widgetOpened();
 }
 
+void ComboBox::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();  
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
+
 bool ComboBox::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::selection || f == DCOP::setSelection ||

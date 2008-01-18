@@ -91,6 +91,13 @@ void LineEdit::setWidgetText(const QString& a_text)
   emit widgetTextChanged(a_text);
 }
 
+void LineEdit::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool LineEdit::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||

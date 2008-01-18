@@ -105,6 +105,13 @@ bool CheckBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::setText || f == DCOP::checked || f == DCOP::setChecked;
 }
 
+void CheckBox::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 QString CheckBox::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

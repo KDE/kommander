@@ -21,6 +21,7 @@
 #include <qstringlist.h>
 #include <qevent.h>
 #include <qdialog.h>
+#include <qpoint.h>
 
 /* OTHER INCLUDES */
 #include <specials.h>
@@ -150,6 +151,13 @@ void Dialog::keyPressEvent( QKeyEvent *e )
   else
    QDialog::keyPressEvent(e);
   
+}
+
+void Dialog::contextMenuEvent( QContextMenuEvent * e )
+{
+  QDialog::contextMenuEvent( e );
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
 }
 
 bool Dialog::isFunctionSupported(int f)

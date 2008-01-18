@@ -121,6 +121,14 @@ QString Table::cellWidget(int row, int col)
   return QString();
 }
 
+void Table::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
+
 QString Table::handleDCOP(int function, const QStringList& args)
 {
   switch (function) 

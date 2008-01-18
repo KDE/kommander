@@ -99,6 +99,13 @@ bool ListBox::isFunctionSupported(int f)
       f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::count;
 }
 
+void ListBox::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 
 QString ListBox::handleDCOP(int function, const QStringList& args)
 {

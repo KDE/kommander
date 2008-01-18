@@ -197,6 +197,13 @@ void FileSelector::showEvent(QShowEvent * e)
   emit widgetOpened();
 }
 
+void FileSelector::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool FileSelector::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||

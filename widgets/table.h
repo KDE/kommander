@@ -54,6 +54,10 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
   public slots:
     virtual void populate();
     virtual void setWidgetText(const QString &);
+  signals:
+    void contextMenuRequested(int xpos, int ypos);
+  protected:
+    void contextMenuEvent( QContextMenuEvent * e );
   private:
     QString selectedArea();
     QString cellWidget(int row, int col);

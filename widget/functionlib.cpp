@@ -375,6 +375,37 @@ static ParseNode f_createWidget(Parser* p, const ParameterList& params)
   return ParseNode();
 }
 
+static ParseNode f_connect(Parser* p, const ParameterList& params)
+{
+  QString sender = params[0].toString();
+  QString signal = QString::number(QSIGNAL_CODE) + params[1].toString();
+  QString receiver = params[2].toString();
+  QString slot = QString::number(QSLOT_CODE) + params[3].toString();
+  KommanderWidget *senderW = p->currentWidget()->widgetByName(sender);
+  if (!senderW)
+    return ParseNode::error("unknown widget");
+  KommanderWidget *receiverW = p->currentWidget()->widgetByName(receiver);
+  if (!receiverW)
+    return ParseNode::error("unknown widget");
+  dynamic_cast<QObject*>(senderW)->connect(dynamic_cast<QObject*>(senderW), signal.ascii(), dynamic_cast<QObject*>(receiverW), slot.ascii());
+  return ParseNode();
+}
+
+static ParseNode f_disconnect(Parser* p, const ParameterList& params)
+{
+  QString sender = params[0].toString();
+  QString signal = QString::number(QSIGNAL_CODE) + params[1].toString();
+  QString receiver = params[2].toString();
+  QString slot = QString::number(QSLOT_CODE) + params[3].toString();
+  KommanderWidget *senderW = p->currentWidget()->widgetByName(sender);
+  if (!senderW)
+    return ParseNode::error("unknown widget");
+  KommanderWidget *receiverW = p->currentWidget()->widgetByName(receiver);
+  if (!receiverW)
+    return ParseNode::error("unknown widget");
+  dynamic_cast<QObject*>(senderW)->disconnect(dynamic_cast<QObject*>(senderW), signal.ascii(), dynamic_cast<QObject*>(receiverW), slot.ascii());
+  return ParseNode();
+}
 
 
 static ParseNode f_exec(Parser* P, const ParameterList& params)
@@ -736,6 +767,8 @@ void ParserData::registerStandardFunctions()
   registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("executeSlot", Function(&f_executeSlot, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("createWidget", Function(&f_createWidget, ValueString, ValueString, ValueString, 3, 100));
+  registerFunction("connect", Function(&f_connect, ValueString, ValueString, ValueString, ValueString, 4, 4));
+  registerFunction("disconnect", Function(&f_disconnect, ValueString, ValueString, ValueString, ValueString, 4, 4));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));
   registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));

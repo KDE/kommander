@@ -15,6 +15,7 @@
  ***************************************************************************/
 
 #include <kommanderplugin.h>
+#include <kiconloader.h>
 
 /* WIDGET INCLUDES */
 #include "buttongroup.h"
@@ -47,7 +48,7 @@
 #include "timer.h"
 #include "treewidget.h"
 #include "wizard.h"
-
+#include "popupmenu.h"
 
 class KomStdPlugin : public KommanderPlugin
 {
@@ -87,6 +88,7 @@ KomStdPlugin::KomStdPlugin()
   addWidget("Slider", group, "", 0);
   addWidget("Table", group, "", 0);
   addWidget("DatePicker", group, "", 0);
+  addWidget("PopupMenu", group, "", new QIconSet(KGlobal::iconLoader()->loadIcon("contents", KIcon::NoGroup, KIcon::SizeMedium)));
 }
 
 QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *name )
@@ -120,6 +122,7 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
   else if (key == "TreeWidget") return new TreeWidget(parent, name);
   else if (key == "Wizard") return new Wizard(parent, name);
   else if (key == "DatePicker") return new DatePicker(parent, name);
+  else if (key == "PopupMenu") return new PopupMenu(parent, name);
   else return 0;
 }
 

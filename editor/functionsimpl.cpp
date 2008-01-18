@@ -126,9 +126,12 @@ void FunctionsDialog::groupChanged(int index)
       QString slotArgStr = slot.section(QRegExp("\\(|\\)"), 1);
       if (slotArgStr.isEmpty() || m_acceptedSlots.contains(slotArgStr))
       {
-        QString name = slot.left(slot.find('('));
-        m_slotList[name] = slot;
-        functionListBox->insertItem(name);
+        QString name = slot.remove("()");
+        if (!m_slotList.contains(name))
+        {
+          m_slotList[name] = slot;
+          functionListBox->insertItem(name);
+        }
       }
     }
   } else
@@ -220,9 +223,13 @@ void FunctionsDialog::showParameters()
     int argsCount = slotArgs.count();
     for (int i = 0; i < MaxFunctionArgs; i++)
     {
-      QString type = slotArgs[i].remove(QRegExp("\\*|\\&|const\\s"));
       labels[i]->setShown(i < argsCount);
-      labels[i]->setText(QString("%1:").arg(type));
+      QString type;
+      if (i < argsCount)
+      {
+        type = slotArgs[i].remove(QRegExp("\\*|\\&|const\\s"));
+        labels[i]->setText(QString("%1:").arg(type));
+      }
       if (type == "bool")
       {
         edits[i]->setShown(false);
@@ -253,7 +260,8 @@ void FunctionsDialog::showParameters()
     for (int i=start; i<MaxFunctionArgs; i++)
     {
       labels[i]->setShown(i < argsCount);
-      labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
+      if (i < argsCount)
+        labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
       if (m_function.argumentType(i) == "bool")
       {
         edits[i]->setShown(false);

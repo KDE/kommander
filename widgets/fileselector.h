@@ -84,7 +84,10 @@ public slots:
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
+  void contextMenuRequested(int xpos, int ypos);
 protected:
+  void contextMenuEvent( QContextMenuEvent * e );
+
   bool m_openMultiple;
   QString m_caption;
   QString m_filter;

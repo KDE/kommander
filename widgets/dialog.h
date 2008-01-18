@@ -64,10 +64,11 @@ signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
   void finished();
+  void contextMenuRequested(int xpos, int ypos);
 protected:
   void showEvent( QShowEvent *e );
-  void	keyPressEvent( QKeyEvent * );
-
+  void keyPressEvent( QKeyEvent * );
+  void contextMenuEvent( QContextMenuEvent * e );
 private:
   QString m_fileName;
   bool m_useInternalParser;

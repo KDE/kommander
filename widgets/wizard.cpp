@@ -169,6 +169,13 @@ void Wizard::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+void Wizard::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 QString Wizard::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {

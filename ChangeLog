@@ -4,10 +4,12 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o possibility to pass parameters for ScriptObject added
     o add "return" command to get back the result of a ScriptObject
     o add createWidget function for on-the-fly widget creation
+    o add connect/disconnect function for on-the-fly signal/slot connection
     o fix "exit" command
     o make a="Label1"; a.setText("foo") work
     o add setCellWidget/cellWidget for Table
     o add setEditable(bool) for widgets that are editable
+    o add PopupMenu widget
     o quote the strings inserted via function browser
     o use combobox for booleans in the function browser
     o add highlighting for the new parser

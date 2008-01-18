@@ -70,11 +70,13 @@ signals:
   void widgetOpened();
   void widgetTextChanged(const QString &);
   void finished();
+  void contextMenuRequested(int xpos, int ypos);
 protected:
+  void showEvent( QShowEvent *e );
+  void contextMenuEvent( QContextMenuEvent * e );
+
   HelpAction m_helpAction;
   QString m_helpActionText;
-  void showEvent( QShowEvent *e );
-private:
 };
 
 #endif

@@ -96,6 +96,13 @@ void GroupBox::showEvent( QShowEvent *e )
   emit widgetOpened();
 }
 
+void GroupBox::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool GroupBox::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText;
