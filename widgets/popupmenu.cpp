@@ -27,7 +27,8 @@
 #define ITEMENABLED 104
 #define SETITEMVISIBLE 105
 #define ITEMVISIBLE 106
-#define LAST_FUNCTION ITEMVISIBLE 
+#define INSERTSUBMENU 107
+#define LAST_FUNCTION INSERTSUBMENU 
 
 PopupMenu::PopupMenu(QWidget *parent, const char *name)
  : QLabel(parent, name), KommanderWidget(this)
@@ -57,6 +58,7 @@ PopupMenu::PopupMenu(QWidget *parent, const char *name)
   KommanderPlugin::registerFunction(ITEMENABLED, "itemEnabled(QString widget, int id)",  i18n("Check if the item specified by id is enabled."), 1);
   KommanderPlugin::registerFunction(SETITEMVISIBLE, "setItemVisible(QString widget, int id, bool enable)",  i18n("Make the item specified by id visible."), 2);
   KommanderPlugin::registerFunction(ITEMVISIBLE, "itemVisible(QString widget, int id)",  i18n("Check if the item specified by id is visible."), 1);
+  KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString text, QString menuWidget, int index)",  i18n("Insert submenu widget into the popup menu."), 3);
 }
 
 
@@ -116,6 +118,17 @@ void PopupMenu::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
+QString PopupMenu::insertSubmenu(const QString& title, const QString &menuWidget, int index)
+{
+  KommanderWidget *w = widgetByName(menuWidget);
+  if (dynamic_cast<PopupMenu*>(w))
+  {
+    return QString::number(m_menu->insertItem(title, dynamic_cast<PopupMenu*>(w)->menu(), index));
+  }
+  return QString();
+}
+
+
 bool PopupMenu::isFunctionSupported(int f)
 {
   return f == DCOP::clear || f == DCOP::execute || f == DCOP::item || (f >= INSERTMENUITEM && f <= LAST_FUNCTION) || f == DCOP::count;
@@ -138,6 +151,11 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
       int id = m_menu->insertItem(args[0], index);
       m_associations[id] = args[1];
       return QString::number(id);
+      break;
+    }
+    case INSERTSUBMENU:
+    {
+      return insertSubmenu(args[0], args[1], args[2].toInt());
       break;
     }
     case CHANGEMENUITEM:

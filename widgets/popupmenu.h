@@ -40,6 +40,7 @@ public:
   virtual void setAssociatedText(const QStringList&);
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
+  KPopupMenu *menu() {return m_menu;}
 
 public slots:
   virtual void setWidgetText(const QString &);
@@ -50,6 +51,8 @@ private slots:
   void slotMenuItemActivated(int id);
 
 private:
+  QString insertSubmenu(const QString& title, const QString &menuWidget, int index);
+
   KPopupMenu *m_menu;
   QMap<int, QString> m_associations;
   QStringList m_params;
