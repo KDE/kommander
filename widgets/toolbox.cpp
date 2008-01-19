@@ -19,10 +19,11 @@
 #define ADDWIDGET 120
 #define CURRENTWIDGET 121
 #define REMOVEWIDGET 122
-#define SETCURRENTWIDGET 123
-#define CURRENTINDEX 124
-#define WIDGETAT 125
-#define INDEXOF 126
+#define REMOVEWIDGETAT 123
+#define SETCURRENTWIDGET 124
+#define CURRENTINDEX 125
+#define WIDGETAT 126
+#define INDEXOF 127
 #define FIRST_FUNCTION ADDWIDGET
 #define LAST_FUNCTION INDEXOF 
 
@@ -39,6 +40,7 @@ ToolBox::ToolBox(QWidget *parent, const char *name)
   KommanderPlugin::registerFunction(CURRENTWIDGET, "currentWidget(QString widget)",
          i18n("Returns the name of the active widget."), 1);
   KommanderPlugin::registerFunction(REMOVEWIDGET, "removeWidget(QString widget, QString widgetName)", i18n("Remove the selected widget, returns the index of the removed widget or -1 if no such widget was found."), 2);
+  KommanderPlugin::registerFunction(REMOVEWIDGETAT, "removeWidgetAt(QString widget, int index)", i18n("Remove the widget from the index position, returns the index of the removed widget or -1 if no widget was found."), 2);
   KommanderPlugin::registerFunction(SETCURRENTWIDGET, "setCurrentWidget(QString widget, QString widgetName)",
          i18n("Activates the selected widget."), 2);
   KommanderPlugin::registerFunction(CURRENTINDEX, "currentIndex(QString widget)",
@@ -124,6 +126,11 @@ QString ToolBox::handleDCOP(int function, const QStringList& args)
     {
       KommanderWidget *w = widgetByName(args[0]);
       return QString::number(removeItem(dynamic_cast<QWidget*>(w)));
+    }
+    case REMOVEWIDGETAT:
+    {
+      QWidget *w = item(args[0].toInt());
+      return QString::number(removeItem(w));
     }
     case CURRENTINDEX:
     {
