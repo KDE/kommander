@@ -501,8 +501,14 @@ ParseNode Parser::parseAssignment(Mode mode)
     {
       m_start--;
       return parseWidget(mode, value);
-    }
-    else
+    } else
+    if (mode == CheckOnly)
+    {
+      //this means it looks like a widget, but it is unknown. As we only check
+      //the syntax, we should ignore the error an parse as a widget. 
+      m_start = m_start - 2;
+      return parseWidget(mode); 
+    } else
       setError(i18n("'%1' is not a widget").arg(var));
   }
   else if (tryKeyword(LeftParenthesis, CheckOnly))
