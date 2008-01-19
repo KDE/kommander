@@ -176,6 +176,11 @@
       <item> endif </item>
       <item> do </item>
     </list>
+    
+    <list name="booleans">
+       <item>true</item>
+       <item>false</item>
+    </list>
             
     <contexts>
       <context attribute="Normal Text" lineEndContext="#stay" name="Start">
@@ -228,6 +233,7 @@
         <RegExpr attribute="Option" context="#stay" String="--[a-z][A-Za-z0-9_-]*" />
         <!-- handle keywords -->
         <keyword attribute="Keyword" context="#stay" String="keywords" />
+        <keyword attribute="Builtin" context="#stay" String="booleans" />
             <!-- handle here-string -->
         <StringDetect attribute="Redirection" context="#stay" String="&lt;&lt;&lt;" />
         <!-- handle &, &&, | and || -->
