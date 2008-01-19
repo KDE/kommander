@@ -33,6 +33,7 @@ class QPopupMenu;
 class QKeyEvent;
 class QMouseEvent;
 class QWizard;
+class QToolBox;
 
 class HierarchyItem:public QListViewItem
 {
@@ -137,6 +138,7 @@ public:
     void namePropertyChanged( QWidget *w, const QVariant &old );
     void databasePropertyChanged( QWidget *w, const QStringList& info );
     void tabsChanged( QTabWidget *w );
+    void tabsChanged( QToolBox *w );
     void pagesChanged( QWizard *w );
     void rebuild();
     void closed( FormWindow *fw );

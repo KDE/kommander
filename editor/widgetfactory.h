@@ -52,6 +52,7 @@
 #include <dialog.h>
 #include <wizard.h>
 #include <tabwidget.h>
+#include "toolbox.h"
 
 class QWidget;
 class QLayout;
@@ -163,6 +164,25 @@ private:
     QWidget *dragPage;
     QString dragLabel;
      bool mousePressed;
+};
+
+class EditorToolBox : public ToolBox
+{
+    Q_OBJECT
+    Q_PROPERTY( int currentPage READ currentPage WRITE setCurrentPage STORED false DESIGNABLE true )
+    Q_PROPERTY( QString pageTitle READ pageTitle WRITE setPageTitle STORED false DESIGNABLE true )
+    Q_PROPERTY( QCString pageName READ pageName WRITE setPageName STORED false DESIGNABLE true )
+public:
+    EditorToolBox( QWidget *parent, const char *name );
+
+    int currentPage() const;
+    void setCurrentPage( int i );
+    QString pageTitle() const;
+    void setPageTitle( const QString& title );
+    QCString pageName() const;
+    void setPageName( const QCString& name );
+
+    int count() const;
 };
 
 class QDesignerWizard : public QWizard

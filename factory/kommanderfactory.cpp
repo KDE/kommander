@@ -90,6 +90,7 @@
 #include <qpopupmenu.h>
 #include <qmenubar.h>
 #include <qdatetimeedit.h>
+#include <qtoolbox.h>
 
 #include <stdlib.h>
 #include <kglobal.h>
@@ -590,7 +591,11 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    if ( parent->inherits( "QTabWidget" ) ) {
 		if ( attrib == "title" )
 		    ( (QTabWidget*)parent )->insertTab( w, translate(v.toString()) );
-	    } else if ( parent->inherits( "QWizard" ) ) {
+	    } else
+        if ( parent->inherits( "QToolBox" ) ) {
+        if ( attrib == "label" )
+            ( (QToolBox*)parent )->addItem( w, translate(v.toString()) );
+        }else if ( parent->inherits( "QWizard" ) ) {
 		if ( attrib == "title" )
 		    ( (QWizard*)parent )->addPage( w, translate(v.toString()) );
 	    }
@@ -613,6 +618,8 @@ QLayout *KommanderFactory::createLayout( QWidget *widget, QLayout*  layout, Layo
 
     if ( !layout && widget && widget->inherits( "QTabWidget" ) )
 	widget = ((QTabWidget*)widget)->currentPage();
+    if ( !layout && widget && widget->inherits( "QToolBox" ) )
+    widget = ((QToolBox*)widget)->currentItem();
 
     if ( !layout && widget && widget->inherits( "QWizard" ) )
 	widget = ((QWizard*)widget)->currentPage();

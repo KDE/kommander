@@ -636,7 +636,38 @@ void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream 
 	    ts << makeIndent( indent ) << "</widget>" << endl;
 	}
 	delete tmpl;
-    } else if ( obj->inherits( "QWizard" ) ) {
+    } else
+    if ( ::qt_cast<QToolBox*>(obj) ) {
+        QToolBox* tb = (QToolBox*)obj;
+        for ( int i = 0; i < tb->count(); ++i ) {
+            QWidget *w = tb->item( i );
+            if ( !w )
+                continue;
+            if ( WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w)) == -1 )
+                continue; // we don't know this widget
+            ts << makeIndent( indent ) << "<widget class=\"QWidget\">" << endl;
+            ++indent;
+            ts << makeIndent( indent ) << "<property name=\"name\">" << endl;
+            indent++;
+            ts << makeIndent( indent ) << "<cstring>" << entitize( w->name() ) << "</cstring>" << endl;
+            indent--;
+            ts << makeIndent( indent ) << "</property>" << endl;
+            ts << makeIndent( indent ) << "<property name=\"backgroundMode\">" << endl;
+            indent++;
+            saveEnumProperty( w, "backgroundMode", QVariant::Invalid, ts, indent );
+            indent--;
+            ts << makeIndent( indent ) << "</property>" << endl;
+            ts << makeIndent( indent ) << "<attribute name=\"label\">" << endl;
+            indent++;
+            ts << makeIndent( indent ) << "<string>" << entitize( tb->itemLabel( tb->indexOf(w) ) ) << "</string>" << endl;
+            indent--;
+            ts << makeIndent( indent ) << "</attribute>" << endl;
+            saveChildrenOf( w, ts, indent );
+            --indent;
+            ts << makeIndent( indent ) << "</widget>" << endl;
+        }
+    }
+    else if ( obj->inherits( "QWizard" ) ) {
 	QWizard* wiz = (QWizard*)obj; for ( int i = 0; i < wiz->pageCount(); ++i ) {
 	    QWidget *w = wiz->page( i );
 	    if ( !w )
@@ -1326,9 +1357,9 @@ QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout*
 	layout = 0;
 
 	if ( w && formwindow ) {
-	    if ( !parent || ( !parent->inherits( "QTabWidget" ) && !parent->inherits( "QWizard" ) ) )
+	    if ( !parent || ( !parent->inherits( "QToolBox" ) && !parent->inherits( "QTabWidget" ) && !parent->inherits( "QWizard" ) ) )
 		formwindow->insertWidget( w, pasting );
-	    else if ( parent && ( parent->inherits( "QTabWidget" ) || parent->inherits( "QWizard" ) ) )
+	    else if ( parent && ( parent->inherits( "QToolBox" ) || parent->inherits( "QTabWidget" ) || parent->inherits( "QWizard" ) ) )
 		MetaDataBase::addEntry( w );
 	}
     }
@@ -1361,7 +1392,11 @@ QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout*
 	    if ( parent->inherits( "QTabWidget" ) ) {
 		if ( attrib == "title" )
 		    ( (QTabWidget*)parent )->insertTab( w, v.toString() );
-	    } else if ( parent->inherits( "QWizard" ) ) {
+	    } else
+        if ( parent->inherits( "QToolBox" ) ) {
+        if ( attrib == "label" )
+            ( (QToolBox*)parent )->addItem( w, v.toString() );
+        } else if ( parent->inherits( "QWizard" ) ) {
 		if ( attrib == "title" )
 		    ( (QWizard*)parent )->addPage( w, v.toString() );
 	    }

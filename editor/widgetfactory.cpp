@@ -111,6 +111,7 @@
 #include <slider.h>
 #include <datepicker.h>
 #include <popupmenu.h>
+#include "toolbox.h"
 
 FormWindow *find_formwindow( QWidget *w )
 {
@@ -580,6 +581,51 @@ bool EditorTabWidget::eventFilter( QObject *o, QEvent *e )
 }
 
 
+EditorToolBox::EditorToolBox( QWidget *parent, const char *name )
+    : ToolBox( parent, name )
+{
+}
+
+int EditorToolBox::currentPage() const
+{
+    return currentIndex();
+}
+
+void EditorToolBox::setCurrentPage( int i )
+{
+    setCurrentItem( item( i ) );
+}
+
+QString EditorToolBox::pageTitle() const
+{
+    return itemLabel( currentIndex() );
+}
+
+void EditorToolBox::setPageTitle( const QString& title )
+{
+    setItemLabel( currentIndex(), title );
+}
+
+void EditorToolBox::setPageName( const QCString& name )
+{
+    if ( currentItem() )
+    currentItem()->setName( name );
+}
+
+QCString EditorToolBox::pageName() const
+{
+    if ( !currentItem() )
+    return 0;
+    return currentItem()->name();
+}
+
+int EditorToolBox::count() const
+{
+    return QToolBox::count();
+}
+
+
+
 /*!  Creates a widget of the type which is registered as \a id as
   child of \a parent. The \a name is optional. If \a init is true, the
   widget is initialized with some defaults, else the plain widget is
@@ -634,6 +680,9 @@ QLayout *WidgetFactory::createLayout( QWidget *widget, QLayout *layout, LayoutTy
 
     if ( !layout && widget && widget->inherits( "QTabWidget" ) )
 	widget = ((QTabWidget*)widget)->currentPage();
+
+    if ( !layout && widget && widget->inherits( "QToolBox" ) )
+    widget = ((QToolBox*)widget)->currentItem();
 
     if ( !layout && widget && widget->inherits( "QWizard" ) )
 	widget = ((QWizard*)widget)->currentPage();
@@ -926,7 +975,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
   {
     if (parent &&
         (parent->inherits("FormWindow") || parent->inherits("QWizard")
-            || parent->inherits("QTabWidget") || parent->inherits("QMainWindow")))
+            || parent->inherits("QTabWidget") || parent->inherits("QToolBox") || parent->inherits("QMainWindow")))
     {
       FormWindow *fw = find_formwindow(parent);
       if (fw)
@@ -1121,7 +1170,23 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
       MetaDataBase::addEntry(w);
     }
     return tw;
-  } else if (className == "ExecButton")
+  } else if (className == "ToolBox")
+  {
+    QToolBox *tw = new EditorToolBox(parent, name);
+    if (init)
+    {
+      FormWindow *fw = find_formwindow(parent);
+      QWidget *w = fw ? new QDesignerWidget(fw, tw, "toolbox") : new QWidget(tw, "toolbox");
+      tw->addItem(w, i18n("Page 1"));
+      MetaDataBase::addEntry(w);
+      w = fw ? new QDesignerWidget(fw, tw, "toolbox") : new QWidget(tw, "toolbox");
+      tw->addItem(w, i18n("Page 2"));
+      MetaDataBase::addEntry(tw);
+      MetaDataBase::addEntry(w);
+    }
+    return tw;
+  }
+  else if (className == "ExecButton")
     return new ExecButton(parent, name);
   else if (className == "CloseButton")
     return new CloseButton(parent, name);
@@ -1195,6 +1260,8 @@ WidgetFactory::LayoutType WidgetFactory::layoutType( QWidget *w, QLayout *&layou
 
     if ( w && w->inherits( "QTabWidget" ) )
 	w = ((QTabWidget*)w)->currentPage();
+    if ( w->inherits( "QToolBox" ) )
+    w = ((QToolBox*)w)->currentItem();
     if ( w && w->inherits( "QWizard" ) )
 	w = ((QWizard*)w)->currentPage();
     if ( w && w->inherits( "QMainWindow" ) )
@@ -1276,6 +1343,8 @@ QWidget* WidgetFactory::containerOfWidget( QWidget *w )
 	return w;
     if ( w->inherits( "QTabWidget" ) )
 	return ((QTabWidget*)w)->currentPage();
+    if ( w->inherits( "QToolBox" ) )
+    return ((QToolBox*)w)->currentItem();
     if ( w->inherits( "QWizard" ) )
 	return ((QWizard*)w)->currentPage();
     if ( w->inherits( "QWidgetStack" ) )
@@ -1314,7 +1383,7 @@ bool WidgetFactory::isPassiveInteractor( QObject* o )
     if ( QApplication::activePopupWidget() ) // if a popup is open, we have to make sure that this one is closed, else X might do funny things
 	return true;
 
-    if ( o->inherits( "QTabBar" ) )
+    if ( o->inherits( "QTabBar" ) || ::qt_cast<QToolBox*>(o->parent()) )
 	return true;
     else if ( o->inherits( "QSizeGrip" ) )
 	return true;
@@ -1343,6 +1412,8 @@ const char* WidgetFactory::classNameOf( QObject* o )
 #ifdef KOMMANDER
   else if (o->inherits("EditorTabWidget"))
     return "TabWidget";
+  else if (o->inherits("EditorToolBox"))
+    return "ToolBox";
 #endif
   else if (o->inherits("QDesignerDialog"))
     return "QDialog";
@@ -1392,7 +1463,12 @@ void WidgetFactory::initChangedProperties( QObject *o )
 
     if ( o->inherits( "QPushButton" ) || o->inherits("QRadioButton") || o->inherits( "QCheckBox" ) || o->inherits( "QToolButton" ) )
 	MetaDataBase::setPropertyChanged( o, "text", true );
-    else if ( o->inherits( "QGroupBox" ) )
+    else if (::qt_cast<QToolButton*>(o) && ::qt_cast<QToolBox*>(widgetOfContainer((QWidget*)o->parent()))) {
+        MetaDataBase::setPropertyChanged( o, "usesTextLabel", TRUE );
+        MetaDataBase::setPropertyChanged( o, "textLabel", TRUE );
+        MetaDataBase::setPropertyChanged( o, "autoRaise", TRUE );
+        MetaDataBase::setPropertyChanged( o, "textPosition", TRUE );
+    }    else if ( o->inherits( "QGroupBox" ) )
 	MetaDataBase::setPropertyChanged( o, "title", true );
     else if ( o->isA( "QFrame" ) ) {
 	MetaDataBase::setPropertyChanged( o, "frameShadow", true );
@@ -1410,6 +1486,13 @@ void WidgetFactory::initChangedProperties( QObject *o )
 	    t->verticalHeader()->setLabel( i, QString::number( i + 1 ) );
 	}
 #endif
+    } else if ( ::qt_cast<QToolBox*>(o) ) {
+        MetaDataBase::setPropertyChanged( o, "currentIndex", true );
+        MetaDataBase::setPropertyChanged( o, "itemName", true );
+        MetaDataBase::setPropertyChanged( o, "itemLabel", true );
+        MetaDataBase::setPropertyChanged( o, "itemIconSet", true );
+        MetaDataBase::setPropertyChanged( o, "itemToolTip", true );
+        MetaDataBase::setPropertyChanged( o, "itemBackgroundMode", true );
     } else if ( o->inherits( "QSplitter" )  ) {
 	MetaDataBase::setPropertyChanged( o, "orientation", true );
     } else if ( o->inherits( "QDesignerToolBar" )  ) {

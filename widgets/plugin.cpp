@@ -47,6 +47,7 @@
 #include "textedit.h"
 #include "timer.h"
 #include "treewidget.h"
+#include "toolbox.h"
 #include "wizard.h"
 #include "popupmenu.h"
 
@@ -77,6 +78,7 @@ KomStdPlugin::KomStdPlugin()
   addWidget("SpinBoxInt", group, "", 0);
   // addWidget("Wizard", group, "");
   addWidget("TabWidget", group, "", 0);
+  addWidget("ToolBox", group, "", new QIconSet(KGlobal::iconLoader()->loadIcon("toolbox", KIcon::NoGroup, KIcon::SizeMedium)));
   // addWidget("SubDialog", group, "");
   addWidget("ListBox", group, "", 0);
   addWidget("Timer", group, "", 0);
@@ -116,6 +118,7 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
   else if (key == "SubDialog") return new SubDialog(parent, name);
   else if (key == "Table") return new Table(parent, name);
   else if (key == "TabWidget") return new TabWidget(parent, name);
+  else if (key == "ToolBox") return new ToolBox(parent, name);
   else if (key == "TextBrowser") return new TextBrowser(parent, name);
   else if (key == "TextEdit") return new TextEdit(parent, name);
   else if (key == "Timer") return new Timer(parent, name);

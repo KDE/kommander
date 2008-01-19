@@ -831,6 +831,37 @@ void AddTabPageCommand::unexecute()
 }
 
 // ------------------------------------------------------------
+// ------------------------------------------------------------
+
+AddToolBoxPageCommand::AddToolBoxPageCommand( const QString &n, FormWindow *fw,
+                      QToolBox *tw, const QString &_label )
+    : Command( n, fw ), toolBox( tw ), label( _label )
+{
+    page = new QDesignerWidget( formWindow(), toolBox, "tab" );
+    page->hide();
+    index = -1;
+    MetaDataBase::addEntry( page );
+}
+
+void AddToolBoxPageCommand::execute()
+{
+    if ( index == -1 )
+    index = ( (EditorToolBox*)toolBox)->count();
+    toolBox->insertItem(index, page, label);
+    toolBox->setCurrentItem( page );
+    formWindow()->emitUpdateProperties( formWindow()->currentWidget() );
+    formWindow()->mainWindow()->objectHierarchy()->tabsChanged( toolBox );
+}
+
+void AddToolBoxPageCommand::unexecute()
+{
+    toolBox->removeItem( page );
+    page->hide();
+    formWindow()->emitUpdateProperties( formWindow()->currentWidget() );
+    formWindow()->mainWindow()->objectHierarchy()->tabsChanged( toolBox );
+}
+
+// ------------------------------------------------------------
 
 MoveTabPageCommand::MoveTabPageCommand( const QString &n, FormWindow *fw,
 				      QTabWidget *tw, QWidget* page, const QString& label, int nIndex, int oIndex )
@@ -882,6 +913,32 @@ void DeleteTabPageCommand::unexecute()
     tabWidget->showPage( tabPage );
     formWindow()->emitUpdateProperties( formWindow()->currentWidget() );
     formWindow()->mainWindow()->objectHierarchy()->tabsChanged( tabWidget );
+}
+
+// ------------------------------------------------------------
+
+DeleteToolBoxPageCommand::DeleteToolBoxPageCommand( const QString &n, FormWindow *fw,
+                        QToolBox *tw, QWidget *_page )
+    : Command( n, fw ), toolBox( tw ), page( _page )
+{
+    label = ( (EditorToolBox*)toolBox )->pageTitle();
+    index = ( (EditorToolBox*)toolBox )->currentPage();
+}
+
+void DeleteToolBoxPageCommand::execute()
+{
+    toolBox->removeItem( page );
+    page->hide();
+    formWindow()->emitUpdateProperties( formWindow()->currentWidget() );
+    formWindow()->mainWindow()->objectHierarchy()->tabsChanged( toolBox );
+}
+
+void DeleteToolBoxPageCommand::unexecute()
+{
+    toolBox->insertItem(index, page, label);
+    toolBox->setCurrentItem( page );
+    formWindow()->emitUpdateProperties( formWindow()->currentWidget() );
+    formWindow()->mainWindow()->objectHierarchy()->tabsChanged( toolBox );
 }
 
 // ------------------------------------------------------------

@@ -934,7 +934,17 @@ void MainWindow::setupRMBSpecialCommands(QValueList<int> &ids, QMap<QString, int
         ids << (id = rmbWidgets->insertItem(i18n("Add Page"), -1, 0));
         commands.insert("add", id);
     }
-    if (WidgetFactory::hasSpecialEditor(WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w))))
+     if (w->inherits("QToolBox")) {
+        if (ids.isEmpty())
+            ids << rmbWidgets->insertSeparator(0);
+        if (((QToolBox*)w)->count() > 1) {
+            ids << (id = rmbWidgets->insertItem(i18n("Delete Page"), -1, 0));
+            commands.insert("remove", id);
+        }
+        ids << (id = rmbWidgets->insertItem(i18n("Add Page"), -1, 0));
+        commands.insert("add", id);
+    }
+   if (WidgetFactory::hasSpecialEditor(WidgetDatabase::idFromClassName(WidgetFactory::classNameOf(w))))
     {
         if (ids.isEmpty())
             ids << rmbWidgets->insertSeparator(0);
@@ -1070,6 +1080,24 @@ void MainWindow::handleRMBSpecialCommands(int id, QMap<QString, int> &commands, 
                 DeleteTabPageCommand *cmd = new DeleteTabPageCommand(i18n("Delete Page %1 of %2").
                                                                       arg(dtw->pageTitle()).arg(tw->name()),
                                                                       formWindow(), tw, tw->currentPage());
+                formWindow()->commandHistory()->addCommand(cmd);
+                cmd->execute();
+            }
+        }
+    }
+    if (w->inherits("QToolBox")) {
+        QToolBox *tw = (QToolBox*)w;
+        if (id == commands[ "add" ]) {
+            AddToolBoxPageCommand *cmd = new AddToolBoxPageCommand(i18n("Add Page to %1").arg(tw->name()), formWindow(),
+                                                            tw, "Page");
+            formWindow()->commandHistory()->addCommand(cmd);
+            cmd->execute();
+        } else if (id == commands[ "remove" ]) {
+            if (tw->currentItem()) {
+                EditorToolBox *dtw = (EditorToolBox*)tw;
+                DeleteToolBoxPageCommand *cmd = new DeleteToolBoxPageCommand(i18n("Delete Page %1 of %2").
+                                                                      arg(dtw->pageTitle()).arg(tw->name()),
+                                                                      formWindow(), tw, tw->currentItem());
                 formWindow()->commandHistory()->addCommand(cmd);
                 cmd->execute();
             }

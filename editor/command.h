@@ -48,6 +48,7 @@ class QDesignerToolBar;
 class QMainWindow;
 class QDesignerPopupMenu;
 class QDesignerMenuBar;
+class QToolBox;
 
 class Command : public Qt
 {
@@ -97,7 +98,9 @@ public:
 	RenameMenu,
 	MoveMenu,
 	AddToolBar,
-	RemoveToolBar
+	RemoveToolBar,
+    AddToolBoxPage,
+    DeleteToolBoxPage
     };
 
     QString name() const;
@@ -397,6 +400,41 @@ private:
 
 };
 
+class AddToolBoxPageCommand : public Command
+{
+public:
+    AddToolBoxPageCommand( const QString &n, FormWindow *fw,
+               QToolBox *tw, const QString &label );
+
+    void execute();
+    void unexecute();
+    Type type() const { return AddToolBoxPage; }
+
+private:
+    QToolBox *toolBox;
+    int index;
+    QWidget *page;
+    QString label;
+
+};
+
+class DeleteToolBoxPageCommand : public Command
+{
+public:
+    DeleteToolBoxPageCommand( const QString &n, FormWindow *fw,
+              QToolBox *tw, QWidget *page );
+
+    void execute();
+    void unexecute();
+    Type type() const { return DeleteToolBoxPage; }
+
+private:
+    QToolBox *toolBox;
+    int index;
+    QWidget *page;
+    QString label;
+
+};
 class MoveTabPageCommand : public Command
 {
 public:

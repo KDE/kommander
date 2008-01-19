@@ -394,6 +394,11 @@ void HierarchyList::insertObject( QObject *o, QListViewItem *parent )
   else if ( o->parent()->parent()->inherits( "QWizard" ) )
       name = ( (QWizard*)o->parent()->parent() )->title( (QWidget*)o );
     }
+    QToolBox *tb;
+    if ( o->parent() && o->parent()->parent() &&
+     (tb = ::qt_cast<QToolBox*>(o->parent()->parent()->parent())) )
+    name = tb->itemLabel( tb->indexOf((QWidget*)o) );
+
 
     if ( fakeMainWindow ) {
   name = o->parent()->name();
@@ -443,7 +448,13 @@ void HierarchyList::insertObject( QObject *o, QListViewItem *parent )
         insertObject( obj, item );
     }
     delete l2;
-      }
+      } else if ( ::qt_cast<QToolBox*>(it.current()->parent()) ) {
+            if ( !::qt_cast<QScrollView*>(it.current()) )
+            continue;
+            QToolBox *tb = (QToolBox*)it.current()->parent();
+            for ( int i = tb->count() - 1; i >= 0; --i )
+            insertObject( tb->item( i ), item );
+        }
       continue;
   }
   insertObject( it.current(), item );
@@ -684,6 +695,11 @@ void HierarchyView::databasePropertyChanged( QWidget *w, const QStringList& info
 
 
 void HierarchyView::tabsChanged( QTabWidget * )
+{
+    listview->setup();
+}
+
+void HierarchyView::tabsChanged( QToolBox * )
 {
     listview->setup();
 }
