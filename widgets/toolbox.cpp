@@ -77,7 +77,9 @@ QString ToolBox::addWidget(const QString& widgetName, const QString &label)
   KommanderWidget *w = widgetByName(widgetName);
   if (w)
   {
-    return QString::number(addItem(dynamic_cast<QWidget*>(w), label));
+    int idx = addItem(dynamic_cast<QWidget*>(w), label);
+    adjustSize();
+    return QString::number(idx);
   } else
     return QString("-1");
 

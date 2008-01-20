@@ -394,6 +394,7 @@ void HierarchyList::insertObject( QObject *o, QListViewItem *parent )
   else if ( o->parent()->parent()->inherits( "QWizard" ) )
       name = ( (QWizard*)o->parent()->parent() )->title( (QWidget*)o );
     }
+
     QToolBox *tb;
     if ( o->parent() && o->parent()->parent() &&
      (tb = ::qt_cast<QToolBox*>(o->parent()->parent()->parent())) )

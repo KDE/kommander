@@ -584,6 +584,7 @@ bool EditorTabWidget::eventFilter( QObject *o, QEvent *e )
 EditorToolBox::EditorToolBox( QWidget *parent, const char *name )
     : ToolBox( parent, name )
 {
+    setAcceptDrops( true );
 }
 
 int EditorToolBox::currentPage() const

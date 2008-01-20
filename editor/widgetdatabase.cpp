@@ -479,6 +479,11 @@ void WidgetDatabase::setupDataBase( int id )
   r->isContainer = true;
   append(r);
 
+  r = new WidgetDatabaseRecord;
+  r->name = "EditorToolBox";
+  r->group = widgetGroup("Temp");
+  r->isContainer = true;
+  append(r);
 
 
   /* Kommandr widgets */
@@ -612,6 +617,15 @@ void WidgetDatabase::setupDataBase( int id )
   r->toolTip = i18n("A widget with tabs");
   r->isContainer = true;
   append(r);
+
+
+//   r = new WidgetDatabaseRecord;
+//   r->iconName = "";
+//   r->name = "ToolBox";
+//   r->group = widgetGroup("Kommander");
+//   r->toolTip = "";
+//   r->isContainer = true;
+//   append(r);
 
   r = new WidgetDatabaseRecord;
   r->iconName = "spinbox.xpm";

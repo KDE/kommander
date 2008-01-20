@@ -78,7 +78,7 @@ KomStdPlugin::KomStdPlugin()
   addWidget("SpinBoxInt", group, "", 0);
   // addWidget("Wizard", group, "");
   addWidget("TabWidget", group, "", 0);
-  addWidget("ToolBox", group, "", new QIconSet(KGlobal::iconLoader()->loadIcon("toolbox", KIcon::NoGroup, KIcon::SizeMedium)));
+  addWidget("ToolBox", group, "", new QIconSet(KGlobal::iconLoader()->loadIcon("toolbox", KIcon::NoGroup, KIcon::SizeMedium)), "", true);
   // addWidget("SubDialog", group, "");
   addWidget("ListBox", group, "", 0);
   addWidget("Timer", group, "", 0);

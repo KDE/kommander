@@ -15,6 +15,13 @@
 </body></html>
 
 
+\NewEntry 2 PopupMenu
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
+<ul type="disc"><li>icons</li>
+<li>toggled items</li></ul>
+</body></html>
+
+
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Layout of Edit Kommander Text dialog<br /><br />Old ideas:</span></p>
@@ -89,14 +96,16 @@
 </body></html>
 
 
-\NewEntry 0 Bugs
+\CurrentEntry 0 Bugs
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Various bugs to be fixed</span></p>
 <ul type="disc"><li>Charset is sometimes incorrectly converted from/to local charset</li>
 <li>Wizard widget locks up editor - find out why?</li>
 <li>SubDialog crashes now</li>
 <li>check the *pid functions in the new parser</li>
-<li>hide what is not available in the Function Browser for the old parser</li></ul>
+<li>hide what is not available in the Function Browser for the old parser</li>
+<li>Labels do not show up unless you edit their text</li>
+<li>toolbox editing is ugly after group layout is applied. Goes back to normal if the dialog is reloaded.</li></ul>
 </body></html>
 
 
@@ -264,7 +273,7 @@
 <div></div></ul>
 </body></html>
 
-\CurrentEntry 0 About this file
+\NewEntry 0 About this file
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:11pt;font-family:helvetica">
 <p>This file should document both what should be done in Kommander and what was done.</p>
 <p>All entries marked with a date without an author were made by Michal Rudolf</p>
