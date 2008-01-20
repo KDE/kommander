@@ -1,6 +1,6 @@
 \NewEntry 0 GUI
 
-\NewEntry 1 Widgets
+\CurrentEntry 1 Widgets
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><div></div>
@@ -9,6 +9,8 @@
 <li>Switch from using Qt widget to their KDE equivalents?</li>
 <li>Menu</li>
 <li>KHistoryCombo</li>
+<li>KAboutDialog</li>
+<li>FontSelector<br /></li>
 <div></div></ul>
 <p></p>
 <ul type="disc"><div></div></ul>
@@ -20,7 +22,6 @@
 <ul type="disc"><li>icons</li>
 <li>toggled items</li></ul>
 </body></html>
-
 
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
@@ -37,7 +38,6 @@
 <li>DCOP editor (similar to Tag editor in Quanta)<br /></li></ul>
 <p></p>
 </body></html>
-
 
 \NewEntry 1 Usability
 \Link knowit://Source code
@@ -58,7 +58,6 @@
 <li>switch to KMDI (arghhhh!)</li></ul>
 </body></html>
 
-
 \NewEntry 1 Run/debug
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Running/testing inside Editor</span></p>
@@ -66,7 +65,6 @@
 <li>save dialog in temporary file when running</li>
 <li>allow only one running dialog at the time</li></ul>
 </body></html>
-
 
 \NewEntry 1 DCOP browser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -95,8 +93,7 @@
 <li>use KFormDesigner or the new Qt Designer</li></ul>
 </body></html>
 
-
-\CurrentEntry 0 Bugs
+\NewEntry 0 Bugs
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Various bugs to be fixed</span></p>
 <ul type="disc"><li>Charset is sometimes incorrectly converted from/to local charset</li>
@@ -108,7 +105,6 @@
 <li>toolbox editing is ugly after group layout is applied. Goes back to normal if the dialog is reloaded.</li></ul>
 </body></html>
 
-
 \NewEntry 0 Help
 
 \NewEntry 1 Documentation
@@ -117,7 +113,6 @@
 <ul type="disc"><li>Update new parser docs</li>
 <li>Update docs, at least on website ?</li></ul>
 </body></html>
-
 
 \NewEntry 1 Examples
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -162,7 +157,6 @@
 <li>add @ldcop for calling local DCOP functions</li></ul>
 </body></html>
 
-
 \NewEntry 1 Script languages
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Using script languages other than Bash</span></p>
@@ -171,7 +165,6 @@
 <div></div></ul>
 <p><span style="font-weight:600">If we keep the old parser.<br /><br /></span><br />Make it possible to use any language with Kommander. The idea is to replace Kommander specials with language specific code in a way that it will not break conditions and loops, like now. example:<br />#!/bin/bash<br />array=&quot;1 2 3 4 5&quot;<br />for i in $array do<br />  @Label.setText($i)<br />done<br /><br />This does not work now. The idea is to replace @Widget.method() with a language specific DCOP call.<br />If the language has DCOP bindings, use those bindings to execute the dcop call. If not, use the command line<br />DCOP application. This is slower, but always works. In the above case, Kommander would replace <br />@Label.setText($i) <br />with<br />dcop kmdr-executor-PID KommanderIf setText Label $i<br /><br />Kommander will have description files for each supported language about how to execute DCOP calls.<br />If the language has DCOP bindings, this description tells the syntax of the bindings. If it doesn't have, the description gives a way how to execute external applications. This should always exists, as all languages can execute external applications.<br /><br />In KDE4, of course use DBUS instead of DCOP.<br /><br /></p>
 </body></html>
-
 
 \NewEntry 1 Aliases
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -199,7 +192,6 @@
 <li>share code betwen the two parsers (new methods are needed to be added only once)</li></ul>
 </body></html>
 
-
 \NewEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Executing Kommander scripts</span></p>
@@ -210,7 +202,6 @@
 <li>add #!kommander at the beginning of the files, so if they are set to be executable, they are instantly run in the executor</li>
 <li>make the editor and executor accept the sheebang at the beginning of the files<br /></li></ul>
 </body></html>
-
 
 \NewEntry 0 Refactoring, other ideas
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
@@ -224,7 +215,6 @@
 <li>check if it is enough to have a public KommanderWidget instead of making KWidgetPlugin as well public</li>
 <li>get back a version number from plugins and from Kommander. This way both the plugins and the executor can decide if they are compatible or not.</li></ul>
 </body></html>
-
 
 \NewEntry 0 Last changes
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
