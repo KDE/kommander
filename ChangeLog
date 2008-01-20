@@ -1,3 +1,6 @@
+2008-01-20 - Eric Laffoon <sequitur@kde.org>
+    o set new functions only available to new parser such as createWidget to not be shown in the function browser if the old parser is run.
+
 January 2008 - Andras Mantia <amantia@kde.org>
     o support executing of slots that don't have arguments
     o add "execute" method for PushButton
@@ -33,6 +36,9 @@ Thu Dec 20 00:38:31 2007 - Andras Mantia <amantia@kde.org>
     o insert the functions using the syntax of the new parser if #!kommander 
       is specified in the associated text 
     o add DatePicker widget
+
+Wed Dec 19 08:39:00 2007 - Eric Laffoon <eric@kdewebdev.org>
+    o fixed the bug in the input text dialog where entering a default value returned the caption.
 
 Sat Dec 15 23:58:45 2007 - Andras Mantia <amantia@kde.org>
     o return the result of a division in floating form if the result is not an integer.
