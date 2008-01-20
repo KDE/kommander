@@ -304,7 +304,8 @@ void SpecialInformation::registerSpecials()
          i18n("Returns index of current item."), 1);
   insert(DCOP::currentRow, "currentRow(QString widget)", 
          i18n("Returns index of current row."), 1);
-  insert(DCOP::execute, "execute(QString widget)", i18n("Executes the script associated with the widget. In case of scriptobject, the execute method can take one or more arguments."), 1, 9);
+  insert(DCOP::execute, "execute(QString widget, QString args)", 
+         i18n("Executes the script associated with the widget. With the new parser the execute method can take one or more arguments."), 1, 2);
   insert(DCOP::findItem, "findItem(QString widget, QString item)",
          i18n("Returns the index of an item with the given text."), 2);
   insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
@@ -425,15 +426,24 @@ void SpecialInformation::registerSpecials()
      i18n("Executes an external DCOP call."), 3, 9);
   insert(Kommander::comment, "#",
      i18n("Adds a comment to EOL that Kommander will not parse"), 0);
-  insert(Kommander::createWidget, "createWidget(QString widgetName, QString widgetType, QString parent)",
+  insertInternal(Kommander::createWidget, "createWidget(QString widgetName, QString widgetType, QString parent)",
      i18n("Creates a new widget with the specified type and as the child of parent."), 3);
-  insert(Kommander::widgetExists, "widgetExists(QString widgetName)",
+  insertInternal(Kommander::widgetExists, "widgetExists(QString widgetName)",
      i18n("Returns true if there is a widget with the passed name, false otherwise."), 1);
-  insert(Kommander::connect, "connect(QString sender, QString signal, QString receiver, QString slot)",
+  insertInternal(Kommander::connect, "connect(QString sender, QString signal, QString receiver, QString slot)",
      i18n("Connects the signal of sender with the slot of the receiver"), 4);
-  insert(Kommander::disconnect, "disconnect(QString sender, QString signal, QString receiver, QString slot)",
+  insertInternal(Kommander::disconnect, "disconnect(QString sender, QString signal, QString receiver, QString slot)",
      i18n("Disconnects the signal of sender from the slot of the receiver"), 4);
-
+/*
+  insertInternal(Kommander::exit, "exit", 
+     i18n("Exits script execution and returns"), 0);
+  insertInternal(Kommander::break, "break", 
+     i18n("Exits the current block of a while, for or foreach loop"), 0);
+  insertInternal(Kommander::continue, "continue", 
+     i18n("Exit a step and return to the beginning of a loop"), 0);
+  insertInternal(Kommander::return, "return(QString value)", 
+     i18n("Return from a script, optionaly with a value from the script to the caller"), 0, 1);
+*/
   insertGroup(Group::Array, "Array", "array");
   insert(Array::values, "values(QString array)", 
     i18n("Returns an EOL-separated list of all values in the array."), 1);
@@ -490,7 +500,12 @@ void SpecialInformation::registerSpecials()
     i18n("Returns given section of a string."), 1);
   insert(String::args, "args(QString string, QString arg1, QString arg2, QString arg3)", 
     i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
-  
+/*
+  insertInternal(String::toint. "toint(QString string, QString default)",
+    i18n("Convert a string to an integer. If not possible use the default value"), 1, 2);
+  insertInternal(String::todouble. "todouble(QString string, QString default)",
+    i18n("Convert a string to a double precision floating point value. If not possible use the default value"), 1, 2);
+*/
   insertGroup(Group::File, "File", "file");
   insert(File::read, "read(QString)", 
     i18n("Returns content of given file."), 1);
