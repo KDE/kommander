@@ -1,6 +1,6 @@
 \NewEntry 0 GUI
 
-\CurrentEntry 1 Widgets
+\NewEntry 1 Widgets
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><div></div>
@@ -193,36 +193,38 @@
 
 \NewEntry 0 1.3 release prep 2008
 
-\CurrentEntry 1 To Do
+\NewEntry 1 To Do
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Kommander Release Do list</span></p>
 <ul type="disc"><li>add toggle and possibly icons for popup menu</li>
 <li>Add missing functions in FB</li>
 <li>KPart create to go with KPart load</li>
-<li></li></ul>
+<li>executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</li></ul>
 </body></html>
 
-\NewEntry 1 investigate
+
+\CurrentEntry 1 investigate
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Things to look into</span></p>
-<ul type="disc"><li>Qt database connection</li>
+<ul type="disc"><li>Qt database connection?</li>
 <li>quote handling in function browser - make user on off?</li>
 <li>Code completion? If easy to do, otherwise we recommend users try the Kate completion plugin</li>
 <li>D&amp;D of text/selection data</li>
-<li><span style="font-style:italic">array_indexedFromString(array, separator) function</span><br />This would create a sequentially integer indexed string from a string. This would be useful for database rows or detail widget rows. </li>
-<li><span style="font-style:italic">array_indexedToString(array, separator)<br /></span>Take an integer indexed array and make a string. Useful after replacing a value so as not to have to use str_section and separators to reassemble a row</li>
-<li>simple DCOP sgnals in editor to enable Kommander based tools to call the editor and select a widget to edit</li>
-<li>Additional XML fields in dialog for author name, version of Kommander required, etc...</li>
-<li></li></ul>
+<li><span style="font-style:italic;color:#00c000">array_indexedFromString(array, separator) function</span><span style="color:#00c000"><br />This would create a sequentially integer indexed string from a string. This would be useful for database rows or detail widget rows. </span></li>
+<li><span style="font-style:italic;color:#00c000">array_indexedToString(array, separator)<br /></span><span style="color:#00c000">Take an integer indexed array and make a string. Useful after replacing a value so as not to have to use str_section and separators to reassemble a row</span></li>
+<li>simple DCOP functinos in editor to enable Kommander based tools to call the editor and open a dialog to edit - otherwise any interfaces can at least make use of D&amp;D from file manager (KPart) views</li>
+<li>Additional XML fields in dialog for author name, version of Kommander required, etc... - not required as KAbout would be better</li></ul>
 </body></html>
+
 
 \NewEntry 1 Bugs to squish
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Version 1.3 FIXME list</span></p>
-<ul type="disc"><li>+&quot;@&quot;+ messes with highlighting quotes in new parser</li>
-<li>unable to alternate between widget displayed in table cell for editing and cellText showing data when not editing</li>
+<ul type="disc"><li>unable to alternate between widget displayed in table cell for editing and cellText showing data when not editing</li>
+<li>link handling in TextBrowser opens file manager in execute directory even if calling another Kommander dialog. First it opens the file, then konqeror.</li>
 <li></li></ul>
 </body></html>
+
 
 \NewEntry 1 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
