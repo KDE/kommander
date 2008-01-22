@@ -24,7 +24,7 @@
 
 enum Functions {
   FirstFunction = 159,
-  SetProductInfo,
+  Initialize,
   AddAuthor,
   AddTranslator,
   SetDescription,
@@ -54,8 +54,8 @@ AboutDialog::AboutDialog(QWidget *parent, const char *name)
 
   m_aboutData = 0L; 
   KommanderPlugin::setDefaultGroup(Group::DCOP);
-  KommanderPlugin::registerFunction(SetProductInfo, "setProductInfo(QString widget, QString appName, QString icon, QString version, QString copyright)",
-         i18n("Sets information about the application."), 5);
+  KommanderPlugin::registerFunction(Initialize, "initialize(QString widget, QString appName, QString icon, QString version, QString copyright)",
+         i18n("Sets information about the application. This is the first method that must me called, any addition to the dialog done before initialization will be ignored."), 5);
   KommanderPlugin::registerFunction(AddAuthor, "addAuthor(QString widget, QString author, QString task, QString email, QString webAddress)",
          i18n("Add an author. Only the author name is required."), 2, 5);
    KommanderPlugin::registerFunction(AddTranslator, "addTranslator(QString widget, QString author, QString email)",
@@ -76,6 +76,7 @@ AboutDialog::AboutDialog(QWidget *parent, const char *name)
 AboutDialog::~AboutDialog()
 {
   delete m_aboutData;
+  m_aboutData = 0L;
 }
 
 QString AboutDialog::currentState() const
@@ -92,7 +93,7 @@ bool AboutDialog::isFunctionSupported(int f)
   return (f > FirstFunction && f < LastFunction) || f == DCOP::execute;
 }
 
-void AboutDialog::setProductInfo(const QString& appName, const QString &icon, const QString& version, const QString& copyright)
+void AboutDialog::initialize(const QString& appName, const QString &icon, const QString& version, const QString& copyright)
 {
   delete m_aboutData;  
   m_aboutData = new KAboutData(appName, appName, version);
@@ -189,9 +190,9 @@ void AboutDialog::populate()
 QString AboutDialog::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
-    case SetProductInfo:
+    case Initialize:
     {
-      setProductInfo(args[0], args[1], args[2], args[3]);
+      initialize(args[0], args[1], args[2], args[3]);
       break;
     }
     case SetLicense:
@@ -232,8 +233,12 @@ QString AboutDialog::handleDCOP(int function, const QStringList& args)
     }
     case DCOP::execute:
     {
-      KAboutApplication dialog(m_aboutData, this);
-      dialog.exec();
+      if (m_aboutData)
+      {
+        KAboutApplication dialog(m_aboutData, this);
+        dialog.exec();
+      }
+      break;
     }
     default:
       return KommanderWidget::handleDCOP(function, args);

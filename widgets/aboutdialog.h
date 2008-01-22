@@ -42,7 +42,7 @@ public slots:
   virtual void populate();
 
 private:
-  void setProductInfo(const QString& appName, const QString &icon, const QString& version, const QString& copyright);  
+  void initialize(const QString& appName, const QString &icon, const QString& version, const QString& copyright);  
   void addAuthor(const QString& author, const QString &task, const QString& email, const QString &webAddress);
   void addTranslator(const QString& author, const QString& email);
   void setDescription(const QString& description);
