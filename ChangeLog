@@ -9,6 +9,8 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o add createWidget function for on-the-fly widget creation
     o add connect/disconnect function for on-the-fly signal/slot connection
     o add widgetExists
+    o add indexed array functions: array_indexedFromString, array_indexedToString, array_indexedRemoveElement
+    o input_color and @Input.color accepts a default color argument
     o input_color and @Input.color accepts a default color argument
     o fix "exit" command
     o make a="Label1"; a.setText("foo") work
