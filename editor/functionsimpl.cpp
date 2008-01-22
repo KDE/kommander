@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 /* QT INCLUDES */
+#include <qcheckbox.h>
 #include <qlabel.h>
 #include <qmetaobject.h>
 #include <qstringlist.h>
@@ -213,6 +214,7 @@ void FunctionsDialog::showParameters()
   KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
   QLabel* labels[MaxFunctionArgs] = {argLabel1, argLabel2, argLabel3, argLabel4, argLabel5, argLabel6};
   KComboBox* combos[MaxFunctionArgs] = {combo1, combo2, combo3, combo4, combo5, combo6};
+  QCheckBox* quotes[MaxFunctionArgs] = {quote1, quote2, quote3, quote4, quote5, quote6};
 
   if (groupComboBox->currentItem() == m_Slots)
   {
@@ -230,6 +232,8 @@ void FunctionsDialog::showParameters()
         type = slotArgs[i].remove(QRegExp("\\*|\\&|const\\s"));
         labels[i]->setText(QString("%1:").arg(type));
       }
+        quotes[i]->setChecked(false);
+      quotes[i]->setShown(false);
       if (type == "bool")
       {
         edits[i]->setShown(false);
@@ -242,7 +246,11 @@ void FunctionsDialog::showParameters()
         combos[i]->setShown(false);
         edits[i]->setShown(i < argsCount);
         edits[i]->clear();
-      }
+        if (type == "QString")
+        {
+          quotes[i]->setShown(i < argsCount);
+        } 
+      }  
     }
   } else
   {
@@ -255,6 +263,7 @@ void FunctionsDialog::showParameters()
       arg1Edit->setShown(false);
       argLabel1->setShown(false);
       combo1->setShown(false);
+      quote1->setShown(false);
     }
     int argsCount = m_function.argumentCount();
     for (int i=start; i<MaxFunctionArgs; i++)
@@ -262,6 +271,8 @@ void FunctionsDialog::showParameters()
       labels[i]->setShown(i < argsCount);
       if (i < argsCount)
         labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
+      quotes[i]->setChecked(false);
+      quotes[i]->setShown(false);
       if (m_function.argumentType(i) == "bool")
       {
         edits[i]->setShown(false);
@@ -274,6 +285,10 @@ void FunctionsDialog::showParameters()
         combos[i]->setShown(false);
         edits[i]->setShown(i < argsCount);
         edits[i]->clear();
+        if (m_function.argumentType(i) == "QString")
+        {
+          quotes[i]->setShown(i < argsCount);
+        } 
       }
     }
   }
@@ -285,6 +300,7 @@ QString FunctionsDialog::params()
   KLineEdit* edits[MaxFunctionArgs] = {arg1Edit, arg2Edit, arg3Edit, arg4Edit, arg5Edit, arg6Edit};
   KComboBox* combos[MaxFunctionArgs] = {combo1, combo2, combo3, combo4, combo5, combo6};
   QStringList pars;
+  QCheckBox* quotes[MaxFunctionArgs] = {quote1, quote2, quote3, quote4, quote5, quote6};
   bool params = false;
   bool slotsShown = (groupComboBox->currentItem() == m_Slots);
   for (int i=0; i<MaxFunctionArgs; i++)
@@ -292,8 +308,8 @@ QString FunctionsDialog::params()
     if (edits[i]->isShown())
     {
       QString s = edits[i]->text();
-      if ( (!slotsShown && m_function.argumentType(i) == "QString") 
-            || (slotsShown && labels[i]->text().startsWith("QString")) )
+      if (quotes[i]->isChecked() && ( (!slotsShown && m_function.argumentType(i) == "QString") 
+            || (slotsShown && labels[i]->text().startsWith("QString")) ) )
         s = '"' + s + '"';
       pars.append(s);
       params = true;
