@@ -517,7 +517,7 @@ void SpecialInformation::registerSpecials()
     i18n("Appends given string to the end of a file."), 2);
   
   insertGroup(Group::Input, "Input", "input");
-  insert(Input::color, "color", i18n("Shows color dialog. Returns color in #RRGGBB format."));
+  insert(Input::color, "color(QString defaultColor)", i18n("Shows color dialog. Returns color in #RRGGBB format. Defaults to the parameter, if specified."), 0, 1);
   insert(Input::text, "text(QString caption, QString label, QString default)", 
          i18n("Shows text selection dialog. Returns entered text."), 2);
   insert(Input::password, "password(QString caption, QString password)", 

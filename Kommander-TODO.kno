@@ -1,20 +1,18 @@
 \NewEntry 0 GUI
 
-\NewEntry 1 Widgets
+\CurrentEntry 1 Widgets
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><div></div>
-<li>ColorBox widget </li>
 <li>KJanusWidget</li>
 <li>Switch from using Qt widget to their KDE equivalents?</li>
 <li>Menu</li>
-<li>KHistoryCombo</li>
-<li>KAboutDialog</li>
-<li>FontSelector<br /></li>
+<li>KHistoryCombo<br /></li>
 <div></div></ul>
 <p></p>
 <ul type="disc"><div></div></ul>
 </body></html>
+
 
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
@@ -83,8 +81,7 @@
 <li>use KFormDesigner or the new Qt Designer</li></ul>
 </body></html>
 
-
-\CurrentEntry 0 Bugs
+\NewEntry 0 Bugs
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Various bugs to be fixed</span></p>
 <ul type="disc"><li>Charset is sometimes incorrectly converted from/to local charset</li>
@@ -95,7 +92,6 @@
 <li>toolbox editing is ugly after group layout is applied. Goes back to normal if the dialog is reloaded.</li>
 <li>toolbox cannot be moved in the editor</li></ul>
 </body></html>
-
 
 \NewEntry 0 Help
 
@@ -193,7 +189,6 @@
 <li>KPart create to go with KPart load</li>
 <li>executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</li></ul>
 </body></html>
-
 
 \NewEntry 1 investigate
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">

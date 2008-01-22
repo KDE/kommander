@@ -33,6 +33,10 @@ public:
   virtual QString currentState() const;
   virtual bool isFunctionSupported(int function);
   virtual QString handleDCOP(int function, const QStringList& args);
+  virtual QStringList associatedText() const;
+  virtual void setAssociatedText(const QStringList&);
+  virtual QString populationText() const;
+  virtual void setPopulationText(const QString&);
 
 public slots:
   virtual void populate();

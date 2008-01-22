@@ -9,25 +9,27 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#ifndef COLORDIALOG_H
-#define COLORDIALOG_H
+#ifndef FONTDIALOG_H
+#define FONTDIALOG_H
 
 #include <qlabel.h>
 #include <kommanderwidget.h>
 
+#include <qfont.h>
+
 /**
 	@author Andras Mantia <amantia@kdewebdev.org>
 */
-class ColorDialog : public QLabel, public KommanderWidget
+class FontDialog : public QLabel, public KommanderWidget
 {
   Q_OBJECT
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
-    ColorDialog(QWidget *parent = 0, const char *name = 0);
+    FontDialog(QWidget *parent = 0, const char *name = 0);
 
-    ~ColorDialog();
+    ~FontDialog();
 
   virtual bool isKommanderWidget() const;
   virtual QString currentState() const;
@@ -41,6 +43,8 @@ public:
 public slots:
   virtual void setWidgetText(const QString &);
   virtual void populate();
+
+  QFont m_font;
 };
 
 #endif

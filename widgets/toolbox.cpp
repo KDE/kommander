@@ -72,6 +72,27 @@ void ToolBox::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
+QStringList ToolBox::associatedText() const
+{
+  return KommanderWidget::associatedText();
+}
+
+void ToolBox::setAssociatedText(const QStringList& a_at)
+{
+  KommanderWidget::setAssociatedText(a_at);
+}
+
+void ToolBox::setPopulationText(const QString& a_text)
+{
+  KommanderWidget::setPopulationText(a_text);
+}
+
+QString ToolBox::populationText() const
+{
+  return KommanderWidget::populationText();
+}
+
+
 QString ToolBox::addWidget(const QString& widgetName, const QString &label)
 {
   KommanderWidget *w = widgetByName(widgetName);
