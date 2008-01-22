@@ -232,7 +232,7 @@ void FunctionsDialog::showParameters()
         type = slotArgs[i].remove(QRegExp("\\*|\\&|const\\s"));
         labels[i]->setText(QString("%1:").arg(type));
       }
-        quotes[i]->setChecked(false);
+      quotes[i]->setChecked(true);
       quotes[i]->setShown(false);
       if (type == "bool")
       {
@@ -271,7 +271,7 @@ void FunctionsDialog::showParameters()
       labels[i]->setShown(i < argsCount);
       if (i < argsCount)
         labels[i]->setText(QString("%1:").arg(m_function.argumentName(i)));
-      quotes[i]->setChecked(false);
+      quotes[i]->setChecked(true);
       quotes[i]->setShown(false);
       if (m_function.argumentType(i) == "bool")
       {
