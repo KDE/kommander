@@ -112,6 +112,7 @@
 #include <datepicker.h>
 #include <popupmenu.h>
 #include "toolbox.h"
+#include "colordialog.h"
 
 FormWindow *find_formwindow( QWidget *w )
 {
@@ -1219,6 +1220,8 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     return new DatePicker(parent, name);
   else if (className == "PopupMenu")
     return new PopupMenu(parent, name);
+  else if (className == "ColorDialog")
+    return new ColorDialog(parent, name);
   else if (className == "TreeWidget")
   {
     QListView *lv = new TreeWidget(parent, name);

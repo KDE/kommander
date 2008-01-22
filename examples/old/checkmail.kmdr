@@ -15,6 +15,9 @@
     <property name="caption">
         <string>Mail Checker</string>
     </property>
+    <property name="useInternalParser">
+        <bool>false</bool>
+    </property>
     <widget class="ExecButton">
         <property name="name">
             <cstring>ExecButton2</cstring>
@@ -28,7 +31,7 @@
             </rect>
         </property>
         <property name="text">
-            <string>Check Mail</string>
+            <string>Check &amp;Mail</string>
         </property>
         <property name="associations" stdset="0">
             <stringlist>

@@ -143,7 +143,7 @@
     </make>
     <general>
       <useconfiguration>default</useconfiguration>
-      <activetarget>widget/libkommanderwidget.la</activetarget>
+      <activetarget>widgets/libkommanderwidgets.la</activetarget>
     </general>
     <configurations>
       <default>
@@ -174,7 +174,7 @@
       <autocompile>true</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <globaldebugarguments>/data/development/quanta/test-popupmenu.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/quanta/test-colordialog.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-3.5/kdewebdev/</globalcwd>
       <useglobalprogram>true</useglobalprogram>
     </run>

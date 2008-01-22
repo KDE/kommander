@@ -15,6 +15,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o add setEditable(bool) for widgets that are editable
     o add PopupMenu widget
     o add ToolBox widget
+    o add ColorDialog widget
     o quote the strings inserted via function browser
     o use combobox for booleans in the function browser
     o add highlighting for the new parser

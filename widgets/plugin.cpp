@@ -50,6 +50,7 @@
 #include "toolbox.h"
 #include "wizard.h"
 #include "popupmenu.h"
+#include "colordialog.h"
 
 class KomStdPlugin : public KommanderPlugin
 {
@@ -91,6 +92,7 @@ KomStdPlugin::KomStdPlugin()
   addWidget("Table", group, "", 0);
   addWidget("DatePicker", group, "", 0);
   addWidget("PopupMenu", group, "", new QIconSet(KGlobal::iconLoader()->loadIcon("contents", KIcon::NoGroup, KIcon::SizeMedium)));
+  addWidget("ColorDialog", group, "", new QIconSet(KGlobal::iconLoader()->loadIcon("khsselector", KIcon::NoGroup, KIcon::SizeMedium)));
 }
 
 QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *name )
@@ -126,6 +128,7 @@ QWidget *KomStdPlugin::create( const QString &key, QWidget *parent, const char *
   else if (key == "Wizard") return new Wizard(parent, name);
   else if (key == "DatePicker") return new DatePicker(parent, name);
   else if (key == "PopupMenu") return new PopupMenu(parent, name);
+  else if (key == "ColorDialog") return new ColorDialog(parent, name);
   else return 0;
 }
 
