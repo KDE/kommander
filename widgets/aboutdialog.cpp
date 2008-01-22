@@ -96,9 +96,9 @@ bool AboutDialog::isFunctionSupported(int f)
 void AboutDialog::initialize(const QString& appName, const QString &icon, const QString& version, const QString& copyright)
 {
   delete m_aboutData;  
-  m_aboutData = new KAboutData(appName, appName, version);
+  m_aboutData = new KAboutData(appName.latin1(), appName.latin1(), version.latin1());
   m_version = version;
-  m_aboutData->setCopyrightStatement(copyright);
+  m_aboutData->setCopyrightStatement(copyright.latin1());
   if (!icon.isEmpty())
     m_aboutData->setProgramLogo(KGlobal::iconLoader()->loadIcon(icon, KIcon::NoGroup, KIcon::SizeMedium).convertToImage());  
 }
@@ -107,35 +107,35 @@ void AboutDialog::addAuthor(const QString& author, const QString &task, const QS
 {
   if (!m_aboutData)
     return;
-  m_aboutData->addAuthor(author, task, email, webAddress);
+  m_aboutData->addAuthor(author.latin1(), task.latin1(), email.latin1(), webAddress.latin1());
 }
 
 void AboutDialog::addTranslator(const QString& author, const QString& email)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setTranslator(author, email);
+  m_aboutData->setTranslator(author.latin1(), email.latin1());
 }
 
 void AboutDialog::setDescription(const QString& description)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setShortDescription(description);
+  m_aboutData->setShortDescription(description.latin1());
 }
 
 void AboutDialog::setHomepage(const QString &homepage)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setHomepage(homepage);
+  m_aboutData->setHomepage(homepage.latin1());
 }
 
 void AboutDialog::setBugAddress(const QString &bugAddress)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setBugAddress(bugAddress);
+  m_aboutData->setBugAddress(bugAddress.latin1());
 }
 
 void AboutDialog::setLicense(const QString &key)
@@ -163,7 +163,7 @@ void AboutDialog::setLicense(const QString &key)
   if (file.isEmpty())
   {
     if (!key.isEmpty())
-      m_aboutData->setLicenseText(key);
+      m_aboutData->setLicenseText(key.latin1());
   }
   else
   {
