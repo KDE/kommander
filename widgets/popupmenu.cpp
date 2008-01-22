@@ -26,8 +26,10 @@
 #define SETITEMENABLED 103
 #define ITEMENABLED 104
 #define SETITEMVISIBLE 105
-#define ITEMVISIBLE 106
-#define INSERTSUBMENU 107
+#define SETITEMCHECKED 106
+#define ITEMVISIBLE 107
+#define ITEMCHECKED 108
+#define INSERTSUBMENU 109
 #define LAST_FUNCTION INSERTSUBMENU 
 
 PopupMenu::PopupMenu(QWidget *parent, const char *name)
@@ -57,7 +59,9 @@ PopupMenu::PopupMenu(QWidget *parent, const char *name)
   KommanderPlugin::registerFunction(SETITEMENABLED, "setItemEnabled(QString widget, int id, bool enable)",  i18n("Enable the item specified by id in the popup menu."), 3);
   KommanderPlugin::registerFunction(ITEMENABLED, "itemEnabled(QString widget, int id)",  i18n("Check if the item specified by id is enabled."), 2);
   KommanderPlugin::registerFunction(SETITEMVISIBLE, "setItemVisible(QString widget, int id, bool enable)",  i18n("Make the item specified by id visible."), 3);
+  KommanderPlugin::registerFunction(SETITEMCHECKED, "setItemChecked(QString widget, int id, bool enable)",  i18n("Apply checked status for the item specified by id."), 3);
   KommanderPlugin::registerFunction(ITEMVISIBLE, "itemVisible(QString widget, int id)",  i18n("Check if the item specified by id is visible."), 2);
+  KommanderPlugin::registerFunction(ITEMCHECKED, "itemChecked(QString widget, int id)",  i18n("Verify if the item specified by id is checked."), 2);
   KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString icon, QString text, QString menuWidget, int index)",  i18n("Insert submenu widget into the popup menu. Use -1 for index to insert to the end."), 5);
 }
 
@@ -198,10 +202,22 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
       m_menu->setItemVisible(id, args[1] == "true" || args[1] == "1" ? true : false);
       break;
     }
+    case SETITEMCHECKED:
+    {
+      uint id = args[0].toInt();
+      m_menu->setItemChecked(id, args[1] == "true" || args[1] == "1" ? true : false);
+      break;
+    }
     case ITEMVISIBLE:
     {
       uint id = args[0].toInt();
       return m_menu->isItemVisible(id) ? "1" : "0";
+      break;
+    }
+    case ITEMCHECKED:
+    {
+      uint id = args[0].toInt();
+      return m_menu->isItemChecked(id) ? "1" : "0";
       break;
     }
     case DCOP::item:

@@ -1,6 +1,6 @@
 \NewEntry 0 GUI
 
-\NewEntry 1 Widgets
+\CurrentEntry 1 Widgets
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><div></div>
@@ -15,12 +15,6 @@
 <p></p>
 <ul type="disc"><div></div></ul>
 </body></html>
-
-\CurrentEntry 2 PopupMenu
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
-<ul type="disc"><li>toggled items</li></ul>
-</body></html>
-
 
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
