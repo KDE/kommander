@@ -1361,6 +1361,8 @@ QObject *Resource::createObject( const QDomElement &e, QWidget *parent, QLayout*
 		formwindow->insertWidget( w, pasting );
 	    else if ( parent && ( parent->inherits( "QToolBox" ) || parent->inherits( "QTabWidget" ) || parent->inherits( "QWizard" ) ) )
 		MetaDataBase::addEntry( w );
+        if (w->inherits("Dialog"))
+          dynamic_cast<Dialog*>(w)->setUseInternalParser(false);
 	}
     }
 

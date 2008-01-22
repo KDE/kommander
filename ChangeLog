@@ -18,6 +18,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o quote the strings inserted via function browser
     o use combobox for booleans in the function browser
     o add highlighting for the new parser
+    o use the new parser by default for new dialogs 
     o make possible to open more associated editors at once 
     o fix problem with losing the parser type status in the editor when working with multiple dialogs
     o rework the plugin system
