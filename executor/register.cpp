@@ -73,6 +73,9 @@ void Instance::registerSpecials()
     "String should have <i>key>\\tvalue\\n</i> format.") );
   SpecialInformation::insert("toString", 1, 1, i18n( "Return all elements in the array in "
     "<i>key>\\tvalue\\n</i> format.") );
+  SpecialInformation::insertInternal("indexedFromString", 3, 3, i18n( "Create an integer indexed array - starting from 0 - from a string. Use the separator character to split the string.") );
+  SpecialInformation::insertInternal("indexedToString", 2, 2, i18n( "Create a string from an integer indexed array. Concatenate the elements with the separator character.") );
+  SpecialInformation::insertInternal("indexedRemoveElement", 2, 2, i18n( "Remove the element specified by the key from an indexed array and reindex the array.") );
 
   SpecialInformation::setCurrentObject("String");
   SpecialInformation::insert("length", 1, 1, i18n( "Return number of chars in the string.") );

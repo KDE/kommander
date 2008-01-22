@@ -466,6 +466,12 @@ void SpecialInformation::registerSpecials()
     "String should have <i>key\\tvalue\\n</i> format."), 2);
   insert(Array::toString, "toString(QString array)", 
     i18n("Returns all elements in the array in <pre>key\\tvalue\\n</pre> format."), 1);
+  insertInternal(Array::indexedFromString, "indexedFromString(QString array, QString separator, QString string)", 
+    i18n( "Create an integer indexed array - starting from 0 - from a string. Use the separator character to split the string."), 3);
+  insertInternal(Array::indexedToString, "indexedToString(QString array, QString separator)", 
+    i18n( "Create a string from an integer indexed array. Concatenate the elements with the separator character."), 2);
+  insertInternal(Array::indexedRemoveElement, "indexedRemoveElement(QString array, QString key)", 
+    i18n( "Remove the element specified by the key from an indexed array and reindex the array."), 2);
 
 
   insertGroup(Group::String, "String", "str");

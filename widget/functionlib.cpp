@@ -536,6 +536,63 @@ static ParseNode f_arrayFromString(Parser* P, const ParameterList& params)
 }
  
 
+static ParseNode f_arrayIndexedFromString(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  QString separator = params[1].toString();
+  QStringList lines = QStringList::split(separator, params[2].toString());
+  int i = 0;
+  for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) 
+  {
+    P->setArray(name, QString::number(i), (*it));
+    i++;
+  }
+  return ParseNode();
+}
+
+static ParseNode f_arrayIndexedToString(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isArray(name))
+    return ParseNode();
+  QString separator = params[1].toString();
+  QString array;
+  int count = P->array(name).keys().count();
+  QValueList<ParseNode> values = P->array(name).values();
+  
+  for (int i = 0; i < count; i++)
+  {
+    if (i != 0)
+      array.append(separator);
+    array.append(P->arrayValue(name, QString::number(i)).toString());
+  }
+  return array;
+}
+
+static ParseNode f_arrayIndexedRemoveElement(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isArray(name))
+    return ParseNode();
+  int key = params[1].toInt();
+  QString array;
+  QStringList keys = P->array(name).keys();
+  int count = keys.count();
+  if (key > count - 1 || key < 0)
+    return ParseNode(); //out of index range
+  for (int i = 0; i < count; i++)
+  {
+    if (keys.contains(QString::number(i)) != 1)
+      return ParseNode(); //array is not indexed
+  }
+  P->unsetArray(name, QString::number(key));  
+  for (int i = key + 1; i < count; i++)
+  {
+    P->setArray(name, QString::number(i - 1), P->arrayValue(name, QString::number(i)));
+  }
+  P->unsetArray(name, QString::number(count - 1));  
+  return ParseNode();
+}
 
 /********** input functions *********************/
 static ParseNode f_inputColor(Parser*, const ParameterList& params)
@@ -791,6 +848,9 @@ void ParserData::registerStandardFunctions()
   registerFunction("array_values", Function(&f_arrayValues, ValueString, ValueString));
   registerFunction("array_tostring", Function(&f_arrayToString, ValueString, ValueString));
   registerFunction("array_fromstring", Function(&f_arrayFromString, ValueNone, ValueString, ValueString));
+  registerFunction("array_indexedfromstring", Function(&f_arrayIndexedFromString, ValueNone, ValueString, ValueString, ValueString));
+  registerFunction("array_indexedtostring", Function(&f_arrayIndexedToString, ValueNone, ValueString, ValueString));
+  registerFunction("array_indexedRemoveElement", Function(&f_arrayIndexedRemoveElement, ValueNone, ValueString, ValueString));
   registerFunction("array_remove", Function(&f_arrayRemove, ValueNone, ValueString, ValueString));
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
