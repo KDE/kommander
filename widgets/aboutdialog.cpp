@@ -88,6 +88,17 @@ bool AboutDialog::isKommanderWidget() const
 {
   return true;
 }
+QStringList AboutDialog::associatedText() const
+{
+  return KommanderWidget::associatedText();
+}
+
+void AboutDialog::setAssociatedText(const QStringList& a_at)
+{
+  KommanderWidget::setAssociatedText(a_at);
+}
+
+
 bool AboutDialog::isFunctionSupported(int f)
 {
   return (f > FirstFunction && f < LastFunction) || f == DCOP::execute;
@@ -96,46 +107,65 @@ bool AboutDialog::isFunctionSupported(int f)
 void AboutDialog::initialize(const QString& appName, const QString &icon, const QString& version, const QString& copyright)
 {
   delete m_aboutData;  
-  m_aboutData = new KAboutData(appName.latin1(), appName.latin1(), version.latin1());
+  m_authors.clear();
+  m_emails.clear();
+  m_tasks.clear();
+  m_addresses.clear();
+  m_description = "";
+  m_homepage = "";
+  m_bugaddress = "";
   m_version = version;
-  m_aboutData->setCopyrightStatement(copyright.latin1());
-  if (!icon.isEmpty())
-    m_aboutData->setProgramLogo(KGlobal::iconLoader()->loadIcon(icon, KIcon::NoGroup, KIcon::SizeMedium).convertToImage());  
+  m_appName = appName;
+  m_icon = icon;
+  m_copyright = copyright;
+  m_aboutData = new KAboutData(m_appName, m_appName, m_version);
+  m_aboutData->setCopyrightStatement(m_copyright);
+  if (!m_icon.isEmpty())
+    m_aboutData->setProgramLogo(KGlobal::iconLoader()->loadIcon(m_icon, KIcon::NoGroup, KIcon::SizeMedium).convertToImage());  
 }
 
 void AboutDialog::addAuthor(const QString& author, const QString &task, const QString& email, const QString &webAddress)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->addAuthor(author.latin1(), task.latin1(), email.latin1(), webAddress.latin1());
+  m_authors.append(author);
+  m_emails.append(email);
+  m_tasks.append(task);
+  m_addresses.append(webAddress);
+  m_aboutData->addAuthor(author, task, email, webAddress);
 }
 
 void AboutDialog::addTranslator(const QString& author, const QString& email)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setTranslator(author.latin1(), email.latin1());
+  m_authors.append(author);
+  m_emails.append(email);
+  m_aboutData->setTranslator(author, email);
 }
 
 void AboutDialog::setDescription(const QString& description)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setShortDescription(description.latin1());
+  m_description = description;
+  m_aboutData->setShortDescription(m_description);
 }
 
 void AboutDialog::setHomepage(const QString &homepage)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setHomepage(homepage.latin1());
+  m_homepage = homepage;
+  m_aboutData->setHomepage(m_homepage);
 }
 
 void AboutDialog::setBugAddress(const QString &bugAddress)
 {
   if (!m_aboutData)
     return;
-  m_aboutData->setBugAddress(bugAddress.latin1());
+  m_bugaddress = bugAddress;
+  m_aboutData->setBugAddress(m_bugaddress);
 }
 
 void AboutDialog::setLicense(const QString &key)
@@ -234,7 +264,7 @@ QString AboutDialog::handleDCOP(int function, const QStringList& args)
     case DCOP::execute:
     {
       if (m_aboutData)
-      {
+      {        
         KAboutApplication dialog(m_aboutData, this);
         dialog.exec();
       }

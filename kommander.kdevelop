@@ -174,7 +174,7 @@
       <autocompile>true</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <globaldebugarguments>/data/development/quanta/test-array.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/quanta/test-aboutdialog.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-3.5/kdewebdev/</globalcwd>
       <useglobalprogram>true</useglobalprogram>
     </run>

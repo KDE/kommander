@@ -26,6 +26,7 @@ class AboutDialog : public QLabel, public KommanderWidget
   Q_OBJECT
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+  Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
 public:
     AboutDialog(QWidget *parent = 0, const char *name = 0);
 
@@ -37,6 +38,8 @@ public:
   virtual QString handleDCOP(int function, const QStringList& args);
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
+  virtual QStringList associatedText() const;
+  virtual void setAssociatedText(const QStringList&);
 
 public slots:
   virtual void populate();
@@ -52,6 +55,16 @@ private:
 
   KAboutData *m_aboutData;
   QString m_version;
+  QString m_appName;
+  QString m_copyright;
+  QString m_icon;
+  QString m_bugaddress;
+  QStringList m_authors;
+  QStringList m_emails;
+  QStringList m_tasks;
+  QStringList m_addresses;
+  QString m_description;
+  QString m_homepage;
 };
 
 #endif
