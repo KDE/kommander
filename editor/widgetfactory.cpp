@@ -113,6 +113,7 @@
 #include <popupmenu.h>
 #include "toolbox.h"
 #include "colordialog.h"
+#include "aboutdialog.h"
 
 FormWindow *find_formwindow( QWidget *w )
 {
@@ -1222,6 +1223,8 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     return new PopupMenu(parent, name);
   else if (className == "ColorDialog")
     return new ColorDialog(parent, name);
+  else if (className == "AboutDialog")
+    return new AboutDialog(parent, name);
   else if (className == "TreeWidget")
   {
     QListView *lv = new TreeWidget(parent, name);
