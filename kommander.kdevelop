@@ -12,10 +12,10 @@
     </keywords>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
+    <description></description>
     <ignoreparts/>
     <secondaryLanguages/>
-    <defaultencoding/>
+    <defaultencoding></defaultencoding>
     <projectname>kommander</projectname>
   </general>
   <kdevfileview>
@@ -101,16 +101,16 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
+      <dbgshell></dbgshell>
       <programargs>/opt/kde3/bin/DVDAuthorWizard.kmdr</programargs>
-      <gdbpath/>
+      <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
       <raiseGDBOnStart>false</raiseGDBOnStart>
     </general>
     <display>
@@ -174,7 +174,7 @@
       <autocompile>true</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <globaldebugarguments>/data/development/quanta/test-toolbox.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/quanta/test-popupmenu.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-3.5/kdewebdev/</globalcwd>
       <useglobalprogram>true</useglobalprogram>
     </run>
@@ -243,13 +243,13 @@
       <version>3</version>
       <root>/usr/lib/qt3</root>
       <includestyle>3</includestyle>
-      <designerintegration>EmbeddedKDevDesigner</designerintegration>
+      <designerintegration>ExternalDesigner</designerintegration>
       <qmake>/usr/lib/qt3/bin/qmake</qmake>
       <designer>/usr/lib/qt3/bin/designer</designer>
       <designerpluginpaths/>
     </qt>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet></prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>

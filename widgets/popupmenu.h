@@ -51,7 +51,7 @@ private slots:
   void slotMenuItemActivated(int id);
 
 private:
-  QString insertSubmenu(const QString& title, const QString &menuWidget, int index);
+  QString insertSubmenu(const QString& icon, const QString& title, const QString &menuWidget, int index);
 
   KPopupMenu *m_menu;
   QMap<int, QString> m_associations;

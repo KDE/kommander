@@ -51,14 +51,14 @@ PopupMenu::PopupMenu(QWidget *parent, const char *name)
   connect(m_menu, SIGNAL(activated(int)), this, SLOT(slotMenuItemActivated(int)));
 
   KommanderPlugin::setDefaultGroup(Group::DCOP);
-  KommanderPlugin::registerFunction(INSERTMENUITEM, "insertMenuItem(QString widget, QString text, QString executeWidget, int index)",  i18n("Insert an item into the popup menu. The executeWidget's execute method will be run when this item is selected. Returns the id of the inserted item. Use -1 for index to insert to the end."), 3);
-  KommanderPlugin::registerFunction(INSERTSEPARATOR, "insertSeparator(QString widget, int index)",  i18n("Insert a separator item into the popup menu. Use -1 for index to insert to the end."), 1);
-  KommanderPlugin::registerFunction(CHANGEMENUITEM, "changeMenuItem(QString widget, int id, QString text, QString executeWidget)",  i18n("Change an item specified by id in the popup menu. The executeWidget's execute method will be run when this item is selected."), 3);
-  KommanderPlugin::registerFunction(SETITEMENABLED, "setItemEnabled(QString widget, int id, bool enable)",  i18n("Enable the item specified by id in the popup menu."), 2);
-  KommanderPlugin::registerFunction(ITEMENABLED, "itemEnabled(QString widget, int id)",  i18n("Check if the item specified by id is enabled."), 1);
-  KommanderPlugin::registerFunction(SETITEMVISIBLE, "setItemVisible(QString widget, int id, bool enable)",  i18n("Make the item specified by id visible."), 2);
-  KommanderPlugin::registerFunction(ITEMVISIBLE, "itemVisible(QString widget, int id)",  i18n("Check if the item specified by id is visible."), 1);
-  KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString text, QString menuWidget, int index)",  i18n("Insert submenu widget into the popup menu. Use -1 for index to insert to the end."), 3);
+  KommanderPlugin::registerFunction(INSERTMENUITEM, "insertMenuItem(QString widget, QString icon, QString text, QString executeWidget, int index)",  i18n("Insert an item into the popup menu. The executeWidget's execute method will be run when this item is selected. Returns the id of the inserted item. Use -1 for index to insert to the end."), 5);
+  KommanderPlugin::registerFunction(INSERTSEPARATOR, "insertSeparator(QString widget, int index)",  i18n("Insert a separator item into the popup menu. Use -1 for index to insert to the end."), 2);
+  KommanderPlugin::registerFunction(CHANGEMENUITEM, "changeMenuItem(QString widget, int id, QString icon, QString text, QString executeWidget)",  i18n("Change an item specified by id in the popup menu. The executeWidget's execute method will be run when this item is selected."), 5);
+  KommanderPlugin::registerFunction(SETITEMENABLED, "setItemEnabled(QString widget, int id, bool enable)",  i18n("Enable the item specified by id in the popup menu."), 3);
+  KommanderPlugin::registerFunction(ITEMENABLED, "itemEnabled(QString widget, int id)",  i18n("Check if the item specified by id is enabled."), 2);
+  KommanderPlugin::registerFunction(SETITEMVISIBLE, "setItemVisible(QString widget, int id, bool enable)",  i18n("Make the item specified by id visible."), 3);
+  KommanderPlugin::registerFunction(ITEMVISIBLE, "itemVisible(QString widget, int id)",  i18n("Check if the item specified by id is visible."), 2);
+  KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString icon, QString text, QString menuWidget, int index)",  i18n("Insert submenu widget into the popup menu. Use -1 for index to insert to the end."), 5);
 }
 
 
@@ -118,12 +118,15 @@ void PopupMenu::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
-QString PopupMenu::insertSubmenu(const QString& title, const QString &menuWidget, int index)
+QString PopupMenu::insertSubmenu(const QString& icon, const QString& title, const QString &menuWidget, int index)
 {
   KommanderWidget *w = widgetByName(menuWidget);
   if (dynamic_cast<PopupMenu*>(w))
   {
-    return QString::number(m_menu->insertItem(title, dynamic_cast<PopupMenu*>(w)->menu(), index));
+    if (icon.isEmpty())
+     return QString::number(m_menu->insertItem(title, dynamic_cast<PopupMenu*>(w)->menu(), index));
+    else
+     return QString::number( m_menu->insertItem(KGlobal::iconLoader()->loadIcon(icon, KIcon::NoGroup, KIcon::SizeMedium), title, dynamic_cast<PopupMenu*>(w)->menu(), index));
   }
   return QString();
 }
@@ -147,22 +150,29 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
       break;
     case INSERTMENUITEM:
     {
-      uint index = args[2].toInt();
-      int id = m_menu->insertItem(args[0], index);
-      m_associations[id] = args[1];
+      uint index = args[3].toInt();
+      int id = -1;
+      if (args[0].isEmpty())
+        id = m_menu->insertItem(args[1], index);
+      else
+        id = m_menu->insertItem(KGlobal::iconLoader()->loadIcon(args[0], KIcon::NoGroup, KIcon::SizeMedium), args[1], index);
+      m_associations[id] = args[2];
       return QString::number(id);
       break;
     }
     case INSERTSUBMENU:
     {
-      return insertSubmenu(args[0], args[1], args[2].toInt());
+      return insertSubmenu(args[0], args[1], args[2], args[3].toInt());
       break;
     }
     case CHANGEMENUITEM:
     {
       uint id = args[0].toInt();
-      m_menu->changeItem(id, args[1]);
-      m_associations[id] = args[2];
+      if (args[1].isEmpty())
+        m_menu->changeItem(id, args[2]);
+      else
+        m_menu->changeItem(id, KGlobal::iconLoader()->loadIcon(args[1], KIcon::NoGroup, KIcon::SizeMedium), args[2]);
+      m_associations[id] = args[3];
       break;
     }
     case INSERTSEPARATOR:

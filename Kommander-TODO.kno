@@ -16,11 +16,11 @@
 <ul type="disc"><div></div></ul>
 </body></html>
 
-\NewEntry 2 PopupMenu
+\CurrentEntry 2 PopupMenu
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
-<ul type="disc"><li>icons</li>
-<li>toggled items</li></ul>
+<ul type="disc"><li>toggled items</li></ul>
 </body></html>
+
 
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
@@ -82,27 +82,25 @@
 \NewEntry 1 Other
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Other GUI-related issues</span></p>
-<ul type="disc"><li>get rid of unreadable splash messages</li>
-<li>use KSplash instead of local splash class</li>
-<li>cleanup slots/signals/connections interface</li>
-<li>find out why slots are shown only for current tab</li>
-<li>add standard KDE About dialog<br /></li></ul>
+<ul type="disc"><li>cleanup slots/signals/connections interface</li>
+<li>find out why slots are shown only for current tab<br /></li></ul>
 <p><span style="font-weight:600">KDE4 ideas:<br /></span></p>
 <ul type="disc"><li>create a KDevelop plugin for the editor</li>
 <li>use KFormDesigner or the new Qt Designer</li></ul>
 </body></html>
 
+
 \NewEntry 0 Bugs
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Various bugs to be fixed</span></p>
 <ul type="disc"><li>Charset is sometimes incorrectly converted from/to local charset</li>
-<li>Wizard widget locks up editor - find out why?</li>
 <li>SubDialog crashes now</li>
 <li>check the *pid functions in the new parser</li>
 <li>hide what is not available in the Function Browser for the old parser</li>
 <li>Labels do not show up unless you edit their text</li>
 <li>toolbox editing is ugly after group layout is applied. Goes back to normal if the dialog is reloaded.</li></ul>
 </body></html>
+
 
 \NewEntry 0 Help
 
@@ -196,14 +194,13 @@
 \NewEntry 1 To Do
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Kommander Release Do list</span></p>
-<ul type="disc"><li>add toggle and possibly icons for popup menu</li>
-<li>Add missing functions in FB</li>
+<ul type="disc"><li>Add missing functions in FB</li>
 <li>KPart create to go with KPart load</li>
 <li>executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</li></ul>
 </body></html>
 
 
-\CurrentEntry 1 investigate
+\NewEntry 1 investigate
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Things to look into</span></p>
 <ul type="disc"><li>Qt database connection?</li>
@@ -216,7 +213,6 @@
 <li>Additional XML fields in dialog for author name, version of Kommander required, etc... - not required as KAbout would be better</li></ul>
 </body></html>
 
-
 \NewEntry 1 Bugs to squish
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Version 1.3 FIXME list</span></p>
@@ -224,7 +220,6 @@
 <li>link handling in TextBrowser opens file manager in execute directory even if calling another Kommander dialog. First it opens the file, then konqeror.</li>
 <li></li></ul>
 </body></html>
-
 
 \NewEntry 1 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
