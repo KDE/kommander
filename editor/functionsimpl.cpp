@@ -105,7 +105,7 @@ QString FunctionsDialog::currentFunctionText()
     return QString("%1%2%3").arg(prefix).arg(functionListBox->currentText()).arg(params());
   else if (groupComboBox->currentItem() == m_DCOP || groupComboBox->currentItem() == m_Slots)
     return QString("%1%2.%3%4").arg(prefix).arg(widgetComboBox->currentText().section(' ', 0, 0))
-        .arg(functionListBox->currentText()).arg(params());
+        .arg(functionListBox->currentText().left(functionListBox->currentText().find('('))).arg(params());
   else 
     return QString("%1%2%3%4").arg(prefix).arg(function)
         .arg(functionListBox->currentText()).arg(params());
