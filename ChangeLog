@@ -28,6 +28,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o fix problem with losing the parser type status in the editor when working with multiple dialogs
     o @Array.fromString should append the new elements to the array, just like
       it did before and how array_fromString does.
+    o fix @eval for addition/substraction and handle division by zero
     o rework the plugin system
     o bump version to 1.3
 

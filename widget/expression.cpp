@@ -16,6 +16,8 @@
 
 #include "expression.h"
 
+#include <klocale.h>
+
 Expression::Expression() : m_start(0), m_error(false)
 {
 }
@@ -185,20 +187,30 @@ QVariant Expression::parseMultiply()
     QVariant value2 = parseBracket();
     Type mode = commonType(value, value2);
     if (op == "*")
+    {
       if (mode == TypeDouble)
         value = value.toDouble() * value2.toDouble();
       else
         value = value.toInt() * value2.toInt();
+    }
     else if (op == "/")
+    {
+      if (value2.toInt() == 0)
+        return i18n("error");
       if (mode == TypeDouble || value.toInt() != value.toInt() / value2.toInt() * value2.toInt())
         value = value.toDouble() / value2.toDouble();
       else
         value = value.toInt() / value2.toInt();
+    }
     else 
+    {
+      if (value2.toInt() == 0)
+        return i18n("error");
       if (mode == TypeDouble)
         value = value.toDouble() / value2.toInt();
       else
         value = value.toInt() / value2.toInt();
+    }
     op = next();
   }
   return value;
@@ -209,7 +221,7 @@ QVariant Expression::parseAdd()
   if (!validate()) return -1;
   QVariant value = parseMultiply();
   QString op = next();
-  while (next() == "+" || next() == "-")
+  while (op == "+" || op == "-")
   {
     m_start++;
     QVariant value2 = parseMultiply();
@@ -224,6 +236,7 @@ QVariant Expression::parseAdd()
         value = value.toDouble() - value2.toDouble();
       else
         value = value.toInt() - value2.toInt();
+    op = next();
   }
   return value;
 }
