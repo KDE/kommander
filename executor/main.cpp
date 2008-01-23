@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
     "(c) 2002, Marc Britton", 0, 0, "consume@optushome.com.au");
   aboutData.addAuthor("Marc Britton", 0, "consume@optushome.com.au");
   aboutData.addAuthor("Michal Rudolf", 0, "mrudolf@kdewebdev.org");
+  aboutData.addAuthor("Andras Mantia", 0, "amantia@kde.org");
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -77,7 +78,7 @@ int main(int argc, char *argv[])
     KLocale::setMainCatalogue(buf);
   }
   else
-    KLocale::setMainCatalogue("Kommander");
+    KLocale::setMainCatalogue("kommander");
   KApplication app;
 
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
