@@ -2149,7 +2149,7 @@ void FormWindow::saveBackground()
 
 void FormWindow::restoreConnectionLine()
 {
-  if (!unclippedPainter)
+  if (!unclippedPainter || !buffer)
     return;
 
   int a =QABS(connectStartPos.x() - currentConnectPos.x());
