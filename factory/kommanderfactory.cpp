@@ -542,6 +542,8 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    layout = 0;
 	}
     }
+    if (w->inherits("Dialog"))
+       w->setProperty( "useInternalParser", false );
 
     while ( !n.isNull() ) {
 	if ( n.tagName() == "spacer" ) {

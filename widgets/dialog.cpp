@@ -37,7 +37,6 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   states << "destroy";
   setStates(states);
   setDisplayStates(states);
-  m_useInternalParser = true;
 }
 
 Dialog::~Dialog()

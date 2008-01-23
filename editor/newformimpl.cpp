@@ -1,5 +1,5 @@
 /**********************************************************************
- This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS.  All rights reserved.
+ This file is based on Qt Designer, Copyright (C) 2000 Trolltech AS. ï¿½All rights reserved.
 
  This file may be distributed and/or modified under the terms of the
  GNU General Public License version 2 as published by the Free Software
@@ -43,6 +43,8 @@
 #include <kglobal.h>
 #include <kstandarddirs.h>
 
+#include "dialog.h"
+
 static int _forms = 0;
 
 FormItem::FormItem(QIconView *view, const QString &text)    : NewItem(view, text)
@@ -56,17 +58,22 @@ void FormItem::insert()
   FormFile *ff = new FormFile(FormFile::createUnnamedFileName(), true);
   fw = new FormWindow(ff, MainWindow::self, MainWindow::self->qWorkspace(), n);
   MetaDataBase::addEntry(fw);
-  if (fType == Dialog)
+  QWidget *w = 0L;
+  if (fType == Dialog) 
   {
-    QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("Dialog"), fw, n.latin1());
+    w = WidgetFactory::create(WidgetDatabase::idFromClassName("Dialog"), fw, n.latin1());
     fw->setMainContainer(w);
   } 
   else if (fType == Wizard)
   {
-    QWidget *w = WidgetFactory::create(WidgetDatabase::idFromClassName("Wizard"), fw, n.latin1());
+    w = WidgetFactory::create(WidgetDatabase::idFromClassName("Wizard"), fw, n.latin1());
     fw->setMainContainer(w);
   }
-
+  if (w)
+  {
+    w->setProperty("useInternalParser", true);
+    MetaDataBase::setPropertyChanged(w, "useInternalParser", true);
+  }
   fw->setCaption(n);
   fw->resize(600, 480);
   MainWindow::self->insertFormWindow(fw);
