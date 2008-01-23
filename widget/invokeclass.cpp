@@ -12,6 +12,7 @@
 
 #include "invokeclass.h"
 
+#include <qcolor.h>
 #include <qregexp.h>
 
 InvokeClass::InvokeClass(QObject *parent):QObject(parent)
@@ -50,7 +51,8 @@ void InvokeClass::invokeSlot(QObject *object, const QString& slot, QStringList a
       emit invoke(args[0].toInt(), args[1].toInt(), args[2].toInt());
     else if (slotArgStr == m_acceptedSlots[6])
       emit invoke(args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt());
-
+    else if (slotArgStr == m_acceptedSlots[7])
+      emit invoke(QColor(args[0]));
   }
     
   disconnect(this, invokeName.ascii(), object, slotName.ascii());

@@ -2,7 +2,7 @@
     o set new functions only available to new parser such as createWidget to not be shown in the function browser if the old parser is run.
 
 January 2008 - Andras Mantia <amantia@kde.org>
-    o support executing of slots that don't have arguments
+    o support executing of slots
     o add "execute" method for PushButton
     o possibility to pass parameters for ScriptObject added
     o add "return" command to get back the result of a ScriptObject

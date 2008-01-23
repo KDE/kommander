@@ -32,7 +32,8 @@ public:
     acceptedSlots << "int,int";
     acceptedSlots << "int,int,int";
     acceptedSlots << "int,int,int,int";
- 
+    acceptedSlots  << "const QColor&";
+
     return acceptedSlots;    
   }
 
@@ -45,6 +46,7 @@ signals:
   void  invoke(int,int);
   void  invoke(int,int,int);
   void  invoke(int,int,int,int);
+  void  invoke(const QColor&);
 
 private:
   QStringList m_acceptedSlots;
