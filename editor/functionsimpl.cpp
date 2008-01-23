@@ -28,6 +28,7 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+#include <ktextedit.h>
 #include <ktextbrowser.h>
 #include <kdebug.h>
 
@@ -219,9 +220,11 @@ void FunctionsDialog::functionChanged(int)
 void FunctionsDialog::copyText()
 {
   QString text = currentFunctionText();
-  int cursorPos = insertedText->cursorPosition();
+  int para, i;
+  insertedText->getCursorPosition(&para, &i);  
+//   int cursorPos = insertedText->cursorPosition();
   insertedText->insert(text);
-  insertedText->setCursorPosition(cursorPos + text.find('(') + 1);
+  insertedText->setCursorPosition(para, i + text.find('(') + 1);
 }
 
 void FunctionsDialog::showParameters()
