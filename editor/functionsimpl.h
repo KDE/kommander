@@ -49,7 +49,8 @@ private:
   int m_DCOP;
   int m_Slots;
   const QDict<QWidget> m_widgetList;
-  const QStringList m_widgetNames;
+  QStringList m_widgetNames;
+  QStringList m_widgetTypes;
   bool m_useInternalParser;
   QStringList m_acceptedSlots;
   QMap<QString, QString> m_slotList;

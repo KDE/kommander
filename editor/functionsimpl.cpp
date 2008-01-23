@@ -35,6 +35,7 @@
 #include "functionsimpl.h"
 #include "kommanderwidget.h"
 #include "invokeclass.h"
+#include "widgetdatabase.h"
 
 const int MaxFunctionArgs = 6;
 
@@ -54,11 +55,23 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
   connect(clearButton, SIGNAL(clicked()), insertedText, SLOT(clear()));
 
   // build widget name list
-  QStringList widgets;
   for (QDictIterator<QWidget> It(m_widgetList); It.current(); ++It)
-    widgets.append(It.currentKey());
-  widgets.sort();
-  widgetComboBox->insertStringList(widgets);
+    m_widgetNames.append(It.currentKey());
+  m_widgetNames.sort();
+  widgetComboBox->insertStringList(m_widgetNames);
+
+  for (int j = 0; j < WidgetDatabase::count(); j++)
+  {
+    QString group = WidgetDatabase::group(j);
+    if (group == "Kommander" || group == "Custom")
+      m_widgetTypes << WidgetDatabase::className(j);
+  }
+  m_widgetTypes.sort();
+
+//TODO: Insert either the generic widget types or parse for on the fly created widget
+//names. The problem is that the rest of the code depends on the fact that the widget
+//from the widgetComboBox exists
+//   widgetComboBox->insertStringList(m_widgetTypes);
 
   m_acceptedSlots = InvokeClass::acceptedSlots();
   
@@ -241,6 +254,7 @@ void FunctionsDialog::showParameters()
         edits[i]->setShown(false);
         combos[i]->setShown(i < argsCount);
         combos[i]->clear();
+        combos[i]->setEditable(false);
         combos[i]->insertItem("true");
         combos[i]->insertItem("false");    
       } else
@@ -279,18 +293,37 @@ void FunctionsDialog::showParameters()
       {
         edits[i]->setShown(false);
         combos[i]->setShown(i < argsCount);
+        combos[i]->setEditable(false);
         combos[i]->clear();
         combos[i]->insertItem("true");
         combos[i]->insertItem("false");    
       } else
       {
-        combos[i]->setShown(false);
-        edits[i]->setShown(i < argsCount);
-        edits[i]->clear();
-        if (m_function.argumentType(i) == "QString")
+//FIXME: big hack to show a combo for createWidgets. Good solution: extra flag for arguments telling if it is a file/widget/etc.
+        if (m_function.name() == "createWidget" && ( i == 1 || i == 2))
         {
-          quotes[i]->setShown(i < argsCount);
-        } 
+          combos[i]->clear();
+          combos[i]->setEditable(true);
+          if ( i == 1)
+          {
+            combos[i]->insertStringList(m_widgetTypes);
+          } else
+          {
+            combos[i]->insertItem("");
+            combos[i]->insertStringList(m_widgetNames);
+          }
+          edits[i]->setShown(false);
+          combos[i]->setShown(true);
+        } else
+        {
+          combos[i]->setShown(false);
+          edits[i]->setShown(i < argsCount);
+          edits[i]->clear();
+          if (m_function.argumentType(i) == "QString")
+          {
+            quotes[i]->setShown(i < argsCount);
+          } 
+        }
       }
     }
   }
@@ -318,7 +351,10 @@ QString FunctionsDialog::params()
     } else
     if (combos[i]->isShown())
     {
-      pars.append(combos[i]->currentText());
+      QString s = combos[i]->currentText();
+      if (s != "true" || s !="false")
+        s = '"' + s + '"';
+      pars.append(s);
       params = true;
     }
   }
