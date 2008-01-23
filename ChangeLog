@@ -14,6 +14,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o input_color and @Input.color accepts a default color argument
     o fix "exit" command
     o make a="Label1"; a.setText("foo") work
+    o make dcopid, pid, parentPid work in the new parser
     o add setCellWidget/cellWidget for Table
     o add setEditable(bool) for widgets that are editable
     o add PopupMenu widget

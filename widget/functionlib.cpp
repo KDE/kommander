@@ -253,6 +253,21 @@ static ParseNode f_executeSlot(Parser* parser, const ParameterList& params)
 
 
 /******************* DCOP function ********************************/
+static ParseNode f_dcopid(Parser*, const ParameterList& )
+{
+  return QString(kapp->dcopClient()->appId());
+}
+
+static ParseNode f_pid(Parser*, const ParameterList& )
+{
+  return QString::number(getpid());
+}
+
+static ParseNode f_parentPid(Parser*p, const ParameterList& )
+{
+  return p->variable("_PARENTPID").toString().isEmpty() ? QString::number(getppid()) : p->variable("_PARENTPID");
+}
+
 static ParseNode f_internalDcop(Parser* parser, const ParameterList& params)
 {
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
@@ -836,6 +851,9 @@ void ParserData::registerStandardFunctions()
   registerFunction("connect", Function(&f_connect, ValueString, ValueString, ValueString, ValueString, 4, 4));
   registerFunction("disconnect", Function(&f_disconnect, ValueString, ValueString, ValueString, ValueString, 4, 4));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));
+  registerFunction("dcopid", Function(&f_dcopid, ValueString, ValueNone, 0, 0));
+  registerFunction("pid", Function(&f_pid, ValueString, ValueNone, 0, 0));
+  registerFunction("parentPid", Function(&f_parentPid, ValueString, ValueNone, 0, 0));
   registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
