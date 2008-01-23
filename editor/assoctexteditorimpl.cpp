@@ -203,18 +203,27 @@ void AssocTextEditor::setWidget(QWidget *a_widget)
   m_populationText = a_atw->populationText();
 
   // show pixmaps for nonempty scripts
+  int m_initialization = -1;
   int p_population = stateComboBox->count()-1;
   int active = -1;
   for (int i = 0; i < p_population; i++)
+  {
     if (!m_atdict[stateComboBox->text(i)].isEmpty())
     {
        stateComboBox->changeItem(scriptPixmap, stateComboBox->text(i), i);
        if (active == -1) active = i;
     }
+    if (stateComboBox->text(i) == "initialization")
+      m_initialization = i;
+  }
   if (!m_populationText.isEmpty())
   {
     stateComboBox->changeItem(scriptPixmap, stateComboBox->text(p_population), p_population);
     if (active == -1) active = p_population;
+  }
+  if (active == -1 && m_initialization != -1)
+  {
+    active = m_initialization;
   }
   if (active == -1) active = 0;
 
