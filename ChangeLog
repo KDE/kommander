@@ -26,6 +26,8 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o use the new parser by default for new dialogs 
     o make possible to open more associated editors at once 
     o fix problem with losing the parser type status in the editor when working with multiple dialogs
+    o @Array.fromString should append the new elements to the array, just like
+      it did before and how array_fromString does.
     o rework the plugin system
     o bump version to 1.3
 

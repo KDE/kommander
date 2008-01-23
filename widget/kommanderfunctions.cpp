@@ -260,7 +260,6 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     parser.setArray(array, args[1], args[2]);
   else if (fname == Array::fromString)
   {
-    parser.unsetArray(array);
     QStringList lines = QStringList::split("\n", args[1]);
     for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it)
     {
