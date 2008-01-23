@@ -75,6 +75,8 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
        m_Slots = i; 
      }
   }
+  if (!useInternalParser)
+    groupComboBox->removeItem(m_Slots);
   groupComboBox->setCurrentItem(m_DCOP);
   groupChanged(groupComboBox->currentItem());
 }
