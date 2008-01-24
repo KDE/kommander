@@ -20,6 +20,7 @@
 /* KDE INCLUDES */
 #include <kglobal.h>
 #include <kiconloader.h>
+#include <klocale.h>
 
 
 /* OTHER INCLUDES */
@@ -92,16 +93,23 @@ void ScriptObject::populate()
 
 QString ScriptObject::executeProcess(bool blocking)
 {
-  if (KommanderWidget::useInternalParser)
+  int index = ( states().findIndex( currentState()) );
+  if (index == -1)
   {
-    evalAssociatedText();
+    printError(i18n("Invalid state for associated text."));
+    return QString();
+  }
+  QString evalText = m_associatedText[index];
+
+  if ((KommanderWidget::useInternalParser && !evalText.startsWith("#!")) || evalText.startsWith("#!kommander"))
+  {
+    evalAssociatedText(evalText);
     return global(widgetName() + "_RESULT");
   } else
   {
     MyProcess process(this);
     process.setBlocking(blocking);
-    process.run(evalAssociatedText());
-    return QString();
+    return process.run(evalAssociatedText(evalText));
   }
 }
 
