@@ -13,7 +13,6 @@
 <ul type="disc"><div></div></ul>
 </body></html>
 
-
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Layout of Edit Kommander Text dialog<br /><br />Old ideas:</span></p>
@@ -187,18 +186,19 @@
 <p><span style="font-weight:600">Kommander Release Do list</span></p>
 <ul type="disc"><li>Add missing functions in FB</li>
 <li>KPart create to go with KPart load</li>
-<li>executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</li></ul>
+<li><span style="color:#ff0000">executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</span></li></ul>
 </body></html>
 
-\CurrentEntry 1 investigate
+
+\NewEntry 1 investigate
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Things to look into</span></p>
 <ul type="disc"><li>Qt database connection?</li>
-<li>quote handling in function browser - make user on off?</li>
+<li><span style="color:#00ff00">quote handling in function browser - make user on off?</span></li>
 <li>Code completion? If easy to do, otherwise we recommend users try the Kate completion plugin</li>
 <li>D&amp;D of text/selection data</li>
-<li>simple DCOP functinos in editor to enable Kommander based tools to call the editor and open a dialog to edit - otherwise any interfaces can at least make use of D&amp;D from file manager (KPart) views</li>
-<li>Additional XML fields in dialog for author name, version of Kommander required, etc... - not required as KAbout would be better</li></ul>
+<li>simple DCOP functions in editor to enable Kommander based tools to call the editor and open a dialog to edit - otherwise any interfaces can at least make use of D&amp;D from file manager (KPart) views</li>
+<li><span style="color:#ff0000">Additional XML fields in dialog for author name, version of Kommander required, etc... - not required as KAbout would be better</span></li></ul>
 </body></html>
 
 
@@ -210,10 +210,15 @@
 <li></li></ul>
 </body></html>
 
-\NewEntry 1 Done
+\CurrentEntry 1 Done
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
-<p>New widgets include the DatePicker, Popup Menu and Toolbox. New functions inlcude widget creation, hooking and unhooking signals and slots and full slot access as well as passing and returning parameters in scripts. WooHoo! Take that do list!</p>
+<p>New widgets include the DatePicker, Popup Menu and Toolbox. New functions inlcude widget creation, hooking and unhooking signals and slots and full slot access as well as passing and returning parameters in scripts. WooHoo! Take that do list!<br /></p>
+<ul type="disc"><li>fixed dcop functions</li>
+<li>added indexed array functions</li>
+<li>made color slot work in TextEdit</li>
+<li>Enhnaced function browser for easier widget creation</li></ul><p>See changlog for more complete list</p>
 </body></html>
+
 
 \NewEntry 1 Won't Do
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
