@@ -304,10 +304,8 @@ void SpecialInformation::registerSpecials()
          i18n("Returns index of current item."), 1);
   insert(DCOP::currentRow, "currentRow(QString widget)", 
          i18n("Returns index of current row."), 1);
-  insert(DCOP::execute, "execute(QString widget)", 
-         i18n("Executes the script associated with the widget. With the new parser the execute method can take one or more arguments as Script.execute(\"val1\",\"val2\")."), 1, 9);
-//  insertInternal(DCOP::execute, "execute(QString widget, QString args)", 
-//        i18n("Executes the script associated with the widget. The execute method can take one or more arguments."), 1, 2);
+  insert(DCOP::execute, "execute(QString widget, QString arg1, QString arg2, QString arg3, QString arg4, QString arg5)", 
+         i18n("Executes the script associated with the widget. With the new parser the execute method can take one or more arguments."), 1, 6);
   insert(DCOP::findItem, "findItem(QString widget, QString item)",
          i18n("Returns the index of an item with the given text."), 2);
   insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
@@ -436,16 +434,16 @@ void SpecialInformation::registerSpecials()
      i18n("Connects the signal of sender with the slot of the receiver"), 4);
   insertInternal(Kommander::disconnect, "disconnect(QString sender, QString signal, QString receiver, QString slot)",
      i18n("Disconnects the signal of sender from the slot of the receiver"), 4);
-/*
+
   insertInternal(Kommander::exit, "exit", 
      i18n("Exits script execution and returns"), 0);
-  insertInternal(Kommander::break, "break", 
+  insertInternal(Kommander::Break, "break", 
      i18n("Exits the current block of a while, for or foreach loop"), 0);
-  insertInternal(Kommander::continue, "continue", 
+  insertInternal(Kommander::Continue, "continue", 
      i18n("Exit a step and return to the beginning of a loop"), 0);
-  insertInternal(Kommander::return, "return(QString value)", 
+  insertInternal(Kommander::Return, "return(QString value)", 
      i18n("Return from a script, optionaly with a value from the script to the caller"), 0, 1);
-*/
+
   insertGroup(Group::Array, "Array", "array");
   insert(Array::values, "values(QString array)", 
     i18n("Returns an EOL-separated list of all values in the array."), 1);
