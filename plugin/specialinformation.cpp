@@ -508,12 +508,12 @@ void SpecialInformation::registerSpecials()
     i18n("Returns given section of a string."), 1);
   insert(String::args, "args(QString string, QString arg1, QString arg2, QString arg3)", 
     i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
-/*
-  insertInternal(String::toint. "toint(QString string, QString default)",
+
+  insertInternal(String::toInt, "toint(QString string, QString default)",
     i18n("Convert a string to an integer. If not possible use the default value"), 1, 2);
-  insertInternal(String::todouble. "todouble(QString string, QString default)",
+  insertInternal(String::toDouble, "todouble(QString string, QString default)",
     i18n("Convert a string to a double precision floating point value. If not possible use the default value"), 1, 2);
-*/
+
   insertGroup(Group::File, "File", "file");
   insert(File::read, "read(QString)", 
     i18n("Returns content of given file."), 1);
