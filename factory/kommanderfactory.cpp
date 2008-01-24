@@ -542,7 +542,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
 	    layout = 0;
 	}
     }
-    if (w->inherits("Dialog"))
+    if (className == "Dialog")
        w->setProperty( "useInternalParser", false );
 
     while ( !n.isNull() ) {
