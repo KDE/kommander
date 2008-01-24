@@ -422,7 +422,7 @@ void SpecialInformation::registerSpecials()
      i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
   insert(Kommander::writeSetting, "writeSetting(QString key, QString value)",
      i18n("Stores setting in configuration file for this dialog."), 2);
-  insert(Kommander::switchBlock, "switch(QString expresion)",
+  insertMacro(Kommander::switchBlock, "switch(QString expresion)",
      i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i>.<p>@switch()<br>@case()<br>@end"), 1);
   insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)",
      i18n("Executes an external DCOP call."), 3, 9);
