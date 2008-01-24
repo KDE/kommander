@@ -480,6 +480,8 @@ bool AssocTextEditor::useInternalParser()
     s = associatedTextEdit->textLine(line);
   }
   s = s.stripWhiteSpace();
+  if (s.startsWith("#!") && s != "#!kommander")
+    return false; //code is written in external script, old parser is used
   if (KommanderWidget::useInternalParser || s == "#!kommander")
     return true;
   return false;
