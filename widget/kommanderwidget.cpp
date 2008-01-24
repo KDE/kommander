@@ -249,7 +249,9 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
 
 QString KommanderWidget::DCOPQuery(const QStringList& a_query)
 {
-  QCString appId = a_query[0].latin1(), object = a_query[1].latin1();
+  QString app =  a_query[0];
+  app.remove("\"");
+  QCString appId = app.latin1(), object = a_query[1].latin1();
   
   // parse function arguments
   QString function = a_query[2], pTypes;
