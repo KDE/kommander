@@ -30,6 +30,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o @Array.fromString should append the new elements to the array, just like
       it did before and how array_fromString does.
     o fix @eval for addition/substraction and handle division by zero
+    o store Kommander version in the VERSION/_VERSION global variable
     o rework the plugin system
     o bump version to 1.3
 
