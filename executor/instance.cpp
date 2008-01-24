@@ -449,11 +449,12 @@ void Instance::setMaximum(const QString &widgetName, int value)
     kommanderWidget(child)->handleDCOP(DCOP::setMaximum, QString::number(value));
 }
 
-void Instance::execute(const QString &widgetName)
+QString Instance::execute(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDCOP(DCOP::execute);
+    return kommanderWidget(child)->handleDCOP(DCOP::execute);
+  return "";
 }
 
 void Instance::cancel(const QString &widgetName)

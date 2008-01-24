@@ -92,7 +92,7 @@ public:
   virtual QString global(const QString& variableName);
   virtual void setGlobal(const QString& variableName, const QString& value);
   virtual void setMaximum(const QString &widgetName, int value);
-  virtual void execute(const QString &widgetName);
+  virtual QString execute(const QString &widgetName);
   virtual void cancel(const QString &widgetName);
   virtual int count(const QString &widgetName);
   virtual int currentColumn(const QString &widgetName);
