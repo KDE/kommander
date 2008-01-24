@@ -352,18 +352,24 @@ QString FunctionsDialog::params()
     if (edits[i]->isShown())
     {
       QString s = edits[i]->text();
-      if (quotes[i]->isChecked() && ( (!slotsShown && m_function.argumentType(i) == "QString") 
+      if (!s.isEmpty() || i < m_function.minArg())
+      {
+        if (quotes[i]->isChecked() && ( (!slotsShown && m_function.argumentType(i) == "QString") 
             || (slotsShown && labels[i]->text().startsWith("QString")) ) )
-        s = '"' + s + '"';
-      pars.append(s);
+          s = '"' + s + '"';
+         pars.append(s);
+      }
       params = true;
     } else
     if (combos[i]->isShown())
     {
       QString s = combos[i]->currentText();
-      if (s != "true" || s !="false")
-        s = '"' + s + '"';
-      pars.append(s);
+      if (!s.isEmpty() || i < m_function.minArg())
+      {
+        if (s != "true" || s !="false")
+          s = '"' + s + '"';
+        pars.append(s);
+      }
       params = true;
     }
   }
