@@ -41,6 +41,7 @@
 #include "kommanderwidget.h"
 #include "kommanderwindow.h"
 #include "kommanderfactory.h"
+#include "kommanderversion.h"
 #include "specials.h"
 #include "specialinformation.h"
 #include "fileselector.h"
@@ -145,6 +146,7 @@ bool Instance::build(const KURL& fname)
       m_textInstance->setGlobal("KDDIR", fname.directory());
       m_textInstance->setGlobal("NAME", fname.fileName());
       m_textInstance->setGlobal("_PID", QString().setNum(getpid()));
+      m_textInstance->setGlobal("VERSION", KOMMANDER_VERSION);
   }
   return true;
 }
