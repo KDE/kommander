@@ -91,6 +91,7 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
   }
   if (!useInternalParser)
     groupComboBox->removeItem(m_Slots);
+  groupComboBox->changeItem(i18n("Functions"), m_DCOP); //this is a quick way to rename this group in the UI
   groupComboBox->setCurrentItem(m_DCOP);
   groupChanged(groupComboBox->currentItem());
 }
@@ -107,16 +108,18 @@ QString FunctionsDialog::functionText() const
 QString FunctionsDialog::currentFunctionText()
 {
   QString prefix, function;
+  int index = groupComboBox->currentItem();
+  QString s = (index != m_DCOP ) ? groupComboBox->text(index) : "DCOP";
   if (m_useInternalParser)
   {
-    function = SpecialInformation::parserGroupName(groupComboBox->currentText());
+    function = SpecialInformation::parserGroupName(s);
     if (!function.isEmpty())
       function += "_";
   }
   else 
   {
     prefix = "@";
-    function = groupComboBox->currentText() + ".";
+    function = s + ".";
   }
   if (groupComboBox->currentText() == "Kommander")
     return QString("%1%2%3").arg(prefix).arg(functionListBox->currentText()).arg(params());
@@ -153,11 +156,12 @@ void FunctionsDialog::groupChanged(int index)
     }
   } else
   {
-    QStringList pFunctions = SpecialInformation::functions(groupComboBox->text(index));
+    QString s = (index != m_DCOP ) ? groupComboBox->text(index) : "DCOP";
+    QStringList pFunctions = SpecialInformation::functions(s);
     KommanderWidget* a_atw = 0;
     if (index == m_DCOP)
       a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
-    int pGroup = SpecialInformation::group(groupComboBox->text(index));
+    int pGroup = SpecialInformation::group(s);
     SpecialFunction::ParserType pType = m_useInternalParser 
         ? SpecialFunction::InternalParser : SpecialFunction::MacroParser;
   
@@ -192,7 +196,9 @@ void FunctionsDialog::functionChanged(int)
       .arg(slotName).arg(slotHelp).arg(slot).arg(""));
   } else
   {
-    m_function = SpecialInformation::functionObject(groupComboBox->currentText(),
+    int index = groupComboBox->currentItem();
+    QString s = (index != m_DCOP ) ? groupComboBox->text(index) : "DCOP";
+    m_function = SpecialInformation::functionObject(s,
         functionListBox->currentText());
     QString defArgs;
     if (m_function.minArg() < m_function.argumentCount()) 
