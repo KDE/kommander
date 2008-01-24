@@ -34,6 +34,8 @@ class KOMMANDER_EXPORT Dialog : public QDialog, public KommanderWindow
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   Q_PROPERTY(bool useInternalParser READ useInternalParser WRITE setUseInternalParser)
+  Q_PROPERTY(bool useShebang READ useShebang WRITE setUseShebang DESIGNABLE true)
+  Q_PROPERTY(QString shebang READ Shebang WRITE setShebang DESIGNABLE true)
   Q_OVERRIDE(bool modal DESIGNABLE false)
   
 public:
@@ -48,6 +50,11 @@ public:
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   virtual void show();
+
+  bool useShebang() const { return m_useShebang; }
+  void setUseShebang(bool useit) { m_useShebang = useit; }
+  QString Shebang() const { return m_shebang; }
+  void setShebang(const QString &text) { m_shebang = text; }
   
   virtual QString handleDCOP(int function, const QStringList& args);
   virtual bool isFunctionSupported(int function);
@@ -72,6 +79,8 @@ protected:
 private:
   QString m_fileName;
   bool m_useInternalParser;
+  bool m_useShebang; //add m_shebang at the beginning of the dialog code or not
+  QString m_shebang; //#!/usr/bin/kmdr-executor or similar
 };
 
 #endif

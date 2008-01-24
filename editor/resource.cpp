@@ -177,7 +177,13 @@ bool Resource::load( FormFile *ff, QIODevice* dev )
     QDomDocument doc;
     QString errMsg;
     int errLine;
-    if ( !doc.setContent( dev, &errMsg, &errLine ) ) {
+    QTextStream stream(dev);
+    QString content = stream.read();
+    if (content.startsWith("#!"))
+    {
+      content = content.mid(content.find('\n'));
+    }
+    if ( !doc.setContent( content) ) {
 	// qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
 	return false;
     }
@@ -429,7 +435,8 @@ bool Resource::save( QIODevice* dev )
 
     QTextStream ts( dev );
     ts.setCodec( QTextCodec::codecForName( "UTF-8" ) );
-
+    if ( formwindow->mainContainer()->property("useShebang").toBool() )
+      ts << formwindow->mainContainer()->property("shebang").toString() << endl;
     ts << "<!DOCTYPE UI><UI version=\"3.0\" stdsetdef=\"1\">" << endl;
     saveMetaInfoBefore( ts, 0 );
     saveObject( formwindow->mainContainer(), 0, ts, 0 );

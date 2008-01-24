@@ -31,6 +31,10 @@ January 2008 - Andras Mantia <amantia@kde.org>
       it did before and how array_fromString does.
     o fix @eval for addition/substraction and handle division by zero
     o process code written in external script using the old parser 
+    o make it possible to run external script in a ScriptObject
+    o "execute" DCOP call returns a string
+    o support shebang (#!/path_to/kmdr-executor) in the beginning of the .kmdr files. 
+      Running .kmdr files is possible directly if you make them executable.
     o store Kommander version in the VERSION/_VERSION global variable
     o rework the plugin system
     o bump version to 1.3

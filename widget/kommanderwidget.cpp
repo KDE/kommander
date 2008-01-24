@@ -137,7 +137,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
   /* Old macro-only parser is implemented below  */
 
   bool parserType = KommanderWidget::useInternalParser;
-  KommanderWidget::useInternalParser = false; //sheebang is used, switch to old parser
+  KommanderWidget::useInternalParser = false; //shebang is used, switch to old parser
 
   QString evalText;
   int pos = 0, baseTextLength = a_text.length();

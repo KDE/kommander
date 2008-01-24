@@ -37,6 +37,8 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   states << "destroy";
   setStates(states);
   setDisplayStates(states);
+  m_useShebang = false;
+  m_shebang = "#!/usr/bin/kmdr-executor";
 }
 
 Dialog::~Dialog()

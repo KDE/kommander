@@ -142,8 +142,12 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
     QDomDocument doc;
     QString errMsg;
     int errLine;
-    if ( !doc.setContent( dev, &errMsg, &errLine ) ) {
-	qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
+    QTextStream stream(dev);
+    QString content = stream.read();
+    if (content.startsWith("#!"))
+      content = content.mid(content.find('\n'));
+    if ( !doc.setContent( content ) ) {
+// 	qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
 	return 0;
     }
 
