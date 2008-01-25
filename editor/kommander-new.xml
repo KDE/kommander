@@ -221,6 +221,8 @@
         <RegExpr attribute="Keyword" context="Group" String="\{&eos;" beginRegion="group" />
         <!-- match do and if blocks -->
         <RegExpr attribute="Keyword" context="#stay" String="\bfor&noword;" beginRegion="for" />
+        <RegExpr attribute="Keyword" context="#stay" String="\bforeach&noword;" beginRegion="for" />
+        <RegExpr attribute="Keyword" context="#stay" String="\bwhile&noword;" beginRegion="for" />
       	<RegExpr attribute="Keyword" context="#stay" String="\bend&noword;" endRegion="for" />
       	<RegExpr attribute="Keyword" context="#stay" String="\bif&noword;" beginRegion="if" />
         <RegExpr attribute="Keyword" context="#stay" String="\belseif&noword;" beginRegion="if" endRegion="if"/>
