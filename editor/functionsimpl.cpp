@@ -366,7 +366,7 @@ QString FunctionsDialog::params()
       QString s = combos[i]->currentText();
       if (!s.isEmpty() || i < m_function.minArg())
       {
-        if (s != "true" || s !="false")
+        if (s != "true" &&   s !="false")
           s = '"' + s + '"';
         pars.append(s);
       }
