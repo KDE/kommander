@@ -402,16 +402,16 @@ void SpecialInformation::registerSpecials()
      i18n("Executes an external shell command."), 1);
   insertMacro(Kommander::expr, "expr(QString expression)",
      i18n("Parses an expression and returns computed value."), 1);
-  insertMacro(Kommander::forEachBlock, "forEach(QString variable, QString items)",
-     i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned to the variable. <br> <i>@forEach(i,A\\nB\\nC\\n)<br>  @# @i=A<br>@endif</i>"), 2);
-  insertMacro(Kommander::forBlock, "for(QString variable, int start, int end, int step)",
-     i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger then <i>end</i>. <br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i>."), 3);
+  insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",
+     i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned to the variable. <br><b>Old</b><br> <i>@forEach(i,A\\nB\\nC\\n)<br>  @# @i=A<br>@end</i><br><b>New</b><br><i>foreach i in MyArray do<br>  //i = key, MyArray[i] = val<br>end "), 2);
+  insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)",
+     i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger then <i>end</i>. <br><b>Old</b><br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i><br><b>New</b><br><i>for i=0 to 20 step 5 do<br>  debug(i)<br>end</i>."), 3);
   insertMacro(Kommander::global, "global(QString variable)",
      i18n("Returns the value of a global variable."), 1);
   insert(Kommander::i18n, "i18n(QString variable)",
      i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."), 1);
   insert(Kommander::ifBlock, "if(QString expression)",
-     i18n("Executes block if expression is true (non-zero number or non-empty string.) <p>Close with <b>@endif</b></p>"), 1);
+     i18n("Executes block if expression is true (non-zero number or non-empty string.) <p><b>Old</b>Close with <b>@endif</b></p><p><b>New</b><br>if val == true then<br>//  do op<br>elseif cond<br>//  second chance<br>else<br>//  cond failed<br>endif</p>"), 1);
   insert(Kommander::dialog, "dialog(QString file, QString args)",
      i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"), 1);
   insert(Kommander::readSetting, "readSetting(QString key, QString default)",
