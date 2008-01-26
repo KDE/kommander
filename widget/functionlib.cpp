@@ -555,7 +555,7 @@ static ParseNode f_arrayIndexedFromString(Parser* P, const ParameterList& params
 {
   QString name = params[0].toString();
   QString separator = params[1].toString();
-  QStringList lines = QStringList::split(separator, params[2].toString());
+  QStringList lines = QStringList::split(separator, params[2].toString(), true);
   int i = 0;
   for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) 
   {
