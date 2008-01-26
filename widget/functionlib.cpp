@@ -554,8 +554,11 @@ static ParseNode f_arrayFromString(Parser* P, const ParameterList& params)
 static ParseNode f_arrayIndexedFromString(Parser* P, const ParameterList& params)
 {
   QString name = params[0].toString();
-  QString separator = params[1].toString();
-  QStringList lines = QStringList::split(separator, params[2].toString(), true);
+  QStringList lines;
+  if (params.count() == 2)
+   lines = QStringList::split('\t', params[1].toString(), true);
+  else
+    lines = QStringList::split(params[2].toString(), params[1].toString(), true);
   int i = 0;
   for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) 
   {
@@ -570,7 +573,9 @@ static ParseNode f_arrayIndexedToString(Parser* P, const ParameterList& params)
   QString name = params[0].toString();
   if (!P->isArray(name))
     return ParseNode();
-  QString separator = params[1].toString();
+  QString separator = "\t";
+  if (params.count() == 2)
+    separator = params[1].toString();
   QString array;
   int count = P->array(name).keys().count();
   QValueList<ParseNode> values = P->array(name).values();
@@ -584,28 +589,70 @@ static ParseNode f_arrayIndexedToString(Parser* P, const ParameterList& params)
   return array;
 }
 
-static ParseNode f_arrayIndexedRemoveElement(Parser* P, const ParameterList& params)
+static ParseNode f_arrayIndexedRemoveElements(Parser* P, const ParameterList& params)
 {
   QString name = params[0].toString();
   if (!P->isArray(name))
     return ParseNode();
   int key = params[1].toInt();
+  int num = 0;
+  if (params.count() == 3)
+    num = params[2].toInt() - 1;
+  if (num < 0)
+   num = 0;
   QString array;
   QStringList keys = P->array(name).keys();
   int count = keys.count();
-  if (key > count - 1 || key < 0)
+  if (key + num > count - 1 || key < 0)
     return ParseNode(); //out of index range
   for (int i = 0; i < count; i++)
   {
     if (keys.contains(QString::number(i)) != 1)
       return ParseNode(); //array is not indexed
   }
-  P->unsetArray(name, QString::number(key));  
-  for (int i = key + 1; i < count; i++)
+  for (int i = key; i <= key + num; i++)
   {
-    P->setArray(name, QString::number(i - 1), P->arrayValue(name, QString::number(i)));
+    P->unsetArray(name, QString::number(i));  
   }
-  P->unsetArray(name, QString::number(count - 1));  
+  int j = key;
+  for (int i = key + num + 1; i < count; i++)
+  {
+    P->setArray(name, QString::number(j), P->arrayValue(name, QString::number(i)));
+    j++;
+  }
+  for (int i = 1; i <= num + 1; i++)
+  {
+    P->unsetArray(name, QString::number(count - i));
+  }  
+  return ParseNode();
+}
+
+
+static ParseNode f_arrayIndexedInsertElements(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isArray(name))
+    return ParseNode();
+  int key = params[1].toInt();
+  QStringList keys = P->array(name).keys();
+  int count = keys.count();
+  if (key > count || key < 0)
+    return ParseNode(); //out of index range
+  QString separator = "\t";
+  if (params.count() == 4)
+    separator = params[3].toString();
+  QStringList elements = QStringList::split(separator, params[2].toString(), true);
+  int num = elements.count();
+  for (int i = count - 1; i >= key; i--)
+  {
+    P->setArray(name, QString::number(i + num), P->arrayValue(name, QString::number(i)));
+  }
+  int i = key;
+  for (QStringList::Iterator it = elements.begin(); it != elements.end(); ++it ) 
+  {
+    P->setArray(name, QString::number(i), (*it));
+    i++;
+  }
   return ParseNode();
 }
 
@@ -866,9 +913,10 @@ void ParserData::registerStandardFunctions()
   registerFunction("array_values", Function(&f_arrayValues, ValueString, ValueString));
   registerFunction("array_tostring", Function(&f_arrayToString, ValueString, ValueString));
   registerFunction("array_fromstring", Function(&f_arrayFromString, ValueNone, ValueString, ValueString));
-  registerFunction("array_indexedfromstring", Function(&f_arrayIndexedFromString, ValueNone, ValueString, ValueString, ValueString));
-  registerFunction("array_indexedtostring", Function(&f_arrayIndexedToString, ValueNone, ValueString, ValueString));
-  registerFunction("array_indexedRemoveElement", Function(&f_arrayIndexedRemoveElement, ValueNone, ValueString, ValueString));
+  registerFunction("array_indexedfromstring", Function(&f_arrayIndexedFromString, ValueNone, ValueString, ValueString, ValueString, 2, 3));
+  registerFunction("array_indexedtostring", Function(&f_arrayIndexedToString, ValueNone, ValueString, ValueString, 1, 2));
+  registerFunction("array_indexedRemoveElements", Function(&f_arrayIndexedRemoveElements, ValueNone, ValueString, ValueInt, ValueInt, 2 , 3));
+  registerFunction("array_indexedInsertElements", Function(&f_arrayIndexedInsertElements, ValueNone, ValueString, ValueInt, ValueString, ValueString, 3, 4));
   registerFunction("array_remove", Function(&f_arrayRemove, ValueNone, ValueString, ValueString));
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));

@@ -464,12 +464,14 @@ void SpecialInformation::registerSpecials()
     "String should have <i>key\\tvalue\\n</i> format."), 2);
   insert(Array::toString, "toString(QString array)", 
     i18n("Returns all elements in the array in <pre>key\\tvalue\\n</pre> format."), 1);
-  insertInternal(Array::indexedFromString, "indexedFromString(QString array, QString separator, QString string)", 
-    i18n( "Create an integer indexed array - starting from 0 - from a string. Use the separator character to split the string."), 3);
+  insertInternal(Array::indexedFromString, "indexedFromString(QString array, QString string, QString separator)", 
+    i18n( "Create an integer indexed array - starting from 0 - from a string. Use the separator character to split the string. The separator's default value is '\\t'."), 2, 3);
   insertInternal(Array::indexedToString, "indexedToString(QString array, QString separator)", 
-    i18n( "Create a string from an integer indexed array. Concatenate the elements with the separator character."), 2);
-  insertInternal(Array::indexedRemoveElement, "indexedRemoveElement(QString array, QString key)", 
-    i18n( "Remove the element specified by the key from an indexed array and reindex the array."), 2);
+    i18n( "Create a string from an integer indexed array. Concatenate the elements with the separator character. The separator's default value is '\\t'."), 1, 2);
+  insertInternal(Array::indexedRemoveElements, "indexedRemoveElements(QString array, int keyStart, int keyNum)", 
+    i18n( "Remove keyNum elements starting with keyStart from an indexed array and reindex the array. If keyNum is not specified, remove only the keyStart element."), 2, 3);
+  insertInternal(Array::indexedInsertElements, "indexedInsertElements(QString array, int key, QString string, QString separator)", 
+    i18n( "Insert the elements from string starting at key and reindex the array. Use the separator to separate the elements from the string. The separator's default value is '\\t'."), 3, 4);
 
 
   insertGroup(Group::String, "String", "str");

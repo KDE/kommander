@@ -45,7 +45,7 @@ namespace Kommander
 
 namespace Array
 {
-  enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElement};
+  enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElements, indexedInsertElements};
 }
 
 namespace String
