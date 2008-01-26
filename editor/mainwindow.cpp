@@ -379,6 +379,12 @@ void MainWindow::runForm()
   if (!form || !form->formFile())
     return;
 
+  if (form->formFile()->hasTempFileName())
+  {
+    if (!form->formFile()->saveAs())
+      return;
+  }
+
   m_fileName = form->formFile()->fileName();
   m_backupName = m_fileName + ".running";
   m_modified = form->formFile()->isModified();
@@ -387,7 +393,7 @@ void MainWindow::runForm()
   ::stat(m_fileName.local8Bit(), &statbuf);
   if (!KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_backupName), statbuf.st_mode, true))
   {
-    KMessageBox::error(this, i18n("<qt>Cannot create temporary file <i>%1</i></qt>").arg(m_backupName));
+    KMessageBox::error(this, i18n("<qt>Cannot create temporary file <i>%1</i>.</qt>").arg(m_backupName));
     return;
   }
   form->formFile()->setFileName(m_fileName);  

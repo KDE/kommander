@@ -40,6 +40,7 @@
 #include <kstatusbar.h>
 #include <kstdguiitem.h>
 
+#include <sys/stat.h>
 
 FormFile::FormFile(const QString &fn, bool temp)
     : filename(fn), fileNameTemp(temp), fw(0)
@@ -124,6 +125,7 @@ bool FormFile::save(bool withMsgBox)
       return false;
   }
   MainWindow::self->statusBar()->message(i18n("'%1' saved.").arg(filename), 3000);
+  ::chmod(filename.local8Bit(), S_IRWXU);
   setModified(false);
   return true;
 }
