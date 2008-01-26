@@ -5,13 +5,14 @@
 <p><span style="font-weight:600">Widgets available in Kommander</span></p>
 <ul type="disc"><div></div>
 <li>KJanusWidget</li>
-<li>Switch from using Qt widget to their KDE equivalents?</li>
+<li>Switch from using Qt widget to their KDE equivalents? - mostly done</li>
 <li>Menu</li>
 <li>KHistoryCombo<br /></li>
 <div></div></ul>
 <p></p>
 <ul type="disc"><div></div></ul>
 </body></html>
+
 
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
@@ -52,9 +53,9 @@
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Running/testing inside Editor</span></p>
 <ul type="disc"><li>allow debugging</li>
-<li>save dialog in temporary file when running</li>
-<li>allow only one running dialog at the time</li></ul>
+<div></div></ul>
 </body></html>
+
 
 \NewEntry 1 DCOP browser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -80,7 +81,7 @@
 <li>use KFormDesigner or the new Qt Designer</li></ul>
 </body></html>
 
-\CurrentEntry 0 Bugs
+\NewEntry 0 Bugs
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Various bugs to be fixed</span></p>
 <ul type="disc"><li>Charset is sometimes incorrectly converted from/to local charset</li>
@@ -89,7 +90,6 @@
 <li>toolbox editing is ugly after group layout is applied. Goes back to normal if the dialog is reloaded.</li>
 <div></div></ul>
 </body></html>
-
 
 \NewEntry 0 Help
 
@@ -188,7 +188,6 @@
 <li><span style="color:#ff0000">executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</span></li></ul>
 </body></html>
 
-
 \NewEntry 1 investigate
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Things to look into</span></p>
@@ -224,16 +223,16 @@
 
 \NewEntry 0 KDE4 prep
 
-\NewEntry 0 Executor
+\CurrentEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Executing Kommander scripts</span></p>
 <ul type="disc"><li>detect and handle missing plugin widgets</li>
 <li>cache @pid, @dcopid, @parentPid, perhaps calculate and cache @parentdcopid</li>
 <li>handle multiple dialogs: they could be packaged in single *.tgz file, unpacked and executed internally</li>
-<li><span style="font-weight:600">SECURITY: </span>do not execute files that don't have the executable flag set</li>
-<li>add #!kommander at the beginning of the files, so if they are set to be executable, they are instantly run in the executor</li>
-<li>make the editor and executor accept the sheebang at the beginning of the files<br /></li></ul>
+<div></div>
+<div><br /></div></ul>
 </body></html>
+
 
 \NewEntry 0 Refactoring, other ideas
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">

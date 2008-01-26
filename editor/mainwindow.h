@@ -303,6 +303,10 @@ private:
     QString m_toolOutput;
     KParts::PartManager *m_partManager;
 
+    QString m_fileName;
+    QString m_backupName;
+    bool m_modified;
+
 public:
     QString lastSaveFilter;
 

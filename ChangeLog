@@ -36,6 +36,8 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o support shebang (#!/path_to/kmdr-executor) in the beginning of the .kmdr files. 
       Running .kmdr files is possible directly if you make them executable.
     o store Kommander version in the VERSION/_VERSION global variable
+    o the editor does not save the dialog on running
+    o warn if a dialog file is not executable
     o rework the plugin system
     o bump version to 1.3
 

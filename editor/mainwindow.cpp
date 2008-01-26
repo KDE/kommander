@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 #include "actiondnd.h"
 #include "actioneditorimpl.h"
@@ -84,6 +85,7 @@
 #include <ktoolbar.h>
 #include <kurl.h>
 #include <kparts/partmanager.h>
+#include <kio/netaccess.h>
 
 extern QMap<QWidget*, QString> *qwf_functions;
 extern QMap<QWidget*, QString> *qwf_forms;
@@ -376,8 +378,23 @@ void MainWindow::runForm()
   FormWindow* form = activeForm();
   if (!form || !form->formFile())
     return;
+
+  m_fileName = form->formFile()->fileName();
+  m_backupName = m_fileName + ".running";
+  m_modified = form->formFile()->isModified();
+    
+  struct stat statbuf;
+  ::stat(m_fileName.local8Bit(), &statbuf);
+  if (!KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_backupName), statbuf.st_mode, true))
+  {
+    KMessageBox::error(this, i18n("<qt>Cannot create temporary file <i>%1</i></qt>").arg(m_backupName));
+    return;
+  }
+  form->formFile()->setFileName(m_fileName);  
+  form->formFile()->setModified(true);
   if (form->formFile()->save(false))
   {
+    ::chmod(m_fileName.local8Bit(), S_IRWXU);
     KProcess* process = new KProcess;
     process->setUseShell(true);
     (*process) << "kmdr-executor" << QString("\"%1\"").arg(form->formFile()->fileName());
@@ -396,6 +413,12 @@ void MainWindow::closeRunningForm(KProcess* process)
 {
   previewing = false;
   delete process;
+ 
+  struct stat statbuf;
+  ::stat(m_fileName.local8Bit(), &statbuf);
+  FormWindow* form = activeForm();
+  KIO::NetAccess::file_move(KURL::fromPathOrURL(m_backupName), KURL::fromPathOrURL(m_fileName), statbuf.st_mode, true);
+  form->formFile()->setModified(m_modified);
 }
 
 void MainWindow::showProperties(QObject *o)
