@@ -13,7 +13,6 @@
 <ul type="disc"><div></div></ul>
 </body></html>
 
-
 \NewEntry 1 Editor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Layout of Edit Kommander Text dialog<br /><br />Old ideas:</span></p>
@@ -55,7 +54,6 @@
 <ul type="disc"><li>allow debugging</li>
 <div></div></ul>
 </body></html>
-
 
 \NewEntry 1 DCOP browser
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Georgia">
@@ -180,24 +178,27 @@
 
 \NewEntry 0 1.3 release prep 2008
 
-\NewEntry 1 To Do
+\CurrentEntry 1 To Do
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Kommander Release Do list</span></p>
 <ul type="disc"><li><span style="color:#00ff00">Add missing functions in FB</span></li>
 <li>KPart create to go with KPart load</li>
-<li><span style="color:#ff0000">executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</span></li></ul>
+<li><span style="color:#ff0000">executor version required field/command - enable someone sharing dialogs to have an executing window check if the executor is capable of fully supporting it - Not the self checking Michal suggested, but better than nothing by far</span></li>
+<li>ability to identify calling table widget from signal in a script slot - ideally by row and column in table grid</li></ul>
 </body></html>
+
 
 \NewEntry 1 investigate
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Things to look into</span></p>
 <ul type="disc"><li>Qt database connection?</li>
 <li><span style="color:#00ff00">quote handling in function browser - make user on off?</span></li>
-<li>Code completion? If easy to do, otherwise we recommend users try the Kate completion plugin</li>
-<li>D&amp;D of text/selection data</li>
+<li><span style="color:#ffff00">Code completion? If easy to do, otherwise we recommend users try the Kate completion plugin</span></li>
+<li><span style="color:#ffff00">D&amp;D of text/selection data</span></li>
 <li>simple DCOP functions in editor to enable Kommander based tools to call the editor and open a dialog to edit - otherwise any interfaces can at least make use of D&amp;D from file manager (KPart) views</li>
 <li><span style="color:#ff0000">Additional XML fields in dialog for author name, version of Kommander required, etc... - not required as KAbout would be better</span></li></ul>
 </body></html>
+
 
 \NewEntry 1 Bugs to squish
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
@@ -223,7 +224,7 @@
 
 \NewEntry 0 KDE4 prep
 
-\CurrentEntry 0 Executor
+\NewEntry 0 Executor
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
 <p><span style="font-weight:600">Executing Kommander scripts</span></p>
 <ul type="disc"><li>detect and handle missing plugin widgets</li>
@@ -232,7 +233,6 @@
 <div></div>
 <div><br /></div></ul>
 </body></html>
-
 
 \NewEntry 0 Refactoring, other ideas
 <html><head><meta name="qrichtext" content="1" /></head><body style="font-size:10pt;font-family:Sans Serif">
