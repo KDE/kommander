@@ -1,0 +1,357 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>398</width>
+            <height>341</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Key=&gt;Value ComboBox</string>
+    </property>
+    <property name="icon">
+        <pixmap>image0</pixmap>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>_a[1] = "red"
+_a[3] = "blue"
+_a[5] = "green"
+foreach i in _a do
+  ListBox1.insertItem(i+"\t"+_a[i], -1)
+end
+ScriptObject36.execute
+AboutDialog1.initialize("Key Value Combo", "", "0.1", "Copyright 2008")
+AboutDialog1.addAuthor("Eric Laffoon", "Designer", "eric@kdewevdev.org", "http://kittyhooch.com")
+AboutDialog1.setBugAddress("eric@kdewebdev.org")
+AboutDialog1.setHomepage("http://kdewebdev.org")
+AboutDialog1.setLicense("GPL_V2")
+AboutDialog1.setDescription("This demonstrates how to make a ComboBox \n behave as a key value pair. It's \nparticularly useful for databases.")
+
+PopupMenu1.insertMenuItem("Make new list", "PopupMenu1", 1)
+PopupMenu1.insertMenuItem("Remove Item", "PopupMenu1", 2)
+PopupMenu1.insertMenuItem("Move Item up", "PopupMenu1", 3)
+PopupMenu1.insertMenuItem("Move Item down", "PopupMenu1", 4)
+PopupMenu1.insertSeparator(5)
+PopupMenu1.insertMenuItem("Remove Item from both", "PopupMenu1", 6)
+PopupMenu1.insertMenuItem("Insert Item in same location", "PopupMenu1", 7)
+PopupMenu1.insertSeparator(8)
+PopupMenu1.insertMenuItem("Help About", "PopupMenu1", 9)
+
+</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>Layout27</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="Label">
+                    <property name="name">
+                        <cstring>Label18</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>4</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Select value</string>
+                    </property>
+                </widget>
+                <widget class="ComboBox">
+                    <property name="name">
+                        <cstring>ComboBox10</cstring>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>Layout30</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="ListBox" row="1" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>ListBox1</cstring>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="0" column="2">
+                    <property name="name">
+                        <cstring>Layout24</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="Label">
+                            <property name="name">
+                                <cstring>Label17</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>4</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>value</string>
+                            </property>
+                        </widget>
+                        <widget class="LineEdit">
+                            <property name="name">
+                                <cstring>LineEdit2</cstring>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget" row="0" column="0">
+                    <property name="name">
+                        <cstring>Layout23</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="Label">
+                            <property name="name">
+                                <cstring>Label16</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>4</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>Key</string>
+                            </property>
+                        </widget>
+                        <widget class="LineEdit">
+                            <property name="name">
+                                <cstring>LineEdit1</cstring>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="ExecButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>ExecButton28</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>4</hsizetype>
+                            <vsizetype>4</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>image1</pixmap>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>ListBox1.insertItem(LineEdit1.text+"\t"+LineEdit2.text, -1)</string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>Layout31</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="StatusBar">
+                    <property name="name">
+                        <cstring>StatusBar5</cstring>
+                    </property>
+                </widget>
+                <widget class="AboutDialog">
+                    <property name="name">
+                        <cstring>AboutDialog1</cstring>
+                    </property>
+                </widget>
+                <widget class="ScriptObject">
+                    <property name="name">
+                        <cstring>ScriptObject36</cstring>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>image2</pixmap>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>array_clear("_a")
+array_clear("_b")
+c = ListBox1.count-1
+ComboBox10.clear
+for i = 0 to c do
+  array_indexedFromString("x", ListBox1.item(i))
+  _a[x[0]] = x[1]
+  _b[i] = x[0]
+  ComboBox10.insertItem(_a[_b[i]], i)
+end</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="ScriptObject">
+                    <property name="name">
+                        <cstring>ScriptObject35</cstring>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>image3</pixmap>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>i = Self.Item(0)
+StatusBar5.insertItem("index: "+i, 0)
+StatusBar5.insertItem("key: "+_b[i], 1)
+StatusBar5.insertItem("value from key: "+_a[_b[i]], 2)
+</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="PopupMenu">
+                    <property name="name">
+                        <cstring>PopupMenu1</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>m = Self.Item(0)
+if m == 1 then //new list
+  ScriptObject36.execute
+elseif m == 2 then // remove
+  ListBox1.removeItem(ListBox1.currentItem)
+elseif m == 3 then // move up
+  i = str_toint(ListBox1.currentItem)
+  val = ListBox1.item(i)
+  ListBox1.removeItem(i)
+  ListBox1.insertItem(val, i-1)
+elseif m == 4 then //move down
+  i = str_toint(ListBox1.currentItem)
+  val = ListBox1.item(i)
+  ListBox1.removeItem(i)
+  ListBox1.insertItem(val, i+1)
+elseif m == 6 then //remove both
+  ListBox1.removeItem(ListBox1.currentItem)
+  i = ListBox1.currentItem
+  ComboBox10.removeItem(i)
+  array_indexedRemoveElements("_b", i)
+elseif m == 7 then //insert in postion
+  i = ListBox1.currentItem
+  array_indexedFromString("x", ListBox1.selection)
+  ComboBox10.insertItem(x[1], i)
+  _a[x[0]] = x[1]
+  array_indexedInsertElements("_b", i, x[0])
+elseif m == 9 then //help about
+  AboutDialog1.execute
+else
+  message_error("Unrecognized menu action "+m)
+endif</string>
+                        </stringlist>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="6462">789ca558596f1eb9117cdf5f212cdf16017786d77010e4c1b22df99064c9922d59411eba9b33baefc39682fcf7505dfce4030810607dc02a0c876c765757f5f8cf3f96f636d797fef8f3b79b5bba3d922539a4eba53fcaddd9d9c33ffff58f7ffff6bb734bf58ff771c9fdfeb7df7edfba5d92a58d8bf3e90994ba7ec974fa4bf1a4d8770e582e9f704ffdd08dfabcfcb2fe4071e9a8d3cdcba9aee73e76f109f3d78613b0714fd875fdd80d4fd83e2a763d77e909d391e2d1f55dd6f7bf299e5cec345e73f3cbf9672dbe80fdadd1f5e47c5774bdfd79bd3d7cde5fef63779eb0ef5dee44efbb87f515ce8a571b96a2d86a7efa52f311141ffcbc9face8f3be8f7daff1ef2bf67e0ca4f1ce8a53df775ef189bedff784fb1b8ddf4757f0be785ddf7582fcda6d5d3fd4f2e87ef6a3ae4f4e7abd1febfe2e3fe76f53f1ec12d69b5eb15fe4dbdceafb839b7add9fb71477351f9a6f4bedfda1c3fd757f3fba19f1156ef92d3dcefbd2eec32d1fbbfa3cf81c753fb9d0e7a19776fe4b7d9e1c7bdddfe87dbd7723eac19a6f97fa097c91a1bd3fe33ea4ef87e0c75ef72b870d0fb88fbd6cfc1bf03e6b3dfb2947d1fa99353d8fdcd4ea9f359e1868c0f95acfcef5aec7fdaf747ff2ad3e7644bff4ecf47921e4c34d51f727cd671fa264e4ff5a9fd7fee8353fe67de37768f5caadfedcb1beaf7c0cbd8fa8afdd427caef77a5fbed7f5aed60bfd69108f7711cf35be184346fca47c19bad43be4efb0d5b3dddf2a1f1c8fb9f15febd9c7d48f8867b7c593dafdb5fe710aadfea2fddd8d2e78cdbfbc46bf0c1d693f92f6739c63701a9f55bd8883f4b3ae27e885afed0cbea07f72f459fb85557f5ca9f9d2fbf2c3134e5d98914fb9c2f33115bd4f39fee57e27c03991ea8574d08f300fe0e32bddaf889fa04f0f789e47017f34bf834fd92b365debbfc677561cd22845e3353bb81f13f693a0cf47cfe827017f66df07e4eb5c9f0f9ec05f837e8f8947dd4fced01fbe2a86c657da7ed2438f543f73a5bb575ca07fc59107bf3e683c1cc65ef7b377fafec469023fb4deb10b5debf74f9a8f1c23ea6b90cf5a7f87febac7f9ec27ad17e9f3dca5c9413fbea25f38e2b9d1fe18430e41e393f55ff8beacf91d5372884ff9129833e2e33df03d25f0c1be009fe3d4a35fcfa167b9a0bfd922be91c1677bd3f6cf0efcd07c8539f4d00f517dec87e022f864c197e412eabd0cfe521564c5ea9f916a3ee13f19fe3324f05ddea05e63041f19f58bd933eaa9fd1c5c983cfc51f9390c6942bd44f596aa5dc23fe433f85df50bf168fd2a197b0f7d50bdf73933235f82fd6b43e9f9047f99c652e017da9f41c6d0eec32d9fdc6bfc56e38de39809fc52fd1aa644e85f49e07768fac4072dbf55a1f4b9eaf7483907e891ea4f9e06c6fd6882fec6316afde500fccd94e0479abf28344de0db71d3afcec1bf2fd07f29a03ed2fc308b806fda6fc39c46f0c928df064e03f490950fc9d715d0ff53e8f1208c7aeaf9c9d5eb609e80be50f219fe817e4bd215c4bfd6fab54a96deef04f10742bf5141bdaabe406fde819fa16bfcdb68f9971efd740f7de34a108de7ad3e7795efd0d34deccffd04bfd17e48630cd88f87d68fdceaa5fdec39cf05f9d47853e0a9f597d6374dec906fbe6bf56ef9238bf325cf5a5fda6ff5f6a837697f5776ce33f28dfbca3038e44fcf27576446bd546ffd3cfa02aceb639f3cf86ed51f63adcf00beefc36fea78a5f527f0cdc719e79b84782ae3e027e7a8779517f4db26f855f381e77afe58ddd9832fda0f2453372b3fed80fea679825f9fa23f2913de473f0c32c2bff8b1e5abb47c7d6efc5bf4cb4ed327023f45eb19e248d00731d03beadbbcf9a1d587a19fac7c4fa9f2017e74daea2513fc3c355c26e8e90dea2f8c7ab1f6f7d80f02bda037c05226f4bfe667e432ccc01f919fc2a897d1789dc431619ef9027d8b14e167db0bfd81be88ce67be8c7d81df2eb77abb827c9cfc5c7f8e7affbe4e08e003fc29e499e127abf0d7c1830fa27c0f79cc057a79dcf47e6cb8f557d53be8f1f533463ee1c75c6f087d7ddff4706ef5d0fc85b2a807afc12fab81e37c023f6940bf189d379fc647f42bef349c1bbf951f31e5859febfc1573dd1ff8b6e161029fdf343ca3bfe5a8f1d1416fd837ec11afede0ef69c6fc27f7ad5faac5e8f373f8d79846cc37fa7e9dee7cc6fc72093dacfd0ffd4b0de7c63fe84b2062e88ffa5d8ad5df311f5c344c6d1ec0fcf06407d0239d0fd34023f2290cfc7cde46c305fc63cd4fcad5b0319f8cc0f53cc4ff127a57f90fff537d4f245de3bbfa79626afce6b7c0552f519f4f0d67c46f23f0e27d1b1a7693de97951fe9c98fa077e84fa9fd09fd57bf4da5de07e75f351c703f1a1a26f42b6fa35f53c13cc9cad73473d7fc0ef3505fe715f4776cfadb211e0a0df7c8b785def82c09faa3f3c310526afdaefa36c4ea1ff0df0e38e7043f9b806924dc0f7e1417f737e70d0f33f88878526cf337dd353d0ccd4fa0c7b97e2ee0bcc786a3d3fbd27be0ba1ff22dcd4f1a5f6965e1d70ef96bfe2d8b7955fb7190ea47d02b9d378752d7a3bec847a9f289f86ea1cfb5c1918f2be8b34cb88f75d0cbc5fc4cbee9675b6fb4ded9e59a32dd7f17b8ee8ffbbd031681fff106fc3e31e60d73dfb0b4f90aeb43fd5c857fac373ce07cf3002cb17d4fac367f6df11a9d87f350f3817caadee43c38ccb77c022cad7f49fbadbacfc29f75bece5ce50afdfd0a58e2a4ef9b33e0e2b19ed46faa9825f0d1e2fe530988872e9f31e69bb1e1d8fc1ef9ab6eee90bf6560697ac1dacfa393b1f119fe1c4ac6fba4fca85f77aee557f5b0aaffe2fb51f353e5bf0ff04fedff3a0d44fcff021f377feb1bdf5e37ccf07bb301bfcb09fd487df3bfd4d6af3cfb21f442e791ea16cdff49eb455d9600be2a9faabab77eb17b0d0bde17e52bb95c5a7cca4f0a79c2f7209d353c07d42b0397d2e2d578282eb0683d29d5ef05acd7fea461f4ed7beba1e188799c540fab1a97e6ef5b0dcf33e61dad2f51bd2fbed7d5ef89eb7c04bf50ffa332d60f085daffd465399da7ef87ea96a89f5a4fe50dd6c8155ffeac7739de874fd003cb976bece77f5ebd2cd9837543f9ea6e186d51faa1b2cb0fa53fd9a6d78ebf6fffffdd7d65b6349ff652bb6d8a9fe34db83ffb5de1eda237b6c4feca93db3e7f6c25eda2b7b6d6fecadbdb3f7f6abfd661f7e5aff685fd865fbd2beb2afed8a5db56fec5bfbcebeb76b76dd6ed80f76d36e2dd6db8f76dbeed84ff6b3ddb57bf68bddb79dedadb3de061b6db283cd763416eb8d3164d888296632b3393087e6c81c9b13736aceccb9b93097e6ca5c9b9b45fce6d6dc997bf3d57c330fe6d1bca87f97cd4bf3cabc362b66d5bc316fcd3bf3fec7fb9a35b36e36cc07b35977df321fcdb6d9319fcc67b36bf6cc17b36f3ad37f5f6f9cf126986892194caead6ba9f28f98844a35cd990ee8908ebeafa7633aa1533aa373baa04bbaa26bbaa15bbaa37bfa4adfe8811ee9052dd3cbe7f5afe835add02abda1b7f48eded31aadd3067da04ddaa28fb44d3bf4893ed3eef3fa3dfa42fbd4514f8e3c058a94e869fe1fd9b2616266a9f2317dbf2fcf7cc0877cc4c77cc2a77cc6e77cc1977cc5d77cc3b77cc7f7fcf57bfcfc8d1ff8915ff032bfe457fc9a577895dff05b7ec7ef798dd779833ff0e60febb7f8236ff30e7fe2cfbccb7bfc85f7ebd74dcf8e3d07aea31f0f9c7fcc7f1d6ead182161112932c92c07722847722c27722a67722e173fae974bb9926bb9915bb9937bf92adfe4411ee5852ccb4b7925af65e5673ecbaabc91b7f24edecb9aaccb867c904dd9928fb22d3bf2493ecbee2febf7e48bec4b27bd38f152bd4d920c92652cb69852b5e6d77e2952c7f7a9cca5f653392c47e5b89cd49f4ecbd95feadffffcfdb7ff02f82ee830</data>
+    </image>
+    <image name="image1">
+        <data format="XPM.GZ" length="432">789c65cecd4a03311007f0fb3e45d8dc1649773766db223e82e251100ff99acdb65441eb41c47737ff19db220e21cc2f136666d5a9c7873bd5ad9af7a33f2e51c5e2df54973e0e87cfa7e7dbafa61d468563d5d05e35ad5151ddbfbe64e4fb9a6beac9650746e640eb6cc1fc973be648dbcc7d16b0e70067661a9c90c0b1b75658403bb9df6a02bd251206a6ab9c400f8689c85e831a4cb5ba09bcbf31da87e0754dd8d1270e9fc520111ed81ab579c6adb9fbc59e875f1cc465e128e2fabf08e53ffa15a6f4e379a59ce799dd699fbdf9b7eff74df303aefb6e97</data>
+    </image>
+    <image name="image2">
+        <data format="XPM.GZ" length="3035">789ccd96c952dc481086ef3c4507792326d22aed8a89390066dff706c71c4a1bdd40b334cdeaf0bb5b54fe89910c1e9f261cc5814f4a65e5f267557f9ae9f5b7377a339fa66e2776322c7ac5c08e7b33e5dd68f4f4e5df7fbe4e4dfb7eaff933bee9f9d37f4d4d33f58adee6d565f5023b933740c70d90e745b9e739de0797e00de13814e61de1d482b78533039e0727f8fe463889f13e03d7e023f88bc02be002fc007f3e7804cec03558fd59c795457cb484f8614fb3d8df837d8afd940fc11aef72279e7bec17802f3af18cc1a81f57c256fd9f398e2df225f88f35bfcfd80ff9d049a73ff7ed7ad23518f191dfb1477d12e539ec9782fb1d7b6ed783107faaf1c13e457f19fba59aff2a58f37f443d543fb760edf72558f5748a7aa99ef2173681d5fc0edaf172d0896fab5d3f2e1d1bf5477bf85efdad77ea3fd78e8fa0bfb8c27be839d3ef373bfe163bf57d6e7f4f67ed7e708278355fe497e27b867e53ddffae53bf73b0fa1b3a0eace653b8faa556f5643afdf6109fcefb5127de958ede76c13adfe38efecedbfda02bb0cecb6e3b3fa2b67e680dacf12d74f471ddce97e6db7a21d58ffac37ce6ba1fe63bd7f7d04baefee4fcf00ad53fcebb42fd0fc19a3fcebf42fd43ef85d613f350eaf713b0d613f35eea79857928b55f4fc215ea47e87fa5fac43c555a7f9c8f95f66f205ceb7e9887a6dec6d533162e6ab0dc077e333f72730c3a7a0a85cbc40b9c3f379f5ed8f80fdd7be95fd4e83372ef0be12a16e648b8aec0925fdacc53ea58f4629bfdac63d16b9e555eeed89d87c614a19178ddfc99d00646f677f53589cd4ce278016cc1fb320f6560643fa7ff26ddd41776e7819f15899f3976e7859fd7892ffbbbfbc3aff2d877f727bb790fe2320a62c76ede43afc843a997bb3f23af36912797efefafffc39ee9b796e59c0b394fb9fa0fdb9a4f79c0433e93f3a959171fda8ef892aff89a6f78cc24f7034ff88eefdfb17de0477ee2679ee5399e7f7922f7252ff0222ff172cb768557798dd7798337798bb7e5a9fc7ee15ddee37d3ee043d81e719f8ff984bde6b961ff8717d427e090238e39e194b3e63191a59c232aa8a4562dc49e6a3aa541b3867446e774412347977445d7ed8c607f4363ba756b4277f8cf36cf7eaa81f68b1ee8919edeac0b7aa6d99f2bf66a3f47f3f4f9752dd0222dbdd78d57fb655aa155ac355aa78df7bbf7433fb4495bb44d3bb44b7bb4ff51b7dfd81f34511cd211f5e9f86325bdb13f21af59fd5fa8ae6d7f4c86fc5f5b8bfd1f358fdffe9efa0e6b4d7ecf</data>
+    </image>
+    <image name="image3">
+        <data format="XPM.GZ" length="4593">789c8557d96e1cb90e7dcf5718e15b70c174ed55b8b80f76bcc5f11adbf132b80f5449e57d6fdb6d0fe6df8775a86e74772699e620c8092996787448693e7f5a38dedd5af8f4f9c3d3508617ed427b2e8f0b9ffcf3cdcddb1fffffdf9f1f3ea6e902fe4b16d28ffff9f091dd42bbb07d771b0096a7c1fe34b89d06f753804ea63d320d56a7c368da7337edd999f6ac4c83e93534b3b7c114d81b4e01f9a28006f821b205ce7a439acb1ebb522d07de06aed4ca1ebba7d9f55403a7bdc18ff583bc37f887b3f92483dff506ff738fbb56cd63bdc0dff686f803e05a0d9864365ed2b97a1e7a9c0cd40ac43793fd08e2c36cbcdc00576ac6dce9e47bc84fc7b3fcb0c5fb814f6aacdf07ee3f68fcedf6b8c8d490cf0d67f9708b73dfbf9ef81be08df1f713f37f433d2e7119f867dfe3accbba22c1f72ac4976ad82fe37c932aa952c3df81d3244df17d069f7552278ded770bebbb4197e03c64697c3eb1beaec7e920d12f229e914f13587e025f699ee639f6ebdee7ea5b86dfa7be403ef738eb77cf93fd9bbe686e7d32e11bfc30f8caf22c2f709e8c7cfdf20a9856505f53d702ec2ee6f46afcb4499b411f023e1349c430af219f94525788c7faa4d3fa4d3f2fa827a4c1be2fcf13bfb5e193f1950e32d3f711709996b9ed17fa2bdbb2aded7c92717f78e3e76d8e9f2bd4eb7ac3f70ea12f29a4b2fde33cf2266f6af49fe4c8dfa9999e4fb03e64a1b27ec4fea592aac5790af4913559531abf38ffbccccb1afa720edf0b6a167f0bbfe4521b5f5763fe1be303384ff2a432fef6e0cfcaac417d847c2e7785d54b8877a9cb222eb15e0fb842bd8cf54552a48dcd8fafc0faabadbf5e66f961e8b5291aa51818e7d1348d18a6cdf17ad3bf00975abd98ded19f65555682fa197c376d135af0e3305fd22eed32d4c79877555727cef86ea27e5a31becee02fab2aced301f4a9ededb05f379a9b778389be915f309faba22a9ddd47eb383f27de5bbdd86fe5753cdafc457fd4fdcffa6129f67bd6da7cc47eb4dcbab5efa15f9a4ab1d5770f7ebaa22b6d7f3cd6436efafe11f79f5abd328cfd26cee6c32af2b9c69bbedcf9580fb9edd7ee83c495c1e621e669d30bd0ea7d457db534dee613d6d75287d6d6a31f6bdf0ce27e118ff16af3e274dc0fa5d507fde72a38eb07c13c2ff222377d0afab3d45f6dfd77073e5335eb37d45bd5556dfa76d07f5daa59febdf1fe5beb87e3886b6ff70fe653df9edef4b41bf5e9bce9e73c9e4713f9c2f9e8384a9cf537e6b3b67bd1dafeb7e7fa7727f255478cfcd2287f76de98c7226e106c3e34513fce59fd98b7d2b9c4f44445ecc7c2231fe37e75859360f1f63e685c1b6c9e627e68ba10acbf705fb9d0a6c1f2bd469c1916bc172077eb77e8bbcd5bd7d9fd8a79da16da3e769e380f1d9755303ea1efb66a4367f719e641abec458cf9d98a1f445c479c74c637ceb3758aedbec1bc68f567f347709fb6a10ddee60df8f0796f88c77e7de9e3bca6c588bdbd4718f3c8572a7f9ba7381f5ffbd0593f62defb46e36d3e1e463cf6af4d30f4c5980fde8541f463fef836649d9d0ff8f53ea49df17d1071f4d359c4b96187fbc7071fcf4bd623ee82e9c7190e4967f58d228eeb05f3598bed4c4f64eb3bbd1eec7b780f85c1046f445c468cf30ac9180bf4df5fa7f63d3e8ab8323e09fad5ebab8eebf17e0c796822863ef57a9298cfe24b5d6f7ac9238e7ec2bc09557011432f41c74be4d3f2374a88e5c37b334808d16ff5b4fa60b2fb07ef87d01368fd756158fd963ffaf5816018f355b3452cb89f347912ebbd8b388df198379a2d62c1f92b1a9fc763c4916f417ef58ef986bed55b458cf3576fe493314fd41bb18c228efc0af8516fc48cfe5014f964f43bdee3868b88c7fce13ee82018f8cb09b6f83ce231bfb88f15452c6b1177d18f79d87563bc37dc1b32b1b0e3963d07eef88ccff9822ff98aaff946ffddf12ddff57153f1f7fcc08ffcc4437ee6177ee511bff13b2ff2127fe1e59fe2577895d7789dbff2067fe34dde52dbe46ddee15ddee3efbcff53fe033ee41f1ab135639b7cc4c77cc2a773f1034e38e58c732e66ace48a6b6e8889a6e349c8514b9eb729cc594767744e177439177f45d77443b7743767f7f4408ff444c399f8677aa1571ae98ab7397ba7455aa22f73f1cbb442abb446ebf4556d235affb7117da34ddaa2ed99f81ddaa53dfaae11fbba6644076a23fddb061dd20f3aa2e3793ee9844e694009a5944d594e05955451fd13ff428de81f22caeac4f4d6d38b40c23fe841f5239d9cc939ddcb8519ddc9a55cc9f53feaa78fbf915bb9937b79803dca930ce559b3ff225e57bcc8ab8c54156af226efb2284bf2e537f1cbb222abb2d61b6fc9ba7c958d5fe8d9e2bfc9a66cc9b6da8eecca9e7c97fddfc61fc8a1fc9023399613399581be3ad2dfc667faec2ff47f8daafe7da6ff40d8fd2fe3fb4786d3abd6e9b07567eedc5dfc4bfca5bb72d7eec6ddba3b77ef1edca37bfa5dbcae18ba67f7e25eddc8bdb977b73897ffafff7ef81b334e4e84</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>ListBox1</sender>
+        <signal>contextMenuRequested(int,int)</signal>
+        <receiver>PopupMenu1</receiver>
+        <slot>popup(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>ComboBox10</sender>
+        <signal>activated(int)</signal>
+        <receiver>ScriptObject35</receiver>
+        <slot>execute(int)</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
