@@ -47,6 +47,7 @@ Icon=widget_doc
 Type=MimeType
 MimeType=application/x-kommander
 Patterns=*.kmdr;
+X-KDE-IsAlso=application/x-executable-script
 
 [Property::X-KDE-text]
 Type=bool
