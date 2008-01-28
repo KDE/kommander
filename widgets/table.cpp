@@ -21,6 +21,7 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <qpoint.h>
 
 /* OTHER INCLUDES */
 #include <specials.h>
@@ -101,9 +102,12 @@ void Table::setCellWidget(int row, int col, const QString & _widgetName)
     QWidget *widget = static_cast<QWidget*>(w->object());
     if (QTable::cellWidget(row, col) != widget)
     { 
+      setCurrentCell(-1, -1); //hack to not delete the cellwidget after clicking away to another cell. 
+//I don't know why it does so, but without this on a click to another cell calls endEdit, which calls
+//clearCellWidget, all this before the currentChanged signal is emitted.
       clearCellWidget(row, col);
       QTable::setCellWidget(row, col, widget);
-    }
+   }
   } else
     clearCellWidget(row, col);
 }
@@ -121,6 +125,24 @@ QString Table::cellWidget(int row, int col)
   return QString();
 }
 
+void Table::setCellText(int row, int col, const QString& text)
+{
+  QWidget *widget = QTable::cellWidget(row, col);
+  if (widget)  
+  {
+    KommanderWidget *w = widgetByName(widget->name());
+    if (w)
+      widget->reparent(parentDialog(), QPoint(0,0));
+  }  
+  setText(row, col, text);
+  endEdit(row, col, false, false);
+}
+
+void Table::clearCellWidget(int row, int col)
+{
+  QTable::clearCellWidget(row, col); //just for debugging
+}
+
 void Table::contextMenuEvent( QContextMenuEvent * e )
 {
   e->accept();
@@ -136,7 +158,7 @@ QString Table::handleDCOP(int function, const QStringList& args)
     case DCOP::cellText:
       return text(args[0].toInt(), args[1].toInt());
     case DCOP::setCellText:
-      setText(args[0].toInt(), args[1].toInt(), args[2]);
+      setCellText(args[0].toInt(), args[1].toInt(), args[2]);
       break;
     case DCOP::setCellWidget:
       setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);

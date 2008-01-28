@@ -51,6 +51,7 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
 
     virtual QString handleDCOP(int function, const QStringList& args);
     virtual bool isFunctionSupported(int function);
+    virtual void clearCellWidget(int row, int col);
   public slots:
     virtual void populate();
     virtual void setWidgetText(const QString &);
@@ -62,6 +63,7 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
     QString selectedArea();
     QString cellWidget(int row, int col);
     void setCellWidget(int row, int col, const QString &widgetName);
+    void setCellText(int row, int col, const QString &text);
 };
 
 #endif
