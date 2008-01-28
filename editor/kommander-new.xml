@@ -109,6 +109,10 @@
       <item>array_setValue</item>
       <item>array_fromString</item>
       <item>array_toString</item>
+      <item>array_indexedFromString</item>
+      <item>array_indexedRemoveElements</item>
+      <item>array_indexedInsertElements</item>
+      <item>array_indexedToString</item>
     </list>
     
     <list name="kmdrstring">
