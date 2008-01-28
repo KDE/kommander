@@ -440,7 +440,7 @@ ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
   int pos = m_start;
   QString widget;
   if (widgetName.isNull())
-   widget = nextVariable();
+   widget = nextVariable(mode);
   else
    widget = widgetName; 
   Function f = m_data->function("internalDcop");
@@ -752,7 +752,7 @@ bool Parser::tryVariable(Mode mode)
   return false;
 }
 
-QString Parser::nextVariable()
+QString Parser::nextVariable(Mode mode)
 {
   if (next().isVariable())
   {
@@ -760,7 +760,7 @@ QString Parser::nextVariable()
     m_start++;
     return name;
   }
-  else 
+  else if (mode == Execute)
     setError(i18n("Expected variable"));
   return QString();
 }

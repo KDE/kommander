@@ -139,7 +139,7 @@ private:
   bool tryVariable(Parse::Mode mode = Parse::Execute);
 
   // get the name of the next node treated as variable
-  QString nextVariable();
+  QString nextVariable(Parse::Mode mode = Parse::Execute);
   // check whether variable/array name is global (preceded with _)
   bool isGlobal(const QString& name) const;
   // check if next item is a function
