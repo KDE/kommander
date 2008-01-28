@@ -379,6 +379,17 @@ void MainWindow::runForm()
   if (!form || !form->formFile())
     return;
 
+  QObjectList *editors = queryList("AssocTextEditor");
+  QObjectListIt it(*editors);
+  QObject *editor;
+
+  while ((editor = it.current()) != 0L) 
+  {
+    ++it;
+    static_cast<AssocTextEditor*>(editor)->save();
+  }
+  delete editors;  
+
   if (form->formFile()->hasTempFileName())
   {
     if (!form->formFile()->saveAs())
