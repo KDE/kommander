@@ -213,9 +213,14 @@ ParseNode Parser::parseValue(Mode mode)
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
-      if (mode == Execute)
+      QString value = variable(p.variableName()).toString();
+      if (m_widget && m_widget->isWidget(value))
       {
-        setError(i18n("'%1' is not a widget").arg(p.variableName()));
+        m_start--;
+        return parseWidget(mode, value);
+      }else if (mode == Execute)
+      {
+        setError(i18n("'%1' (%2) is not a widget").arg(p.variableName()).arg(variable(p.variableName()).toString()));
         return ParseNode();
       } else
       {
