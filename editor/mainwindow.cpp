@@ -14,6 +14,7 @@
  Modified for Kommander:
   (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
   (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+  (C) 2008      Andras Mantia <amantia@kde.org>
 
 **********************************************************************/
 
@@ -194,6 +195,9 @@ MainWindow::MainWindow(bool asClient)
   statusBar()->setSizeGripEnabled(true);
   SpecialInformation::registerSpecials();
 
+  backupTimer = new QTimer(this);
+  connect(backupTimer, SIGNAL(timeout()), this, SLOT(slotCreateBackups()));
+  backupTimer->start(1000*60*5); //fire it every five minutes
   //createGUI(0);
 
 }
@@ -367,6 +371,31 @@ int MainWindow::currentTool() const
   return QString::fromLatin1(actionCurrentTool->name()).toInt();
 }
 
+void MainWindow::slotCreateBackups()
+{
+//create a backup of the opened forms
+  QWidgetList windows = qworkspace->windowList(QWorkspace::StackingOrder);
+  for (int i = 0; i < (int)windows.count(); ++i)
+  {
+    FormWindow* form = dynamic_cast<FormWindow*>(windows.at(i));
+    if (!form || !form->formFile())
+      continue;
+    QString fileName = form->formFile()->fileName();
+    QString backupName = fileName + ".backup";
+    bool modified = form->formFile()->isModified();
+    if (form->formFile()->hasTempFileName())
+      continue; //no need to create a backup
+    
+    form->formFile()->setFileName(backupName);  
+    form->formFile()->setModified(true);
+    if (!form->formFile()->save(false))
+    {
+      KMessageBox::error(this, i18n("<qt>Cannot create backup file <i>%1</i>.</qt>").arg(backupName));
+    }
+    form->formFile()->setFileName(fileName);  
+    form->formFile()->setModified(modified); 
+  }
+}
 
 void MainWindow::runForm()
 {
@@ -411,6 +440,10 @@ void MainWindow::runForm()
   form->formFile()->setModified(true);
   if (form->formFile()->save(false))
   {
+    if (!KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_fileName + ".backup"), statbuf.st_mode, true))
+    {
+      KMessageBox::error(this, i18n("<qt>Cannot create backup file <i>%1</i>.</qt>").arg(m_fileName + ".backup"));
+    }
     ::chmod(m_fileName.local8Bit(), S_IRWXU);
     KProcess* process = new KProcess;
     process->setUseShell(true);

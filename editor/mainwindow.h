@@ -179,6 +179,7 @@ public slots:
     void editBreakLayout();
     void editAccels();
     void editConnections();
+    void editFindGlobal();
     
     void editFormSettings();
     void editPreferences();
@@ -206,6 +207,7 @@ private slots:
     void createNewTemplate();
     
     void closeRunningForm(KProcess* process);
+    void slotCreateBackups();
     
 private:
     void setupMDI();
@@ -244,8 +246,6 @@ private:
 
     QString whatsThisFrom( const QString &key );
 
-private slots:
-
 private:
     PropertyEditor *propertyEditor;
     HierarchyView *hierarchyView;
@@ -267,7 +267,7 @@ private:
       *actionEditHLayout, *actionEditVLayout, *actionEditGridLayout,
       *actionEditSplitHorizontal, *actionEditSplitVertical,
       *actionEditSelectAll, *actionEditBreakLayout, *actionEditConnections,
-      *actionEditLower, *actionEditRaise;
+      *actionEditLower, *actionEditRaise, *actionEditFindGlobal;
     
     KToggleAction* actionPointerTool, *actionConnectTool, *actionOrderTool;
     KAction* actionCurrentTool;
@@ -289,6 +289,7 @@ private:
 
     bool databaseAutoEdit;
     QTimer *updateSlotsTimer;
+    QTimer *backupTimer;
     bool inDebugMode;
     QObjectList debuggingForms;
     QString lastOpenFilter;

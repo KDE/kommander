@@ -195,6 +195,8 @@ bool FormFile::closeEvent()
 
   emit removedFormFile(this);
   setModified(false);
+  QFile f(filename + ".backup");
+  f.remove();
   return true;
 }
 

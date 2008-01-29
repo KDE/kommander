@@ -140,6 +140,11 @@ void MainWindow::setupEditActions()
   actionEditLower->setWhatsThis(i18n("Lowers the selected widgets"));
   actionEditLower->setEnabled(false);
 
+  actionEditFindGlobal = new KAction(i18n("Find in Form..."), CTRL + ALT + Key_F, this, SLOT(editFindGlobal()), actionCollection(), "edit_find_global");
+  actionEditFindGlobal->setToolTip(i18n("Search for a text in the whole form."));
+  actionEditFindGlobal->setWhatsThis(whatsThisFrom("Edit|Find in Form"));
+  connect(this, SIGNAL(hasActiveForm(bool)), actionEditFindGlobal, SLOT(setEnabled(bool)));
+
   actionEditAccels = new KAction(i18n("Check Accelerators"), ALT + Key_R, this, SLOT(editAccels()),
                                  actionCollection(), "edit_check_accel");
   actionEditAccels->setToolTip(i18n("Checks if the accelerators used in the form are unique"));
@@ -182,6 +187,7 @@ void MainWindow::setupEditActions()
   actionEditSelectAll->plug(menu);
   actionEditAccels->plug(menu);
   menu->insertSeparator();
+//   actionEditFindGlobal->plug(menu); //enable when implemented
   actionEditConnections->plug(menu);
   actionEditFormSettings->plug(menu);
   menu->insertSeparator();
@@ -1059,6 +1065,14 @@ void MainWindow::editConnections()
   editor.exec();
   statusBar()->clear();
 }
+
+void MainWindow::editFindGlobal()
+{
+  if (!formWindow())
+    return;
+  
+}
+
 
 void MainWindow::editFormSettings()
 {
