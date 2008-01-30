@@ -20,12 +20,22 @@
 /* KDE INCLUDES */
 #include <kglobal.h>
 #include <kiconloader.h>
+#include <klocale.h>
 
 
 /* OTHER INCLUDES */
 #include <myprocess.h>
 #include <specials.h>
 #include "timer.h"
+#include "kommanderplugin.h"
+#include "specials.h"
+
+
+enum Functions {
+  FirstFunction = 159,
+  SetInterval,
+  LastFunction
+};
 
 Timer::Timer(QWidget *a_parent, const char *a_name)
   : QLabel(a_parent, a_name), KommanderWidget(this)
@@ -48,6 +58,9 @@ Timer::Timer(QWidget *a_parent, const char *a_name)
   setInterval(5000);
   setSingleShot(false);
   connect(mTimer, SIGNAL(timeout()), SLOT(timeout()));
+
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(SetInterval, "setInterval(QString widget, int interval)",  i18n("Set the timer timeout interval in ms."), 2);
 }
 
 Timer::~Timer()
@@ -145,7 +158,7 @@ void Timer::cancel()
 
 bool Timer::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::execute || f == DCOP::cancel;
+  return f == DCOP::setText || f == DCOP::execute || f == DCOP::cancel || (f > FirstFunction && f < LastFunction);
 }
 
 QString Timer::handleDCOP(int function, const QStringList& args)
@@ -159,6 +172,9 @@ QString Timer::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::cancel:
       cancel();
+      break;
+    case SetInterval:
+      mTimer->changeInterval(args[0].toInt());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);
