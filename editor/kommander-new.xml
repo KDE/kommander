@@ -77,7 +77,6 @@
       <item>echo</item>
       <item>env</item>
       <item>exec</item>
-      <item>expr</item>
       <item>global</item>
       <item>i18n</item>
       <item>dialog</item>
@@ -85,8 +84,6 @@
       <item>setGlobal</item>
       <item>writeSetting</item>
       <item>dcop</item>
-      <item>switchBlock</item>
-      <item>execBegin</item>
       <item>forBlock</item>
       <item>forEachBlock</item>
       <item>ifBlock</item>
@@ -97,6 +94,7 @@
       <item>return</item>
       <item>internalDcop</item>
       <item>executeSlot</item>
+      <item>widgetExists</item>
     </list>
     
     <list name="kmdrarray">
@@ -169,7 +167,6 @@
       <item> function </item>
       <item> in </item>
       <item> select </item>
-      <item> until </item>
       <item> while </item>
       <item> . </item>
       <item> elseif </item>
@@ -179,6 +176,9 @@
       <item> end </item>
       <item> endif </item>
       <item> do </item>
+      <item> break </item>
+      <item> continue </item>
+      <item> exit </item>
     </list>
     
     <list name="booleans">
