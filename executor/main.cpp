@@ -57,10 +57,10 @@ int main(int argc, char *argv[])
 {
   KAboutData aboutData( "kmdr-executor", I18N_NOOP("Kommander Executor"),
     KOMMANDER_VERSION, description, KAboutData::License_GPL,
-    "(c) 2002, Marc Britton", 0, 0, "consume@optushome.com.au");
-  aboutData.addAuthor("Marc Britton", 0, "consume@optushome.com.au");
-  aboutData.addAuthor("Michal Rudolf", 0, "mrudolf@kdewebdev.org");
-  aboutData.addAuthor("Andras Mantia", 0, "amantia@kde.org");
+    "(c) 2002, Marc Britton, (C) 2008 Andras Mantia", 0, 0, "http://kommander.kdewebdev.org");
+  aboutData.addAuthor("Andras Mantia", I18N_NOOP("Current maintainer"), "amantia@kdewebdev.org");
+  aboutData.addAuthor("Michal Rudolf", I18N_NOOP("Previous maintainer"), "mrudolf@kdewebdev.org");
+  aboutData.addAuthor("Marc Britton", I18N_NOOP("Original author"), "consume@optusnet.com.au");
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
