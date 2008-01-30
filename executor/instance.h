@@ -107,6 +107,7 @@ public:
   virtual void setColumnCaption(const QString &widgetName, int column, const QString& text);
   virtual int getWinID();
   virtual void setBusyCursor(bool busy);
+  QWidget *widget() { return m_instance;}  
 
 public slots:
   /** Sets the instance's parent */

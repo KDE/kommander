@@ -101,7 +101,7 @@ bool Instance::build(const KURL& fname)
   KommanderFactory::loadPlugins();
 
   if (fname.isValid())
-    m_instance = KommanderFactory::create(fname.path());
+    m_instance = KommanderFactory::create(fname.path(), 0L, dynamic_cast<QWidget*>(parent()));
   else
   {
     QFile inputFile;
