@@ -38,6 +38,8 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o store Kommander version in the VERSION/_VERSION global variable
     o the editor does not save the dialog on running
     o warn if a dialog file is not executable
+    o create backup files every 5 minutes
+    o add experimental Kommander KPart
     o rework the plugin system
     o bump version to 1.3
 
