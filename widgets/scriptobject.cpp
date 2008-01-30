@@ -38,7 +38,7 @@ ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   if (KommanderWidget::inEditor)
   {
-    setPixmap(KGlobal::iconLoader()->loadIcon("exec", KIcon::NoGroup, KIcon::SizeMedium));
+    setPixmap(KGlobal::iconLoader()->loadIcon("shellscript", KIcon::NoGroup, KIcon::SizeMedium));
     setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
