@@ -1,10 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=KommanderPart
-Name[et]=Kommander komponent
-Name[sv]=Kommander-del
-Name[ta]=Kommanderபாகம்
-Name[xx]=xxKommanderPartxx
 MimeType=application/x-kommander;
 ServiceTypes=KParts/ReadOnlyPart
 X-KDE-Library=libkommander_part
