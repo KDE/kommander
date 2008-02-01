@@ -267,7 +267,19 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     }
     case DCOP::selection:
-      return itemText(currentItem());
+    {
+      QString selection = "";
+      QListViewItemIterator it(this);
+      while (it.current()) 
+      {
+        if (it.current()->isSelected())
+            selection.append(it.current()->text(0) + "\n");
+        ++it;
+      }
+      if (!selection.isEmpty())
+        selection = selection.left(selection.length() - 1);
+      return selection;
+    }
     case DCOP::setSelection:
       if (selectionModeExt() == Single || selectionModeExt() == NoSelection)
         setCurrentItem(findItem(args[0], 0));
