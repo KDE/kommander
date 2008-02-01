@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=KommanderPart
+Name[sv]=Kommander-delprogram
 MimeType=application/x-kommander;
 ServiceTypes=KParts/ReadOnlyPart
 X-KDE-Library=libkommander_part
