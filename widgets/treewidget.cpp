@@ -273,7 +273,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       while (it.current()) 
       {
         if (it.current()->isSelected())
-            selection.append(it.current()->text(0) + "\n");
+            selection.append(itemText(it.current()) + "\n");
         ++it;
       }
       if (!selection.isEmpty())
