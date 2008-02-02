@@ -29,7 +29,14 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "treewidget.h"
+#include "kommanderplugin.h"
+#include "specials.h"
 
+enum Functions {
+  FirstFunction = 189,
+  SelectedIndexes,
+  LastFunction
+};
 
 TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   : KListView(a_parent, a_name), KommanderWidget(this)
@@ -39,6 +46,8 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   setStates(states);
   setDisplayStates(states);
   setPathSeparator("/");
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(SelectedIndexes, "selectedIndexes(QString widget)",  "", 1);
 }
 
 TreeWidget::~TreeWidget()
@@ -170,6 +179,8 @@ QString TreeWidget::itemPath(QListViewItem* item) const
   if (!item)
     return QString();
   item = item->parent();
+  if (!item)
+    return QString();
   QStringList path;
   while (item)
   {
@@ -245,7 +256,7 @@ bool TreeWidget::isFunctionSupported(int f)
   return f == DCOP::insertItem || f == DCOP::text || f == DCOP::setText || f == DCOP::insertItems ||
     f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::removeItem || 
     f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::findItem || f == DCOP::item || 
-      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap || f == DCOP::setColumnCaption;
+      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap || f == DCOP::setColumnCaption || (f > FirstFunction && f < LastFunction);
 }
 
 QString TreeWidget::handleDCOP(int function, const QStringList& args)
@@ -266,6 +277,25 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
         addItemFromString(*it);
       break;
     }
+    case SelectedIndexes:
+    {
+      QString selection = "";
+      int i = 0;
+      QListViewItemIterator it(this);
+      while (it.current()) 
+      {
+        if (it.current()->isSelected())
+        {        
+          selection.append(QString("%1\t%2\n").arg(i).arg(itemToIndex(it.current())));
+          i++;
+        }
+        ++it;
+      }
+      if (!selection.isEmpty())
+        selection = selection.left(selection.length() - 1);
+      return selection;
+      break;
+    }
     case DCOP::selection:
     {
       QString selection = "";
@@ -279,6 +309,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       if (!selection.isEmpty())
         selection = selection.left(selection.length() - 1);
       return selection;
+      break;
     }
     case DCOP::setSelection:
       if (selectionModeExt() == Single || selectionModeExt() == NoSelection)

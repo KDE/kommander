@@ -32,7 +32,7 @@
 
 
 enum Functions {
-  FirstFunction = 159,
+  FirstFunction = 179,
   SetInterval,
   LastFunction
 };
