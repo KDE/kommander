@@ -531,7 +531,8 @@ Flow Parser::parseIf(Mode mode)
   bool matched = false;
   do {
     m_start++;
-    p = parseCondition(mode);
+    Mode m = matched ? CheckOnly : mode;
+    p = parseCondition(m);
     tryKeyword(Then);
     bool condition = !matched && p.toBool();
     if (condition)
