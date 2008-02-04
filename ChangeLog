@@ -17,6 +17,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o make dcopid, pid, parentPid work in the new parser
     o make TreeWidget.selection work in multi selection mode
     o add TreeWidget.selectedIndexes
+    o make TreeWidget.setSelection show the selected item
     o add setCellWidget/cellWidget for Table
     o add setEditable(bool) for widgets that are editable
     o add PopupMenu widget

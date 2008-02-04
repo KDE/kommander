@@ -322,7 +322,10 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
         {
           QListViewItem* item = findItem(*it, 0);
           if (item)
+          {
             item->setSelected(true);
+            ensureItemVisible(item);
+          }
         }
       }
       break;
