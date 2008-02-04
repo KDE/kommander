@@ -280,14 +280,12 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case SelectedIndexes:
     {
       QString selection = "";
-      int i = 0;
       QListViewItemIterator it(this);
       while (it.current()) 
       {
         if (it.current()->isSelected())
         {        
-          selection.append(QString("%1\t%2\n").arg(i).arg(itemToIndex(it.current())));
-          i++;
+          selection.append(QString("%1\n").arg(itemToIndex(it.current())));
         }
         ++it;
       }
