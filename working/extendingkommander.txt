@@ -16,7 +16,12 @@ widget its functionality.
 
 Most of the code of a Kommander widget is just template code.
 Therefore, you can use the KDevelop Kommander plugin template to generate 
-most the Kommander widget code for you. All you have to do is fill in the
+most the Kommander widget code for you. To do so run KDevelop (3.5 is recommended),
+select Project->New Project, tick the "Show all project templates" checkbox,
+select the C++/Kommander/KommanderPlugin template. Give a name for your plugin and
+follow the instructions in the wizard.
+
+All you have to do is fill in the
 important parts relating to your widget like any state information, widget text
 etc.
 
