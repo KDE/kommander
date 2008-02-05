@@ -80,6 +80,7 @@ private:
   QString m_fileName;
   bool m_useInternalParser;
   bool m_useShebang; //add m_shebang at the beginning of the dialog code or not
+  bool m_firstShow; //tells if the show method was called before or not
   QString m_shebang; //#!/usr/bin/kmdr-executor or similar
 };
 

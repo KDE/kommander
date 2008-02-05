@@ -39,6 +39,7 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   setDisplayStates(states);
   m_useShebang = false;
   m_shebang = "#!/usr/bin/kmdr-executor";
+  m_firstShow = true;
 }
 
 Dialog::~Dialog()
@@ -127,9 +128,20 @@ void Dialog::exec()
 
 void Dialog::show()
 {
-  QDialog::show();
-  if (!inEditor)
-    initialize();
+//if the dialog is embedded in a KPart, the show can be called many times.
+//to avoid re-init and sending signals we don't want, in that case call only the
+//QWidget's show method to show the widgets, but don't do any QDialog specific 
+//task
+  if (!m_firstShow) 
+  {
+    QWidget::show();
+  } else
+  {
+    QDialog::show();
+    if (!inEditor)
+      initialize();
+    m_firstShow = false;
+  }
 }
 
 void Dialog::done(int r)
