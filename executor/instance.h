@@ -24,6 +24,7 @@
 #include <qstringlist.h>
 #include <qobject.h>
 #include <qmap.h>
+#include <qguardedptr.h>
 
 /* KDE INCLUDES */
 #include <kurl.h>
@@ -122,7 +123,7 @@ private:
   /** Check if the file exists, has correct extension and is not in a temporary (insecure) directory */
   bool isFileValid(const KURL& fname) const;
   /* Dialog Instance */
-  QWidget *m_instance;
+  QGuardedPtr<QWidget> m_instance;
   /* Associated Text Instance */
   KommanderWidget *m_textInstance;
   /** The parent widget */

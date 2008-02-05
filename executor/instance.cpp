@@ -116,7 +116,8 @@ bool Instance::build(const KURL& fname)
     return false;
   }
 
-  KommanderWindow* window = dynamic_cast<KommanderWindow*>(m_instance);  if (window)
+  KommanderWindow* window = dynamic_cast<KommanderWindow*>((QWidget*)m_instance);  
+  if (window)
     window->setFileName(fname.path().local8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
@@ -158,11 +159,11 @@ bool Instance::run()
 
   // Handle both dialogs and main windows
   if (m_instance->inherits("QDialog"))
-    ((QDialog*)m_instance)->exec();
+    dynamic_cast<QDialog*>((QWidget*)m_instance)->exec();
   else if (m_instance->inherits("QMainWindow"))
   {
     kapp->setMainWidget(m_instance);
-    ((QMainWindow*)m_instance)->show();
+    dynamic_cast<QMainWindow*>((QWidget*)m_instance)->show();
     kapp->exec();
   }
   else return false;
