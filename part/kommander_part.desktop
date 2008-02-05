@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=KommanderPart
+Name[ca]=Part del Kommander
 Name[nds]=Kommander-Komponent
 Name[sv]=Kommander-delprogram
 MimeType=application/x-kommander;
