@@ -600,7 +600,11 @@ void Resource::saveObject( QObject *obj, QDesignerGridLayout* grid, QTextStream 
 	    ++indent;
 	} else {
 	    closeTag = makeIndent( indent ) + "</widget>\n";
-	    ts << makeIndent( indent ) << "<widget class=\"" << className << "\"" << attributes << ">" << endl;
+        if ( qstrcmp( className, "KmdrMainWindow" ) == 0 ) {
+          ts << makeIndent( indent ) << "<widget class=\"QMainWindow\"" << attributes << ">" << endl;
+        } else {
+	       ts << makeIndent( indent ) << "<widget class=\"" << className << "\"" << attributes << ">" << endl;
+        }
 	    ++indent;
 	}
 	if ( WidgetFactory::hasItems( WidgetDatabase::idFromClassName( WidgetFactory::classNameOf( obj ) ) ) )

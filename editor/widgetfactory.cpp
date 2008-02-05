@@ -21,6 +21,7 @@
 #include <klocale.h>
 #include <kommanderfactory.h>
 
+#include "kmdrmainwindow.h"
 #include <qvariant.h> // HP-UX compiler need this here
 #include "widgetfactory.h"
 #include "widgetdatabase.h"
@@ -1086,7 +1087,7 @@ QWidget *WidgetFactory::createWidget( const QString &className, QWidget *parent,
     return l;
   } else if (className == "QMainWindow")
   {
-    QMainWindow *mw = new QMainWindow(parent, name, 0);
+    QMainWindow *mw = new KmdrMainWindow(parent, name, 0);
     mw->setDockEnabled(Qt::DockMinimized, false);
     QDesignerWidget *dw = new QDesignerWidget((FormWindow *) parent, mw, "central widget");
     mw->setDockMenuEnabled(false);

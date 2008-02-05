@@ -96,6 +96,8 @@
 #include <kglobal.h>
 #include <klocale.h>
 
+#include "kmdrmainwindow.h"
+
 QPtrList<KommanderPlugin> widgetPlugins;
 
 QMap<QWidget*, QString> *qwf_functions = 0;
@@ -406,9 +408,9 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
   {
     QMainWindow *mw = 0;
     if (!qwf_stays_on_top)
-      mw = new QMainWindow(parent, name);
+      mw = new KmdrMainWindow(parent, name);
     else
-      mw = new QMainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
+      mw = new KmdrMainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
     mw->setCentralWidget(new QWidget(mw, "qt_central_widget"));
     mw->centralWidget()->show();
     (void) mw->statusBar();

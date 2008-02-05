@@ -11,7 +11,6 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o add widgetExists
     o add indexed array functions: array_indexedFromString, array_indexedToString, array_indexedRemoveElements, array_indexedInsertElements
     o input_color and @Input.color accepts a default color argument
-    o input_color and @Input.color accepts a default color argument
     o fix "exit" command
     o make a="Label1"; a.setText("foo") work
     o make dcopid, pid, parentPid work in the new parser
@@ -23,7 +22,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o add PopupMenu widget
     o add ToolBox widget
     o add AboutDialog widget
-    o quote the strings inserted via function browser
+    o optionally quote the strings inserted via function browser
     o use combobox for booleans in the function browser
     o use multiline insert box in function browser
     o add highlighting for the new parser
@@ -42,6 +41,7 @@ January 2008 - Andras Mantia <amantia@kde.org>
     o the editor does not save the dialog on running
     o warn if a dialog file is not executable
     o create backup files every 5 minutes
+    o add initialize/destroy signals to MainWindow
     o add experimental Kommander KPart
     o rework the plugin system
     o bump version to 1.3
