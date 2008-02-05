@@ -44,6 +44,8 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 
 Dialog::~Dialog()
 {
+  if (!inEditor)
+    destroy();
 }
 
 QString Dialog::currentState() const
@@ -146,8 +148,8 @@ void Dialog::show()
 
 void Dialog::done(int r)
 {
-  if (!inEditor)
-    destroy();
+/*  if (!inEditor)
+    destroy();*/
   QDialog::done(r);  
 }
 

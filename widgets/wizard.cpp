@@ -46,7 +46,8 @@ Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
 
 Wizard::~Wizard()
 {
-  destroy();
+  if (!inEditor)
+    destroy();
 }
 
 QString Wizard::currentState() const
