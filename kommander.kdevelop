@@ -166,7 +166,7 @@
     </configurations>
     <run>
       <mainprogram>/data/development/build/kde-3.5/kdewebdev/kommander/executor/.libs/kmdr-executor</mainprogram>
-      <programargs>/data/development/quanta/test-buttons.kmdr</programargs>
+      <programargs>/data/development/quanta/eric/khwholesale2.kmdr</programargs>
       <terminal>false</terminal>
       <envvars/>
       <directoryradio>build</directoryradio>
@@ -174,7 +174,7 @@
       <autocompile>true</autocompile>
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
-      <globaldebugarguments>/data/development/quanta/test-array.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/quanta/test-treewidget.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-3.5/kdewebdev/</globalcwd>
       <useglobalprogram>true</useglobalprogram>
     </run>

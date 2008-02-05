@@ -1,0 +1,19 @@
+lib_LTLIBRARIES = libkmdr%{APPNAMELC}.la
+
+# the library search path.
+libkmdr%{APPNAMELC}_la_LDFLAGS = -module $(KDE_PLUGIN) \
+    $(HK_LDFLAGS) $(all_libraries)
+
+# the libraries to link against.
+libkmdr%{APPNAMELC}_la_LIBADD  =  -lkommanderwidget -lkommanderplugin \
+    $(LIB_KPARTS) $(LIB_KDEUI)
+
+# which sources should be compiled for widgets
+libkmdr%{APPNAMELC}_la_SOURCES = %{APPNAMELC}.cpp %{APPNAMELC}plugin.cpp
+
+# these are the headers for your project that won't be installed
+
+# let automoc handle all of the meta source files (moc)
+METASOURCES = AUTO
+AM_CXXFLAGS= -DHAVE_SSTREAM
+AM_CPPFLAGS= $(all_includes)
