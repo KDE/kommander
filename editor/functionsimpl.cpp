@@ -80,17 +80,25 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const QDict<QWidget>& a_widg
   m_Slots = -1;
   for (int i=0; i<groupComboBox->count(); i++)
   {
-     if (groupComboBox->text(i) == "DCOP")
-     {
-       m_DCOP = i; 
-     }
      if (groupComboBox->text(i) == i18n("Slots"))
      {
        m_Slots = i; 
+       break;
      }
   }
   if (!useInternalParser)
+  {
     groupComboBox->removeItem(m_Slots);
+    m_Slots = -1;
+  }
+  for (int i=0; i<groupComboBox->count(); i++)
+  {
+     if (groupComboBox->text(i) == "DCOP")
+     {
+       m_DCOP = i; 
+        break;
+     }
+  }
   groupComboBox->changeItem(i18n("Functions"), m_DCOP); //this is a quick way to rename this group in the UI
   groupComboBox->setCurrentItem(m_DCOP);
   groupChanged(groupComboBox->currentItem());
@@ -136,7 +144,7 @@ void FunctionsDialog::groupChanged(int index)
   index = groupComboBox->currentItem();
   functionListBox->clear();
   m_slotList.clear();
-  if (index == m_Slots && m_useInternalParser)
+  if (index == m_Slots)
   {
     KommanderWidget* a_atw = dynamic_cast<KommanderWidget *>(m_widgetList[widgetComboBox->currentText()]);
     QStringList pFunctions = QStringList::fromStrList(a_atw->object()->metaObject()->slotNames(true));
