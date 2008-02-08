@@ -51,7 +51,7 @@
 <firstname>Eric</firstname>
 <surname>Laffoon</surname>
 <affiliation>
-<address><email>sequitur@kde.org</email></address>
+<address><email>eric@kdewebdev.org</email></address>
 </affiliation>
 </author>
 
@@ -60,7 +60,7 @@
 </authorgroup>
 
 <copyright>
-<year>2004</year>
+<year>2008</year>
 <holder>&kommander; Development Team</holder>
 </copyright>
 
@@ -74,13 +74,14 @@ Please respect the format of the date (YYYY-MM-DD) and of the version
 Do NOT change these in the translation. -->
 
 <date>2004-05-03</date>
-<releaseinfo>3.2.90</releaseinfo>
+<releaseinfo>3.2.95</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
 <abstract>
+<para>These docs have been partially complete for years, but not always available. Ironically given the nature of Kommander dialogs not having a help menu you may not have seen them. Over the years since this was worked on there has not been that much of the time consistently coding on Kommander, but the results have been dramatic. Because Kommander is inherently a new approach to development there have been modifications in approach and features. Consequently much of this documentation is out of date, however still useful due to legacy support. Please refer to our new parser docs and other references on the Kommander subdomain at kdewebdev.org for more information on Kommander.</para>
 <para>
-&kommander; is a set of tools that allow you to create dynamic &GUI; dialogs that generate, based on their state, a piece of text.  The piece of text can be a command line to a program, any piece of code, business documents that contain a lot of repititious or templated text and so on.  The resulting generated text can then be executed as a command line program (hence the name <quote>&kommander;</quote>), written to a file, passed to a script for extended processing, and literally anything else you can think of.  The best part of it all?  You aren't required to write a single line of code!
+&kommander; is a set of tools that allow you to create dynamic &GUI; windows that has been used as a front end for command line programs, database front ends, simple program extntions and much more. The best part of it all?  You aren't required to write a single line of code! Okay, that was old text... You can actually use the function browser and even with the new parser write almost none of the code. The inherent difference between &kommander; and other &GUI; scripting tools is that &kommander; doesn't care about how the window gets drawn, syntax holy wars or mapping C++ classes. &kommander; only cars about what your widgets have to say to each other. &kommander; was designed from the GUI down to the language elements and can embrace multiple languages. &kommander; does not use scripting to draw a window on the screen like other &GUI; scripting tools. As Kommander matures it will expose all it's internals to any scripting language people want to enable, and presently it exposes much of it, and with some work everything to any DCOP enabled language. So if you like Rexx you can use it in &kommander;.
 </para>
 </abstract>
 
