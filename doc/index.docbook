@@ -100,6 +100,7 @@ Please at least include KDE, the KDE package it is in, the name
 &introduction;
 &basics;
 &commands;
+&parser;
 &extending;
 &tutorials;
 &q-and-a;
