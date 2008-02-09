@@ -324,7 +324,7 @@ void SpecialInformation::registerSpecials()
          i18n("Returns the depth of the current item in the tree. Root items have depth 0."), 2);
   insert(DCOP::itemPath, "itemPath(QString widget, int index)",
          i18n("Returns the slash-separated path to the given item in the tree."), 2);
-  insert(DCOP::removeColumn, "removeColumn(QString widget, int row, int count)",
+  insert(DCOP::removeColumn, "removeColumn(QString widget, int column, int count)",
          i18n("Removes the column (or <i>count</i> consecutive columns) with the given index."), 3);
   insert(DCOP::removeItem, "removeItem(QString widget, int index)",
          i18n("Removes the item with the given index."), 2);
