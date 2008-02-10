@@ -301,7 +301,7 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 <guisubmenu>Custom</guisubmenu>
 </menuchoice></term>
 <listitem>
-<para>The widgets provided by the plugin will be listed under this menu entry. The dialogs using these widgets will run only if the plugin they are using is installed.</para>
+<para>The widgets provided by the plugins will be listed under this menu entry. The dialogs using these widgets will run only if the plugin that provides them is installed and configured.</para>
 </listitem>
 </varlistentry>
 
