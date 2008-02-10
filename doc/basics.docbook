@@ -87,8 +87,9 @@ The executor, called <application>kmdr-executor</application>, runs &kommander; 
 <title>Executor for Programmers</title>
 
 <para>
-C++ developers can easily use the KmdrDialogInstance class in their C++ programs so that the execution functionality is embedded in the their application obsoleting the need for running the external executor program.  For standard dialog the dialog creation overhead is minimal but the creation of the &kde; application may delay the dialog for around a second.
+C++ developers can easily use the Instance class in their C++ programs so that the execution functionality is embedded in the their application obsoleting the need for running the external executor program.  For standard dialog the dialog creation overhead is minimal but the creation of the &kde; application may delay the dialog for around a second.
 </para>
+<para>Another approach is to use the <emphasis>kommander_part</emphasis> KReadOnlyPart. This KPart can load and execute any Kommander dialog inside another KDE application.</para>
 </sect2>
 
 </sect1>

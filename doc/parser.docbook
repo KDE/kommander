@@ -178,9 +178,9 @@ are of course supported as well.
 </para>
 
 <para>
-All kinds of comparisons are supported: <command>&le;</command>, <command>&ge;</command>, <command>&le;=</command>, 
-<command>&ge;=</command>, <command>==</command>, <command>!=</command>. Instead of
-<command>!=</command> you can also use <command>&le;&ge;</command>. 
+All kinds of comparisons are supported: <command>&lt;</command>, <command>&gt;</command>, <command>&lt;=</command>, 
+<command>&gt;=</command>, <command>==</command>, <command>!=</command>. Instead of
+<command>!=</command> you can also use <command>&lt;&gt;</command>. 
 Also, logical operators <command>and</command>, <command>or</command>, <command>not</command> 
 are supported, as well as their C equivalents (<command>&amp;&amp;</command>, <command>||</command>, <command>!</command>).
 </para>
@@ -228,7 +228,7 @@ d["MyKey2"] = 5
 </screen>
 
 <para>
-Using variables for widgets works much as you would expect. This is usful when looping widgets inot a table.
+Using variables for widgets works much as you would expect. This is useful when looping widgets into a table.
 </para>
 
 <screen>
@@ -252,7 +252,7 @@ Kommander has some built in globals you may find handy.
 <para><command>_ARGCOUNT</command> - the count of arguments passed. These can be retrieved as <command>ARG1</command> to <command>ARGn</command> where n is the total number of args passed
 </para></listitem>
 <listitem>
-<para><command>_KDDIR</command> - the direcotry from which the dialog was run. Kommander will default to your home directory, or a directory change if asked for it's current directory. This is useful for saving and reading files with the Kommander file.
+<para><command>_KDDIR</command> - the directory from which the dialog was run. Kommander will default to your home directory, or a directory change if asked for it's current directory. This is useful for saving and reading files with the Kommander file.
 </para></listitem>
 <listitem>
 <para><command>_NAME</command> - there is no reason to use this so don't
@@ -267,7 +267,7 @@ Kommander has some built in globals you may find handy.
 </sect2>
 <sect2 id="passargs">
 <title>Passing arguments in Kommander</title>
-<para>You can pass argements via script parameters, signals and slots, command line parameters and DCOP. Let's look at scripts. Call your script like so.
+<para>You can pass arguments via script parameters, signals and slots, command line parameters and DCOP. Let's look at scripts. Call your script like:
 <screen>result = ScriptObject1.execute("Hello World")
 debug(result)</screen>
 Inside your script you might have the following
@@ -277,18 +277,18 @@ Now you will get a return in your <emphasis>Stderr</emphasis> message log of <em
 </para>
 <para>Receiving a signal connected to a script slot works the same way. <emphasis>Self.Item(0)</emphasis> is parameter one and so on. You can retrieve the count of arguments passed with <emphasis>ScriptObject.count</emphasis>.
 </para>
-<para>Command line parameters allow for named or unnamed aruments.Unnamed look like
+<para>Command line parameters allow for named or unnamed arguments. Unnamed look like
 <screen>kmdr-executor myprog.kmdr 100 red</screen>
 Where you will find _ARG1 = 100 and _ARG2 = red. One quirk is passing strings with spaces as an argument means they need to be quoted. Using the dialog command complicates matters as the entire argument string must pass as one string, meaning in quotes.
 <screen>dialog("mydialog.kmdr", 100+" \"Hello World\"")</screen>
 This returns <emphasis>_ARG1 = 100</emphasis> and <emphasis>_ARG2 = Hello World</emphasis>. Without the escaped quotes you would have <emphasis>_ARG2 = Hello</emphasis> and <emphasis>_ARG3 = World</emphasis>. Using Named Parameters is rather nice and potentially less confusing.
 <screen>dialog("mydialog.kmdr", "xcount=100 xquote=Hello world")</screen>
-And now you access those with <emphasis>_xcount</emphasis> and <emphasis>_xquote</emphasis>
+And now you access those with <emphasis>_xcount</emphasis> and <emphasis>_xquote</emphasis> global variables.
 </para>
 <para>
 DCOP can be complex, which is why we recommend using the tools we develop to enable creating DCOP for remote Kommander dialogs with something like a function browser. Here is an example DCOP call issued from a dialog opened from a parent Kommander window. Since it knows who its parent is it can send information back while it is open and freely access all its parent's functionality with the exception of slots. Of course that can be done internally with a script which can be called externally, so in practice there is no limit to what can be done.
 <screen>dcop("kmdr-executor-"+parentPid, "KommanderIf", "setText(QString,QString)", "StatusBar8", "Hello")</screen>
-Let's look at this piece by piece. First of all we add <emphasis>parentPid</emphasis> to "kmdr-executor-" as we make no assumption a Kommander window was the caller. You could use this with Quanta or KSpread or whatever. Next we are addressing <emphasis>KommanderIf</emphasis>, which is a <emphasis>nice</emphasis> interface for end users which has been cleaned up. We hope eventually as KDE moves from DCOP to DBUS on KDE4 that more applications adopt a nice interface for integration. The next paramter, <emphasis>"setText(QString,QString)"</emphasis> is important because it <emphasis>prototypes</emphasis> the parameters allowed. Otherwise Kommander could not validate the call and could crash. So without a definition of the DCOP call being used you will get an error. The remaining parameters are of course what is being passed. We recommend you look at applications with kdcop to see how this works and practice dcop calls from the shell to get your syntax right.
+Let's look at this piece by piece. First of all we add <emphasis>parentPid</emphasis> to "kmdr-executor-" as we make no assumption a Kommander window was the caller. You could use this with Quanta or KSpread or whatever. Next we are addressing <emphasis>KommanderIf</emphasis>, which is a <emphasis>nice</emphasis> interface for end users which has been cleaned up. We hope eventually as KDE moves from DCOP to DBUS on KDE4 that more applications adopt a nice interface for integration. The next paramter, <emphasis>"setText(QString,QString)"</emphasis> is important because it <emphasis>prototypes</emphasis> the parameters allowed. Otherwise Kommander could not validate the call. So without a definition of the DCOP call being used you will get an error. The remaining parameters are of course what is being passed. We recommend you look at applications with <command>kdcop</command> to see how this works and practice dcop calls from the shell to get your syntax right.
 </para>
 </sect2>
 </sect1>
@@ -333,9 +333,9 @@ is any expression. <emphasis>Code</emphasis> is executed if condition is true. T
 </para>
 
 <screen>
-if a * 2 &ge; 7 then
+if a * 2 &gt; 7 then
    b = 1
-elseif a &le; 0 then
+elseif a &lt; 0 then
    b = 2
 elseif 
    b = 0
@@ -353,7 +353,7 @@ endif
 <para>
 <emphasis>Condition</emphasis> is recalculated each time loop is executed.
 <screen>
-while i &le; 15 do
+while i &lt; 15 do
   i = i + a
 end  
 </screen>
@@ -529,7 +529,7 @@ file with given <emphasis>key</emphasis>; if there is no such value <emphasis>de
 <para><command>return(<parameter>value</parameter>)</command> - returns a value to the calling object (script, button...)
 </para></listitem>
 <listitem>
-<para><command>createWidget(<parameter>widget name</parameter>, <parameter>widget type</parameter>, <parameter>parent</parameter>)</command> - creates a new widget. You can then use <command>mywidget.show(true)</command> or place it in a table or toolbox. If you are putting an new widget on the form you need to consider layout issues. Kommander will not create layouts on the fly or edit pixel by pixel postioning (in most cases). This is confusing even in C++ development. We recommend you use a groupbox and do a layout in the dialog
+<para><command>createWidget(<parameter>widgetname</parameter>, <parameter>widgettype</parameter>, <parameter>parent</parameter>)</command> - creates a new widget. You can then place it in a table or toolbox, for example and use <command>mywidget.show(true)</command> to make it visible.  If you are putting an new widget on the form you need to consider layout issues. Kommander will not create layouts on the fly or edit pixel by pixel postioning (in most cases). This is confusing even in C++ development. We recommend you use a groupbox and do a layout in the dialog
 for best control.
 </para></listitem>
 <listitem>
@@ -539,7 +539,7 @@ for best control.
 <para><command>disconnect(<parameter>sender</parameter>, <parameter>signal</parameter>, <parameter>receiver</parameter>, <parameter>slot</parameter>)</command> - undo the connection as listed above. Again, exact syntax is essential.
 </para></listitem>
 <listitem>
-<para><command>widgetExists(<parameter>widget name</parameter>)</command> - remember you can use a variable name to reference a widget now. Us this when accessing created widgets to insure they are there. Calling a non-existant widget obviously will throw an error.
+<para><command>widgetExists(<parameter>widgetname</parameter>)</command> - remember you can use a variable name to reference a widget now. Use this when accessing created widgets to insure they are there. Calling a non-existant widget obviously will throw an error.
 </para></listitem>
 </itemizedlist>
 </sect2>  
@@ -563,7 +563,7 @@ are preceeded by <command>array_</command> instead of <command>@Array.</command>
 <para><command>array_count(<parameter>array</parameter>)</command> - returns number of elements in <emphasis>array</emphasis>
 </para></listitem>
 <listitem>
-<para><command>array_keys(<parameter>array</parameter>)</command> - returns string containing EOL-separated keys of <emphasis>array</emphasis> - note that if you had imported a scalar (keys without values) into an array with Kommander you would not be able to access it with <command>array_values("myarray")</command> as you might think (since it seems to only have values) but would instead need to use <emphasis>array_keys()</emphasis> You might find a better choice for this is to use the new <emphasis>indexed arrays</emphasis> described below.
+<para><command>array_keys(<parameter>array</parameter>)</command> - returns string containing EOL-separated keys of <emphasis>array</emphasis> - note that if you had imported a scalar (keys without values, see below for an example) into an array with Kommander you would not be able to access it with <command>array_values("myarray")</command> as you might think (since it seems to only have values) but would instead need to use <command>array_keys("myarray")</command>. You might find a better choice for this is to use the new <emphasis>indexed arrays</emphasis> described below.
 </para></listitem>
 <listitem>
 <para><command>array_values(<parameter>array</parameter>)</command> - returns string containing EOL-separated values of <emphasis>array</emphasis>
@@ -580,6 +580,38 @@ as EOL-separated pairs containing key and value separated with TAB character
 <emphasis>key</emphasis> from <emphasis>array</emphasis>
 </para></listitem>
 </itemizedlist>
+<para>Here is an example for array manipulation:</para>
+<screen>
+array_fromstring("myArray", "1\tA\nsecond\tB\n3\tC")
+foreach key in myArray do
+  debug("myArray[" + key + "]= " + myArray[key])
+end
+</screen>
+<para>This will print out the following to the stderr. It is visible that there is no guarantee about the order of array elements, as well that the keys are strings, not numbers.</para>
+<screen>
+myArray[1]= A
+myArray[3]= C
+myArray[second]= B
+</screen>
+<para>Another example for keyless arrays:</para>
+<screen>
+array_fromstring("myArray", "A\nB\nC")
+foreach key in myArray do
+  debug(key)
+end
+debug("Array elements:\n" + array_keys("myArray"))
+</screen>
+<para>This results in:</para>
+<screen>
+A
+B
+C
+Array elements:
+A
+B
+C
+</screen>
+
 <para>New in Kommander 1.3</para>
 <itemizedlist>
 <listitem>
@@ -632,7 +664,7 @@ to file <emphasis>name</emphasis>
 <sect2 id="input_functions">
 <title>Input functions</title>
 <para>
-These functions show some dialog allowing user to enter some value. Now they work only in new parser, but they will be probably backported to old parser at some point. For most functions all parameters are optional, exception is
+These functions show some dialog allowing user to enter some value. They are accessible in the old parser using <command>@Input.</command>. For most functions all parameters are optional, exception is
 <command>input_text</command> which requires 2 parameters and  <command>input_value</command> which requires 5 parameters.
 </para>
 
@@ -666,7 +698,7 @@ These functions show some dialog allowing user to enter some value. Now they wor
 <sect2 id="message_functions">
 <title>Message functions</title>
 <para>
-These functions show some message for user or ask user to confirm some action. Now they work only in new parser, but they will be probably backported to old parser at some point. Only the first parameter is required.
+These functions show some message for user or ask user to confirm some action. In the old parser use <command>@Message.</command> instead.
 </para>
 
 <itemizedlist>
