@@ -26,33 +26,33 @@ or from a template in &kommander;. The primary objective is to create as much
 functionality as possible with the absolute minimum use of scripting. This is
 provided by the following features:
 </para>
-<note>Please note this document includes legacy documentation for compatibility reasons. In a nutshell Kommander offers extremely rapid development and extensive abilities and capabilities. Following is a new list, followed by the legacy content.</note>
+<note><para>Please note this document includes legacy documentation for compatibility reasons. In a nutshell Kommander offers extremely rapid development and extensive abilities and capabilities. Following is a new list, followed by the legacy content.</para></note>
 
 <itemizedlist>
 <listitem>
-<emphasis>Capable internal scripting</emphasis> - Kommander now offers nested logic structures, simple arrays and useful functions 
+<para><emphasis>Capable internal scripting</emphasis> - Kommander now offers nested logic structures, simple arrays and useful functions </para>
+</listitem>
+<listitem><para>
+<emphasis>Function Browsers</emphasis> - One never need know exact syntax for any function or command, just click the button and point and click your way to a functional program. Even the project lead finds it easier than typos much of the time.</para>
+</listitem>
+<listitem><para>
+<emphasis>Extensive widgets</emphasis> - Kommander now has a tree/detail widget, spreadsheet like table widget, font dialog, color dialog, about dialog, timer, tab widgets, toolbox, popup menus, date picker and a lot more. </para>
 </listitem>
 <listitem>
-<emphasis>Function Browsers</emphasis> - One never need know exact syntax for any function or command, just click the button and point and click your way to a functional program. Even the project lead finds it easier than typos much of the time.
-</listitem>
+<para><emphasis>Plugins</emphasis> - Kommander can run easy to creat plugins. Plugins as of this writing are a database plugin offering a set of non visual tools, an HTTP plugin offering HTTPS and access to password protected areas and a KPart loader.
+</para></listitem>
 <listitem>
-<emphasis>Extensive widgets</emphasis> - Kommander now has a tree/detail widget, spreadsheet like table widget, font dialog, color dialog, about dialog, timer, tab widgets, toolbox, popup menus, date picker and a lot more. 
-</listitem>
+<para><emphasis>Scripting language support</emphasis>The ability to run multiple scripting langauge in Komamnder scripts, inside your dialog
+</para></listitem>
 <listitem>
-<emphasis>Plugins</emphasis> - Kommander can run easy to creat plugins. Plugins as of this writing are a database plugin offering a set of non visual tools, an HTTP plugin offering HTTPS and access to password protected areas and a KPart loader.
-</listitem>
-<listitem>
-<emphasis>Scripting language support</emphasis>The ability to run multiple scripting langauge in Komamnder scripts, inside your dialog
-</listitem>
-<listitem>
-<emphasis>KPart creation</emphasis> - the ability to make your own plugins... and stranger yet you can even make a Kommander window load a dialog as a KPart and directly access it with Kommander functions!
-</listitem>
+<para><emphasis>KPart creation</emphasis> - the ability to make your own plugins... and stranger yet you can even make a Kommander window load a dialog as a KPart and directly access it with Kommander functions!
+</para></listitem>
 </itemizedlist>
 <para>Look for documentation on tips and tricks like how to make Kommander fake programming techniques like including a file, creating and using custom widgets, making collapsable panels in windows and other unexpected tricks. Below is our legacy list.</para>
 <itemizedlist>
 
 
-  <listitem><para>Specials are prefaced with an <quote>@</quote> like @widgetText. The offer
+<listitem><para>Specials are prefaced with an <quote>@</quote> like @widgetText. The offer
 special features like the value of a widget, functions, aliases, global
 variables and such.</para></listitem>
 

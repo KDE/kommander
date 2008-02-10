@@ -21,14 +21,14 @@
 </affiliation>
 </author>
 </authorgroup>
-</chapterinfo>
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
 <copyright>
 <year>2005-2008</year>
 <holder>Michal Rudolf</holder>
 <holder>Eric Laffoon</holder>
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
+</chapterinfo>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 <title>New Parser Documentation</title>
 <para>
@@ -89,11 +89,11 @@ and natural and easy to use. There is also the <emphasis>Function Browser</empha
 assemble statements. The Function Browser is intended to make Kommander accessible to complete novice 
 programmers. It is similar to what you would find in KSpread to help you choose a function
 and fill in the paramters. 
-<tip>If you want enhanced functionality found in other languages you can include
+<tip><para>If you want enhanced functionality found in other languages you can include
 them in Kommander script objects headed with a sheebang. While in these scripts the Function
 Broswer will help you insert references to widgets. Just remember when using this functionality 
 that the parser makes one pass for the old parser functions and one pass for your script. So if you 
-try to change something in a widget and read it in the middle of a script you may not get what you expect.</tip>
+try to change something in a widget and read it in the middle of a script you may not get what you expect.</para></tip>
 <screen>
 #!/usr/bin/php
 </screen>
@@ -106,25 +106,25 @@ from system to system.
 </para>
 <para>The following feature list is from version 1.2</para>
 <itemizedlist>
-<listitem>local and global variables and associative arrays</listitem>
-<listitem>numerical expressions</listitem>
-<listitem>string manipulation</listitem>
-<listitem>various structure commands: if, while, for, foreach</listitem>
-<listitem>most functions from old parser</listitem>
-<listitem>direct widget manipulation</listitem>
-<listitem>many additional functions</listitem>
-<listitem>decent execution speed</listitem>
-<listitem>receive parameters from signals in script slots</listitem>
+<listitem><para>local and global variables and associative arrays</para></listitem>
+<listitem><para>numerical expressions</para></listitem>
+<listitem><para>string manipulation</para></listitem>
+<listitem><para>various structure commands: if, while, for, foreach</para></listitem>
+<listitem><para>most functions from old parser</para></listitem>
+<listitem><para>direct widget manipulation</para></listitem>
+<listitem><para>many additional functions</para></listitem>
+<listitem><para>decent execution speed</para></listitem>
+<listitem><para>receive parameters from signals in script slots</para></listitem>
 </itemizedlist>
 <para>This list is from version 1.3</para>
 <itemizedlist>
-<listitem>pass parameters and receive them with script execute calls</listitem>
-<listitem>return a value from a script</listitem>
-<listitem>create widgets on the fly</listitem>
-<listitem>connect signals and slots on the fly</listitem>
-<listitem>use a variable alias for a widget name</listitem>
-<listitem>simple indexed array functions</listitem>
-<listitem>directly access a widgets slots</listitem>
+<listitem><para>pass parameters and receive them with script execute calls</para></listitem>
+<listitem><para>return a value from a script</para></listitem>
+<listitem><para>create widgets on the fly</para></listitem>
+<listitem><para>connect signals and slots on the fly</para></listitem>
+<listitem><para>use a variable alias for a widget name</para></listitem>
+<listitem><para>simple indexed array functions</para></listitem>
+<listitem><para>directly access a widgets slots</para></listitem>
 </itemizedlist>
 </sect2>
 
@@ -246,23 +246,23 @@ Kommander has some built in globals you may find handy.
 </para>
 <itemizedlist>
 <listitem>
-<command>_ARGS</command> - the argument string passed to the dialog on opening 
-</listitem>
+<para><command>_ARGS</command> - the argument string passed to the dialog on opening 
+</para></listitem>
 <listitem>
-<command>_ARGCOUNT</command> - the count of arguments passed. These can be retrieved as <command>ARG1</command> to <command>ARGn</command> where n is the total number of args passed
-</listitem>
+<para><command>_ARGCOUNT</command> - the count of arguments passed. These can be retrieved as <command>ARG1</command> to <command>ARGn</command> where n is the total number of args passed
+</para></listitem>
 <listitem>
-<command>_KDDIR</command> - the direcotry from which the dialog was run. Kommander will default to your home directory, or a directory change if asked for it's current directory. This is useful for saving and reading files with the Kommander file.
-</listitem>
+<para><command>_KDDIR</command> - the direcotry from which the dialog was run. Kommander will default to your home directory, or a directory change if asked for it's current directory. This is useful for saving and reading files with the Kommander file.
+</para></listitem>
 <listitem>
-<command>_NAME</command> - there is no reason to use this so don't
-</listitem>
+<para><command>_NAME</command> - there is no reason to use this so don't
+</para></listitem>
 <listitem>
-<command>_PID</command> - the process id the current dialog is being run from - also available as just <emphasis>pid</emphasis> Avoid using this name for your vairables!
-</listitem>
+<para><command>_PID</command> - the process id the current dialog is being run from - also available as just <emphasis>pid</emphasis> Avoid using this name for your vairables!
+</para></listitem>
 <listitem>
-<command>_VERSION</command> - this is handy if you want to display the version of Kommander that is running
-</listitem>
+<para><command>_VERSION</command> - this is handy if you want to display the version of Kommander that is running
+</para></listitem>
 </itemizedlist>
 </sect2>
 <sect2 id="passargs">
@@ -295,7 +295,7 @@ Let's look at this piece by piece. First of all we add <emphasis>parentPid</emph
 <!--
 </chapter>
 -->
-<sect1 id="commands">
+<sect1 id="parser_commands">
 
 <title>Commands</title>
 <para>
@@ -327,8 +327,8 @@ Command <command>if</command> has following syntax:
 Both <command>elseif</command> and <command>else</command> parts are optional. <emphasis>Condition</emphasis>
 is any expression. <emphasis>Code</emphasis> is executed if condition is true. That means:
 <itemizedlist>
-<listitem>non-zero for integers and double</listitem>
-<listitem>non-empty for strings</listitem>
+<listitem><para>non-zero for integers and double</para></listitem>
+<listitem><para>non-empty for strings</para></listitem>
 </itemizedlist>
 </para>
 
@@ -424,67 +424,67 @@ Most old parser functions are supported by new parser. Also, some new functions 
 
 <sect2 id="string_functions">
 <title>String functions</title>
-String functions are the same as in old parser, the only difference is that their names
+<para>String functions are the same as in old parser, the only difference is that their names
 are preceeded by <command>str_</command> instead of <command>@String.</command>
 
 <itemizedlist>
 <listitem>
-<command>str_length(<emphasis>string</emphasis>)</command> - returns length of <emphasis>string</emphasis>
-</listitem>
+<para><command>str_length(<parameter>string</parameter>)</command> - returns length of <emphasis>string</emphasis>
+</para></listitem>
 <listitem>
-<command>str_contains(<emphasis>string</emphasis>, <emphasis>text</emphasis>)</command> - returns 1 if <emphasis>string</emphasis> contains <emphasis>text</emphasis>
-</listitem>
+<para><command>str_contains(<parameter>string</parameter>, <parameter>text</parameter>)</command> - returns 1 if <emphasis>string</emphasis> contains <emphasis>text</emphasis>
+</para></listitem>
 <listitem>
-<command>str_find(<emphasis>string</emphasis>, <emphasis>text</emphasis>, <emphasis>start</emphasis>)</command> - returns position of the first occurence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
+<para><command>str_find(<parameter>string</parameter>, <parameter>text</parameter>, <parameter>start</parameter>)</command> - returns position of the first occurence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
  specifies start of the search
-</listitem>
+</para></listitem>
 <listitem>
-<command>str_find(<emphasis>string</emphasis>, <emphasis>text</emphasis>, <emphasis>start</emphasis>)</command> - returns position of the last occurence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
+<para><command>str_find(<parameter>string</parameter>, <parameter>text</parameter>, <parameter>start</parameter>)</command> - returns position of the last occurence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
  specifies start of the search
-</listitem>
+</para></listitem>
 <listitem>
-<command>str_left(<emphasis>string</emphasis>, <emphasis>count</emphasis>)</command> - returns first <emphasis>count</emphasis> characters of <emphasis>string</emphasis>
-</listitem>
+<para><command>str_left(<parameter>string</parameter>, <parameter>count</parameter>)</command> - returns first <emphasis>count</emphasis> characters of <emphasis>string</emphasis>
+</para></listitem>
 <listitem>
-<command>str_right(<emphasis>string</emphasis>, <emphasis>count</emphasis>)</command> - returns last <emphasis>count</emphasis> characters of <emphasis>string</emphasis>
-</listitem>
+<para><command>str_right(<parameter>string</parameter>, <parameter>count</parameter>)</command> - returns last <emphasis>count</emphasis> characters of <emphasis>string</emphasis>
+</para></listitem>
 <listitem>
-<command>str_right(<emphasis>string</emphasis>, <emphasis>start</emphasis>, <emphasis>count</emphasis>)</command> - returns substring of <emphasis>string</emphasis> starting from <emphasis>start</emphasis> and containing <emphasis>count</emphasis>
+<para><command>str_right(<parameter>string</parameter>, <parameter>start</parameter>, <parameter>count</parameter>)</command> - returns substring of <emphasis>string</emphasis> starting from <emphasis>start</emphasis> and containing <emphasis>count</emphasis>
 characters (or everything to the end of the string if last parameter is not specified)
-</listitem>
+</para></listitem>
 <listitem>
-<command>str_remove(<emphasis>string</emphasis>, <emphasis>text</emphasis>)</command> - returns <emphasis>string</emphasis> with all substrings equal to <emphasis>text</emphasis> removed
-</listitem>
+<para><command>str_remove(<parameter>string</parameter>, <parameter>text</parameter>)</command> - returns <emphasis>string</emphasis> with all substrings equal to <emphasis>text</emphasis> removed
+</para></listitem>
 <listitem>
-<command>str_replace(<emphasis>string</emphasis>, <emphasis>text</emphasis>, <emphasis>text2</emphasis>)</command> - returns <emphasis>string</emphasis> with all substrings equal to <emphasis>text</emphasis> replaced with <emphasis>text2</emphasis>
-</listitem>
+<para><command>str_replace(<parameter>string</parameter>, <parameter>text</parameter>, <parameter>text2</parameter>)</command> - returns <emphasis>string</emphasis> with all substrings equal to <emphasis>text</emphasis> replaced with <emphasis>text2</emphasis>
+</para></listitem>
 <listitem>
-<command>str_lower(<emphasis>string</emphasis>)</command> - returns <emphasis>string</emphasis> converted to lowercase
-</listitem>
+<para><command>str_lower(<parameter>string</parameter>)</command> - returns <emphasis>string</emphasis> converted to lowercase
+</para></listitem>
 <listitem>
-<command>str_upper(<emphasis>string</emphasis>)</command> - returns <emphasis>string</emphasis> converted to uppercase
-</listitem>
+<para><command>str_upper(<parameter>string</parameter>)</command> - returns <emphasis>string</emphasis> converted to uppercase
+</para></listitem>
 <listitem>
-<command>str_section(<emphasis>string</emphasis>, <emphasis>separator</emphasis>, <emphasis>start</emphasis>,
-<emphasis>end</emphasis>)</command> - returns substring containing appropriate sections of <emphasis>string</emphasis> determined 
+<para><command>str_section(<parameter>string</parameter>, <parameter>separator</parameter>, <parameter>start</parameter>,
+<parameter>end</parameter>)</command> - returns substring containing appropriate sections of <emphasis>string</emphasis> determined 
 by <emphasis>separator</emphasis>; if no <emphasis>end</emphasis> is given, single <emphasis>start</emphasis> section is returned
-</listitem>
+</para></listitem>
 <listitem>
-<command>str_args(<emphasis>string</emphasis>, <emphasis>...</emphasis>)</command> - returns <emphasis>string</emphasis> with <command>%1</command>, <command>%2</command>, <command>%3</command> replaced with following parameters.
-</listitem>
+<para><command>str_args(<parameter>string</parameter>, <parameter>...</parameter>)</command> - returns <emphasis>string</emphasis> with <command>%1</command>, <command>%2</command>, <command>%3</command> replaced with following parameters.
+</para></listitem>
 <listitem>
-<command>str_isnumber(<emphasis>string</emphasis>)</command> - returns 1 if <emphasis>string</emphasis> is a valid number
-</listitem>
+<para><command>str_isnumber(<parameter>string</parameter>)</command> - returns 1 if <emphasis>string</emphasis> is a valid number
+</para></listitem>
 <listitem>
-<command>str_isempty(<emphasis>string</emphasis>)</command> - returns 1 if <emphasis>string</emphasis> is empty
-</listitem>
+<para><command>str_isempty(<parameter>string</parameter>)</command> - returns 1 if <emphasis>string</emphasis> is empty
+</para></listitem>
 <listitem>
-<command>str_toint(<emphasis>string</emphasis>, <emphasis>default</emphasis>)</command> - returns <emphasis>string</emphasis> converted to integer; if conversion is not possible, optional <emphasis>default</emphasis> value is returned
-</listitem>
+<para><command>str_toint(<parameter>string</parameter>, <parameter>default</parameter>)</command> - returns <emphasis>string</emphasis> converted to integer; if conversion is not possible, optional <emphasis>default</emphasis> value is returned
+</para></listitem>
 <listitem>
-<command>str_todouble(<emphasis>string</emphasis>, <emphasis>default</emphasis>)</command> - returns <emphasis>string</emphasis> converted to double; if conversion is not possible, optional <emphasis>default</emphasis> value is returned
-</listitem>
-</itemizedlist>
+<para><command>str_todouble(<parameter>string</parameter>, <parameter>default</parameter>)</command> - returns <emphasis>string</emphasis> converted to double; if conversion is not possible, optional <emphasis>default</emphasis> value is returned
+</para></listitem>
+</itemizedlist></para>
 </sect2>
 
 <sect2 id="kommander_functions">
@@ -496,51 +496,51 @@ were obsoleted by new parser and are not available.
 
 <itemizedlist>
 <listitem>
-<command>debug(<emphasis>string</emphasis>, <emphasis>...</emphasis>)</command> - writes all parameters on stderr
+<para><command>debug(<parameter>string</parameter>, <parameter>...</parameter>)</command> - writes all parameters on stderr
+</para></listitem>
+<listitem>
+<para><command>echo(<parameter>string</parameter>, <parameter>...</parameter>)</command> - writes all parameters on stdout
+</para></listitem>
+<listitem>
+<para><command>dcop(<parameter>string</parameter>, <parameter>...</parameter>)</command> - calls DCOP function</para>
 </listitem>
 <listitem>
-<command>echo(<emphasis>string</emphasis>, <emphasis>...</emphasis>)</command> - writes all parameters on stdout
-</listitem>
-<listitem>
-<command>dcop(<emphasis>string</emphasis>, <emphasis>...</emphasis>)</command> - calls DCOP function
-</listitem>
-<listitem>
-<command>exec(<emphasis>string</emphasis>, <emphasis>shell</emphasis>)</command> - executes external program
+<para><command>exec(<parameter>string</parameter>, <parameter>shell</parameter>)</command> - executes external program
 (using optional <emphasis>shell</emphasis>); returns output of that program
-</listitem>
+</para></listitem>
 <listitem>
-<command>i18n(<emphasis>string</emphasis>)</command> - marks <emphasis>string</emphasis> for future translation
-</listitem>
+<para><command>i18n(<parameter>string</parameter>)</command> - marks <emphasis>string</emphasis> for future translation
+</para></listitem>
 <listitem>
-<command>env(<emphasis>string</emphasis>)</command> - returns a value of environmental variable
-</listitem>
+<para><command>env(<parameter>string</parameter>)</command> - returns a value of environmental variable
+</para></listitem>
 <listitem>
-<command>readSetting(<emphasis>key</emphasis>, <emphasis>default</emphasis>)</command> - returns a value stored in config
+<para><command>readSetting(<parameter>key</parameter>, <parameter>default</parameter>)</command> - returns a value stored in config
 file with given <emphasis>key</emphasis>; if there is no such value <emphasis>default</emphasis> is returned
-</listitem>
-<listitem>
-<command>writeSetting(<emphasis>key</emphasis>, <emphasis>value</emphasis>)</command> - writes pair
+</para></listitem>
+<listitem><para>
+<command>writeSetting(<parameter>key</parameter>, <parameter>value</parameter>)</command> - writes pair
 <emphasis>key</emphasis> and <emphasis>value</emphasis> in config file
-</listitem>
+</para></listitem>
 </itemizedlist>
 <para>New in Kommander 1.3</para>
 <itemizedlist>
 <listitem>
-<command>return(<emphasis>value</emphasis>)</command> - returns a value to the calling object (script, button...)
-</listitem>
+<para><command>return(<parameter>value</parameter>)</command> - returns a value to the calling object (script, button...)
+</para></listitem>
 <listitem>
-<command>createWidget(<emphasis>widget name</emphasis>, <emphasis>widget type</emphasis>, <emphasis>parent</emphasis>)</command> - creates a new widget. You can then use <command>mywidget.show(true)</command> or place it in a table or toolbox. If you are putting an new widget on the form you need to consider layout issues. Kommander will not create layouts on the fly or edit pixel by pixel postioning (in most cases). This is confusing even in C++ development. We recommend you use a groupbox and do a layout in the dialog
+<para><command>createWidget(<parameter>widget name</parameter>, <parameter>widget type</parameter>, <parameter>parent</parameter>)</command> - creates a new widget. You can then use <command>mywidget.show(true)</command> or place it in a table or toolbox. If you are putting an new widget on the form you need to consider layout issues. Kommander will not create layouts on the fly or edit pixel by pixel postioning (in most cases). This is confusing even in C++ development. We recommend you use a groupbox and do a layout in the dialog
 for best control.
-</listitem>
+</para></listitem>
 <listitem>
-<command>connect(<emphasis>sender</emphasis>, <emphasis>signal</emphasis>, <emphasis>receiver</emphasis>, <emphasis>slot</emphasis>)</command> - connect a widget signal to a widget slot. See the connection dialog and select similar widgets for possibilities. If for instance a signal looks like looks like <command>execute(const QString&amp;)</command> that is exactly what must be in quotes there.
-</listitem>
+<para><command>connect(<parameter>sender</parameter>, <parameter>signal</parameter>, <parameter>receiver</parameter>, <parameter>slot</parameter>)</command> - connect a widget signal to a widget slot. See the connection dialog and select similar widgets for possibilities. If for instance a signal looks like looks like <command>execute(const QString&amp;)</command> that is exactly what must be in quotes there.
+</para></listitem>
 <listitem>
-<command>disconnect(<emphasis>sender</emphasis>, <emphasis>signal</emphasis>, <emphasis>receiver</emphasis>, <emphasis>slot</emphasis>)</command> - undo the connection as listed above. Again, exact syntax is essential.
-</listitem>
+<para><command>disconnect(<parameter>sender</parameter>, <parameter>signal</parameter>, <parameter>receiver</parameter>, <parameter>slot</parameter>)</command> - undo the connection as listed above. Again, exact syntax is essential.
+</para></listitem>
 <listitem>
-<command>widgetExists(<emphasis>widget name</emphasis>)</command> - remember you can use a variable name to reference a widget now. Us this when accessing created widgets to insure they are there. Calling a non-existant widget obviously will throw an error.
-</listitem>
+<para><command>widgetExists(<parameter>widget name</parameter>)</command> - remember you can use a variable name to reference a widget now. Us this when accessing created widgets to insure they are there. Calling a non-existant widget obviously will throw an error.
+</para></listitem>
 </itemizedlist>
 </sect2>  
 
@@ -552,47 +552,47 @@ were obsoleted by new parser and are not available. The only difference is that 
 are preceeded by <command>array_</command> instead of <command>@Array.</command>
 </para>
 
-<warning>Due to parser limitation, name of array has to be specified as string now; for example
-<command>array_count("MyArray")</command>.</warning>
+<warning><para>Due to parser limitation, name of array has to be specified as string now; for example
+<command>array_count("MyArray")</command>.</para></warning>
 
 <itemizedlist>
 <listitem>
-<command>array_clear(<emphasis>array</emphasis>)</command> - removes all elements from <emphasis>array</emphasis>
-</listitem>
+<para><command>array_clear(<parameter>array</parameter>)</command> - removes all elements from <emphasis>array</emphasis>
+</para></listitem>
 <listitem>
-<command>array_count(<emphasis>array</emphasis>)</command> - returns number of elements in <emphasis>array</emphasis>
-</listitem>
+<para><command>array_count(<parameter>array</parameter>)</command> - returns number of elements in <emphasis>array</emphasis>
+</para></listitem>
 <listitem>
-<command>array_keys(<emphasis>array</emphasis>)</command> - returns string containing EOL-separated keys of <emphasis>array</emphasis> - note that if you had imported a scalar (keys without values) into an array with Kommander you would not be able to access it with <command>array_values("myarray")</command> as you might think (since it seems to only have values) but would instead need to use <emphasis>array_keys()</emphasis> You might find a better choice for this is to use the new <emphasis>indexed arrays</emphasis> described below.
-</listitem>
+<para><command>array_keys(<parameter>array</parameter>)</command> - returns string containing EOL-separated keys of <emphasis>array</emphasis> - note that if you had imported a scalar (keys without values) into an array with Kommander you would not be able to access it with <command>array_values("myarray")</command> as you might think (since it seems to only have values) but would instead need to use <emphasis>array_keys()</emphasis> You might find a better choice for this is to use the new <emphasis>indexed arrays</emphasis> described below.
+</para></listitem>
 <listitem>
-<command>array_values(<emphasis>array</emphasis>)</command> - returns string containing EOL-separated values of <emphasis>array</emphasis>
-</listitem>
+<para><command>array_values(<parameter>array</parameter>)</command> - returns string containing EOL-separated values of <emphasis>array</emphasis>
+</para></listitem>
 <listitem>
-<command>array_tostring(<emphasis>array</emphasis>)</command> - returns string containing whole <emphasis>array</emphasis> 
+<para><command>array_tostring(<parameter>array</parameter>)</command> - returns string containing whole <emphasis>array</emphasis> 
 as EOL-separated pairs containing key and value separated with TAB character
-</listitem>
+</para></listitem>
 <listitem>
-<command>array_fromstring(<emphasis>array</emphasis>, <emphasis>string</emphasis>)</command> - reads array from <emphasis>string</emphasis> (usually provided by <command>array_tostring</command> function)
-</listitem>
+<para><command>array_fromstring(<parameter>array</parameter>, <parameter>string</parameter>)</command> - reads array from <emphasis>string</emphasis> (usually provided by <command>array_tostring</command> function)
+</para></listitem>
 <listitem>
-<command>array_remove(<emphasis>array</emphasis>, <emphasis>key</emphasis>)</command> - removes item with key
+<para><command>array_remove(<parameter>array</parameter>, <parameter>key</parameter>)</command> - removes item with key
 <emphasis>key</emphasis> from <emphasis>array</emphasis>
-</listitem>
+</para></listitem>
 </itemizedlist>
 <para>New in Kommander 1.3</para>
 <itemizedlist>
 <listitem>
-<command>array_indexedFromString(<emphasis>array</emphasis>, <emphasis>string</emphasis>, <emphasis>separator</emphasis>)</command> - this compensates for Kommander not having indexed arrays. it creates an array with a zero based sequential index. Remember to use quotes on the array name and any strings not represented by a variable. The separatore argument is optional and defaults to "\t" [TAB] which is used to separate fields reading and writing tables, arrays or detail widgets. <emphasis>Remember this array index does not enforce any rules on its self. It is just like you created it with a for loop, just more convenient.</emphasis>
-</listitem>
+<para><command>array_indexedFromString(<parameter>array</parameter>, <parameter>string</parameter>, <parameter>separator</parameter>)</command> - this compensates for Kommander not having indexed arrays. it creates an array with a zero based sequential index. Remember to use quotes on the array name and any strings not represented by a variable. The separatore argument is optional and defaults to "\t" [TAB] which is used to separate fields reading and writing tables, arrays or detail widgets. <emphasis>Remember this array index does not enforce any rules on its self. It is just like you created it with a for loop, just more convenient.</emphasis>
+</para></listitem>
 <listitem>
-<command>array_indexedInsertElements(<emphasis>array</emphasis>, <emphasis>key</emphasis>, <emphasis>string</emphasis>, <emphasis>separator</emphasis>)</command> - this function is part of the indexed array suite and enables you to insert elements in your array  while maintaining an index that is sequential, contiguous and unique. Set the index key to start at and the text string and how it is separated. The elements will be added shifting all the index numbers after by the number added.
-</listitem>
+<para><command>array_indexedInsertElements(<parameter>array</parameter>, <parameter>key</parameter>, <parameter>string</parameter>, <parameter>separator</parameter>)</command> - this function is part of the indexed array suite and enables you to insert elements in your array  while maintaining an index that is sequential, contiguous and unique. Set the index key to start at and the text string and how it is separated. The elements will be added shifting all the index numbers after by the number added.
+</para></listitem>
 <listitem>
-<command>array_indexedRemoveElements(<emphasis>array</emphasis>, <emphasis>key start</emphasis>, <emphasis>number</emphasis>)</command> - this enables you to remove elements from an indexed array and avoid gaps in your index. Specify the key to start at and optionally how many to remove. The default is one. You will end up with a re-indexed array less the removed elements.
-</listitem>
+<para><command>array_indexedRemoveElements(<parameter>array</parameter>, <parameter>key start</parameter>, <parameter>number</parameter>)</command> - this enables you to remove elements from an indexed array and avoid gaps in your index. Specify the key to start at and optionally how many to remove. The default is one. You will end up with a re-indexed array less the removed elements.
+</para></listitem>
 <listitem>
-<command>array_indexedToString(<emphasis>array</emphasis>, <emphasis>separator</emphasis>)</command> - this enables you to convert your indexed array back into a string, particularly useful for detail widgets. For instance if you are displaying a database query result in TreeWidget1 and it has six columns you can use <command>TreeWidget1.selection</command> to get the selected row. it will be separated by tabs and you could look at a the fifth element by using <command>str_section(TreeWidget1.selection, "\t", 4)</command> (remember it is zero based). That's nice for reading a value, but if you want to change it you can see you have a lot more work to do. After you split that string you have to reassmble with <command>val1+"\t"+val2...</command> Using indexed arrays you could edit that fifth element like so...
+<para><command>array_indexedToString(<parameter>array</parameter>, <parameter>separator</parameter>)</command> - this enables you to convert your indexed array back into a string, particularly useful for detail widgets. For instance if you are displaying a database query result in TreeWidget1 and it has six columns you can use <command>TreeWidget1.selection</command> to get the selected row. it will be separated by tabs and you could look at a the fifth element by using <command>str_section(TreeWidget1.selection, "\t", 4)</command> (remember it is zero based). That's nice for reading a value, but if you want to change it you can see you have a lot more work to do. After you split that string you have to reassmble with <command>val1+"\t"+val2...</command> Using indexed arrays you could edit that fifth element like so...
 <screen>
 idx = TreeWidget1.currentItem
 array_indexedFromString("z", TreeWidget1.selection)
@@ -601,7 +601,7 @@ TreeWidget1.removeItem(idx)
 TreeWidget1.insertItem(array_indexedToString("z"), idx)
 </screen>
 Note that only two short lines were added to accomplish this! This was very welcome for database use.
-</listitem>
+</para></listitem>
 </itemizedlist>
 </sect2>  
 
@@ -615,16 +615,16 @@ are preceeded by <command>file_</command> instead of <command>@File.</command>
 
 <itemizedlist>
 <listitem>
-<command>file_read(<emphasis>name</emphasis>)</command> - returns content of file <emphasis>name</emphasis>
-</listitem>
+<para><command>file_read(<parameter>name</parameter>)</command> - returns content of file <emphasis>name</emphasis>
+</para></listitem>
 <listitem>
-<command>file_write(<emphasis>name</emphasis>, <emphasis>...</emphasis>)</command> - writes all arguments
+<para><command>file_write(<parameter>name</parameter>, <parameter>...</parameter>)</command> - writes all arguments
 to file <emphasis>name</emphasis>
-</listitem>
+</para></listitem>
 <listitem>
-<command>file_append(<emphasis>name</emphasis>, <emphasis>...</emphasis>)</command> - appends all arguments
+<para><command>file_append(<parameter>name</parameter>, <parameter>...</parameter>)</command> - appends all arguments
 to file <emphasis>name</emphasis>
-</listitem>
+</para></listitem>
 </itemizedlist>
 </sect2>  
 
@@ -638,27 +638,27 @@ These functions show some dialog allowing user to enter some value. Now they wor
 
 <itemizedlist>
 <listitem>
-<command>input_color(<emphasis>caption</emphasis>, <emphasis>default</emphasis>)</command> - returns color in #RRGGBB format
-</listitem>
+<para><command>input_color(<parameter>caption</parameter>, <parameter>default</parameter>)</command> - returns color in #RRGGBB format
+</para></listitem>
 <listitem>
-<command>input_text(<emphasis>caption</emphasis>, <emphasis>label</emphasis>, <emphasis>default</emphasis>)</command> - returns text entered by user
-</listitem>
+<para><command>input_text(<parameter>caption</parameter>, <parameter>label</parameter>, <parameter>default</parameter>)</command> - returns text entered by user
+</para></listitem>
 <listitem>
-<command>input_value(<emphasis>caption</emphasis>, <emphasis>label</emphasis>, <emphasis>default</emphasis>, 
-<emphasis>min</emphasis>, <emphasis>max</emphasis>, <emphasis>step</emphasis>)</command> - returns value entered by user
-</listitem>
+<para><command>input_value(<parameter>caption</parameter>, <parameter>label</parameter>, <parameter>default</parameter>, 
+<parameter>min</parameter>, <parameter>max</parameter>, <parameter>step</parameter>)</command> - returns value entered by user
+</para></listitem>
 <listitem>
-<command>input_directory(<emphasis>startdir</emphasis>, <emphasis>filter</emphasis>, <emphasis>caption</emphasis>)</command> - returns directory selected by user
-</listitem>
+<para><command>input_directory(<parameter>startdir</parameter>, <parameter>filter</parameter>, <parameter>caption</parameter>)</command> - returns directory selected by user
+</para></listitem>
 <listitem>
-<command>input_openfile(<emphasis>caption</emphasis>, <emphasis>label</emphasis>, <emphasis>default</emphasis>)</command> - returns existing file entered by user
-</listitem>
+<para><command>input_openfile(<parameter>caption</parameter>, <parameter>label</parameter>, <parameter>default</parameter>)</command> - returns existing file entered by user
+</para></listitem>
 <listitem>
-<command>input_savefile(<emphasis>caption</emphasis>, <emphasis>label</emphasis>, <emphasis>default</emphasis>)</command> - returns file entered by user (if file exists, confirmation will be required)
-</listitem>
+<para><command>input_savefile(<parameter>caption</parameter>, <parameter>label</parameter>, <parameter>default</parameter>)</command> - returns file entered by user (if file exists, confirmation will be required)
+</para></listitem>
 <listitem>
-<command>input_openfiles(<emphasis>caption</emphasis>, <emphasis>label</emphasis>, <emphasis>default</emphasis>)</command> - returns string of EOL-separated existing files entered by user
-</listitem>
+<para><command>input_openfiles(<parameter>caption</parameter>, <parameter>label</parameter>, <parameter>default</parameter>)</command> - returns string of EOL-separated existing files entered by user
+</para></listitem>
 </itemizedlist>
 </sect2>  
 
@@ -671,21 +671,21 @@ These functions show some message for user or ask user to confirm some action. N
 
 <itemizedlist>
 <listitem>
-<command>message_info(<emphasis>text</emphasis>, <emphasis>caption</emphasis>)</command> - shows information text
-</listitem>
+<para><command>message_info(<parameter>text</parameter>, <parameter>caption</parameter>)</command> - shows information text
+</para></listitem>
 <listitem>
-<command>message_error(<emphasis>text</emphasis>, <emphasis>caption</emphasis>)</command> - shows error text
-</listitem>
+<para><command>message_error(<parameter>text</parameter>, <parameter>caption</parameter>)</command> - shows error text
+</para></listitem>
 <listitem>
-<command>message_warning(<emphasis>text</emphasis>, <emphasis>caption</emphasis>, <emphasis>button1</emphasis>, 
-<emphasis>button2</emphasis>, <emphasis>button3</emphasis>)</command> - shows question with warning and up to three buttons; number 
+<para><command>message_warning(<parameter>text</parameter>, <parameter>caption</parameter>, <parameter>button1</parameter>, 
+<parameter>button2</parameter>, <parameter>button3</parameter>)</command> - shows question with warning and up to three buttons; number 
 of chosen button is returned; if no button names are specified, <command>Yes</command> and <command>No</command> will be displayed
-</listitem>
+</para></listitem>
 <listitem>
-<command>message_question(<emphasis>text</emphasis>, <emphasis>caption</emphasis>, <emphasis>button1</emphasis>, 
-<emphasis>button2</emphasis>, <emphasis>button3</emphasis>)</command> - shows question and up to three buttons; number 
+<para><command>message_question(<parameter>text</parameter>, <parameter>caption</parameter>, <parameter>button1</parameter>, 
+<parameter>button2</parameter>, <parameter>button3</parameter>)</command> - shows question and up to three buttons; number 
 of chosen button is returned; if no button names are specified, <command>Yes</command> and <command>No</command> will be displayed
-</listitem>
+</para></listitem>
 </itemizedlist>
 </sect2>  
 </sect1>
