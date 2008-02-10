@@ -1,0 +1,301 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Wizard1</class>
+<widget class="QWizard">
+    <property name="name">
+        <cstring>Wizard1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>473</width>
+            <height>346</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Demo Wizard</string>
+    </property>
+    <widget class="QWidget">
+        <property name="name">
+            <cstring>page</cstring>
+        </property>
+        <attribute name="title">
+            <string>Page 1</string>
+        </attribute>
+        <widget class="ScriptObject">
+            <property name="name">
+                <cstring>ScriptObject1</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>131</x>
+                    <y>159</y>
+                    <width>32</width>
+                    <height>32</height>
+                </rect>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@dcop(@dcopid, KommanderIf, enableWidget(QString,bool), next, @CheckBox1.checked)
+
+</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="CheckBox">
+            <property name="name">
+                <cstring>CheckBox1</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>131</x>
+                    <y>70</y>
+                    <width>199</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Select this t&amp;o enable Next</string>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                    <string></string>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="Label">
+            <property name="name">
+                <cstring>Label1</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>220</y>
+                    <width>320</width>
+                    <height>21</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Try the help button from any page!</string>
+            </property>
+        </widget>
+        <widget class="ScriptObject">
+            <property name="name">
+                <cstring>ScriptObject8</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>200</x>
+                    <y>160</y>
+                    <width>32</width>
+                    <height>32</height>
+                </rect>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@Message.info(Help was pressed for @LineEdit6.text, Help)</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="LineEdit">
+            <property name="name">
+                <cstring>LineEdit6</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>130</x>
+                    <y>100</y>
+                    <width>141</width>
+                    <height>31</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="ScriptObject">
+            <property name="name">
+                <cstring>ScriptObject60</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>34</x>
+                    <y>114</y>
+                    <width>32</width>
+                    <height>32</height>
+                </rect>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QWidget">
+        <property name="name">
+            <cstring>page</cstring>
+        </property>
+        <attribute name="title">
+            <string>Page 2</string>
+        </attribute>
+        <widget class="ScriptObject">
+            <property name="name">
+                <cstring>ScriptObject1_2</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>141</x>
+                    <y>169</y>
+                    <width>32</width>
+                    <height>32</height>
+                </rect>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@dcop(@dcopid, KommanderIf, enableWidget(QString,bool), next, @CheckBox1_2.checked)
+
+</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="CheckBox">
+            <property name="name">
+                <cstring>CheckBox1_2</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>141</x>
+                    <y>80</y>
+                    <width>199</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Select this t&amp;o enable Next</string>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                    <string></string>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QWidget">
+        <property name="name">
+            <cstring>page</cstring>
+        </property>
+        <attribute name="title">
+            <string>Page 3</string>
+        </attribute>
+        <widget class="ScriptObject">
+            <property name="name">
+                <cstring>ScriptObject2</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>138</x>
+                    <y>169</y>
+                    <width>32</width>
+                    <height>32</height>
+                </rect>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>@dcop(@dcopid, KommanderIf, enableWidget(QString,bool), finish, @CheckBox2.checked)
+
+</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="CheckBox">
+            <property name="name">
+                <cstring>CheckBox2</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>138</x>
+                    <y>80</y>
+                    <width>204</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Select this t&amp;o enable finish</string>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                    <string></string>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>CheckBox1</sender>
+        <signal>widgetOpened()</signal>
+        <receiver>ScriptObject1</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>CheckBox1</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>ScriptObject1</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>Wizard1</sender>
+        <signal>selected(const QString&amp;)</signal>
+        <receiver>ScriptObject1_2</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>Wizard1</sender>
+        <signal>selected(const QString&amp;)</signal>
+        <receiver>LineEdit6</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>CheckBox2</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>ScriptObject2</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>Wizard1</sender>
+        <signal>helpClicked()</signal>
+        <receiver>ScriptObject8</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>CheckBox1_2</sender>
+        <signal>widgetOpened()</signal>
+        <receiver>ScriptObject1_2</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>CheckBox1_2</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>ScriptObject1_2</receiver>
+        <slot>execute()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
