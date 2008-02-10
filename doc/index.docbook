@@ -5,6 +5,7 @@
   <!ENTITY package "kdewebdev">
   <!ENTITY basics SYSTEM "basics.docbook">
   <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY parser SYSTEM "parser.docbook">
   <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY dcop-functions SYSTEM "dcop.docbook">
   <!ENTITY editor SYSTEM "editor.docbook">

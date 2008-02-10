@@ -1,7 +1,36 @@
 <?xml version="1.0"  encoding="UTF-8" ?>
 
-<chapter id="parser">
-<title>Introduction</title>
+<chapter id="new_parserdocs">
+<chapterinfo>
+<title>&kommander; New Parser</title>
+<authorgroup>
+<author>
+<firstname>Michal</firstname>
+<othername></othername>
+<surname>Rudolf</surname>
+<affiliation>
+<address><email>mrudolf@kdewebdev.org</email></address>
+</affiliation>
+</author>
+<author>
+<firstname>Eric</firstname>
+<othername></othername>
+<surname>Laffoon</surname>
+<affiliation>
+<address><email>eric@kdewebdev.org</email></address>
+</affiliation>
+</author>
+</authorgroup>
+</chapterinfo>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+<copyright>
+<year>2005-2008</year>
+<holder>Michal Rudolf</holder>
+<holder>Eric Laffoon</holder>
+</copyright>
+<legalnotice>&FDLNotice;</legalnotice>
+
+<title>New Parser Documentation</title>
 <para>
 The new parser was introduced in Kommander with version 1.2, released with 
 KDE 3.4. This document was originally released to show all the features of new parser. 
@@ -14,14 +43,22 @@ Kommander itself will not be described here. Please refer to other documents to
 see what is Kommander for, how to create dialogs and how to manipulate widgets
 on runtime.
 </para>
+<!--
 </chapter>
 
 
 
 <chapter id="two_parsers">
 <title>New parser vs. old parser</title>
+-->
+<sect1 id="two_parsers">
+<title>Old parser</title>
+<para>
+Here we compare the two parsers. While we advocate the new one for most purposes the old one is still
+supported and useful, particularly when working with other scripting langauges.
+</para>
 
-<sect1 id="old_parser">
+<sect2 id="old_parser">
 <title>Old parser</title>
 <para>
 The old parser was in fact macro parser. Only strings beginning with &#064; were 
@@ -40,9 +77,9 @@ The developers considered bash slow and not friendly to new users, and the old p
 had been initially bash calling DCOP. The paradox for Kommander being language neutral
 resulted in a need to do more than just functions natively.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="new_parser">
+<sect2 id="new_parser">
 <title>New parser</title>
 <para>
 The new parser is a full parser. It parses the whole script, not just functions. As we were interested 
@@ -89,9 +126,9 @@ from system to system.
 <listitem>simple indexed array functions</listitem>
 <listitem>directly access a widgets slots</listitem>
 </itemizedlist>
-</sect1>
+</sect2>
 
-<sect1 id="invoking">
+<sect2 id="invoking">
 <title>Invoking new parser</title>
 <para>
 To enable new parser, set <command>useInternalParser</command> property of the dialog to
@@ -109,13 +146,16 @@ echo @Self.item(0)
 # echo $returnvalue passes back to calling script
 </screen>
 </para>
+</sect2>
 </sect1>
+<!--
 </chapter>
-
 <chapter id="features">
-<title>Parser features</title>
+-->
+<sect1 id="features">
+<title>New Parser Features</title>
 
-<sect1 id="types">
+<sect2 id="types">
 <title>Types</title>
 <para>
 Each value is of one of three types: string, integer or double. Type conversion is 
@@ -128,9 +168,9 @@ to concatonate two strings of text it can treat <command>LineEdit1.text + 2</com
 <command>22</command> instead of <command>2</command>. See the conversion funtions in 
 <link linkend="string_functions">String functions</link> to avoid problems.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="expressions">
+<sect2 id="expressions">
 <title>Expressions</title>
 <para>
 The following mathematical operators are supported: <command>+, -, *, mod, </command>. Standard brackets 
@@ -157,9 +197,9 @@ Some examples of valid expressions:
 "This list has " + 12 + "items."
 </screen>
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="variables">
+<sect2 id="variables">
 <title>Variables</title>
 <para>
 Variables don't need to be declared. Once you use variable, it is considered declared. 
@@ -198,8 +238,8 @@ for i=0 to 10 do
 end
 </screen>
 
-</sect1>
-<sect1 id="globals">
+</sect2>
+<sect2 id="globals">
 <title>Built in Globals</title>
 <para>
 Kommander has some built in globals you may find handy.
@@ -224,8 +264,8 @@ Kommander has some built in globals you may find handy.
 <command>_VERSION</command> - this is handy if you want to display the version of Kommander that is running
 </listitem>
 </itemizedlist>
-</sect1>
-<sect1 id="passargs">
+</sect2>
+<sect2 id="passargs">
 <title>Passing arguments in Kommander</title>
 <para>You can pass argements via script parameters, signals and slots, command line parameters and DCOP. Let's look at scripts. Call your script like so.
 <screen>result = ScriptObject1.execute("Hello World")
@@ -250,10 +290,13 @@ DCOP can be complex, which is why we recommend using the tools we develop to ena
 <screen>dcop("kmdr-executor-"+parentPid, "KommanderIf", "setText(QString,QString)", "StatusBar8", "Hello")</screen>
 Let's look at this piece by piece. First of all we add <emphasis>parentPid</emphasis> to "kmdr-executor-" as we make no assumption a Kommander window was the caller. You could use this with Quanta or KSpread or whatever. Next we are addressing <emphasis>KommanderIf</emphasis>, which is a <emphasis>nice</emphasis> interface for end users which has been cleaned up. We hope eventually as KDE moves from DCOP to DBUS on KDE4 that more applications adopt a nice interface for integration. The next paramter, <emphasis>"setText(QString,QString)"</emphasis> is important because it <emphasis>prototypes</emphasis> the parameters allowed. Otherwise Kommander could not validate the call and could crash. So without a definition of the DCOP call being used you will get an error. The remaining parameters are of course what is being passed. We recommend you look at applications with kdcop to see how this works and practice dcop calls from the shell to get your syntax right.
 </para>
+</sect2>
 </sect1>
+<!--
 </chapter>
+-->
+<sect1 id="commands">
 
-<chapter id="commands">
 <title>Commands</title>
 <para>
 Various structure commands are supported. They can be freely nested.
@@ -267,7 +310,7 @@ from the beginning of the loop.
 </para>
 
 
-<sect1 id="if">
+<sect2 id="if">
 <title>if</title>
 <para>
 Command <command>if</command> has following syntax:
@@ -298,9 +341,9 @@ elseif
    b = 0
 endif
 </screen>
-</sect1>
+</sect2>
 
-<sect1 id="while">
+<sect2 id="while">
 <title>while</title>
 <para>
 <command>while</command> <emphasis>condition</emphasis> <command>do</command>
@@ -317,9 +360,9 @@ end
 </para>
 
 
-</sect1>
+</sect2>
 
-<sect1 id="for">
+<sect2 id="for">
 <title>for</title>
 <para>
 Command <command>for</command> has following syntax:
@@ -342,9 +385,9 @@ foreach i = 1 to 20 step 5 do
 end  
 </screen>
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="foreach">
+<sect2 id="foreach">
 <title>foreach</title>
 <para>
 Command <command>foreach</command> has following syntax:
@@ -366,17 +409,20 @@ foreach i in myArray do
 end  
 </screen>
 </para>
+</sect2>
 </sect1>
+<!--
 </chapter>
+-->
+<sect1 id="functions">
 
-<chapter id="functions">
 <title>Functions</title>
 <para>
 Most old parser functions are supported by new parser. Also, some new functions were added.
 </para>
 
 
-<sect1 id="string_functions">
+<sect2 id="string_functions">
 <title>String functions</title>
 String functions are the same as in old parser, the only difference is that their names
 are preceeded by <command>str_</command> instead of <command>@String.</command>
@@ -439,9 +485,9 @@ by <emphasis>separator</emphasis>; if no <emphasis>end</emphasis> is given, sing
 <command>str_todouble(<emphasis>string</emphasis>, <emphasis>default</emphasis>)</command> - returns <emphasis>string</emphasis> converted to double; if conversion is not possible, optional <emphasis>default</emphasis> value is returned
 </listitem>
 </itemizedlist>
-</sect1>
+</sect2>
 
-<sect1 id="kommander_functions">
+<sect2 id="kommander_functions">
 <title>Kommander functions</title>
 <para>
 Most Kommander functions are supported; some (such as <command>expr</command>)
@@ -496,9 +542,9 @@ for best control.
 <command>widgetExists(<emphasis>widget name</emphasis>)</command> - remember you can use a variable name to reference a widget now. Us this when accessing created widgets to insure they are there. Calling a non-existant widget obviously will throw an error.
 </listitem>
 </itemizedlist>
-</sect1>  
+</sect2>  
 
-<sect1 id="array_functions">
+<sect2 id="array_functions">
 <title>Array functions</title>
 <para>
 Most array functions are supported; some (such as <command>value</command>)
@@ -557,10 +603,10 @@ TreeWidget1.insertItem(array_indexedToString("z"), idx)
 Note that only two short lines were added to accomplish this! This was very welcome for database use.
 </listitem>
 </itemizedlist>
-</sect1>  
+</sect2>  
 
 
-<sect1 id="file_functions">
+<sect2 id="file_functions">
 <title>File functions</title>
 <para>
 All file functions are supported, the only difference is that their names
@@ -580,10 +626,10 @@ to file <emphasis>name</emphasis>
 to file <emphasis>name</emphasis>
 </listitem>
 </itemizedlist>
-</sect1>  
+</sect2>  
 
   
-<sect1 id="input_functions">
+<sect2 id="input_functions">
 <title>Input functions</title>
 <para>
 These functions show some dialog allowing user to enter some value. Now they work only in new parser, but they will be probably backported to old parser at some point. For most functions all parameters are optional, exception is
@@ -614,10 +660,10 @@ These functions show some dialog allowing user to enter some value. Now they wor
 <command>input_openfiles(<emphasis>caption</emphasis>, <emphasis>label</emphasis>, <emphasis>default</emphasis>)</command> - returns string of EOL-separated existing files entered by user
 </listitem>
 </itemizedlist>
-</sect1>  
+</sect2>  
 
 
-<sect1 id="message_functions">
+<sect2 id="message_functions">
 <title>Message functions</title>
 <para>
 These functions show some message for user or ask user to confirm some action. Now they work only in new parser, but they will be probably backported to old parser at some point. Only the first parameter is required.
@@ -641,8 +687,9 @@ of chosen button is returned; if no button names are specified, <command>Yes</co
 of chosen button is returned; if no button names are specified, <command>Yes</command> and <command>No</command> will be displayed
 </listitem>
 </itemizedlist>
-</sect1>  
+</sect2>  
+</sect1>
 </chapter>
-</book>
+
 
 
