@@ -20,7 +20,7 @@
 <title>&DCOP; Functions</title>
 
 <para>
-&kommander; began accessing it's widgets internally with &DCOP;, which evloved to widget functions. &DCOP; is still available and can be used to share information between dialogs. It can also be used to extend and integrate nearly every existing KDE application.
+&kommander; began accessing it's widgets internally with &DCOP;, which evolved to widget functions. &DCOP; is still available and can be used to share information between dialogs. It can also be used to extend and integrate nearly every existing KDE application.
 &DCOP; can be called in several ways in &kommander;.  First is the console method. Open a &kommander; dialog and open a console and try this.
 </para>
 <screen>
@@ -29,7 +29,7 @@ dcop `dcop | grep kmdr`
 dcop `dcop | grep kmdr` KommanderIf
 </screen>
 <para>
-This will show you what dialogs are running and what interfaces are available, as well as what is available to call in the &kommander; special interface to internals. In the explanation of &DCOP; here remember that &DCOP; is used internally by KDE applications (replaced with DBUS in KDE4) and it is very useful. Have a look at kdcop by pressing Alt-F2 and typing it in a run dialog. Here you can explore everything running. Now back to &DCOP; in &kommander;.
+This will show you what dialogs are running and what interfaces are available, as well as what is available to call in the &kommander; special interface to internals. In the explanation of &DCOP; here remember that &DCOP; is used internally by KDE applications (replaced with DBUS in KDE4) and it is very useful. Have a look at <command>kdcop</command> by pressing Alt-F2 and typing it in a run dialog. Here you can explore everything running. Now back to &DCOP; in &kommander;.
 </para>
 <para>
 dcop kmdr-executor-@pid KommanderIf setText myWidget <quote>new text</quote>
@@ -63,7 +63,7 @@ As you can see the new syntax is very easy, as well as consistent visually with 
 <term>global(QString variableName)</term>
 <listitem>
 <para>
-Returns the value of the specified global variable.  When a script is run from within a &kommander; window any (non-global) varaibles set in that script will cease to exist after the script completes and therfore will not be available to other script processes or in a new instance of the calling process.  The global <quote>scope</quote> means the variable will exist for any process of the window until that window is closed.  You may change these variables at any time with a new call to <function>@setGlobal</function>.
+Returns the value of the specified global variable.  When a script is run from within a &kommander; window any (non-global) variables set in that script will cease to exist after the script completes and therfore will not be available to other script processes or in a new instance of the calling process.  The global <quote>scope</quote> means the variable will exist for any process of the window until that window is closed.  You may change these variables at any time with a new call to <function>@setGlobal</function>.
 </para>
 </listitem>
 </varlistentry>
@@ -82,14 +82,14 @@ Creates a variable that is global to the window process and assigns the value to
 <title>&DCOP; for all Widgets</title>
 
 <para>
-The folling list is old and left here for reference purposes only. For a complete and current reference to all widget functions please look at the <emphasis>Function Browser</emphasis> which is available from any &kommander; text editor window by pressing the lower left button. These are now widget functions, not &DCOP; functions but the &DCOP; functions are published in the <emphasis>KommanderIf</emphasis> &DCOP; interface as described above. Dialogs for listing and constructing calls for this functionality are available at our web site.
+The following list is old and left here for reference purposes only. For a complete and current reference to all widget functions please look at the <emphasis>Function Browser</emphasis> which is available from any &kommander; text editor window by pressing the lower left button. These are now widget functions, not &DCOP; functions but the &DCOP; functions are published in the <emphasis>KommanderIf</emphasis> &DCOP; interface as described above. Dialogs for listing and constructing calls for this functionality are available at our web site.
 </para>
 <variablelist>
 <varlistentry>
 <term>setText(QString text)</term>
 <listitem>
 <para>
-This removes the text displayed int he widget and replaces it with the text supplied.
+This removes the text displayed in the widget and replaces it with the text supplied.
 </para>
 </listitem>
 </varlistentry>
