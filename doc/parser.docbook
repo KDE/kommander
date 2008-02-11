@@ -237,8 +237,26 @@ for i=0 to 10 do
   createWidget(mycombo, "ComboBox", "Form1")
 end
 </screen>
-
 </sect2>
+
+<sect2 id="comments">
+<title>Comments</title>
+<para>
+You can use comments in &kommander; using the three traditional program language comment forms. For those users who are new to programming wondering <quote>what traditional form?</quote> see below. You can copy and paste the text below into a button or dialog initialization and see how comments behave in action.
+</para>
+<screen>
+// this is a comment for one line
+message_info("Hello World") //traditional first program
+// the above comment also ignored - the messagebox is not
+# this is also a comment
+/*
+This is a multi-line comment
+message_info("This message will not show")
+*/
+message_info("This message will show")
+</screen>
+</sect2>
+
 <sect2 id="globals">
 <title>Built in Globals</title>
 <para>
