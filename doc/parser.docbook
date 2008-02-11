@@ -251,7 +251,16 @@ message_info("Hello World") //traditional first program
 # this is also a comment
 message_info("This message will show")
 </screen>
-<note>Using /* */ as a comment will not work and will cause the rest of the widget execution to fail.</note>
+<para>
+Using the following multi-line comment will <emphasis>not</emphasis> work and will cause the rest of the widget execution to fail.
+</para>
+<screen>
+/*
+Hi, I was supposed to be a comment 
+None of the script after this will execute
+DON'T USE THIS TYPE OF COMMENT IN KOMMANDER!
+*/
+</screen>
 </sect2>
 
 <sect2 id="globals">
