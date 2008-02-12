@@ -426,7 +426,7 @@ QStringList Instance::associatedText(const QString &widgetName)
 QString Instance::type(const QString& widget)
 {
   QObject* child = stringToWidget(widget);  
-  if (child->inherits("QWidget"))
+  if (child && child->inherits("QWidget"))
     return child->className();
   return QString();
 }

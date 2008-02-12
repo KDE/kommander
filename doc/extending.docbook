@@ -2,7 +2,6 @@
 
 <chapter id="extending">
 <chapterinfo>
-<title>Extending &kommander;</title>
 <authorgroup>
 <author>
 <firstname>Andras</firstname>
@@ -19,6 +18,7 @@
 
 </authorgroup>
 </chapterinfo>
+<title>Extending &kommander;</title>
 
 <sect1 id="create-widgets">
 <title>Creating &kommander; Widgets</title>
@@ -363,6 +363,8 @@ su -c "cp libmykomplugin.so $KDEDIR/lib"
 </screen>
 <note><para>If you use the KDevelop project generator, you will not need to do the above, but instead adapt the Makefile.am to link against extra libraries. By default, it will link to &Qt; and &kde; libraries and generate all the needed object files. Just run <command>make</command> to build, and <command>su -c make install</command> to install.</para></note>
 </sect2>
+<sect2 id="config-plugin">
+<title>Configure the installed plugins</title>
 <para>
 Now that the plugin is installed, run the <command>kmdr-plugins</command> program or choose <guimenu>Settings->Configure Plugins</guimenu> from the Editor. The list in this program displays the 
 plugins that are currently loaded by &kommander;.  Add the new plugin to the 
@@ -374,6 +376,7 @@ If you now restart the &kommander; editor, the widgets your new plugin
 provides should be available in the menus and toolbars. You can
 now use your new widgets in &kommander; dialogs.
 </para>
+</sect2>
 <sect2 id="add-widget">
 <title>Add the widget directly to &kommander;</title>
 <para>This section is for &kommander; developers and describes how to add a new widget directly to &kommander;.</para>
