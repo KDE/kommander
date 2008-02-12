@@ -23,6 +23,7 @@
 &kommander; began accessing it's widgets internally with &DCOP;, which evolved to widget functions. &DCOP; is still available and can be used to share information between dialogs. It can also be used to extend and integrate nearly every existing KDE application.
 &DCOP; can be called in several ways in &kommander;.  First is the console method. Open a &kommander; dialog and open a console and try this.
 </para>
+<note><para>This is largely focused on the old parser. If you are looking for internal widget functions please see the <link linkend="new_parserdocs">new parser</link>. This information is particularly relevent to communicating between dialogs and applications, or running other scripting languages inside Kommander as scripts.</para></note>
 <screen>
 dcop | grep kmdr
 dcop `dcop | grep kmdr`
