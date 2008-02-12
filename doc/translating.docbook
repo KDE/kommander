@@ -34,7 +34,7 @@ Here is a short description about the needed steps to make a dialog translatable
 
 <listitem><para>How to extract the messages and create the .po file?</para>
 <para>
-    Use the <command>kmdr2po</command> script to extract the strings. The script is inside the <emphasis>working</emphasis> directory of the source release tarball and should be installed to <command>$KDEDIR/share/apps/kommander/</command> as well.
+    Use the <command>kmdr2po</command> script to extract the strings. The script is inside the <emphasis>working</emphasis> directory of the source release tarball and should be installed to <command>$KDEDIR/share/apps/kommander/translating</command> as well.
 </para>
 <para>
 Just run:
