@@ -221,7 +221,7 @@ See the KPushButton documentation to learn more about it.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="pushbutton.png" format="PNG" />
+<imagedata fileref="closebutton.png" format="PNG" />
 </imageobject></inlinemediaobject>
 CloseButton
 </term>
@@ -456,7 +456,7 @@ See the KStatusBar documentation to learn more about it.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="progressbar.png" format="PNG" />
+<imagedata fileref="progress.png" format="PNG" />
 </imageobject></inlinemediaobject>
 ProgressBar
 </term>
@@ -473,7 +473,7 @@ See the KProgress documentation to learn more about it.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="scriptobject.png" format="PNG" />
+<imagedata fileref="shellscript.png" format="PNG" />
 </imageobject></inlinemediaobject>
 ScriptObject
 </term>
@@ -531,7 +531,7 @@ See the KDatePicker documentation to learn more.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="aboutdialog.png" format="PNG" />
+<imagedata fileref="kommander.png" format="PNG" />
 </imageobject></inlinemediaobject>
 AboutDialog
 </term>
@@ -548,7 +548,7 @@ when the <emphasis>execute</emphasis> function is called.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="fontdialog.png" format="PNG" />
+<imagedata fileref="kfontcombo.png" format="PNG" />
 </imageobject></inlinemediaobject>
 FontDialog
 </term>
@@ -563,7 +563,7 @@ A pseudo-widget, that can be used to get a font selection dialog. The default fo
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="popupmenu.png" format="PNG" />
+<imagedata fileref="contents.png" format="PNG" />
 </imageobject></inlinemediaobject>
 PopupMenu
 </term>
