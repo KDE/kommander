@@ -1,0 +1,2125 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>dcoptool2</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>dcoptool2</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>712</width>
+            <height>478</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>DCOP Inserter Version 0.2 - Old Parser</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>@##### put the following in init scripts #########
+ @widgetName.setVisible(false)
+@wname.setVisible(false)
+@TextParam1.setVisible(false)
+@param1.setVisible(false)
+@TextParam2.setVisible(false)
+@param2.setVisible(false)
+@TextParam3.setVisible(false)
+@param3.setVisible(false)
+@TextParam4.setVisible(false)
+@param4.setVisible(false)
+
+@setGlobal(Array,"values(QString)
+keys(QString)
+clear(QString)
+count(QString)
+count(QString)
+remove(QString,QString)
+remove(QString,QString)
+fromString(QString,QString)
+toString(QString)
+toString(QString)
+toString(QString)
+toString(QString)
+toString(QString)")
+
+@setGlobal(File,"read(QString)
+write(QString,QString)
+append(QString,QString)")
+
+@setGlobal(Input,"text(QString,QString,QString)
+password(QString,QString)
+value(QString,QString,int,int,int,int)
+double(QString,QString,double,double,double,double)
+openfile(QString,QString,QString)
+savefile(QString,QString,QString)
+directory(QString,QString,QString)
+openfiles(QString,QString,QString)")
+
+@setGlobal(DCOP,"addUniqueItem(QString,QString)
+associatedText(QString)
+cellText(QString,int,int)
+checked(QString)
+children(QString,bool)
+clear(QString)
+count(QString)
+currentColumn(QString)
+currentItem(QString)
+currentRow(QString)
+execute(QString)
+findItem(QString,QString)
+insertColumn(QString,int,int)
+insertItem(QString,QString,int)
+insertItems(QString,QStringList,int)
+insertRow(QString,int,int)
+item(QString,int)
+itemDepth(QString,int)
+itemPath(QString,int)
+removeColumn(QString,int,int)
+removeItem(QString,int)
+removeRow(QString,int,int)
+selection(QString)
+setAssociatedText(QString,QString)
+setEnabled(QString,bool)
+setCellText(QString,int,int,QString)
+setCellWidget(QString,int,int,QString)
+cellWidget(QString,int,int)
+setChecked(QString,bool)
+setColumnCaption(QString,int,QString)
+setCurrentItem(QString,int)
+insertTab(QString,QString,int)
+setMaximum(QString,int)
+setPixmap(QString,QString,int)
+setRowCaption(QString,int,QString)
+setSelection(QString,QString)
+setText(QString,QString)
+setVisible(QString,bool)
+type(QString)
+setEditable(QString,bool)")
+
+@setGlobal(File,"read(QString)
+write(QString,QString)
+append(QString,QString)")
+
+@setGlobal(KommanderMessage,"")
+
+@setGlobal(String,"length(QString)
+contains(QString,QString)
+find(QString,QString,int)
+findRev(QString,QString,int)
+left(QString,int)
+right(QString,int)
+mid(QString,int,int)
+remove(QString,QString)
+replace(QString,QString,QString)
+upper(QString)
+lower(QString)
+compare(QString,QString)
+isEmpty(QString)
+isNumber(QString)
+section(QString,QString,int)
+args(QString,QString,QString,QString)
+args(QString,QString,QString,QString)
+args(QString,QString,QString,QString)")
+
+
+@functiongroup.setCurrentItem(1)
+@proto.insertItems(@global(DCOP), 0)
+
+</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>Layout9</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>202</width>
+                <height>380</height>
+            </rect>
+        </property>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <widget class="ComboBox">
+                <item>
+                    <property name="text">
+                        <string>dcop(</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>dcop</string>
+                    </property>
+                </item>
+                <property name="name">
+                    <cstring>dcopstr</cstring>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>select whether to use a Kommander call or console call</string>
+                </property>
+            </widget>
+            <widget class="Label">
+                <property name="name">
+                    <cstring>Label6</cstring>
+                </property>
+                <property name="text">
+                    <string>Function Group:</string>
+                </property>
+            </widget>
+            <widget class="ComboBox">
+                <item>
+                    <property name="text">
+                        <string>Array</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>DCOP</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>File</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>Input</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>Kommander</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>Message</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>String</string>
+                    </property>
+                </item>
+                <property name="name">
+                    <cstring>functiongroup</cstring>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel4</cstring>
+                </property>
+                <property name="text">
+                    <string>Func/Proto:</string>
+                </property>
+            </widget>
+            <widget class="ListBox">
+                <property name="name">
+                    <cstring>proto</cstring>
+                </property>
+                <property name="populationText">
+                    <string>@global(@functiongroup.selection)</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+        </vbox>
+    </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>Layout10</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>508</x>
+                <y>10</y>
+                <width>190</width>
+                <height>370</height>
+            </rect>
+        </property>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel3</cstring>
+                </property>
+                <property name="text">
+                    <string>Branch:</string>
+                </property>
+            </widget>
+            <widget class="ComboBox">
+                <item>
+                    <property name="text">
+                        <string>KommanderIf</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>QuantaIf</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>qt</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>MainApplication-Interface</string>
+                    </property>
+                </item>
+                <property name="name">
+                    <cstring>branch</cstring>
+                </property>
+                <property name="editable">
+                    <bool>true</bool>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="TextEdit">
+                <property name="name">
+                    <cstring>TextDescription</cstring>
+                </property>
+                <property name="backgroundOrigin">
+                    <enum>ParentOrigin</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>Plain</enum>
+                </property>
+                <property name="readOnly">
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </vbox>
+    </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>Layout11</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>431</y>
+                <width>690</width>
+                <height>34</height>
+            </rect>
+        </property>
+        <hbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <widget class="CheckBox">
+                <property name="name">
+                    <cstring>wfilter</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="text">
+                    <string>Filter f&amp;unctions by widget</string>
+                </property>
+                <property name="checked">
+                    <bool>true</bool>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                        <string></string>
+                        <string></string>
+                    </stringlist>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>Requires widgets to be loaded from running dialog</string>
+                </property>
+            </widget>
+            <spacer>
+                <property name="name">
+                    <cstring>Spacer8</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>80</width>
+                        <height>0</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget class="ExecButton">
+                <property name="name">
+                    <cstring>ExecButton18</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;Insert</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@switch(@String.mid(@dcopstr.selection, 1, 4))
+@case(dcop)
+  @setGlobal("outstring","@dcopstr.selection @window.selection, @branch.selection, "@proto.selection", @String.mid(@wname.selection, 0, @String.find(@wname.selection, " ", ))@param1@param2@param3@param4)")
+@case(cop)
+  @setGlobal("outstring","@dcopstr.selection @window.selection @branch.selection @global(short) @String.mid(@wname.selection, 0, @String.find(@wname.selection, " ", ))@param1@param2@param3@param4")
+@case(*)
+  @setGlobal("outstring","@dcopstr.selection - not found")
+@end
+@outstring.setText(@global(outstring))
+@cbclip
+</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="CheckBox">
+                <property name="name">
+                    <cstring>cbclip</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;Add to clipboard</string>
+                </property>
+                <property name="checked">
+                    <bool>true</bool>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@null</string>
+                        <string></string>
+                        <string>@exec(dcop klipper klipper setClipboardContents "@global(outstring)")</string>
+                    </stringlist>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>Requires Klipper</string>
+                </property>
+            </widget>
+            <spacer>
+                <property name="name">
+                    <cstring>Spacer9</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>120</width>
+                        <height>0</height>
+                    </size>
+                </property>
+            </spacer>
+        </hbox>
+    </widget>
+    <widget class="LineEdit">
+        <property name="name">
+            <cstring>outstring</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>30</x>
+                <y>400</y>
+                <width>671</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string></string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ExecButton">
+        <property name="name">
+            <cstring>ExecButton59</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>400</y>
+                <width>20</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string></string>
+        </property>
+        <property name="pixmap">
+            <pixmap>image0</pixmap>
+        </property>
+        <property name="flat">
+            <bool>true</bool>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@outstring.clear</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="GroupBox">
+        <property name="name">
+            <cstring>GroupBox1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>220</x>
+                <y>10</y>
+                <width>278</width>
+                <height>375</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string></string>
+        </property>
+        <grid>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>11</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <widget class="Label" row="10" column="0">
+                <property name="name">
+                    <cstring>TextParam4</cstring>
+                </property>
+                <property name="text">
+                    <string>Parameter 4</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="Label" row="6" column="0">
+                <property name="name">
+                    <cstring>TextParam2</cstring>
+                </property>
+                <property name="text">
+                    <string>Parameter 2</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="LineEdit" row="11" column="0" rowspan="1" colspan="2">
+                <property name="name">
+                    <cstring>param4</cstring>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@execBegin
+if [ "@widgetText" ]
+then
+  echo ', "@widgetText"'
+fi
+@execEnd</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="LineEdit" row="7" column="0" rowspan="1" colspan="2">
+                <property name="name">
+                    <cstring>param2</cstring>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@execBegin
+if [ "@widgetText" ]
+then
+  echo ', "@widgetText"'
+fi
+@execEnd</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="QLabel" row="0" column="0">
+                <property name="name">
+                    <cstring>TextLabel2</cstring>
+                </property>
+                <property name="text">
+                    <string>Window:</string>
+                </property>
+            </widget>
+            <widget class="ComboBox" row="1" column="0" rowspan="1" colspan="2">
+                <item>
+                    <property name="text">
+                        <string>dcopid</string>
+                    </property>
+                </item>
+                <item>
+                    <property name="text">
+                        <string>"kmdr-executor-"+parentPid</string>
+                    </property>
+                </item>
+                <property name="name">
+                    <cstring>window</cstring>
+                </property>
+                <property name="editable">
+                    <bool>true</bool>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@widgetText</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="Label" row="8" column="0">
+                <property name="name">
+                    <cstring>TextParam3</cstring>
+                </property>
+                <property name="text">
+                    <string>Parameter 3</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="ExecButton" row="2" column="0">
+                <property name="name">
+                    <cstring>widgetName</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="text">
+                    <string>Widget &amp;Name:</string>
+                </property>
+                <property name="flat">
+                    <bool>true</bool>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@Array.clear(dlg)
+@Array.fromString(dlg,@exec(dcop | grep kmdr))
+@setGlobal(kdlg,"")
+@forEach(i, @Array.keys(dlg))
+  @setGlobal(kdlg, @global(kdlg) @i @i)
+@end
+@setGlobal(pdlg,@exec(kdialog --menu "Select a dialog other than pid @pid to parse" @global(kdlg)))
+@#@exec(kdialog --msgbox "@global(_KDDIR)\n")
+@# dcop kmdr-executor-32730 KommanderIf children kmdr-executor-32730 1
+@wname.clear
+@setGlobal(items,@dcop(@global(pdlg), KommanderIf, "children(QString,bool)", @global(pdlg), 1 ))
+@setGlobal(iwd,"")
+@forEach(i, @global(items))
+ @setGlobal(iwd, "@global(iwd)@i (@dcop(@global(pdlg), KommanderIf, "type(QString)", @i))\n")
+@end
+@wname.insertItems(@global(iwd),0)</string>
+                    </stringlist>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>See Whats This for instructions</string>
+                </property>
+                <property name="whatsThis" stdset="0">
+                    <string>This will get the list of widgets from a running dialog. To use it simply launch your dialog and then select it from the list.</string>
+                </property>
+            </widget>
+            <widget class="LineEdit" row="9" column="0" rowspan="1" colspan="2">
+                <property name="name">
+                    <cstring>param3</cstring>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@execBegin
+if [ "@widgetText" ]
+then
+  echo ', "@widgetText"'
+fi
+@execEnd</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="LineEdit" row="5" column="0" rowspan="1" colspan="2">
+                <property name="name">
+                    <cstring>param1</cstring>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string>@execBegin
+if [ "@widgetText" ]
+then
+  echo ', "@widgetText"'
+fi
+@execEnd</string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="ComboBox" row="3" column="0" rowspan="1" colspan="2">
+                <property name="name">
+                    <cstring>wname</cstring>
+                </property>
+                <property name="editable">
+                    <bool>true</bool>
+                </property>
+                <property name="populationText">
+                    <string></string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+            <widget class="Label" row="4" column="0">
+                <property name="name">
+                    <cstring>TextParam1</cstring>
+                </property>
+                <property name="text">
+                    <string>Parameter 1</string>
+                </property>
+                <property name="associations" stdset="0">
+                    <stringlist>
+                        <string></string>
+                    </stringlist>
+                </property>
+            </widget>
+            <spacer row="2" column="1">
+                <property name="name">
+                    <cstring>Spacer15</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>111</width>
+                        <height>0</height>
+                    </size>
+                </property>
+            </spacer>
+        </grid>
+    </widget>
+    <widget class="ScriptObject">
+        <property name="name">
+            <cstring>setfunction</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>610</x>
+                <y>380</y>
+                <width>32</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@##### put the following in @setfunction #########
+@# set up dialog based on function
+@switch(@functiongroup.selection::@proto.selection)
+@case(DCOP::addUniqueItem(QString,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"item")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,addUniqueItem)
+  @setGlobal(DESC,"Inserts the item if it will not create a duplicate.")
+@case(DCOP::associatedText(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,associatedText)
+  @setGlobal(DESC,"Returns scripts associated with widget. This is an advanced feature that would not be commonly used.")
+@case(DCOP::cellText(QString,int,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"row")
+  @setGlobal(PARM2,"column")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,cellText)
+  @setGlobal(DESC,"Returns text of a cell in a table.")
+@case(DCOP::checked(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,checked)
+  @setGlobal(DESC,"Returns 1 for checked boxes, 0 for unchecked.")
+@case(DCOP::children(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"recursive")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,children)
+  @setGlobal(DESC,"Returns the list of child widgets contained in the parent widget. Set the &lt;i&gt;recursive&lt;/i&gt; parameter to &lt;i&gt;true&lt;/i&gt; to include widgets contained by child widgets.")
+@case(DCOP::clear(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,clear)
+  @setGlobal(DESC,"Removes all content from the widget.")
+@case(DCOP::count(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,count)
+  @setGlobal(DESC,"Returns number of items in a widget such as combobox or listbox.")
+@case(DCOP::currentColumn(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,currentColumn)
+  @setGlobal(DESC,"Returns index of current column.")
+@case(DCOP::currentItem(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,currentItem)
+  @setGlobal(DESC,"Returns index of current item.")
+@case(DCOP::currentRow(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,currentRow)
+  @setGlobal(DESC,"Returns index of current row.")
+@case(DCOP::execute(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,execute)
+  @setGlobal(DESC,"Executes the script associated with the widget. With the new parser the execute method can take one or more arguments.")
+@case(DCOP::findItem(QString,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"item")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,findItem)
+  @setGlobal(DESC,"Returns the index of an item with the given text.")
+@case(DCOP::insertColumn(QString,int,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"column")
+  @setGlobal(PARM2,"count")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,insertColumn)
+  @setGlobal(DESC,"Inserts new column &amp;#040;or &lt;i&gt;count&lt;/i&gt; columns&amp;#041; at &lt;i&gt;column&lt;/i&gt; position.")
+@case(DCOP::insertItem(QString,QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"item")
+  @setGlobal(PARM2,"index")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,insertItem)
+  @setGlobal(DESC,"Inserts item at &lt;i&gt;index&lt;/i&gt; position.")
+@case(DCOP::insertItems(QString,QStringList,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"items")
+  @setGlobal(PARM2,"index")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,insertItems)
+  @setGlobal(DESC,"Inserts multiple items &amp;#040;EOL-separated&amp;#041; at &lt;i&gt;index&lt;/i&gt; position.")
+@case(DCOP::insertRow(QString,int,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"row")
+  @setGlobal(PARM2,"count")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,insertRow)
+  @setGlobal(DESC,"Inserts new row &amp;#040;or &lt;i&gt;count&lt;/i&gt; rows&amp;#041; at &lt;i&gt;row&lt;/i&gt; position.")
+@case(DCOP::item(QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"index")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,item)
+  @setGlobal(DESC,"Returns the text of the item at the given index.")
+@case(DCOP::itemDepth(QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"index")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,itemDepth)
+  @setGlobal(DESC,"Returns the depth of the current item in the tree. Root items have depth 0.")
+@case(DCOP::itemPath(QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"index")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,itemPath)
+  @setGlobal(DESC,"Returns the slash-separated path to the given item in the tree.")
+@case(DCOP::removeColumn(QString,int,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"column")
+  @setGlobal(PARM2,"count")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,removeColumn)
+  @setGlobal(DESC,"Removes the column &amp;#040;or &lt;i&gt;count&lt;/i&gt; consecutive columns&amp;#041; with the given index.")
+@case(DCOP::removeItem(QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"index")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,removeItem)
+  @setGlobal(DESC,"Removes the item with the given index.")
+@case(DCOP::removeRow(QString,int,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"row")
+  @setGlobal(PARM2,"count")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,removeRow)
+  @setGlobal(DESC,"Removes the row &amp;#040;or &lt;i&gt;count&lt;/i&gt; consecutive rows&amp;#041; with the given index.")
+@case(DCOP::selection(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,selection)
+  @setGlobal(DESC,"Returns selected text or text of current item.\nIn case of Table widgets, returns the selection coordinates, separated by commas in TopRow,LeftColumn,BottomRow,RightColumn form. ")
+@case(DCOP::setAssociatedText(QString,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setAssociatedText)
+  @setGlobal(DESC,"Sets scripts associated with widget. This is an advanced feature that would not be commonly used.")
+@case(DCOP::setEnabled(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"enabled")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setEnabled)
+  @setGlobal(DESC,"Enables or disables widget.")
+@case(DCOP::setCellText(QString,int,int,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"row")
+  @setGlobal(PARM2,"col")
+  @setGlobal(PARM3,"text")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setCellText)
+  @setGlobal(DESC,"Sets text of a cell in a table.")
+@case(DCOP::setCellWidget(QString,int,int,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"row")
+  @setGlobal(PARM2,"col")
+  @setGlobal(PARM3,"cellWidget")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setCellWidget)
+  @setGlobal(DESC,"Inserts a widget into a cell of a table.")
+@case(DCOP::cellWidget(QString,int,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"row")
+  @setGlobal(PARM2,"col")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,cellWidget)
+  @setGlobal(DESC,"Returns the name of a widget inserted into a cell, or an empty string if the cell contains no widget or an unknown widget type.")
+@case(DCOP::setChecked(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"checked")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setChecked)
+  @setGlobal(DESC,"Sets/unsets checkbox.")
+@case(DCOP::setColumnCaption(QString,int,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"column")
+  @setGlobal(PARM2,"text")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setColumnCaption)
+  @setGlobal(DESC,"Sets caption of the column &lt;i&gt;column&lt;/i&gt;.")
+@case(DCOP::setCurrentItem(QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"index")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setCurrentItem)
+  @setGlobal(DESC,"Selects the item at the specified index. Indexes are zero based.")
+@case(DCOP::insertTab(QString,QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"label")
+  @setGlobal(PARM2,"index")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,insertTab)
+  @setGlobal(DESC,"Inserts a tab to the tabwidget with the specified label at the given index. Indexes are zero based.")
+@case(DCOP::setMaximum(QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"value")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setMaximum)
+  @setGlobal(DESC,"Sets maximum numeric value")
+@case(DCOP::setPixmap(QString,QString,int))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"iconName")
+  @setGlobal(PARM2,"index")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setPixmap)
+  @setGlobal(DESC,"Sets pixmap at the given index to the specified icon. Use &lt;i&gt;index = -1&lt;/i&gt; to set the pixmap for all items.")
+@case(DCOP::setRowCaption(QString,int,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"row")
+  @setGlobal(PARM2,"text")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setRowCaption)
+  @setGlobal(DESC,"Sets caption of the row &lt;i&gt;row&lt;/i&gt;.")
+@case(DCOP::setSelection(QString,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setSelection)
+  @setGlobal(DESC,"Selects given text or select item containing given text.")
+@case(DCOP::setText(QString,QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setText)
+  @setGlobal(DESC,"Sets widget's content.")
+@case(DCOP::setVisible(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"visible")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setVisible)
+  @setGlobal(DESC,"Shows/hides widget.")
+@case(DCOP::type(QString))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,type)
+  @setGlobal(DESC,"Returns type&amp;#040;class&amp;#041; of widget.")
+@case(DCOP::setEditable(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"editable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setEditable)
+  @setGlobal(DESC,"Makes the widget editable or read only, depending on the editable argument.")
+@case(Kommander::setEditable(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"editable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setEditable)
+  @setGlobal(DESC,"Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use &amp;#064;A.text inside B instead of just &amp;#064;A if you just want the unaltered text.")
+@case(Kommander::setEditable(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"editable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setEditable)
+  @setGlobal(DESC,"Returns selected text or text of current item. This is deprecated for &lt;i&gt;&amp;#064;mywidget.selected&lt;/i&gt;.")
+@case(Kommander::setEditable(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"editable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setEditable)
+  @setGlobal(DESC,"Does nothing. This is useful if you request a CheckBox or RadioButton to return a value where a state, typically the unchecked state, has no value. The &amp;#064;null prevents an error indicating it is empty.")
+@case(Kommander::pid(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"editable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,pid)
+  @setGlobal(DESC,"Returns the pid &amp;#040;process ID&amp;#041; of the current process.")
+@case(Kommander::dcopid(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"editable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,dcopid)
+  @setGlobal(DESC,"Returns DCOP identifier of current process. This is shorthand for &lt;i&gt;kmdr-executor-&amp;#064;pid&lt;/i&gt;.")
+@case(Kommander::parentPid(QString,bool))
+  @setGlobal(enWidget,1)
+  @setGlobal(PARM1,"editable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,parentPid)
+  @setGlobal(DESC,"Returns the pid of the parent Kommander window.")
+@case(Kommander::debug(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,debug)
+  @setGlobal(DESC,"Writes &lt;i&gt;text&lt;/i&gt; on stderr.")
+@case(Kommander::echo(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,echo)
+  @setGlobal(DESC,"Writes &lt;i&gt;text&lt;/i&gt; on standard output.")
+@case(Kommander::echo(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,echo)
+  @setGlobal(DESC,"Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. Full path is not required for the shell which may be useful for portability. &lt;p&gt;&lt;i&gt;If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.&lt;/i&gt;")
+@case(Kommander::env(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"variable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,env)
+  @setGlobal(DESC,"Returns value of an environment &amp;#040;shell&amp;#041; variable. Do not use &lt;i&gt;$&lt;/i&gt; in the name. For example, &lt;i&gt;&amp;#064;env&amp;#040;PATH&amp;#041;&lt;/i&gt;.")
+@case(Kommander::exec(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"command")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,exec)
+  @setGlobal(DESC,"Executes an external shell command.")
+@case(Kommander::exec(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"command")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,exec)
+  @setGlobal(DESC,"Parses an expression and returns computed value.")
+@case(Kommander::forEach(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"variable")
+  @setGlobal(PARM2,"items")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,forEach)
+  @setGlobal(DESC,"Executes loop: values from &lt;i&gt;items&lt;/i&gt; list &amp;#040;passed as EOL-separated string&amp;#041; are assigned to the variable. &lt;br&gt;&lt;b&gt;Old&lt;/b&gt;&lt;br&gt; &lt;i&gt;&amp;#064;forEach&amp;#040;i,A\\nB\\nC\\n&amp;#041;&lt;br&gt;  &amp;#064;# &amp;#064;i=A&lt;br&gt;&amp;#064;end&lt;/i&gt;&lt;br&gt;&lt;b&gt;New&lt;/b&gt;&lt;br&gt;&lt;i&gt;foreach i in MyArray do&lt;br&gt;  //i = key, MyArray[i] = val&lt;br&gt;end ")
+@case(Kommander::for(QString,int,int,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"variable")
+  @setGlobal(PARM2,"start")
+  @setGlobal(PARM3,"end")
+  @setGlobal(PARM4,"step")
+  @setGlobal(short,for)
+  @setGlobal(DESC,"Executes loop: variable is set to &lt;i&gt;start&lt;/i&gt; and is increased by &lt;i&gt;step&lt;/i&gt; each time loop is executed. Execution stops when variable becomes larger then &lt;i&gt;end&lt;/i&gt;. &lt;br&gt;&lt;b&gt;Old&lt;/b&gt;&lt;br&gt;&lt;i&gt;&amp;#064;for&amp;#040;i,1,10,1&amp;#041;&lt;br&gt;  &amp;#064;# &amp;#064;i=1&lt;br&gt;&amp;#064;endif&lt;/i&gt;&lt;br&gt;&lt;b&gt;New&lt;/b&gt;&lt;br&gt;&lt;i&gt;for i=0 to 20 step 5 do&lt;br&gt;  debug&amp;#040;i&amp;#041;&lt;br&gt;end&lt;/i&gt;.")
+@case(Kommander::for(QString,int,int,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"variable")
+  @setGlobal(PARM2,"start")
+  @setGlobal(PARM3,"end")
+  @setGlobal(PARM4,"step")
+  @setGlobal(short,for)
+  @setGlobal(DESC,"Returns the value of a global variable.")
+@case(Kommander::i18n(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"variable")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,i18n)
+  @setGlobal(DESC,"Translates the string into the current language. Texts in GUI would be automatically extracted for translation.")
+@case(Kommander::if(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"expression")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,if)
+  @setGlobal(DESC,"Executes block if expression is true &amp;#040;non-zero number or non-empty string.&amp;#041; &lt;p&gt;&lt;b&gt;Old&lt;/b&gt;Close with &lt;b&gt;&amp;#064;endif&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;New&lt;/b&gt;&lt;br&gt;if val == true then&lt;br&gt;//  do op&lt;br&gt;elseif cond&lt;br&gt;//  second chance&lt;br&gt;else&lt;br&gt;//  cond failed&lt;br&gt;endif&lt;/p&gt;")
+@case(Kommander::dialog(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"file")
+  @setGlobal(PARM2,"args")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,dialog)
+  @setGlobal(DESC,"Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: &lt;i&gt;var=val&lt;/i&gt;")
+@case(Kommander::readSetting(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"key")
+  @setGlobal(PARM2,"default")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,readSetting)
+  @setGlobal(DESC,"Reads setting from configration file for this dialog.")
+@case(Kommander::setGlobal(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"variable")
+  @setGlobal(PARM2,"value")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,setGlobal)
+  @setGlobal(DESC,"Sets the value of a global variable. Global variables exist for the life of the Kommander window.")
+@case(Kommander::writeSetting(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"key")
+  @setGlobal(PARM2,"value")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,writeSetting)
+  @setGlobal(DESC,"Stores setting in configuration file for this dialog.")
+@case(Kommander::writeSetting(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"key")
+  @setGlobal(PARM2,"value")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,writeSetting)
+  @setGlobal(DESC,"Begin of &lt;b&gt;switch&lt;/b&gt; block. Following &lt;b&gt;case&lt;/b&gt; values are compared to &lt;i&gt;expression&lt;/i&gt;.&lt;p&gt;&amp;#064;switch&amp;#040;&amp;#041;&lt;br&gt;&amp;#064;case&amp;#040;&amp;#041;&lt;br&gt;&amp;#064;end")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Executes an external DCOP call.")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Adds a comment to EOL that Kommander will not parse")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Creates a new widget with the specified type and as the child of parent.")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Returns true if there is a widget with the passed name, false otherwise.")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Connects the signal of sender with the slot of the receiver")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Disconnects the signal of sender from the slot of the receiver")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Exits script execution and returns")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Exits the current block of a while, for or foreach loop")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Exit a step and return to the beginning of a loop")
+@case(Kommander::dcop(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"id")
+  @setGlobal(PARM2,"interface")
+  @setGlobal(PARM3,"function")
+  @setGlobal(PARM4,"args")
+  @setGlobal(short,dcop)
+  @setGlobal(DESC,"Return from a script, optionaly with a value from the script to the caller")
+@case(Array::values(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,values)
+  @setGlobal(DESC,"Returns an EOL-separated list of all values in the array.")
+@case(Array::keys(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,keys)
+  @setGlobal(DESC,"Returns an EOL-separated list of all keys in the array.")
+@case(Array::clear(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,clear)
+  @setGlobal(DESC,"Removes all elements from the array.")
+@case(Array::count(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,count)
+  @setGlobal(DESC,"Returns the number of elements in the array.")
+@case(Array::count(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,count)
+  @setGlobal(DESC,"Returns the value associated with the given key.")
+@case(Array::remove(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"key")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,remove)
+  @setGlobal(DESC,"Removes element with the given key from the array.")
+@case(Array::remove(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"key")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,remove)
+  @setGlobal(DESC,"Adds element with the given key and value to the array")
+@case(Array::fromString(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"string")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,fromString)
+  @setGlobal(DESC,"Adds all elements in the string to the array. ")
+@case(Array::toString(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,toString)
+  @setGlobal(DESC,"Returns all elements in the array in &lt;pre&gt;key\\tvalue\\n&lt;/pre&gt; format.")
+@case(Array::toString(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,toString)
+  @setGlobal(DESC,"")
+@case(Array::toString(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,toString)
+  @setGlobal(DESC,"")
+@case(Array::toString(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,toString)
+  @setGlobal(DESC,"")
+@case(Array::toString(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"array")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,toString)
+  @setGlobal(DESC,"")
+@case(String::length(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,length)
+  @setGlobal(DESC,"Returns number of chars in the string.")
+@case(String::contains(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"substring")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,contains)
+  @setGlobal(DESC,"Checks if the the string contains the given substring.")
+@case(String::find(QString,QString,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"sought")
+  @setGlobal(PARM3,"index")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,find)
+  @setGlobal(DESC,"Returns the position of a substring in the string, or -1 if it is not found.")
+@case(String::findRev(QString,QString,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"sought")
+  @setGlobal(PARM3,"index")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,findRev)
+  @setGlobal(DESC,"Returns the position of a substring in the string, or -1 if it is not found. String is searched backwards")
+@case(String::left(QString,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"n")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,left)
+  @setGlobal(DESC,"Returns the first &lt;i&gt;n&lt;/i&gt; chars of the string.")
+@case(String::right(QString,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"n")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,right)
+  @setGlobal(DESC,"Returns the last &lt;i&gt;n&lt;/i&gt; chars of the string.")
+@case(String::mid(QString,int,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"start")
+  @setGlobal(PARM3,"n")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,mid)
+  @setGlobal(DESC,"Returns &lt;i&gt;n&lt;/i&gt; chars of the string, starting from &lt;i&gt;start&lt;/i&gt;.")
+@case(String::remove(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"substring")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,remove)
+  @setGlobal(DESC,"Removes all occurrences of given substring.")
+@case(String::replace(QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"substring")
+  @setGlobal(PARM3,"replacement")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,replace)
+  @setGlobal(DESC,"Replaces all occurrences of the given substring with the given replacement.")
+@case(String::upper(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,upper)
+  @setGlobal(DESC,"Converts the string to uppercase.")
+@case(String::lower(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,lower)
+  @setGlobal(DESC,"Converts the string to lowercase.")
+@case(String::compare(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string1")
+  @setGlobal(PARM2,"string2")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,compare)
+  @setGlobal(DESC,"Compares two strings. Returns 0 if they are equal, ")
+@case(String::isEmpty(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,isEmpty)
+  @setGlobal(DESC,"Checks if the string is empty.")
+@case(String::isNumber(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,isNumber)
+  @setGlobal(DESC,"Checks if the string is a valid number.")
+@case(String::section(QString,QString,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"separator")
+  @setGlobal(PARM3,"index")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,section)
+  @setGlobal(DESC,"Returns given section of a string.")
+@case(String::args(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"arg1")
+  @setGlobal(PARM3,"arg2")
+  @setGlobal(PARM4,"arg3")
+  @setGlobal(short,args)
+  @setGlobal(DESC,"Returns the given string with %1, %2, %3 replaced with &lt;i&gt;arg1&lt;/i&gt;, &lt;i&gt;arg2&lt;/i&gt;, &lt;i&gt;arg3&lt;/i&gt; accordingly.")
+@case(String::args(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"arg1")
+  @setGlobal(PARM3,"arg2")
+  @setGlobal(PARM4,"arg3")
+  @setGlobal(short,args)
+  @setGlobal(DESC,"Convert a string to an integer. If not possible use the default value")
+@case(String::args(QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"string")
+  @setGlobal(PARM2,"arg1")
+  @setGlobal(PARM3,"arg2")
+  @setGlobal(PARM4,"arg3")
+  @setGlobal(short,args)
+  @setGlobal(DESC,"Convert a string to a double precision floating point value. If not possible use the default value")
+@case(File::read(QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"")
+  @setGlobal(PARM2,"")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,read)
+  @setGlobal(DESC,"Returns content of given file.")
+@case(File::write(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"file")
+  @setGlobal(PARM2,"string")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,write)
+  @setGlobal(DESC,"Writes given string to a file.")
+@case(File::append(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"file")
+  @setGlobal(PARM2,"string")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,append)
+  @setGlobal(DESC,"Appends given string to the end of a file.")
+@case(Input::text(QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"caption")
+  @setGlobal(PARM2,"label")
+  @setGlobal(PARM3,"default")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,text)
+  @setGlobal(DESC,"Shows text selection dialog. Returns entered text.")
+@case(Input::password(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"caption")
+  @setGlobal(PARM2,"password")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,password)
+  @setGlobal(DESC,"Shows a dialog asking user for password and returns it.")
+@case(Input::value(QString,QString,int,int,int,int))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"caption")
+  @setGlobal(PARM2,"label")
+  @setGlobal(PARM3,"value")
+  @setGlobal(PARM4,"min")
+  @setGlobal(short,value)
+  @setGlobal(DESC,"Shows value selection dialog. Returns entered value.")
+@case(Input::double(QString,QString,double,double,double,double))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"caption")
+  @setGlobal(PARM2,"label")
+  @setGlobal(PARM3,"value")
+  @setGlobal(PARM4,"min")
+  @setGlobal(short,double)
+  @setGlobal(DESC,"Shows float value selection dialog. Returns entered value.")
+@case(Input::openfile(QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"startdir")
+  @setGlobal(PARM2,"filter")
+  @setGlobal(PARM3,"caption")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,openfile)
+  @setGlobal(DESC,"Shows existing file selection dialog. Returns selected file.")
+@case(Input::savefile(QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"startdir")
+  @setGlobal(PARM2,"filter")
+  @setGlobal(PARM3,"caption")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,savefile)
+  @setGlobal(DESC,"Shows save file selection dialog. Returns selected file.")
+@case(Input::directory(QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"startdir")
+  @setGlobal(PARM2,"filter")
+  @setGlobal(PARM3,"caption")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,directory)
+  @setGlobal(DESC,"Shows directory selection dialog. Returns selected directory.")
+@case(Input::openfiles(QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"startdir")
+  @setGlobal(PARM2,"filter")
+  @setGlobal(PARM3,"caption")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,openfiles)
+  @setGlobal(DESC,"Shows multiple files selection dialog. Returns EOL-separated list of selected files.")
+@case(Message::info(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"caption")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,info)
+  @setGlobal(DESC,"Shows an information dialog.")
+@case(Message::error(QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"caption")
+  @setGlobal(PARM3,"")
+  @setGlobal(PARM4,"")
+  @setGlobal(short,error)
+  @setGlobal(DESC,"Shows an error dialog.")
+@case(Message::warning(QString,QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"caption")
+  @setGlobal(PARM3,"button1")
+  @setGlobal(PARM4,"button2")
+  @setGlobal(short,warning)
+  @setGlobal(DESC,"Shows a warning dialog with up to three buttons. Returns number of selected button.")
+@case(Message::question(QString,QString,QString,QString,QString))
+  @setGlobal(enWidget,0)
+  @setGlobal(PARM1,"text")
+  @setGlobal(PARM2,"caption")
+  @setGlobal(PARM3,"button1")
+  @setGlobal(PARM4,"button2")
+  @setGlobal(short,question)
+  @setGlobal(DESC,"Shows a question dialog with up to three buttons. Returns number of selected button.")
+@case(*)
+  @exec(kdialog --error "@functiongroup.selection::@proto.selection is not recognized")
+@end
+@setparams
+</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ScriptObject">
+        <property name="name">
+            <cstring>setparams</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>570</x>
+                <y>380</y>
+                <width>32</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@##### put the following in @setparams #########
+@if(@global(enWidget))
+  @widgetName.setVisible(true)
+  @wname.setVisible(true)
+@endif
+@if(!@global(enWidget))
+  @widgetName.setVisible(false)
+  @wname.setVisible(false)
+@endif
+@if(@String.length(@global(PARM1)))
+  @param1.setVisible(true)
+  @TextParam1.setVisible(true)
+  @TextParam1.setText(@global(PARM1))
+@endif
+@if(!@String.length(@global(PARM1)))
+  @param1.clear
+  @param1.setVisible(false)
+  @TextParam1.setVisible(false)
+@endif
+@if(@String.length(@global(PARM2)))
+  @param2.setVisible(true)
+  @TextParam2.setVisible(true)
+  @TextParam2.setText(@global(PARM2))
+@endif
+@if(!@String.length(@global(PARM2)))
+  @param2.clear
+  @param2.setVisible(false)
+  @TextParam2.setVisible(false)
+@endif
+@if(@String.length(@global(PARM3)))
+  @param3.setVisible(true)
+  @TextParam3.setVisible(true)
+  @TextParam3.setText(@global(PARM3))
+@endif
+@if(!@String.length(@global(PARM3)))
+  @param3.clear
+  @param3.setVisible(false)
+  @TextParam3.setVisible(false)
+@endif
+@if(@String.length(@global(PARM4)))
+  @param4.setVisible(true)
+  @TextParam4.setVisible(true)
+  @TextParam4.setText(@global(PARM4))
+@endif
+@if(!@String.length(@global(PARM4)))
+  @param4.clear
+  @param4.setVisible(false)
+  @TextParam4.setVisible(false)
+@endif
+@TextDescription.setText(&lt;html&gt;@global(DESC)&lt;/html&gt;)
+
+</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ScriptObject">
+        <property name="name">
+            <cstring>filterscript</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>220</x>
+                <y>380</y>
+                <width>32</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@if(@wfilter.checked)
+  @filteron
+@endif
+@if(!@wfilter.checked)
+  @filteroff
+@endif</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ScriptObject">
+        <property name="name">
+            <cstring>filteroff</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>300</x>
+                <y>380</y>
+                <width>32</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@##### put the following in the @filteroff script #########
+@setGlobal(DCOP,"addUniqueItem(QString,QString)
+associatedText(QString)
+cellText(QString,int,int)
+checked(QString)
+children(QString,bool)
+clear(QString)
+count(QString)
+currentColumn(QString)
+currentItem(QString)
+currentRow(QString)
+execute(QString)
+findItem(QString,QString)
+insertColumn(QString,int,int)
+insertItem(QString,QString,int)
+insertItems(QString,QStringList,int)
+insertRow(QString,int,int)
+item(QString,int)
+itemDepth(QString,int)
+itemPath(QString,int)
+removeColumn(QString,int,int)
+removeItem(QString,int)
+removeRow(QString,int,int)
+selection(QString)
+setAssociatedText(QString,QString)
+setEnabled(QString,bool)
+setCellText(QString,int,int,QString)
+setCellWidget(QString,int,int,QString)
+cellWidget(QString,int,int)
+setChecked(QString,bool)
+setColumnCaption(QString,int,QString)
+setCurrentItem(QString,int)
+insertTab(QString,QString,int)
+setMaximum(QString,int)
+setPixmap(QString,QString,int)
+setRowCaption(QString,int,QString)
+setSelection(QString,QString)
+setText(QString,QString)
+setVisible(QString,bool)
+type(QString)
+setEditable(QString,bool)")
+
+@proto.clear
+@proto.insertItems(@global(DCOP), 0)
+
+</string>
+            </stringlist>
+        </property>
+    </widget>
+    <widget class="ScriptObject">
+        <property name="name">
+            <cstring>filteron</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>260</x>
+                <y>380</y>
+                <width>32</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="associations" stdset="0">
+            <stringlist>
+                <string>@##### put the following in @wfilter checked #########
+@setGlobal(start,@expr(@String.find("@wname.selection", " ")+2))
+@setGlobal(stop,@expr(@String.length("@wname.selection")-1))
+@setGlobal(length,@expr(@global(stop)-@global(start)))
+@setGlobal(teststr, @String.lower(@String.mid("@wname.selection", @global(start), @global(length))))
+@# @exec(kdialog --msgbox "Base: @wname.selection\nStart: @global(start)\nStop: @global(start)\nLength: @global(length)\nString: @global(teststr)")
+@switch(@global(teststr))
+
+@##### put the following in the @filteron script #########
+@case(aboutdialog)
+  @setGlobal(DCOP,"execute(QString)")
+
+@case(buttongroup)
+  @setGlobal(DCOP,"checked(QString)
+setChecked(QString,bool)")
+
+@case(checkbox)
+  @setGlobal(DCOP,"setText(QString,QString)
+checked(QString)
+setChecked(QString,bool)")
+
+@case(closebutton)
+  @setGlobal(DCOP,"setText(QString,QString)")
+
+@case(combobox)
+  @setGlobal(DCOP,"selection(QString)
+setSelection(QString,QString)
+currentItem(QString)
+setCurrentItem(QString,int)
+item(QString,int)
+removeItem(QString,int)
+insertItem(QString,QString,int)
+insertItems(QString,QStringList,int)
+addUniqueItem(QString,QString)
+clear(QString)
+count(QString)
+setEditable(QString,bool)")
+
+@case(datepicker)
+  @setGlobal(DCOP,"setText(QString,QString)")
+
+@case(dialog)
+  @setGlobal(DCOP,"setText(QString,QString)")
+
+@case(execbutton)
+  @setGlobal(DCOP,"setText(QString,QString)
+execute(QString)")
+
+@case(fileselector)
+  @setGlobal(DCOP,"setText(QString,QString)
+selection(QString)
+setSelection(QString,QString)
+clear(QString)")
+
+@case(fontdialog)
+  @setGlobal(DCOP,"execute(QString)")
+
+@case(groupbox)
+  @setGlobal(DCOP,"setText(QString,QString)")
+
+@case(konsole)
+  @setGlobal(DCOP,"setText(QString,QString)
+clear(QString)
+execute(QString)")
+
+@case(label)
+  @setGlobal(DCOP,"setText(QString,QString)
+clear(QString)")
+
+@case(lineedit)
+  @setGlobal(DCOP,"setText(QString,QString)
+selection(QString)
+setSelection(QString,QString)
+clear(QString)
+setEditable(QString,bool)")
+
+@case(listbox)
+  @setGlobal(DCOP,"setText(QString,QString)
+selection(QString)
+setSelection(QString,QString)
+insertItems(QString,QStringList,int)
+insertItem(QString,QString,int)
+removeItem(QString,int)
+clear(QString)
+currentItem(QString)
+setCurrentItem(QString,int)
+item(QString,int)
+addUniqueItem(QString,QString)
+findItem(QString,QString)
+setPixmap(QString,QString,int)
+count(QString)")
+
+@case(pixmaplabel)
+  @setGlobal(DCOP,"setText(QString,QString)
+clear(QString)")
+
+@case(popupmenu)
+  @setGlobal(DCOP,"clear(QString)
+execute(QString)
+item(QString,int)
+count(QString)")
+
+@case(progressbar)
+  @setGlobal(DCOP,"setText(QString,QString)
+clear(QString)
+setMaximum(QString,int)")
+
+@case(radiobutton)
+  @setGlobal(DCOP,"setText(QString,QString)
+setChecked(QString,bool)
+checked(QString)")
+
+@case(richtexteditor)
+  @setGlobal(DCOP,"setText(QString,QString)
+clear(QString)
+selection(QString)
+setEditable(QString,bool)")
+
+@case(scriptobject)
+  @setGlobal(DCOP,"setText(QString,QString)
+clear(QString)
+execute(QString)
+item(QString,int)
+count(QString)")
+
+@case(slider)
+  @setGlobal(DCOP,"setText(QString,QString)
+clear(QString)
+setMaximum(QString,int)")
+
+@case(spinboxint)
+  @setGlobal(DCOP,"setText(QString,QString)
+setMaximum(QString,int)")
+
+@case(statusbar)
+  @setGlobal(DCOP,"setText(QString,QString)
+insertItem(QString,QString,int)
+removeItem(QString,int)
+clear(QString)")
+
+@case(table)
+  @setGlobal(DCOP,"currentColumn(QString)
+currentRow(QString)
+insertColumn(QString,int,int)
+insertRow(QString,int,int)
+cellText(QString,int,int)
+setCellText(QString,int,int,QString)
+setCellWidget(QString,int,int,QString)
+cellWidget(QString,int,int)
+removeRow(QString,int,int)
+removeColumn(QString,int,int)
+setColumnCaption(QString,int,QString)
+setRowCaption(QString,int,QString)
+setText(QString,QString)
+selection(QString)")
+
+@case(tabwidget)
+  @setGlobal(DCOP,"currentItem(QString)
+setCurrentItem(QString,int)
+insertTab(QString,QString,int)")
+
+@case(textbrowser)
+  @setGlobal(DCOP,"setText(QString,QString)
+selection(QString)
+clear(QString)")
+
+@case(textedit)
+  @setGlobal(DCOP,"setText(QString,QString)
+selection(QString)
+setSelection(QString,QString)
+clear(QString)
+setEditable(QString,bool)")
+
+@case(timer)
+  @setGlobal(DCOP,"setText(QString,QString)
+execute(QString)")
+
+@case(timewidget)
+  @setGlobal(DCOP,"setText(QString,QString)")
+
+@case(toolbox)
+  @setGlobal(DCOP,"count(QString)")
+
+@case(treewidget)
+  @setGlobal(DCOP,"insertItem(QString,QString,int)
+setText(QString,QString)
+insertItems(QString,QStringList,int)
+selection(QString)
+setSelection(QString,QString)
+clear(QString)
+removeItem(QString,int)
+currentItem(QString)
+setCurrentItem(QString,int)
+findItem(QString,QString)
+item(QString,int)
+itemPath(QString,int)
+itemDepth(QString,int)
+setPixmap(QString,QString,int)
+setColumnCaption(QString,int,QString)")
+
+@end
+@proto.clear
+@proto.insertItems(@global(DCOP), 0)
+
+</string>
+            </stringlist>
+        </property>
+    </widget>
+</widget>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="812">789cbd915d4bc3301846effb2b427357645b3b3f36c49fa07829881769f276fd600a3a2f44fcefe6bc9b9195f5529f274d737a28a4e9bc300ff7b7a698676f3bb7ebbcf1ad7b354578df6e3f1e9f6e3eb3bcaa4c1ce5d294f95996cf8c37772fcfc2dac6b55d68c0012c5714ecc12a50b003cf1714dc80178e822d78b9a66000571ab001d74b0a7ab0bea260ad1828e840df5050c046a3fb3f997f36f637d3c68e8dabbd67d43f2a9920121a9d0e2a998d88e8d5b67b954cd70be9bb1855c90c838d22de883dde9bbeb3df9e1c191e1f94cc46264d535f2a536720a33390943ffd3fa7ccd775f60d4b60a687</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>wname</sender>
+        <signal>widgetTextChanged(const QString&amp;)</signal>
+        <receiver>filterscript</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>functiongroup</sender>
+        <signal>widgetTextChanged(const QString&amp;)</signal>
+        <receiver>proto</receiver>
+        <slot>populate()</slot>
+    </connection>
+    <connection>
+        <sender>proto</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>setfunction</receiver>
+        <slot>execute()</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>wname</tabstop>
+    <tabstop>param1</tabstop>
+    <tabstop>param2</tabstop>
+    <tabstop>param3</tabstop>
+    <tabstop>ExecButton18</tabstop>
+    <tabstop>window</tabstop>
+    <tabstop>widgetName</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
