@@ -5,8 +5,14 @@
 <title>Extending &kommander;</title>
 <authorgroup>
 <author>
-<firstname></firstname>
-<surname></surname>
+<firstname>Andras</firstname>
+<surname>Mantia</surname>
+<affiliation><address><email>amantia@kde.org</email></address></affiliation>
+</author>
+<author>
+<firstname>Michal</firstname>
+<surname>Rudolf</surname>
+<affiliation><address><email>mrudolf@kdewebdev.org</email></address></affiliation>
 </author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -14,35 +20,418 @@
 </authorgroup>
 </chapterinfo>
 
-<title>Extending &kommander;</title>
-
-<!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
-application windows and their menubar and toolbar commands for easy reference.
-Also include any keys that have a special function but have no equivalent in the
-menus or toolbars. This may not be necessary for small apps or apps with no tool
-or menu bars. -->
-
 <sect1 id="create-widgets">
 <title>Creating &kommander; Widgets</title>
 <para>
-With Kommander you can create new widgets based on non-&kommander; widgets
-fairly easily.  The approach is to derive your new &kommander; widget class from the
+With &kommander; you can create new widgets based on non-&kommander; widgets
+fairly easily.  
+</para>
+<para>There are two ways of adding new widgets to &kommander;: by creating
+plugins or by adding it directly to the &kommander; source. 
+</para>
+<sect2 id="create-class">
+<title>Create the widget class</title>
+<para>
+ The first step is to create the widget class. The approach is to derive your new &kommander; widget class from the
 &Qt;/&kde; widget which you wish to integrate with &kommander;, and then also from the
 KommanderWidget class. Overriding methods from this class gives the &kommander;
-widget its functionality.
+widget its functionality. 
 </para>
 <para>
 Most of the code of a &kommander; widget is just template code.
-Therefore, you can use the widgetgenerator.kmdr &kommander; dialog to generate
-most the &kommander; widget code for you. All you have to do is fill in the
+Therefore, you can use the KDevelop &kommander; plugin template to generate 
+most the &kommander; widget code for you. To do so run KDevelop (3.5 is recommended),
+select <guimenu>Project->New Project</guimenu>, tick the <guilabel>Show all project templates</guilabel> checkbox,
+select the <guilabel>C++/&kommander;/KommanderPlugin</guilabel> template. Give a name for your plugin and
+follow the instructions in the wizard.
+</para>
+<para>
+All you have to do is fill in the
 important parts relating to your widget like any state information, widget text
 etc.
 </para>
 <para>
 Let's say we want to create a new line edit widget for &kommander;,
-based on the &kde; widget KLineEdit. Using the &kommander; widget generator
-dialog, we get something like this in the outputted header file:
+based on the KDE widget KLineEdit. Using the &kommander; widget generator
+dialog, we get something like this in the generated header file:
 </para>
+<screen>
+#include &lt;kommanderwidget.h&gt;
+
+class QShowEvent;
+class KomLineEdit : public KLineEdit, public KommanderWidget
+{
+    Q_OBJECT
+
+    Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
+    Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
+    Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+    
+public:
+    KomLineEdit(QWidget *a_parent, const char *a_name);
+    ~KomLineEdit();
+
+    virtual QString widgetText() const;
+
+    virtual bool isKommanderWidget() const;
+    virtual void setAssociatedText(const QStringList&amp;);
+    virtual QStringList associatedText() const;
+    virtual QString currentState() const;
+
+    virtual QString populationText() const;
+    virtual void setPopulationText(const QString&amp;);
+public slots:
+    virtual void setWidgetText(const QString &amp;);
+    virtual void populate();
+protected:
+    void showEvent( QShowEvent *e );
+signals:
+    void widgetOpened();
+    void widgetTextChanged(const QString &amp;);
+};
+</screen>
+<para>Most of this is just template code that you don't need to worry about.
+The only two things you need to take notice of are that the kommanderwidget.h
+file is included at the top, and that the class is derived first from the 
+widget we wish to integrate with &kommander;, and secondly from KommanderWidget.
+</para>
+<para>
+There are a few parts in the cpp file that are important to each particular widget.
+</para>
+<screen>
+KomLineEdit::KomLineEdit(QWidget *a_parent, const char *a_name)
+    : KLineEdit(a_parent, a_name), KommanderWidget(this)
+{
+    QStringList states;
+    states &lt;&lt; "default";
+    setStates(states);
+    setDisplayStates(states);
+}
+</screen>
+<para>In the constructor, we set the states this widget may have.
+Our line edit doesn't have any kind of state, so we just
+give it one state <emphasis>default</emphasis>. If you were creating a widget
+that had different kinds of states, such as a check box, you might
+set three states <emphasis>unchecked</emphasis>, <emphasis>semichecked</emphasis> and <emphasis>checked</emphasis> here.
+</para>
+<screen>
+QString KomLineEdit::currentState() const
+{
+    return QString("default");
+}</screen>
+<para>We set the states in the constructor above, and this just
+returns the current state of the widget. For our widget
+it will always be <emphasis>default</emphasis>, but you should put code here
+that checks what state your widget is currently in and
+return the appropriate string here.
+</para>
+<screen>
+QString KomLineEdit::widgetText() const
+{
+    return KLineEdit::text();
+}
+
+void KomLineEdit::setWidgetText(const QString &amp;a_text)
+{
+    KLineEdit::setText(a_text);
+    emit widgetTextChanged(a_text);
+}
+</screen>
+<para>These are the two most important methods, where the bulk of the 
+functional code goes.
+<emphasis>QString KomLineEdit::widgetText() const</emphasis> method returns the widget text of the 
+widget (the text that the <emphasis>@widgetText</emphasis> special is expanded to in text 
+associations). For our widget, the widget text is simply the text inside 
+the line edit, so we just return that. Similarly when setting the widget text,
+we just set the text inside the line edit. We emit the <emphasis>widgetTextChanged()</emphasis>
+signal after setting the widget text so other widgets can recognise the fact 
+that this widget was updated.
+</para>
+<para>
+In order to add functionality to the widget, you need to register some function and add code to handle them. Here is the code to be used to register, put it in the beginning of the cpp file, above the constructor:
+</para>
+<screen>
+#include &lt;klocale.h&gt; //for i18n
+
+#include "kommanderplugin.h"
+#include "specials.h"
+
+enum Functions {
+  FirstFunction = 1159,
+  Function1,
+  Function2,
+  LastFunction
+};
+KomLineEdit::KomLineEdit(QWidget *a_parent, const char *a_name)
+    : KLineEdit(a_parent, a_name), KommanderWidget(this)
+{
+  ... //code like described above
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(Function1, "function1(QString widget, QString arg1, int arg2)",  i18n("Call function1 with two arguments, second is optional."), 2, 3);
+  KommanderPlugin::registerFunction(function2, "function2(QString widget)",  i18n("Get a QString as a result of function2."), 1);  
+}
+</screen>
+<para>This registers two functions: <emphasis>function1 and function2</emphasis>. The number assigned to the functions (here <emphasis>1160</emphasis> and <emphasis>1161</emphasis>) must be unique, not used in any other plugin or 
+inside &kommander;. <emphasis>function1</emphasis> takes two arguments, one is optional, <emphasis>function2</emphasis> takes no argument and returns a string. The <emphasis>QString widget</emphasis> argument in the signatures notes that this functions work on a widget, like: <emphasis>KomLineEdit.function1("foo", 1)</emphasis>.
+</para>
+<para>To teach &kommander; that the widget supports these functions, add a method like this:
+</para>
+<screen>
+bool KomLineEdit::isFunctionSupported(int f)
+{
+  return (f > FirstFunction &amp;&amp; f &lt; LastFunction) || f == DCOP::text;
+}
+</screen>
+<para>This means that KomLineEdit supports the above functions and the standard <emphasis>text</emphasis>
+function.
+The function code should be handled inside the handleDCOP method:
+</para>
+<screen>
+QString KomLineEdit::handleDCOP(int function, const QStringList&amp; args)
+{
+  switch (function)
+  {
+    case function1:
+      handleFunction1(arg[0], arg[1].toInt()); //call your function1 handler
+      break;
+    case function2:
+      return handleFunction2(); //call function2
+      break;
+    case DCOP::text:
+      return text(); //call the standard KLineEdit::text() method
+      break;
+    default:
+      return KommanderWidget::handleDCOP(function, args);
+  }
+  return QString::null;
+}
+</screen>
+<para>There are cases when the widget should appear differently in the editor than in
+the executor, like the case of ScriptObjects, about dialog, etc. The usual solution is to show a QLabel instead of the widget. For this, your widget must
+derive from QLabel, and use this in the constructor:
+</para>
+<screen>
+  if (KommanderWidget::inEditor)
+  {
+    setPixmap(KGlobal::iconLoader()->loadIcon("iconname", KIcon::NoGroup, KIcon::SizeMedium));
+    setFrameStyle(QFrame::Box | QFrame::Plain);
+    setLineWidth(1);
+    setFixedSize(pixmap()->size());
+  }
+  else
+    setHidden(true);
+</screen>
+<para>You can create the widget itself (if you need a widget at all, maybe your
+"widget" provides only functionality to access e.g databases) in one of your
+functions, like in the <emphasis>execute</emphasis> function. Here is an example from the AboutDialog widget:
+</para>
+<screen>
+QString AboutDialog::handleDCOP(int function, const QStringList&amp; args)
+{
+  switch (function) {
+  ...
+    case DCOP::execute:
+    {
+      if (m_aboutData)
+      {        
+        KAboutApplication dialog(m_aboutData, this);
+        dialog.exec();
+      }
+      break;
+    }
+   ...
+}  
+</screen>
+<para>You now have a complete &kommander; widget. All that's left
+to do is make it available to the &kommander; system via plugins.
+</para>
+
+</sect2>
+
+<sect2 id="create-plugin">
+<title>Create the &kommander; plugin</title>
+<para>
+All of the widgets in &kommander; are provided by plugins. 
+The standard widgets are loaded as widget plugins, but the &kommander; editor
+is also linked against this library because certain mechanisms in the editor
+are tied specifically to the standard widgets.
+</para>
+<para>
+A plugin in &kommander; is simply a shared library that has the symbol
+'kommander_plugin'. This symbol is a function returning a pointer
+to an instance of a KommanderPlugin class.
+</para>
+<para>
+&kommander; makes it easy to create a plugin for you widgets, so you don't
+need to worry about this low level stuff. The basic idea is to derive
+a new plugin class for your widgets from the KommanderPlugin base class
+and implement a few specific details. A template code is generated by the above described KDevelop project template.
+</para>
+<para>The following code continues on our example of creating a Kommander line edit 
+widget.
+</para>
+<screen>
+#include &lt;kommanderplugin.h>
+
+/* WIDGET INCLUDES */
+#include "komlineedit.h"
+
+</screen>
+<para>
+First thing we do is include kommanderplugin.h. This contains the definition
+of the KommanderPlugin class. We also include all header files of the widgets
+this plugin provides - only komlineedit.h in this case.
+</para>
+<screen>
+class MyKomPlugin : public KommanderPlugin
+{
+public:
+    MyKomPlugin();
+    virtual QWidget *create( const QString &amp;className, QWidget *parent = 0, const char *name = 0 );
+};
+</screen>
+<para>
+We then create a KommanderPlugin sub-class called <emphasis>MyKomPlugin</emphasis>. 
+This class simply has a constructor and an overridden create method.
+</para>
+<screen>
+MyKomPlugin::MyKomPlugin()
+{
+    addWidget( "KomLineEdit", "My Widget Group", i18n("A Kommander line edit widget") new QIconSet(KGlobal::iconLoader()->loadIcon("iconname", KIcon::NoGroup, KIcon::SizeMedium)));
+    //add my other widgets here
+}
+</screen>
+<para>In the constructor of the plugin, we call <emphasis>addWidget()</emphasis> for each widget we wish 
+to provide in this plugin. <emphasis>addWidget()</emphasis> takes 6 arguments but only the first 4 
+are required. In order, the arguments are the widget's class name, group, 
+tool tip, an iconset for the icon used in the editor toolbar, what's this information, and a bool indicating whether the widget 
+is a container for other widgets or not. This information is used
+by the editor when grouping your widget in menus, providing help information
+etc.
+</para>
+<para>
+Regarding the icon, the above example loads a medium sized icon called <emphasis>iconname</emphasis> from the standard &kde; icon location.
+</para>
+<screen>
+QWidget *MyKomPlugin::create( const QString &amp;className, QWidget *parent, const char *name )
+{
+    if( className == "KomLineEdit" )
+    return new KomLineEdit( parent, name );
+    //create my other widgets here
+    return 0;
+}
+</screen>
+<para>
+<emphasis>create()</emphasis> is where instances of our widgets actually get created. 
+Whenever &kommander; wants an instance of one of the classes provided
+by our plugin, it will call <emphasis>create()</emphasis> with the name of the class it wants,
+and the parent and name that should be used.
+If the <emphasis>className</emphasis> matches any widget we know about, we return a new instance
+of that class but otherwise we return 0.
+</para>
+<para>
+Finally, we export our plugin. This just provides an entry point to our
+plugin so the &kommander; system can get access to it. Without this,
+&kommander; will not recognise your library as a &kommander; plugin.
+</para>
+<screen>
+KOMMANDER_EXPORT_PLUGIN(MyKomPlugin)
+</screen>
+<para>
+To compile your new &kommander; extension, you should compile all files
+as a shared library, linking against the kommanderplugin, kommanderwidget
+and any appropriate KDE libraries. 
+With the line edit example, if we had komlineedit.h, komlineedit.cpp and
+mykomplugin.cpp, compiling and installing your plugin would involve
+something similar to the following commands:
+</para>
+<screen>
+libtool --mode=compile g++ -$KDEDIR/include -IQTDIR/include \
+   -I. -fPIC -c komlineedit.cpp
+libtool --mode=compile g++ -$KDEDIR/include -IQTDIR/include \
+   -I. -fPIC -c mykomplugin.cpp
+
+libtool --mode=link g++ -shared -L$KDEDIR/lib -lkdeui -lkommanderwidget \
+   -lkommanderplugin komlineedit.cppkomlineedit.o mykomplugin.o 
+   -o libmykomplugin.so
+</screen>
+<para>
+If you want to install new plugin system-wide, root, use:
+</para>
+<screen>
+su -c "cp libmykomplugin.so $KDEDIR/lib"
+</screen>
+<note><para>If you use the KDevelop project generator, you will not need to do the above, but instead adapt the Makefile.am to link against extra libraries. By default, it will link to &Qt; and &kde; libraries and generate all the needed object files. Just run <command>make</command> to build, and <command>su -c make install</command> to install.</para></note>
+</sect2>
+<para>
+Now that the plugin is installed, run the <command>kmdr-plugins</command> program or choose <guimenu>Settings->Configure Plugins</guimenu> from the Editor. The list in this program displays the 
+plugins that are currently loaded by &kommander;.  Add the new plugin to the 
+list by clicking the <guilabel>Add</guilabel> button in the toolbar and choosing your plugin. 
+Closing the program saves changes.
+</para>
+<para>
+If you now restart the &kommander; editor, the widgets your new plugin
+provides should be available in the menus and toolbars. You can
+now use your new widgets in &kommander; dialogs.
+</para>
+<sect2 id="add-widget">
+<title>Add the widget directly to &kommander;</title>
+<para>This section is for &kommander; developers and describes how to add a new widget directly to &kommander;.</para>
+<para>
+Ironically, this one is more complicated, especially if the widget needs 
+extra editing methods.
+First you create the widget like above. After that you need to register the
+widget to the editor and the executor.
+To register it inside the editor, add it to <emphasis>editor/widgetdatabase.cpp</emphasis>:
+</para>
+<screen>
+...
+#include "mywidget.h"
+...
+void WidgetDatabase::setupDataBase( int id )
+{
+  ...
+  r = new WidgetDatabaseRecord;
+  r->name = "MyWidgetName";
+  r->iconName = "icon.png";
+  r->group = widgetGroup( "Kommander" );
+  r->toolTip = i18n("My new widget");
+  append(r);
+  ...
+}
+</screen>
+<para>
+You need to add to the <emphasis>editor/widgetfactory.cpp</emphasis> as well:
+</para>
+<screen>
+...
+#include "mywidget.h"
+...
+QWidget *WidgetFactory::createWidget( const QString &amp;className, QWidget *parent, const char *name, bool init,
+  const QRect *r, Qt::Orientation orient )
+{
+  ...
+  else if (className == "MyWidgetName")
+    return new MyWidget(parent, name);    
+  ...
+}
+</screen>
+<para>
+To register to the executor (actually to the plugin system), add this to 
+<emphasis>widgets/plugin.cpp</emphasis>:
+</para>
+<screen>
+KomStdPlugin::KomStdPlugin()
+{
+  ...
+  addWidget("MyWidgetName", group, "", new QIconSet(KGlobal::iconLoader()->loadIcon("iconname", KIcon::NoGroup, KIcon::SizeMedium)));
+  ...
+}
+</screen>
+<para>This is similar to how the widget is registered via the plugin system in the
+first case.
+</para>
+</sect2>
 </sect1>
 
 </chapter>

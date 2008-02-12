@@ -204,7 +204,7 @@ derive from QLabel, and use this in the constructor:
 
 You can create the widget itself (if you need a widget at all, maybe your
 "widget" provides only functionality to access e.g databases) in one of your
-functions, like in the "execute" function. Here is an example from then
+functions, like in the "execute" function. Here is an example from the
  AboutDialog widget:
 
 --code--
