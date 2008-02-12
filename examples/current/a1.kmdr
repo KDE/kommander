@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>441</width>
-            <height>226</height>
+            <height>230</height>
         </rect>
     </property>
     <property name="caption">
@@ -161,7 +161,8 @@ debug("pid="+pid)</string>
                     </property>
                     <property name="associations" stdset="0">
                         <stringlist>
-                            <string>dialog("b1.kmdr", LineEdit7.text+" \""+LineEdit8.text+"\"")</string>
+                            <string>b = dialog("b1.kmdr", LineEdit7.text+" \""+LineEdit8.text+"\"")
+StatusBar8.setText("Returned: "+b)</string>
                         </stringlist>
                     </property>
                 </widget>
