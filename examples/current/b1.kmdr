@@ -1,0 +1,135 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form3</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form3</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>364</width>
+            <height>140</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>b1 receiver for a1</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>if str_length(_ARGS) == 0 then
+  StatusBar9.insertItem("data1="+_data1, 0)
+  StatusBar9.insertItem("data2="+_data2, 1)
+else
+  StatusBar9.insertItem("ARGCOUNT="+_ARGCOUNT, 0)
+  StatusBar9.insertItem("ARG1="+_ARG1, 1)
+  StatusBar9.insertItem("ARG2="+_ARG2, 2)
+endif
+//message_info(parentPid)</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="Label" row="0" column="0">
+            <property name="name">
+                <cstring>Label53</cstring>
+            </property>
+            <property name="text">
+                <string>Value</string>
+            </property>
+        </widget>
+        <widget class="LineEdit" row="0" column="1" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>LineEdit79</cstring>
+            </property>
+            <property name="text">
+                <string>Return me</string>
+            </property>
+        </widget>
+        <widget class="CloseButton" row="1" column="2">
+            <property name="name">
+                <cstring>CloseButton2</cstring>
+            </property>
+            <property name="text">
+                <string>Retur&amp;n</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>echo(LineEdit79.text)</string>
+                </stringlist>
+            </property>
+        </widget>
+        <spacer row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Spacer90</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>111</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="StatusBar" row="2" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>StatusBar9</cstring>
+            </property>
+        </widget>
+        <spacer row="1" column="4">
+            <property name="name">
+                <cstring>Spacer91</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>50</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="ExecButton" row="1" column="3">
+            <property name="name">
+                <cstring>ExecButton69</cstring>
+            </property>
+            <property name="text">
+                <string>DC&amp;OP</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>//message_info("parentPid = "+parentPid+"\npid = "+pid)
+dcop("kmdr-executor-"+parentPid, "KommanderIf", "setText(QString,QString)", "StatusBar8", "Hello")
+</string>
+                </stringlist>
+            </property>
+            <property name="blockGUI">
+                <enum>None</enum>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

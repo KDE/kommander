@@ -1,0 +1,257 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form2</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form2</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>441</width>
+            <height>226</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>a1 - calling dialog</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>debug(env("HOME"))
+debug("pid="+pid)</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="Label" row="0" column="0">
+            <property name="name">
+                <cstring>Label52</cstring>
+            </property>
+            <property name="text">
+                <string>Value to send b1</string>
+            </property>
+        </widget>
+        <widget class="StatusBar" row="5" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>StatusBar8</cstring>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout37</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="Label">
+                    <property name="name">
+                        <cstring>Label24</cstring>
+                    </property>
+                    <property name="text">
+                        <string>#1</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>LineEdit7</cstring>
+                    </property>
+                    <property name="text">
+                        <string>7</string>
+                    </property>
+                </widget>
+                <widget class="Label">
+                    <property name="name">
+                        <cstring>Label25</cstring>
+                    </property>
+                    <property name="text">
+                        <string>#2</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit">
+                    <property name="name">
+                        <cstring>LineEdit8</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Hello World</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="LineEdit" row="0" column="1">
+            <property name="name">
+                <cstring>LineEdit78</cstring>
+            </property>
+            <property name="text">
+                <string>Send me</string>
+            </property>
+        </widget>
+        <widget class="Label" row="1" column="0">
+            <property name="name">
+                <cstring>Label52_2</cstring>
+            </property>
+            <property name="text">
+                <string>Value to send b1</string>
+            </property>
+        </widget>
+        <widget class="LineEdit" row="1" column="1">
+            <property name="name">
+                <cstring>LineEdit79</cstring>
+            </property>
+            <property name="text">
+                <string>and again</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout83</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer21</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton36</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Call b&amp;1 with parameters</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>dialog("b1.kmdr", LineEdit7.text+" \""+LineEdit8.text+"\"")</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer22</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>46</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout84</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer88</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>80</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton128</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Call b1 with named parameters</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>b = dialog("b1.kmdr", "data1=\""+LineEdit78.text+"\" data2=\""+LineEdit79.text+"\"")
+StatusBar8.setText("Returned: "+b)</string>
+                        </stringlist>
+                    </property>
+                    <property name="blockGUI">
+                        <enum>None</enum>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer89</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>60</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
