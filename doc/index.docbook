@@ -10,6 +10,7 @@
   <!ENTITY dcop-functions SYSTEM "dcop.docbook">
   <!ENTITY editor SYSTEM "editor.docbook">
   <!ENTITY extending SYSTEM "extending.docbook">
+  <!ENTITY translating SYSTEM "translating.docbook">
   <!ENTITY glossary SYSTEM "glossary.docbook">
   <!ENTITY installation SYSTEM "installation.docbook">
   <!ENTITY introduction SYSTEM "introduction.docbook">
@@ -110,6 +111,7 @@ Please at least include KDE, the KDE package it is in, the name
 &commands;
 &parser;
 &extending;
+&translating;
 &tutorials;
 &q-and-a;
 &credits;

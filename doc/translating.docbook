@@ -1,0 +1,72 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+
+<chapter id="translating">
+<chapterinfo>
+<authorgroup>
+<author>
+<firstname>András</firstname>
+<surname>Mantia</surname>
+<affiliation><address><email>amantia@kde.org</email></address></affiliation>
+</author>
+<author>
+<firstname>Michal</firstname>
+<surname>Rudolf</surname>
+<affiliation><address><email>mrudolf@kdewebdev.org</email></address></affiliation>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+</authorgroup>
+</chapterinfo>
+<title>Translating &kommander; dialogs</title>
+
+<sect1 id="translation-howto">
+<title>Translating &kommander; dialogs</title>
+<para>
+&kommander; dialogs can be translated to different languages. The mechanism is similar to the translation of other &kde; applications. The dialog is written in English, the texts that are needed to be translated are specially marked. A tool extracts these strings, another tool can be used to translate them. The translation then can be compiled and installed and the dialog will automatically recognize and use it.
+</para>
+<para>
+Here is a short description about the needed steps to make a dialog translatable and translated it:
+<orderedlist>
+<listitem><para>How to prepare dialog to be translated?</para>
+<para>Always use <emphasis>@i18n("This is my text")</emphasis> when you use some English text. This marks "This is my text" as a text to be translated.</para>
+</listitem>
+
+<listitem><para>How to extract the messages and create the .po file?</para>
+<para>
+    Use the <command>kmdr2po</command> script to extract the strings. The script is inside the <emphasis>working</emphasis> directory of the source release tarball and should be installed to <command>$KDEDIR/share/apps/kommander/</command> as well.
+</para>
+<para>
+Just run:
+<screen>
+kmdr2po &lt;your-kommander-dialog.kmdr>
+</screen>       
+An appropriate &lt;your-kommander-dialog.po> file will be created.
+</para>
+</listitem>
+
+<listitem>
+<para>How to translate it?</para>
+<para>Use <command>KBabel</command>  to translate it. <command>Use msgfmt</command>  to compile the translation. Look at <ulink url="http://i18n.kde.org">http://i18n.kde.org</ulink> for help on this subject.</para>
+</listitem>
+
+<listitem><para>How to install the translation?</para>
+<para>Put the compiled *.mo file either to</para>
+<para><command>$KDEDIR/share/locale/&lt;your language>/LC_MESSAGES/</command> (will be available globally for all users)</para>
+<para>or to </para>
+<para><command>$HOME/.kde/share/locale/&lt;your language>/LC_MESSAGES/</command> (will be available only for the current user)</para> 
+<para>directory.</para>
+</listitem>
+</orderedlist>
+</para>
+
+<para>
+To open a different catalog (translation *.mo file) for a dialog, use the -c argument for kmdr-executor. The below example will take the translations from the Quanta translation file:
+<screen>
+kmdr-executor mydialog.kmdr -c quanta
+</screen>
+
+</para>
+</sect1>
+
+</chapter>
