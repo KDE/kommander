@@ -41,7 +41,7 @@ debug("pid="+pid)</string>
                 <cstring>Label52</cstring>
             </property>
             <property name="text">
-                <string>Value to send b1</string>
+                <string>data1</string>
             </property>
         </widget>
         <widget class="StatusBar" row="5" column="0" rowspan="1" colspan="2">
@@ -110,7 +110,7 @@ debug("pid="+pid)</string>
                 <cstring>Label52_2</cstring>
             </property>
             <property name="text">
-                <string>Value to send b1</string>
+                <string>data2</string>
             </property>
         </widget>
         <widget class="LineEdit" row="1" column="1">
