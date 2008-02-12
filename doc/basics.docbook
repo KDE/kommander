@@ -35,7 +35,7 @@ your application. -->
 
 
 <para>
-&kommander; was originally designed around a simple concept that has proven somewhat revolutionairy among visual design tools. Typically these tools allow you to create dialogs and possibly mainwindow interfaces.  Of course a mainwindow interface is the main program window which typically has menus, toolbars, statusbar and the application area. Dialogs are child windows which typically don't have menus and are so named because their purpose is to <quote>have a dialog</quote> or exchange information between you and the main application. The elements on a dialog are called <quote>widgets</quote> and you hook your program into these widgets. &kommander; is different because it is inherently nonprogrammatic here. It uses the concept of associating text with the widgets on the dialog. Initially this was called <quote>Associated Text</quote> but now it is called <quote>&kommander; Text</quote>. Widgets on &kommander; dialogs can include the content of other widgets by reference and a widget can reference its own content by use of a <quote>Special</quote> that looks like this, @widgetText. Specials are commands with special meaning in &kommander;. So if you created a dialog with two LineEditwidgets and named the first <quote>FirstName</quote> and the second <quote>LastName</quote> you could create a button and set its &kommander; Text to <quote>My name is @FirstName @LastName</quote>. You would need to set @widgetText in the first and last name widgets. Remember?  We need to tell &kommander; to reference the text in them.  You could run this from a <application>Konsole</application> and it would output the string for you. So it would reference the first name like so:  @FirstName -> get the widget named FirstName(@FirstName) -> @widgetText -> get the contents of the LineEdit widget.  So in this case @FirstName returns <quote>Eric</quote>:  @FirstName -> @widgetText -> <quote>Eric</quote>.
+&kommander; was originally designed around a simple concept that has proven somewhat revolutionairy among visual design tools. Typically these tools allow you to create dialogs and possibly mainwindow interfaces.  Of course a mainwindow interface is the main program window which typically has menus, toolbars, statusbar and the application area. Dialogs are child windows which typically don't have menus and are so named because their purpose is to <quote>have a dialog</quote> or exchange information between you and the main application. The elements on a dialog are called <quote>widgets</quote> and you hook your program into these widgets. &kommander; is different because it is inherently nonprogrammatic here. It uses the concept of associating text with the widgets on the dialog. Initially this was called <quote>Associated Text</quote> but now it is called <quote>&kommander; Text</quote>. Widgets on &kommander; dialogs can include the content of other widgets by reference and a widget can reference its own content by use of a <quote>Special</quote> that looks like this, @widgetText. Specials are commands with special meaning in &kommander;. So if you created a dialog with two LineEdit widgets and named the first <quote>FirstName</quote> and the second <quote>LastName</quote> you could create a button and set its &kommander; Text to <quote>My name is @FirstName @LastName</quote>. You would need to set @widgetText in the first and last name widgets. Remember?  We need to tell &kommander; to reference the text in them.  You could run this from a <application>Konsole</application> and it would output the string for you. So it would reference the first name like so:  @FirstName -> get the widget named FirstName(@FirstName) -> @widgetText -> get the contents of the LineEdit widget.  So in this case @FirstName returns <quote>Eric</quote>:  @FirstName -> @widgetText -> <quote>Eric</quote>.
 </para>
 
 <para>
@@ -80,7 +80,20 @@ That should give you the base concepts to begin using &kommander;. We try to kee
 <title>The Executor</title>
 
 <para>
-The executor, called <application>kmdr-executor</application>, runs &kommander; scripts.  It loads <literal role="extension">.kmdr</literal> files and dynamically produces a fully functional dialog.
+The executor, called <application>kmdr-executor</application>, runs &kommander; scripts.  It loads <literal role="extension">.kmdr</literal> files and dynamically produces a fully functional dialog. 
+<warning><para>Starting with version 1.3, the executor warns if the script file is not executable. This is an extra security feature that tries to make the user think about the possible bad consequences of running a script from untrusted source. The user can confirm to run the dialog or if he trusts the source, can make the script executable and get rid of the warning completely.</para></warning>
+<note><para>Version 1.3 supports the <emphasis>#!/path/kmdr-executor</emphasis> shebang in the beginning of the .kmdr script files (replace path with path to the 
+Such files if they are made executable can be run from command line just like any executable application, without the need to pass the script to kmdr-executor as argument.</para>
+<para>
+Remember, that once you add the shebang at the beginning of the file, the dialog cannot be run or edited with older versions of &kommander;.</para>
+<para>The recommended usage is
+<screen>
+#!/usr/bin/kommander
+</screen>
+and create a symlink from kmdr-executor to /usr/bin/kommander.</para>
+<para>The shebang can be added to a dialog directly from the editor, by modifying the <guilabel>useShebang</guilabel> and <guilabel>shebang</guilabel> properties for the main dialog.</para>
+
+</note>
 </para>
 
 <sect2 id="executor-for-programmers">
@@ -89,15 +102,20 @@ The executor, called <application>kmdr-executor</application>, runs &kommander; 
 <para>
 C++ developers can easily use the Instance class in their C++ programs so that the execution functionality is embedded in the their application obsoleting the need for running the external executor program.  For standard dialog the dialog creation overhead is minimal but the creation of the &kde; application may delay the dialog for around a second.
 </para>
-<para>Another approach is to use the <emphasis>kommander_part</emphasis> KReadOnlyPart. This KPart can load and execute any Kommander dialog inside another KDE application.</para>
+<para>Another approach is to use the <emphasis>kommander_part</emphasis> KReadOnlyPart. This KPart can load and execute any &kommander; dialog inside another KDE application.</para>
 </sect2>
 
 </sect1>
 
 <sect1 id="create-dialog">
 <title>Creating a Dialog</title>
-
-<para></para>
+<para>
+To learn about how to create a dialog, add widgets, use layouts, modify widgets properties, please consult the &Qt; Designer (version 3.x) manual. You can access it by running <command>designer</command> from the command line or from your desktop menu.
+</para>
+<para>
+The extra functionality that &kommander; offers is the <guilabel>Kommander Text</guilabel> associated with each widget. These texts are the executable (script) part of the dialog, written either in a script language (with the old &kommander; syntax) or using the internal &kommander; language, the so called new parser.
+</para>
+<para>To learn more about the language syntax, commands and how to use the text editor, consult the upcoming chapters and check the examples shipped with the &kommander; source.</para>
 </sect1>
 
 </chapter>

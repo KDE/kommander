@@ -45,7 +45,7 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 <listitem><para>Toolbars contain a number of buttons to provide quick access to number of functions.</para></listitem>
 <listitem><para>The File Overview displays all of the files.  Use the search field to rapidly switch between files.</para></listitem>
 <listitem><para>The Object Explorer provides an overview of the relationships between the widgets in a form.  It is useful for selecting widgets in a form with a complex layout.</para></listitem>
-<listitem><para>The Property Editor is where the behavior and apperance of a widget is changed.</para></listitem>
+<listitem><para>The Property Editor is where the behavior and appearance of a widget is changed.</para></listitem>
 <listitem><para>The Dialog Editor is where dialogs are created and edited.</para></listitem>
 </orderedlist>
 </sect2>
@@ -77,6 +77,13 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 <varlistentry>
 <term><menuchoice>
 <guimenu>File</guimenu>
+<guimenuitem>Open Recent</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Quick list of the last several files you've opened.  This list will change each time you open a file that is not on it with the oldest being bumped off first.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
 <guimenuitem>Close</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Closes the active dialog</action></para></listitem>
@@ -104,13 +111,6 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 <guimenuitem>Save All</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Saves all open dialogs</action></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<guimenu>File</guimenu>
-<guimenuitem>Recently Opened Files</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Quick list of the last several files you've opened.  This list will change each time you open a file that is not on it with the oldest being bumped off first.</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><menuchoice>
@@ -210,23 +210,6 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 </varlistentry>
 <varlistentry>
 <term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Alt;<keycap>S</keycap></keycombo>
-</shortcut>
-<guimenu>Edit</guimenu>
-<guimenuitem>Script Objects</guimenuitem>
-</menuchoice></term>
-<listitem><para><action></action></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<guimenu>Edit</guimenu>
-<guimenuitem>Slots</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Displays window to edit and create slots and functions.</action></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
 <guimenu>Edit</guimenu>
 <guimenuitem>Connectors</guimenuitem>
 </menuchoice></term>
@@ -288,10 +271,10 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 <varlistentry>
 <term><menuchoice>
 <guimenu>Tools</guimenu>
-<guisubmenu>Kommander</guisubmenu>
+<guisubmenu>&kommander;</guisubmenu>
 </menuchoice></term>
 <listitem>
-<para>Here there are listed all the Kommander widgets. This widgets are guaranteed to be available on every system running the same (or higher) version of Kommander.</para>
+<para>Here there are listed all the &kommander; widgets. This widgets are guaranteed to be available on every system running the same (or higher) version of &kommander;.</para>
 </listitem>
 </varlistentry>
 
@@ -358,7 +341,7 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 <varlistentry>
 <term><menuchoice>
 <guimenu>Layout</guimenu>
-<guimenuitem>Lay Out Horzontially (in Splitter)</guimenuitem>
+<guimenuitem>Lay Out Horizontally (in Splitter)</guimenuitem>
 </menuchoice></term>
 <listitem><para><action></action></para></listitem>
 </varlistentry>
@@ -565,7 +548,7 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 <menuchoice>
 <guimenu>Window</guimenu>
 <guisubmenu>Toolbars</guisubmenu>
-<guimenuitem>Kommander</guimenuitem>
+<guimenuitem>&kommander;</guimenuitem>
 </menuchoice>
 </term>
 <listitem><para></para></listitem>
@@ -602,6 +585,42 @@ For those of you already familiar with using &designer;, using the &kmdr-editor;
 </varlistentry>
 </variablelist>
 </listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The Settings Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Shortcuts</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>See and modify the editor keyboard shortcuts.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Plugins</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Add or remove &kommander; plugins. The editor needs to be restarted after a new plugin is added.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Editor</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Configure the text editor used for modifying the Kommander text associated with widgets.</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure &kommander;</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Configure how the editor looks and works.</action></para></listitem>
 </varlistentry>
 </variablelist>
 </para>

@@ -3,18 +3,6 @@
 <sect1 id="widgets">
 <sect1info>
 <title>Widgets</title>
-<authorgroup>
-<author>
-<firstname></firstname>
-<surname></surname>
-<affiliation><address>
-<email></email>
-</address></affiliation>
-</author>
-
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-
-</authorgroup>
 </sect1info>
 
 <title>Widgets</title>
@@ -23,26 +11,30 @@
 The building blocks of a &kommander; dialog are the widgets.  They are like any other widget in the &Qt; and &kde; libraries except they have some extra functionality that allows them to have a <quote>text association</quote>.  Text is associated with a state of the widget or its populate slot.  The number of states depends on the widget.  If a widget only has one state, that state is called default.
 </para>
 
-<para>Widget text blah blah</para>
+<note>
+<para>The main dialog has two special states for &kommander; text.  They are Initialization and Destroy.  These are run when the dialog is initialized and when it is destroyed.  These protect against what is know as <quote>race</quote> problems on open and mean that you do not require any special procedures on close to manage housekeeping.</para>
+<para>In case of using a MainWindow based application (created with &Qt; Designer), there are no Initialization and Destroy states, instead the <emphasis>initialize</emphasis> and <emphasis>destroy</emphasis> signals can be used to get information when is the application constructed or closed</para>
+</note>
 
-<para>The dialog has two special states for &kommander; text.  They are Initiate and Destroy.  These are run when the dialog is initialized and when it is destroyed.  These protect against what is know as <quote>race</quote> problems on open and mean that you do not require any special procedures on close to manage housekeeping.</para>
-
+<para>
+Below are the standard &kommander; widgets. Each of them has numerous functions, you can learn about them by looking at the widget functions in the <guilabel>Function Browser</guilabel>. Many of them have signals and slots as well, documentation about these methods can be found in the &Qt; and &kde; API documentation. Each &kommander; widget has a note about its base widget.
+</para>
 
 <variablelist>
+
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="buttongroup.png" format="PNG" />
+<imagedata fileref="label.png" format="PNG" />
 </imageobject></inlinemediaobject>
-ButtonGroup
+Label
 </term>
 <listitem>
 <para>
-A container to organize buttons into a group.  An optional title can be set using the title property.  The frame can be adjusted with the lineWidth property.  The button group can be set to exclusive by setting the exclusive property to true.  This means when one toggle button is clicked all other toggle buttons will be set to off with the exception of radio buttons that are always mutual exclusive even if the group is non-exclusive.  Radio buttons can be set to non-exclusive using the radioButtonExclusive property.  (I am not so sure that this property actually works.)
+A simple widget that contains a piece of text.  This widget lets you set a pixmap too.
 </para>
-<para>ButtonGroup has one state, default.</para>
-<para>
-The widget text for a ButtonGroup is the text associations for each of the buttons in the order they appear in the ButtonGroup.
+<para> 
+See the QLabel documentation to learn more about text labels in &Qt;.
 </para>
 </listitem>
 </varlistentry>
@@ -50,19 +42,40 @@ The widget text for a ButtonGroup is the text associations for each of the butto
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="checkbox.png" format="PNG" />
+<imagedata fileref="pixlabel.png" format="PNG" />
 </imageobject></inlinemediaobject>
-CheckBox
+PixmapLabel
 </term>
 <listitem>
 <para>
-A button that can be checked on and off.  It can also be semi-checked if the tristate property is set to true.  The label associated with the CheckBox is set in the text property.  Setting the checked property will have the CheckBox initially checked.
+A simple widget that contains an image or text label.  The pixmap to display is set in the pixmap property.  The text is set in the text property.  Only one of these properties can be set at the same time (I think, I can't get the editor to set both at the same time).  If scaledContents is set to true the image will be scaled to fit the size of the widget.  The format of the text can be set with the textFormat property.
 </para>
 <para>
-A CheckBox has 3 states, checked, semichecked, and unchecked.
+See the QLabel documentation to learn more about text labels in &Qt;.
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="lineedit.png" format="PNG" />
+</imageobject></inlinemediaobject>
+LineEdit
+</term>
+<listitem>
+<para>
+A LineEdit widget is a one line text editor.  It allows the user to enter and modify a single line of text.  Initial text for the editor can be set in the text property.  The widget can be set to read-only with the readOnly property.  There are 3 modes for the widget, Normal, NoEcho, and Password.  The mode is set with the echoMode property.
 </para>
 <para>
-The widget text for a CheckBox is the value from the text property.
+LineEdit has one state, default.
+</para>
+<para>
+The widget text for LineEdit is the text contained in the editor.
+</para>
+<para>
+See the KLineEdit documentation to learn more about text labels in &kde;.
 </para>
 </listitem>
 </varlistentry>
@@ -70,19 +83,56 @@ The widget text for a CheckBox is the value from the text property.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="pushbutton.png" format="PNG" />
+<imagedata fileref="multilineedit.png" format="PNG" />
 </imageobject></inlinemediaobject>
-CloseButton
+TextEdit
 </term>
 <listitem>
 <para>
-A button that when clicked, executes its text association and then closes the dialog.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true.
+A simple multi-line text editor.
 </para>
 <para>
-CloseButton has one state, default.
+See the KTextEdit documentation to learn more about multiline text edit in &kde;.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="textbrowser.png" format="PNG" />
+</imageobject></inlinemediaobject>
+TextBrowser
+</term>
+<listitem>
+<para>
+A simple reach text browser with hyperlink navigation.
 </para>
 <para>
-There isn't any widget text associated with a CloseButton.
+See the KTextBrowser documentation to learn more about it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="listbox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ListBox
+</term>
+<listitem>
+<para>
+A ListBox widget provides a list of selectable items.  Normally one or no items are selected.  This behavior can be changed with the selectionMode property.  Items are added to the ListBox using the edit window.
+</para>
+<para>
+A ListBox has only one state, default.
+</para>
+<para>
+The widget text for a ListBox is the items contained in the ListBox.  @selectedWidgetText will return only the items that are currently selected.
+</para>
+<para>
+See the KListBox documentation to learn more about it.
 </para>
 </listitem>
 </varlistentry>
@@ -104,6 +154,44 @@ ComboBox has one state, default.
 <para>
 The widget text for a ComboBox is the text of the selected item.
 </para>
+<para>
+See the KComboBox documentation to learn more about it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="listview.png" format="PNG" />
+</imageobject></inlinemediaobject>
+TreeWidget
+</term>
+<listitem>
+<para>
+A widget that provides a list in the form of a tree structure. You can add child items and multi-column data. The current limitation is that you cannot modify columns. To add a child node use <quote>/</quote> as a separator. To add column data use the escaped tab <quote>\t</quote> character between columns.
+</para>
+<para>
+See the KListView documentation to learn more about it.
+</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="table.png" format="PNG" />
+</imageobject></inlinemediaobject>
+Table
+</term>
+<listitem>
+<para>
+A table widget that support different widgets in its cells.
+</para>
+<para>
+See the QTable documentation to learn more about it.
+</para>
 </listitem>
 </varlistentry>
 
@@ -124,6 +212,46 @@ ExecButton has one state, default.
 <para>
 There isn't widget text associated with ExecButton.
 </para>
+<para>
+See the KPushButton documentation to learn more about it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="pushbutton.png" format="PNG" />
+</imageobject></inlinemediaobject>
+CloseButton
+</term>
+<listitem>
+<para>
+A button that when clicked, executes its text association and then closes the dialog.  The label on the button is set with the text property.  Output from the text association (how to say that) will be echoed to stdout if the writeStdout property is set to true.  The button can be the default action for the dialog if the default property is set to true.
+</para>
+<para>
+CloseButton has one state, default.
+</para>
+<para>
+There isn't any widget text associated with a CloseButton.
+</para>
+<para>
+See the KPushButton documentation to learn more about it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="konsole.png" format="PNG" />
+</imageobject></inlinemediaobject>
+Konsole
+</term>
+<listitem>
+<para>
+A widget that captures the output of scripts in a text browser. The default state is executed and the output of those commands (internal or external) are shown in the widget.
+</para>
 </listitem>
 </varlistentry>
 
@@ -132,17 +260,81 @@ There isn't widget text associated with ExecButton.
 <inlinemediaobject><imageobject>
 <imagedata fileref="lineedit.png" format="PNG" />
 </imageobject></inlinemediaobject>
-FileChooser
+FileSelector
 </term>
 <listitem>
 <para>
-The FileChooser widget combines a LineEdit with a button when clicked will present the user with dialog for the selection of files/folders.  The file/folder selected is stored in the LineEdit.  The type of the FileChooser is set with the selectionType property.  Available types are Open, Save, and Directory.  Multiple files/folders can be selected if the selectionOpenMutliple property is set to true.  A caption for the FileChooser can be set with the selectionCaption property.  This is display as the window title of the dialog.  If a caption isn't specified, the type of selection will be display in the title.  The files displayed in the dialog can be limited using the selectionFilter property.
+The FileSelector widget combines a LineEdit with a button when clicked will present the user with dialog for the selection of files/folders.  The file/folder selected is stored in the LineEdit.  The type of the FileSelector is set with the selectionType property.  Available types are Open, Save, and Directory.  Multiple files/folders can be selected if the selectionOpenMutliple property is set to true.  A caption for the FileChooser can be set with the selectionCaption property.  This is display as the window title of the dialog.  If a caption isn't specified, the type of selection will be display in the title.  The files displayed in the dialog can be limited using the selectionFilter property.
 </para>
 <para>
-FileChooser has one state, default.
+FileSelector has one state, default.
 </para>
 <para>
-The widget text for a FileChooser is the text contained in the LineEdit (the file chosen by the user).
+The widget text for a FileSelector is the text contained in the LineEdit (the file chosen by the user).
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="checkbox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+CheckBox
+</term>
+<listitem>
+<para>
+A button that can be checked on and off.  It can also be semi-checked if the tristate property is set to true.  The label associated with the CheckBox is set in the text property.  Setting the checked property will have the CheckBox initially checked.
+</para>
+<para>
+A CheckBox has 3 states, checked, semichecked, and unchecked.
+</para>
+<para>
+The widget text for a CheckBox is the value from the text property.
+</para>
+<para>
+See the KCheckBox documentation to learn more about it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="radiobutton.png" format="PNG" />
+</imageobject></inlinemediaobject>
+RadioButton
+</term>
+<listitem>
+<para>
+A button that can be checked or unchecked, usually used in the ButtonGroup to make an exclusive choice.  A label associated with the button can be set in the text property.  A button can be initialized to checked by setting the checked property to true.  If all RadioButtons in a ButtonGroup have the checked property set to true, then the last button will be the one that is checked.
+</para>
+<para>
+RadioButton has 2 states checked and unchecked.
+</para>
+<para>
+There is no widget text associated with a RadioButton.
+</para>
+<para>
+See the KRadioButton documentation to learn more about it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="buttongroup.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ButtonGroup
+</term>
+<listitem>
+<para>
+A container to organize buttons into a group.  An optional title can be set using the title property.  The frame can be adjusted with the lineWidth property.  The button group can be set to exclusive by setting the exclusive property to true.  This means when one toggle button is clicked all other toggle buttons will be set to off with the exception of radio buttons that are always mutual exclusive even if the group is non-exclusive.  Radio buttons can be set to non-exclusive using the radioButtonExclusive property.  (I am not so sure that this property actually works.)
+</para>
+<para>ButtonGroup has one state, default.</para>
+<para>
+The widget text for a ButtonGroup is the text associations for each of the buttons in the order they appear in the ButtonGroup.
 </para>
 </listitem>
 </varlistentry>
@@ -170,19 +362,16 @@ The widget text for GroupBox is the text associations of each of the widgets it 
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="lineedit.png" format="PNG" />
+<imagedata fileref="tabwidget.png" format="PNG" />
 </imageobject></inlinemediaobject>
-LineEdit
+TabWidget
 </term>
 <listitem>
 <para>
-A LineEdit widget is a one line text editor.  It allows the user to enter and modify a single line of text.  Initial text for the editor can be set in the text property.  The widget can be set to read-only with the readOnly property.  There are 3 modes for the widget, Normal, NoEcho, and Password.  The mode is set with the echoMode property.
+A widget that provides multiple tabs each may contain other widgets.
 </para>
 <para>
-LineEdit has one state, default.
-</para>
-<para>
-The widget text for LineEdit is the text contained in the editor.
+See the KTabWidget documentation to learn more about it.
 </para>
 </listitem>
 </varlistentry>
@@ -190,19 +379,22 @@ The widget text for LineEdit is the text contained in the editor.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="listbox.png" format="PNG" />
+<imagedata fileref="spinbox.png" format="PNG" />
 </imageobject></inlinemediaobject>
-ListBox
+SpinBoxInt
 </term>
 <listitem>
 <para>
-A ListBox widget provides a list of selectable items.  Normally one or no items are selected.  This behavior can be changed with the selectionMode property.  Items are added to the ListBox using the edit window.
+A widget that allows the user to change a integer value by either press up and down arrows or entering a value into the box.  Minimum and maximum values for the widget can be set with the minValue and maxValue properties.  The specialValueText property is used to set a text value that will be displayed instead of the minimum value.
 </para>
 <para>
-A ListBox has only 1 state, default.
+This widget has only one state, default.
 </para>
 <para>
-The widget text for a ListBox is the items contained in the ListBox.  @selectedWidgetText will return only the items that are currently selected.
+The widget text for a SpinBoxInt is the currently displayed integer.
+</para>
+<para>
+See the QSpinBox documentation to learn more about it.
 </para>
 </listitem>
 </varlistentry>
@@ -210,50 +402,16 @@ The widget text for a ListBox is the items contained in the ListBox.  @selectedW
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="listview.png" format="PNG" />
+<imagedata fileref="slider.png" format="PNG" />
 </imageobject></inlinemediaobject>
-ListView
+Slider
 </term>
 <listitem>
 <para>
-This widget is now &kommander; enabled.  It is functionally the same as the tree widget so please reference that.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<inlinemediaobject><imageobject>
-<imagedata fileref="pixlabel.png" format="PNG" />
-</imageobject></inlinemediaobject>
-PixmapLabel
-</term>
-<listitem>
-<para>
-A simple widget that contains an image or text label.  The pixmap to display is set in the pixmap property.  The text is set in the text property.  Only one of these properties can be set at the same time (I think, I can't get the editor to set both at the same time).  If scaledContents is set to true the image will be scaled to fit the size of the widget.  The format of the text can be set with the textFormat property.
+A widget that provides horizontal or vertical slider.
 </para>
 <para>
-This widget isn't &kommander; enabled and doesn't have any states or widget text.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<inlinemediaobject><imageobject>
-<imagedata fileref="radiobutton.png" format="PNG" />
-</imageobject></inlinemediaobject>
-RadioButton
-</term>
-<listitem>
-<para>
-A button that can be checked or unchecked, usually used in the ButtonGroup to make an exclusive choice.  A label associated with the button can be set in the text property.  A button can be initialized to checked by setting the checked property to true.  If all RadioButtons in a ButtonGroup have the checked property set to true, then the last button will be the one that is checked.
-</para>
-<para>
-RadioButton has 2 states checked and unchecked.
-</para>
-<para>
-There is no widget text associated with a RadioButton.
+See the QSlider documentation to learn more about it.
 </para>
 </listitem>
 </varlistentry>
@@ -281,19 +439,16 @@ The widget text for RichTextEditor is the text contained in the editor in rich t
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="spinbox.png" format="PNG" />
+<imagedata fileref="statusbar.png" format="PNG" />
 </imageobject></inlinemediaobject>
-SpinBoxInt
+StatusBar
 </term>
 <listitem>
 <para>
-A widget that allows the user to change a integer value by either press up and down arrows or entering a value into the box.  Minimum and maximum values for the widget can be set with the minValue and maxValue properties.  The specialValueText property is used to set a text value that will be displayed instead of the minimum value.
+A widget to display status information, usually used at the bottom of the dialogs.
 </para>
 <para>
-This widget has only one state, default.
-</para>
-<para>
-The widget text for a SpinBoxInt is the currently displayed integer.
+See the KStatusBar documentation to learn more about it.
 </para>
 </listitem>
 </varlistentry>
@@ -301,34 +456,16 @@ The widget text for a SpinBoxInt is the currently displayed integer.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="frame.png" format="PNG" />
+<imagedata fileref="progressbar.png" format="PNG" />
 </imageobject></inlinemediaobject>
-SubDialog
+ProgressBar
 </term>
 <listitem>
 <para>
-A button that runs another &kommander; dialog when pressed.  The dialog to run is set in the kmdrFile property.  If the default property is set to true, the dialog will be run if enter is pressed while the dialog has focus.  I think that you can also use it as a container.  I need to play with this some more.
+A widget to display progress information.
 </para>
 <para>
-SubDialog has one state, default.
-</para>
-<para>
-The widget text for SubDialog is the text association of the dialog it executes.
-</para>
-<note><para>This was meant to contain the dialog, which is deprectaed with the new project concept.  Should we leave it with <function>@dialog()</function> in its &kommander; text or get rid of it?  As it is it is not right.</para></note>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<inlinemediaobject><imageobject>
-<imagedata fileref="tabwidget.png" format="PNG" />
-</imageobject></inlinemediaobject>
-TabWidget
-</term>
-<listitem>
-<para>
-A widget that provides multiple tabs each may contain other widgets.
+See the KProgress documentation to learn more about it.
 </para>
 </listitem>
 </varlistentry>
@@ -336,13 +473,16 @@ A widget that provides multiple tabs each may contain other widgets.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="multilineedit.png" format="PNG" />
+<imagedata fileref="scriptobject.png" format="PNG" />
 </imageobject></inlinemediaobject>
-TextEdit
+ScriptObject
 </term>
 <listitem>
 <para>
-A simple multi-line text editor.
+This is a pseudo-widget, it does not appear when the dialog is run. It can be though about as a function. A ScriptObject holds code that can be executed anytime from the dialog by calling its <emphasis>execute</emphasis> function. Arguments can be passed to the ScripObject with the above method and accessed inside the ScriptObject as <emphasis>@Self.item(0), @Self.item(1), etc.</emphasis> if using the old style parsing or <emphasis>Self.item(0, Self.item(1), etc.</emphasis> with the new parser.
+</para>
+<para>
+Signals can be connected to the <emphasis>execute</emphasis> function as well, as it acts also as a slot.
 </para>
 </listitem>
 </varlistentry>
@@ -350,16 +490,19 @@ A simple multi-line text editor.
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="label.png" format="PNG" />
+<imagedata fileref="timer.png" format="PNG" />
 </imageobject></inlinemediaobject>
-TextLabel
+Timer
 </term>
 <listitem>
 <para>
-A simple widget that contains a piece of text.  This widget lets you set a pixmap too.  OK, the editor says that they are both QLabels.  Why do we have 2 widgets that look to be the same thing, but different names? - Scheduled to be fixed in A7.
+This is a pseudo-widget, it does not appear when the dialog is run. It can be used to perform an action after a specified time once, or regularly. Set the timeout <guilabel>interval</guilabel> in milliseconds, choose if it should run once (<guilabel>singleShot</guilabel>) or not. Connect its <emphasis>timeout</emphasis> signal to a slot, which will be executed once the specified time passes.
 </para>
 <para>
-As of Alpha 6 this widget is partially enabled and can be set using exteranl DCOP calls.
+The timer is not started by default, run the <emphasis>execute</emphasis> function to start it.
+</para>
+<para>
+See the QTimer documentation to learn more.
 </para>
 </listitem>
 </varlistentry>
@@ -367,15 +510,89 @@ As of Alpha 6 this widget is partially enabled and can be set using exteranl DCO
 <varlistentry>
 <term>
 <inlinemediaobject><imageobject>
-<imagedata fileref="listview.png" format="PNG" />
+<imagedata fileref="datepicker.png" format="PNG" />
 </imageobject></inlinemediaobject>
-TreeWidget
+DatePicker
 </term>
 <listitem>
 <para>
-A widget that provides a list in the form of a tree structure. This widget is now fully enabled to add or remove items as of Alpha 6. You can add child items and multi-column data. The current limitation is that you cannot modify columns. To add a child node use <quote>/</quote> as a separator. To add column data use the escaped tab <quote>\t</quote> character between columns.
+A widget used to select a date. The default date can be set in the <guilabel>date</guilabel> property or with the <emphasis>setText</emphasis> function in ISO format: <emphasis>YYYY-MM-DD</emphasis>.
 </para>
+<para>
+The widget text is the currently displayed date.
+</para>
+<para>
+See the KDatePicker documentation to learn more.
+</para>
+<note><para>New in Kommander 1.3.</para></note>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="aboutdialog.png" format="PNG" />
+</imageobject></inlinemediaobject>
+AboutDialog
+</term>
+<listitem>
+<para>
+This is a pseudo-widget, it does not appear when the dialog is run. It stores information about the application, the authors, the license. Shows the about dialog 
+when the <emphasis>execute</emphasis> function is called.
+<warning><para>The <emphasis>initialize</emphasis> function must be called before anything else, including the <emphasis>execute</emphasis> function.</para></warning>
+</para>
+<note><para>New in Kommander 1.3.</para></note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="fontdialog.png" format="PNG" />
+</imageobject></inlinemediaobject>
+FontDialog
+</term>
+<listitem>
+<para>
+A pseudo-widget, that can be used to get a font selection dialog. The default font can be set with the <emphasis>setFont</emphasis> function, and the selected font's properties retrieved with the <emphasis>family, pointSize, bold, italic</emphasis> functions. The dialog is shown when the <emphasis>execute</emphasis> function is called.
+</para>
+<note><para>New in Kommander 1.3.</para></note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="popupmenu.png" format="PNG" />
+</imageobject></inlinemediaobject>
+PopupMenu
+</term>
+<listitem>
+<para>
+A pseudo-widget, that can be used to display a menu. Use the <emphasis>insert...</emphasis> functions to add menu entries. Whenever the user clicks on a menu entry, the specified <emphasis>executeWidget</emphasis>'s <emphasis>execute</emphasis> function will be run. It is possible to connect the menu entries to the popupmenu's own <emphasis>execute</emphasis> function, in which case the text assigned to the <emphasis>default</emphasis> state is run.
+</para>
+<para>To show the menu, use <emphasis>popup</emphasis> slot. Usually this is connected to another widget's <emphasis>contextMenuRequested</emphasis> signal.</para>
+<para>A menu can contain other PopupMenu submenus.</para>
+<note><para>New in Kommander 1.3.</para></note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<inlinemediaobject><imageobject>
+<imagedata fileref="toolbox.png" format="PNG" />
+</imageobject></inlinemediaobject>
+ToolBox
+</term>
+<listitem>
+<para>
+A container widget, like TabWidget. It has several pages, each page can hold other widgets.
+</para>
+<para>See the QToolBox documentation to learn more about it.</para>
+<note><para>New in Kommander 1.3.</para></note>
+</listitem>
+</varlistentry>
+
+
 </variablelist>
 </sect1>

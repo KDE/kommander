@@ -97,12 +97,6 @@ try to change something in a widget and read it in the middle of a script you ma
 <screen>
 #!/usr/bin/php
 </screen>
-It is also possible to make Kommander scripts executable with a sheebang at the top of the script.
-<screen>
-#!/usr/bin/kommander
-</screen>
-It is recommended to create a symlink if you want to use this so we know it is portable 
-from system to system.
 </para>
 <para>The following feature list is from version 1.2</para>
 <itemizedlist>
