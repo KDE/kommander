@@ -108,7 +108,7 @@
                 <bool>true</bool>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>Displays the  existing connections between the sender and the receiver.</string>
+                <string>Displays the  connections between the sender and the receiver.</string>
             </property>
         </widget>
         <widget class="KListBox" row="1" column="1">
