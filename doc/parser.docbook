@@ -32,15 +32,15 @@
 
 <title>New Parser Documentation</title>
 <para>
-The new parser was introduced in Kommander with version 1.2, released with 
+The new parser was introduced in &kommander; with version 1.2, released with 
 KDE 3.4. This document was originally released to show all the features of new parser. 
-As of Kommander 1.3, released with KDE 3.5.9, the new parser is now the default. Because 
+As of &kommander; 1.3, released with KDE 3.5.9, the new parser is now the default, except for MainWindow applications created in &Qt; Designer. Because 
 the new parser is so much richer in ability, overcomes the limitations of nesting in the 
 old parser and adds so many new features we strongly recommend using it.
 </para>
 <para>
-Kommander itself will not be described here. Please refer to other documents to 
-see what is Kommander for, how to create dialogs and how to manipulate widgets
+&kommander; itself will not be described here. Please refer to other documents to 
+see what is &kommander; for, how to create dialogs and how to manipulate widgets
 on runtime.
 </para>
 <!--
@@ -55,7 +55,7 @@ on runtime.
 <title>Old parser</title>
 <para>
 Here we compare the two parsers. While we advocate the new one for most purposes the old one is still
-supported and useful, particularly when working with other scripting langauges.
+supported and useful, particularly when working with other scripting languages.
 </para>
 
 <sect2 id="old_parser">
@@ -70,11 +70,13 @@ recognized, locally parsed and expanded.
 
 <para>
 All the underlying functionality (local variables, expressions, file manipulation) 
-had to be done in another scripting langage, such as Bash. While the intent with Kommander is to support
+had to be done in another scripting language, such as Bash. While the intent with &kommander; is to support
 all other scripting languages, and this is presently possible to some degree, there
 was a need for a fast, native scripting language that was assured to be portable. 
+The biggest problem with the old parser is that the &kommander; specials are evaluated <emphasis>before</emphasis> the code is passed to the scripting language, making them impossible to use in loops and conditions.</para>
+<para>
 The developers considered bash slow and not friendly to new users, and the old parser 
-had been initially bash calling DCOP. The paradox for Kommander being language neutral
+had been initially bash calling DCOP. The paradox for &kommander; being language neutral
 resulted in a need to do more than just functions natively.
 </para>
 </sect2>
@@ -83,15 +85,15 @@ resulted in a need to do more than just functions natively.
 <title>New parser</title>
 <para>
 The new parser is a full parser. It parses the whole script, not just functions. As we were interested 
-in GUI interaction, not the proliferation of scripting langages, we made compromises.
-As a result you should find Kommander's scripting to be capable for most basic tasks
+in GUI interaction, not the proliferation of scripting languages, we made compromises.
+As a result you should find &kommander;'s scripting to be capable for most basic tasks
 and natural and easy to use. There is also the <emphasis>Function Browser</emphasis>, which will help you 
-assemble statements. The Function Browser is intended to make Kommander accessible to complete novice 
+assemble statements. The Function Browser is intended to make &kommander; accessible to complete novice 
 programmers. It is similar to what you would find in KSpread to help you choose a function
-and fill in the paramters. 
+and fill in the parameters. 
 <tip><para>If you want enhanced functionality found in other languages you can include
-them in Kommander script objects headed with a sheebang. While in these scripts the Function
-Broswer will help you insert references to widgets. Just remember when using this functionality 
+them in &kommander; script objects headed with a shebang. While in these scripts the Function
+Browser will help you insert references to widgets. Just remember when using this functionality 
 that the parser makes one pass for the old parser functions and one pass for your script. So if you 
 try to change something in a widget and read it in the middle of a script you may not get what you expect.</para></tip>
 <screen>
@@ -131,12 +133,12 @@ To enable new parser, set <command>useInternalParser</command> property of the d
 #!kommander
 </screen>
 on the first line of the script. Also note if you are using another scripting language in 
-a script with a sheebang that Kommander automatically enables the old parser for interacting 
+a script with a shebang that &kommander; automatically enables the old parser for interacting 
 with the dialog.
 <screen>
 #!/bin/bash
 echo @Self.item(0)
-# returns first paramter passed to script
+# returns first parameter passed to script
 # echo $returnvalue passes back to calling script
 </screen>
 </para>
@@ -157,9 +159,9 @@ automatic and chooses most appropriate type (for example, if you add double to i
 result will be double). If one of the values is string, result will be string too.
 </para>
 <para>Places you can get into trouble here are getting a numerical value from a widget
-and trying to perform a mathematical function on it. Since Kommander uses <command>+</command> 
+and trying to perform a mathematical function on it. Since &kommander; uses <command>+</command> 
 to concatonate two strings of text it can treat <command>LineEdit1.text + 2</command> as 
-<command>22</command> instead of <command>2</command>. See the conversion funtions in 
+<command>22</command> instead of <command>2</command>. See the conversion functions in 
 <link linkend="string_functions">String functions</link> to avoid problems.
 </para>
 </sect2>
@@ -201,7 +203,7 @@ Variables don't need to be declared. Once you use variable, it is considered dec
 </para>
 
 <para>
-Assocative arrays are supported as well. They map string keys onto values of any type. To declare
+Associative arrays are supported as well. They map string keys onto values of any type. To declare
 such array, you can just add some element to it, for example: <command>A["Quanta"] = "Web editor"</command>.
 Arrays are also handled by <link linkend="foreach">foreach </link> command and 
 <link linkend="array_functions">array functions</link>.
@@ -260,7 +262,7 @@ DON'T USE THIS TYPE OF COMMENT IN KOMMANDER!
 <sect2 id="globals">
 <title>Built in Globals</title>
 <para>
-Kommander has some built in globals you may find handy.
+&kommander; has some built in globals you may find handy.
 </para>
 <itemizedlist>
 <listitem>
@@ -270,21 +272,21 @@ Kommander has some built in globals you may find handy.
 <para><command>_ARGCOUNT</command> - the count of arguments passed. These can be retrieved as <command>ARG1</command> to <command>ARGn</command> where n is the total number of args passed
 </para></listitem>
 <listitem>
-<para><command>_KDDIR</command> - the directory from which the dialog was run. Kommander will default to your home directory, or a directory change if asked for it's current directory. This is useful for saving and reading files with the Kommander file.
+<para><command>_KDDIR</command> - the directory from which the dialog was run. &kommander; will default to your home directory, or a directory change if asked for it's current directory. This is useful for saving and reading files with the &kommander; file.
 </para></listitem>
 <listitem>
 <para><command>_NAME</command> - there is no reason to use this so don't
 </para></listitem>
 <listitem>
-<para><command>_PID</command> - the process id the current dialog is being run from - also available as just <emphasis>pid</emphasis> Avoid using this name for your vairables!
+<para><command>_PID</command> - the process id the current dialog is being run from - also available as just <emphasis>pid</emphasis> Avoid using this name for your variables!
 </para></listitem>
 <listitem>
-<para><command>_VERSION</command> - this is handy if you want to display the version of Kommander that is running
+<para><command>_VERSION</command> - this is handy if you want to display the version of &kommander; that is running
 </para></listitem>
 </itemizedlist>
 </sect2>
 <sect2 id="passargs">
-<title>Passing arguments in Kommander</title>
+<title>Passing arguments in &kommander;</title>
 <para>You can pass arguments via script parameters, signals and slots, command line parameters and DCOP. Let's look at scripts. Call your script like:
 <screen>result = ScriptObject1.execute("Hello World")
 debug(result)</screen>
@@ -304,9 +306,9 @@ This returns <emphasis>_ARG1 = 100</emphasis> and <emphasis>_ARG2 = Hello World<
 And now you access those with <emphasis>_xcount</emphasis> and <emphasis>_xquote</emphasis> global variables.
 </para>
 <para>
-DCOP can be complex, which is why we recommend using the tools we develop to enable creating DCOP for remote Kommander dialogs with something like a function browser. Here is an example DCOP call issued from a dialog opened from a parent Kommander window. Since it knows who its parent is it can send information back while it is open and freely access all its parent's functionality with the exception of slots. Of course that can be done internally with a script which can be called externally, so in practice there is no limit to what can be done.
+DCOP can be complex, which is why we recommend using the tools we develop to enable creating DCOP for remote &kommander; dialogs with something like a function browser. Here is an example DCOP call issued from a dialog opened from a parent &kommander; window. Since it knows who its parent is it can send information back while it is open and freely access all its parent's functionality with the exception of slots. Of course that can be done internally with a script which can be called externally, so in practice there is no limit to what can be done.
 <screen>dcop("kmdr-executor-"+parentPid, "KommanderIf", "setText(QString,QString)", "StatusBar8", "Hello")</screen>
-Let's look at this piece by piece. First of all we add <emphasis>parentPid</emphasis> to "kmdr-executor-" as we make no assumption a Kommander window was the caller. You could use this with Quanta or KSpread or whatever. Next we are addressing <emphasis>KommanderIf</emphasis>, which is a <emphasis>nice</emphasis> interface for end users which has been cleaned up. We hope eventually as KDE moves from DCOP to DBUS on KDE4 that more applications adopt a nice interface for integration. The next paramter, <emphasis>"setText(QString,QString)"</emphasis> is important because it <emphasis>prototypes</emphasis> the parameters allowed. Otherwise Kommander could not validate the call. So without a definition of the DCOP call being used you will get an error. The remaining parameters are of course what is being passed. We recommend you look at applications with <command>kdcop</command> to see how this works and practice dcop calls from the shell to get your syntax right.
+Let's look at this piece by piece. First of all we add <emphasis>parentPid</emphasis> to "kmdr-executor-" as we make no assumption a &kommander; window was the caller. You could use this with Quanta or KSpread or whatever. Next we are addressing <emphasis>KommanderIf</emphasis>, which is a <emphasis>nice</emphasis> interface for end users which has been cleaned up. We hope eventually as KDE moves from DCOP to DBUS on KDE4 that more applications adopt a nice interface for integration. The next parameter, <emphasis>"setText(QString,QString)"</emphasis> is important because it <emphasis>prototypes</emphasis> the parameters allowed. Otherwise &kommander; could not validate the call. So without a definition of the DCOP call being used you will get an error. The remaining parameters are of course what is being passed. We recommend you look at applications with <command>kdcop</command> to see how this works and practice dcop calls from the shell to get your syntax right.
 </para>
 </sect2>
 </sect1>
@@ -453,11 +455,11 @@ are preceeded by <command>str_</command> instead of <command>@String.</command>
 <para><command>str_contains(<parameter>string</parameter>, <parameter>text</parameter>)</command> - returns 1 if <emphasis>string</emphasis> contains <emphasis>text</emphasis>
 </para></listitem>
 <listitem>
-<para><command>str_find(<parameter>string</parameter>, <parameter>text</parameter>, <parameter>start</parameter>)</command> - returns position of the first occurence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
+<para><command>str_find(<parameter>string</parameter>, <parameter>text</parameter>, <parameter>start</parameter>)</command> - returns position of the first occurrence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
  specifies start of the search
 </para></listitem>
 <listitem>
-<para><command>str_find(<parameter>string</parameter>, <parameter>text</parameter>, <parameter>start</parameter>)</command> - returns position of the last occurence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
+<para><command>str_find(<parameter>string</parameter>, <parameter>text</parameter>, <parameter>start</parameter>)</command> - returns position of the last occurrence of <emphasis>text</emphasis> in <emphasis>string</emphasis>; optional <emphasis>start</emphasis>
  specifies start of the search
 </para></listitem>
 <listitem>
@@ -506,9 +508,9 @@ by <emphasis>separator</emphasis>; if no <emphasis>end</emphasis> is given, sing
 </sect2>
 
 <sect2 id="kommander_functions">
-<title>Kommander functions</title>
+<title>&kommander; functions</title>
 <para>
-Most Kommander functions are supported; some (such as <command>expr</command>)
+Most &kommander; functions are supported; some (such as <command>expr</command>)
 were obsoleted by new parser and are not available.
 </para>
 
@@ -541,13 +543,13 @@ file with given <emphasis>key</emphasis>; if there is no such value <emphasis>de
 <emphasis>key</emphasis> and <emphasis>value</emphasis> in config file
 </para></listitem>
 </itemizedlist>
-<para>New in Kommander 1.3</para>
+<para>New in &kommander; 1.3</para>
 <itemizedlist>
 <listitem>
 <para><command>return(<parameter>value</parameter>)</command> - returns a value to the calling object (script, button...)
 </para></listitem>
 <listitem>
-<para><command>createWidget(<parameter>widgetname</parameter>, <parameter>widgettype</parameter>, <parameter>parent</parameter>)</command> - creates a new widget. You can then place it in a table or toolbox, for example and use <command>mywidget.show(true)</command> to make it visible.  If you are putting an new widget on the form you need to consider layout issues. Kommander will not create layouts on the fly or edit pixel by pixel postioning (in most cases). This is confusing even in C++ development. We recommend you use a groupbox and do a layout in the dialog
+<para><command>createWidget(<parameter>widgetname</parameter>, <parameter>widgettype</parameter>, <parameter>parent</parameter>)</command> - creates a new widget. You can then place it in a table or toolbox, for example and use <command>mywidget.show(true)</command> to make it visible.  If you are putting an new widget on the form you need to consider layout issues. &kommander; will not create layouts on the fly or edit pixel by pixel positioning (in most cases). This is confusing even in C++ development. We recommend you use a groupbox and do a layout in the dialog
 for best control.
 </para></listitem>
 <listitem>
@@ -581,7 +583,7 @@ are preceeded by <command>array_</command> instead of <command>@Array.</command>
 <para><command>array_count(<parameter>array</parameter>)</command> - returns number of elements in <emphasis>array</emphasis>
 </para></listitem>
 <listitem>
-<para><command>array_keys(<parameter>array</parameter>)</command> - returns string containing EOL-separated keys of <emphasis>array</emphasis> - note that if you had imported a scalar (keys without values, see below for an example) into an array with Kommander you would not be able to access it with <command>array_values("myarray")</command> as you might think (since it seems to only have values) but would instead need to use <command>array_keys("myarray")</command>. You might find a better choice for this is to use the new <emphasis>indexed arrays</emphasis> described below.
+<para><command>array_keys(<parameter>array</parameter>)</command> - returns string containing EOL-separated keys of <emphasis>array</emphasis> - note that if you had imported a scalar (keys without values, see below for an example) into an array with &kommander; you would not be able to access it with <command>array_values("myarray")</command> as you might think (since it seems to only have values) but would instead need to use <command>array_keys("myarray")</command>. You might find a better choice for this is to use the new <emphasis>indexed arrays</emphasis> described below.
 </para></listitem>
 <listitem>
 <para><command>array_values(<parameter>array</parameter>)</command> - returns string containing EOL-separated values of <emphasis>array</emphasis>
@@ -630,10 +632,10 @@ B
 C
 </screen>
 
-<para>New in Kommander 1.3</para>
+<para>New in &kommander; 1.3</para>
 <itemizedlist>
 <listitem>
-<para><command>array_indexedFromString(<parameter>array</parameter>, <parameter>string</parameter>, <parameter>separator</parameter>)</command> - this compensates for Kommander not having indexed arrays. it creates an array with a zero based sequential index. Remember to use quotes on the array name and any strings not represented by a variable. The separatore argument is optional and defaults to "\t" [TAB] which is used to separate fields reading and writing tables, arrays or detail widgets. <emphasis>Remember this array index does not enforce any rules on its self. It is just like you created it with a for loop, just more convenient.</emphasis>
+<para><command>array_indexedFromString(<parameter>array</parameter>, <parameter>string</parameter>, <parameter>separator</parameter>)</command> - this compensates for &kommander; not having indexed arrays. it creates an array with a zero based sequential index. Remember to use quotes on the array name and any strings not represented by a variable. The separator argument is optional and defaults to "\t" [TAB] which is used to separate fields reading and writing tables, arrays or detail widgets. <emphasis>Remember this array index does not enforce any rules on its self. It is just like you created it with a for loop, just more convenient.</emphasis>
 </para></listitem>
 <listitem>
 <para><command>array_indexedInsertElements(<parameter>array</parameter>, <parameter>key</parameter>, <parameter>string</parameter>, <parameter>separator</parameter>)</command> - this function is part of the indexed array suite and enables you to insert elements in your array  while maintaining an index that is sequential, contiguous and unique. Set the index key to start at and the text string and how it is separated. The elements will be added shifting all the index numbers after by the number added.
@@ -642,7 +644,7 @@ C
 <para><command>array_indexedRemoveElements(<parameter>array</parameter>, <parameter>key start</parameter>, <parameter>number</parameter>)</command> - this enables you to remove elements from an indexed array and avoid gaps in your index. Specify the key to start at and optionally how many to remove. The default is one. You will end up with a re-indexed array less the removed elements.
 </para></listitem>
 <listitem>
-<para><command>array_indexedToString(<parameter>array</parameter>, <parameter>separator</parameter>)</command> - this enables you to convert your indexed array back into a string, particularly useful for detail widgets. For instance if you are displaying a database query result in TreeWidget1 and it has six columns you can use <command>TreeWidget1.selection</command> to get the selected row. it will be separated by tabs and you could look at a the fifth element by using <command>str_section(TreeWidget1.selection, "\t", 4)</command> (remember it is zero based). That's nice for reading a value, but if you want to change it you can see you have a lot more work to do. After you split that string you have to reassmble with <command>val1+"\t"+val2...</command> Using indexed arrays you could edit that fifth element like so...
+<para><command>array_indexedToString(<parameter>array</parameter>, <parameter>separator</parameter>)</command> - this enables you to convert your indexed array back into a string, particularly useful for detail widgets. For instance if you are displaying a database query result in TreeWidget1 and it has six columns you can use <command>TreeWidget1.selection</command> to get the selected row. it will be separated by tabs and you could look at a the fifth element by using <command>str_section(TreeWidget1.selection, "\t", 4)</command> (remember it is zero based). That's nice for reading a value, but if you want to change it you can see you have a lot more work to do. After you split that string you have to reassemble with <command>val1+"\t"+val2...</command> Using indexed arrays you could edit that fifth element like so...
 <screen>
 idx = TreeWidget1.currentItem
 array_indexedFromString("z", TreeWidget1.selection)

@@ -144,7 +144,7 @@ widget (the text that the <emphasis>@widgetText</emphasis> special is expanded t
 associations). For our widget, the widget text is simply the text inside 
 the line edit, so we just return that. Similarly when setting the widget text,
 we just set the text inside the line edit. We emit the <emphasis>widgetTextChanged()</emphasis>
-signal after setting the widget text so other widgets can recognise the fact 
+signal after setting the widget text so other widgets can recognize the fact 
 that this widget was updated.
 </para>
 <para>
@@ -332,7 +332,7 @@ of that class but otherwise we return 0.
 <para>
 Finally, we export our plugin. This just provides an entry point to our
 plugin so the &kommander; system can get access to it. Without this,
-&kommander; will not recognise your library as a &kommander; plugin.
+&kommander; will not recognize your library as a &kommander; plugin.
 </para>
 <screen>
 KOMMANDER_EXPORT_PLUGIN(MyKomPlugin)

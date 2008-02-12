@@ -12,6 +12,8 @@ application -->
 
 &install.intro.documentation;
 
+<para>There is a dedicated homepage for &kommander; at <ulink url="http://kommander.kdewebdev.org">http://kommander.kdewebdev.org</ulink>.
+</para>
 </sect1>
 
 <sect1 id="requirements">
@@ -27,11 +29,11 @@ capabilities, screen resolution, special expansion cards, etc.
 specific OS, (you wrote a graphical LILO configurator for example) put this
 information here.
 -->
-
-
+<para>
+&kommander; requires the latest version of &kde; 3.x series, currently 3.5.9. It might work with previous 3.5.x versions, but this was not tested throughfully.
 <!-- For a list of updates, you may refer to the application web site
 or the ChangeLog file, or ... -->
-<para></para>
+</para>
 </sect1>
 
 <sect1 id="compilation">
@@ -42,12 +44,6 @@ or the ChangeLog file, or ... -->
 <!-- special handling, remove it, and replace with your own text. -->
 
 &install.compile.documentation;
-
-</sect1>
-
-<sect1 id="configuration">
-<title>Configuration</title>
-<para></para>
 
 </sect1>
 

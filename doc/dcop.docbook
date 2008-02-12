@@ -3,18 +3,6 @@
 <sect1 id="dcop-interface">
 <sect1info>
 <title>&DCOP; Functions</title>
-<authorgroup>
-<author>
-<firstname></firstname>
-<surname></surname>
-<affiliation><address>
-<email></email>
-</address></affiliation>
-</author>
-
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-
-</authorgroup>
 </sect1info>
 
 <title>&DCOP; Functions</title>
@@ -32,27 +20,27 @@ dcop `dcop | grep kmdr` KommanderIf
 <para>
 This will show you what dialogs are running and what interfaces are available, as well as what is available to call in the &kommander; special interface to internals. In the explanation of &DCOP; here remember that &DCOP; is used internally by KDE applications (replaced with DBUS in KDE4) and it is very useful. Have a look at <command>kdcop</command> by pressing Alt-F2 and typing it in a run dialog. Here you can explore everything running. Now back to &DCOP; in &kommander;.
 </para>
-<para>
+<screen>
 dcop kmdr-executor-@pid KommanderIf setText myWidget <quote>new text</quote>
-</para>
+</screen>
 <para>
 This assumes you are inside a &kommander; file and have access to the special @pid which contains the process ID.  In fact it is simpler to replace <quote>kmdr-executor-@pid</quote> with @dcopid.  However, you can use this syntax (obviously without the specials) from the command line or any external script to alter the &kommander; window.
 </para>
 <para>
 &kommander; evolved the much faster internal &DCOP; function. Using it from another application window (console &DCOP; is very slow) is more complicated because you must give lots of information, including a prototype of the call.  The above call would become: (Note that @dcopid is actually internal to the dialog, but you could replace it with a valid process ID)
 </para>
-<para>
+<screen>
 @dcop(@dcopid, KommanderIf, <quote>enableWidget(QString, bool)</quote>, Widget, true)
-</para>
+</screen>
 <para>
 In the early &kommander; nesting &DCOP; calls inside script language structures (like <application>bash</application>) used console method calls.  <emphasis>If you use internal &DCOP; all &kommander; specials will be executed first and then the script will be executed.</emphasis> Please read that again as it will cause you no end of grief with a <application>bash</application> loop using &kommander; specials.
 </para>
 <para>
 There is a new simplified way to use &DCOP; inside &kommander; using an object syntax. Let's say you want to change the text in a widget name @LineEdit1. It would look like this.
 </para>
-<para>
+<screen>
 @LineEdit1.setText(New text)
-</para>
+</screen>
 <para>
 As you can see the new syntax is very easy, as well as consistent visually with function groups. All the &DCOP; reference here will use the new object syntax listed above. <emphasis>Please note that if you are referencing a widget using &DCOP; from another window or another application the first parameter will always be the widget name. All functions are listed here starting with the second parameter.</emphasis>
 </para>

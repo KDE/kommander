@@ -3,25 +3,17 @@
 <sect1 id="specials">
 <sect1info>
 <title>Specials and Built-in Global Variables</title>
-<authorgroup>
-<author>
-<firstname></firstname>
-<surname></surname>
-<affiliation><address>
-<email></email>
-</address></affiliation>
-</author>
-
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-
-</authorgroup>
 </sect1info>
 
 <title>Specials and Built-in Global Variables</title>
 
 <para>
-Specials are functions that are processed by &kommander;. You should be aware that until &kommander; has a full parser all &kommander; specials will be executed first and then the script will be executed. In most cases this is not a problem, but in a few it is.
+Specials are functions that are processed by &kommander;. You should be aware that whe using the old style parser all &kommander; specials will be executed first and then the script will be executed. In most cases this is not a problem, but in a few (mostly in loops, conditions) it is.
 </para>
+<note><para>The below list might be slightly outdated. It is recommended to use the <guilabel>Function Browser</guilabel> to get help about the available functions.
+The <guilabel>Function Browser</guilabel> can be reached from inside the <guilabel>Kommander Text</guilabel> editor, by clicking the <guilabel>Function...</guilabel> button.
+</para>
+</note>
 
 <variablelist>
 <varlistentry>
@@ -77,7 +69,7 @@ same as <function>@exec</function>, but supports shebang and multiline scripts. 
 </para>
 <itemizedlist>
 <listitem><para><function>@execBegin(php)</function></para></listitem>
-<listitem><para><function>@execBegin</function>#!/usr/bin/php</para></listitem>
+<listitem><para><function>@execBegin</function>(#!/usr/bin/php)</para></listitem>
 </itemizedlist>
 <para>The first one uses the name of the <acronym>PHP</acronym> executable.  &kommander; searches PATH for <application>php</application> and if it is not found looks to see if it is registered with &kommander; in a location outside of your path.  If not it tells the user it cannot be found.  The second examples uses the classic <quote>shebang</quote> which can have some benefits and also problems.  If you have a beta copy of <acronym>PHP5</acronym>, for instance, in <filename>/usr/local/bin</filename> which would not be found because it would find on in <filename>/usr/bin</filename> this is useful.  If, however, you distribute the dialog to someone who has <acronym>PHP</acronym> in <filename>/usr/local/bin</filename> only it will not be found with the shebang used.  So using shebangs is cautioned and using the executable is recommenede if you are sharing files.</para>
 </listitem>
@@ -120,7 +112,7 @@ The &PID; of the process.
 <term><function>@readSetting(<parameter>key</parameter >, <parameter>defaultValue</parameter >)</function></term>
 <listitem>
 <para>
-reads a value from <filename>kommanderrc</filename>
+reads a value from <filename>kommanderrc</filename>. See also @writeSetting.
 </para>
 </listitem>
 </varlistentry>
@@ -156,7 +148,7 @@ the content of a widget
 <term><function>@writeSetting(<parameter>key</parameter>, <parameter>value</parameter >)</function ></term>
 <listitem>
 <para>
-write value to <filename>kommanderrc</filename>
+write value to <filename>kommanderrc</filename>. All &kommander; dialogs share the same kommanderc file, each one will have its own section inside it.
 </para>
 </listitem>
 </varlistentry>
