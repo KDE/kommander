@@ -76,6 +76,14 @@ One of the very useful features inherited from Qt Designer was signals and slots
 <para>
 To access the connection tool you can open it by right clicking anywhere on the dialog and selecting it. Click the menu and you will see a list of connections made at the bottom. Above that are two lists of signals and slots and above them the respective sender and receiver are selected. An easy way to make connections is visually. Look at the toolbar or the Tools menu. There are three items grouped there. A pointer, signals and slot connections and the tab order or widgets. Selecting this sets connection mode for the curos. Click on your widget to send the signal and drag it to your widget to receive it in a slot. As you do this you will see a line and drop indications on the widget under the mouse. The StatusBar on the Editor will tell you what is being connected. 
 </para>
+<note><para>In version 1.3 there is a Kommander function connect() which allows you to connect signals and slots on the fly. This is useful if you just used createWidget. Obviously you can't use the dialog for something Kommander doesn't yet know exists. Unfortunately there are too many combinations to list so you have to type out signals and slots. <emphasis>These must be typed verbatim or they will fail.</emphasis>  This is where the connection tool is handy again. Open it and select two widgets like the two you want to connect and read the connection information. if it says <command>execute(const QString&amp;)</command> that is exactly what you must type.</para></note>
+</sect2>
+
+<sect2 id="slot-functions">
+<title>Slot Functions</title>
+<para>
+As of version 1.3 Kommander adds Slot functions. You can see this in the Function Browser, which is uncharacteristily less than friendly with descriptions here. What Kommander is doing is reading every slot registered for a given widget and making it available directly. This is very useful. For instance the Table widget doesn't have a default method to auto adjust column width. You may find this annoying, but if you look under slots there it is. The TextEdit is also lacking in built in functions for any real editing, but look under slots and there is anything you could wish for. You may have to reference some docs or just experiment. It is simply too difficult to document every slot available in builtin widgets and plugins. Most slots however are self expanitory.
+</para>
 </sect2>
 </sect1>
 
@@ -298,8 +306,19 @@ Shows how to use Table widget
 <sect1 id="examples">
 <title>Current Examples</title>
 <para>
-
+These examples reflect the most recent development state of Kommander. In it's current state Kommander has few limitations for developing small to medium applications. It certainly is not suitable for building a KWord clone, but for a simple editor, database frontend, GUI for commandline programs or any application in the spirit of Unix/Linux small applications it is a good choice. The examples presented here are intended to show the potential as well as how to work around limitations. There are some useful tricks included in these if you want to do a more capable small application with Kommander. Remember Kommander is not intended to do everything, but to do most things. For this concession you should be able to build something in Kommander faster than other alternatives ad add GUI to scripting languages not otherwise supported in KDE.
 </para>
+
+<sect2 id="editor-poc">
+<title>editor-poc.kmdr</title>
+<para>
+The little dialog that grew into a Mainwindow. As Kommander does not have a native MainWindow widget it has been assumed it only does dialogs. In fact only dialogs are officially supported... but you can run MainWindows in Kommander. This is an example editor. If you want to create a MainWindow application in Kommander just open Qt Designer and make one, save it and rename the *.ui file to a *.kmdr file. Now open it in Kommander and do what you would do normally.
+</para>
+<note><para>As of this writing what is known not to work on the Kommander side is the settings read and write. There is no Initialize or Destroy section as there is no Kommander Text, however there are signals for this on the window, so the functionality is intact. On the MainWindow side it is not possible to talk to any Actions as these are QActions from Designer and KActions are not derived from QActions in KDE 3x. This means a DCOP call to list actions or set states will not work. It is also not possible to talk to the Statusbar. Also submenus on the menubar and dropdown actions on the Toolbar will not work. Given that this is an unsupported use of Kommander it everything that does work makes it suitable for probably most small application uses.. </para></note>
+<para>
+There is a quick help dialog this editor lauches that discusses in depth what is happening inside.
+</para>
+</sect2>
 
 <sect2 id="example-key-value">
 <title>kevaluecombo.kmdr</title>
@@ -324,7 +343,7 @@ There is more going on, like checking for duplicate keys, but this is the core. 
 </sect2>
 
 <sect2 id="example-passed-params">
-<title>Passing parameters with scripts</title>
+<title>passvariables.kmdr</title>
 <para>
 As of Kommander 1.3 you can pass and return variables with scripts. This dialog demonstrates that. Look carefully at the content of the buttons. You will see that neither button directly writes to any of the LineEdit boxes receiveing text from the script. While one is written directly from the script aother is written with the content passed from the button. The third is not written at all but passed back in a return() function where it is received by the button and written. This is also shown on the right side using PHP so you can see how this might work with Python, Ruby, Perl or even a less commonly used language like Rexx. Languages that Speak DCOP can do a lot more in Kommander too. The point of this demo is the freedom provided. Kommander does not have functions, yet it does. Create a script, declare some globals if you like, pass some parameters to another script and return a value. For an intentionally simplified GUI scripting tool that is capable behavior. This behavior is only in the new parser and is documented <link linkend="passargs">here</link>.
 </para>
