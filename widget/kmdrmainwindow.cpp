@@ -26,9 +26,10 @@ KmdrMainWindow::~KmdrMainWindow()
 
 bool KmdrMainWindow::queryClose()
 {
-  if (KMainWindow::queryClose())
+  bool quit = KMainWindow::queryClose();
+  if (quit)
     emit destroy();
-  return false;
+  return quit;
 }
 
 
