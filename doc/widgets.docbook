@@ -569,7 +569,7 @@ PopupMenu
 </term>
 <listitem>
 <para>
-A pseudo-widget, that can be used to display a menu. Use the <emphasis>insert...</emphasis> functions to add menu entries. Whenever the user clicks on a menu entry, the specified <emphasis>executeWidget</emphasis>'s <emphasis>execute</emphasis> function will be run. It is possible to connect the menu entries to the popupmenu's own <emphasis>execute</emphasis> function, in which case the text assigned to the <emphasis>default</emphasis> state is run.
+A pseudo-widget, that can be used to display a menu. Use the <emphasis>insert...</emphasis> functions to add menu entries. Whenever the user clicks on a menu entry, the specified <emphasis>executeWidget</emphasis>'s <emphasis>execute</emphasis> function will be run. It is possible to connect the menu entries to the popupmenu's own <emphasis>execute</emphasis> function, in which case the text assigned to the <emphasis>default</emphasis> state is run. When adding menu items you can assign an index to them and handle the all the items on a menu in the menu widget as the request passes this index back. To see how this works look at the current example <link linkend="example-key-value">keyvaluecombo.kmdr</link> included with this release. To find it look on the tools menu of the editor for the examples dialog.
 </para>
 <para>To show the menu, use <emphasis>popup</emphasis> slot. Usually this is connected to another widget's <emphasis>contextMenuRequested</emphasis> signal.</para>
 <para>A menu can contain other PopupMenu submenus.</para>
@@ -588,6 +588,7 @@ ToolBox
 <para>
 A container widget, like TabWidget. It has several pages, each page can hold other widgets.
 </para>
+<warning><para>This widget has an editor bug that does not affect it's use in execution, but does affect it's use in the editor. If you try to add pages in the editor it will become unreadable. Don't do this. If you want to use the ToolBox please use fill the widget on the fly using the <command>addWidget</command> command. If there is time an example will be added to the 1.3 release, or check the web site.</para></warning>
 <para>See the QToolBox documentation to learn more about it.</para>
 <note><para>New in Kommander 1.3.</para></note>
 </listitem>
