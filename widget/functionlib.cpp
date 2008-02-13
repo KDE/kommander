@@ -21,7 +21,7 @@
 #include "myprocess.h"
 #include "kommanderwidget.h"
 #include "invokeclass.h"
-#include "kommanderfactory.h"
+#include "../factory/kommanderfactory.h"
 
 #include <iostream>
 #include <stdlib.h> 
