@@ -53,6 +53,7 @@ void Instance::registerSpecials()
   SpecialInformation::insert("execBegin", 0, 1);
   SpecialInformation::insert("env", 1, 1);
   SpecialInformation::insert("exec", 1, 1);
+  SpecialInformation::insert("execBackground", 1, 1);
   SpecialInformation::insert("global", 1, 1);
   SpecialInformation::insert("dialog", 1, 2);
   SpecialInformation::insert("readSetting", 2, 2);

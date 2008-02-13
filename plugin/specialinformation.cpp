@@ -400,6 +400,8 @@ void SpecialInformation::registerSpecials()
      i18n("Returns value of an environment (shell) variable. Do not use <i>$</i> in the name. For example, <i>@env(PATH)</i>."), 1);
   insert(Kommander::exec, "exec(QString command)",
      i18n("Executes an external shell command."), 1);
+  insertInternal(Kommander::execBackground, "execBackground(QString command)",
+     i18n("Executes an external shell command."), 1);
   insertMacro(Kommander::expr, "expr(QString expression)",
      i18n("Parses an expression and returns computed value."), 1);
   insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",

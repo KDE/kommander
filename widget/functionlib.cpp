@@ -443,6 +443,19 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
   return text;
 }
 
+static ParseNode f_execBackground(Parser* P, const ParameterList& params)
+{
+  MyProcess proc(P->currentWidget());
+  proc.setBlocking(false);
+  QString text;
+  qDebug("Trying %s", params[0].toString().latin1());
+  if (params.count() > 1)
+    text = proc.run(params[0].toString().local8Bit(), params[1].toString());
+  else
+    text = proc.run(params[0].toString().local8Bit());
+  return text;
+}
+
 static ParseNode f_dialog(Parser* P, const ParameterList& params)
 {
   QString a_dialog = params[0].toString().local8Bit();
@@ -903,6 +916,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("parentPid", Function(&f_parentPid, ValueString, ValueNone, 0, 0));
   registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
+  registerFunction("execBackground", Function(&f_execBackground, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
   registerFunction("env", Function(&f_env, ValueString, ValueString));
   registerFunction("readSetting", Function(&f_read_setting, ValueString, ValueString, ValueString, 1));
