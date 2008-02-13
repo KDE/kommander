@@ -31,3 +31,5 @@ noinst_HEADERS = aboutdialog.h buttongroup.h checkbox.h closebutton.h \
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
+
+KDE_OPTIONS=nofinal
