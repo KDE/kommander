@@ -1,0 +1,171 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>502</width>
+            <height>412</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>//createWidget("kpmessage", "LineEdit", "Form1")
+</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>6</number>
+        </property>
+        <property name="spacing">
+            <number>4</number>
+        </property>
+        <widget class="TextBrowser" row="0" column="0">
+            <property name="name">
+                <cstring>TextBrowser1</cstring>
+            </property>
+            <property name="text">
+                <string>You can click the test button to insert text
+If you are loaded in the parent frame you can click the rocket icon on the toolbar or use the function menu to select "Talk to KPart". 
+
+Any Kommander program can be run as a KPart. You need the KPart plugin to load KParts. Note that running Kommander programs as KParts is not without risks. For one thing you loose DCOP in the parent and the old parser ceases to work. Additionally since all widgets are accecssible from the parent and duplicate widget name can cause a Kommander lock up. 
+
+Because of all this and the fact that the Actions on the unsupported MainWindow are incompatible it is impossible for the child to talk with the parent. On this dialog we use a timer on the parent polling the child for requests every 100 ms. It's a crude hack but it does yield acceptable behavior. 
+
+This demo is intended to run both kpartwmframe.kmdr and kpartpart.kmdr. </string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>Layout70</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>75</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Re&amp;quest Parent</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>if !widgetExists("kpmessage") then
+  createWidget("kpmessage", "LineEdit", "Form1")
+endif
+if _LOADED == true then
+  kpmessage.setText("You have mail")
+else
+  message_info("this only works when loaded as a KPart in it's parent window")
+endif
+</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Test &amp;Child</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>TextBrowser1.setText("This text was inserted by the KPart child cialog")</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="ScriptObject">
+                    <property name="name">
+                        <cstring>ScriptObject13</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>message_info("We just got a message from our parent frame!", "Parent called Child")</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="ScriptObject">
+                    <property name="name">
+                        <cstring>ScriptObject19</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>message_info("Request Granted")</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <widget class="ScriptObject">
+                    <property name="name">
+                        <cstring>ScriptObject93</cstring>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>_LOADED = true</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

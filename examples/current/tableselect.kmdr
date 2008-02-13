@@ -1,0 +1,502 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>838</width>
+            <height>561</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Table new feature demo</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>for i = 0 to 6 do
+ for j = 0 to 6 do 
+   Table1.setCellText(i, j, str_upper(i) + str_lower(j))
+ end
+end
+PopupMenu1.insertMenuItem("Copy", "ExecButton85", 1)
+PopupMenu1.insertMenuItem("Paste", "ExecButton87", 2)
+PopupMenu1.insertMenuItem("About", "PopupMenu1", 3)
+
+AboutDialog9.initialize("Table Selection Demo", "help.png", "0.1", "(c) 2008")
+AboutDialog9.setDescription("This demonstrated using the new multi-select ability 
+of the table. The spinboxes offer how it might have 
+been done before. Now block copy and paste can be done.")
+AboutDialog9.addAuthor("Eric Laffoon", "Stop sleeping", "eric@kdewebdev.org", "http://kittyhooch.com")
+AboutDialog9.addAuthor("Andras Mantia", "Make Eric stop asking for it to make coffee", "amantia@kdewebdev.org", "http://kdewebdev.org")
+AboutDialog9.setLicense("GPL_V2")
+AboutDialog9.setBugAddress("eric@kdewebdev.org")</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="1" column="3" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout2</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="SpinBoxInt" row="0" column="3">
+                    <property name="name">
+                        <cstring>SpinBoxInt4</cstring>
+                    </property>
+                    <property name="maxValue">
+                        <number>6</number>
+                    </property>
+                </widget>
+                <widget class="Label" row="0" column="2">
+                    <property name="name">
+                        <cstring>Label4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>End row:</string>
+                    </property>
+                </widget>
+                <widget class="SpinBoxInt" row="0" column="1">
+                    <property name="name">
+                        <cstring>SpinBoxInt3</cstring>
+                    </property>
+                    <property name="maxValue">
+                        <number>6</number>
+                    </property>
+                </widget>
+                <widget class="Label" row="0" column="0">
+                    <property name="name">
+                        <cstring>Label3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>End col:</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="Label" row="0" column="2">
+                    <property name="name">
+                        <cstring>Label2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Start row:</string>
+                    </property>
+                </widget>
+                <widget class="SpinBoxInt" row="0" column="3">
+                    <property name="name">
+                        <cstring>SpinBoxInt2</cstring>
+                    </property>
+                    <property name="maxValue">
+                        <number>6</number>
+                    </property>
+                </widget>
+                <widget class="SpinBoxInt" row="0" column="1">
+                    <property name="name">
+                        <cstring>SpinBoxInt1</cstring>
+                    </property>
+                    <property name="maxValue">
+                        <number>6</number>
+                    </property>
+                </widget>
+                <widget class="Label" row="0" column="0">
+                    <property name="name">
+                        <cstring>Label1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Start col:</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="ScriptObject" row="1" column="2">
+            <property name="name">
+                <cstring>ScriptObject88</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>selection = Table1.selection
+topRow = str_section(selection, ",", 0)
+leftCol = str_section(selection, ",", 1)
+bottomRow = str_section(selection, ",", 2)
+rightCol = str_section(selection, ",", 3)
+result = 0
+for i = topRow to bottomRow do
+  for j = leftCol to rightCol do
+    result = result + str_todouble(Table1.cellText(i, j))
+  end
+end
+StatusBar7.setText("Selection total: "+result)</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="TextBrowser" row="2" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>TextBrowser1</cstring>
+            </property>
+        </widget>
+        <widget class="ExecButton" row="3" column="0">
+            <property name="name">
+                <cstring>ExecButton1</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Get range</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>TextBrowser1.clear
+for i = SpinBoxInt2.text to SpinBoxInt4.text do
+ for j = SpinBoxInt1.text to SpinBoxInt3.text do
+   result = result + "Cell value(" + i + ", " + j +") = " +Table1.cellText(i, j) + "\n"
+ end
+end
+TextBrowser1.setText(result)
+
+</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="ExecButton" row="3" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>ExecButton2</cstring>
+            </property>
+            <property name="text">
+                <string>Get range &amp;from selection</string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>selection = Table1.selection
+topRow = str_section(selection, ",", 0)
+leftCol = str_section(selection, ",", 1)
+bottomRow = str_section(selection, ",", 2)
+rightCol = str_section(selection, ",", 3)
+TextBrowser1.clear
+for i = topRow to bottomRow do
+ for j = leftCol to rightCol do
+   result = result + "Cell value(" + i + ", " + j +") = " +Table1.cellText(i, j) + "\n"
+ end
+end
+TextBrowser1.setText(result)
+</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="StatusBar" row="4" column="0" rowspan="1" colspan="7">
+            <property name="name">
+                <cstring>StatusBar7</cstring>
+            </property>
+        </widget>
+        <widget class="Table" row="0" column="0" rowspan="1" colspan="7">
+            <column>
+                <property name="text">
+                    <string>0</string>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>1</string>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>2</string>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>3</string>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>4</string>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>5</string>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>6</string>
+                </property>
+            </column>
+            <row>
+                <property name="text">
+                    <string>0</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>1</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>2</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>3</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>4</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>5</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>6</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>7</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>8</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>9</string>
+                </property>
+            </row>
+            <row>
+                <property name="text">
+                    <string>10</string>
+                </property>
+            </row>
+            <property name="name">
+                <cstring>Table1</cstring>
+            </property>
+            <property name="numRows">
+                <number>11</number>
+            </property>
+            <property name="numCols">
+                <number>7</number>
+            </property>
+            <property name="selectionMode">
+                <enum>Single</enum>
+            </property>
+            <property name="populationText">
+                <string></string>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="ExecButton" row="1" column="5">
+            <property name="name">
+                <cstring>ExecButton85</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>4</hsizetype>
+                    <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>24</width>
+                    <height>24</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>image0</pixmap>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>//_CPrange = rows cols
+//_CPdata = a[0] = R0C0 - R0Cx for each row
+range = Table1.selection
+startrow = str_section(range, ",", 0)
+startcol = str_section(range, ",", 1)
+endrow = str_section(range, ",", 2)
+endcol = str_section(range, ",", 3)
+
+array_clear("_CPdata")
+_CPrange[0] = str_toint(endrow)-str_toint(startrow)
+_CPrange[1] = str_toint(endcol)-str_toint(startcol)
+//debug("range size: "+_CPrange[0]+" - "+_CPrange[1])
+c = 0
+for i=startrow to endrow do
+  row = ""
+  for k = startcol to endcol do
+    if k &gt; startcol then
+      row = row + "\t"
+    endif
+    row = row + Table1.cellText(i, k)
+  end
+  _CPdata[c] = row
+  c = c + 1
+  //debug("i="+i+" k="+k+" c="+c+" row="+row)
+end
+//debug("end copy")
+</string>
+                </stringlist>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>copy range</string>
+            </property>
+        </widget>
+        <widget class="ExecButton" row="1" column="6">
+            <property name="name">
+                <cstring>ExecButton87</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>4</hsizetype>
+                    <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>24</width>
+                    <height>24</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>image1</pixmap>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>//_CPrange = "rows cols"
+//_CPdata = a[0] = R0C0 - R0Cx for each row
+range = Table1.selection
+startrow = str_section(range, ",", 0)
+startcol = str_section(range, ",", 1)
+endrow = str_section(range, ",", 2)
+endcol = str_section(range, ",", 3)
+
+if startrow == endrow &amp;&amp; startcol == endcol then
+  endrow = str_toint(startrow) + str_toint(_CPrange[0])
+  endcol = str_toint(startcol) + str_toint(_CPrange[1])
+endif
+//debug("endrow="+endrow+" endcol="+endcol)
+c = 0
+r = 0
+for i=startrow to endrow do
+  //debug(i+"-"+_CPdata[c])
+  for k = startcol to endcol do
+    if _CPrange[0] == 0 &amp;&amp; _CPrange[1] == 0 then
+      val = _CPdata[0]
+    else
+      val = str_section(_CPdata[c], "\t", r)
+    endif
+    Table1.setCellText(i, k, val)
+    r = r + 1
+    //debug("r="+r)
+  end
+  c = c + 1
+  r = 0
+end
+//debug("end paste")
+</string>
+                </stringlist>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>paste range</string>
+            </property>
+        </widget>
+        <widget class="PopupMenu" row="3" column="4">
+            <property name="name">
+                <cstring>PopupMenu1</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string>AboutDialog9.execute</string>
+                </stringlist>
+            </property>
+        </widget>
+        <widget class="AboutDialog" row="3" column="3">
+            <property name="name">
+                <cstring>AboutDialog9</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="1202">789c6dd24b4fc2401405e03dbfa2a13b62005b041be3c2172a46e3d2c4b89867799487501030fe77ef3d9d2134740e0bbe9cd09c696835828ff7d7a0d1aaad72918f54a086621934f47a3add7d7e5dffd6ea5114d0274e82f3fa59adde0c54f0369f19fe2ee87b28628a65ce98ca28a3bbcc1553b72997cc2518510433043b14c57c00bb147004f6289a790f263a31d83005a596059f0e8c99dfa0d1c674988fa0d5d65c30fb4cd3a660e4331851307203c6948439003b146c7e01bb148cdc8297143003130a36af4141c1bbba012505efca80f4b26c9bb90769b4c58d2c48c746cc05d3b629b8d1183ca7e0463b30a2e0461330a6f49873b043c10573f08282f616ec52d06ab04791cc1f30a180435050705f054a0aee7b072a0aee9b8286c394200efe45a13ba279748a464aa9b4b1a5ead0a4436bc391a86ad4d80a3a55cdc466d3594523d3f9e27bb9aa6c725bda78b46dbd296df44dfab3c8b6a58dbe51bbc5fea6b4d135e9ed646cf7a58daeb9cb7d73d8e81a9d4fe8717ee3fd437868f2f9cefd8637f61f9f7c93e6fe69d8b879eebb46b8e3376e071bd7f8e337662fa74db171bd1d9c34c5c6aaa6d8989d366ee3e96fc4d169d6ffae6aff9c383860</data>
+    </image>
+    <image name="image1">
+        <data format="XPM.GZ" length="2942">789c75964953dc481085effc8a0ee78d9848b754da2a26e680590c66c766194fcca1548b019bc5d080c131ff7db2f3154d771bf37cf9a4575999a527b5df2e0e4ef6b6078b6f176e476e74e607fed4dd0c16c3ddc5c5e33ffffef573e14d590ee45f51d483f2cd1f0b6ff647033fd8b9ba8c63a023016afbca9695f2c709d763e6a41cda605be55e39b6d176ca4b63eeaace7443e527e55aae14ca4e59fe1c98946d6733df2bbbaee950ff56b9efda0ef52f33f74e9be7af1346bfc763b6c3ba29757fda532e6a5b1ae5adcc0ef3d09a72d914a5557eca5c955ef9bbb269ea12e77396b93598af53ae9acea09f42b96e9cd17e382ab7b6755a8fbdb20cec82f295b26d6383f9ce955d9b1aed87d1afb7be6f94ff560e6d61c0fa7c5cdb3a83f5db63ee8bce985e7943b9ef82c17ee3874dbef25540ffebca8d1d1af4b792b9a9705fcfc777deb449b95596868253be56f69d2dc1cb605b19f08fcc2dead329d8fba0fdd117e5e863407f9b630e4391ee475a3f94a18ce8e744d90413352fa4e717ea50479cb7d60b8d2d4accdf284b6023f2abfb076917f7e9111cba88f3d4e71bac35f9bee63db8e0a2e691749ed0873eea79d383b20f3e223f9f9463e70be46d151c62443dcd771c8a701e3a6f2c4498ff4ed988506f57b912217f87cab52d0accbf0216e1f9d4ca4d6c12f2bfaf2cf92b500ff5e585c57dd6fea5dda6417ebf4f18fd7e00c72e613fcd57b436e0fd62d4b7d1265d4f9ab7e8a24b98ffbd72ef4c897c1e80639ff0bebe53f6ce96e8ff181c7dbeafdf9318fa26e7fd021c439e4ff31cc7dbe1f9dc82fb9c3f8ae01813def71be5e4db0a791982634a5a9fb47e1af6b541febe657615e65f078bb09f7e7f52e1e595523ecf1c2b3ccf0a2c425ef47b99cabeafb09fcb1c2ad423b02f2af4cf99fb0afd04b008df07ab6c4255e3bc2ec122dc2f95abe06abcdf37e0683ae461072cc2fb8a796b11bebf7b13c6facfca4d480df65b068b30afe63f75b16ee03f028b34bf8cfd6cec5b9cff2e58847c6b3e9213210f9abfd4a7618b7a9affe445b8aff94a21a616f557c1493ec8ca2673c87ecd9b3c6e8bf9f931b3ef90779f39663fce5bfff063f92ca689dccbd5694dfbb967cf212b72fa9d9fbff0299ff1397f15dfb7ac0bbee42bb97afa8aff9abff30ddff288efa634e27bb9fac0d7bff87ff0a3e8491cb35a92abef78f917ff0aaf8ad664c5acd6e4ea7b5effc5bfc11fe6b439a7ad19ff36efcc69339fd22eeff13e1fbcacc0ef1d7f9ad3b3ff908ff858fd275881df4bfe3ca717ff2e0fc5bf05657fc1e59c9efd46fc95f86b6eb89df83bb663490c881cf5d43ffbc9f321058a94e80b9d3efbe98ccee92b7da38b674dea4b4774c9077445d79819ffffa01bbaa5d18be097ea723e7447f7f4403fe871e27fa2257a37adb15fdc869629724d2bb262951e26fe357a3fabdccf2ead4bef1bf441566cd2fdc4bf45dbb352bfa11d391b394dda903d76a7fc7bb43f2bede74026cd7e99417698f83fd2273a9c96d6df1bfb734733fefd111dd1f1b4b4fea59cfcbad43fd67e66fcf312bf9cfbeffa79c5bff5bac4ffdf9f0bff0341cdbcc7</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>Table1</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>ScriptObject88</receiver>
+        <slot>execute()</slot>
+    </connection>
+    <connection>
+        <sender>Table1</sender>
+        <signal>contextMenuRequested(int,int)</signal>
+        <receiver>PopupMenu1</receiver>
+        <slot>popup(int,int)</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

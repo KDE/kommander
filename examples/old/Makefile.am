@@ -1,4 +1,4 @@
-execkmdrdir = ${kde_datadir}/kommander/examples/old
+execkmdrdir = ${kde_datadir}/kmdr-editor/editor/examples/old
 
 execkmdr_SCRIPTS = checkmail.kmdr  execprogram.kmdr\
 	form1.kmdr  form3.kmdr  form5.kmdr    populate.kmdr  selectedwidgettext.kmdr  simplelist.kmdr  tidy.kmdr\
