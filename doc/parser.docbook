@@ -526,7 +526,7 @@ were obsoleted by new parser and are not available.
 </listitem>
 <listitem>
 <para><command>exec(<parameter>string</parameter>, <parameter>shell</parameter>)</command> - executes external program
-(using optional <emphasis>shell</emphasis>); returns output of that program
+(using optional <emphasis>shell</emphasis>); block the execution of the current dialog until the program passed as the parameter exits; returns output of that program
 </para></listitem>
 <listitem>
 <para><command>i18n(<parameter>string</parameter>)</command> - marks <emphasis>string</emphasis> for future translation
@@ -545,6 +545,10 @@ file with given <emphasis>key</emphasis>; if there is no such value <emphasis>de
 </itemizedlist>
 <para>New in &kommander; 1.3</para>
 <itemizedlist>
+<listitem>
+<para><command>execBackground(<parameter>string</parameter>, <parameter>shell</parameter>)</command> - executes external program
+(using optional <emphasis>shell</emphasis>) in the background, without blocking the current dialog; contrary to the above <command>exec</command> function, it will not return the output of the program.
+</para></listitem>
 <listitem>
 <para><command>return(<parameter>value</parameter>)</command> - returns a value to the calling object (script, button...)
 </para></listitem>
