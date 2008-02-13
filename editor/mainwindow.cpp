@@ -1823,7 +1823,7 @@ QString MainWindow::whatsThisFrom(const QString&)
 
 void MainWindow::slotActivePartChanged(KParts::Part * part)
 {
-  kdDebug(24000) << "ActivePartChanged" << part << endl; 
+//   kdDebug(24000) << "ActivePartChanged" << part << endl; 
   if (part) // if part == 0L the pointer m_oldKTextEditor is not useable
   {
   //  guiFactory()->removeClient(part);

@@ -435,7 +435,7 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
 {
   MyProcess proc(P->currentWidget());
   QString text;
-  qDebug("Trying %s", params[0].toString().latin1());
+//   qDebug("Trying %s", params[0].toString().latin1());
   if (params.count() > 1)
     text = proc.run(params[0].toString().local8Bit(), params[1].toString());
   else
