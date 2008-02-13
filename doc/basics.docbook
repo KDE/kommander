@@ -124,8 +124,11 @@ The extra functionality that &kommander; offers is the <guilabel>Kommander Text<
 For security reasons we introduced the executable bit requirement in version 1.3. Some will applaud this as long overdue. Others will consider it a terrible annoyance or even too scarey to use. Unfortunately there is no perfect solution. The problem is that you can download a Kommander dialog from anywhere or get one in your email and click on it and run it by accident. Because Kommander can run shell scripts it is sort of in an odd place. While other applications don't nag you this way you actually had to install them so clearly you felt safe and intended to run them. A single line of shell scripting could permanently wipe out your home directory. Our intent is to eliminate an accidental click on an untrusted dialog. We aplogize for any inconvenience, but there is no way to do this to even the developer's satisfaction that it will not annoy you while keeping you safe. 
 </para>
 <para>
-You are not prevented from running a dialog, just nagged. You can make it go away by using a file manager or the shell to set the executable bit. Right click on the dialog in Konqueror, select properties from the menu, choose the permissions tab and check the <quote>is executable</quote> checkbox. Now the nag will be gone from this dialog forever. Check our web site for a tool that searchesfor &kommander; dialogs and allows you to review them and choose whether any or all of them should have the bit set. To use the shell and make all the &kommander; dialogs in a directory executable use this command. <command>chmod u+x *.kmdr</command>
+You are not prevented from running a dialog, just nagged. You can make it go away by using a file manager or the shell to set the executable bit. Right click on the dialog in Konqueror, select properties from the menu, choose the permissions tab and check the <quote>is executable</quote> checkbox. Now the nag will be gone from this dialog forever. Check our web site for a tool that searchesfor &kommander; dialogs and allows you to review them and choose whether any or all of them should have the bit set. To use the shell and make all the &kommander; dialogs in a directory executable use this command. 
 </para>
+<screen>
+chmod u+x *.kmdr
+</screen>
 <warning><para>Do not set dialogs as executable if you are not confident of their origin.</para></warning>
 </sect1>
 
