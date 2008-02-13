@@ -77,6 +77,7 @@
       <item>echo</item>
       <item>env</item>
       <item>exec</item>
+      <item>execBackground</item>
       <item>global</item>
       <item>i18n</item>
       <item>dialog</item>
