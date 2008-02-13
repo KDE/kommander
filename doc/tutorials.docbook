@@ -46,7 +46,9 @@ If you play with layouts and lose a widget behind another or off the form the ob
 
 <sect2 id="included-tools">
 <title>Included custom tools</title>
+<para>
 Several tools are included with this release, already installed on the tools meu under editor. More tools are under development for project management, database front end development, code snippets and more. The most imporant and useful tool to look for is the examples dialog. As the editor is no longer under development for KDE3 it cannot insert a dialog in the current editor, but it will open any selected dialog in a new instance of the editor. There are old dialogs from the early days of &kommander;, tutorials from more recent development and the current section showing new features of this release. Looking at these should help. Keep an eye on our web site for more.
+</para>
 </sect2>
 
 <sect2 id="tutorial-layout">
