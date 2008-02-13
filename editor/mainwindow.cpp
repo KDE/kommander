@@ -385,6 +385,8 @@ void MainWindow::slotCreateBackups()
     bool modified = form->formFile()->isModified();
     if (form->formFile()->hasTempFileName())
       continue; //no need to create a backup
+    if (!modified)
+      continue;
     
     form->formFile()->setFileName(backupName);  
     form->formFile()->setModified(true);
@@ -429,18 +431,20 @@ void MainWindow::runForm()
   m_backupName = m_fileName + ".running";
   m_modified = form->formFile()->isModified();
     
+  bool readOnlyFile = !QFileInfo(m_fileName).isWritable();
   struct stat statbuf;
   ::stat(m_fileName.local8Bit(), &statbuf);
-  if (!KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_backupName), statbuf.st_mode, true))
+  if (!readOnlyFile && !KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_backupName), statbuf.st_mode, true))
   {
     KMessageBox::error(this, i18n("<qt>Cannot create temporary file <i>%1</i>.</qt>").arg(m_backupName));
     return;
   }
   form->formFile()->setFileName(m_fileName);  
-  form->formFile()->setModified(true);
+  if (!readOnlyFile || m_modified)
+    form->formFile()->setModified(true);
   if (form->formFile()->save(false))
   {
-    if (!KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_fileName + ".backup"), statbuf.st_mode, true))
+    if (!readOnlyFile && !KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_fileName + ".backup"), statbuf.st_mode, true))
     {
       KMessageBox::error(this, i18n("<qt>Cannot create backup file <i>%1</i>.</qt>").arg(m_fileName + ".backup"));
     }
@@ -464,11 +468,14 @@ void MainWindow::closeRunningForm(KProcess* process)
   previewing = false;
   delete process;
  
-  struct stat statbuf;
-  ::stat(m_fileName.local8Bit(), &statbuf);
-  FormWindow* form = activeForm();
-  KIO::NetAccess::file_move(KURL::fromPathOrURL(m_backupName), KURL::fromPathOrURL(m_fileName), statbuf.st_mode, true);
-  form->formFile()->setModified(m_modified);
+  if (QFileInfo(m_backupName).exists())
+  {
+    struct stat statbuf;
+    ::stat(m_fileName.local8Bit(), &statbuf);
+    FormWindow* form = activeForm();
+    KIO::NetAccess::file_move(KURL::fromPathOrURL(m_backupName), KURL::fromPathOrURL(m_fileName), statbuf.st_mode, true);
+    form->formFile()->setModified(m_modified);
+  }
 }
 
 void MainWindow::showProperties(QObject *o)
