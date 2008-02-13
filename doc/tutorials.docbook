@@ -316,7 +316,7 @@ Shows how to use Table widget
 These examples reflect the most recent development state of &kommander;. In its current state &kommander; has few limitations for developing small to medium applications. It certainly is not suitable for building a KWord clone, but for a simple editor, database frontend, GUI for commandline programs or any application in the spirit of Unix/Linux small applications it is a good choice. The examples presented here are intended to show the potential as well as how to work around limitations. There are some useful tricks included in these if you want to do a more capable small application with &kommander;. Remember &kommander; is not intended to do everything, but to do most things. For this concession you should be able to build something in &kommander; faster than other alternatives ad add GUI to scripting languages not otherwise supported in KDE.
 </para>
 <note><para>
-The examples are installed to <command>$KDEDIR/share/apps/kommander/examples</command>. In case you do not have them there, get from <ulink url="http://kommander.kdewebdev.org">our home page</ulink>, by downloading the latest release.
+The examples are installed to <command>$KDEDIR/share/apps/kmdr-editor/editor</command>. In case you do not have them there, get from <ulink url="http://kommander.kdewebdev.org">our home page</ulink>, by downloading the latest release.
 </para>
 </note>
 
