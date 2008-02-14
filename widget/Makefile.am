@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libkommanderwidget.la
 
 # set the include path for X, qt and KDE
-INCLUDES = -I$(top_srcdir)/kommander/plugin $(all_includes)
+INCLUDES = -I$(top_srcdir)/kommander/plugin  -I$(top_srcdir)/kommander/factory $(all_includes)
 
 # the library search path. 
 libkommanderwidget_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
