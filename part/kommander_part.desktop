@@ -8,6 +8,7 @@ Name[nds]=Kommander-Komponent
 Name[nl]=Kommander-component
 Name[pl]=Moduł Kommandera
 Name[sv]=Kommander-delprogram
+Name[zh_TW]=Kommander 部件
 MimeType=application/x-kommander;
 ServiceTypes=KParts/ReadOnlyPart
 X-KDE-Library=libkommander_part
