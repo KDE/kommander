@@ -1300,24 +1300,33 @@ void KommanderFactory::loadItem ( const QDomElement &e, QPixmap &pix, QString &t
 
 void KommanderFactory::createItem ( const QDomElement &e, QWidget *widget, Q3ListViewItem *i )
 {
-    if ( qobject_cast<Q3ListBox*>(widget) || qobject_cast<QComboBox*>(widget) )
+    if (qobject_cast<Q3ListBox*>(widget) || qobject_cast<QComboBox*>(widget))
     {
         QDomElement n = e.firstChild().toElement();
         QPixmap pix;
         bool hasPixmap = false;
         QString txt;
-        loadItem ( n, pix, txt, hasPixmap );
+        loadItem(n, pix, txt, hasPixmap);
         Q3ListBox *lb = 0;
-        if ( qobject_cast<Q3ListBox*>(widget) )
+        if (qobject_cast<Q3ListBox*>(widget))
+        {
             lb = qobject_cast<Q3ListBox*>(widget);
-/*FIXME: no QComboBox->listBox()        
-        else
-            lb = qobject_cast<QComboBox*>(widget)->listBox();*/
-        if ( hasPixmap ) {
-        new Q3ListBoxPixmap( lb, pix, txt );
-        } else {
-        new Q3ListBoxText( lb, txt );
-        }
+            if (hasPixmap) {
+              new Q3ListBoxPixmap(lb, pix, txt);
+            } else {
+              new Q3ListBoxText(lb, txt);
+            }
+        } 
+        else if (qobject_cast<QComboBox*>(widget))
+        { 
+          QComboBox *cb = qobject_cast<QComboBox*>(widget);
+          if (hasPixmap) {
+            cb->addItem(pix, txt);
+          } else {
+            cb->addItem(txt);
+          }
+          
+        }  
         /*#ifndef QT_NO_ICONVIEW
             } else if ( widget->inherits( "QIconView" ) ) {
             QDomElement n = e.firstChild().toElement();
