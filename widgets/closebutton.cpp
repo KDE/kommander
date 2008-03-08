@@ -122,7 +122,7 @@ void CloseButton::startProcess()
       return;
     }
   } else
-    if (m_process->waitForFinished())
+    if (m_process && m_process->waitForFinished())
     { 
       KMessageBox::error(this, i18n("Shell process exited with an error."));
       endProcess(m_process->exitCode(), m_process->exitStatus());
