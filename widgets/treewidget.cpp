@@ -24,7 +24,7 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qevent.h>
-#include <qlistview.h>
+#include <q3listview.h>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QShowEvent>
@@ -35,7 +35,7 @@
 
 
 TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
-  : QListView(a_parent), KommanderWidget(this)
+  : Q3ListView(a_parent), KommanderWidget(this)
 {
   this->setObjectName(a_name);
   QStringList states;
@@ -61,10 +61,10 @@ void TreeWidget::setPathSeparator(const QString& a_pathSep)
   
 void TreeWidget::addItemFromString(const QString& s)
 {
-  QStringList elements = QStringList::split(m_pathSeparator, s, true);
+  QStringList elements = s.split(m_pathSeparator, QString::KeepEmptyParts);
   if (elements.count() > 1)
     setRootIsDecorated(true);
-  QListViewItem* parent = 0;
+  Q3ListViewItem* parent = 0;
   if (m_lastPath.size() < elements.count())
     m_lastPath.resize(elements.count());
   int i = 0;
@@ -78,7 +78,7 @@ void TreeWidget::addItemFromString(const QString& s)
     }
     else 
     {
-      QListViewItem* item = (i>0) ? parent->firstChild() : firstChild();
+      Q3ListViewItem* item = (i>0) ? parent->firstChild() : firstChild();
       while (item)
       {
         if (item->text(0) == *it)
@@ -95,21 +95,21 @@ void TreeWidget::addItemFromString(const QString& s)
   }
 }
 
-QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& s) 
+Q3ListViewItem* TreeWidget::itemFromString(Q3ListViewItem* parent, const QString& s) 
 {
   QStringList elements;
   if (s.contains("\t"))
-    elements = QStringList::split("\t", s, true);
+    elements = s.split('\t', QString::KeepEmptyParts);
   else
-    elements = QStringList::split("\\t", s, true);
+    elements = s.split("\\t", QString::KeepEmptyParts);
   int cols = elements.count();
   if (cols >= columns())
     cols = columns();
-  QListViewItem* item;
+  Q3ListViewItem* item;
   if (parent)
-    item = new QListViewItem(parent);
+    item = new Q3ListViewItem(parent);
   else
-    item = new QListViewItem(this);
+    item = new Q3ListViewItem(this);
   
   int i = 0;
   for (QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) 
@@ -117,9 +117,9 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
   return item;
 }
 
-int TreeWidget::itemToIndex(QListViewItem* item) 
+int TreeWidget::itemToIndex(Q3ListViewItem* item) 
 {
-  QListViewItemIterator it(this);
+  Q3ListViewItemIterator it(this);
   int index = 0;
   while (it.current()) {
     if (it.current() == item)
@@ -130,9 +130,9 @@ int TreeWidget::itemToIndex(QListViewItem* item)
   return -1;
 }
 
-QListViewItem* TreeWidget::indexToItem(int item) 
+Q3ListViewItem* TreeWidget::indexToItem(int item) 
 {
-  QListViewItemIterator it(this);
+  Q3ListViewItemIterator it(this);
   int index = 0;
   while (it.current()) {
     if (index == item)
@@ -143,7 +143,7 @@ QListViewItem* TreeWidget::indexToItem(int item)
   return 0;
 }
   
-QString TreeWidget::itemText(QListViewItem* item)
+QString TreeWidget::itemText(Q3ListViewItem* item)
 {
   if (!item)
     return QString();
@@ -156,7 +156,7 @@ QString TreeWidget::itemText(QListViewItem* item)
 QString TreeWidget::itemsText() 
 {
   QStringList items;
-  QListViewItemIterator it(this);
+  Q3ListViewItemIterator it(this);
   while (it.current()) 
   {
     QString path = itemPath(it.current());
@@ -170,7 +170,7 @@ QString TreeWidget::itemsText()
   return items.join("\n");
 }
 
-QString TreeWidget::itemPath(QListViewItem* item)
+QString TreeWidget::itemPath(Q3ListViewItem* item)
 {
   if (!item) 
     return QString();
@@ -194,9 +194,9 @@ bool TreeWidget::isKommanderWidget() const
   return true;
 }
 
-void TreeWidget::setCurrentItem(QListViewItem* item)
+void TreeWidget::setCurrentItem(Q3ListViewItem* item)
 {
-  QListView::setCurrentItem(item);
+  Q3ListView::setCurrentItem(item);
   setSelected(item, true);
   ensureItemVisible(item);
 }
@@ -234,7 +234,7 @@ void TreeWidget::setWidgetText(const QString &a_text)
 
 void TreeWidget::showEvent( QShowEvent *e )
 {
-    QListView::showEvent( e );
+    Q3ListView::showEvent( e );
     emit widgetOpened();
 }
 
@@ -259,7 +259,7 @@ QString TreeWidget::handleDBUS(int function, const QStringList& args)
       m_lastPath.clear();
     case DBUS::insertItems:
     {
-      QStringList items(QStringList::split("\n", args[0], true));
+      QStringList items(args[0].split('\n', QString::KeepEmptyParts));
       for (QStringList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) 
         addItemFromString(*it);
       break;
@@ -290,18 +290,18 @@ QString TreeWidget::handleDBUS(int function, const QStringList& args)
       return itemPath(indexToItem(args[0].toInt()));
     case DBUS::itemDepth:
     {
-      QListViewItem* item = indexToItem(args[0].toInt());
+      Q3ListViewItem* item = indexToItem(args[0].toInt());
       return (item) ? QString::number(item->depth()) : QString::number(-1);
     }
     case DBUS::setPixmap:
     {
-      QPixmap pixmap = KIconLoader::global()->loadIcon(args[0], KIcon::Small);
+      QPixmap pixmap = KIconLoader::global()->loadIcon(args[0], KIconLoader::Small);
       if (args[1].toInt() == -1)
-        for (QListViewItemIterator it(this); it.current(); ++it)
+        for (Q3ListViewItemIterator it(this); it.current(); ++it)
           it.current()->setPixmap(0, pixmap);
       else 
       { 
-        QListViewItem* item = indexToItem(args[1].toInt());
+        Q3ListViewItem* item = indexToItem(args[1].toInt());
         if (item)
           item->setPixmap(0, pixmap);
       }

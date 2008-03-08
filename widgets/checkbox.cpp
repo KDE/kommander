@@ -30,8 +30,9 @@
 #include "checkbox.h"
 
 CheckBox::CheckBox(QWidget *a_parent, const char *a_name)
-  : QCheckBox(a_parent, a_name), KommanderWidget(this)
+  : QCheckBox(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "unchecked";
   states << "semichecked";
@@ -50,11 +51,11 @@ CheckBox::~CheckBox()
 
 QString CheckBox::currentState() const
 {
-  if (state() == QCheckBox::Off)
+  if (checkState() == Qt::Unchecked)
     return "unchecked";
-  else if (state() == QCheckBox::NoChange)
+  else if (checkState() == Qt::PartiallyChecked)
     return "semichecked";
-  else if (state() == QCheckBox::On)
+  else if (checkState() == Qt::Checked)
     return "checked";
   return QString();
 }

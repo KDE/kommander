@@ -99,10 +99,10 @@ QString Slider::handleDBUS(int function, const QStringList& args)
       setValue(args[0].toInt());
       break;
     case DBUS::clear:
-      setValue(minValue());
+      setValue(minimum());
       break;
     case DBUS::setMaximum:
-      setMaxValue(args[0].toInt());
+      setMaximum(args[0].toInt());
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

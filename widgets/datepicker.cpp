@@ -1,8 +1,8 @@
 /***************************************************************************
-                         spinboxint.cpp - Integer spinbox widget 
+                         combobox.cpp - Combobox widget 
                              -------------------
-    copyright            : (C) 2002 by Marc Britton
-    email                : consume@optusnet.com.au
+    copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
+                           (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,24 +13,24 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 /* KDE INCLUDES */
 
 /* QT INCLUDES */
-#include <qobject.h>
+#include <qdatetime.h>
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
-#include <qevent.h>
-#include <qspinbox.h>
 //Added by qt3to4:
 #include <QShowEvent>
+#include <QContextMenuEvent>
 
 /* OTHER INCLUDES */
 #include <specials.h>
-#include "spinboxint.h"
+#include "datepicker.h"
 
-SpinBoxInt::SpinBoxInt(QWidget *a_parent, const char *a_name)
-  : QSpinBox(a_parent), KommanderWidget(this)
+DatePicker::DatePicker(QWidget *a_parent, const char *a_name)
+  : KDatePicker(a_parent), KommanderWidget(this)
 {
   setObjectName(a_name);
   QStringList states;
@@ -39,77 +39,87 @@ SpinBoxInt::SpinBoxInt(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
 }
 
-SpinBoxInt::~SpinBoxInt()
+DatePicker::~DatePicker()
 {
 }
 
-QString SpinBoxInt::currentState() const
+QString DatePicker::currentState() const
 {
-  return "default";
+  return QString("default");
 }
 
-bool SpinBoxInt::isKommanderWidget() const
+bool DatePicker::isKommanderWidget() const
 {
   return true;
 }
 
-QStringList SpinBoxInt::associatedText() const
+QStringList DatePicker::associatedText() const
 {
   return KommanderWidget::associatedText();
 }
 
-void SpinBoxInt::setAssociatedText(const QStringList& a_at)
+void DatePicker::setAssociatedText(const QStringList& a_at)
 {
   KommanderWidget::setAssociatedText(a_at);
 }
 
-void SpinBoxInt::setPopulationText(const QString& a_text)
+void DatePicker::setPopulationText(const QString& a_text)
 {
   KommanderWidget::setPopulationText(a_text);
 }
 
-QString SpinBoxInt::populationText() const
+QString DatePicker::populationText() const
 {
   return KommanderWidget::populationText();
 }
 
-void SpinBoxInt::populate()
+void DatePicker::populate()
 {
   setWidgetText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
-void SpinBoxInt::setWidgetText(const QString &a_text)
+void DatePicker::setWidgetText(const QString& a_text)
 {
-  setValue(a_text.toInt());
+  setDate(QDate::fromString(a_text, Qt::ISODate));
   emit widgetTextChanged(a_text);
 }
 
-void SpinBoxInt::showEvent( QShowEvent *e )
+QString DatePicker::widgetText() const
 {
-  QSpinBox::showEvent(e);
-  emit widgetOpened();
+    return date().toString(Qt::ISODate); 
 }
 
-bool SpinBoxInt::isFunctionSupported(int f)
+
+void DatePicker::showEvent(QShowEvent *e)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::setMaximum;
+    KDatePicker::showEvent( e );
+    emit widgetOpened();
+}
+void DatePicker::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
 }
 
-QString SpinBoxInt::handleDBUS(int function, const QStringList& args)
+
+bool DatePicker::isFunctionSupported(int f)
+{
+  return f == DBUS::text || f == DBUS::setText;
+}
+
+QString DatePicker::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
-      return cleanText();
+      return date().toString(Qt::ISODate);
     case DBUS::setText:
-      setWidgetText(args[0]);
-      break;
-    case DBUS::setMaximum:
-      setMaximum(args[0].toInt());
-      break;
+      setDate(QDate::fromString(args[0], Qt::ISODate));
+      break;    
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
   return QString();
 }
 
-#include "spinboxint.moc"
+#include "datepicker.moc"

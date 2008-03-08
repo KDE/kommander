@@ -34,6 +34,7 @@
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : Q3Wizard(a_parent, a_name, a_modal), KommanderWidget(this)
 {
+  Q_UNUSED(a_flags);
   QStringList states;
   states << "default";
   setStates(states);
@@ -84,7 +85,7 @@ void Wizard::populate()
 
 void Wizard::setWidgetText(const QString &a_text)
 {
-  setCaption(a_text);
+  setWindowTitle(a_text);
   emit widgetTextChanged(a_text);
 }
 

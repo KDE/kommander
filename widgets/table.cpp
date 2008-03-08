@@ -20,14 +20,16 @@
 #include <qstring.h>
 #include <qwidget.h>
 #include <qstringlist.h>
+#include <QTableWidgetItem>
 
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "table.h"
 
 Table::Table(QWidget *a_parent, const char *a_name)
-  : Q3Table(this), KommanderWidget(this)
+  : QTableWidget(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -90,7 +92,7 @@ QString Table::handleDBUS(int function, const QStringList& args)
   switch (function) 
   {
     case DBUS::cellText:
-      return item(args[0].toInt(), args[1].toInt());
+      return item(args[0].toInt(), args[1].toInt())->text();
     case DBUS::setCellText:
       setItem(args[0].toInt(), args[1].toInt(), new QTableWidgetItem(args[2]));
       break;
@@ -128,10 +130,10 @@ QString Table::handleDBUS(int function, const QStringList& args)
       break;
     }
     case DBUS::setColumnCaption:
-      horizontalHeader()->setLabel(args[0].toInt(), args[1]);
+      horizontalHeaderItem(args[0].toInt())->setText(args[1]);
       break;
     case DBUS::setRowCaption:
-      verticalHeader()->setLabel(args[0].toInt(), args[1]);
+      verticalHeaderItem(args[0].toInt())->setText(args[1]);
       break;
     case DBUS::text:
     {
@@ -144,7 +146,7 @@ QString Table::handleDBUS(int function, const QStringList& args)
         {
           if (c)
             row += "\t";
-          row += text(r,c);
+          row += item(r,c)->text();
         }
         if (r) 
           rows += "\n";
@@ -159,14 +161,14 @@ QString Table::handleDBUS(int function, const QStringList& args)
       setRowCount(0);
       QStringList rows;
       QStringList row;
-      rows = QStringList::split("\n", args[0]);
+      rows = args[0].split('\n');
       setRowCount(rows.count());
       for (QStringList::Iterator it = rows.begin(); it != rows.end(); ++it, ++r) 
       {
         
-        row = QStringList::split("\t", *it);
+        row = (*it).split('\t');
         if (!r)
-          setColumCount(row.count());
+          setColumnCount(row.count());
         c = 0;
         for (QStringList::Iterator itr = row.begin(); itr != row.end(); ++itr, ++c)
           setItem(r, c, new QTableWidgetItem(*itr));

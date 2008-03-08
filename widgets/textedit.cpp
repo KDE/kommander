@@ -80,12 +80,12 @@ void TextEdit::populate()
 void TextEdit::setWidgetText(const QString & a_text)
 {
   setText(a_text);
-  emit widgetTextChanged(text());
+  emit widgetTextChanged(toPlainText());
 }
 
 void TextEdit::setTextChanged()
 {
-  emit widgetTextChanged(text());
+  emit widgetTextChanged(toPlainText());
 }
 
 void TextEdit::showEvent(QShowEvent * e)
@@ -103,14 +103,14 @@ QString TextEdit::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
-      return text();
+      return toPlainText();
     case DBUS::setText:
       setWidgetText(args[0]);
       break;
     case DBUS::selection:
-      return selectedText();
+      return textCursor().selectedText();
     case DBUS::setSelection:
-      insert(args[0]);
+      insertPlainText(args[0]);
       break;
     case DBUS::clear:
       setWidgetText("");

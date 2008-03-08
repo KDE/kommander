@@ -51,7 +51,8 @@ public:
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   
-  virtual QString handleDBUS(int function, const QStringList& args);
+  virtual QString handleDBUS(int function, const QStringList& args = QStringList());
+  using KommanderWidget::handleDBUS;
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void populate();

@@ -112,7 +112,7 @@ QString RadioButton::handleDBUS(int function, const QStringList& args)
       setChecked(args[0] != "false");
       break;
     case DBUS::checked:
-      return QString::number(isOn());
+      return QString::number(isChecked());
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

@@ -35,7 +35,7 @@ class KOMMANDER_EXPORT TabWidget : public KTabWidget, public KommanderWidget
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
 public:
-  TabWidget(QWidget *, const char *, int=0);
+  TabWidget(QWidget *, const char *);
   ~TabWidget();
   
   virtual bool isKommanderWidget() const;
@@ -46,6 +46,7 @@ public:
   virtual void setPopulationText(const QString&);
   
   virtual QString handleDBUS(int function, const QStringList& args);
+  using KommanderWidget::handleDBUS;
   virtual bool isFunctionSupported(int function);
   
 public slots:

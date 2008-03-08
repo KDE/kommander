@@ -72,7 +72,7 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 	layout->setSpacing(1);
 
 	// setup buttons
-	QHBoxLayout *tbLayout = new Q3HBoxLayout(m_toolbar);
+	QHBoxLayout *tbLayout = new QHBoxLayout(m_toolbar);
 
 	//bold italic underline left right center link
 	m_formatGroup = new QButtonGroup(m_toolbar);//, "formatGroup");
@@ -164,7 +164,7 @@ void RichTextEditor::setWidgetText(const QString &a_text)
 
 void RichTextEditor::setTextChanged()
 {
-  emit widgetTextChanged(m_textedit->text());
+  emit widgetTextChanged(m_textedit->toPlainText());
 }
 
 void RichTextEditor::textBold(bool a_isOn)
@@ -195,19 +195,19 @@ void RichTextEditor::textAlign(int a_id)
 
 void RichTextEditor::fontChanged(const QFont &a_font)
 {
-  m_buttonTextBold->setOn(a_font.bold());
-  m_buttonTextItalic->setOn(a_font.italic());
-  m_buttonTextUnder->setOn(a_font.underline());
+  m_buttonTextBold->setChecked(a_font.bold());
+  m_buttonTextItalic->setChecked(a_font.italic());
+  m_buttonTextUnder->setChecked(a_font.underline());
 }
 
 void RichTextEditor::alignmentChanged(int a_alignment)
 {
   if((a_alignment == Qt::AlignLeft) || (a_alignment & Qt::AlignLeft)) 
-    m_buttonTextLeft->setOn(true);
+    m_buttonTextLeft->setChecked(true);
   else if(a_alignment & Qt::AlignHCenter) 
-    m_buttonTextCenter->setOn(true);
+    m_buttonTextCenter->setChecked(true);
   else if(a_alignment & Qt::AlignRight) 
-    m_buttonTextRight->setOn(true);
+    m_buttonTextRight->setChecked(true);
 }
 
 void RichTextEditor::showEvent( QShowEvent *e )
@@ -225,12 +225,12 @@ QString RichTextEditor::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
-      return m_textedit->text();
+      return m_textedit->toPlainText();
     case DBUS::setText:
       setWidgetText(args[0]);
       break;
     case DBUS::selection:
-      return m_textedit->selectedText();
+      return m_textedit->textCursor().selectedText();
     case DBUS::clear:
       setWidgetText("");
       break;

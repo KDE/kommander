@@ -34,7 +34,7 @@
 #include "listbox.h"
 
 ListBox::ListBox(QWidget *a_parent, const char *a_name)
-  : KListWidget(a_parent), KommanderWidget(this)
+  : Q3ListBox(a_parent), KommanderWidget(this)
 {
   setObjectName(a_name);
   QStringList states;
@@ -86,13 +86,13 @@ void ListBox::populate()
 void ListBox::setWidgetText(const QString& a_text)
 {
   clear();
-  addItems( a_text.split('\n'));
+  insertStringList( a_text.split('\n'));
   emit widgetTextChanged(a_text);
 }
 
 void ListBox::showEvent(QShowEvent *e)
 {
-  QListWidget::showEvent(e);
+  Q3ListBox::showEvent(e);
   emit widgetOpened();
 }
 
@@ -116,20 +116,20 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
       if (selectionMode() == Single)
         return currentText();
       QString value;
-      for (int i=0; i<count(); i++)
+      for (uint i=0; i<count(); i++)
         if (isSelected(i)) 
           value += (value.length() ? "\n" : "") + item(i)->text();
       return value;
     }
     case DBUS::setSelection:
     {
-      QListWidgetItem* found = findItem(args[0]);
+      Q3ListBoxItem* found = findItem(args[0]);
       if (found)
         setCurrentItem(index(found));
       break;
     }
     case DBUS::insertItems:
-      insertStringList(QStringList::split("\n", args[0]), args[1].toInt());
+      insertStringList(args[0].split('\n'), args[1].toInt());
       break;
     case DBUS::insertItem:
       insertItem(args[0], args[1].toInt());
@@ -165,7 +165,7 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
       break;
     case DBUS::findItem:
     {
-      QListWidgetItem* found = findItem(args[0]); // exact match
+      Q3ListBoxItem * found = findItem(args[0]); // exact match
       if (!found) found = findItem(args[0]); // startswith FIXME
       if (!found) found = findItem(args[0]); //contains FIXME
       if (found)
@@ -191,7 +191,7 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
     case DBUS::text:
     {
       QStringList strings;
-      for(int i=0; i < count() ; ++i)
+      for(uint i=0; i < count() ; ++i)
         strings += item(i)->text();
       return strings.join("\n");
     }

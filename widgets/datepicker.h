@@ -14,11 +14,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _HAVE_COMBOBOX_H_
-#define _HAVE_COMBOBOX_H_
+#ifndef _HAVE_DATEPICKER_H_
+#define _HAVE_DATEPICKER_H_
 
 /* KDE INCLUDES */
-#include <kcombobox.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -26,14 +25,16 @@
 #include <qstring.h>
 //Added by qt3to4:
 #include <QShowEvent>
+#include <QContextMenuEvent>
 
 /* OTHER INCLUDES */
+#include <kdatepicker.h>
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include <kommander_export.h>
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ComboBox : public KComboBox, public KommanderWidget
+class KOMMANDER_EXPORT DatePicker : public KDatePicker, public KommanderWidget
 {
   Q_OBJECT
 
@@ -42,15 +43,16 @@ class KOMMANDER_EXPORT ComboBox : public KComboBox, public KommanderWidget
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   
 public:
-  ComboBox(QWidget *a_parent, const char *a_name);
-  ~ComboBox();
+  DatePicker(QWidget *a_parent, const char *a_name);
+  ~DatePicker();
 
-   virtual bool isKommanderWidget() const;
+  virtual bool isKommanderWidget() const;
   virtual void setAssociatedText(const QStringList&);
   virtual QStringList associatedText() const;
   virtual QString currentState() const;
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
+  virtual QString widgetText() const;
 
   virtual QString handleDBUS(int function, const QStringList& args);
   using KommanderWidget::handleDBUS;
@@ -59,12 +61,13 @@ public slots:
   virtual void setWidgetText(const QString&);
   virtual void populate();
   
-  virtual void emitWidgetTextChanged(int);
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
+  void contextMenuRequested(int xpos, int ypos);
 protected:
   void showEvent(QShowEvent *e);
+  void contextMenuEvent( QContextMenuEvent * e );
 private:
 };
 

@@ -52,6 +52,7 @@ public:
   virtual void show();
   
   virtual QString handleDBUS(int function, const QStringList& args);
+  using KommanderWidget::handleDBUS;
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void setWidgetText(const QString&);

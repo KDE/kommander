@@ -29,7 +29,7 @@
 #include <specials.h>
 #include "tabwidget.h"
 
-TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
+TabWidget::TabWidget(QWidget *a_parent, const char *a_name)
 	: KTabWidget(a_parent), KommanderWidget(this)
 {
   setObjectName(a_name);
@@ -92,9 +92,9 @@ QString TabWidget::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::currentItem:
-      return QString::number(currentPageIndex());
+      return QString::number(currentIndex());
     case DBUS::setCurrentItem:
-      setCurrentPage(args[0].toInt());
+      setCurrentIndex(args[0].toInt());
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

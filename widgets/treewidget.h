@@ -25,6 +25,7 @@
 #include <qvector.h>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
+#include <Q3ListView>
 
 //Added by qt3to4:
 #include <QShowEvent>
@@ -36,7 +37,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT TreeWidget : public QTreeWidget, public KommanderWidget
+class KOMMANDER_EXPORT TreeWidget : public Q3ListView, public KommanderWidget
 {
   Q_OBJECT
   
@@ -48,7 +49,8 @@ class KOMMANDER_EXPORT TreeWidget : public QTreeWidget, public KommanderWidget
 public:
   TreeWidget(QWidget *a_parent, const char *a_name);
   ~TreeWidget();
-  virtual void setCurrentItem(QTreeWidgetItem* item);  
+  virtual void setCurrentItem(Q3ListViewItem* item);  
+  using Q3ListView::setCurrentItem;
   QString pathSeparator() const;
   void setPathSeparator(const QString& a_pathSep);
   
@@ -60,6 +62,7 @@ public:
   virtual void setPopulationText(const QString&);
   
   virtual QString handleDBUS(int function, const QStringList& args);
+  using KommanderWidget::handleDBUS;
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void setWidgetText(const QString&);
@@ -69,15 +72,15 @@ signals:
   void widgetTextChanged(const QString&);
 protected:
   void showEvent(QShowEvent *e);
-  int itemToIndex(QTreeWidgetItem* item);
-  QString itemText(QTreeWidgetItem* item);
+  int itemToIndex(Q3ListViewItem* item);
+  QString itemText(Q3ListViewItem* item);
   QString itemsText();
-  QTreeWidgetItem* indexToItem(int index);
-  QString itemPath(QTreeWidgetItem* item);
+  Q3ListViewItem* indexToItem(int index);
+  QString itemPath(Q3ListViewItem* item);
 private:
   void addItemFromString(const QString& s);
-  QTreeWidgetItem* itemFromString(QTreeWidgetItem* parent, const QString& s);
-  QVector<QTreeWidgetItem> m_lastPath;
+  Q3ListViewItem* itemFromString(Q3ListViewItem* parent, const QString& s);
+  QVector<Q3ListViewItem*> m_lastPath;
   QString m_pathSeparator;
 };
 

@@ -2,12 +2,7 @@
 add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 INCLUDE_DIRECTORIES( 
- 	${CMAKE_SOURCE_DIR}/kommander/widget 
-	${CMAKE_SOURCE_DIR}/kommander/factory 
-	${CMAKE_SOURCE_DIR}/kommander/plugin 
- 	${CMAKE_SOURCE_DIR}/widget 
-	${CMAKE_SOURCE_DIR}/factory 
-	${CMAKE_SOURCE_DIR}/plugin 
+ 	${CMAKE_SOURCE_DIR}/lib
 	${CMAKE_CURRENT_SOURCE_DIR} 
 	${CMAKE_CURRENT_BINARY_DIR} 
 	${KDE4_INCLUDE_DIR} 
@@ -18,50 +13,54 @@ INCLUDE_DIRECTORIES(
 ########### next target ###############
 
 SET(kommanderwidgets_LIB_SRCS
-   # FIXME LATER listbox.cpp
-   # FIXME LATER wizard.cpp
-   # FIXME LATER table.cpp
-   # FIXME LATER richtexteditor.cpp
-   # FIXME LATER treewidget.cpp
-   execbutton.cpp
-   fileselector.cpp
-   groupbox.cpp
-   konsole.cpp
-   lineedit.cpp
-   pixmaplabel.cpp
-   progressbar.cpp
-   scriptobject.cpp
-   slider.cpp
-   spinboxint.cpp
-   statusbar.cpp
-   tabwidget.cpp
-#    textbrowser.cpp
-   textedit.cpp
-   timer.cpp
-   buttongroup.cpp
-   checkbox.cpp
-   closebutton.cpp
-   combobox.cpp
-   dialog.cpp
-   label.cpp
-   radiobutton.cpp
-   subdialog.cpp
-   
-   plugin.cpp  # this is the plugin factory!
+aboutdialog.cpp
+fontdialog.cpp
+buttongroup.cpp
+checkbox.cpp
+closebutton.cpp
+combobox.cpp
+datepicker.cpp
+dialog.cpp
+execbutton.cpp
+fileselector.cpp
+groupbox.cpp
+konsole.cpp
+label.cpp
+lineedit.cpp
+listbox.cpp
+pixmaplabel.cpp
+plugin.cpp
+popupmenu.cpp
+progressbar.cpp
+radiobutton.cpp
+richtexteditor.cpp
+scriptobject.cpp
+slider.cpp
+spinboxint.cpp
+statusbar.cpp
+subdialog.cpp
+table.cpp
+tabwidget.cpp
+textbrowser.cpp
+textedit.cpp
+timer.cpp
+toolbox.cpp
+treewidget.cpp
+wizard.cpp
 )
 
-ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
+KDE4_ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
 
 TARGET_LINK_LIBRARIES(
  kommanderwidgets  
+ kommandercore 
  ${QT_QTCORE_LIBS}
  ${QT_UI_LIBS}
  ${KDE4_KDECORE_LIBS}
  ${KDE4_KDEUI_LIBS}
+ ${KDE4_KDE3SUPPORT_LIBS}
  kio 
- kommanderwidget 
- kommanderplugin 
- kommanderfactory )
+)
 
 SET_TARGET_PROPERTIES(kommanderwidgets PROPERTIES VERSION 4.2.0 SOVERSION 4 )
 INSTALL(TARGETS kommanderwidgets DESTINATION ${LIB_INSTALL_DIR} )
@@ -69,36 +68,3 @@ INSTALL(TARGETS kommanderwidgets DESTINATION ${LIB_INSTALL_DIR} )
 
 ########### install files ###############
 
-
-
-
-#original Makefile.am contents follow:
-
-#lib_LTLIBRARIES = libkommanderwidgets.la
-#
-## set the include path for X, qt and KDE
-#INCLUDES = -I$(top_srcdir)/kommander/widget -I$(top_srcdir)/kommander/factory -I$(top_srcdir)/kommander/plugin $(all_includes)
-#
-## the library search path.
-##widgets_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-#libkommanderwidgets_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -no-undefined
-#
-## the libraries to link against.
-#libkommanderwidgets_la_LIBADD  = $(LIB_KIO) $(LIB_QT) \
-#    $(top_builddir)/kommander/widget/libkommanderwidget.la \
-#    $(top_builddir)/kommander/plugin/libkommanderplugin.la \
-#    $(top_builddir)/kommander/factory/libkommanderfactory.la
-#
-## which sources should be compiled for widgets
-#libkommanderwidgets_la_SOURCES = buttongroup.cpp subdialog.cpp checkbox.cpp \
-#			closebutton.cpp combobox.cpp listbox.cpp wizard.cpp dialog.cpp tabwidget.cpp \
-#			execbutton.cpp fileselector.cpp groupbox.cpp	lineedit.cpp radiobutton.cpp \
-#			spinboxint.cpp textedit.cpp scriptobject.cpp richtexteditor.cpp treewidget.cpp \
-#			plugin.cpp statusbar.cpp progressbar.cpp textbrowser.cpp slider.cpp label.cpp \
-#			pixmaplabel.cpp konsole.cpp timer.cpp table.cpp
-#
-## these are the headers for your project that won't be installed
-#noinst_HEADERS = buttongroup.h  checkbox.h  subdialog.h  closebutton.h  combobox.h listbox.h wizard.h dialog.h	   execbutton.h   fileselector.h  groupbox.h	 lineedit.h radiobutton.h	   spinboxint.h   textedit.h tabwidget.h scriptobject.h richtexteditor.h treewidget.h statusbar.h textbrowser.h label.h pixmaplabel.h
-#
-## let automoc handle all of the meta source files (moc)
-#METASOURCES = AUTO

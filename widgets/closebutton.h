@@ -25,6 +25,7 @@
 #include <qobject.h>
 //Added by qt3to4:
 #include <QShowEvent>
+#include <QProcess>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -54,6 +55,7 @@ public:
   bool writeStdout() const;
   
   virtual QString handleDBUS(int function, const QStringList& args);
+  using KommanderWidget::handleDBUS;
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void setWriteStdout(bool);

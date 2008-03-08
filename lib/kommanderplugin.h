@@ -40,6 +40,7 @@
 #include "kommander_export.h"
 
 class QWidget;
+class QIcon;
 
 class KOMMANDER_EXPORT KommanderPlugin : public QObject 
 {
@@ -48,7 +49,7 @@ class KOMMANDER_EXPORT KommanderPlugin : public QObject
     KommanderPlugin();
     ~KommanderPlugin();
 
-    virtual void addWidget( const QString &name, const QString &group, const QString &toolTip, const QString &whatsThis = QString(), bool isContainer = FALSE );
+    virtual void addWidget( const QString &name, const QString &group, const QString &toolTip, QIcon *iconSet, const QString &whatsThis = QString(), bool isContainer = FALSE );
     virtual void removeWidget( const QString &name );
     virtual QStringList widgets() const;
 
@@ -57,23 +58,44 @@ class KOMMANDER_EXPORT KommanderPlugin : public QObject
     virtual QString toolTip( const QString &key ) const;
     virtual QString whatsThis( const QString &key ) const;
     virtual bool isContainer( const QString &key ) const;
+    virtual QIcon *iconSet( const QString &key ) const;
+
+    /**
+     * Sets the default group for functions. Must be called before registerFunction.
+     * @param group the groups ID
+     */
+    static void setDefaultGroup(int group);
+
+    /**
+     * Register a function of the plugin.
+     * @param id Kommander wide unique ID
+     * @param function function signature
+     * @param description description of what the function does
+     * @param minArgs minimum number of accepted arguments
+     * @param maxArgs maximum number of accepted arguments
+     * @return true if registration was successful
+     */
+    static bool registerFunction(int id, const QString& function, const QString description = QString::null,
+    int minArgs = -1, int maxArgs = -1);
+
 private:
     struct WidgetInfo
     {
-	WidgetInfo() { }
-	WidgetInfo( const QString &g, const QString &t, const QString &w = QString(), bool c = FALSE )
-	    : group( g ), toolTip( t ), whatsThis( w ), isContainer( c )
-	{
-	}
-	QString group;
-	QString toolTip;
-	QString whatsThis;
-	bool isContainer;
+      WidgetInfo() { }
+      WidgetInfo( const QString &g, const QString &t, QIcon *i, const QString &w = QString::null, bool c = false)
+          : group( g ), toolTip( t ), iconSet(i), whatsThis( w ), isContainer( c )
+      {}
+
+      QString group;
+      QString toolTip;
+      QIcon *iconSet;
+      QString whatsThis;
+      bool isContainer;
     };
     typedef QMap<QString, WidgetInfo> WidgetInfos;
     WidgetInfos m_widgets;
 };
 
-#define KOMMANDER_EXPORT_PLUGIN(plugin) extern "C" { void *kommander_plugin() { return new plugin; } }
+#define KOMMANDER_EXPORT_PLUGIN(plugin) extern "C" KOMMANDER_EXPORT void *kommander_plugin() { return new plugin; } 
 
 #endif // _HAVE_KOMMANDERPLUGIN_H_

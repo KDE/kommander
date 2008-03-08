@@ -15,6 +15,7 @@
  ***************************************************************************/
 
 #include "kommanderplugin.h"
+#include "specialinformation.h"
 
 KommanderPlugin::KommanderPlugin()
 {
@@ -24,9 +25,9 @@ KommanderPlugin::~KommanderPlugin()
 {
 }
 
-void KommanderPlugin::addWidget( const QString &name, const QString &group, const QString &toolTip, const QString &whatsThis, bool isContainer )
+void KommanderPlugin::addWidget( const QString &name, const QString &group, const QString &toolTip, QIcon *iconSet, const QString &whatsThis, bool isContainer )
 {
-    m_widgets[name] = WidgetInfo( group, toolTip, whatsThis, isContainer );
+    m_widgets[name] = WidgetInfo( group, toolTip, iconSet, whatsThis, isContainer );
 }
 
 void KommanderPlugin::removeWidget( const QString &name )
@@ -62,5 +63,21 @@ bool KommanderPlugin::isContainer( const QString &name ) const
 {
     return m_widgets[name].isContainer;
 }
+
+QIcon* KommanderPlugin::iconSet( const QString &name ) const
+{
+    return m_widgets[name].iconSet;
+}
+
+void KommanderPlugin::setDefaultGroup( int id )
+{
+    SpecialInformation::setDefaultGroup(id);
+}
+
+bool KommanderPlugin::registerFunction(int id, const QString& function, const QString description , int minArgs, int maxArgs)
+{
+   return SpecialInformation::insert(id, function, description, minArgs, maxArgs); 
+}
+
 
 #include "kommanderplugin.moc"

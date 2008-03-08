@@ -109,8 +109,8 @@ bool Instance::build()
   m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
   
   new KommanderAdaptor(this);
-  QDBusConnection dbus = QDBusConnection::sessionBus();
-  dbus.registerObject(m_uiFileName.path().toLocal8Bit(), this);
+//   QDBusConnection dbus = QDBusConnection::sessionBus();
+//   dbus.registerObject(m_uiFileName.fileName(), this);
 
   return true;
 }

@@ -34,7 +34,8 @@ class TextBrowser: public QTextBrowser, public KommanderWidget
 {
   Q_OBJECT Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
-  Q_PROPERTY(bool KommanderWidget READ isKomconst char *a_nammanderWidget) 
+  Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
+
 public:
   TextBrowser(QWidget*,const char *a_name);
   virtual ~TextBrowser();
@@ -47,6 +48,7 @@ public:
   virtual void setPopulationText(const QString &);
   
   virtual QString handleDBUS(int function, const QStringList& args);
+  using KommanderWidget::handleDBUS;
   virtual bool isFunctionSupported(int function);
 
 public slots:

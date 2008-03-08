@@ -259,7 +259,7 @@ QVariant Expression::parseNot()
   if (next() == "!" || next() == "not")
   {
     m_start++;    
-    return !parseComparison().asBool();
+    return !parseComparison().toBool();
   }
   else 
     return parseComparison();

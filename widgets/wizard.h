@@ -51,6 +51,7 @@ public:
   virtual void setPopulationText(const QString&);
   
   virtual QString handleDBUS(int function, const QStringList& args);
+  using KommanderWidget::handleDBUS;
     
   enum HelpAction { None, Command, Dialog };
   HelpAction helpAction() const;

@@ -106,7 +106,7 @@ QString StatusBar::handleDBUS(int function, const QStringList& args)
       removeItem(args[0].toInt());
       break;
     case DBUS::clear:
-      clear();
+      clearMessage();
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

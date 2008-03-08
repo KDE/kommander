@@ -119,7 +119,7 @@ void Konsole::processReceivedStdout()
   mSeenEOL = pBuf[pBuf.length()-1] == '\n';
   if (mSeenEOL)
     pBuf = pBuf.left(pBuf.length()-1);
-  insert(pBuf);
+  insertPlainText(pBuf);
 }
 
 void Konsole::processExited(int c, QProcess::ExitStatus exitStatus)
@@ -143,7 +143,7 @@ QString Konsole::handleDBUS(int function, const QStringList& args)
       setWidgetText(args[0]);
       break;
     case DBUS::text:
-      return text();
+      return toPlainText();
     case DBUS::clear:
       clear();
       break;

@@ -18,7 +18,7 @@
 #define _HAVE_LISTBOX_H_
 
 /* KDE INCLUDES */
-#include <klistwidget.h>
+// #include <klistwidget.h>
 
 /* QT INCLUDES */
 #include <qstringlist.h>
@@ -26,6 +26,7 @@
 #include <qstring.h>
 //Added by qt3to4:
 #include <QShowEvent>
+#include <Q3ListBox>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -33,7 +34,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ListBox : public KListWidget, public KommanderWidget
+class KOMMANDER_EXPORT ListBox : public Q3ListBox, public KommanderWidget
 {
   Q_OBJECT
   
@@ -52,6 +53,7 @@ public:
   virtual void setPopulationText(const QString&);
 
   virtual QString handleDBUS(int function, const QStringList& args);    
+  using KommanderWidget::handleDBUS;
   virtual bool isFunctionSupported(int function);
 public slots:
   virtual void setWidgetText(const QString&);

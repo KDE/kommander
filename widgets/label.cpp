@@ -29,8 +29,9 @@
 #include "label.h"
 
 Label::Label(QWidget *a_parent, const char *a_name)
-  : QLabel(a_parent, a_name), KommanderWidget(this)
+  : QLabel(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);

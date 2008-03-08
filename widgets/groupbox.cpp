@@ -84,13 +84,13 @@ void GroupBox::populate()
 void GroupBox::insertChild(QObject *a_child)
 {
   m_childList.append(a_child);
-  QObject::insertChild(a_child);
+  a_child->setParent(this);
 }
  
 void GroupBox::removeChild(QObject *a_child)
 {
-  m_childList.remove(a_child);
-  QObject::removeChild(a_child);
+  m_childList.removeAll(a_child);
+  a_child->setParent(0L);
 }
 
 void GroupBox::showEvent( QShowEvent *e )

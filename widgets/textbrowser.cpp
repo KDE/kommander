@@ -95,12 +95,12 @@ QString TextBrowser::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
-      return text();
+      return toPlainText();
     case DBUS::setText:
       setText(args[0]);
       break;
     case DBUS::selection:
-      return selectedText();
+      return textCursor().selectedText();
     case DBUS::clear:
       clear();
       break;

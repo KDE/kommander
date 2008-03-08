@@ -40,6 +40,7 @@
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kpassworddialog.h>
+#include <kdebug.h>
 
 using namespace Parse;
 
@@ -165,7 +166,7 @@ static ParseNode f_fileRead(Parser*, const ParameterList& params)
   if (!file.open(QIODevice::ReadOnly))
     return ParseNode("");
   QTextStream text(&file);
-  return text.read();
+  return text.readAll();
 }
 
 static ParseNode f_fileWrite(Parser*, const ParameterList& params)
@@ -304,11 +305,11 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
 {
   MyProcess proc(P->currentWidget());
   QString text;
-  qDebug("Trying %s", params[0].toString().toLatin1());
+  kDebug() << "Trying %s" << params[0].toString();
   if (params.count() > 1)
-    text = proc.run(params[0].toString().local8Bit(), params[1].toString());
+    text = proc.run(params[0].toString().toLocal8Bit(), params[1].toString());
   else
-    text = proc.run(params[0].toString().local8Bit());
+    text = proc.run(params[0].toString().toLocal8Bit());
   return text;
 }
 

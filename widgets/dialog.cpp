@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
-#include <kprocess.h>;
+#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -32,8 +32,9 @@
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : QDialog(a_parent), KommanderWindow(this)
 {
-  this->setObjectName(a_name);
-  this->setModal(a_modal);
+  Q_UNUSED(a_flags);
+  setObjectName(a_name);
+  setModal(a_modal);
   QStringList states;
   states << "default";
   states << "initialization";
@@ -158,7 +159,7 @@ QString Dialog::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {
     case DBUS::text:
-      return caption();
+      return windowTitle();
     case DBUS::setText:
       setWidgetText(args[0]);
       break;

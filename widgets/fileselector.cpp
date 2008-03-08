@@ -49,7 +49,9 @@ FileSelector::FileSelector(QWidget * a_parent, const char *a_name)
   
   m_selectButton = new KPushButton("...", this);
 
-  m_boxLayout = new QHBoxLayout(this, 0, 11);
+  m_boxLayout = new QHBoxLayout(this);
+  m_boxLayout->setMargin(0);
+  m_boxLayout->setSpacing(11);
   m_boxLayout->addWidget(m_lineEdit);
   m_boxLayout->addWidget(m_selectButton);
 
@@ -218,7 +220,7 @@ QString FileSelector::handleDBUS(int function, const QStringList& args)
       return m_lineEdit->selectedText();
     case DBUS::setSelection:
     { 
-      int f = m_lineEdit->text().find(args[0]);
+      int f = m_lineEdit->text().indexOf(args[0]);
       if (f != -1)
         m_lineEdit->setSelection(f, args[0].length());
       break;

@@ -22,6 +22,7 @@
  
 #include <kapplication.h>
 #include <kconfig.h>
+#include <kconfiggroup.h>
 #include <klocale.h>
 #include <kglobal.h>
 
@@ -248,7 +249,7 @@ QString KommanderWidget::evalArrayFunction(const QString& function, const QStrin
     m_arrays[args[0]][args[1]] = args[2];
   else if (fname == Array::fromString)
   {
-    QStringList lines = QStringList::split("\n", args[1]);
+    QStringList lines = args[1].split('\n');
     for (int i=0; i<lines.count(); i++)
     {
         QString key = lines[i].section('\t', 0, 0).trimmed();

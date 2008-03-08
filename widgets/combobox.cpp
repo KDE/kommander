@@ -82,13 +82,13 @@ void ComboBox::populate()
 void ComboBox::setWidgetText(const QString& a_text)
 {
   clear();
-  insertStringList(QStringList::split("\n", a_text));
+  insertItems(-1, a_text.split('\n'));
   emit widgetTextChanged(a_text);
 }
 
 void ComboBox::emitWidgetTextChanged(int a_index)
 {
-  emit widgetTextChanged(text(a_index));
+  emit widgetTextChanged(itemText(a_index));
 }
 
 void ComboBox::showEvent(QShowEvent *e)
@@ -116,7 +116,7 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
     case DBUS::selection:
       return currentText();
     case DBUS::currentItem:
-      return QString::number(currentItem());
+      return QString::number(currentIndex());
     case DBUS::setCurrentItem:
       setCurrentItem(args[0]);
       break;
@@ -124,23 +124,23 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
     {
       int i = args[0].toInt();
       if (i >= 0 && i < count()) 
-        return text(i);
+        return itemText(i);
       break;
     }
     case DBUS::removeItem:
       removeItem(args[0].toInt());
       break;
     case DBUS::insertItem:
-      insertItem(args[0], args[1].toInt());
+      insertItem(args[1].toInt(), args[0]);
       break;
     case DBUS::insertItems:
-      insertStringList(QStringList::split("\n", args[0]), args[1].toInt());
+      insertItems(args[1].toInt(), args[0].split('\n'));
       break;
     case DBUS::addUniqueItem:
       for (int i=0; i<count(); i++)
-        if (text(i) == args[0])
+        if (itemText(i) == args[0])
           return QString();
-      insertItem(args[0]);
+      insertItem(-1, args[0]);
       break;
     case DBUS::clear:
       clear();
@@ -150,7 +150,7 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
     case DBUS::setSelection:
     {
       for (int i = 0; i < count(); i++)
-        if (text(i) == args[0])
+        if (itemText(i) == args[0])
         {
           setCurrentItem(QString(i));
           break;

@@ -54,6 +54,7 @@ public:
   QString kmdrFile() const;
 
   virtual QString handleDBUS(int function, const QStringList& args);  
+  using KommanderWidget::handleDBUS;
 public slots:
   void setKmdrFile(QString);
   virtual void showDialog();

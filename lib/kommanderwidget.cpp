@@ -120,7 +120,10 @@ QString KommanderWidget::evalAssociatedText() // expands and returns associated 
     printError(i18n("Invalid state for associated text."));
     return QString();
   }
-  return evalAssociatedText(m_associatedText[index]);
+  if (m_associatedText.size() > index)
+    return evalAssociatedText(m_associatedText[index]);
+  else 
+    return QString();
 }
 
 QString KommanderWidget::evalAssociatedText(const QString& a_text)
