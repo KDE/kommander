@@ -208,7 +208,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     /* Widget special */
     else if (parseWidget(identifier))
       evalText += evalWidgetFunction(identifier, a_text, pos);
-    else if (a_text[pos] == '.')
+    else if (pos < baseTextLength && a_text[pos] == '.')
     {
       pos++;
       QString function = parseIdentifier(a_text, pos);

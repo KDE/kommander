@@ -772,6 +772,9 @@ void KommanderFactory::setProperty ( QObject* obj, const QString &prop, const QD
             {
                 if ( qobject_cast<QAbstractButton*>(obj) && qobject_cast<QButtonGroup*>(obj->parent()) )
                     qobject_cast<QButtonGroup*>(obj->parent())->addButton ( qobject_cast<QAbstractButton*>(obj), v.toInt() );
+            } else if (prop == "name") //TODO: Look up why name is not treated as a valid property as in KDE3!
+            {
+              obj->setObjectName(v.toString());
             }
 
             return;
