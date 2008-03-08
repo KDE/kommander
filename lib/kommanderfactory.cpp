@@ -19,12 +19,14 @@
 **********************************************************************/
 /* Modifications by Marc Britton (c) 2002 under GNU GPL, terms as above */
 
+#include "kommanderfactory.h"
+#include <kommanderplugin.h>
+
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klibloader.h>
-
-#include "kommanderfactory.h"
-#include <kommanderplugin.h>
+#include <kglobal.h>
+#include <klocale.h>
 #include <kassistantdialog.h>
 
 
@@ -64,8 +66,7 @@
 #include "domtool.h"
 
 #include <stdlib.h>
-#include <kglobal.h>
-#include <klocale.h>
+#include <zlib.h>
 
 static QList<KommanderPlugin *> widgetPlugins;
 
@@ -586,7 +587,7 @@ QLayout *KommanderFactory::createLayout ( QWidget *widget, QLayout*  layout, Lay
     if ( !layout && widget && qobject_cast<QTabWidget*>(widget) )
         widget = qobject_cast<QTabWidget*>(widget)->currentWidget();
     if ( !layout && widget && qobject_cast<QToolBox*>(widget) )
-        widget = qobject_cast<QToolBox*>(widget)->currentItem();
+      widget = qobject_cast<QToolBox*>(widget)->widget(qobject_cast<QToolBox*>(widget)->currentIndex());
     if ( !layout && widget && qobject_cast<QWizard*>(widget) )
         widget = qobject_cast<QWizard*>(widget)->currentPage();
 
@@ -823,8 +824,7 @@ void KommanderFactory::setProperty ( QObject* obj, const QString &prop, const QD
         }
     }
 
-    bool b = obj->setProperty ( prop.toAscii(), v );
-    kdDebug(24000) << obj << "setproperty" << prop.toAscii() << "=" <<v << " result = " << b;
+    obj->setProperty ( prop.toAscii(), v );
 }
 
 void KommanderFactory::createSpacer ( const QDomElement &e, QLayout *layout )
@@ -912,14 +912,14 @@ static QImage loadImageData ( QDomElement &n2 )
         ba[ i ] = r;
     }
     QString format = n2.attribute ( "format", "PNG" );
-    /*if ( format == "XPM.GZ" ) {
-    ulong len = n2.attribute( "length" ).toULong();
-    if ( len < data.length() * 5 )
-        len = data.length() * 5;
-    QByteArray baunzip( len );
-    ::uncompress( (uchar*) baunzip.data(), &len, (uchar*) ba, data.length()/2 );
-    img.loadFromData( (const uchar*)baunzip.data(), len, "XPM" );
-    }  else*/
+    if ( format == "XPM.GZ" ) {
+        ulong len = n2.attribute( "length" ).toULong();
+        if ( len < (ulong) data.length() * 5 )
+            len = data.length() * 5;
+        QByteArray baunzip(len, ' ');
+        ::uncompress( (uchar*) baunzip.data(), &len, (uchar*) ba, data.length()/2 );
+        img.loadFromData( (const uchar*)baunzip.data(), len, "XPM" );
+    }  else
     {
         img.loadFromData ( ( const uchar* ) ba, data.length() / 2, format.toAscii() );
     }
@@ -976,10 +976,7 @@ QPixmap KommanderFactory::loadPixmap ( const QDomElement &e )
         return pix;*/
     }
 
-    QImage img = loadFromCollection ( arg );
-    QPixmap pix;
-    pix.convertFromImage ( img );
-    return pix;
+    return QPixmap::fromImage(loadFromCollection(arg));
 }
 
 QColorGroup KommanderFactory::loadColorGroup ( const QDomElement &e )
@@ -1472,8 +1469,7 @@ void KommanderFactory::loadToolBars ( const QDomElement &e )
                 if ( n2.tagName() == "action" )
                 {
                     QAction *a = findAction ( n2.attribute ( "name" ) );
-                    if ( a )
-                        a->addTo ( tb );
+                    tb->addAction(a);
                 }
                 else if ( n2.tagName() == "separator" )
                 {
@@ -1511,8 +1507,7 @@ void KommanderFactory::loadMenuBar ( const QDomElement &e )
                 if ( n2.tagName() == "action" )
                 {
                     QAction *a = findAction ( n2.attribute ( "name" ) );
-                    if ( a )
-                        a->addTo ( popup );
+                    popup->addAction(a);
                 }
                 else if ( n2.tagName() == "separator" )
                 {
