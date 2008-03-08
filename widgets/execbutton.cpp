@@ -102,13 +102,15 @@ void ExecButton::startProcess()
   if (m_process != 0)
     return;
   QString at = evalAssociatedText().trimmed();
-  
+  if (at.isEmpty())
+      return;
+  bool enabledStatus = isEnabled();
   if (m_blockGUI != None)
     setEnabled(false);
   if (m_blockGUI == GUI)
     KApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
   m_process = new KProcess();
-  connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(finished(int, QProcess::ExitStatus)));
+  connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processExited(int, QProcess::ExitStatus)));
   //m_blockGUI == GUI;
   m_process->setProgram(at);
   m_process->start();
@@ -118,13 +120,13 @@ void ExecButton::startProcess()
     }
   if (m_blockGUI == GUI)
   {
-    setEnabled(true);
     KApplication::restoreOverrideCursor();
     if (writeStdout())
       cout << m_process->readAll().data() << flush; //FIXME m_output.data() << flush;
     delete m_process;
     m_process = 0;
   }
+  setEnabled(enabledStatus);
 }
 
 
