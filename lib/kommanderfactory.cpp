@@ -1215,7 +1215,6 @@ void KommanderFactory::createColumn ( const QDomElement &e, QWidget *widget )
             lv->header()->setResizeEnabled( resizeable, i );
             */
     }
-#ifndef QT_NO_TABLE
     else if ( qobject_cast<QTableWidget*>(widget) )
     {
         QTableWidget *table = qobject_cast<QTableWidget*>(widget);
@@ -1258,13 +1257,32 @@ void KommanderFactory::createColumn ( const QDomElement &e, QWidget *widget )
         }
 
         int i = isRow ? table->rowCount() - 1 : table->columnCount() - 1;
-        if ( hasPixmap )
+        QTableWidgetItem *header;
+        if (isRow)
         {
-            //table->setHeaderData(i, isRow ? Qt::Horizontal : Qt::Vertical, QVariant(pix));
+          header = table->verticalHeaderItem(i);
+          if (!header)
+          {
+             header = new QTableWidgetItem;
+             table->setVerticalHeaderItem(i, header);
+          }
+        } else
+        {
+          header = table->horizontalHeaderItem(i);
+          if (!header)
+          {
+            header = new QTableWidgetItem;
+            table->setHorizontalHeaderItem(i, header);
+          }
+        }
+                                          
+        if (hasPixmap)
+        {
+          header->setIcon(pix);
         }
         else
         {
-            //table->setHeaderData(i, isRow ? Qt::Horizontal : Qt::Vertical, QVariant(txt));
+          header->setText(txt);
         }
         if ( !isRow && !field.isEmpty() )
         {
@@ -1273,7 +1291,6 @@ void KommanderFactory::createColumn ( const QDomElement &e, QWidget *widget )
             fieldMaps.insert ( table, fieldMap );
         }
     }
-#endif
 }
 
 void KommanderFactory::loadItem ( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap )
