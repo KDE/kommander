@@ -35,6 +35,8 @@
 #include <qstringlist.h>
 #include <qlist.h>
 #include <qvariant.h>
+#include <QWizard>
+#include <QMainWindow>
 //Added by qt3to4:
 //#include <Q3MemArray>
 
@@ -397,28 +399,22 @@ void KommanderWidget::printError(const QString& a_error) const
 {
   if (showErrors) 
   {
-    //FIXME create a warningYesNoCancel
- /*   KDialog* dialog = new KDialog("Error", KDialog::Yes | KDialog::No | KDialog::Cancel,
-                KDialog::Yes, KDialog::No, 0, 0, true, false, 
-                i18n("Continue"), i18n("Continue && Ignore Next Errors"), i18n("Stop"));
-    switch (KMessageBox::createKMessageBox(dialog, QMessageBox::Warning, 
-                i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->name()),
-                     a_error), QStringList(), QString(), 0, 0))
+    int result = KMessageBox::warningYesNoCancel(parentDialog(),  i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->name()), a_error), i18n("Error"), KGuiItem(i18n("Continue")), KGuiItem(i18n("Continue && Ignore Next Errors")), KGuiItem(i18n("Stop")));
+    if (result == KMessageBox::No)
     {
-      case KDialog::No:
-        showErrors = false;
-      case KDialog::Yes:
-        break;
-      case KDialog::Cancel:
-        if (parentDialog()->inherits("QDialog"))
-        {
-          parentDialog()->close();
-          exit(-1);
-        }
-        else if (parentDialog()->inherits("QMainWindow"))
-          kapp->quit();
-    }
-    */
+      showErrors = false;
+    } else 
+    if (result == KMessageBox::Cancel)
+    {
+      if (qobject_cast<QDialog*>(parentDialog()) || qobject_cast<QWizard*>(parentDialog()))
+      {
+        parentDialog()->close();
+        exit(-1);
+      }
+      else if (qobject_cast<QMainWindow*>(parentDialog()))
+        kapp->quit();
+      
+    }    
   }
   else 
   {
