@@ -32,9 +32,6 @@ MyProcess::MyProcess(const KommanderWidget *a_atw)
 {
 }
 
-void qt_enter_modal(QWidget *widget);
-void qt_leave_modal(QWidget *widget);
-
 void MyProcess::setBlocking(bool blocking)
 {
   m_blocking = blocking;
@@ -64,7 +61,7 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   QString at = a_command.trimmed();
   if (at.isEmpty())
   {
-    emit processExited(0);
+    emit processExited(0, 0, QProcess::NormalExit);
     return QString();
   }
   
@@ -85,52 +82,41 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   mProcess = new KProcess;
   (*mProcess) << shellName.toLatin1();
 
-  //connect(mProcess, SIGNAL(receivedStdout(KProcess*, char*, int)),
-  //    SLOT(slotReceivedStdout(KProcess*, char*, int)));
-  //connect(mProcess, SIGNAL(processExited(KProcess*)), SLOT(slotProcessExited(KProcess*)));
-  /*
+  connect(mProcess, SIGNAL(readyReadStandardOutput(KProcess*, char*, int)),
+     SLOT(slotReceivedStdout()));
+  connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+  
   if (!m_blocking)
   {
-    if(!mProcess->start())
-    {
-      m_atw->printError(i18n("<qt>Failed to start shell process<br><b>%1</b></qt>", shellName));
-      return QString();
-    }
-    //mProcess->writeStdin(m_input, m_input.length());
-    //mProcess->closeStdin();
-
+    mProcess->start();
+    mProcess->write(m_input.toUtf8(), m_input.length());
     return QString();
   }
   else 
   {
-    //FIXME KProcess with blocking feature
     int returncode;
-    returncode = mProcess->execute();
+    returncode = mProcess->execute(10000); //10 seconds timeout
     if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
       return m_output.left(m_output.length()-1);
     else
       return m_output;
-  }*/
+  }
   return QString();
 }
 
-void MyProcess::slotReceivedStdout(KProcess*, char* a_buffer, int a_len)
+void MyProcess::slotReceivedStdout()
 {
-  m_output += QString::fromLocal8Bit(a_buffer, a_len);
-  emit processReceivedStdout(this, a_buffer, a_len);
+  QString data = QString::fromLocal8Bit(mProcess->readAllStandardOutput().data());
+  m_output += data;
+  emit processReceivedStdout(this, data);
 }
 
-void MyProcess::slotProcessExited(KProcess* process)
+void MyProcess::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
-  if (m_loopStarted)
-  {
-    qApp->exit_loop();
-    m_loopStarted = false;
-  }
-  delete process;
   if (!m_blocking)
-    emit processExited(this);
+    emit processExited(this, exitCode, exitStatus);
+  delete mProcess;
   mProcess = 0;
 }
 
-//#include "myprocess.moc"
+#include "myprocess.moc"

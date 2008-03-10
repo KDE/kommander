@@ -41,11 +41,11 @@ public:
   bool isBlocking() const;
   QString output() const;
 signals:
-  void processExited(MyProcess*);
-  void processReceivedStdout(MyProcess*, char*, int);
+  void processExited(MyProcess* process, int exitCode, QProcess::ExitStatus exitStatus);
+  void processReceivedStdout(MyProcess*, QString );
 private slots:
-  void slotReceivedStdout(KProcess*, char*, int);
-  void slotProcessExited(KProcess*);
+  void slotReceivedStdout();
+  void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 protected:
   const KommanderWidget *m_atw;
   QString m_output;
