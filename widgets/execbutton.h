@@ -32,7 +32,7 @@
 #include "kommander_export.h"
 
 class QWidget;
-class KProcess;
+class MyProcess;
 
 class QShowEvent;
 class KOMMANDER_EXPORT ExecButton : public KPushButton, public KommanderWidget
@@ -76,7 +76,7 @@ public slots:
   // Execute script from associastedText
   virtual void startProcess();
   // Process has ended
-  virtual void processExited(int, QProcess::ExitStatus);
+  virtual void processExited(MyProcess* process, int exitCode, QProcess::ExitStatus exitStatus);
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
@@ -88,7 +88,6 @@ protected:
   Blocking m_blockGUI;
   // Output from process
   QString m_output;
-  KProcess* m_process;
   void showEvent( QShowEvent *e );
 private:
 };

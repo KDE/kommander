@@ -18,7 +18,6 @@
 #include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qcursor.h>
@@ -30,9 +29,11 @@
 #include <QShowEvent>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
-#include <specials.h>
+#include "kommanderwidget.h"
+#include "specials.h"
 #include "execbutton.h"
+#include "myprocess.h"
+
 #include <iostream>
 
 using namespace std;
@@ -48,7 +49,6 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   setWriteStdout(true);
   setBlockGUI(Button);
   connect(this, SIGNAL(clicked()), this, SLOT(startProcess()));
-  m_process = 0;
 }
 
 ExecButton::~ExecButton()
@@ -99,6 +99,26 @@ void ExecButton::setWidgetText(const QString& a_text)
 
 void ExecButton::startProcess()
 {
+  QString at = evalAssociatedText().trimmed();
+  if (at.isEmpty())
+    return;
+  bool enabledStatus = isEnabled();
+  if (m_blockGUI != None)
+    setEnabled(false);
+  if (m_blockGUI == GUI)
+    KApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+  MyProcess* process = new MyProcess(this);
+  process->setBlocking(m_blockGUI == GUI);
+  connect(process, SIGNAL(processExited(MyProcess*, int, QProcess::ExitStatus)), SLOT(processExited(MyProcess*, int, QProcess::ExitStatus)));
+  m_output = process->run(at);
+  if (m_blockGUI == GUI)
+  {
+    KApplication::restoreOverrideCursor();
+    if (writeStdout())
+      cout << m_output.toUtf8().data() << flush;
+  }
+  setEnabled(enabledStatus);
+  /*
   if (m_process != 0)
     return;
   QString at = evalAssociatedText().trimmed();
@@ -126,7 +146,7 @@ void ExecButton::startProcess()
     delete m_process;
     m_process = 0;
   }
-  setEnabled(enabledStatus);
+  setEnabled(enabledStatus);*/
 }
 
 
@@ -150,19 +170,18 @@ ExecButton::Blocking ExecButton::blockGUI() const
   return m_blockGUI;
 }
 
-void ExecButton::processExited(int c, QProcess::ExitStatus exitStatus)
+void ExecButton::processExited(MyProcess *process, int c, QProcess::ExitStatus exitStatus)
 {
   if (blockGUI() != None)
     setEnabled(true);
-  if (m_process != 0)
+  if (process != 0)
   {
     if (writeStdout())
     {
-      m_output = m_process->readAll();
-      cout << m_output.data() << flush;
+      m_output = process->output();
+      cout << m_output.toUtf8().data() << flush;
     }
-    delete m_process;
-    m_process = 0;
+    delete process;
   }
 }
 
