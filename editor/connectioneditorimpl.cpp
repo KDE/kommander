@@ -115,11 +115,12 @@ ConnectionEditor::ConnectionEditor(QWidget* parent, QObject* sndr, QObject* rcvr
   lst.sort();
   
   // Fill receiver combos with widget list    
-  fillWidgetList(comboReceiver, lst, m_receiver->name());
+//  fillWidgetList(comboReceiver, lst, m_receiver->name());
   
   // Fill receiver combos with widget and action list    
   for (QPtrListIterator<QAction> it(m_formWindow->actionList()); it.current(); ++it)
     lst << it.current()->name();
+  fillWidgetList(comboReceiver, lst, m_receiver->name());
   fillWidgetList(comboSender, lst, m_sender->name());
   senderChanged(m_sender->name());
   fillConnectionsList();
