@@ -23,18 +23,18 @@
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
 
+#if defined _WIN32 || defined _WIN64
 #ifndef KOMMANDER_EXPORT
-# if defined(MAKE_KOMMANDERWIDGET_LIB)
-   /* We are building this library */ 
+# ifdef MAKE_KOMMANDERWIDGET_LIB
 #  define KOMMANDER_EXPORT KDE_EXPORT
 # else
-   /* We are using this library */ 
 #  define KOMMANDER_EXPORT KDE_IMPORT
 # endif
 #endif
 
-# ifndef KOMMANDER_EXPORT_DEPRECATED
-#  define KOMMANDER_EXPORT_DEPRECATED KDE_DEPRECATED KOMMANDER_EXPORT
-# endif
+#else //UNIX
+/* export statements for unix */
+#define KOMMANDER_EXPORT KDE_EXPORT
+#endif
 
 #endif

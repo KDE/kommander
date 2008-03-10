@@ -22,11 +22,11 @@
       <mainprogram>/data/development/build/kde-trunk/kdewebdev/kommander/executor/kommander</mainprogram>
       <directoryradio>custom</directoryradio>
       <customdirectory>/data/development/sources/work/kommander-kde4</customdirectory>
-      <programargs>/data/development/test/kommander/pixmap.kmdr</programargs>
+      <programargs>/data/development/test/kommander/execbutton-oldparser.kmdr</programargs>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars/>
-      <globaldebugarguments>/data/development/test/kommander/pixmap.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/test/kommander/execbutton-oldparser.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-trunk/kdewebdev/kommander/</globalcwd>
       <useglobalprogram>false</useglobalprogram>
       <autoinstall>false</autoinstall>
@@ -38,7 +38,7 @@
     </build>
     <make>
       <abortonerror>true</abortonerror>
-      <numberofjobs>1</numberofjobs>
+      <numberofjobs>2</numberofjobs>
       <dontact>false</dontact>
       <makebin></makebin>
       <selectedenvironment>default</selectedenvironment>
@@ -65,113 +65,7 @@
       <filetype>Makefile</filetype>
       <filetype>CMakeLists.txt</filetype>
     </filetypes>
-    <blacklist>
-      <path>CMakeTmp</path>
-      <path>CMakeTmp/check_qt_visibility.cpp</path>
-      <path>executor/Makefile</path>
-      <path>Makefile</path>
-      <path>widgets/Makefile</path>
-      <path>editor/actiondnd.cpp</path>
-      <path>editor/actiondnd.h</path>
-      <path>editor/actioneditorimpl.cpp</path>
-      <path>editor/actioneditorimpl.h</path>
-      <path>editor/actionlistview.cpp</path>
-      <path>editor/actionlistview.h</path>
-      <path>editor/asciivalidator.cpp</path>
-      <path>editor/asciivalidator.h</path>
-      <path>editor/assistproc.cpp</path>
-      <path>editor/assistproc.h</path>
-      <path>editor/assoctexteditorimpl.cpp</path>
-      <path>editor/assoctexteditorimpl.h</path>
-      <path>editor/choosewidgetimpl.cpp</path>
-      <path>editor/choosewidgetimpl.h</path>
-      <path>editor/CMakeLists.txt</path>
-      <path>editor/command.cpp</path>
-      <path>editor/command.h</path>
-      <path>editor/connectioneditorimpl.cpp</path>
-      <path>editor/connectioneditorimpl.h</path>
-      <path>editor/defs.cpp</path>
-      <path>editor/defs.h</path>
-      <path>editor/filechooser.cpp</path>
-      <path>editor/filechooser.h</path>
-      <path>editor/formfile.cpp</path>
-      <path>editor/formfile.h</path>
-      <path>editor/formsettingsimpl.cpp</path>
-      <path>editor/formsettingsimpl.h</path>
-      <path>editor/formwindow.cpp</path>
-      <path>editor/formwindow.h</path>
-      <path>editor/functionsimpl.cpp</path>
-      <path>editor/functionsimpl.h</path>
-      <path>editor/globaldefs.h</path>
-      <path>editor/hierarchyview.cpp</path>
-      <path>editor/hierarchyview.h</path>
-      <path>editor/iconvieweditorimpl.cpp</path>
-      <path>editor/iconvieweditorimpl.h</path>
-      <path>editor/layout.cpp</path>
-      <path>editor/layout.h</path>
-      <path>editor/listboxeditorimpl.cpp</path>
-      <path>editor/listboxeditorimpl.h</path>
-      <path>editor/listvieweditorimpl.cpp</path>
-      <path>editor/listvieweditorimpl.h</path>
-      <path>editor/main.cpp</path>
-      <path>editor/mainwindowactions.cpp</path>
-      <path>editor/mainwindow.cpp</path>
-      <path>editor/mainwindow.h</path>
-      <path>editor/messagelog.cpp</path>
-      <path>editor/messagelog.h</path>
-      <path>editor/metadatabase.cpp</path>
-      <path>editor/metadatabase.h</path>
-      <path>editor/multilineeditorimpl.cpp</path>
-      <path>editor/multilineeditorimpl.h</path>
-      <path>editor/newformimpl.cpp</path>
-      <path>editor/newformimpl.h</path>
-      <path>editor/orderindicator.cpp</path>
-      <path>editor/orderindicator.h</path>
-      <path>editor/paletteeditoradvancedimpl.cpp</path>
-      <path>editor/paletteeditoradvancedimpl.h</path>
-      <path>editor/paletteeditorimpl.cpp</path>
-      <path>editor/paletteeditorimpl.h</path>
-      <path>editor/parser.cpp</path>
-      <path>editor/parser.h</path>
-      <path>editor/pics</path>
-      <path>editor/pics/images.h</path>
-      <path>editor/pixmapchooser.cpp</path>
-      <path>editor/pixmapchooser.h</path>
-      <path>editor/previewframe.cpp</path>
-      <path>editor/previewframe.h</path>
-      <path>editor/previewwidgetimpl.cpp</path>
-      <path>editor/previewwidgetimpl.h</path>
-      <path>editor/propertyeditor.cpp</path>
-      <path>editor/propertyeditor.h</path>
-      <path>editor/qcompletionedit.cpp</path>
-      <path>editor/qcompletionedit.h</path>
-      <path>editor/resource.cpp</path>
-      <path>editor/resource.h</path>
-      <path>editor/sizehandle.cpp</path>
-      <path>editor/sizehandle.h</path>
-      <path>editor/styledbutton.cpp</path>
-      <path>editor/styledbutton.h</path>
-      <path>editor/tableeditorimpl.cpp</path>
-      <path>editor/tableeditorimpl.h</path>
-      <path>editor/timestamp.cpp</path>
-      <path>editor/timestamp.h</path>
-      <path>editor/widgetdatabase.cpp</path>
-      <path>editor/widgetdatabase.h</path>
-      <path>editor/widgetfactory.cpp</path>
-      <path>editor/widgetfactory.h</path>
-      <path>editor/widgetinterface.h</path>
-      <path>editor/wizardeditorimpl.cpp</path>
-      <path>editor/wizardeditorimpl.h</path>
-      <path>editor/workspace.cpp</path>
-      <path>editor/workspace.h</path>
-      <path>pluginmanager</path>
-      <path>pluginmanager/CMakeLists.txt</path>
-      <path>pluginmanager/main.cpp</path>
-      <path>pluginmanager/mainwindow.cpp</path>
-      <path>pluginmanager/mainwindow.h</path>
-      <path>pluginmanager/pluginmanager.cpp</path>
-      <path>pluginmanager/pluginmanager.h</path>
-    </blacklist>
+    <blacklist/>
     <other>
       <prio>0</prio>
       <otherbin></otherbin>

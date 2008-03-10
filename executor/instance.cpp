@@ -47,16 +47,20 @@
 #include <specials.h>
 #include <fileselector.h>
 
+#include "specialinformation.h"
+
 Instance::Instance()
   : m_instance(0), m_textInstance(0), m_parent(0),
   m_cmdArguments(0)
 {
+  SpecialInformation::registerSpecials();
 }
 
 Instance::Instance(const KUrl& a_uiFileName, QWidget *a_parent)
   :  m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
   m_parent(a_parent), m_cmdArguments(0)
 {
+  SpecialInformation::registerSpecials();
 }
 
 void Instance::addArgument(const QString& argument)

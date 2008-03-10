@@ -23,12 +23,12 @@ link_directories (
 )
 TARGET_LINK_LIBRARIES(
   kommander
+  kommandercore
+  kommanderwidgets
   ${QT_QTCORE_LIBS} 
   ${QT_QTUI_LIBS} 
   ${KDE4_KDECORE_LIBS}
   ${KDE4_KDEUI_LIBS}
-  kommandercore
-  kommanderwidgets
 )
 
 INSTALL( TARGETS kommander DESTINATION ${BIN_INSTALL_DIR})

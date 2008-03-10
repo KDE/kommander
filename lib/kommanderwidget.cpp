@@ -483,9 +483,9 @@ QStringList KommanderWidget::parseArgs(const QString& s, bool &ok)
     /* Ignore everything in brackets */
     else if (!brackets) 
     {
-      if (s[i] == '\'' && s[i-1] != '\\' && !quoteDouble)
+      if (s[i] == '\'' && (i == 0 || s[i-1] != '\\') && !quoteDouble)
          quoteSingle = !quoteSingle;
-      else if (s[i] == '\"' && s[i-1] != '\\' && !quoteSingle)
+      else if (s[i] == '\"' && (i == 0 || s[i-1] != '\\') && !quoteSingle)
          quoteDouble = !quoteDouble;
       else if (s[i] == ',' && !quoteDouble && !quoteSingle)
       {

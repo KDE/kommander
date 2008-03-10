@@ -70,6 +70,7 @@ class KOMMANDER_EXPORT SpecialInformation
 {
 public:
   SpecialInformation()  {m_defaultGroup = -1;}
+  static void registerSpecials();
   static int function(int group, const QString& fname);
   static SpecialFunction functionObject(const QString& gname, const QString& fname);
   static int group(const QString& gname);
@@ -86,7 +87,6 @@ public:
   static bool insertAlias(int id, const QString& alias);
   static void insertGroup(int id, const QString& name, const QString& parserName);
   static void setDefaultGroup(int gname);
-  static void registerSpecials();
   static QString parserGroupName(const QString&);
   static QStringList groups();
   static QStringList functions(const QString& group);
