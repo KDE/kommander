@@ -74,6 +74,10 @@ int Timer::interval() const
 
 void Timer::setInterval(int a_interval)
 {
+  if (mTimer->isActive())
+  {
+    mTimer->changeInterval(a_interval);
+  }
   mInterval = a_interval;
 }
       
@@ -174,7 +178,7 @@ QString Timer::handleDCOP(int function, const QStringList& args)
       cancel();
       break;
     case SetInterval:
-      mTimer->changeInterval(args[0].toInt());
+      setInterval(args[0].toInt());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);
