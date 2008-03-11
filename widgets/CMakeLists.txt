@@ -54,12 +54,9 @@ KDE4_ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
 TARGET_LINK_LIBRARIES(
  kommanderwidgets  
  kommandercore 
- ${QT_QTCORE_LIBS}
- ${QT_UI_LIBS}
- ${KDE4_KDECORE_LIBS}
  ${KDE4_KDEUI_LIBS}
  ${KDE4_KDE3SUPPORT_LIBS}
- kio 
+ ${KDE4_KIO_LIBS} 
 )
 
 SET_TARGET_PROPERTIES(kommanderwidgets PROPERTIES VERSION 4.2.0 SOVERSION 4 )

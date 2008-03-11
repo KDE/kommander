@@ -23,9 +23,6 @@ ADD_EXECUTABLE(kmdr-plugins ${kmdr-plugins_SRCS})
 
 TARGET_LINK_LIBRARIES(
   kmdr-plugins  
-  ${QT_QTCORE_LIBS}
-  ${QT_QTUI_LIBS}
-  ${KDE4_KDECORE_LIBS}
   ${KDE4_KDEUI_LIBS}
 )
 
