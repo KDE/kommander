@@ -1590,6 +1590,7 @@ QString KommanderFactory::translate ( const QString& sourceText, const QString& 
         return sourceText;
     if (result.isEmpty())
       return sourceText;
+    return result;
 }
 
 
