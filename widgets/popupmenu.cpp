@@ -15,7 +15,7 @@
 #include <qcursor.h>
 //Added by qt3to4:
 #include <QLabel>
-#include <Q3Frame>
+#include <QFrame>
 
 #include <kglobal.h>
 #include <kiconloader.h>
@@ -46,7 +46,7 @@ PopupMenu::PopupMenu(QWidget *parent, const char *name)
   if (KommanderWidget::inEditor)
   {
     setPixmap(KIconLoader::global()->loadIcon("contents", KIconLoader::NoGroup, KIconLoader::SizeMedium));
-    setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
+    setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
   }

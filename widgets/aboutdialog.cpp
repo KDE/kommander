@@ -23,7 +23,7 @@
 #include <q3textstream.h>
 //Added by qt3to4:
 #include <QLabel>
-#include <Q3Frame>
+#include <QFrame>
 
 enum Functions {
   FirstFunction = 159,
@@ -48,7 +48,7 @@ AboutDialog::AboutDialog(QWidget *parent, const char *name)
   if (KommanderWidget::inEditor)
   {
     setPixmap(KIconLoader::global()->loadIcon("kommander", KIconLoader::NoGroup, KIconLoader::SizeMedium));
-    setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
+    setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
   }

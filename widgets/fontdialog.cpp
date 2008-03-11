@@ -19,7 +19,7 @@
 #include <klocale.h>
 //Added by qt3to4:
 #include <QLabel>
-#include <Q3Frame>
+#include <QFrame>
 
 enum Functions {
   FirstFunction = 139,
@@ -41,7 +41,7 @@ FontDialog::FontDialog(QWidget *parent, const char *name)
   if (KommanderWidget::inEditor)
   {
     setPixmap(KIconLoader::global()->loadIcon("kfontcombo", KIconLoader::NoGroup, KIconLoader::SizeMedium));
-    setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
+    setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(1);
     setFixedSize(pixmap()->size());
   }
