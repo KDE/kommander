@@ -22,6 +22,8 @@
 #include "specialinformation.h"
 #include "myprocess.h"
 #include "kommanderwidget.h"
+#include "kommanderfactory.h"
+#include "invokeclass.h"
 
 #include <iostream>
 #include <stdlib.h> 
@@ -31,6 +33,7 @@
 //Added by qt3to4:
 #include <QString>
 #include <QList>
+#include <QMetaMethod>
 
 #include <kmessagebox.h>
 #include <kapplication.h>
@@ -52,9 +55,7 @@ static ParseNode f_stringLength(Parser*, const ParameterList& params)
 
 static ParseNode f_stringContains(Parser*, const ParameterList& params)
 {
-  //FIXME parsenode
-  //return params[0].toString().contains(params[1].toString());
-  return ParseNode();
+  return ParseNode(params[0].toString().contains(params[1].toString()));
 }
 
 static ParseNode f_stringFind(Parser*, const ParameterList& params)
@@ -141,6 +142,15 @@ static ParseNode f_stringToDouble(Parser*, const ParameterList& params)
   return params[0].toString().toDouble();
 }
 
+static ParseNode f_return(Parser* p, const ParameterList& params)
+{
+  KommanderWidget * w = p->currentWidget();
+  if (w)
+    w->setGlobal(w->widgetName() + "_RESULT", params[0].toString());
+  return params[0];
+}
+
+
 /******************* Debug function ********************************/
 static ParseNode f_debug(Parser*, const ParameterList& params)
 {
@@ -194,10 +204,78 @@ static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 }
 
 
+static ParseNode f_executeSlot(Parser* parser, const ParameterList& params)
+{
+  ParameterList::ConstIterator it = params.begin(); 
+  QString slotName = (*it).toString()+"("; 
+  ++it;
+  QString widgetName = (*it).toString();
+  KommanderWidget* widget = parser->currentWidget();
+  if (!widget)
+    return ParseNode::error("unknown widget");
+  widget = widget->widgetByName(widgetName);
+  if (!widget)
+    return ParseNode::error("unknown widget");
+  QObject *object = widget->object();
+  if (!object)
+    return ParseNode::error("unknown widget");
+  QStringList slotNames;
+  uint methodCount = object->metaObject()->methodCount();
+  for (uint i = 0; i < methodCount; i++)
+  {
+    QMetaMethod method = object->metaObject()->method(i);
+    if (method.methodType() == QMetaMethod::Slot)
+    {
+      slotNames.append(method.signature());
+    }
+  }
+  int slotNum = -1;
+  int i = 0;
+  while (i < slotNames.count())
+  {
+    if (slotNames[i].startsWith(slotName))
+    {
+      slotNum = i;
+      break;
+    }  
+    i++;
+  }
+  if (slotNum == -1)
+    return ParseNode::error("unknown function");
+  QStringList args;
+  ++it;   // skip widget
+  while (it != params.end())
+  {
+    args += (*it).toString(); 
+    ++it;
+  }
+  InvokeClass* inv = new InvokeClass(0);
+  inv->invokeSlot(object, slotNames.at(slotNum), args);
+  inv->deleteLater();
+
+  return ParseNode();
+}
+
 
 
 
 /******************* DBUS function ********************************/
+static ParseNode f_dcopid(Parser*, const ParameterList& )
+{
+ //FIXME return QString(kapp->dcopClient()->appId());
+  return QString();
+}
+
+static ParseNode f_pid(Parser*, const ParameterList& )
+{
+  return QString::number(getpid());
+}
+
+static ParseNode f_parentPid(Parser*p, const ParameterList& )
+{
+  return p->variable("_PARENTPID").toString().isEmpty() ? QString::number(getppid()) : p->variable("_PARENTPID");
+}
+
 static ParseNode f_dcop(Parser* parser, const ParameterList& params)
 {
   SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
@@ -300,6 +378,61 @@ static ParseNode f_externalDcop(Parser*, const ParameterList& params)
   return ParseNode();
 }
 
+static ParseNode f_createWidget(Parser* p, const ParameterList& params)
+{
+  QString widgetName = params[0].toString();
+  QString widgetType = params[1].toString();
+  QString parentName = params[2].toString();
+  KommanderWidget *widget = p->currentWidget()->widgetByName(parentName);
+  if (!widget)
+    return ParseNode::error("unknown widget");
+  QWidget *parent = dynamic_cast<QWidget*>(widget->object());
+  QWidget *w = KommanderFactory::createWidget(widgetType, parent, widgetName.toLatin1());
+  if (w)
+    w->adjustSize();
+  return ParseNode();
+}
+
+static ParseNode f_widgetExists(Parser* p, const ParameterList& params)
+{
+  QString widgetName = params[0].toString();
+  KommanderWidget *widget = p->currentWidget()->widgetByName(widgetName);
+  return (widget ? true : false);
+}
+
+
+static ParseNode f_connect(Parser* p, const ParameterList& params)
+{
+  QString sender = params[0].toString();
+  QString signal = QString::number(QSIGNAL_CODE) + params[1].toString();
+  QString receiver = params[2].toString();
+  QString slot = QString::number(QSLOT_CODE) + params[3].toString();
+  KommanderWidget *senderW = p->currentWidget()->widgetByName(sender);
+  if (!senderW)
+    return ParseNode::error("unknown widget");
+  KommanderWidget *receiverW = p->currentWidget()->widgetByName(receiver);
+  if (!receiverW)
+    return ParseNode::error("unknown widget");
+  dynamic_cast<QObject*>(senderW)->connect(dynamic_cast<QObject*>(senderW), signal.toAscii(), dynamic_cast<QObject*>(receiverW), slot.toAscii());
+  return ParseNode();
+}
+
+static ParseNode f_disconnect(Parser* p, const ParameterList& params)
+{
+  QString sender = params[0].toString();
+  QString signal = QString::number(QSIGNAL_CODE) + params[1].toString();
+  QString receiver = params[2].toString();
+  QString slot = QString::number(QSLOT_CODE) + params[3].toString();
+  KommanderWidget *senderW = p->currentWidget()->widgetByName(sender);
+  if (!senderW)
+    return ParseNode::error("unknown widget");
+  KommanderWidget *receiverW = p->currentWidget()->widgetByName(receiver);
+  if (!receiverW)
+    return ParseNode::error("unknown widget");
+  dynamic_cast<QObject*>(senderW)->disconnect(dynamic_cast<QObject*>(senderW), signal.toAscii(), dynamic_cast<QObject*>(receiverW), slot.toAscii());
+  return ParseNode();
+}
+
 
 static ParseNode f_exec(Parser* P, const ParameterList& params)
 {
@@ -312,6 +445,44 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
     text = proc.run(params[0].toString().toLocal8Bit());
   return text;
 }
+
+static ParseNode f_execBackground(Parser* P, const ParameterList& params)
+{
+  MyProcess proc(P->currentWidget());
+  proc.setBlocking(false);
+  QString text;
+  kDebug() << "Trying " << params[0].toString();
+  if (params.count() > 1)
+    text = proc.run(params[0].toString().toLocal8Bit(), params[1].toString());
+  else
+    text = proc.run(params[0].toString().toLocal8Bit());
+  return text;
+}
+
+static ParseNode f_dialog(Parser* P, const ParameterList& params)
+{
+  QString a_dialog = params[0].toString().toLocal8Bit();
+  QString a_params = params[1].toString().toLocal8Bit();
+
+  QString pFileName = P->currentWidget()->global("_KDDIR") + QString("/") + a_dialog;
+  QFileInfo pDialogFile(pFileName);
+  if (!pDialogFile.exists()) 
+  {
+    pFileName = a_dialog;
+    pDialogFile.setFile(pFileName);
+    if (!pDialogFile.exists())
+      return QString();
+  }
+  QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
+      .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
+
+  MyProcess proc(P->currentWidget());
+  QString text;
+  text = proc.run(cmd);
+
+  return text;
+}
+
 
 static ParseNode f_i18n(Parser*, const ParameterList& params)
 {
@@ -397,6 +568,110 @@ static ParseNode f_arrayFromString(Parser* P, const ParameterList& params)
   return ParseNode();
 }
  
+static ParseNode f_arrayIndexedFromString(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  QStringList lines;
+  if (params.count() == 2)
+    lines = params[1].toString().split('\t');
+  else
+    lines = params[1].toString().split(params[2].toString());
+  int i = 0;
+  for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) 
+  {
+    P->setArray(name, QString::number(i), (*it));
+    i++;
+  }
+  return ParseNode();
+}
+
+static ParseNode f_arrayIndexedToString(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isArray(name))
+    return ParseNode();
+  QString separator = "\t";
+  if (params.count() == 2)
+    separator = params[1].toString();
+  QString array;
+  int count = P->array(name).keys().count();
+  QList<ParseNode> values = P->array(name).values();
+  
+  for (int i = 0; i < count; i++)
+  {
+    if (i != 0)
+      array.append(separator);
+    array.append(P->arrayValue(name, QString::number(i)).toString());
+  }
+  return array;
+}
+
+static ParseNode f_arrayIndexedRemoveElements(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isArray(name))
+    return ParseNode();
+  int key = params[1].toInt();
+  int num = 0;
+  if (params.count() == 3)
+    num = params[2].toInt() - 1;
+  if (num < 0)
+    num = 0;
+  QString array;
+  QStringList keys = P->array(name).keys();
+  int count = keys.count();
+  if (key + num > count - 1 || key < 0)
+    return ParseNode(); //out of index range
+  for (int i = 0; i < count; i++)
+  {
+    if (keys.contains(QString::number(i)) != 1)
+      return ParseNode(); //array is not indexed
+  }
+  for (int i = key; i <= key + num; i++)
+  {
+    P->unsetArray(name, QString::number(i));  
+  }
+  int j = key;
+  for (int i = key + num + 1; i < count; i++)
+  {
+    P->setArray(name, QString::number(j), P->arrayValue(name, QString::number(i)));
+    j++;
+  }
+  for (int i = 1; i <= num + 1; i++)
+  {
+    P->unsetArray(name, QString::number(count - i));
+  }  
+  return ParseNode();
+}
+
+
+static ParseNode f_arrayIndexedInsertElements(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isArray(name))
+    return ParseNode();
+  int key = params[1].toInt();
+  QStringList keys = P->array(name).keys();
+  int count = keys.count();
+  if (key > count || key < 0)
+    return ParseNode(); //out of index range
+  QString separator = "\t";
+  if (params.count() == 4)
+    separator = params[3].toString();
+  QStringList elements = params[2].toString().split(separator);
+  int num = elements.count();
+  for (int i = count - 1; i >= key; i--)
+  {
+    P->setArray(name, QString::number(i + num), P->arrayValue(name, QString::number(i)));
+  }
+  int i = key;
+  for (QStringList::Iterator it = elements.begin(); it != elements.end(); ++it ) 
+  {
+    P->setArray(name, QString::number(i), (*it));
+    i++;
+  }
+  return ParseNode();
+}
 
 
 /********** input functions *********************/
@@ -417,13 +692,17 @@ static ParseNode f_inputText(Parser*, const ParameterList& params)
   return KInputDialog::getText(params[0].toString(), params[1].toString(), value);
 }
     
-static ParseNode f_inputPassword(Parser*, const ParameterList& params)
+static ParseNode f_inputPassword(Parser* p, const ParameterList& params)
 {
-  //FIXME Q3CString value;
-  //if (params.count() > 1)
-  //  value = params[1].toString().toLocal8Bit();
-  //KPasswordDialog::getPassword(value, params[0].toString());
-  return ParseNode();
+  QWidget *parent = 0L;
+  KommanderWidget* widget = p->currentWidget();
+  if (!widget)
+    parent = widget->parentDialog();
+  KPasswordDialog dlg(parent);
+  dlg.setPrompt(i18n("Enter a password"));
+  if (!dlg.exec())
+    return ParseNode(); 
+  return dlg.password() ;
 }
     
 static ParseNode f_inputValue(Parser*, const ParameterList& params)
@@ -510,8 +789,12 @@ static ParseNode f_message_error(Parser*, const ParameterList& params)
   return ParseNode();
 }
 
-static ParseNode f_message_warning(Parser*, const ParameterList& params)
+static ParseNode f_message_warning(Parser* p, const ParameterList& params)
 {
+  QWidget *parent = 0L;
+  KommanderWidget* widget = p->currentWidget();
+  if (!widget)
+    parent = widget->parentDialog();
   int result = 0;
   QString text, caption, button1, button2, button3;
   if (params.count() > 0)
@@ -524,13 +807,13 @@ static ParseNode f_message_warning(Parser*, const ParameterList& params)
     button2 = params[3].toString();
   if (params.count() > 4)
     button3 = params[4].toString();
-/* FIXME KMessageBox
-   if (button1.isNull())
-    result = KMessageBox::warningYesNo(0, text, caption);
+// FIXME KMessageBox
+  if (button1.isNull())
+     result = KMessageBox::warningYesNo(parent, text, caption);
   else if (button3.isNull())
-    result = KMessageBox::warningYesNo(0, text, caption, button1, button2);
+    result = KMessageBox::warningYesNo(parent, text, caption, KGuiItem(button1), KGuiItem(button2));
   else 
-    result = KMessageBox::warningYesNoCancel(0, text, caption, button1, button2, button3);*/
+    result = KMessageBox::warningYesNoCancel(parent, text, caption, KGuiItem(button1), KGuiItem(button2), KGuiItem(button3));
   switch(result)
   {
     case KMessageBox::Yes:  
@@ -544,8 +827,12 @@ static ParseNode f_message_warning(Parser*, const ParameterList& params)
   }
 }
 
-static ParseNode f_message_question(Parser*, const ParameterList& params)
+static ParseNode f_message_question(Parser* p, const ParameterList& params)
 {
+  QWidget *parent = 0L;
+  KommanderWidget* widget = p->currentWidget();
+  if (!widget)
+    parent = widget->parentDialog();
   int result = 0;
   QString text, caption, button1, button2, button3;
   if (params.count() > 0)
@@ -558,13 +845,13 @@ static ParseNode f_message_question(Parser*, const ParameterList& params)
     button2 = params[3].toString();
   if (params.count() > 4)
     button3 = params[4].toString();
-/* FIXME
-    if (button1.isNull())
-    result = KMessageBox::questionYesNo(0, text, caption);
+// FIXME
+  if (button1.isNull())
+      result = KMessageBox::questionYesNo(parent, text, caption);
   else if (button3.isNull())
-    result = KMessageBox::questionYesNo(0, text, caption, button1, button2);
+    result = KMessageBox::questionYesNo(parent, text, caption, KGuiItem(button1), KGuiItem(button2));
   else 
-    result = KMessageBox::questionYesNoCancel(0, text, caption, button1, button2, button3);*/
+    result = KMessageBox::questionYesNoCancel(parent, text, caption, KGuiItem(button1), KGuiItem(button2), KGuiItem(button3));
   switch(result)
   {
     case KMessageBox::Yes:  
@@ -629,14 +916,25 @@ void ParserData::registerStandardFunctions()
   registerFunction("str_isempty", Function(&f_stringIsEmpty, ValueInt, ValueString));
   registerFunction("str_toint", Function(&f_stringToInt, ValueString, ValueInt, 1));
   registerFunction("str_todouble", Function(&f_stringToDouble, ValueString, ValueDouble, 1));
+  registerFunction("return", Function(&f_return, ValueNone, ValueString, 1, 1));
   registerFunction("debug", Function(&f_debug, ValueNone, ValueString, 1, 100));
   registerFunction("echo", Function(&f_echo, ValueNone, ValueString, 1, 100));
   registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));
   registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
+  registerFunction("executeSlot", Function(&f_executeSlot, ValueString, ValueString, ValueString, 2, 100));
+  registerFunction("createWidget", Function(&f_createWidget, ValueString, ValueString, ValueString, 3, 100));
+  registerFunction("widgetExists", Function(&f_widgetExists, ValueInt, ValueString, 1));
+  registerFunction("connect", Function(&f_connect, ValueString, ValueString, ValueString, ValueString, 4, 4));
+  registerFunction("disconnect", Function(&f_disconnect, ValueString, ValueString, ValueString, ValueString, 4, 4));
   registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 2, 100));
+  registerFunction("dcopid", Function(&f_dcopid, ValueString, ValueNone, 0, 0));
+  registerFunction("pid", Function(&f_pid, ValueString, ValueNone, 0, 0));
+  registerFunction("parentPid", Function(&f_parentPid, ValueString, ValueNone, 0, 0));
+  registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
+  registerFunction("execBackground", Function(&f_execBackground, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("env", Function(&f_env, ValueString, ValueString));
   registerFunction("readSetting", Function(&f_read_setting, ValueString, ValueString, ValueString, 1));
   registerFunction("writeSetting", Function(&f_write_setting, ValueNone, ValueString, ValueString));
@@ -646,6 +944,10 @@ void ParserData::registerStandardFunctions()
   registerFunction("array_values", Function(&f_arrayValues, ValueString, ValueString));
   registerFunction("array_tostring", Function(&f_arrayToString, ValueString, ValueString));
   registerFunction("array_fromstring", Function(&f_arrayFromString, ValueNone, ValueString, ValueString));
+  registerFunction("array_indexedfromstring", Function(&f_arrayIndexedFromString, ValueNone, ValueString, ValueString, ValueString, 2, 3));
+  registerFunction("array_indexedtostring", Function(&f_arrayIndexedToString, ValueNone, ValueString, ValueString, 1, 2));
+  registerFunction("array_indexedRemoveElements", Function(&f_arrayIndexedRemoveElements, ValueNone, ValueString, ValueInt, ValueInt, 2 , 3));
+  registerFunction("array_indexedInsertElements", Function(&f_arrayIndexedInsertElements, ValueNone, ValueString, ValueInt, ValueString, ValueString, 3, 4));
   registerFunction("array_remove", Function(&f_arrayRemove, ValueNone, ValueString, ValueString));
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));

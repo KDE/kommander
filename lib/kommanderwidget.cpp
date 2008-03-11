@@ -399,7 +399,7 @@ void KommanderWidget::printError(const QString& a_error) const
 {
   if (showErrors) 
   {
-    int result = KMessageBox::warningYesNoCancel(parentDialog(),  i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->name()), a_error), i18n("Error"), KGuiItem(i18n("Continue")), KGuiItem(i18n("Continue && Ignore Next Errors")), KGuiItem(i18n("Stop")));
+    int result = KMessageBox::warningYesNoCancel(parentDialog(),  i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->objectName()), a_error), i18n("Error"), KGuiItem(i18n("Continue")), KGuiItem(i18n("Continue && Ignore Next Errors")), KGuiItem(i18n("Stop")));
     if (result == KMessageBox::No)
     {
       showErrors = false;
@@ -727,6 +727,13 @@ QString KommanderWidget::fileName()
     return QString();
 }  
 
+QString KommanderWidget::widgetName() const
+{
+  if (m_thisObject)
+    return m_thisObject->objectName();
+  else
+    return QString();
+}
 
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;

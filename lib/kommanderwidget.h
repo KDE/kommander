@@ -98,6 +98,9 @@ public:
   virtual KommanderWidget* widgetByName(const QString& a_name) const;
   // Returns filename associated with the dialog
   virtual QString fileName();
+  // Returns current widget name;
+  virtual QString widgetName() const;
+  QObject* object() { return m_thisObject;}
 
   
   // Recognizes editor vs executor mode
@@ -110,6 +113,8 @@ public:
   static QString global(const QString& variableName);
   // Set global variable value
   static void setGlobal(const QString& variableName, const QString& value);
+  // Return parent dialog of this widget
+  QWidget* parentDialog() const;
 
 protected:
   virtual void setStates(const QStringList& a_states);
@@ -147,8 +152,6 @@ protected:
     
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
-  // Return parent dialog of this widget
-  QWidget* parentDialog() const;
   QString substituteVariable(QString text, QString variable, QString value) const;
    
   ParserData* internalParserData();

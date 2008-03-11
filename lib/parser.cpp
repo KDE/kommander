@@ -760,6 +760,15 @@ void Parser::unsetArray(const QString& name, const QString& key)
   }
 }
 
+ParseNode Parser::arrayValue(const QString& name, const QString& key) const
+{
+  if (!isArray(name))
+    return ParseNode();
+  if (isGlobal(name))
+    return m_globalArrays[name].contains(key) ? m_globalArrays[name][key] : ParseNode();
+  else
+    return m_arrays[name].contains(key) ? m_arrays[name][key] : ParseNode();
+}
 
 
 KommanderWidget* Parser::currentWidget() const

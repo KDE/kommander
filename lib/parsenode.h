@@ -47,6 +47,8 @@ public:
   ParseNode(uint i);
   /* Create node from double */
   ParseNode(double d);
+  /* Create node from boolean */ 
+  ParseNode(bool b);
   /* Create node from keyword */
   ParseNode(Parse::Keyword k);
   /* Create node from keyword and variable name */

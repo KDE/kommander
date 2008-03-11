@@ -34,6 +34,10 @@ ParseNode::ParseNode(uint i) : m_type(ValueInt), m_int(i), m_context(-1)
 {  
 }
 
+ParseNode::ParseNode(bool b) : m_type(ValueInt), m_int(b ? 1 : 0), m_context(-1)
+{  
+}
+
 ParseNode::ParseNode(double d) : m_type(ValueDouble), m_double(d), m_context(-1)
 {  
 }
