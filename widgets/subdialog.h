@@ -28,12 +28,12 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 class QWidget;
 class KDialog;
 
 class QShowEvent;
-class KOMMANDER_EXPORT SubDialog : public KPushButton, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT SubDialog : public KPushButton, public KommanderWidget
 {
   Q_OBJECT
   

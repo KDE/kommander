@@ -36,4 +36,5 @@ INSTALL(TARGETS kommandercore DESTINATION ${LIB_INSTALL_DIR} )
 
 ########### install files ###############
 
-INSTALL(FILES kommanderwidget.h kommander_export.h DESTINATION ${INCLUDE_INSTALL_DIR})
+INSTALL(FILES kommanderwidget.h kommandercore_export.h DESTINATION ${INCLUDE_INSTALL_DIR})
+

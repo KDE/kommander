@@ -17,24 +17,24 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef KOMMANDER_EXPORT_H
-#define KOMMANDER_EXPORT_H
+#ifndef KOMMANDERWIDGETS_EXPORT_H
+#define KOMMANDERWIDGETS_EXPORT_H
 
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
 
-#if defined _WIN32 || defined _WIN64
-#ifndef KOMMANDER_EXPORT
-# ifdef MAKE_KOMMANDERWIDGET_LIB
-#  define KOMMANDER_EXPORT KDE_EXPORT
+#ifndef KOMMANDERWIDGETS_EXPORT
+# if defined(MAKE_KOMMANDERWIDGETS_LIB)
+   /* We are building this library */ 
+#  define KOMMANDERWIDGETS_EXPORT KDE_EXPORT
 # else
-#  define KOMMANDER_EXPORT KDE_IMPORT
+   /* We are using this library */ 
+#  define KOMMANDERWIDGETS_EXPORT KDE_IMPORT
 # endif
 #endif
 
-#else //UNIX
-/* export statements for unix */
-#define KOMMANDER_EXPORT KDE_EXPORT
-#endif
+# ifndef KOMMANDERWIDGETS_EXPORT_DEPRECATED
+#  define KOMMANDERWIDGETS_EXPORT_DEPRECATED KDE_DEPRECATED KOMMANDERWIDGETS_EXPORT
+# endif
 
 #endif

@@ -22,9 +22,9 @@
 #include <qstringlist.h>
 #include <qmap.h>
 #include <qpair.h>
-#include "kommander_export.h"
+#include "kommandercore_export.h"
 
-class KOMMANDER_EXPORT SpecialFunction
+class KOMMANDERCORE_EXPORT SpecialFunction
 {
 public:
    
@@ -66,7 +66,7 @@ protected:
 
 
 
-class KOMMANDER_EXPORT SpecialInformation
+class KOMMANDERCORE_EXPORT SpecialInformation
 {
 public:
   SpecialInformation()  {m_defaultGroup = -1;}

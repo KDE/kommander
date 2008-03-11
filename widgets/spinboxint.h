@@ -28,11 +28,11 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT SpinBoxInt : public QSpinBox, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT SpinBoxInt : public QSpinBox, public KommanderWidget
 {
   Q_OBJECT
 

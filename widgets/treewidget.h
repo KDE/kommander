@@ -32,12 +32,12 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT TreeWidget : public Q3ListView, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT TreeWidget : public Q3ListView, public KommanderWidget
 {
   Q_OBJECT
   

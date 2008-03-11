@@ -23,11 +23,11 @@
 #include <qstring.h>
 #include <qobject.h>
 //Added by qt3to4:
-#include "kommander_export.h"
+#include "kommandercore_export.h"
 
 class KommanderWidget;
 
-class KOMMANDER_EXPORT MyProcess : public QObject
+class KOMMANDERCORE_EXPORT MyProcess : public QObject
 {
   Q_OBJECT
 public:

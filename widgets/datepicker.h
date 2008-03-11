@@ -30,11 +30,11 @@
 /* OTHER INCLUDES */
 #include <kdatepicker.h>
 #include <kommanderwidget.h>
-#include <kommander_export.h>
+#include <kommanderwidgets_export.h>
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT DatePicker : public KDatePicker, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT DatePicker : public KDatePicker, public KommanderWidget
 {
   Q_OBJECT
 

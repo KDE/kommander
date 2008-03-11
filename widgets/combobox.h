@@ -29,11 +29,11 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ComboBox : public KComboBox, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT ComboBox : public KComboBox, public KommanderWidget
 {
   Q_OBJECT
 

@@ -28,7 +28,7 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 
 /* Forward Decls */
 class QTextEdit;
@@ -37,7 +37,7 @@ class QToolButton;
 class QHButtonGroup;
 
 class QShowEvent;
-class KOMMANDER_EXPORT RichTextEditor : public QWidget, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT RichTextEditor : public QWidget, public KommanderWidget
 {
 	Q_OBJECT
 

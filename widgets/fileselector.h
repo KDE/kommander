@@ -28,14 +28,14 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 
 class QBoxLayout;
 class KPushButton;
 class KLineEdit;
 
 class QShowEvent;
-class KOMMANDER_EXPORT FileSelector : public QWidget, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT FileSelector : public QWidget, public KommanderWidget
 {
   Q_OBJECT
 

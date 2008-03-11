@@ -29,12 +29,12 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 class QWidget;
 class KProcess;
 
 class QShowEvent;
-class KOMMANDER_EXPORT CloseButton : public KPushButton, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT CloseButton : public KPushButton, public KommanderWidget
 {
   Q_OBJECT
 

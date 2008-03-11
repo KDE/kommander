@@ -26,9 +26,9 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwindow.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 class QShowEvent;
-class KOMMANDER_EXPORT Dialog : public QDialog, public KommanderWindow
+class KOMMANDERWIDGETS_EXPORT Dialog : public QDialog, public KommanderWindow
 {
   Q_OBJECT
 

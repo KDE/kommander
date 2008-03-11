@@ -30,11 +30,11 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ListBox : public Q3ListBox, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT ListBox : public Q3ListBox, public KommanderWidget
 {
   Q_OBJECT
   

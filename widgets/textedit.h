@@ -28,10 +28,10 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 
 class QShowEvent;
-class KOMMANDER_EXPORT TextEdit: public KTextEdit, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT TextEdit: public KTextEdit, public KommanderWidget
 {
   Q_OBJECT Q_PROPERTY(QString populationText READ populationText WRITE setPopulationText DESIGNABLE false)
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)

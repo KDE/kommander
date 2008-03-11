@@ -25,10 +25,10 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 
 class QShowEvent;
-class KOMMANDER_EXPORT Wizard : public Q3Wizard, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT Wizard : public Q3Wizard, public KommanderWidget
 {
   Q_OBJECT
   

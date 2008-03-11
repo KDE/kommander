@@ -25,9 +25,9 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 class QShowEvent;
-class KOMMANDER_EXPORT TabWidget : public KTabWidget, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT TabWidget : public KTabWidget, public KommanderWidget
 {
   Q_OBJECT
   

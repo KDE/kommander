@@ -45,4 +45,4 @@ QWidget *HtmlPartPlugin::create( const QString &className, QWidget *parent, cons
   return 0;
 }
 
-KOMMANDER_EXPORT_PLUGIN(HtmlPartPlugin)
+KOMMANDERWIDGETS_EXPORT_PLUGIN(HtmlPartPlugin)

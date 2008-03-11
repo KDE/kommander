@@ -28,12 +28,12 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
-#include "kommander_export.h"
+#include "kommanderwidgets_export.h"
 
 class QWidget;
 
 class QShowEvent;
-class KOMMANDER_EXPORT ButtonGroup : public KButtonGroup, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT ButtonGroup : public KButtonGroup, public KommanderWidget
 {
   Q_OBJECT
 

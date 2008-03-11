@@ -37,12 +37,12 @@
 #include <qobject.h>
 #include <qmap.h>
 #include <qstringlist.h>
-#include "kommander_export.h"
+#include "kommandercore_export.h"
 
 class QWidget;
 class QIcon;
 
-class KOMMANDER_EXPORT KommanderPlugin : public QObject 
+class KOMMANDERCORE_EXPORT KommanderPlugin : public QObject 
 {
     Q_OBJECT
     public:
@@ -96,6 +96,6 @@ private:
     WidgetInfos m_widgets;
 };
 
-#define KOMMANDER_EXPORT_PLUGIN(plugin) extern "C" KOMMANDER_EXPORT void *kommander_plugin() { return new plugin; } 
+#define KOMMANDER_EXPORT_PLUGIN(plugin) extern "C" KDE_EXPORT void *kommander_plugin() { return new plugin; } 
 
 #endif // _HAVE_KOMMANDERPLUGIN_H_
