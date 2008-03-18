@@ -305,7 +305,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::currentRow, "currentRow(QString widget)", 
          i18n("Returns index of current row."), 1);
   insert(DCOP::execute, "execute(QString widget)", 
-         i18n("Executes the script associated with the widget. With the new parser the execute method can take one or more arguments."), 1, 6);
+         i18n("Executes the script associated with the widget. With the new parser the execute method can take one or more arguments."), 1, 9);
   insert(DCOP::findItem, "findItem(QString widget, QString item)",
          i18n("Returns the index of an item with the given text."), 2);
   insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
