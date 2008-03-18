@@ -1,3 +1,7 @@
+2008-03-18 - Eric Laffoon <sequitur@kde.org>
+    o raised the number of allowed paramaters for scripts
+2008-03-10 - Eric Laffoon <sequitur@kde.org>
+    o enable additional slots in dialog and restore slots for actions - you can now directly manipulate actions on a MainWindow via signals and slots from the dialog
 2008-01-20 - Eric Laffoon <sequitur@kde.org>
     o set new functions only available to new parser such as createWidget to not be shown in the function browser if the old parser is run.
 
