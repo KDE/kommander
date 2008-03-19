@@ -32,7 +32,9 @@ void InvokeClass::invokeSlot(QObject *object, const QString& slot, QStringList a
     emit invoke();
   else
   {
-    QString slotArgStr = slot.section(QRegExp("\\(|\\)"), 1);
+    int opening = slot.indexOf('(');
+    int closing = slot.indexOf(')', opening);
+    QString slotArgStr = slot.mid(opening + 1, closing - opening - 1);
     uint argNum = slotArgStr.count(',') + 1;
     for (uint i = args.count(); i < argNum; i++)
       args << "";
