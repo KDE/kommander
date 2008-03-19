@@ -34,7 +34,7 @@
 class QTextEdit;
 class QFrame;
 class QToolButton;
-class QHButtonGroup;
+class QGroupBox;
 
 class QShowEvent;
 class KOMMANDERWIDGETS_EXPORT RichTextEditor : public QWidget, public KommanderWidget
@@ -61,12 +61,14 @@ public:
 public slots:
   void setTextChanged();
   void setWidgetText(const QString &);
-  void textAlign(int);
+  void textAlignLeft(bool);
+  void textAlignRight(bool);
+  void textAlignCenter(bool);
   void textBold(bool);
   void textUnder(bool);
   void textItalic(bool);
   void fontChanged(const QFont &);
-  void alignmentChanged(int);
+  void cursorPositionChanged();
   virtual void populate();
 signals:
   void widgetOpened();
@@ -80,7 +82,7 @@ private:
   QToolButton *m_buttonTextBold, *m_buttonTextUnder, *m_buttonTextItalic, 
     *m_buttonTextLeft,  *m_buttonTextCenter, *m_buttonTextRight;
 
-  QButtonGroup *m_formatGroup, *m_alignGroup;
+  QGroupBox *m_formatGroup, *m_alignGroup;
 
 };
 

@@ -25,7 +25,7 @@
 #include <qlayout.h>
 #include <qtoolbutton.h>
 #include <qpixmap.h>
-#include <qbuttongroup.h>
+#include <qgroupbox.h>
 #include <qfont.h>
 #include <qstringlist.h>
 #include <qevent.h>
@@ -33,6 +33,7 @@
 #include <QShowEvent>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QButtonGroup>
 
 /* OTHER INCLUDES */
 #include "specials.h"
@@ -63,57 +64,87 @@ RichTextEditor::RichTextEditor(QWidget *a_parent, const char *a_name)
 
 	//setup textedit
 	m_textedit = new QTextEdit(this);
-	m_textedit->setTextFormat(Qt::RichText);
+	m_textedit->setAcceptRichText(true);
 
 	// layout the widgets
-	QVBoxLayout *layout = new QVBoxLayout(this);
-	layout->addWidget(m_toolbar);
+	QVBoxLayout *layout = new QVBoxLayout();
+  setLayout(layout);
+  layout->addWidget(m_toolbar);
 	layout->addWidget(m_textedit);
-	layout->setSpacing(1);
+ 	layout->setSpacing(1);
 
 	// setup buttons
-	QHBoxLayout *tbLayout = new QHBoxLayout(m_toolbar);
-
+	QHBoxLayout *tbLayout = new QHBoxLayout();
+  m_toolbar->setLayout(tbLayout);
+    
 	//bold italic underline left right center link
-	m_formatGroup = new QButtonGroup(m_toolbar);//, "formatGroup");
-	//m_formatGroup->setFlat(true);
-	m_alignGroup = new QButtonGroup(m_toolbar);//, "alignGroup");
-	//m_alignGroup->setFlat(true);
-	m_alignGroup->setExclusive(true);
+	m_formatGroup = new QGroupBox(m_toolbar);
+  m_formatGroup->setObjectName("formatGroup");
+  tbLayout->addWidget(m_formatGroup);
+	m_formatGroup->setFlat(true);
+  m_alignGroup = new QGroupBox(m_toolbar);
+  m_alignGroup->setObjectName("alignGroup");
+  tbLayout->addWidget(m_alignGroup);
+	m_alignGroup->setFlat(true);
 	tbLayout->insertStretch(0);
-	//tbLayout->addWidget(m_formatGroup,1);
-	//tbLayout->addWidget(m_alignGroup,2);
 	tbLayout->insertStretch(3);
-/*
-	m_buttonTextBold = new QToolButton(m_formatGroup, "textBold");
-	m_buttonTextBold->setPixmap(QPixmap((const char **)bold_xpm));
-	m_buttonTextBold->setToggleButton(true);
+
+  QHBoxLayout *hLayout = new QHBoxLayout;  
+  m_formatGroup->setLayout(hLayout);
+	m_buttonTextBold = new QToolButton(m_formatGroup);
+  m_buttonTextBold->setObjectName("textBold");
+	m_buttonTextBold->setIcon(QPixmap((const char **)bold_xpm));
+	m_buttonTextBold->setCheckable(true);
 	connect(m_buttonTextBold, SIGNAL(toggled(bool)), this, SLOT(textBold(bool)));
-	m_buttonTextItalic = new QToolButton(m_formatGroup, "textItalic");
-	m_buttonTextItalic->setPixmap(QPixmap((const char **)italic_xpm));
-	m_buttonTextItalic->setToggleButton(true);
+  hLayout->addWidget(m_buttonTextBold);
+  
+  
+	m_buttonTextItalic = new QToolButton(m_formatGroup);
+  m_buttonTextItalic->setObjectName("textItalic");
+  m_buttonTextItalic->setIcon(QPixmap((const char **)italic_xpm));
+  m_buttonTextItalic->setCheckable(true);
 	connect(m_buttonTextItalic, SIGNAL(toggled(bool)), this, SLOT(textItalic(bool)));
-	m_buttonTextUnder = new QToolButton(m_formatGroup, "textUnder");
-	m_buttonTextUnder->setPixmap(QPixmap((const char **)under_xpm));
-	m_buttonTextUnder->setToggleButton(true);
+  hLayout->addWidget(m_buttonTextItalic);
+  
+  m_buttonTextUnder = new QToolButton(m_formatGroup);
+  m_buttonTextUnder->setObjectName("textUnder");
+  m_buttonTextUnder->setIcon(QPixmap((const char **)under_xpm));
+  m_buttonTextUnder->setCheckable(true);
 	connect(m_buttonTextUnder, SIGNAL(toggled(bool)), this, SLOT(textUnder(bool)));
+  hLayout->addWidget(m_buttonTextUnder);
 
-	m_buttonTextLeft = new QToolButton(m_alignGroup, "textLeft");
-	m_buttonTextLeft->setPixmap(QPixmap((const char **)left_xpm));
-	m_buttonTextLeft->setToggleButton(true);
-	m_buttonTextCenter = new QToolButton(m_alignGroup, "textCenter");
-	m_buttonTextCenter->setPixmap(QPixmap((const char **)center_xpm));
-	m_buttonTextCenter->setToggleButton(true);
-	m_buttonTextRight = new QToolButton(m_alignGroup, "textRight");
-	m_buttonTextRight->setPixmap(QPixmap((const char **)right_xpm));
-	m_buttonTextRight->setToggleButton(true);
+  QButtonGroup *alignGroup = new QButtonGroup(this);
+  hLayout = new QHBoxLayout;  
+  m_alignGroup->setLayout(hLayout);
+  m_buttonTextLeft = new QToolButton(m_alignGroup);  
+  m_buttonTextLeft->setObjectName("textLeft");
+  m_buttonTextLeft->setIcon(QPixmap((const char **)left_xpm));
+  m_buttonTextLeft->setCheckable(true);
+  connect(m_buttonTextLeft, SIGNAL(toggled(bool)), this, SLOT(textAlignLeft(bool)));
+  hLayout->addWidget(m_buttonTextLeft);
+  alignGroup->addButton(m_buttonTextLeft);
+  
+  m_buttonTextCenter = new QToolButton(m_alignGroup);
+  m_buttonTextCenter->setObjectName("textCenter");
+  m_buttonTextCenter->setIcon(QPixmap((const char **)center_xpm));
+  m_buttonTextCenter->setCheckable(true);
+  connect(m_buttonTextCenter, SIGNAL(toggled(bool)), this, SLOT(textAlignCenter(bool)));
+  hLayout->addWidget(m_buttonTextCenter);
+  alignGroup->addButton(m_buttonTextCenter);
+  
+  m_buttonTextRight = new QToolButton(m_alignGroup);
+  m_buttonTextRight->setObjectName("textRight");
+  m_buttonTextRight->setIcon(QPixmap((const char **)right_xpm));
+  m_buttonTextRight->setCheckable(true);
+  connect(m_buttonTextRight, SIGNAL(toggled(bool)), this, SLOT(textAlignRight(bool)));
+  hLayout->addWidget(m_buttonTextRight);
+  alignGroup->addButton(m_buttonTextRight);
 
-	connect(m_alignGroup, SIGNAL(clicked(int)), this, SLOT(textAlign(int)));
 	connect(m_textedit, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(fontChanged(const QFont &)));
-	connect(m_textedit, SIGNAL(currentAlignmentChanged(int)), this, SLOT(alignmentChanged(int)));
+  connect(m_textedit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
 	
 	connect(m_textedit, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
-*/
+
 }
 
 QString RichTextEditor::currentState() const
@@ -169,28 +200,36 @@ void RichTextEditor::setTextChanged()
 
 void RichTextEditor::textBold(bool a_isOn)
 {
-  m_textedit->setBold(a_isOn);
+  m_textedit->setFontWeight(a_isOn ? QFont::Bold : QFont::Normal);
 }
 
 void RichTextEditor::textUnder(bool a_isOn)
 {
-  m_textedit->setUnderline(a_isOn);
+  m_textedit->setFontUnderline(a_isOn);
 }
 
 void RichTextEditor::textItalic(bool a_isOn)
 {
-  m_textedit->setItalic(a_isOn);
+  m_textedit->setFontItalic(a_isOn);
 }
 
-void RichTextEditor::textAlign(int a_id)
+void RichTextEditor::textAlignLeft(bool a_isOn)
 {
-/* FIXME  QToolButton *b = (QToolButton *)m_alignGroup->indexOf(a_id);
-  if(b == m_buttonTextLeft)
+  if (a_isOn)
+  {
     m_textedit->setAlignment(Qt::AlignLeft);
-  else if(b == m_buttonTextCenter)
-    m_textedit->setAlignment(Qt::AlignCenter);
-  else if(b == m_buttonTextRight)
-    m_textedit->setAlignment(Qt::AlignRight);*/
+    
+  }
+}
+
+void RichTextEditor::textAlignCenter(bool)
+{
+  m_textedit->setAlignment(Qt::AlignCenter);
+}
+
+void RichTextEditor::textAlignRight(bool)
+{
+  m_textedit->setAlignment(Qt::AlignRight);
 }
 
 void RichTextEditor::fontChanged(const QFont &a_font)
@@ -200,14 +239,23 @@ void RichTextEditor::fontChanged(const QFont &a_font)
   m_buttonTextUnder->setChecked(a_font.underline());
 }
 
-void RichTextEditor::alignmentChanged(int a_alignment)
+void RichTextEditor::cursorPositionChanged()
 {
-  if((a_alignment == Qt::AlignLeft) || (a_alignment & Qt::AlignLeft)) 
+  Qt::Alignment alignment = m_textedit->alignment(); 
+  if (((alignment == Qt::AlignLeft) || (alignment & Qt::AlignLeft)) && !m_buttonTextLeft->isChecked()) 
+  {
     m_buttonTextLeft->setChecked(true);
-  else if(a_alignment & Qt::AlignHCenter) 
+  }
+  else 
+  if ((alignment & Qt::AlignHCenter) && !m_buttonTextCenter->isChecked()) 
+  {
     m_buttonTextCenter->setChecked(true);
-  else if(a_alignment & Qt::AlignRight) 
+  }
+  else 
+  if ((alignment & Qt::AlignRight) && !m_buttonTextCenter->isChecked()) 
+  {
     m_buttonTextRight->setChecked(true);
+  }
 }
 
 void RichTextEditor::showEvent( QShowEvent *e )
