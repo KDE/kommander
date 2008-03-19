@@ -278,7 +278,7 @@ static ParseNode f_parentPid(Parser*p, const ParameterList& )
 
 static ParseNode f_dcop(Parser* parser, const ParameterList& params)
 {
-  SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
+  SpecialFunction function = SpecialInformation::functionObject("DBUS", params[0].toString());
   int functionId = SpecialInformation::function(Group::DBUS, params[0].toString());
   if (functionId == -1)
     return ParseNode::error("unknown function");
@@ -308,7 +308,7 @@ static ParseNode f_externalDcop(Parser*, const ParameterList& params)
 {
 //  Q3CString appId = kapp->dcopClient()->appId();
   QString object = "KommanderIf";
-  SpecialFunction function = SpecialInformation::functionObject("DCOP", params[0].toString());
+  SpecialFunction function = SpecialInformation::functionObject("DBUS", params[0].toString());
   
   if (!function.isValidArg(params.count() - 1))
     return ParseNode();
