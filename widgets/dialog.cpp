@@ -99,10 +99,14 @@ void Dialog::initialize()
   const QStringList assoc = associatedText();
   if (assoc.count() > 1 && !assoc[1].isEmpty()) 
   {
-    KProcess proc(this);
-    proc.setProgram( KommanderWidget::evalAssociatedText(assoc[1]) );
-    proc.start();
-    proc.waitForFinished();
+    QString evalText = KommanderWidget::evalAssociatedText(assoc[1]);
+    if (!evalText.isEmpty())
+    {
+      KProcess proc(this);
+      proc.setProgram(evalText);
+      proc.start();
+      proc.waitForFinished();
+    }
   }
 }
 
@@ -111,10 +115,14 @@ void Dialog::destroy()
   const QStringList assoc = associatedText();
   if (assoc.count() > 2 && !assoc[2].isEmpty()) 
   {
-    KProcess proc(this);
-    proc.setProgram( KommanderWidget::evalAssociatedText(assoc[1]) );
-    proc.start();
-    proc.waitForFinished();
+    QString evalText = KommanderWidget::evalAssociatedText(assoc[2]);
+    if (!evalText.isEmpty())
+    {
+      KProcess proc(this);
+      proc.setProgram(evalText);
+      proc.start();
+      proc.waitForFinished();
+    }
   }
 }
 
