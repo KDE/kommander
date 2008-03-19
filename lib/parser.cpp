@@ -79,7 +79,7 @@ void Parser::setString(const QString& s)
     else if (s[start].isDigit())    // number: 1000 or 2.45
     {
       bool decimal = false;
-      for (i = start+1; s[i].isDigit() || (!decimal && s[i] == QChar('.')); i++)
+      for (i = start+1; i < s.length() && (s[i].isDigit() || (!decimal && s[i] == QChar('.'))); i++)
         if (s[i] == '.')
           decimal = true;
       if (decimal)
@@ -88,9 +88,9 @@ void Parser::setString(const QString& s)
         insertNode(s.mid(start, i - start).toInt(), lines);
       start = i;
     }
-    else if (s[start].isLetter() || s[start] == '_')
+    else if ((s[start].isLetter() || s[start] == '_') )
     {
-      for (i = start+1; s[i].isLetterOrNumber() || s[i] == '_'; i++)
+      for (i = start+1; i < s.length() && (s[i].isLetterOrNumber() || s[i] == '_'); i++)
         ;
       QString name = s.mid(start, i - start);
       insertNode(ParseNode(m_data->stringToKeyword(name), name), lines);
