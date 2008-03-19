@@ -41,6 +41,7 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   states << "destroy";
   setStates(states);
   setDisplayStates(states);
+  m_firstShow = true;
 }
 
 Dialog::~Dialog()
@@ -130,11 +131,19 @@ void Dialog::exec()
   emit finished();
 }
 
-void Dialog::show()
+void Dialog::setVisible(bool visible)
 {
-  QDialog::show();
-  if (!inEditor)
-    initialize();
+  //avoid initialization on every show/hide
+  if (!m_firstShow) 
+  {
+    QWidget::setVisible(visible);
+  } else
+  {
+    m_firstShow = false;
+    QDialog::setVisible(visible);
+    if (!inEditor)
+      initialize();
+  }
 }
 
 void Dialog::done(int r)

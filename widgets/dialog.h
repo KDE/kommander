@@ -49,7 +49,7 @@ public:
   virtual QString currentState() const;
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
-  virtual void show();
+  virtual void setVisible(bool visible);
   
   virtual QString handleDBUS(int function, const QStringList& args);
   using KommanderWidget::handleDBUS;
@@ -72,6 +72,7 @@ protected:
   
 private:
   QString m_fileName;
+  bool m_firstShow;
 };
 
 #endif
