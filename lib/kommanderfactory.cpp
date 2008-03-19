@@ -250,7 +250,12 @@ void KommanderFactory::addPlugin ( KommanderPlugin *plugin )
 QWidget *KommanderFactory::createWidget ( const QString &literalClassName, QWidget *parent, const char *name )
 {
     QString className = literalClassName;
-    /*
+    if (className == "QWidget")
+    {
+      if (!qwf_stays_on_top)
+        return new QWidget(parent, name);
+      return new QWidget(parent, name, Qt::WStyle_StaysOnTop);
+    }    /*
       // create widgets we know
       if (className == "QPushButton")
         return new QPushButton(parent, name);
