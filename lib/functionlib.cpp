@@ -281,7 +281,7 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
   SpecialFunction function = SpecialInformation::functionObject("DBUS", params[0].toString());
   int functionId = SpecialInformation::function(Group::DBUS, params[0].toString());
   if (functionId == -1)
-    return ParseNode::error("unknown function");
+    return f_executeSlot(parser, params);
   else if ((int)function.minArg() > params.count() - 1)
     return ParseNode::error("too few parameters");
   else if ((int)function.maxArg() < params.count() - 1)
