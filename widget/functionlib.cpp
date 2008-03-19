@@ -55,6 +55,20 @@ static ParseNode f_stringContains(Parser*, const ParameterList& params)
   return params[0].toString().contains(params[1].toString());
 }
 
+static ParseNode f_stringCompare(Parser*, const ParameterList& params)
+{
+  int result = QString::compare(params[0].toString(),params[1].toString());
+  if (result < 0)
+  {
+    result = -1;
+  } else
+  if (result > 0)
+  {
+    result = 1;
+  }
+  return result;
+}
+
 static ParseNode f_stringFind(Parser*, const ParameterList& params)
 {
   return params[0].toString().find(params[1].toString(), params.count() == 3 ? params[2].toInt() : 0);
@@ -883,6 +897,7 @@ void ParserData::registerStandardFunctions()
 {
   registerFunction("str_length", Function(&f_stringLength, ValueInt, ValueString));
   registerFunction("str_contains", Function(&f_stringContains, ValueInt, ValueString, ValueString));
+  registerFunction("str_compare", Function(&f_stringCompare, ValueInt, ValueString, ValueString));
   registerFunction("str_find", Function(&f_stringFind, ValueInt, ValueString, ValueString, ValueInt, 2));
   registerFunction("str_findrev", Function(&f_stringFindRev, ValueInt, ValueString, ValueString, ValueInt, 2));
   registerFunction("str_left", Function(&f_stringLeft, ValueString, ValueString, ValueInt));
