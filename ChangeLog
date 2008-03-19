@@ -1,3 +1,5 @@
+2008-03-19 - Andras Mantia <amantia@kde.org>
+    o regression: add back the missing str_compare function. 
 2008-03-18 - Eric Laffoon <sequitur@kde.org>
     o raised the number of allowed paramaters for scripts
 2008-03-10 - Eric Laffoon <sequitur@kde.org>
