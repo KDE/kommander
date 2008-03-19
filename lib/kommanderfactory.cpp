@@ -516,7 +516,7 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
             obj = layout;
             n = n.firstChild().toElement();
             if ( parentLayout && qobject_cast<QGridLayout*>(parentLayout) )
-                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, row + rowspan - 1, col, col + colspan - 1 );
+                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, row + rowspan, col + colspan );
             continue;
         }
         else if ( n.tagName() == "grid" )
@@ -529,7 +529,7 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
             obj = layout;
             n = n.firstChild().toElement();
             if ( parentLayout && qobject_cast<QGridLayout*>(parentLayout) )
-                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, row + rowspan - 1, col, col + colspan - 1 );
+                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, row + rowspan, col + colspan );
             continue;
         }
         else if ( n.tagName() == "vbox" )
@@ -542,7 +542,7 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
             obj = layout;
             n = n.firstChild().toElement();
             if ( parentLayout && qobject_cast<QGridLayout*>(parentLayout) )
-                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, row + rowspan - 1, col, col + colspan - 1 );
+                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, row + rowspan, col + colspan );
             continue;
         }
         else if ( n.tagName() == "property" && obj )
@@ -649,7 +649,8 @@ QLayout *KommanderFactory::createLayout ( QWidget *widget, QLayout*  layout, Lay
         }
         l->setMargin(margin);
         l->setSpacing(spacing);
-        widget->setLayout(l);
+        if (widget)  //can be null of QLayoutWidget
+          widget->setLayout(l);
         return l;
     }
     return 0;
