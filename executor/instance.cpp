@@ -200,11 +200,11 @@ bool Instance::run(QFile *a_file)
     else if(a_file && !build(a_file))
       return false;
 
+  kapp->setMainWidget(m_instance);
   if (m_instance->inherits("QDialog"))
     ((QDialog*)m_instance)->exec();
   else if (m_instance->inherits("QMainWindow"))
   {
-    kapp->setMainWidget(m_instance);
     ((QMainWindow*)m_instance)->show();
     kapp->exec();
   }
