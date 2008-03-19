@@ -563,10 +563,15 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
                 if ( attrib == "title" )
                     qobject_cast<QTabWidget*>(parent)->insertTab ( -1, w, translate ( v.toString() ) );
             }
-            else if ( qobject_cast<KAssistantDialog*>(parent) )
+            else if ( qobject_cast<QToolBox*>(parent) )
             {
-                if ( attrib == "title" )
-                    qobject_cast<KAssistantDialog*>(parent)->addPage ( w, translate ( v.toString() ) );
+              if ( attrib == "label" )
+                qobject_cast<QToolBox*>(parent)->addItem( w, translate(v.toString()) );
+            } else if ( qobject_cast<QWizard*>(parent) ) 
+            {
+//FIXME: port addPage
+//               if ( attrib == "title" )
+//                 qobject_cast<QWizard*>(parent)->addPage( w, translate(v.toString()) );
             }
         }
         else if ( n.tagName() == "item" )
