@@ -482,8 +482,8 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
                         ( ( QVBoxLayout* ) layout )->addWidget ( w );
                         break;
                     case Grid:
-                        static_cast< QGridLayout*>(layout)->addWidget ( w, row, col, row + rowspan - 1,
-                                col + colspan - 1 );
+                        static_cast< QGridLayout*>(layout)->addWidget ( w, row, col, row + rowspan,
+                                col + colspan );
                         break;
                     default:
                         break;
@@ -595,100 +595,62 @@ QLayout *KommanderFactory::createLayout ( QWidget *widget, QLayout*  layout, Lay
 //     if ( !layout && widget && widget->inherits( "QStackedWidget" ) )
 //     widget = ((QStackedWidget*)widget)->visibleWidget();
 
-    if ( !layout && widget && qobject_cast<QGroupBox*>(widget) )
+    if ( layout )
     {
-        QGroupBox *gb = qobject_cast<QGroupBox*>(widget);
-        QLayout *gbLayout = gb->layout();
-        //gb->setLayout(new QVBoxLayout());
-        gbLayout->setMargin ( 0 );
-        gbLayout->setSpacing ( 0 );
         QLayout *l;
         switch ( type )
         {
             case HBox:
                 l = new QHBoxLayout();
-                gbLayout->addItem ( l );
-                l->setAlignment ( Qt::AlignTop );
+                layout->addItem ( l );
+                l->setSpacing ( spacing );
+                l->setMargin ( margin );
                 return l;
             case VBox:
                 l = new QVBoxLayout();
-                gbLayout->addItem ( l );
+                layout->addItem ( l );
                 l->setSpacing ( spacing );
-                l->setAlignment ( Qt::AlignTop );
+                l->setMargin ( margin );
                 return l;
             case Grid:
+            {
                 l = new QGridLayout();
-                gbLayout->addItem ( l );
-                l->setAlignment ( Qt::AlignTop );
+                layout->addItem ( l );
+                l->setSpacing ( spacing );
+                l->setMargin ( margin );
                 return l;
+            }
             default:
                 return 0;
         }
     }
     else
     {
-        if ( layout )
+        QLayout *l = 0L;
+        switch ( type )
         {
-            QLayout *l;
-            switch ( type )
+            case HBox:
             {
-                case HBox:
-                    l = new QHBoxLayout();
-                    layout->addItem ( l );
-                    l->setSpacing ( spacing );
-                    l->setMargin ( margin );
-                    return l;
-                case VBox:
-                    l = new QVBoxLayout();
-                    layout->addItem ( l );
-                    l->setSpacing ( spacing );
-                    l->setMargin ( margin );
-                    return l;
-                case Grid:
-                {
-                    l = new QGridLayout();
-                    layout->addItem ( l );
-                    l->setSpacing ( spacing );
-                    l->setMargin ( margin );
-                    return l;
-                }
-                default:
-                    return 0;
+                l = new QHBoxLayout;
+                break;
             }
+            case VBox:
+            {
+                l = new QVBoxLayout;
+                break;
+            }
+            case Grid:
+            {
+                l = new QGridLayout;
+                break;
+            }
+            default:
+                return 0;
         }
-        else
-        {
-            QLayout *l = 0L;
-            switch ( type )
-            {
-                case HBox:
-                {
-                    l = new QHBoxLayout;
-                    break;
-                }
-                case VBox:
-                {
-                    l = new QVBoxLayout;
-                    break;
-                }
-                case Grid:
-                {
-                    l = new QGridLayout;
-                    break;
-                }
-                default:
-                    return 0;
-            }
-            if ( !widget )
-            {
-                l->setMargin(margin);
-                l->setSpacing(spacing);
-            } else
-            { 
-              widget->setLayout(l);
-            }
-            return l;
-        }
+        l->setMargin(margin);
+        l->setSpacing(spacing);
+        widget->setLayout(l);
+        return l;
     }
     return 0;
 }
