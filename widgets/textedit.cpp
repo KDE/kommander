@@ -86,6 +86,12 @@ void TextEdit::setTextChanged()
   emit widgetTextChanged(text());
 }
 
+void TextEdit::focusOutEvent( QFocusEvent * e)
+{
+  QTextEdit::focusOutEvent(e);
+  emit lostFocus();
+}
+
 void TextEdit::showEvent(QShowEvent * e)
 {
   QTextEdit::showEvent(e);
