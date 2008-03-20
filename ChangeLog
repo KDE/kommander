@@ -6,6 +6,7 @@
     o Tree/Detail (ListView) widget - return column caption for given index
     o Tree/Detail (ListView) widget - set sort column and where ASC or DESC
     o Tree/Detail (ListView) widget - set column width - serves as hide colum at 0 width
+    o Table widget - add column sort that does by whole rows - doesn't do well with float as strings :(
 2008-03-19 - Andras Mantia <amantia@kde.org>
     o regression: add back the missing str_compare function. 
 2008-03-18 - Eric Laffoon <sequitur@kde.org>
