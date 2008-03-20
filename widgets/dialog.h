@@ -50,6 +50,11 @@ public:
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
   virtual void setVisible(bool visible);
+
+  bool useShebang() const { return m_useShebang; }
+  void setUseShebang(bool useit) { m_useShebang = useit; }
+  QString Shebang() const { return m_shebang; }
+  void setShebang(const QString &text) { m_shebang = text; }
   
   virtual QString handleDBUS(int function, const QStringList& args);
   using KommanderWidget::handleDBUS;
@@ -67,12 +72,17 @@ signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
   void finished();
+  void contextMenuRequested(int xpos, int ypos);
 protected:
   void showEvent( QShowEvent *e );
-  
+  void keyPressEvent( QKeyEvent * );
+  void contextMenuEvent( QContextMenuEvent * e );
 private:
   QString m_fileName;
-  bool m_firstShow;
+  bool m_useInternalParser;
+  bool m_useShebang; //add m_shebang at the beginning of the dialog code or not
+  bool m_firstShow; //tells if the show method was called before or not
+  QString m_shebang; //#!/usr/bin/kmdr-executor or similar
 };
 
 #endif

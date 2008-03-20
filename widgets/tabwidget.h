@@ -53,8 +53,10 @@ public slots:
   virtual void populate();
 signals:
   void widgetOpened();
+  void contextMenuRequested(int xpos, int ypos);
 protected:
   void showEvent(QShowEvent *e);
+  void contextMenuEvent( QContextMenuEvent * e );
 private:
 };
 

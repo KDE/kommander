@@ -62,9 +62,11 @@ public slots:
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString &);
+  void contextMenuRequested(int xpos, int ypos);
 protected:
   QList<QObject *> m_childList;
   void showEvent(QShowEvent *e);
+  void contextMenuEvent( QContextMenuEvent * e );
 private:
 };
 

@@ -94,6 +94,13 @@ void TextEdit::showEvent(QShowEvent * e)
   emit widgetOpened();
 }
 
+void TextEdit::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool TextEdit::isFunctionSupported(int f)
 {
   return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear;

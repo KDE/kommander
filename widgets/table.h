@@ -52,9 +52,19 @@ class Table : public QTableWidget, public KommanderWidget
     virtual QString handleDBUS(int function, const QStringList& args);
     using KommanderWidget::handleDBUS;
     virtual bool isFunctionSupported(int function);
+    virtual void clearCellWidget(int row, int col);
   public slots:
     virtual void populate();
     virtual void setWidgetText(const QString &);
+  signals:
+    void contextMenuRequested(int xpos, int ypos);
+  protected:
+    void contextMenuEvent( QContextMenuEvent * e );
+  private:
+    QString selectedArea();
+    QString cellWidget(int row, int col);
+    void setCellWidget(int row, int col, const QString &widgetName);
+    void setCellText(int row, int col, const QString &text);
 };
 
 #endif

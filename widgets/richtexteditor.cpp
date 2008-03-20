@@ -264,9 +264,16 @@ void RichTextEditor::showEvent( QShowEvent *e )
     emit widgetOpened();
 }
 
+void RichTextEditor::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool RichTextEditor::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::selection;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::selection || DBUS::setEditable;
 }
 
 QString RichTextEditor::handleDBUS(int function, const QStringList& args)
@@ -281,6 +288,9 @@ QString RichTextEditor::handleDBUS(int function, const QStringList& args)
       return m_textedit->textCursor().selectedText();
     case DBUS::clear:
       setWidgetText("");
+      break;
+    case DBUS::setEditable:
+      m_textedit->setReadOnly(args[0] == "false" || args[0] == "0");
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

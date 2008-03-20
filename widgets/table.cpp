@@ -21,6 +21,7 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <QTableWidgetItem>
+#include <QContextMenuEvent>
 
 /* OTHER INCLUDES */
 #include <specials.h>
@@ -79,13 +80,79 @@ void Table::setWidgetText(const QString&)
 {
 }
 
+QString Table::selectedArea()
+{
+  QList<QTableWidgetSelectionRange> sel = selectedRanges();
+  if (sel.isEmpty())
+     return "";
+  return QString("%1,%2,%3,%4").arg(sel[0].topRow()).arg(sel[0].leftColumn()).arg(sel[0].bottomRow()).arg(sel[0].rightColumn());
+}
+
+
 bool Table::isFunctionSupported(int f)
 {
   return f == DBUS::currentColumn || f == DBUS::currentRow || f == DBUS::insertColumn || 
-      f == DBUS::insertRow || f == DBUS::cellText || f == DBUS::setCellText ||
+      f == DBUS::insertRow || f == DBUS::cellText || f == DBUS::setCellText || f == DBUS::setCellWidget || f == DBUS::cellWidget ||
       f == DBUS::removeRow || f == DBUS::removeColumn || f == DBUS::setColumnCaption ||
-      f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText;
+      f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText || f == DBUS::selection;
 }
+
+void Table::setCellWidget(int row, int col, const QString & _widgetName)
+{
+  KommanderWidget *w = widgetByName(_widgetName);
+  if (w)
+  {
+    QWidget *widget = static_cast<QWidget*>(w->object());
+    if (QTableWidget::cellWidget(row, col) != widget)
+    { 
+      setCurrentCell(-1, -1); //hack to not delete the cellwidget after clicking away to another cell. 
+//I don't know why it does so, but without this on a click to another cell calls endEdit, which calls
+//clearCellWidget, all this before the currentChanged signal is emitted.
+      clearCellWidget(row, col);
+      QTableWidget::setCellWidget(row, col, widget);
+   }
+  } else
+    clearCellWidget(row, col);
+}
+
+QString Table::cellWidget(int row, int col)
+{
+
+  QWidget *widget = QTableWidget::cellWidget(row, col);
+  if (widget)  
+  {
+    KommanderWidget *w = widgetByName(widget->name());
+    if (w)
+      return widget->name();
+  }
+  return QString();
+}
+
+void Table::setCellText(int row, int col, const QString& text)
+{
+  QWidget *widget = QTableWidget::cellWidget(row, col);
+  if (widget)  
+  {
+    KommanderWidget *w = widgetByName(widget->name());
+    if (w)
+      widget->reparent(parentDialog(), QPoint(0,0));
+  }  
+  setItem(row, col, new QTableWidgetItem(text));
+//FIXME??  endEdit(row, col, false, false);
+}
+
+void Table::clearCellWidget(int row, int col)
+{
+  QTableWidget::removeCellWidget(row, col); //just for debugging
+}
+
+void Table::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 
 QString Table::handleDBUS(int function, const QStringList& args)
 {
@@ -95,6 +162,12 @@ QString Table::handleDBUS(int function, const QStringList& args)
       return item(args[0].toInt(), args[1].toInt())->text();
     case DBUS::setCellText:
       setItem(args[0].toInt(), args[1].toInt(), new QTableWidgetItem(args[2]));
+      break;
+    case DBUS::setCellWidget:
+      setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);
+      break;
+    case DBUS::cellWidget:
+      return cellWidget(args[0].toInt(), args[1].toInt());
       break;
     case DBUS::insertRow:
       if (args.count() == 1)
@@ -175,6 +248,9 @@ QString Table::handleDBUS(int function, const QStringList& args)
       }
       break;
     }
+    case DBUS::selection:
+      return selectedArea();
+      break;
     default:
       return KommanderWidget::handleDBUS(function, args);
       

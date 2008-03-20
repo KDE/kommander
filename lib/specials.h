@@ -32,25 +32,25 @@ namespace Special
       item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
       setCellText, setCurrentItem, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
       setRowCaption, setSelection, setText, 
-      setVisible, text, type};
+      setVisible, text, type, setCellWidget, cellWidget, setEditable};
   }
 //FIXME DCOP to DBUS conversion
   namespace Kommander
   {   
     enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
     echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
-    switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment};
+    switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists, exit, Break, Continue, Return, execBackground};
   }
  
   namespace Array
   {
-    enum {values, keys, clear, count, value, remove, setValue, fromString, toString};
+    enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElements, indexedInsertElements};
   }
    
   namespace String
   {
     enum {length, contains, find, findRev, left, right, mid, remove, replace, upper, lower,
-    compare, isEmpty, isNumber, section, args};
+      compare, isEmpty, isNumber, section, args, toInt, toDouble};
   }
   
   namespace File

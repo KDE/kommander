@@ -94,10 +94,16 @@ void LineEdit::setWidgetText(const QString& a_text)
   emit widgetTextChanged(a_text);
 }
 
+void LineEdit::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool LineEdit::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
-    f == DBUS::clear;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear ||  DBUS::setEditable;
 }
 
 QString LineEdit::handleDBUS(int function, const QStringList& args)
@@ -115,6 +121,9 @@ QString LineEdit::handleDBUS(int function, const QStringList& args)
       break;
     case DBUS::clear:
       setWidgetText("");
+      break;
+    case DBUS::setEditable:
+      setReadOnly(args[0] == "false" || args[0] == "0");
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

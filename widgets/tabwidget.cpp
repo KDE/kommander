@@ -83,6 +83,13 @@ void TabWidget::showEvent(QShowEvent* e)
   emit widgetOpened();
 }
 
+void TabWidget::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool TabWidget::isFunctionSupported(int f)
 {
   return f == DBUS::currentItem || f == DBUS::setCurrentItem;

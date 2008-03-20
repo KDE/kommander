@@ -89,6 +89,12 @@ void ButtonGroup::showEvent(QShowEvent* e)
   emit widgetOpened();
 }
 
+void ButtonGroup::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();  
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
 
 bool ButtonGroup::isFunctionSupported(int f)
 {

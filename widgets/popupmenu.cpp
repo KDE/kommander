@@ -159,7 +159,7 @@ QString PopupMenu::handleDBUS(int function, const QStringList& args)
     {
       uint index = args[2].toInt();
       int id = -1;
-      if (args[3].isEmpty())
+      if (args.size() < 4 || (args.size() > 3 && args[3].isEmpty()))
         id = m_menu->insertItem(args[0], index);
       else
         id = m_menu->insertItem(KIconLoader::global()->loadIcon(args[3], KIconLoader::NoGroup, KIconLoader::SizeMedium), args[0], index);
@@ -185,7 +185,8 @@ QString PopupMenu::handleDBUS(int function, const QStringList& args)
     case INSERTSEPARATOR:
     {
       uint index = args[0].toInt();
-      m_menu->insertSeparator(index);     
+      m_menu->insertSeparator(index);    
+      break; 
     }
     case SETITEMENABLED:
     {

@@ -171,6 +171,7 @@ static ParseNode f_debug(Parser*, const ParameterList& params)
   for (int i=0; i<params.count(); i++)
     std::cerr << params[i].toString().toUtf8().data();
   std::cerr << "\n";
+  fflush(stderr);
   return ParseNode();
 }
 

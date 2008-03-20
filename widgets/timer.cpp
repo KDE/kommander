@@ -23,12 +23,21 @@
 /* KDE INCLUDES */
 #include <kglobal.h>
 #include <kiconloader.h>
+#include <klocale.h>
 #include <kprocess.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "timer.h"
 #include "specials.h"
+#include "kommanderplugin.h"
+
+
+enum Functions {
+  FirstFunction = 179,
+  SetInterval,
+  LastFunction
+};
 
 Timer::Timer(QWidget *a_parent, const char *a_name)
   : QLabel(a_parent, a_name), KommanderWidget(this)
@@ -51,6 +60,9 @@ Timer::Timer(QWidget *a_parent, const char *a_name)
   setInterval(5000);
   setSingleShot(false);
   connect(mTimer, SIGNAL(timeout()), SLOT(timeout()));
+
+  KommanderPlugin::setDefaultGroup(Group::DBUS);
+  KommanderPlugin::registerFunction(SetInterval, "setInterval(QString widget, int interval)",  i18n("Set the timer timeout interval in ms."), 2);
 }
 
 Timer::~Timer()
@@ -64,6 +76,10 @@ int Timer::interval() const
 
 void Timer::setInterval(int a_interval)
 {
+  if (mTimer->isActive())
+  {
+    mTimer->changeInterval(a_interval);
+  }
   mInterval = a_interval;
 }
       
@@ -169,6 +185,9 @@ QString Timer::handleDBUS(int function, const QStringList& args)
       break;
     case DBUS::cancel:
       cancel();
+      break;
+    case SetInterval:
+      setInterval(args[0].toInt());
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

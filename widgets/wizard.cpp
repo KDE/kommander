@@ -14,7 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
-#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -30,6 +29,8 @@
 #include <kommanderfactory.h>
 #include <kommanderwidget.h>
 #include "wizard.h"
+#include "myprocess.h"
+#include "specials.h"
 
 Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : Q3Wizard(a_parent, a_name, a_modal), KommanderWidget(this)
@@ -37,14 +38,19 @@ Wizard::Wizard(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   Q_UNUSED(a_flags);
   QStringList states;
   states << "default";
+  states << "initialization";
+  states << "destroy";
   setStates(states);
   setDisplayStates(states);
 
+  m_firstShow = true;
   connect(this, SIGNAL(helpClicked()), SLOT(runHelp()));
 }
 
 Wizard::~Wizard()
 {
+  if (!inEditor)
+    destroy();
 }
 
 QString Wizard::currentState() const
@@ -89,10 +95,46 @@ void Wizard::setWidgetText(const QString &a_text)
   emit widgetTextChanged(a_text);
 }
 
+void Wizard::initialize()
+{
+  setFinishEnabled(page(pageCount() - 1), true);
+  const QStringList assoc = associatedText();
+  if (assoc.count() > 1 && !assoc[1].isEmpty()) 
+  {
+    MyProcess proc(this);
+    proc.run( KommanderWidget::evalAssociatedText(assoc[1]) );
+  }
+}
+
+void Wizard::destroy()
+{
+  const QStringList assoc = associatedText();
+  if (assoc.count() > 2 && !assoc[2].isEmpty()) 
+  {
+    MyProcess proc(this);
+    proc.run(KommanderWidget::evalAssociatedText(assoc[2]));
+  }
+}
+
 void Wizard::exec()
 {
   Q3Wizard::exec();
   emit finished();
+}
+
+void Wizard::setVisible(bool visible)
+{
+  //avoid initialization on every show/hide
+  if (!m_firstShow) 
+  {
+    Q3Wizard::setVisible(visible);
+  } else
+  {
+    m_firstShow = false;
+    Q3Wizard::setVisible(visible);
+    if (!inEditor)
+      initialize();
+  }
 }
 
 void Wizard::runHelp()
@@ -137,9 +179,23 @@ void Wizard::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+void Wizard::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 QString Wizard::handleDBUS(int function, const QStringList& args)
 {
-  return KommanderWidget::handleDBUS(function, args);
+  switch (function) {
+    case DBUS::setEnabled:
+      setFinishEnabled(page(pageCount() - 1), args[0] != "false");
+      break;
+    default:
+      return KommanderWidget::handleDBUS(function, args);
+  }
+  return QString();
 }
 
 

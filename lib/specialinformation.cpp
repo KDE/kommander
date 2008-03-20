@@ -309,6 +309,8 @@ void SpecialInformation::registerSpecials()
   insert(DBUS::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DBUS::type, "type(QString widget)",
          i18n("Returns type(class) of widget."), 1);
+  insert(DBUS::setEditable, "setEditable(QString widget, bool editable)", 
+         i18n("Makes the widget editable or read only, depending on the editable argument."), 2);
     
   insertGroup(Group::Kommander, "Kommander", "");
   insert(Kommander::widgetText, "widgetText", 

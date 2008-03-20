@@ -85,6 +85,13 @@ void StatusBar::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+void StatusBar::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool StatusBar::isFunctionSupported(int f)
 {
   return f == DBUS::setText || f == DBUS::insertItem || f == DBUS::removeItem || f == DBUS::clear;

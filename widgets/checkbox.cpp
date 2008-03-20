@@ -107,6 +107,13 @@ bool CheckBox::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::checked || f == DBUS::setChecked;
 }
 
+void CheckBox::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 QString CheckBox::handleDBUS(int function, const QStringList& args)
 {
   switch (function) {

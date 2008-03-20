@@ -99,9 +99,16 @@ void ListBox::showEvent(QShowEvent *e)
 bool ListBox::isFunctionSupported(int f)
 {
   return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
-    f == DBUS::insertItems || f == DBUS::insertItem || f == DBUS::removeItem || f == DBUS::clear ||
-    f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || f == DBUS::addUniqueItem ||
+      f == DBUS::insertItems || f == DBUS::insertItem || f == DBUS::removeItem || f == DBUS::clear ||
+      f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || f == DBUS::addUniqueItem ||
       f == DBUS::findItem || f == DBUS::setPixmap || f == DBUS::count;
+}
+
+void ListBox::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
 }
 
 
@@ -170,6 +177,7 @@ QString ListBox::handleDBUS(int function, const QStringList& args)
       if (!found) found = findItem(args[0]); //contains FIXME
       if (found)
         return QString::number(index(found));
+      else return QString::number(-1);
       break;
     }
     case DBUS::setPixmap:

@@ -23,12 +23,13 @@
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <kicon.h>
-#include <kprocess.h>
+#include <klocale.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "scriptobject.h"
 #include "specials.h"
+#include "myprocess.h"
 
 ScriptObject::ScriptObject(QWidget *a_parent, const char *a_name)
   : QLabel(a_parent), KommanderWidget(this)
@@ -93,23 +94,59 @@ void ScriptObject::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText(populationText()).split("\n"));
 }
 
-void ScriptObject::executeProcess(bool blocking)
+QString ScriptObject::executeProcess(bool blocking)
 {
-  KProcess process(this);
-  process.setProgram(evalAssociatedText());
-  process.start();
-  if (blocking)
-    process.waitForFinished();
+  int index = ( states().findIndex( currentState()) );
+  if (index == -1)
+  {
+    printError(i18n("Invalid state for associated text."));
+    return QString();
+  }
+  QString evalText = m_associatedText[index];
+
+  if ((KommanderWidget::useInternalParser && !evalText.startsWith("#!")) || evalText.startsWith("#!kommander"))
+  {
+    evalAssociatedText(evalText);
+    return global(widgetName() + "_RESULT");
+  } else
+  {
+    MyProcess process(this);
+    process.setBlocking(blocking);
+    return process.run(evalAssociatedText(evalText));
+  }
 }
 
 void ScriptObject::execute()
 {
+  m_params.clear();
+  executeProcess(true);
+}
+
+void ScriptObject::execute(const QString& s)
+{
+  m_params.clear();
+  m_params.append(s);
+  executeProcess(true);
+}
+
+void ScriptObject::execute(int i)
+{
+  m_params.clear();
+  m_params.append(QString::number(i));
+  executeProcess(true);
+}
+
+void ScriptObject::execute(int i, int j)
+{
+  m_params.clear();
+  m_params.append(QString::number(i));
+  m_params.append(QString::number(j));
   executeProcess(true);
 }
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DBUS::setText || f == DBUS::clear || f == DBUS::execute;
+  return f == DBUS::setText || f == DBUS::clear || f == DBUS::execute || DBUS::item || DBUS::count;
 }
 
 QString ScriptObject::handleDBUS(int function, const QStringList& args)
@@ -122,8 +159,16 @@ QString ScriptObject::handleDBUS(int function, const QStringList& args)
       setAssociatedText(QStringList());
       break;
     case DBUS::execute:
-      executeProcess(true);
+      m_params = args;
+      return executeProcess(true);
       break;
+    case DBUS::item:
+    {
+      uint index = args[0].toInt();
+      return index < m_params.count() ? m_params[index] : QString::null;
+    }
+    case DBUS::count:
+      return QString::number(m_params.count());
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

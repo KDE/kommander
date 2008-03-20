@@ -41,11 +41,15 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   states << "destroy";
   setStates(states);
   setDisplayStates(states);
+  m_useShebang = false;
+  m_shebang = "#!/usr/bin/kmdr-executor";
   m_firstShow = true;
 }
 
 Dialog::~Dialog()
 {
+  if (!inEditor)
+    destroy();
 }
 
 QString Dialog::currentState() const
@@ -60,12 +64,13 @@ bool Dialog::isKommanderWidget() const
 
 bool Dialog::useInternalParser() const
 {
-  return KommanderWidget::useInternalParser; 
+  return m_useInternalParser; 
 }
 
 void Dialog::setUseInternalParser(bool b) 
 {
   KommanderWidget::useInternalParser = b; 
+  m_useInternalParser = b;
 }
 
 
@@ -144,7 +149,7 @@ void Dialog::setVisible(bool visible)
   //avoid initialization on every show/hide
   if (!m_firstShow) 
   {
-    QWidget::setVisible(visible);
+    QDialog::setVisible(visible);
   } else
   {
     m_firstShow = false;
@@ -156,8 +161,8 @@ void Dialog::setVisible(bool visible)
 
 void Dialog::done(int r)
 {
-  if (!inEditor)
-    destroy();
+/*  if (!inEditor)
+    destroy();*/
   QDialog::done(r);  
 }
 
@@ -165,6 +170,22 @@ void Dialog::showEvent(QShowEvent *e)
 {
   QDialog::showEvent( e );
   emit widgetOpened();
+}
+
+void Dialog::keyPressEvent( QKeyEvent *e )
+{
+  if ( e->state() == 0 && e->key() == Qt::Key_Escape)
+	return;
+  else
+   QDialog::keyPressEvent(e);
+  
+}
+
+void Dialog::contextMenuEvent( QContextMenuEvent * e )
+{
+  QDialog::contextMenuEvent( e );
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
 }
 
 bool Dialog::isFunctionSupported(int f)

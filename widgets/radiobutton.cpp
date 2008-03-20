@@ -95,6 +95,13 @@ void RadioButton::showEvent( QShowEvent *e )
     emit widgetOpened();
 }
 
+void RadioButton::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool RadioButton::isFunctionSupported(int f)
 {
   return f == DBUS::text || f == DBUS::setText || f == DBUS::setChecked;

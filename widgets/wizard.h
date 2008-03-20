@@ -62,17 +62,25 @@ public:
 public slots:
   virtual void setWidgetText(const QString &);
   virtual void exec();
+  virtual void setVisible(bool b);
   virtual void runHelp();
-virtual void populate();
+  virtual void populate();
+protected slots:
+    virtual void initialize();
+    virtual void destroy();
+
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString &);
   void finished();
+  void contextMenuRequested(int xpos, int ypos);
 protected:
+  void showEvent( QShowEvent *e );
+  void contextMenuEvent( QContextMenuEvent * e );
+
   HelpAction m_helpAction;
   QString m_helpActionText;
-  void showEvent( QShowEvent *e );
-private:
+  bool m_firstShow;
 };
 
 #endif

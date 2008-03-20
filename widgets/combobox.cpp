@@ -97,12 +97,20 @@ void ComboBox::showEvent(QShowEvent *e)
     emit widgetOpened();
 }
 
+void ComboBox::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();  
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
+
 bool ComboBox::isFunctionSupported(int f)
 {
   return f == DBUS::text || f == DBUS::selection || f == DBUS::setSelection ||
       f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || 
       f == DBUS::removeItem || f == DBUS::insertItem || f == DBUS::insertItems ||
-      f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count;
+      f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count || DBUS::setEditable;
 }
 
 QString ComboBox::handleDBUS(int function, const QStringList& args)
@@ -157,6 +165,9 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
         }
       break;
     }
+    case DBUS::setEditable:
+      setEditable(args[0] != "false" && args[0] != "0");
+      break;
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

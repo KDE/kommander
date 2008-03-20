@@ -32,7 +32,13 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "treewidget.h"
+#include "kommanderplugin.h"
 
+enum Functions {
+  FirstFunction = 189,
+  SelectedIndexes,
+  LastFunction
+};
 
 TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   : Q3ListView(a_parent), KommanderWidget(this)
@@ -43,6 +49,8 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   setStates(states);
   setDisplayStates(states);
   setPathSeparator("/");
+  KommanderPlugin::setDefaultGroup(Group::DBUS);
+  KommanderPlugin::registerFunction(SelectedIndexes, "selectedIndexes(QString widget)",  "", 1);
 }
 
 TreeWidget::~TreeWidget()
@@ -175,6 +183,8 @@ QString TreeWidget::itemPath(Q3ListViewItem* item)
   if (!item) 
     return QString();
   item = item->parent();
+  if (!item)
+    return QString();
   QStringList path;
   while (item) 
   {
@@ -238,6 +248,13 @@ void TreeWidget::showEvent( QShowEvent *e )
     emit widgetOpened();
 }
 
+void TreeWidget::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool TreeWidget::isFunctionSupported(int f)
 {
   return f == DBUS::insertItem || f == DBUS::text || f == DBUS::setText || f == DBUS::insertItems ||
@@ -264,10 +281,55 @@ QString TreeWidget::handleDBUS(int function, const QStringList& args)
         addItemFromString(*it);
       break;
     }
+    case SelectedIndexes:
+    {
+      QString selection = "";
+      Q3ListViewItemIterator it(this);
+      while (it.current()) 
+      {
+        if (it.current()->isSelected())
+        {        
+          selection.append(QString("%1\n").arg(itemToIndex(it.current())));
+        }
+        ++it;
+      }
+      if (!selection.isEmpty())
+        selection = selection.left(selection.length() - 1);
+      return selection;
+      break;
+    }
     case DBUS::selection:
-      return itemText(currentItem());
+    {
+      QString selection = "";
+      Q3ListViewItemIterator it(this);
+      while (it.current()) 
+      {
+        if (it.current()->isSelected())
+            selection.append(itemText(it.current()) + "\n");
+        ++it;
+      }
+      if (!selection.isEmpty())
+        selection = selection.left(selection.length() - 1);
+      return selection;
+      break;
+    }
     case DBUS::setSelection:
-      setCurrentItem(findItem(args[0], 0));
+      if (selectionMode() == Single || selectionMode() == NoSelection)
+        setCurrentItem(findItem(args[0], 0));
+      else
+      {
+        clearSelection();
+        QStringList items(QStringList::split("\n", args[0]));
+        for (QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
+        {
+          Q3ListViewItem* item = findItem(*it, 0);
+          if (item)
+          {
+            item->setSelected(true);
+            ensureItemVisible(item);
+          }
+        }
+      }
       break;
     case DBUS::clear:
       clear();

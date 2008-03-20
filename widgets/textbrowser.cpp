@@ -86,6 +86,14 @@ void TextBrowser::showEvent(QShowEvent * e)
   emit widgetOpened();
 }
 
+void TextBrowser::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
+
 bool TextBrowser::isFunctionSupported(int f)
 {
   return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::clear;

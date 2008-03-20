@@ -202,6 +202,13 @@ void FileSelector::showEvent(QShowEvent * e)
   emit widgetOpened();
 }
 
+void FileSelector::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool FileSelector::isFunctionSupported(int f)
 {
   return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
