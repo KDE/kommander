@@ -15,6 +15,8 @@
  ***************************************************************************/
 
 #include <stdlib.h> 
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <qfile.h>
 #include <qregexp.h>

@@ -19,7 +19,6 @@
 #define _HAVE_KOMMANDERWIDGET_H_
 
 /* KDE INCLUDES */
-#include <k3process.h>
 
 #include "kommandercore_export.h"
 /* QT INCLUDES */
