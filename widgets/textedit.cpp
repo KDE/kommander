@@ -92,6 +92,12 @@ void TextEdit::focusOutEvent( QFocusEvent * e)
   emit lostFocus();
 }
 
+void TextEdit::focusInEvent( QFocusEvent * e)
+{
+  QTextEdit::focusInEvent(e);
+  emit gotFocus();
+}
+
 void TextEdit::showEvent(QShowEvent * e)
 {
   QTextEdit::showEvent(e);
