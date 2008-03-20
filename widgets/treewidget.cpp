@@ -3,6 +3,8 @@
                              -------------------
     copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
                            (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+                           (C) 2008      Andras Mantia <amantia@kdewebdev.org>
+                           (C) 2008      Eric Laffoon  <eric@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,6 +20,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kiconloader.h>
+#include <klistview.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -31,6 +34,15 @@
 #include "treewidget.h"
 #include "kommanderplugin.h"
 #include "specials.h"
+
+#define TW_FUNCTION 275
+#define addColumnTree TW_FUNCTION+1
+#define setAltBackground TW_FUNCTION+2
+#define colCount TW_FUNCTION+3
+#define colCaption TW_FUNCTION+4
+#define setColWidth TW_FUNCTION+5
+#define setSortCol TW_FUNCTION+6
+#define TW_LAST_FUNCTION setSortCol
 
 enum Functions {
   FirstFunction = 189,
@@ -48,6 +60,12 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   setPathSeparator("/");
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(SelectedIndexes, "selectedIndexes(QString widget)",  "", 1);
+  KommanderPlugin::registerFunction(addColumnTree, "addColumnTree(QString widget, const QString & label, int width = -1 )", i18n("Add column at end with column header"), 2, 3);
+  KommanderPlugin::registerFunction(setSortCol, "setSortCol(QString widget, int column, bool ascending=true)", i18n("Set sorting for a column"), 2, 3);
+  //KommanderPlugin::registerFunction(setAltBackground, "setAltBackground(QString widget, const QColor & c)",  i18n("Alternate colors in list view"), 2);
+  KommanderPlugin::registerFunction(colCount, "colCount(QString widget)", i18n("Get the column count"), 1);
+  KommanderPlugin::registerFunction(colCaption, "colCaption(QString widget, int column)", i18n("Get the column caption for column index"), 2);
+  KommanderPlugin::registerFunction(setColWidth, "setColWidth(QString widget, int column, int width)", i18n("Set the pixel width for column index - use 0 to hide"), 3);
 }
 
 TreeWidget::~TreeWidget()
@@ -251,12 +269,13 @@ void TreeWidget::contextMenuEvent( QContextMenuEvent * e )
   emit contextMenuRequested(p.x(), p.y());
 }
 
+
 bool TreeWidget::isFunctionSupported(int f)
 {
   return f == DCOP::insertItem || f == DCOP::text || f == DCOP::setText || f == DCOP::insertItems ||
     f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::removeItem || 
     f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::findItem || f == DCOP::item || 
-      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap || f == DCOP::setColumnCaption || (f > FirstFunction && f < LastFunction);
+      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap || f == DCOP::setColumnCaption || f == DCOP::removeColumn || (f > FirstFunction && f < LastFunction) || (f >= TW_FUNCTION && f <= TW_LAST_FUNCTION);
 }
 
 QString TreeWidget::handleDCOP(int function, const QStringList& args)
@@ -368,6 +387,32 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::setColumnCaption:
       setColumnText(args[0].toInt(), args[1]);
       break;
+    case addColumnTree:
+      return QString::number(KListView::addColumn(args[0], args[1].toInt()));
+      break;
+    case setSortCol:
+      KListView::setSorting(args[0].toInt(), args[1].toInt());
+      break;
+    case colCount:
+      return QString::number(QListView::columns() );
+      break;
+    case colCaption:
+       return QListView::columnText(args[0].toInt()) ;
+      break;
+    case setColWidth:
+      QListView::setColumnWidth(args[0].toInt(), args[1].toInt());
+      break;
+    case setAltBackground:
+      KListView::setAlternateBackground(QColor(args[0]));
+      break;
+    case DCOP::removeColumn:
+    {
+      int column = args[0].toInt();
+      int lines = args[1].toInt();
+      for (int i = 0; i < lines; i++)
+        removeColumn(column);
+      break;
+    }  
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

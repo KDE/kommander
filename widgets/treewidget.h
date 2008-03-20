@@ -77,6 +77,9 @@ private:
   QListViewItem* itemFromString(QListViewItem* parent, const QString& s);
   QPtrVector<QListViewItem> m_lastPath;
   QString m_pathSeparator;
+  int addColumnTree(const QString & label, int width = -1 );
+  void setSortCol(int column, bool ascending=true);
+  void setAltBackground(const QColor & c);
 };
 
 #endif

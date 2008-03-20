@@ -1,3 +1,11 @@
+2008-03-20 - Eric Laffoon <sequitur@kde.org>
+    o made actions sort along with widgets in the connection dialog
+    o Tree/Detail (ListView) widget - enabled adding columns
+    o Tree/Detail (ListView) widget - enabled removing columns (copied from table widget)
+    o Tree/Detail (ListView) widget - return column count
+    o Tree/Detail (ListView) widget - return column caption for given index
+    o Tree/Detail (ListView) widget - set sort column and where ASC or DESC
+    o Tree/Detail (ListView) widget - set column width - serves as hide colum at 0 width
 2008-03-19 - Andras Mantia <amantia@kde.org>
     o regression: add back the missing str_compare function. 
 2008-03-18 - Eric Laffoon <sequitur@kde.org>
