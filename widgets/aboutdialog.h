@@ -65,6 +65,7 @@ private:
   QStringList m_addresses;
   QString m_description;
   QString m_homepage;
+  QString m_license;
 };
 
 #endif

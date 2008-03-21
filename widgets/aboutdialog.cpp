@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <qfile.h>
 #include "aboutdialog.h"
 
 #include "kommanderplugin.h"
@@ -190,13 +191,20 @@ void AboutDialog::setLicense(const QString &key)
   {
     file = locate("data", "LICENSES/ARTISTIC");
   }
-  if (file.isEmpty())
+//  if (file.isEmpty())
+  if (file.isEmpty() && !QFile::exists( key ))
   {
     if (!key.isEmpty())
-      m_aboutData->setLicenseText(key.latin1());
+      m_license = key;
+      m_aboutData->setLicenseText(m_license);
   }
   else
   {
+    if (file.isEmpty())
+    {
+      if (!key.isEmpty())
+        file = key;
+    }
     m_aboutData->setLicenseTextFile(file);
   } 
   
