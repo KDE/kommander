@@ -191,7 +191,6 @@ void AboutDialog::setLicense(const QString &key)
   {
     file = locate("data", "LICENSES/ARTISTIC");
   }
-//  if (file.isEmpty())
   if (file.isEmpty() && !QFile::exists( key ))
   {
     if (!key.isEmpty())

@@ -9,6 +9,7 @@
     o Table widget - add column sort that does by whole rows - doesn't do well with float as strings :(
     o TextEdit - added lostFocus event
     o TextEdit - added gotFocus event
+    o fixed about dialog license to take text and files correctly
 2008-03-19 - Andras Mantia <amantia@kde.org>
     o regression: add back the missing str_compare function. 
 2008-03-18 - Eric Laffoon <sequitur@kde.org>
