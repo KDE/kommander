@@ -59,9 +59,11 @@ signals:
   void widgetOpened();
   void widgetTextChanged(const QString &);
   void contextMenuRequested(int xpos, int ypos);
+  void gotFocus();
 protected:
   virtual void showEvent( QShowEvent *e );
   void contextMenuEvent( QContextMenuEvent * e );
+  void focusInEvent( QFocusEvent* e);
 private:
 };
 
