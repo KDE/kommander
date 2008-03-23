@@ -60,7 +60,7 @@ TARGET_LINK_LIBRARIES(
 )
 
 SET_TARGET_PROPERTIES(kommanderwidgets PROPERTIES VERSION 4.2.0 SOVERSION 4 )
-INSTALL(TARGETS kommanderwidgets DESTINATION ${LIB_INSTALL_DIR} )
+INSTALL(TARGETS kommanderwidgets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
 ########### install files ###############
