@@ -118,6 +118,9 @@ void Table::setCellWidget(int row, int col, const QString & _widgetName)
       setCurrentCell(-1, -1); //hack to not delete the cellwidget after clicking away to another cell. 
 //I don't know why it does so, but without this on a click to another cell calls endEdit, which calls
 //clearCellWidget, all this before the currentChanged signal is emitted.
+//this hack does ugly things once table starts scrolling - let's try to minize damage
+//we should have a way to test doe cellWidget looses focus and send it right or down too
+      QTable::ensureCellVisible(row, col);
       clearCellWidget(row, col);
       QTable::setCellWidget(row, col, widget);
    }
