@@ -15,6 +15,8 @@
  ***************************************************************************/
 
 /* KDE INCLUDES */
+#include <kiconloader.h>
+#include <klocale.h>
 
 /* QT INCLUDES */
 #include <qobject.h>
@@ -23,8 +25,16 @@
 #include <qstringlist.h>
 
 /* OTHER INCLUDES */
+#include <kommanderplugin.h>
 #include <specials.h>
 #include "combobox.h"
+
+enum Functions {
+  FirstFunction = 365, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
+  popupList,
+  LastFunction
+};
+
 
 ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
   : KComboBox(a_parent, a_name), KommanderWidget(this)
@@ -35,6 +45,10 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
 
   connect(this, SIGNAL(activated(int)), this, SLOT(emitWidgetTextChanged(int)));
+
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(popupList, "popupList(QString widget)",  i18n("Make the ComboBox expose it's list without mousing around."), 1);
+
 }
 
 ComboBox::~ComboBox()
@@ -107,7 +121,7 @@ bool ComboBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::selection || f == DCOP::setSelection ||
       f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || 
       f == DCOP::removeItem || f == DCOP::insertItem || f == DCOP::insertItems ||
-      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count || f == DCOP::setEditable;
+      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count || f == DCOP::setEditable || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString ComboBox::handleDCOP(int function, const QStringList& args)
@@ -164,6 +178,9 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
     }
     case DCOP::setEditable:
       setEditable(args[0] != "false" && args[0] != "0");
+      break;
+    case popupList:
+      QComboBox::popup();
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

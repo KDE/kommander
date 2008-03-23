@@ -1,6 +1,8 @@
+2008-03-23 - Eric Laffoon <sequitur@kde.org>
+    o Table - added keepCellVisible for my application - I will need to clean up the code if I want to release it as I want to rename some things and do other cleanup
+    o ComboBox - added popupList to bring up the list without using the mouse - faster data entry
 2008-03-22 - Eric Laffoon <sequitur@kde.org>
     o LineEdit - added gotfocus event
-    o Table - added keepCellVisible for my application - I will need to clean up the code if I want to release it as I want to rename some things and do other cleanup
 2008-03-20 - Eric Laffoon <sequitur@kde.org>
     o made actions sort along with widgets in the connection dialog
     o Tree/Detail (ListView) widget - enabled adding columns
