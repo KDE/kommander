@@ -256,7 +256,7 @@ QString Table::handleDCOP(int function, const QStringList& args)
       QTable::sortColumn(args[0].toInt(), args[1].toInt(), args[2].toInt());
       break;
     case keepCellVisible:
-      QTable::ensureCellVisible(args[0].toInt(), args[1].toInt());
+      QTable::ensureCellVisible(args[0].toInt()-1, args[1].toInt()-1);
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);
