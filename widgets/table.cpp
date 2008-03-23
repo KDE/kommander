@@ -32,7 +32,8 @@
 
 #define TBL_FUNCTION 365
 #define sortColumnExtra TBL_FUNCTION+1
-#define TBL_LAST_FUNCTION sortColumnExtra
+#define keepCellVisible TBL_FUNCTION+2
+#define TBL_LAST_FUNCTION keepCellVisible
 
 
 Table::Table(QWidget *a_parent, const char *a_name)
@@ -44,6 +45,7 @@ Table::Table(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(sortColumnExtra, "sortColumnExtra(QString widget, int col, bool ascending, bool wholeRows)", i18n("Sets a column to sort ascending or descending. Optionally can sort with rows intact for database use."), 2, 4);
+  KommanderPlugin::registerFunction(keepCellVisible, "keepCellVisible(QString widget, int row, int col)", i18n("Scrolls the table so the cell indicated is visible."), 3);
 
 }
 
@@ -252,6 +254,9 @@ QString Table::handleDCOP(int function, const QStringList& args)
       break;
     case sortColumnExtra:
       QTable::sortColumn(args[0].toInt(), args[1].toInt(), args[2].toInt());
+      break;
+    case keepCellVisible:
+      QTable::ensureCellVisible(args[0].toInt(), args[1].toInt());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);
