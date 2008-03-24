@@ -24,6 +24,14 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "textedit.h"
+#include <klocale.h>
+#include <kommanderplugin.h>
+
+enum Functions {
+  FirstFunction = 450, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
+  TE_isModified,
+  LastFunction
+};
 
 TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent, a_name),
 KommanderWidget((QObject *) this)
@@ -34,6 +42,9 @@ KommanderWidget((QObject *) this)
   setDisplayStates(states);
 
   connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
+
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(TE_isModified, "isModified(QString widget)",  i18n("see if widget has been modified."), 1);
 }
 
 QString TextEdit::currentState() const
@@ -113,7 +124,7 @@ void TextEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextEdit::handleDCOP(int function, const QStringList& args)
@@ -134,6 +145,9 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::setEditable:
       setReadOnly(args[0] == "false" || args[0] == "0");
+      break;
+    case TE_isModified:
+      return isModified() ? "1" : "0";
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);
