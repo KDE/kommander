@@ -141,6 +141,13 @@ void ScriptObject::execute(int i, int j)
   executeProcess(true);
 }
 
+void ScriptObject::execute(bool i)
+{
+  m_params.clear();
+  m_params.append(QString::number(i));
+  executeProcess(true);
+}
+
 bool ScriptObject::isFunctionSupported(int f)
 {
   return f == DCOP::setText || f == DCOP::clear || f == DCOP::execute || f == DCOP::item 
