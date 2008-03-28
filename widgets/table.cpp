@@ -30,10 +30,12 @@
 #include "specials.h"
 #include "table.h"
 
-#define TBL_FUNCTION 365
-#define sortColumnExtra TBL_FUNCTION+1
-#define keepCellVisible TBL_FUNCTION+2
-#define TBL_LAST_FUNCTION keepCellVisible
+enum Functions {
+  FirstFunction = 365,
+  TBL_sortColumnExtra,
+  TBL_keepCellVisible,
+  LastFunction
+};
 
 
 Table::Table(QWidget *a_parent, const char *a_name)
@@ -44,8 +46,8 @@ Table::Table(QWidget *a_parent, const char *a_name)
   setStates(states);
   setDisplayStates(states);
   KommanderPlugin::setDefaultGroup(Group::DCOP);
-  KommanderPlugin::registerFunction(sortColumnExtra, "sortColumnExtra(QString widget, int col, bool ascending, bool wholeRows)", i18n("Sets a column to sort ascending or descending. Optionally can sort with rows intact for database use."), 2, 4);
-  KommanderPlugin::registerFunction(keepCellVisible, "keepCellVisible(QString widget, int row, int col)", i18n("Scrolls the table so the cell indicated is visible."), 3);
+  KommanderPlugin::registerFunction(TBL_sortColumnExtra, "sortColumnExtra(QString widget, int col, bool ascending, bool wholeRows)", i18n("Sets a column to sort ascending or descending. Optionally can sort with rows intact for database use."), 2, 4);
+  KommanderPlugin::registerFunction(TBL_keepCellVisible, "keepCellVisible(QString widget, int row, int col)", i18n("Scrolls the table so the cell indicated is visible."), 3);
 
 }
 
@@ -104,7 +106,7 @@ bool Table::isFunctionSupported(int f)
   return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
       f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText || f == DCOP::setCellWidget || f == DCOP::cellWidget ||
       f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
-      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection || (f >= TBL_FUNCTION && f <= TBL_LAST_FUNCTION);
+      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection || (f >= FirstFunction && f <= LastFunction);
 }
 
 void Table::setCellWidget(int row, int col, const QString & _widgetName)
@@ -255,10 +257,10 @@ QString Table::handleDCOP(int function, const QStringList& args)
     case DCOP::selection:
       return selectedArea();
       break;
-    case sortColumnExtra:
+    case TBL_sortColumnExtra:
       QTable::sortColumn(args[0].toInt(), args[1].toInt(), args[2].toInt());
       break;
-    case keepCellVisible:
+    case TBL_keepCellVisible:
       QTable::ensureCellVisible(args[0].toInt()-1, args[1].toInt()-1);
       break;
     default:

@@ -60,7 +60,7 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   setPathSeparator("/");
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(SelectedIndexes, "selectedIndexes(QString widget)",  "", 1);
-  KommanderPlugin::registerFunction(addColumnTree, "addColumnTree(QString widget, const QString & label, int width = -1 )", i18n("Add column at end with column header"), 2, 3);
+  KommanderPlugin::registerFunction(addColumnTree, "addColumn(QString widget, const QString & label, int width = -1 )", i18n("Add column at end with column header"), 2, 3);
   KommanderPlugin::registerFunction(setSortCol, "setSortCol(QString widget, int column, bool ascending=true)", i18n("Set sorting for a column"), 2, 3);
   //KommanderPlugin::registerFunction(setAltBackground, "setAltBackground(QString widget, const QColor & c)",  i18n("Alternate colors in list view"), 2);
   KommanderPlugin::registerFunction(colCount, "colCount(QString widget)", i18n("Get the column count"), 1);
