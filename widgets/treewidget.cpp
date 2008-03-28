@@ -407,10 +407,15 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::removeColumn:
     {
-      int column = args[0].toInt();
-      int lines = args[1].toInt();
-      for (int i = 0; i < lines; i++)
-        removeColumn(column);
+      if (!args[1].toInt())
+        removeColumn(args[0].toInt());
+      else
+      {
+        int column = args[0].toInt();
+        int lines = args[1].toInt();
+        for (int i = 0; i < lines; i++)
+          removeColumn(column);
+      }
       break;
     }  
     default:
