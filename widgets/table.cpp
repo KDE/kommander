@@ -196,10 +196,15 @@ QString Table::handleDCOP(int function, const QStringList& args)
       return QString::number(currentRow());
     case DCOP::removeColumn:
     {
-      int column = args[0].toInt();
-      int lines = args[1].toInt();
-      for (int i = 0; i < lines; i++)
-        removeColumn(column);
+      if (!args[1].toInt())
+        removeColumn(args[0].toInt());
+      else
+      {
+        int column = args[0].toInt();
+        int lines = args[1].toInt();
+        for (int i = 0; i < lines; i++)
+          removeColumn(column);
+      }
       break;
     }  
     case DCOP::removeRow:
