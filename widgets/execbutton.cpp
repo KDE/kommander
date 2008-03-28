@@ -156,7 +156,7 @@ void ExecButton::showEvent(QShowEvent* e)
 
 bool ExecButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::execute;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::execute || f == DCOP::geometry;
 }
 
 QString ExecButton::handleDCOP(int function, const QStringList& args)
@@ -170,6 +170,12 @@ QString ExecButton::handleDCOP(int function, const QStringList& args)
     case DCOP::execute:
       startProcess();
       break;
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

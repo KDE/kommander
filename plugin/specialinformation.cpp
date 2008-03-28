@@ -373,6 +373,8 @@ void SpecialInformation::registerSpecials()
      i18n("Returns type(class) of widget."), 1);
   insert(DCOP::setEditable, "setEditable(QString widget, bool editable)", 
      i18n("Makes the widget editable or read only, depending on the editable argument."), 2);
+  insert(DCOP::geometry, "geometry(QString widget)", 
+     i18n("Return the widget's geometry as <i>x y w h</i>. This is useful for positioning a created widget."), 1);
 
   insertGroup(Group::Slots, i18n("Slots"), "");
 

@@ -1,3 +1,5 @@
+2008-03-28 - Eric Laffoon <sequitur@kde.org>
+    o added test geometry function to buttons for popup use
 2008-03-23 - Eric Laffoon <sequitur@kde.org>
     o it's about time scripts had a boolean execute slot!
 2008-03-23 - Eric Laffoon <sequitur@kde.org>
