@@ -57,7 +57,7 @@ FunctionsDialog::FunctionsDialog(QWidget* a_parent, const Q3Dict<QWidget>& a_wid
   
   m_DCOP = -1;    // Select DCOP functions by default
   for (int i=0; i<groupComboBox->count(); i++)
-     if (groupComboBox->text(i) == "DCOP")
+     if (groupComboBox->text(i) == "DBUS")
      {
        m_DCOP = i; 
        break;
