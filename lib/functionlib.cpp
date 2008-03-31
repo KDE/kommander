@@ -394,7 +394,7 @@ static ParseNode f_dcop(Parser*, const ParameterList& params)
   }
   else if(replyType != "void")
   {
-  //printError(i18n("DCOP return type %1 is not yet implemented.").arg(replyType.data()));
+  //printError(i18n("DCOP return type %1 is not yet implemented.", replyType.data()));
   }
   */
   return ParseNode();

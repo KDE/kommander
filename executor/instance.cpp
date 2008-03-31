@@ -222,7 +222,7 @@ bool Instance::isFileValid(const KUrl& fname) const
   }
   if (!QFileInfo(fname.path()).isExecutable())
   {
-    if (KMessageBox::warningContinueCancel(m_parent, i18n("<qt>The Kommander file <i>%1</i> does not have the <b>executable attribute</b> set and could possibly contain dangerous exploits.<p>If you trust the scripting (viewable in kmdr-editor) in this program, make it executable to get rid of this warning.<p>Are you sure you want to continue?</qt>").arg(fname.pathOrUrl()), QString(),KStandardGuiItem::cont(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
+    if (KMessageBox::warningContinueCancel(m_parent, i18n("<qt>The Kommander file <i>%1</i> does not have the <b>executable attribute</b> set and could possibly contain dangerous exploits.<p>If you trust the scripting (viewable in kmdr-editor) in this program, make it executable to get rid of this warning.<p>Are you sure you want to continue?</qt>", fname.pathOrUrl()), QString(),KStandardGuiItem::cont(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
        return false;
   }
   return true;

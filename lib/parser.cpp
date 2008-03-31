@@ -114,7 +114,7 @@ bool Parser::setString(const QString& s)
     else                          // Bad character
     {
       insertNode(s.mid(start, 1), lines);
-      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count()-1);
+      setError(i18n("Invalid character: '%1'", s[start]), m_parts.count()-1);
       return false;
     }
   }
@@ -221,7 +221,7 @@ ParseNode Parser::parseValue(Mode mode)
         return parseWidget(mode, value);
       }else if (mode == Execute)
       {
-        setError(i18n("'%1' (%2) is not a widget").arg(p.variableName()).arg(variable(p.variableName()).toString()));
+        setError(i18n("'%1' (%2) is not a widget", p.variableName(), variable(p.variableName()).toString()));
         return ParseNode();
       } else
       {
@@ -233,7 +233,7 @@ ParseNode Parser::parseValue(Mode mode)
     }
     else if (tryKeyword(LeftParenthesis, CheckOnly))
     {
-       setError(i18n("'%1' is not a function").arg(p.variableName()));
+       setError(i18n("'%1' is not a function", p.variableName()));
        return ParseNode();
     }
     else
@@ -424,15 +424,15 @@ ParseNode Parser::parseFunction(Mode mode)
     tryKeyword(RightParenthesis);
   }
   if (f.minArgs() > params.count())
-    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too few parameters")), pos);
+    setError(i18n("in function '%1': %2", name, i18n("too few parameters")), pos);
   else if (f.maxArgs() < params.count())
-    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too many parameters")), pos);
+    setError(i18n("in function '%1': %2", name, i18n("too many parameters")), pos);
   else if (mode == Execute)
   {
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in function '%1': %2").arg(name).arg(p.errorMessage()), pos);
+      setError(i18n("in function '%1': %2", name, p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -472,7 +472,7 @@ ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in widget function '%1.%2': %3").arg(widget).arg(var).arg(p.errorMessage()), pos);
+      setError(i18n("in widget function '%1.%2': %3", widget, var, p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -515,12 +515,12 @@ ParseNode Parser::parseAssignment(Mode mode)
       m_start = m_start - 2;
       return parseWidget(mode); 
     } else
-      setError(i18n("'%1' is not a widget").arg(var));
+      setError(i18n("'%1' is not a widget", var));
   }
   else if (tryKeyword(LeftParenthesis, CheckOnly))
-    setError(i18n("'%1' is not a function").arg(var));
+    setError(i18n("'%1' is not a function", var));
   else 
-    setError(i18n("Unexpected symbol after variable '%1'").arg(var));
+    setError(i18n("Unexpected symbol after variable '%1'", var));
 
   return ParseNode();
 }
@@ -739,9 +739,9 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
   if (mode == Execute)
   {
     if (k == Dot)
-      setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget").arg(m_data->keywordToString(k)));
+      setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget", m_data->keywordToString(k)));
     else
-     setError(i18n("Expected '%1'").arg(m_data->keywordToString(k)));
+     setError(i18n("Expected '%1'", m_data->keywordToString(k)));
   }
   return false;
 }

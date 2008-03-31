@@ -138,7 +138,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     if (!p.parse())
     {
       // FIXME add widget's name to KommanderWidget class      
-      printError(i18n("Line %1: %2.\n", p.errorLine()+1, p.errorMessage()));
+      printError(i18n("Line %1: %2.\n", p.errorLine()+1,  p.errorMessage()));
     }
     return QString();
   }
@@ -249,7 +249,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     }
     else
     {
-      printError(i18n("Unknown special: \'%1\'.").arg(identifier));
+      printError(i18n("Unknown special: \'%1\'.", identifier));
       return QString();
     }
   }
@@ -417,7 +417,7 @@ void KommanderWidget::printError(const QString& a_error) const
 {
   if (showErrors) 
   {
-    int result = KMessageBox::warningYesNoCancel(parentDialog(),  i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", QString(m_thisObject->objectName()), a_error), i18n("Error"), KGuiItem(i18n("Continue")), KGuiItem(i18n("Continue && Ignore Next Errors")), KGuiItem(i18n("Stop")));
+    int result = KMessageBox::warningYesNoCancel(parentDialog(),  i18n("<qt>Error in widget <b>%1</b>:<p><i>%2</i></qt>", m_thisObject->objectName(), a_error), i18n("Error"), KGuiItem(i18n("Continue")), KGuiItem(i18n("Continue && Ignore Next Errors")), KGuiItem(i18n("Stop")));
     if (result == KMessageBox::No)
     {
       showErrors = false;
@@ -583,7 +583,7 @@ QStringList KommanderWidget::parseFunction(const QString& group, const QString& 
   QString arg = parseBrackets(s, from, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis after \'%1\'.").arg(function));
+    printError(i18n("Unmatched parenthesis after \'%1\'.", function));
     return QStringList();
   }
   const QStringList args = parseArgs(arg, ok);
@@ -592,13 +592,13 @@ QStringList KommanderWidget::parseFunction(const QString& group, const QString& 
   bool extraArg = gname == Group::DBUS;
   
   if (!ok)
-    printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
+    printError(i18n("Unmatched quotes in argument of \'%1\'.", function));
   else if (gname == -1)
-    printError(i18n("Unknown function group: \'%1\'.").arg(group));
+    printError(i18n("Unknown function group: \'%1\'.", group));
   else if (fname == -1 && !extraArg)
-    printError(i18n("Unknown function: \'%1\' in group '%2'.").arg(function).arg(group));
+    printError(i18n("Unknown function: \'%1\' in group '%2'.", function, group));
   else if (fname == -1 && extraArg)
-    printError(i18n("Unknown widget function: \'%1\'.").arg(function));
+    printError(i18n("Unknown widget function: \'%1\'.", function));
   else if ((int)args.count() + extraArg < SpecialInformation::minArg(gname, fname))
     printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).<p>"
        "Correct syntax is: %4")

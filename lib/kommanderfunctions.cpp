@@ -320,7 +320,7 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
   KommanderWidget* pWidget = parseWidget(identifier);
   if (!pWidget) 
   {
-    printError(i18n("Unknown widget: @%1.").arg(identifier));
+    printError(i18n("Unknown widget: @%1.", identifier));
     return QString();
   }
   if (s[pos] == '.')
