@@ -112,6 +112,11 @@
       <arg name="widgetName" type="s" direction="in"/>
       <arg name="index" type="i" direction="in"/>
     </method>
+    <method name="insertTab">
+      <arg name="widgetName" type="s" direction="in"/>
+      <arg name="label" type="s" direction="in"/>
+     <arg name="index" type="i" direction="in"/>
+    </method>
     <method name="setChecked">
       <arg name="widgetName" type="s" direction="in"/>
       <arg name="checked" type="b" direction="in"/>
@@ -150,6 +155,7 @@
       <arg name="value" type="i" direction="in"/>
     </method>
     <method name="execute">
+      <arg type="s" direction="out"/>
       <arg name="widgetName" type="s" direction="in"/>
     </method>
     <method name="cancel">
@@ -217,6 +223,7 @@
     </method>
     <method name="build">
       <arg type="b" direction="out"/>
+      <arg name="filename" type="s" direction="in"/>
     </method>
   </interface>
 </node>

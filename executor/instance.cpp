@@ -22,7 +22,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kguiitem.h>
 
 /* QT INCLUDES */
 #include <qdialog.h>
@@ -41,35 +40,46 @@
 /* OTHER INCLUDES */
 #include "instance.h"
 #include "kommanderadaptor.h"  //d-bus include
-#include <kommanderwidget.h>
-#include <kommanderwindow.h>
-#include <kommanderfactory.h>
-#include <specials.h>
-#include <fileselector.h>
+#include "kommanderwidget.h"
+#include "kommanderwindow.h"
+#include "kommanderfactory.h"
+#include "specials.h"
+#include "fileselector.h"
+#include "kommanderversion.h"
 
 #include "specialinformation.h"
 
 Instance::Instance()
-  : m_instance(0), m_textInstance(0), m_parent(0),
-  m_cmdArguments(0)
+  : m_instance(0), m_textInstance(0), m_parent(0)
 {
   SpecialInformation::registerSpecials();
 }
 
-Instance::Instance(const KUrl& a_uiFileName, QWidget *a_parent)
-  :  m_instance(0), m_textInstance(0), m_uiFileName(a_uiFileName),
-  m_parent(a_parent), m_cmdArguments(0)
+Instance::Instance(QWidget *a_parent)
+  :  m_instance(0), m_textInstance(0), m_parent(a_parent)
 {
   SpecialInformation::registerSpecials();
 }
 
-void Instance::addArgument(const QString& argument)
+void Instance::addCmdlineArguments(const QStringList& args)
 {
-  int pos = argument.find('=');
-  if (pos == -1)
-    KommanderWidget::setGlobal(QString("ARG%1").arg(++m_cmdArguments), argument);
-  else 
-    KommanderWidget::setGlobal(argument.left(pos), argument.mid(pos+1));
+  if (!m_textInstance)
+    return;
+  // Filter out variable arguments ('var=value')
+  QStringList stdArgs;
+  for (QStringList::ConstIterator it = args.begin(); it != args.end(); ++it)
+  {
+    int pos = (*it).indexOf('=');
+    if (pos != -1)
+       m_textInstance->setGlobal((*it).left(pos), (*it).mid(pos+1));
+    else
+       stdArgs.append(*it);
+  }
+  int i = 0;
+  for (QStringList::ConstIterator it = stdArgs.begin(); it != stdArgs.end(); ++it)
+    m_textInstance->setGlobal(QString("_ARG%1").arg(++i), *it);
+  m_textInstance->setGlobal("_ARGS", stdArgs.join(" "));
+  m_textInstance->setGlobal("_ARGCOUNT", QString::number(stdArgs.count()));
 }
 
 
@@ -80,145 +90,91 @@ Instance::~Instance()
 }
 
 /** Builds the instance */
-bool Instance::build()
+bool Instance::build(const KUrl& fname)
 {
   delete m_instance;
   m_instance = 0;
- 
-  if (m_uiFileName.isEmpty())
-    return false;
+  m_textInstance = 0;
 
-  if (!QFileInfo(m_uiFileName.path()).exists())
-  {
-    KMessageBox::sorry(0, i18n("<qt>Kommander file<br><b>%1</b><br>does not "
-      "exist.</qt>", m_uiFileName.path()));
-    return false;
-  }
-  
+  if (!fname.isValid() || !isFileValid(fname))
+    return false; // Check if file is correct
+
   // create the main instance, must inherit QDialog
   KommanderFactory::loadPlugins();
-  m_instance = KommanderFactory::create(m_uiFileName.path());
+
+  if (fname.isValid())
+    m_instance = KommanderFactory::create(fname.path(), 0L, dynamic_cast<QWidget*>(parent()));
+  else
+  {
+    QFile inputFile;
+    inputFile.open(stdin, IO_ReadOnly);
+    m_instance = KommanderFactory::create(&inputFile);
+  }
+
+  // check if build was successful
   if (!m_instance)
   {
-    KMessageBox::sorry(0, i18n("<qt>Unable to create dialog from "
-      "file<br><b>%1</b></qt>", m_uiFileName.path()));
+    KMessageBox::sorry(0, i18n("<qt>Unable to create dialog.</qt>"));
     return false;
   }
-  
-  KommanderWindow* window = dynamic_cast<KommanderWindow*>(m_instance);
+
+  KommanderWindow* window = dynamic_cast<KommanderWindow*>((QWidget*)m_instance);  
   if (window)
-    window->setFileName(m_uiFileName.path().toLocal8Bit());
+    window->setFileName(fname.path().toLocal8Bit());
 
   // FIXME : Should verify that all of the widgets in the dialog derive from KommanderWidget
-  m_textInstance = dynamic_cast<KommanderWidget *>(m_instance);
-  
-  new KommanderAdaptor(this);
-//   QDBusConnection dbus = QDBusConnection::sessionBus();
-//   dbus.registerObject(m_uiFileName.fileName(), this);
-
-  return true;
-}
-
-bool Instance::build(QFile *a_file)
-{
-  if(!(a_file->isOpen()))
-    return false;
-
-  delete m_instance;
-  m_instance = 0;
-
-  KommanderFactory::loadPlugins();
-  m_instance = KommanderFactory::create(a_file);
-  if (!m_instance)
-  {
-    KMessageBox::sorry(0, i18n("Unable to create dialog from input."));
-    return false;
-  }
-
   m_textInstance = kommanderWidget(m_instance);
-  
-  new KommanderAdaptor(this);
-  QDBusConnection dbus = QDBusConnection::sessionBus();
-  dbus.registerObject(a_file->fileName(), this);
-  
+
+  if (!m_textInstance)  // Main dialog/window is not a Kommander widget - look for one
+  {
+    if (m_instance)
+    {
+      QObjectList widgets = m_instance->findChildren<QObject*>();
+      foreach (QObject *w, widgets)
+        if (kommanderWidget(w))
+        {
+          m_textInstance = kommanderWidget(w);
+          break;
+        }
+    }
+    if (!m_textInstance)
+    {
+      qDebug("Warning: no Kommander widget present!");
+      return true;
+    }
+  }
+
+  if (fname.isValid())
+  {
+      m_textInstance->setGlobal("KDDIR", fname.directory());
+      m_textInstance->setGlobal("NAME", fname.fileName());
+      m_textInstance->setGlobal("_PID", QString().setNum(getpid()));
+      m_textInstance->setGlobal("VERSION", KOMMANDER_VERSION);
+  }
   return true;
 }
 
-bool Instance::run(QFile *a_file)
+bool Instance::run()
 {
-  // Check whether extension is *.kmdr
-  if (!m_uiFileName.fileName().endsWith(".kmdr")) {
-    KMessageBox::error(0, i18n("<qt>This file does not have a <b>.kmdr</b> extension. As a security precaution "
-           "Kommander will only run Kommander scripts with a clear identity.</qt>"),
-           i18n("Wrong Extension"));
+  if (!isBuilt())
     return false;
-  }
-  
-  // Check whether file is not in some temporary directory.
-  QStringList tmpDirs = KGlobal::dirs()->resourceDirs("tmp");
-  tmpDirs += KGlobal::dirs()->resourceDirs("cache");
-  tmpDirs.append("/tmp/");
-  tmpDirs.append("/var/tmp/");
-  
-  bool inTemp = false;
-  for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
-    if (m_uiFileName.directory(KUrl::AppendTrailingSlash).startsWith(*I))
-      inTemp = true;
 
-  if (inTemp)
-  {
-     if (KMessageBox::warningContinueCancel(0, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
-         " This may mean that it was run from a KMail attachment or from a webpage. "
-         "<p>Any script contained in this dialog will have write access to all of your home directory; "
-         "<b>running such dialogs may be dangerous: </b>"
-             "<p>are you sure you want to continue?</qt>"), QString(),KStandardGuiItem::cont() ,KGuiItem(i18n("Run Nevertheless"))))
-       return false;
-  }
-  
-  /* add runtime arguments */
-  if (m_cmdArguments) {
-    QString args;
-    for (int i=1; i<=m_cmdArguments; i++)
-    {
-      args += global(QString("ARG%1").arg(i));
-      if (i < m_cmdArguments) 
-        args += " ";
-    }
-    KommanderWidget::setGlobal("ARGS", args);
-  }
-  KommanderWidget::setGlobal("ARGCOUNT", QString("%1").arg(m_cmdArguments));
-     
-  if (!m_uiFileName.isEmpty()) 
-  {
-    KommanderWidget::setGlobal("_KDDIR", m_uiFileName.directory());
-    KommanderWidget::setGlobal("_NAME", m_uiFileName.fileName());
-  }
-  
-  if (!m_instance)
-    if (!a_file && !build())
-      return false;
-    else if(a_file && !build(a_file))
-      return false;
-
-  kapp->setMainWidget(m_instance);
+  // Handle both dialogs and main windows
   if (m_instance->inherits("QDialog"))
-    ((QDialog*)m_instance)->exec();
+    dynamic_cast<QDialog*>((QWidget*)m_instance)->exec();
   else if (m_instance->inherits("QMainWindow"))
   {
-    ((QMainWindow*)m_instance)->show();
+    kapp->setMainWidget(m_instance);
+    dynamic_cast<QMainWindow*>((QWidget*)m_instance)->show();
     kapp->exec();
   }
+  else return false;
   return true;
 }
 
-bool Instance::isBuilt()
+bool Instance::isBuilt() const
 {
   return m_instance;
-}
-
-void Instance::setUIFileName(const KUrl& a_uiFileName)
-{
-  m_uiFileName = a_uiFileName;
 }
 
 void Instance::setParent(QWidget *a_parent)
@@ -226,25 +182,74 @@ void Instance::setParent(QWidget *a_parent)
   m_parent = a_parent;
 }
 
+bool Instance::isFileValid(const KUrl& fname) const
+{
+  if (!QFileInfo(fname.path()).exists())
+  {
+    KMessageBox::sorry(0, i18n("<qt>Kommander file<br><b>%1</b><br>does not "
+      "exist.</qt>").arg(fname.path()));
+    return false;
+  }
+
+  // Check whether extension is *.kmdr
+  if (!fname.fileName().endsWith(".kmdr"))
+  {
+    KMessageBox::error(0, i18n("<qt>This file does not have a <b>.kmdr</b> extension. As a security precaution "
+           "Kommander will only run Kommander scripts with a clear identity.</qt>"),
+           i18n("Wrong Extension"));
+    return false;
+  }
+
+  // Check whether file is not in some temporary directory.
+  QStringList tmpDirs = KGlobal::dirs()->resourceDirs("tmp");
+  tmpDirs += KGlobal::dirs()->resourceDirs("cache");
+  tmpDirs.append("/tmp/");
+  tmpDirs.append("/var/tmp/");
+
+  bool inTemp = false;
+  for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
+    if (fname.directory(KUrl::AppendTrailingSlash).startsWith(*I))
+      inTemp = true;
+
+  if (inTemp)
+  {
+    if (KMessageBox::warningContinueCancel(m_parent, i18n("<qt>This dialog is running from your <i>/tmp</i> directory. "
+         " This may mean that it was run from a KMail attachment or from a webpage. "
+         "<p>Any script contained in this dialog will have write access to all of your home directory; "
+         "<b>running such dialogs may be dangerous: </b>"
+             "<p>are you sure you want to continue?</qt>"), QString(), KStandardGuiItem::cont(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
+       return false;
+  }
+  if (!QFileInfo(fname.path()).isExecutable())
+  {
+    if (KMessageBox::warningContinueCancel(m_parent, i18n("<qt>The Kommander file <i>%1</i> does not have the <b>executable attribute</b> set and could possibly contain dangerous exploits.<p>If you trust the scripting (viewable in kmdr-editor) in this program, make it executable to get rid of this warning.<p>Are you sure you want to continue?</qt>").arg(fname.pathOrUrl()), QString(),KStandardGuiItem::cont(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
+       return false;
+  }
+  return true;
+}
+
+
+
+
 
 // Widget functions
 void Instance::setEnabled(const QString& widgetName, bool enable)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (child && child->inherits("QWidget"))
     ((QWidget*)child)->setEnabled(enable);
 }
 
 void Instance::setVisible(const QString& widgetName, bool visible)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (child && child->inherits("QWidget"))
-    ((QWidget*)child)->setShown(visible);
+    ((QWidget*)child)->setVisible(visible);
 }
 
 void Instance::setText(const QString& widgetName, const QString& text)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDBUS(DBUS::setText, text);
   else if (child && child->inherits("QLabel"))
@@ -263,26 +268,26 @@ void Instance::setText(const QString& widgetName, const QString& text)
 
 QString Instance::text(const QString& widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::text);
   else if (child && child->inherits("QLabel"))
-    return ((QLabel*)child)->text();  
+    return ((QLabel*)child)->text();
   return QString();
 }
 
 void Instance::setSelection(const QString& widgetName, const QString& text)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDBUS(DBUS::setSelection, text);
   else if (child && child->inherits("QLabel"))
-    ((QLabel*)child)->setText(text);  
+    ((QLabel*)child)->setText(text);
 }
 
 QString Instance::selection(const QString& widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::selection);
   return QString();
@@ -290,7 +295,7 @@ QString Instance::selection(const QString& widgetName)
 
 int Instance::currentItem(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::currentItem).toInt();
   return -1;
@@ -298,7 +303,7 @@ int Instance::currentItem(const QString &widgetName)
 
 QString Instance::item(const QString &widgetName, int i)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::item, QString::number(i));
   return QString();      
@@ -306,14 +311,14 @@ QString Instance::item(const QString &widgetName, int i)
 
 void Instance::removeItem(const QString &widgetName, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDBUS(DBUS::removeItem, QString::number(index));
 }
 
 void Instance::insertItem(const QString &widgetName, const QString &item, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
   {
     QStringList args(item);
@@ -324,7 +329,7 @@ void Instance::insertItem(const QString &widgetName, const QString &item, int in
 
 void Instance::insertItems(const QString &widgetName, const QStringList &items, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
   {
     QStringList args(items.join("\n"));
@@ -335,7 +340,7 @@ void Instance::insertItems(const QString &widgetName, const QStringList &items, 
 
 int Instance::findItem(const QString &widgetName, const QString& item)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::findItem, item).toInt();
   return -1;
@@ -343,14 +348,14 @@ int Instance::findItem(const QString &widgetName, const QString& item)
 
 void Instance::addUniqueItem(const QString &widgetName, const QString &item)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     kommanderWidget(child)->handleDBUS(DBUS::addUniqueItem, item);
 }
 
 int Instance::itemDepth(const QString &widgetName, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::itemDepth, QString::number(index)).toInt();
   return -1;
@@ -358,12 +363,12 @@ int Instance::itemDepth(const QString &widgetName, int index)
 
 QString Instance::itemPath(const QString &widgetName, int index)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::itemPath, QString::number(index));
   return QString();
 }
-  
+
 
 void Instance::setPixmap(const QString &widgetName, const QString& iconName, int index)
 {
@@ -399,7 +404,7 @@ void Instance::setChecked(const QString &widgetName, bool checked)
 
 bool Instance::checked(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::checked, widgetName) == "1";
   return false;
@@ -409,7 +414,7 @@ void Instance::setAssociatedText(const QString &widgetName, const QString& text)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->setAssociatedText(QStringList::split('\n', text, true));
+    kommanderWidget(child)->setAssociatedText(text.split('\n', QString::KeepEmptyParts));
 }
 
 QStringList Instance::associatedText(const QString &widgetName)
@@ -423,8 +428,8 @@ QStringList Instance::associatedText(const QString &widgetName)
 QString Instance::type(const QString& widget)
 {
   QObject* child = stringToWidget(widget);  
-  if (child->inherits("QWidget"))
-    return child->className();
+  if (child && child->inherits("QWidget"))
+    return child->metaObject()->className();
   return QString();
 }
 
@@ -442,13 +447,13 @@ QStringList Instance::children(const QString& parent, bool recursive)
     while(widgetsit.hasNext())
     {
       QWidget* w = widgetsit.next();
-      if (w->name() && kommanderWidget(w))
-        matching.append(w->name());
+      if (!w->objectName().isEmpty() && kommanderWidget(w))
+        matching.append(w->objectName());
     }
   }
   return matching;
-} 
-  
+}
+
 void Instance::setMaximum(const QString &widgetName, int value)
 {
   QObject* child = stringToWidget(widgetName);  
@@ -456,13 +461,14 @@ void Instance::setMaximum(const QString &widgetName, int value)
     kommanderWidget(child)->handleDBUS(DBUS::setMaximum, QString::number(value));
 }
 
-void Instance::execute(const QString &widgetName)
+QString Instance::execute(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
   if (kommanderWidget(child))
-    kommanderWidget(child)->handleDBUS(DBUS::execute);
+    return kommanderWidget(child)->handleDBUS(DBUS::execute);
+  return "";
 }
-    
+
 void Instance::cancel(const QString &widgetName)
 {
   QObject* child = stringToWidget(widgetName);  
@@ -472,7 +478,7 @@ void Instance::cancel(const QString &widgetName)
 
 int Instance::count(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::count).toInt();
   return -1;
@@ -480,7 +486,7 @@ int Instance::count(const QString &widgetName)
 
 int Instance::currentColumn(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::currentColumn).toInt();
   return -1;
@@ -488,7 +494,7 @@ int Instance::currentColumn(const QString &widgetName)
 
 int Instance::currentRow(const QString &widgetName)
 {
-  QObject* child = stringToWidget(widgetName);  
+  QObject* child = stringToWidget(widgetName);
   if (kommanderWidget(child))
     return kommanderWidget(child)->handleDBUS(DBUS::currentRow).toInt();
   return -1;
@@ -596,13 +602,14 @@ void Instance::setColumnCaption(const QString &widgetName, int column, const QSt
 
 QString Instance::global(const QString& variableName)
 {
-  return KommanderWidget::global(variableName);
+  return m_textInstance ? m_textInstance->global(variableName) : QString();
 }
 
 void Instance::setGlobal(const QString& variableName, const QString& value)
 {
-  KommanderWidget::setGlobal(variableName, value); 
-}  
+  if (m_textInstance)
+    m_textInstance->setGlobal(variableName, value);
+}
 
 QObject* Instance::stringToWidget(const QString& name)
 {
@@ -611,12 +618,8 @@ QObject* Instance::stringToWidget(const QString& name)
 
 KommanderWidget* Instance::kommanderWidget(QObject* object)
 {
-  return dynamic_cast<KommanderWidget*>(object);  
+  return dynamic_cast<KommanderWidget*>(object);
 }
-
-
-
-  
 
 
 /*** Deprecated methods: just call appropriate method  ***/
@@ -640,6 +643,16 @@ void Instance::setCurrentTab(const QString &widgetName, int index)
   setCurrentItem(widgetName, index);
 }
 
+void Instance::insertTab(const QString &widgetName, const QString &label, int index)
+{
+  QObject* child = stringToWidget(widgetName);  
+  QStringList l;
+  l << label;
+  l << QString::number(index);
+  if (kommanderWidget(child))
+    kommanderWidget(child)->handleDBUS(DBUS::insertTab, l);  
+}
+
 void Instance::addListItems(const QString &widgetName, const QStringList &items, int index)
 {
   insertItems(widgetName, items, index);
@@ -659,5 +672,19 @@ void Instance::addListItem(const QString & widgetName, const QString & item, int
 {
   insertItem(widgetName, item, index);
 }
+
+int Instance::getWinID()
+{
+  return m_instance->winId();
+}
+
+void Instance::setBusyCursor(bool busy)
+{
+  if (busy)
+    m_instance->setCursor(QCursor(Qt::WaitCursor));
+ else
+    m_instance->setCursor(QCursor(Qt::ArrowCursor));
+}
+
 
 #include "instance.moc"

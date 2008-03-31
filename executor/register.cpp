@@ -33,6 +33,7 @@ void Instance::registerDCOP()
   DCOPInformation::insert("clearList(QString)");
   DCOPInformation::insert("setCurrentListItem(QString,QString)");
   DCOPInformation::insert("setCurrentTab(QString,int)");
+  DCOPInformation::insert("insertTab(QString,QString,int)");
   DCOPInformation::insert("setChecked(QString, bool)");
   DCOPInformation::insert("setAssociatedText(QString,QString)");
   DCOPInformation::insert("associatedText(QString)");

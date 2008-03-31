@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
   {
     char buf[200];
     QString baseFile = args->url(0).fileName();
-    int ext = baseFile.findRev('.');
+    int ext = baseFile.lastIndexOf('.');
     if (ext != -1)
       baseFile = baseFile.left(ext);
     strcpy(buf, baseFile.toLatin1());
@@ -79,31 +79,21 @@ int main(int argc, char *argv[])
   KApplication app;
   
   QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-  Instance* instance = 0;
-  QFile inputFile;
-  if (args->isSet("stdin"))
-  {
-    inputFile.open(QIODevice::ReadOnly, stdin);
-    instance = new Instance;
-  }
-  else if (!args->count())
+  if (!args->count())
   {
     KMessageBox::sorry(0, i18n("Error: no dialog given. Use --stdin option to read dialog from standard input.\n"));
     return -1;
   }
-  else
-  {
-    KUrl url = args->url(0);
-    instance = new Instance(url, 0);
-  }
-  
+  Instance instance;
+  if (!instance.build(args->isSet("stdin") ? KUrl() : args->url(0)))
+    return -1;
+
   // Read command-line variables
-  for (int i=!args->isSet("stdin"); i<args->count(); i++)
-    instance->addArgument(args->arg(i));
-  
-  if (args->isSet("stdin"))
-    instance->run(&inputFile);
-  else
-    instance->run();
+  QStringList cmdargs;
+  for (int i = !args->isSet("stdin"); i<args->count(); i++)
+    cmdargs.append(args->arg(i));
+  instance.addCmdlineArguments(cmdargs);
+
+  instance.run();
   return 0;
 }
