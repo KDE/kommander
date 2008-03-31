@@ -571,7 +571,8 @@ KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
 {
   if (QString(parentDialog()->objectName()) == widgetName) 
     return dynamic_cast <KommanderWidget*>(parentDialog());
-  QWidget* childObj = parentDialog()->findChild<QWidget *>(widgetName.toLatin1());
+  QString s = widgetName.toLower() == "self" ? m_thisObject->objectName() : widgetName;
+  QWidget* childObj = parentDialog()->findChild<QWidget *>(s);
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
