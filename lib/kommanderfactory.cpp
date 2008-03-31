@@ -89,7 +89,7 @@ KommanderFactory::~KommanderFactory()
 {
 }
 
-QWidget *KommanderFactory::create ( const QString &uiFile, QObject *connector, QWidget *parent, const char *name )
+QWidget *KommanderFactory::create( const QString &uiFile, QObject *connector, QWidget *parent, const char *name )
 {
     QFile f ( uiFile );
     if ( !f.open ( QIODevice::ReadOnly ) )
@@ -103,18 +103,21 @@ QWidget *KommanderFactory::create ( const QString &uiFile, QObject *connector, Q
     return w;
 }
 
-QWidget *KommanderFactory::create ( QIODevice *dev, QObject *connector, QWidget *parent, const char *name )
+QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *parent, const char *name )
 {
     QDomDocument doc;
     QString errMsg;
     int errLine;
-    if ( !doc.setContent ( dev, &errMsg, &errLine ) )
-    {
-        //qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
-        return 0;
+    QTextStream stream(dev);
+    QString content = stream.read();
+    if (content.startsWith("#!"))
+      content = content.mid(content.find('\n'));
+    if ( !doc.setContent( content ) ) {
+// 	qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
+	return 0;
     }
 
-    DomTool::fixDocument ( doc );
+    DomTool::fixDocument( doc );
 
     KommanderFactory *widgetFactory = new KommanderFactory;
     widgetFactory->toplevel = 0;
@@ -242,12 +245,12 @@ QWidget *KommanderFactory::create ( QIODevice *dev, QObject *connector, QWidget 
     return w;
 }
 
-void KommanderFactory::addPlugin ( KommanderPlugin *plugin )
+void KommanderFactory::addPlugin( KommanderPlugin *plugin )
 {
     widgetPlugins.append ( plugin );
 }
 
-QWidget *KommanderFactory::createWidget ( const QString &literalClassName, QWidget *parent, const char *name )
+QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name )
 {
     QString className = literalClassName;
     if (className == "QWidget")
@@ -379,7 +382,7 @@ QWidget *KommanderFactory::createWidget ( const QString &literalClassName, QWidg
 
 static int num_plugins_loaded = 0;
 
-int KommanderFactory::loadPlugins ( bool force )
+int KommanderFactory::loadPlugins(bool force)
 {
     if ( num_plugins_loaded > 0 && !force )
         return num_plugins_loaded;
@@ -438,7 +441,7 @@ FeatureList KommanderFactory::featureList()
     //iterate through widgetPlugins, appending KommanderPlugin::widgets() to features
 }
 
-QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget *parent, QLayout* layout, const QString &classNameArg )
+QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *parent, QLayout* layout, const QString &classNameArg )
 {
     lastItem = 0;
     QDomElement n = e.firstChild().toElement();
@@ -447,10 +450,10 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
 
     QString className = classNameArg;
 
-    int row = e.attribute ( "row" ).toInt();
-    int col = e.attribute ( "column" ).toInt();
-    int rowspan = e.attribute ( "rowspan" ).toInt();
-    int colspan = e.attribute ( "colspan" ).toInt();
+    int row = e.attribute( "row" ).toInt();
+    int col = e.attribute( "column" ).toInt();
+    int rowspan = e.attribute( "rowspan" ).toInt();
+    int colspan = e.attribute( "colspan" ).toInt();
     if ( rowspan < 1 )
         rowspan = 1;
     if ( colspan < 1 )
@@ -498,6 +501,8 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
             layout = 0;
         }
     }
+    if (className == "Dialog")
+       w->setProperty( "useInternalParser", false );
 
     while ( !n.isNull() )
     {
@@ -589,7 +594,7 @@ QWidget *KommanderFactory::createWidgetInternal ( const QDomElement &e, QWidget 
     return w;
 }
 
-QLayout *KommanderFactory::createLayout ( QWidget *widget, QLayout*  layout, LayoutType type )
+QLayout *KommanderFactory::createLayout( QWidget *widget, QLayout*  layout, LayoutType type )
 {
     int spacing = defSpacing;
     int margin = defMargin;
@@ -666,7 +671,7 @@ QLayout *KommanderFactory::createLayout ( QWidget *widget, QLayout*  layout, Lay
     return 0;
 }
 
-KommanderFactory::LayoutType KommanderFactory::layoutType ( QLayout *layout ) const
+KommanderFactory::LayoutType KommanderFactory::layoutType( QLayout *layout ) const
 {
     if ( qobject_cast<QHBoxLayout*>(layout) )
         return HBox;
@@ -677,7 +682,7 @@ KommanderFactory::LayoutType KommanderFactory::layoutType ( QLayout *layout ) co
     return NoLayout;
 }
 
-void KommanderFactory::setProperty ( QObject* obj, const QString &prop, const QDomElement &e )
+void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDomElement &e )
 {
     const QMetaProperty p = obj->metaObject()->property ( obj->metaObject()->indexOfProperty ( prop.toAscii() ) );
 
@@ -803,13 +808,13 @@ void KommanderFactory::setProperty ( QObject* obj, const QString &prop, const QD
     obj->setProperty ( prop.toAscii(), v );
 }
 
-void KommanderFactory::createSpacer ( const QDomElement &e, QLayout *layout )
+void KommanderFactory::createSpacer( const QDomElement &e, QLayout *layout )
 {
     QDomElement n = e.firstChild().toElement();
-    int row = e.attribute ( "row" ).toInt();
-    int col = e.attribute ( "column" ).toInt();
-    int rowspan = e.attribute ( "rowspan" ).toInt();
-    int colspan = e.attribute ( "colspan" ).toInt();
+    int row = e.attribute( "row" ).toInt();
+    int col = e.attribute( "column" ).toInt();
+    int rowspan = e.attribute( "rowspan" ).toInt();
+    int colspan = e.attribute( "colspan" ).toInt();
 
     Qt::Orientation orient = Qt::Horizontal;
     int w = 0, h = 0;
@@ -904,7 +909,7 @@ static QImage loadImageData ( QDomElement &n2 )
     return img;
 }
 
-void KommanderFactory::loadImageCollection ( const QDomElement &e )
+void KommanderFactory::loadImageCollection( const QDomElement &e )
 {
     QDomElement n = e.firstChild().toElement();
     while ( !n.isNull() )
@@ -926,7 +931,7 @@ void KommanderFactory::loadImageCollection ( const QDomElement &e )
     }
 }
 
-QImage KommanderFactory::loadFromCollection ( const QString &name )
+QImage KommanderFactory::loadFromCollection( const QString &name )
 {
     QList<Image>::Iterator it = images.begin();
     for ( ; it != images.end(); ++it )
@@ -937,7 +942,7 @@ QImage KommanderFactory::loadFromCollection ( const QString &name )
     return QImage();
 }
 
-QPixmap KommanderFactory::loadPixmap ( const QDomElement &e )
+QPixmap KommanderFactory::loadPixmap( const QDomElement &e )
 {
     QString arg = e.firstChild().toText().data();
     // try to fix old way of storing data
@@ -955,7 +960,7 @@ QPixmap KommanderFactory::loadPixmap ( const QDomElement &e )
     return QPixmap::fromImage(loadFromCollection(arg));
 }
 
-QColorGroup KommanderFactory::loadColorGroup ( const QDomElement &e )
+QColorGroup KommanderFactory::loadColorGroup( const QDomElement &e )
 {
     QColorGroup cg;
     int r = -1;
@@ -1125,7 +1130,7 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
     }
 }
 
-void KommanderFactory::loadTabOrder ( const QDomElement &e )
+void KommanderFactory::loadTabOrder( const QDomElement &e )
 {
     QWidget *last = 0;
     QDomElement n = e.firstChild().toElement();
@@ -1150,7 +1155,7 @@ void KommanderFactory::loadTabOrder ( const QDomElement &e )
     }
 }
 
-void KommanderFactory::createColumn ( const QDomElement &e, QWidget *widget )
+void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
 {
     if ( qobject_cast<Q3ListView*>(widget) && e.tagName() == "column" )
     {
@@ -1269,7 +1274,7 @@ void KommanderFactory::createColumn ( const QDomElement &e, QWidget *widget )
     }
 }
 
-void KommanderFactory::loadItem ( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap )
+void KommanderFactory::loadItem( const QDomElement &e, QPixmap &pix, QString &txt, bool &hasPixmap )
 {
     QDomElement n = e;
     hasPixmap = false;
@@ -1291,7 +1296,7 @@ void KommanderFactory::loadItem ( const QDomElement &e, QPixmap &pix, QString &t
     }
 }
 
-void KommanderFactory::createItem ( const QDomElement &e, QWidget *widget, Q3ListViewItem *i )
+void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, Q3ListViewItem *i )
 {
     if (qobject_cast<Q3ListBox*>(widget) || qobject_cast<QComboBox*>(widget))
     {
@@ -1386,7 +1391,7 @@ void KommanderFactory::createItem ( const QDomElement &e, QWidget *widget, Q3Lis
 
 
 
-void KommanderFactory::loadChildAction ( QObject *parent, const QDomElement &e )
+void KommanderFactory::loadChildAction( QObject *parent, const QDomElement &e )
 {
     QDomElement n = e;
     QAction *a = 0;
