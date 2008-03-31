@@ -1,5 +1,5 @@
 /***************************************************************************
-                        specials.h - known specials and DCOP calls
+                        specials.h - known specials and DBUS calls
                              -------------------
     copyright            : (C) 2004 by Michal Rudolf <mrudolf@kdewebdev.org>
  ***************************************************************************/
@@ -16,61 +16,57 @@
 #ifndef _HAVE_SPECIALS_H_
 #define _HAVE_SPECIALS_H_
 
-#include "specialinformation.h"
+/** This file contains the global Kommander defined. In case a new Group, method, etc. is
+added it MUST be added to the end of the enum lists in order to keep compatibility with the
+existing plugins. */
 
-namespace Special
+
+namespace Group
 {
-  namespace Group
-  {
-    enum {DBUS, Kommander, String, Array, File, Input, Message};
-  }
-  
-  namespace DBUS
-  {
-    enum {addUniqueItem, associatedText, cancel, cellText, clear, checked, children, count, currentColumn,
-      currentItem, currentRow, execute, findItem, global, insertColumn, insertItem, insertItems, insertRow, 
-      item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
-      setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
-      setRowCaption, setSelection, setText, 
-      setVisible, text, type, setCellWidget, cellWidget, setEditable};
-  }
-//FIXME DCOP to DBUS conversion
-  namespace Kommander
-  {   
-    enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
-    echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
-    switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists, exit, Break, Continue, Return, execBackground};
-  }
- 
-  namespace Array
-  {
-    enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElements, indexedInsertElements};
-  }
-   
-  namespace String
-  {
-    enum {length, contains, find, findRev, left, right, mid, remove, replace, upper, lower,
-      compare, isEmpty, isNumber, section, args, toInt, toDouble};
-  }
-  
-  namespace File
-  {
-    enum {read, write, append};
-  }
-  
-  namespace Input
-  {
-    enum {color, text, password, value, valueDouble, openfile, openfiles, savefile, directory};
-  }
-  
-  namespace Message
-  {
-    enum {info, error, question, warning};
-  }
-  
+  enum {DBUS, Kommander, String, Array, File, Input, Message, Slots};
 }
-   
 
-using namespace Special;
+namespace DBUS
+{
+  enum {addUniqueItem, associatedText, cancel, cellText, clear, checked, children, count, currentColumn,
+    currentItem, currentRow, execute, findItem, global, insertColumn, insertItem, insertItems, insertRow, 
+    item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
+    setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
+    setRowCaption, setSelection, setText, 
+    setVisible, text, type, setCellWidget, cellWidget, setEditable, geometry};
+}
+
+namespace Kommander
+{
+  enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
+  echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
+  switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists, exit, Break, Continue, Return, execBackground};
+}
+
+namespace Array
+{
+  enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElements, indexedInsertElements};
+}
+
+namespace String
+{
+  enum {length, contains, find, findRev, left, right, mid, remove, replace, upper, lower,
+  compare, isEmpty, isNumber, section, args, toInt, toDouble};
+}
+
+namespace File
+{
+  enum {read, write, append};
+}
+
+namespace Input
+{
+  enum {color, text, password, value, valueDouble, openfile, openfiles, savefile, directory};
+}
+
+namespace Message
+{
+  enum {info, error, question, warning};
+}
 
 #endif

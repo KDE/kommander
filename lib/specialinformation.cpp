@@ -21,6 +21,29 @@
 SpecialFunction::SpecialFunction(const QString& name, const QString& description,
     int minArgs, int maxArgs)
 {
+  m_parserTypes = AllParsers;
+  int lbracket = name.indexOf('(');
+  int rbracket = name.indexOf(')');
+  m_function = (lbracket != -1) ? name.left(lbracket) : name;
+  m_description = description;
+  if (lbracket != -1 && rbracket != -1)
+  {
+    QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
+    QStringList args = part.split(',');
+    for (int i=0; i < args.count(); i++)
+    {
+      m_types.append(args[i].trimmed().section(' ', 0, 0));
+      m_args.append(args[i].trimmed().section(' ', 1, 1));
+    }
+  }
+  m_minArgs = (minArgs == -1) ? m_types.count() : minArgs;
+  m_maxArgs = (maxArgs == -1) ? m_types.count() : maxArgs;
+}
+
+SpecialFunction::SpecialFunction(ParserType p, const QString& name, const QString& description,
+    int minArgs, int maxArgs)
+{
+  m_parserTypes = p;
   int lbracket = name.indexOf('(');
   int rbracket = name.indexOf(')');
   m_function = (lbracket != -1) ? name.left(lbracket) : name;
@@ -29,7 +52,7 @@ SpecialFunction::SpecialFunction(const QString& name, const QString& description
   {
     QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
     QStringList args =  part.split(",");
-    for (int i=0; i<args.count(); i++)
+    for (int i=0; i < args.count(); i++)
     {
       m_types.append(args[i].trimmed().section(' ', 0, 0));
       m_args.append(args[i].trimmed().section(' ', 1, 1));
@@ -113,6 +136,20 @@ bool SpecialInformation::isValid(const QString& gname, const QString& fname)
   return function(group(gname), fname) != -1;
 }
 
+bool SpecialInformation::isValid(int gname, int fname, SpecialFunction::ParserType p)
+{
+  return m_specials.contains(gname) && m_specials[gname].contains(fname)
+    && m_specials[gname][fname].isSupported(p);
+}
+
+bool SpecialInformation::isValid(const QString& gname, const QString& fname,
+  SpecialFunction::ParserType p)
+{
+  int g = group(gname);
+  int f = function(g, fname);
+  return f != -1 && m_specials[g][f].isSupported(p);
+}
+
 int SpecialInformation::minArg(int gname, int fname) 
 {
   if (isValid(gname, fname))
@@ -148,7 +185,7 @@ QString SpecialInformation::description(int gname, int fname)
   return QString();
 }
 
-QString SpecialInformation::prototype(int gname, int fname, int flags)
+QString SpecialInformation::prototype(int gname, int fname, uint flags)
 {
  if (isValid(gname, fname))
     return m_specials[gname][fname].prototype(flags);
@@ -156,7 +193,7 @@ QString SpecialInformation::prototype(int gname, int fname, int flags)
 }
 
 bool SpecialInformation::insert(int id, const QString& function, const QString description,
-    int minArgs, int maxArgs)
+    int minArgs, int maxArgs, SpecialFunction::ParserType pType)
 {
   if (isValid(m_defaultGroup, id))  /* function already defined */
     return false;
@@ -164,12 +201,24 @@ bool SpecialInformation::insert(int id, const QString& function, const QString d
     return false;                   /* function name already in use */
   if (m_aliases[m_defaultGroup].contains(function.toLower()))
     return false;                   /* function name already in use */
-  SpecialFunction sf(function, description, minArgs, maxArgs);
+  SpecialFunction sf(pType, function, description, minArgs, maxArgs);
   m_specials[m_defaultGroup][id] = sf;
   m_functions[m_defaultGroup][sf.name().toLower()] = id;
   return true;
 }
-  
+
+bool SpecialInformation::insertMacro(int id, const QString& function, const QString description,
+    int minArgs, int maxArgs)
+{
+  return insert(id, function, description, minArgs, maxArgs, SpecialFunction::MacroParser);
+}
+
+bool SpecialInformation::insertInternal(int id, const QString& function, const QString description,
+    int minArgs, int maxArgs)
+{
+  return insert(id, function, description, minArgs, maxArgs, SpecialFunction::InternalParser);
+}
+
 bool SpecialInformation::insertAlias(int id, const QString& alias)
 {
   if (!isValid(m_defaultGroup, id))  /* function doesn't exists */
@@ -224,6 +273,11 @@ QStringList SpecialInformation::functions(const QString& g)
   }
 }
 
+bool SpecialFunction::isSupported(ParserType p) const
+{
+  return (m_parserTypes & p);
+}
+
 void SpecialInformation::registerSpecials()
 {
   insertGroup(Group::DBUS, "DBUS", "");
@@ -249,7 +303,8 @@ void SpecialInformation::registerSpecials()
          i18n("Returns index of current item."), 1);
   insert(DBUS::currentRow, "currentRow(QString widget)", 
          i18n("Returns index of current row."), 1);
-  insert(DBUS::execute, "execute(QString widget)", i18n("Executes the script associated with the widget."), 1, 9);
+  insert(DBUS::execute, "execute(QString widget)", 
+         i18n("Executes the script associated with the widget. With the new parser the execute method can take one or more arguments."), 1, 9);
   insert(DBUS::findItem, "findItem(QString widget, QString item)",
          i18n("Returns the index of an item with the given text."), 2);
   insert(DBUS::insertColumn, "insertColumn(QString widget, int column, int count)",
@@ -268,8 +323,8 @@ void SpecialInformation::registerSpecials()
          i18n("Returns the depth of the current item in the tree. Root items have depth 0."), 2);
   insert(DBUS::itemPath, "itemPath(QString widget, int index)",
          i18n("Returns the slash-separated path to the given item in the tree."), 2);
-  insert(DBUS::removeColumn, "removeColumn(QString widget, int row, int count)",
-         i18n("Removes the column (or <i>count</i> consecutive columns) with the given index."), 3);
+  insert(DBUS::removeColumn, "removeColumn(QString widget, int column, int count)",
+         i18n("Removes the column (or <i>count</i> consecutive columns) with the given index."), 2, 3);
   insert(DBUS::removeItem, "removeItem(QString widget, int index)",
          i18n("Removes the item with the given index."), 2);
   insertAlias(DBUS::removeItem, "removeListItem");
@@ -277,14 +332,18 @@ void SpecialInformation::registerSpecials()
          i18n("Removes the row (or <i>count</i> consecutive rows) with the given index."), 3);
   insertAlias(DBUS::removeItem, "removeListItem");
   insert(DBUS::selection, "selection(QString widget)", 
-         i18n("Returns selected text or text of current item."), 1);
+         i18n("Returns selected text or text of current item.\nIn case of Table widgets, returns the selection coordinates, separated by commas in TopRow,LeftColumn,BottomRow,RightColumn form. "), 1);
   insert(DBUS::setAssociatedText, "setAssociatedText(QString widget, QString text)",
          i18n("Sets scripts associated with widget. This is an advanced feature that would not be commonly used."), 2);
   insert(DBUS::setEnabled, "setEnabled(QString widget, bool enabled)", 
-         i18n("Enables or disables widget."), 2);
+     i18n("Enables or disables widget."), 2);
   insertAlias(DBUS::setEnabled, "enableWidget");
   insert(DBUS::setCellText, "setCellText(QString widget, int row, int col, QString text)",
          i18n("Sets text of a cell in a table."), 4);
+  insert(DBUS::setCellWidget, "setCellWidget(QString widget, int row, int col, QString cellWidget)",
+         i18n("Inserts a widget into a cell of a table."), 4);
+  insert(DBUS::cellWidget, "cellWidget(QString widget, int row, int col)",
+         i18n("Returns the name of a widget inserted into a cell, or an empty string if the cell contains no widget or an unknown widget type."), 3);
   insert(DBUS::setChecked, "setChecked(QString widget, bool checked)",
          i18n("Sets/unsets checkbox."), 2);
   insert(DBUS::setColumnCaption, "setColumnCaption(QString widget, int column, QString text)",
@@ -292,6 +351,8 @@ void SpecialInformation::registerSpecials()
   insert(DBUS::setCurrentItem, "setCurrentItem(QString widget, int index)",
          i18n("Selects the item at the specified index. Indexes are zero based."), 2);
   insertAlias(DBUS::setCurrentItem, "setCurrentTab");
+  insert(DBUS::insertTab, "insertTab(QString widget, QString label,int index)",
+         i18n("Inserts a tab to the tabwidget with the specified label at the given index. Indexes are zero based."), 3); //enable for 3.5.8
   insert(DBUS::setMaximum, "setMaximum(QString widget, int value)",
          i18n("Sets maximum numeric value"), 2);
   insert(DBUS::setPixmap, "setPixmap(QString widget, QString iconName, int index)",
@@ -308,130 +369,164 @@ void SpecialInformation::registerSpecials()
          i18n("Shows/hides widget."), 2);
   insert(DBUS::text, "text(QString widget)", i18n("Returns content of widget."), 1);
   insert(DBUS::type, "type(QString widget)",
-         i18n("Returns type(class) of widget."), 1);
+     i18n("Returns type(class) of widget."), 1);
   insert(DBUS::setEditable, "setEditable(QString widget, bool editable)", 
-         i18n("Makes the widget editable or read only, depending on the editable argument."), 2);
-    
+     i18n("Makes the widget editable or read only, depending on the editable argument."), 2);
+  insert(DBUS::geometry, "geometry(QString widget)", 
+     i18n("Return the widget's geometry as <i>x y w h</i>. This is useful for positioning a created widget."), 1);
+
+  insertGroup(Group::Slots, i18n("Slots"), "");
+
   insertGroup(Group::Kommander, "Kommander", "");
-  insert(Kommander::widgetText, "widgetText", 
-         i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
-  insert(Kommander::selectedWidgetText, "selectedWidgetText", 
-         i18n("Returns selected text or text of current item. This is deprecated for <i>@mywidget.selected</i>."), 0);
-  insert(Kommander::null, "null", 
-         i18n("Does nothing. This is useful if you request a CheckBox or RadioButton to return a value where a state, typically the unchecked state, has no value. The @null prevents an error indicating it is empty."), 0);
+  insertMacro(Kommander::widgetText, "widgetText", 
+    i18n("Returns current widget's content. This was required inside widget A to return widget A content when requested by widget B. The new method is to use @A.text inside B instead of just @A if you just want the unaltered text."), 0);
+  insertMacro(Kommander::selectedWidgetText, "selectedWidgetText", 
+    i18n("Returns selected text or text of current item. This is deprecated for <i>@mywidget.selected</i>."), 0);
+  insertMacro(Kommander::null, "null", 
+     i18n("Does nothing. This is useful if you request a CheckBox or RadioButton to return a value where a state, typically the unchecked state, has no value. The @null prevents an error indicating it is empty."), 0);
   insert(Kommander::pid, "pid", 
-         i18n("Returns the pid (process ID) of the current process."), 0);
-  //FIXME DCOP to DBUS
+     i18n("Returns the pid (process ID) of the current process."), 0);
   insert(Kommander::dcopid, "dcopid", 
-         i18n("Returns DCOP identifier of current process. This is shorthand for <i>kmdr-executor-@pid</i>."), 
-              0);
+     i18n("Returns DBUS identifier of current process. This is shorthand for <i>kmdr-executor-@pid</i>."), 
+     0);
   insert(Kommander::parentPid, "parentPid", 
-         i18n("Returns the pid of the parent Kommander window."), 0);
+     i18n("Returns the pid of the parent Kommander window."), 0);
   insert(Kommander::debug, "debug(QString text)",
          i18n("Writes <i>text</i> on stderr."), 1);
   insert(Kommander::echo, "echo(QString text)",
          i18n("Writes <i>text</i> on standard output."), 1);
-  insert(Kommander::execBegin, "execBegin(QString shell)", 
-         i18n("Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. Full path is not required for the shell which may be useful for portability. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"), 0);
+  insertMacro(Kommander::execBegin, "execBegin(QString shell)", 
+     i18n("Executes a script block. Bash is used if no shell is given. It is primarily for use in non-button widgets where script actions are not expected. Full path is not required for the shell which may be useful for portability. <p><i>If this is used inside a button it allows alternate script languages to be used and will return a value to the main script, which may be unexpected.</i>"), 0);
   insert(Kommander::env, "env(QString variable)",
-         i18n("Returns value of an environment (shell) variable. Do not use <i>$</i> in the name. For example, <i>@env(PATH)</i>."), 1);
+     i18n("Returns value of an environment (shell) variable. Do not use <i>$</i> in the name. For example, <i>@env(PATH)</i>."), 1);
   insert(Kommander::exec, "exec(QString command)",
-         i18n("Executes an external shell command."), 1);
-  insert(Kommander::expr, "expr(QString expression)",
-         i18n("Parses an expression and returns computed value."), 1);
+     i18n("Executes an external shell command."), 1);
+  insertInternal(Kommander::execBackground, "execBackground(QString command)",
+     i18n("Executes an external shell command."), 1);
+  insertMacro(Kommander::expr, "expr(QString expression)",
+     i18n("Parses an expression and returns computed value."), 1);
   insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",
-         i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned to the variable. <br> <i>@forEach(i,A\\nB\\nC\\n)<br>  @# @i=A<br>@endif</i>"), 2);
+     i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned to the variable. <br><b>Old</b><br> <i>@forEach(i,A\\nB\\nC\\n)<br>  @# @i=A<br>@end</i><br><b>New</b><br><i>foreach i in MyArray do<br>  //i = key, MyArray[i] = val<br>end "), 2);
   insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)",
-         i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger then <i>end</i>. <br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i>."), 3);
-  insert(Kommander::global, "global(QString variable)",
-         i18n("Returns the value of a global variable."), 1);
+     i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger then <i>end</i>. <br><b>Old</b><br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i><br><b>New</b><br><i>for i=0 to 20 step 5 do<br>  debug(i)<br>end</i>."), 3);
+  insertMacro(Kommander::global, "global(QString variable)",
+     i18n("Returns the value of a global variable."), 1);
   insert(Kommander::i18n, "i18n(QString variable)",
-         i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."), 1);
+     i18n("Translates the string into the current language. Texts in GUI would be automatically extracted for translation."), 1);
   insert(Kommander::ifBlock, "if(QString expression)",
-         i18n("Executes block if expression is true (non-zero number or non-empty string.) <p>Close with <b>@endif</b></p>"), 1);
+     i18n("Executes block if expression is true (non-zero number or non-empty string.) <p><b>Old</b>Close with <b>@endif</b></p><p><b>New</b><br>if val == true then<br>//  do op<br>elseif cond<br>//  second chance<br>else<br>//  cond failed<br>endif</p>"), 1);
   insert(Kommander::dialog, "dialog(QString file, QString args)",
-         i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"), 1);
+     i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"), 1);
   insert(Kommander::readSetting, "readSetting(QString key, QString default)",
-         i18n("Reads setting from configration file for this dialog."), 2);
+     i18n("Reads setting from configration file for this dialog."), 2);
   insert(Kommander::setGlobal, "setGlobal(QString variable, QString value)",
-         i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
+     i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
   insert(Kommander::writeSetting, "writeSetting(QString key, QString value)",
-         i18n("Stores setting in configuration file for this dialog."), 2);
-  insert(Kommander::switchBlock, "switch(QString expresion)",
-         i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i>.<p>@switch()<br>@case()<br>@end"), 1);
-  //FIXME DCOP to DBUS 
+     i18n("Stores setting in configuration file for this dialog."), 2);
+  insertMacro(Kommander::switchBlock, "switch(QString expresion)",
+     i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i>.<p>@switch()<br>@case()<br>@end"), 1);
   insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)",
-         i18n("Executes an external DCOP call."), 3, 9);
-  insert(Kommander::comment, "#",
-         i18n("Adds a comment to EOL that Kommander will not parse"), 0);
-     
+     i18n("Executes an external DBUS call."), 3, 9);
+  insertMacro(Kommander::comment, "#",
+     i18n("Adds a comment to EOL that Kommander will not parse"), 0);
+  insertInternal(Kommander::createWidget, "createWidget(QString widgetName, QString widgetType, QString parent)",
+     i18n("Creates a new widget with the specified type and as the child of parent."), 3);
+  insertInternal(Kommander::widgetExists, "widgetExists(QString widgetName)",
+     i18n("Returns true if there is a widget with the passed name, false otherwise."), 1);
+  insertInternal(Kommander::connect, "connect(QString sender, QString signal, QString receiver, QString slot)",
+     i18n("Connects the signal of sender with the slot of the receiver"), 4);
+  insertInternal(Kommander::disconnect, "disconnect(QString sender, QString signal, QString receiver, QString slot)",
+     i18n("Disconnects the signal of sender from the slot of the receiver"), 4);
+
+  insertInternal(Kommander::exit, "exit", 
+     i18n("Exits script execution and returns"), 0);
+  insertInternal(Kommander::Break, "break", 
+     i18n("Exits the current block of a while, for or foreach loop"), 0);
+  insertInternal(Kommander::Continue, "continue", 
+     i18n("Exit a step and return to the beginning of a loop"), 0);
+  insertInternal(Kommander::Return, "return(QString value)", 
+     i18n("Return from a script, optionaly with a value from the script to the caller"), 0, 1);
+
   insertGroup(Group::Array, "Array", "array");
   insert(Array::values, "values(QString array)", 
-         i18n("Returns an EOL-separated list of all values in the array."), 1);
+    i18n("Returns an EOL-separated list of all values in the array."), 1);
   insert(Array::keys,"keys(QString array)", 
-         i18n("Returns an EOL-separated list of all keys in the array."), 1);
+    i18n("Returns an EOL-separated list of all keys in the array."), 1);
   insert(Array::clear,"clear(QString array)", 
-         i18n("Removes all elements from the array."), 1);
+    i18n("Removes all elements from the array."), 1);
   insert(Array::count,"count(QString array)", 
-         i18n("Returns the number of elements in the array."), 1);
-  insert(Array::value, "value(QString array, QString key)", 
-         i18n("Returns the value associated with the given key."), 2);
+    i18n("Returns the number of elements in the array."), 1);
+  insertMacro(Array::value, "value(QString array, QString key)", 
+    i18n("Returns the value associated with the given key."), 2);
   insert(Array::remove,"remove(QString array, QString key)", 
-         i18n("Removes element with the given key from the array."), 2);
-  insert(Array::setValue,"setValue(QString array, QString key, QString value)", 
-         i18n("Adds element with the given key and value to the array"), 3);
+    i18n("Removes element with the given key from the array."), 2);
+  insertMacro(Array::setValue,"setValue(QString array, QString key, QString value)",
+    i18n("Adds element with the given key and value to the array"), 3);
   insert(Array::fromString, "fromString(QString array, QString string)", 
-         i18n("Adds all elements in the string to the array. "
-             "String should have <i>key\\tvalue\\n</i> format."), 2);
+    i18n("Adds all elements in the string to the array. "
+    "String should have <i>key\\tvalue\\n</i> format."), 2);
   insert(Array::toString, "toString(QString array)", 
-         i18n("Returns all elements in the array in <pre>key\\tvalue\\n</pre> format."), 1);
-  
-  
+    i18n("Returns all elements in the array in <pre>key\\tvalue\\n</pre> format."), 1);
+  insertInternal(Array::indexedFromString, "indexedFromString(QString array, QString string, QString separator)", 
+    i18n( "Create an integer indexed array - starting from 0 - from a string. Use the separator character to split the string. The separator's default value is '\\t'."), 2, 3);
+  insertInternal(Array::indexedToString, "indexedToString(QString array, QString separator)", 
+    i18n( "Create a string from an integer indexed array. Concatenate the elements with the separator character. The separator's default value is '\\t'."), 1, 2);
+  insertInternal(Array::indexedRemoveElements, "indexedRemoveElements(QString array, int keyStart, int keyNum)", 
+    i18n( "Remove keyNum elements starting with keyStart from an indexed array and reindex the array. If keyNum is not specified, remove only the keyStart element."), 2, 3);
+  insertInternal(Array::indexedInsertElements, "indexedInsertElements(QString array, int key, QString string, QString separator)", 
+    i18n( "Insert the elements from string starting at key and reindex the array. Use the separator to separate the elements from the string. The separator's default value is '\\t'."), 3, 4);
+
+
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 
-         i18n("Returns number of chars in the string."), 1);
+    i18n("Returns number of chars in the string."), 1);
   insert(String::contains, "contains(QString string, QString substring)", 
-         i18n("Checks if the the string contains the given substring."), 2);
+    i18n("Checks if the the string contains the given substring."), 2);
   insert(String::find, "find(QString string, QString sought, int index)", 
-         i18n("Returns the position of a substring in the string, or -1 if it is not found."), 2);
+    i18n("Returns the position of a substring in the string, or -1 if it is not found."), 2);
   insert(String::findRev, "findRev(QString string, QString sought, int index)", 
          i18n("Returns the position of a substring in the string, or -1 if it is not found. String is searched backwards"), 2);
   insert(String::left, "left(QString string, int n)", 
-         i18n("Returns the first <i>n</i> chars of the string."), 2);
+    i18n("Returns the first <i>n</i> chars of the string."), 2);
   insert(String::right, "right(QString string, int n)", 
-         i18n("Returns the last <i>n</i> chars of the string."), 2);
+    i18n("Returns the last <i>n</i> chars of the string."), 2);
   insert(String::mid, "mid(QString string, int start, int n)", 
-         i18n("Returns <i>n</i> chars of the string, starting from <i>start</i>."), 3);
+    i18n("Returns <i>n</i> chars of the string, starting from <i>start</i>."), 3);
   insert(String::remove, "remove(QString string, QString substring)", 
-         i18n("Removes all occurrences of given substring."), 2);
+    i18n("Removes all occurrences of given substring."), 2);
   insert(String::replace, "replace(QString string, QString substring, QString replacement)", 
-         i18n("Replaces all occurrences of the given substring with the given replacement."), 3);
+    i18n("Replaces all occurrences of the given substring with the given replacement."), 3);
   insert(String::upper, "upper(QString string)", 
-         i18n("Converts the string to uppercase."), 1);
+    i18n("Converts the string to uppercase."), 1);
   insert(String::lower, "lower(QString string)", 
-         i18n("Converts the string to lowercase."), 1);
+    i18n("Converts the string to lowercase."), 1);
   insert(String::compare, "compare(QString string1, QString string2)", 
-         i18n("Compares two strings. Returns 0 if they are equal, "
-             "-1 if the first one is lower, 1 if the first one is higher"), 2);
+    i18n("Compares two strings. Returns 0 if they are equal, "
+    "-1 if the first one is lower, 1 if the first one is higher"), 2);
   insert(String::isEmpty, "isEmpty(QString string)", 
-         i18n("Checks if the string is empty."), 1);
+    i18n("Checks if the string is empty."), 1);
   insert(String::isNumber, "isNumber(QString string)", 
-         i18n("Checks if the string is a valid number."), 1);
+    i18n("Checks if the string is a valid number."), 1);
   insert(String::section, "section(QString string, QString separator, int index)", 
-         i18n("Returns given section of a string."), 1);
+    i18n("Returns given section of a string."), 1);
   insert(String::args, "args(QString string, QString arg1, QString arg2, QString arg3)", 
-         i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly.", QString("%1"), QString("%2"), QString("%3")), 2); // Placeholders must be substituted, so just put them back for the correct meaning of the sentence.
-  
+    i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
+
+  insertInternal(String::toInt, "toint(QString string, QString default)",
+    i18n("Convert a string to an integer. If not possible use the default value"), 1, 2);
+  insertInternal(String::toDouble, "todouble(QString string, QString default)",
+    i18n("Convert a string to a double precision floating point value. If not possible use the default value"), 1, 2);
+
   insertGroup(Group::File, "File", "file");
   insert(File::read, "read(QString)", 
-         i18n("Returns content of given file."), 1);
+    i18n("Returns content of given file."), 1);
   insert(File::write, "write(QString file, QString string)", 
-         i18n("Writes given string to a file."), 2);
+    i18n("Writes given string to a file."), 2);
   insert(File::append, "append(QString file, QString string)", 
-         i18n("Appends given string to the end of a file."), 2);
+    i18n("Appends given string to the end of a file."), 2);
   
   insertGroup(Group::Input, "Input", "input");
-  insert(Input::color, "color", i18n("Shows color dialog. Returns color in #RRGGBB format."));
+  insert(Input::color, "color(QString defaultColor)", i18n("Shows color dialog. Returns color in #RRGGBB format. Defaults to the parameter, if specified."), 0, 1);
   insert(Input::text, "text(QString caption, QString label, QString default)", 
          i18n("Shows text selection dialog. Returns entered text."), 2);
   insert(Input::password, "password(QString caption, QString password)", 
@@ -460,7 +555,6 @@ void SpecialInformation::registerSpecials()
          i18n("Shows a question dialog with up to three buttons. Returns number of selected button."), 1);
   
 }
-
 
 QMap<int, QMap<int, SpecialFunction> > SpecialInformation::m_specials;
 QMap<QString, int> SpecialInformation::m_groups;

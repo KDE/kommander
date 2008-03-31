@@ -30,6 +30,7 @@
 
 #include "kommanderwidget.h"
 #include "specials.h"
+#include "specialinformation.h"
 #include "expression.h"
  
 QString KommanderWidget::evalFunction(const QString& function, const QStringList& args)

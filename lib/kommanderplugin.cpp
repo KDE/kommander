@@ -18,7 +18,7 @@
 #include "specialinformation.h"
 
 KommanderPlugin::KommanderPlugin()
-{
+{ 
 }
 
 KommanderPlugin::~KommanderPlugin()
@@ -78,6 +78,5 @@ bool KommanderPlugin::registerFunction(int id, const QString& function, const QS
 {
    return SpecialInformation::insert(id, function, description, minArgs, maxArgs); 
 }
-
 
 #include "kommanderplugin.moc"
