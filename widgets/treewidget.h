@@ -25,10 +25,10 @@
 #include <qvector.h>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
-#include <Q3ListView>
-
-//Added by qt3to4:
 #include <QShowEvent>
+
+#include <K3ListView>
+
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -37,7 +37,7 @@
 class QWidget;
 
 class QShowEvent;
-class KOMMANDERWIDGETS_EXPORT TreeWidget : public Q3ListView, public KommanderWidget
+class KOMMANDERWIDGETS_EXPORT TreeWidget : public K3ListView, public KommanderWidget
 {
   Q_OBJECT
   
@@ -84,6 +84,9 @@ private:
   Q3ListViewItem* itemFromString(Q3ListViewItem* parent, const QString& s);
   QVector<Q3ListViewItem*> m_lastPath;
   QString m_pathSeparator;
+  int addColumnTree(const QString & label, int width = -1 );
+  void setSortCol(int column, bool ascending=true);
+  void setAltBackground(const QColor & c);
 };
 
 #endif

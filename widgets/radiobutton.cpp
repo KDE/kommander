@@ -104,7 +104,7 @@ void RadioButton::contextMenuEvent( QContextMenuEvent * e )
 
 bool RadioButton::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::setChecked;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::setChecked || f == DBUS::checked;
 }
 
 QString RadioButton::handleDBUS(int function, const QStringList& args)

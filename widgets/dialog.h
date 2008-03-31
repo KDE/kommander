@@ -36,6 +36,8 @@ class KOMMANDERWIDGETS_EXPORT Dialog : public QDialog, public KommanderWindow
   Q_PROPERTY(QStringList associations READ associatedText WRITE setAssociatedText DESIGNABLE false)
   Q_PROPERTY(bool KommanderWidget READ isKommanderWidget)
   Q_PROPERTY(bool useInternalParser READ useInternalParser WRITE setUseInternalParser)
+  Q_PROPERTY(bool useShebang READ useShebang WRITE setUseShebang DESIGNABLE true)
+  Q_PROPERTY(QString shebang READ Shebang WRITE setShebang DESIGNABLE true)
   Q_OVERRIDE(bool modal DESIGNABLE false)
   
 public:

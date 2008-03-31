@@ -29,8 +29,8 @@
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
 #include "timer.h"
-#include "specials.h"
 #include "kommanderplugin.h"
+#include "specials.h"
 
 
 enum Functions {
@@ -40,8 +40,9 @@ enum Functions {
 };
 
 Timer::Timer(QWidget *a_parent, const char *a_name)
-  : QLabel(a_parent, a_name), KommanderWidget(this)
+  : QLabel(a_parent), KommanderWidget(this)
 {
+  setObjectName(a_name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -78,7 +79,7 @@ void Timer::setInterval(int a_interval)
 {
   if (mTimer->isActive())
   {
-    mTimer->changeInterval(a_interval);
+    mTimer->setInterval(a_interval);
   }
   mInterval = a_interval;
 }

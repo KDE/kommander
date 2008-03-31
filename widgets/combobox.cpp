@@ -24,9 +24,19 @@
 //Added by qt3to4:
 #include <QShowEvent>
 
+#include <klocale.h>
+
 /* OTHER INCLUDES */
-#include <specials.h>
+#include "kommanderplugin.h"
+#include "specials.h"
 #include "combobox.h"
+
+enum Functions {
+  FirstFunction = 355, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
+  popupList,
+  LastFunction
+};
+
 
 ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
   : KComboBox( a_parent ), KommanderWidget(this)
@@ -38,6 +48,10 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
   setDisplayStates(states);
 
   connect(this, SIGNAL(activated(int)), this, SLOT(emitWidgetTextChanged(int)));
+
+  KommanderPlugin::setDefaultGroup(Group::DBUS);
+  KommanderPlugin::registerFunction(popupList, "popupList(QString widget)",  i18n("Make the ComboBox expose it's list without mousing around."), 1);
+
 }
 
 ComboBox::~ComboBox()
@@ -110,7 +124,7 @@ bool ComboBox::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::selection || f == DBUS::setSelection ||
       f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || 
       f == DBUS::removeItem || f == DBUS::insertItem || f == DBUS::insertItems ||
-      f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count || DBUS::setEditable;
+      f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count || f == DBUS::setEditable || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString ComboBox::handleDBUS(int function, const QStringList& args)
@@ -167,6 +181,9 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
     }
     case DBUS::setEditable:
       setEditable(args[0] != "false" && args[0] != "0");
+      break;
+    case popupList:
+      QComboBox::popup();
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

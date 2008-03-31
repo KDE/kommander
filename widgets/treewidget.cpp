@@ -3,6 +3,8 @@
                              -------------------
     copyright            : (C) 2002-2003 Marc Britton <consume@optusnet.com.au>
                            (C) 2004      Michal Rudolf <mrudolf@kdewebdev.org>
+                           (C) 2008      Andras Mantia <amantia@kdewebdev.org>
+                           (C) 2008      Eric Laffoon  <eric@kdewebdev.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -33,6 +35,16 @@
 #include <specials.h>
 #include "treewidget.h"
 #include "kommanderplugin.h"
+#include "specials.h"
+
+#define TW_FUNCTION 275
+#define addColumnTree TW_FUNCTION+1
+#define setAltBackground TW_FUNCTION+2
+#define colCount TW_FUNCTION+3
+#define colCaption TW_FUNCTION+4
+#define setColWidth TW_FUNCTION+5
+#define setSortCol TW_FUNCTION+6
+#define TW_LAST_FUNCTION setSortCol
 
 enum Functions {
   FirstFunction = 189,
@@ -41,7 +53,7 @@ enum Functions {
 };
 
 TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
-  : Q3ListView(a_parent), KommanderWidget(this)
+  : K3ListView(a_parent), KommanderWidget(this)
 {
   this->setObjectName(a_name);
   QStringList states;
@@ -51,6 +63,12 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   setPathSeparator("/");
   KommanderPlugin::setDefaultGroup(Group::DBUS);
   KommanderPlugin::registerFunction(SelectedIndexes, "selectedIndexes(QString widget)",  "", 1);
+  KommanderPlugin::registerFunction(addColumnTree, "addColumn(QString widget, const QString & label, int width = -1 )", i18n("Add column at end with column header"), 2, 3);
+  KommanderPlugin::registerFunction(setSortCol, "setSortCol(QString widget, int column, bool ascending=true)", i18n("Set sorting for a column"), 2, 3);
+  //KommanderPlugin::registerFunction(setAltBackground, "setAltBackground(QString widget, const QColor & c)",  i18n("Alternate colors in list view"), 2);
+  KommanderPlugin::registerFunction(colCount, "colCount(QString widget)", i18n("Get the column count"), 1);
+  KommanderPlugin::registerFunction(colCaption, "colCaption(QString widget, int column)", i18n("Get the column caption for column index"), 2);
+  KommanderPlugin::registerFunction(setColWidth, "setColWidth(QString widget, int column, int width)", i18n("Set the pixel width for column index - use 0 to hide"), 3);
 }
 
 TreeWidget::~TreeWidget()
@@ -206,7 +224,7 @@ bool TreeWidget::isKommanderWidget() const
 
 void TreeWidget::setCurrentItem(Q3ListViewItem* item)
 {
-  Q3ListView::setCurrentItem(item);
+  K3ListView::setCurrentItem(item);
   setSelected(item, true);
   ensureItemVisible(item);
 }
@@ -244,7 +262,7 @@ void TreeWidget::setWidgetText(const QString &a_text)
 
 void TreeWidget::showEvent( QShowEvent *e )
 {
-    Q3ListView::showEvent( e );
+    K3ListView::showEvent( e );
     emit widgetOpened();
 }
 
@@ -260,7 +278,7 @@ bool TreeWidget::isFunctionSupported(int f)
   return f == DBUS::insertItem || f == DBUS::text || f == DBUS::setText || f == DBUS::insertItems ||
     f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear || f == DBUS::removeItem || 
     f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::findItem || f == DBUS::item || 
-      f == DBUS::itemPath || f == DBUS::itemDepth || f == DBUS::setPixmap || f == DBUS::setColumnCaption;
+      f == DBUS::itemPath || f == DBUS::itemDepth || f == DBUS::setPixmap || f == DBUS::setColumnCaption || f == DBUS::removeColumn || (f > FirstFunction && f < LastFunction) || (f >= TW_FUNCTION && f <= TW_LAST_FUNCTION);
 }
 
 QString TreeWidget::handleDBUS(int function, const QStringList& args)
@@ -314,12 +332,12 @@ QString TreeWidget::handleDBUS(int function, const QStringList& args)
       break;
     }
     case DBUS::setSelection:
-      if (selectionMode() == Single || selectionMode() == NoSelection)
+      if (selectionModeExt() == Single || selectionModeExt() == NoSelection)
         setCurrentItem(findItem(args[0], 0));
       else
       {
         clearSelection();
-        QStringList items(QStringList::split("\n", args[0]));
+        QStringList items(args[0].split('\n'));
         for (QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
         {
           Q3ListViewItem* item = findItem(*it, 0);
@@ -372,6 +390,37 @@ QString TreeWidget::handleDBUS(int function, const QStringList& args)
     case DBUS::setColumnCaption:
       setColumnText(args[0].toInt(), args[1]);
       break;
+    case addColumnTree:
+      return QString::number(addColumn(args[0], args[1].toInt()));
+      break;
+    case setSortCol:
+      setSorting(args[0].toInt(), args[1].toInt());
+      break;
+    case colCount:
+      return QString::number(columns());
+      break;
+    case colCaption:
+      return columnText(args[0].toInt()) ;
+      break;
+    case setColWidth:
+      setColumnWidth(args[0].toInt(), args[1].toInt());
+      break;
+    case setAltBackground:
+      K3ListView::setAlternateBackground(QColor(args[0]));
+      break;
+    case DBUS::removeColumn:
+    {
+      if (!args[1].toInt())
+        removeColumn(args[0].toInt());
+      else
+      {
+        int column = args[0].toInt();
+        int lines = args[1].toInt();
+        for (int i = 0; i < lines; i++)
+          removeColumn(column);
+      }
+      break;
+    }  
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

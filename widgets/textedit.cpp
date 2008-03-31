@@ -25,6 +25,14 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "textedit.h"
+#include <klocale.h>
+#include <kommanderplugin.h>
+
+enum Functions {
+  FirstFunction = 450, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
+  TE_isModified,
+  LastFunction
+};
 
 TextEdit::TextEdit(QWidget * a_parent, const char *a_name):KTextEdit(a_parent),
 KommanderWidget((QObject *) this)
@@ -36,6 +44,9 @@ KommanderWidget((QObject *) this)
   setDisplayStates(states);
 
   connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
+
+  KommanderPlugin::setDefaultGroup(Group::DBUS);
+  KommanderPlugin::registerFunction(TE_isModified, "isModified(QString widget)",  i18n("see if widget has been modified."), 1);
 }
 
 QString TextEdit::currentState() const
@@ -88,6 +99,18 @@ void TextEdit::setTextChanged()
   emit widgetTextChanged(toPlainText());
 }
 
+void TextEdit::focusOutEvent( QFocusEvent * e)
+{
+  QTextEdit::focusOutEvent(e);
+  emit lostFocus();
+}
+
+void TextEdit::focusInEvent( QFocusEvent * e)
+{
+  QTextEdit::focusInEvent(e);
+  emit gotFocus();
+}
+
 void TextEdit::showEvent(QShowEvent * e)
 {
   KTextEdit::showEvent(e);
@@ -103,7 +126,7 @@ void TextEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear || f == DBUS::setEditable || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextEdit::handleDBUS(int function, const QStringList& args)
@@ -120,7 +143,13 @@ QString TextEdit::handleDBUS(int function, const QStringList& args)
       insertPlainText(args[0]);
       break;
     case DBUS::clear:
-      setWidgetText("");
+      setWidgetText(QString());
+      break;
+    case DBUS::setEditable:
+      setReadOnly(args[0] == "false" || args[0] == "0");
+      break;
+    case TE_isModified:
+      return document()->isModified() ? "1" : "0";
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

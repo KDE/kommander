@@ -125,7 +125,7 @@ QString CheckBox::handleDBUS(int function, const QStringList& args)
     case DBUS::checked:
       return QString::number(isChecked());
     case DBUS::setChecked:
-      setChecked(args[0] != "false");
+      setChecked(args[0] != "false" && args[0] != "0");
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

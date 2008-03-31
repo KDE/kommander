@@ -23,9 +23,20 @@
 #include <QTableWidgetItem>
 #include <QContextMenuEvent>
 
+#include <klocale.h>
+
 /* OTHER INCLUDES */
-#include <specials.h>
+#include "kommanderplugin.h"
+#include "specials.h"
 #include "table.h"
+
+enum Functions {
+  FirstFunction = 365,
+  TBL_sortColumnExtra,
+  TBL_keepCellVisible,
+  LastFunction
+};
+
 
 Table::Table(QWidget *a_parent, const char *a_name)
   : QTableWidget(a_parent), KommanderWidget(this)
@@ -35,6 +46,10 @@ Table::Table(QWidget *a_parent, const char *a_name)
   states << "default";
   setStates(states);
   setDisplayStates(states);
+  KommanderPlugin::setDefaultGroup(Group::DBUS);
+  KommanderPlugin::registerFunction(TBL_sortColumnExtra, "sortColumnExtra(QString widget, int col, bool ascending, bool wholeRows)", i18n("Sets a column to sort ascending or descending. Optionally can sort with rows intact for database use. wholeRows is ignored under KDE4."), 2, 4);
+  KommanderPlugin::registerFunction(TBL_keepCellVisible, "keepCellVisible(QString widget, int row, int col)", i18n("Scrolls the table so the cell indicated is visible."), 3);
+
 }
 
 Table::~Table()
@@ -94,7 +109,7 @@ bool Table::isFunctionSupported(int f)
   return f == DBUS::currentColumn || f == DBUS::currentRow || f == DBUS::insertColumn || 
       f == DBUS::insertRow || f == DBUS::cellText || f == DBUS::setCellText || f == DBUS::setCellWidget || f == DBUS::cellWidget ||
       f == DBUS::removeRow || f == DBUS::removeColumn || f == DBUS::setColumnCaption ||
-      f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText || f == DBUS::selection;
+      f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText || f == DBUS::selection || (f >= FirstFunction && f <= LastFunction);
 }
 
 void Table::setCellWidget(int row, int col, const QString & _widgetName)
@@ -121,9 +136,9 @@ QString Table::cellWidget(int row, int col)
   QWidget *widget = QTableWidget::cellWidget(row, col);
   if (widget)  
   {
-    KommanderWidget *w = widgetByName(widget->name());
+    KommanderWidget *w = widgetByName(widget->objectName());
     if (w)
-      return widget->name();
+      return widget->objectName();
   }
   return QString();
 }
@@ -133,7 +148,7 @@ void Table::setCellText(int row, int col, const QString& text)
   QWidget *widget = QTableWidget::cellWidget(row, col);
   if (widget)  
   {
-    KommanderWidget *w = widgetByName(widget->name());
+    KommanderWidget *w = widgetByName(widget->objectName());
     if (w)
       widget->reparent(parentDialog(), QPoint(0,0));
   }  
@@ -250,6 +265,12 @@ QString Table::handleDBUS(int function, const QStringList& args)
     }
     case DBUS::selection:
       return selectedArea();
+      break;
+    case TBL_sortColumnExtra:
+      sortItems(args[0].toInt(), args[1] == "0" ? Qt::AscendingOrder : Qt::DescendingOrder);
+      break;
+    case TBL_keepCellVisible:
+      scrollToItem(item(args[0].toInt(), args[1].toInt()));
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

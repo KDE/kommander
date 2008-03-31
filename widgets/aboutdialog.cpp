@@ -200,6 +200,11 @@ void AboutDialog::setLicense(const QString &key)
   }
   else
   {
+    if (file.isEmpty())
+    {
+      if (!key.isEmpty())
+        file = key;
+    }
     m_aboutData->setLicenseTextFile(file);
   } 
   

@@ -207,6 +207,12 @@ QString ExecButton::handleDBUS(int function, const QStringList& args)
     case DBUS::execute:
       startProcess();
       break;
+    case DBUS::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

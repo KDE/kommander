@@ -55,6 +55,7 @@ public slots:
   virtual void execute(const QString&);
   virtual void execute(int);
   virtual void execute(int, int);
+  virtual void execute(bool);
 signals:
   void widgetOpened();
 

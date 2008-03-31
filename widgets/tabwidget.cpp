@@ -92,7 +92,7 @@ void TabWidget::contextMenuEvent( QContextMenuEvent * e )
 
 bool TabWidget::isFunctionSupported(int f)
 {
-  return f == DBUS::currentItem || f == DBUS::setCurrentItem;
+  return f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::insertTab;
 }
 
 QString TabWidget::handleDBUS(int function, const QStringList& args)
@@ -103,6 +103,8 @@ QString TabWidget::handleDBUS(int function, const QStringList& args)
     case DBUS::setCurrentItem:
       setCurrentIndex(args[0].toInt());
       break;
+    case DBUS::insertTab:
+      insertTab(0L, args[0], args[1].toUInt());
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

@@ -108,9 +108,12 @@ QString ButtonGroup::handleDBUS(int function, const QStringList& args)
     case DBUS::text:
     {
       QString text;
-// FIXME count()      for (int i = 0; i < count(); i++)
-//         if (dynamic_cast<KommanderWidget*>(find(i)))
-//           text += (dynamic_cast<KommanderWidget*>(find(i)))->evalAssociatedText();
+      QList<QObject *> children = findChildren<QObject *>();
+      foreach (QObject *child, children) 
+      {
+        if (dynamic_cast<KommanderWidget*>(child))
+          text += (dynamic_cast<KommanderWidget*>(child))->evalAssociatedText();
+      }
       return text;
     }
     case DBUS::checked:
