@@ -179,6 +179,7 @@ static ParseNode f_echo(Parser*, const ParameterList& params)
 {
   for (int i=0; i<params.count(); i++)
     std::cout << params[i].toString().toUtf8().data();
+  fflush(stdout);
   return ParseNode();
 }
 
