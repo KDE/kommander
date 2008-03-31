@@ -30,7 +30,7 @@ SpecialFunction::SpecialFunction(const QString& name, const QString& description
   {
     QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
     QStringList args = part.split(',');
-    for (int i=0; i < args.count(); i++)
+    for (int i = 0; i < args.count(); i++)
     {
       m_types.append(args[i].trimmed().section(' ', 0, 0));
       m_args.append(args[i].trimmed().section(' ', 1, 1));
@@ -52,7 +52,7 @@ SpecialFunction::SpecialFunction(ParserType p, const QString& name, const QStrin
   {
     QString part = name.mid(lbracket+1, rbracket - lbracket - 1);
     QStringList args =  part.split(",");
-    for (int i=0; i < args.count(); i++)
+    for (int i = 0; i < args.count(); i++)
     {
       m_types.append(args[i].trimmed().section(' ', 0, 0));
       m_args.append(args[i].trimmed().section(' ', 1, 1));
