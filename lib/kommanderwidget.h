@@ -44,14 +44,14 @@ public:
   virtual QString currentState() const = 0;
 
   virtual bool isKommanderWidget() const = 0;
-  
+
   // Associated script
   virtual void setAssociatedText(const QStringList& a_associations);
   virtual QStringList associatedText() const;
   virtual bool hasAssociatedText();
-  
+
   // Execute default script, expanding all @macros.
-    virtual QString evalAssociatedText();
+  virtual QString evalAssociatedText();
   // Execute given script, expanding all @macros.
   virtual QString evalAssociatedText(const QString&);
   // Evaluate given Kommander function using given args.
@@ -70,8 +70,6 @@ public:
   virtual QString evalSwitchBlock(const QStringList&, const QString& s, int& pos);
   // Parse and evaluate given if..endif block.
   virtual QString evalIfBlock(const QStringList&, const QString& s, int& pos);
-  
-  
   // Population text. It will become widgetText after populate() is called
   virtual QString populationText() const;
   virtual void setPopulationText(const QString&);
@@ -95,13 +93,14 @@ public:
   virtual bool isWidget(const QString& a_name) const;
   // Returns widget from name 
   virtual KommanderWidget* widgetByName(const QString& a_name) const;
-  // Returns filename associated with the dialog
-  virtual QString fileName();
   // Returns current widget name;
   virtual QString widgetName() const;
+  // Returns filename associated with the dialog
+  virtual QString fileName();
+
   QObject* object() { return m_thisObject;}
 
-  
+
   // Recognizes editor vs executor mode
   static bool inEditor;
   // Prints errors in message boxes, not in stderr
@@ -109,10 +108,9 @@ public:
   // Default parser
   static bool useInternalParser;
   // Return global variable value
-  static QString global(const QString& variableName);
+  QString global(const QString& variableName);
   // Set global variable value
-  static void setGlobal(const QString& variableName, const QString& value);
-  // Return parent dialog of this widget
+  void setGlobal(const QString& variableName, const QString& value);
   QWidget* parentDialog() const;
 
 protected:
@@ -139,32 +137,28 @@ protected:
   // Return identifier: the longest string of letters and numbers starting from i
   QString parseIdentifier(const QString& s, int& from) const;
   // Parse arguments for given function. Returns list of arguments without quotations
-  QStringList parseArgs(const QString& s, bool &ok );
+  QStringList parseArgs(const QString& s, bool &ok);
   // Remove quotes from given identifier
   QString parseQuotes(const QString& s) const;
   // Parse function
-  QStringList parseFunction(const QString group, const QString& function,
+  QStringList parseFunction(const QString& group, const QString& function,
     const QString& s, int& from, bool& ok);
   // Detect and return block boundary
   int parseBlockBoundary(const QString& s, int from, const QStringList& args) const;
-  int parseBlockBoundary(const QString& s, int from, const QString& arg) const;
-    
+
   // Parse given identifier as widget name
   KommanderWidget* parseWidget(const QString& name) const;
+  // Return parent dialog of this widget
   QString substituteVariable(QString text, QString variable, QString value) const;
-   
-  ParserData* internalParserData();
-      
+
+  ParserData* internalParserData() const;
+
   QObject *m_thisObject;
   QStringList m_states;
   QStringList m_displayStates;
   QStringList m_associatedText;
   QString m_populationText;
-  
-  // Global variables 
-  static QMap<QString, QString> m_globals;
-  // Global arrays 
-  static QMap<QString, QMap<QString, QString> > m_arrays;
+
   // Internal parser data
   static ParserData* m_parserData;
 };

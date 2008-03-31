@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h> 
- 
+#include <klocale.h>
+
 #include "parser.h"
 #include "parserdata.h"
 #include "kommanderwidget.h"
@@ -38,7 +38,7 @@ Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(
   setString(expr);
 }
 
-void Parser::setString(const QString& s)
+bool Parser::setString(const QString& s)
 {
   reset();
   m_parts.clear();
@@ -113,15 +113,17 @@ void Parser::setString(const QString& s)
     }
     else                          // Bad character
     {
-      setError(i18n("Invalid character: '%1'", s[start]), m_parts.count());
-      return;
+      insertNode(s.mid(start, 1), lines);
+      setError(i18n("Invalid character: '%1'").arg(s[start]), m_parts.count()-1);
+      return false;
     }
   }
+  return true;
 }
 
 void Parser::setWidget(KommanderWidget* w)
 {
-  m_widget = w;  
+  m_widget = w;
 }
 
 void Parser::insertNode(ParseNode p, int line)
@@ -129,9 +131,8 @@ void Parser::insertNode(ParseNode p, int line)
   p.setContext(line);
   m_parts.append(p);
 }
-  
 
-QString Parser::errorMessage()
+QString Parser::errorMessage() const
 {
   return m_error;
 }
@@ -145,7 +146,6 @@ QString Parser::function(ParserData* data, const QString& name, const QStringLis
   return f.execute(0, par).toString();
 }
 
-  
 QString Parser::expression(Mode mode)
 {
   reset();
@@ -182,7 +182,18 @@ int Parser::errorLine() const
     return m_parts[m_errorPosition].context();
   else 
     return -1;
-  
+}
+
+ParseNode Parser::parseConstant(Parse::Mode)
+{
+  ParseNode p = next();
+  m_start++;
+  if (!p.isValue())
+  {
+    setError(i18n("Constant value expected"));
+    return ParseNode();
+    }
+  return p;
 }
 
 ParseNode Parser::parseValue(Mode mode)
@@ -199,20 +210,31 @@ ParseNode Parser::parseValue(Mode mode)
       QString index = parseValue(mode).toString();
       tryKeyword(RightBracket);
       QString arr = p.variableName();
-      if (isArray(arr) && array(arr).contains(index)) 
-        return array(arr)[index];
-      //FIXME QString() return null;
-      return ParseNode();
+      return arrayValue(arr, index);
     }
     else if (tryKeyword(Dot, CheckOnly))
     {
-      setError(i18n("'%1' is not a widget", p.variableName()));
-      return ParseNode();
+      QString value = variable(p.variableName()).toString();
+      if (m_widget && m_widget->isWidget(value))
+      {
+        m_start--;
+        return parseWidget(mode, value);
+      }else if (mode == Execute)
+      {
+        setError(i18n("'%1' (%2) is not a widget").arg(p.variableName()).arg(variable(p.variableName()).toString()));
+        return ParseNode();
+      } else
+      {
+        //this means it looks like a widget, but it is unknown. As we only check
+        //the syntax, we should ignore the error an parse as a widget. 
+        m_start = m_start - 2;
+        return parseWidget(mode); 
+      }
     }
     else if (tryKeyword(LeftParenthesis, CheckOnly))
     {
-      setError(i18n("'%1' is not a function", p.variableName()));
-      return ParseNode();
+       setError(i18n("'%1' is not a function").arg(p.variableName()));
+       return ParseNode();
     }
     else
       p = variable(p.variableName());
@@ -237,18 +259,31 @@ ParseNode Parser::parseMultiply(Mode mode)
     m_start++;
     ParseNode p2 = parseParenthesis(mode);
     ValueType type = p.commonType(p2);
-    if (k == Multiply)
-      if (type == ValueDouble)
-        p = p.toDouble() * p2.toDouble();
-      else
-        p = p.toInt() * p2.toInt();
-    else if (k == Divide)
-      if (type == ValueDouble)
-        p = p.toDouble() / p2.toDouble();
-      else
-        p = p.toInt() / p2.toInt();
-    else  /* k == Mod */
-      p = p.toInt() % p2.toInt();
+    if (mode == Execute)
+    {
+      if (k == Multiply)
+        if (type == ValueInt)
+          p = p.toInt() * p2.toInt();
+        else
+          p = p.toDouble() * p2.toDouble();
+      else if (k == Divide)
+      {
+        if (p2.toDouble() == 0.0)
+          setError(i18n("Divide by zero"));
+        else 
+        if (type == ValueInt)
+          p = p.toInt() / p2.toInt();
+        else
+          p = p.toDouble() / p2.toDouble();
+      }
+      else  /* k == Mod */
+      {
+        if (p2.toInt() == 0)
+          setError(i18n("Divide by zero"));
+        else
+          p = p.toInt() -  p.toInt() / p2.toInt() * p2.toInt();
+      }
+    }
   }
   return p;
 }
@@ -262,18 +297,21 @@ ParseNode Parser::parseAdd(Mode mode)
     m_start++;
     ParseNode p2 = parseMultiply(mode);
     ValueType type = p.commonType(p2);
-    if (k == Plus)
-      if (type == ValueString)
-        p = QString(p.toString() + p2.toString());
-      else if (type == ValueDouble)
-        p = p.toDouble() + p2.toDouble();
-      else
-        p = p.toInt() + p2.toInt();
-    else  /* k == Minus */
-      if (type == ValueDouble)
-        p = p.toDouble() - p2.toDouble();
-      else
-        p = p.toInt() - p2.toInt();
+    if (mode == Execute)
+    {
+      if (k == Plus)
+        if (type == ValueString)
+          p = QString(p.toString() + p2.toString());
+        else if (type == ValueDouble)
+          p = p.toDouble() + p2.toDouble();
+        else
+          p = p.toInt() + p2.toInt();
+      else  /* k == Minus */
+        if (type == ValueDouble)
+          p = p.toDouble() - p2.toDouble();
+        else
+          p = p.toInt() - p2.toInt();
+    }
   }
   return p;
 }
@@ -345,7 +383,7 @@ ParseNode Parser::parseAnd(Mode mode)
       p = parseNot(mode);
   }
   return p;
-}    
+}
 
 ParseNode Parser::parseOr(Mode mode)
 {
@@ -364,7 +402,7 @@ ParseNode Parser::parseCondition(Mode mode)
 {
   return parseOr(mode);
 }
-  
+
 ParseNode Parser::parseExpression(Mode mode)
 {
   return parseOr(mode);
@@ -386,15 +424,15 @@ ParseNode Parser::parseFunction(Mode mode)
     tryKeyword(RightParenthesis);
   }
   if (f.minArgs() > params.count())
-    setError(i18n("in function '%1': %2", name, i18n("too few parameters")), pos);
+    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too few parameters")), pos);
   else if (f.maxArgs() < params.count())
-    setError(i18n("in function '%1': %2", name, i18n("too many parameters")), pos);
+    setError(i18n("in function '%1': %2").arg(name).arg(i18n("too many parameters")), pos);
   else if (mode == Execute)
   {
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in function '%1': %2", name, p.errorMessage()), pos);
+      setError(i18n("in function '%1': %2").arg(name).arg(p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -403,12 +441,16 @@ ParseNode Parser::parseFunction(Mode mode)
   return ParseNode();
 }
 
-ParseNode Parser::parseWidget(Mode mode)
+ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
 {
   int pos = m_start;
-  QString widget = nextVariable();
-  Function f = m_data->function("dcop");
-  
+  QString widget;
+  if (widgetName.isNull())
+   widget = nextVariable(mode);
+  else
+   widget = widgetName; 
+  Function f = m_data->function("internalDcop");
+
   if (!tryKeyword(Dot))
     return ParseNode();
   QString var = nextVariable();
@@ -417,7 +459,7 @@ ParseNode Parser::parseWidget(Mode mode)
   ParameterList params;
   params.append(var);
   params.append(widget);
-  
+
   if (tryKeyword(LeftParenthesis, CheckOnly) && !tryKeyword(RightParenthesis, CheckOnly))
   {
     do {
@@ -430,7 +472,7 @@ ParseNode Parser::parseWidget(Mode mode)
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in widget function '%1.%2': %3", widget, var, p.errorMessage()), pos);
+      setError(i18n("in widget function '%1.%2': %3").arg(widget).arg(var).arg(p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -440,7 +482,7 @@ ParseNode Parser::parseWidget(Mode mode)
 }
 
 
-void Parser::parseAssignment(Mode mode)
+ParseNode Parser::parseAssignment(Mode mode)
 {
   QString var = nextVariable();
   if (tryKeyword(LeftBracket, CheckOnly))
@@ -449,7 +491,8 @@ void Parser::parseAssignment(Mode mode)
     tryKeyword(RightBracket);
     tryKeyword(Assign);
     ParseNode p = parseExpression(mode);
-    setArray(var, index, p);
+    if (mode == Execute)
+      setArray(var, index, p);
   }
   else if (tryKeyword(Assign, CheckOnly))
   {
@@ -458,11 +501,28 @@ void Parser::parseAssignment(Mode mode)
       setVariable(var, p);
   }
   else if (tryKeyword(Dot, CheckOnly))
-    setError(i18n("'%1' is not a widget", var));
+  {
+    QString value = variable(var).toString();
+    if (m_widget && m_widget->isWidget(value))
+    {
+      m_start--;
+      return parseWidget(mode, value);
+    } else
+    if (mode == CheckOnly)
+    {
+      //this means it looks like a widget, but it is unknown. As we only check
+      //the syntax, we should ignore the error an parse as a widget. 
+      m_start = m_start - 2;
+      return parseWidget(mode); 
+    } else
+      setError(i18n("'%1' is not a widget").arg(var));
+  }
   else if (tryKeyword(LeftParenthesis, CheckOnly))
-    setError(i18n("'%1' is not a function", var));
+    setError(i18n("'%1' is not a function").arg(var));
   else 
-    setError(i18n("Unexpected symbol after variable '%1'", var));
+    setError(i18n("Unexpected symbol after variable '%1'").arg(var));
+
+  return ParseNode();
 }
 
 Flow Parser::parseIf(Mode mode)
@@ -472,11 +532,16 @@ Flow Parser::parseIf(Mode mode)
   bool matched = false;
   do {
     m_start++;
-    p = parseCondition(mode);
+    Mode m = matched ? CheckOnly : mode;
+    p = parseCondition(m);
     tryKeyword(Then);
     bool condition = !matched && p.toBool();
     if (condition)
+    {
       flow = parseBlock(mode);
+      if (flow == FlowExit)
+        return flow;
+    }
     else 
       parseBlock(CheckOnly);
     matched = matched || p.toBool();
@@ -492,12 +557,12 @@ Flow Parser::parseIf(Mode mode)
   return flow;
 }
 
-void Parser::parseWhile(Mode mode)
+Parse::Flow Parser::parseWhile(Mode mode)
 {
-  next();
   m_start++;
   int start = m_start;
   bool running = true;
+  Parse::Flow flow = FlowStandard;
   while (running)
   {
     m_start = start;
@@ -505,15 +570,21 @@ void Parser::parseWhile(Mode mode)
     if (!tryKeyword(Do))
       break;
     running = p.toBool();
-    if (parseBlock(running ? mode : CheckOnly) == FlowBreak)
+    flow = parseBlock(running ? mode : CheckOnly);
+    if ( flow == FlowBreak || flow == FlowExit)
       break;
   }
-  tryKeyword(End);
+  if (flow != FlowExit)
+  {
+    tryKeyword(End);
+    return FlowStandard;
+  }
+  else 
+    return FlowExit;
 }
 
-void Parser::parseFor(Mode mode)
+Parse::Flow Parser::parseFor(Mode mode)
 {
-  next();
   m_start++;
   QString var = nextVariable();
   tryKeyword(Assign);
@@ -525,39 +596,77 @@ void Parser::parseFor(Mode mode)
     step = parseExpression(mode).toInt();
   tryKeyword(Do);
   int block = m_start;
-  for (int i = start; i <= end; i+=step)
+  Parse::Flow flow = FlowStandard;
+  if (end >= start)
   {
-    m_start = block;
-    setVariable(var, ParseNode(i));
-    if (parseBlock(mode) == FlowBreak)
-      break;
+    for (int i = start; i <= end; i+=step)
+    {
+      m_start = block;
+      setVariable(var, ParseNode(i));
+      flow = parseBlock(mode);
+      if (flow == FlowBreak || flow == FlowExit)
+        break;
+    }
+  } else
+    parseBlock(Parse::CheckOnly);
+  if (flow != FlowExit)
+  {
+    tryKeyword(End);
+    return FlowStandard;
   }
-  tryKeyword(End);
+  else 
+    return FlowExit;
 }
-  
-void Parser::parseForeach(Mode mode)
+
+Parse::Flow Parser::parseForeach(Mode mode)
 {
-  next();
   m_start++;
   QString var = nextVariable();
   tryKeyword(In);
   QString arr = nextVariable();
   tryKeyword(Do);
   int start = m_start;
+  Parse::Flow flow = FlowStandard;
   if (isArray(arr) && array(arr).count())
   {
     const QMap<QString, ParseNode> A = array(arr);
-    for (QMap<QString, ParseNode>::const_iterator It = A.constBegin(); It != A.constEnd(); ++It)
+    for (QMap<QString, ParseNode>::ConstIterator It = A.begin(); It != A.end(); ++It)
     {
       m_start = start;
       setVariable(var, It.key());
-      Flow flow = parseBlock(mode);
-      if (flow == FlowBreak)
+      flow = parseBlock(mode);
+      if (flow == FlowBreak || flow == FlowExit)
         break;
     }
   }
   else 
     parseBlock(CheckOnly);
+  if (flow != FlowExit)
+  {
+    tryKeyword(End);
+    return FlowStandard;
+  }
+  else 
+    return FlowExit;
+}
+
+void Parser::parseSwitch(Mode mode)
+{
+  m_start++;
+  QString var = nextVariable();
+  ParseNode caseValue = variable(var);
+  bool executed = false;
+  tryKeyword(Semicolon, CheckOnly);
+  while (tryKeyword(Case, CheckOnly))
+  {
+    ParseNode p = parseConstant();
+    bool matched = mode == Execute && p == caseValue;
+    parseBlock(matched ? Execute : CheckOnly);
+    if (matched)
+      executed = true;
+  }
+  if (tryKeyword(Else, CheckOnly))
+    parseBlock(executed ? CheckOnly : mode);
   tryKeyword(End);
 }
 
@@ -567,43 +676,46 @@ Flow Parser::parseCommand(Mode mode)
   if (next().isKeyword(If))
     return parseIf(mode);
   else if (next().isKeyword(While))
-    parseWhile(mode);
+    return parseWhile(mode);
   else if (next().isKeyword(For))
-    parseFor(mode);
+    return parseFor(mode);
   else if (next().isKeyword(Foreach))
-    parseForeach(mode);
+    return parseForeach(mode);
+  else if (next().isKeyword(Switch))
+    parseSwitch(mode);
   else if (tryKeyword(Continue, CheckOnly))
     return FlowContinue;
   else if (tryKeyword(Break, CheckOnly))
-    return FlowBreak;
+    return FlowBreak;  
   else if (isFunction())
+  {
+    QString name = next().variableName();    
     parseFunction(mode);
+    if (name == "return" && mode == Execute)
+      return FlowExit;
+  }
   else if (isWidget())
     parseWidget(mode);
-  else if (next().isVariable()) 
+  else if (next().isVariable())
     parseAssignment(mode);
   else if (tryKeyword(Exit, CheckOnly))
   {
-    if (mode == Execute)
-      setError("Exit");
-#ifdef __GNUC__
-#warning FIXME!    
-#endif
-    return FlowBreak;
-  }
+     if (mode == Execute)
+       return FlowExit;
+  } 
   return FlowStandard;
 }
-  
+
 Flow Parser::parseBlock(Mode mode)
 {
   Flow flow = parseCommand(mode);
-  while (tryKeyword(Semicolon, CheckOnly))
+  while (tryKeyword(Semicolon, CheckOnly) && flow != FlowExit)
   {
     if (flow == FlowStandard)
       flow = parseCommand(mode);
     else
       parseCommand(CheckOnly);
-  }    
+  }
   return flow;
 }
 
@@ -625,7 +737,12 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
     return true;
   }
   if (mode == Execute)
-    setError(i18n("Expected '%1'", m_data->keywordToString(k)));
+  {
+    if (k == Dot)
+      setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget").arg(m_data->keywordToString(k)));
+    else
+     setError(i18n("Expected '%1'").arg(m_data->keywordToString(k)));
+  }
   return false;
 }
 
@@ -642,7 +759,7 @@ bool Parser::tryVariable(Mode mode)
   return false;
 }
 
-QString Parser::nextVariable()
+QString Parser::nextVariable(Mode mode)
 {
   if (next().isVariable())
   {
@@ -650,7 +767,7 @@ QString Parser::nextVariable()
     m_start++;
     return name;
   }
-  else 
+  else if (mode == Execute)
     setError(i18n("Expected variable"));
   return QString();
 }
@@ -684,7 +801,7 @@ void Parser::setError(const QString& msg, int pos)
   {
     m_errorPosition = pos;
     m_error = msg;
-  } 
+  }
 }
 
 void Parser::setVariable(const QString& name, ParseNode value)
@@ -721,7 +838,7 @@ void Parser::unsetVariable(const QString& key)
     m_variables.remove(key);
 }
 
-const QMap<QString, ParseNode>& Parser::array(const QString& name)
+const QMap<QString, ParseNode>& Parser::array(const QString& name) 
 {
   if (isGlobal(name))
     return m_globalArrays[name];
@@ -771,11 +888,13 @@ ParseNode Parser::arrayValue(const QString& name, const QString& key) const
 }
 
 
+
 KommanderWidget* Parser::currentWidget() const
 {
-  return m_widget;  
+  return m_widget;
 }
-  
+
 QMap<QString, ParseNode> Parser::m_globalVariables;
 QMap<QString, QMap<QString, ParseNode> > Parser::m_globalArrays;
+
 

@@ -31,10 +31,10 @@ public:
   Parser(ParserData* data);
   Parser(ParserData* data, const QString& expr);
   // set string to parse
-  void setString(const QString& s);
+  bool setString(const QString& s);
   // set Kommander widget associated with parser
   void setWidget(KommanderWidget* w);
-  
+
   // parse generic expression
   QString expression(Parse::Mode mode = Parse::Execute);
   // execute single command; return true if ok
@@ -46,10 +46,10 @@ public:
   // return line of errorneous node
   int errorLine() const;
   // return error message
-  QString errorMessage();
-  
+  QString errorMessage() const;
+
   // check if this is a name of standard variable
-  bool isVariable(const QString& name);
+  bool isVariable(const QString& name) const;
   // set variable value
   void setVariable(const QString& name, ParseNode value);
   // unset variable
@@ -65,13 +65,15 @@ public:
   // unset array key or whole array
   void unsetArray(const QString& name, const QString& key = QString());
   // array value 
-  ParseNode arrayValue(const QString& name, const QString& key) const;    
+  ParseNode arrayValue(const QString& name, const QString& key) const;
   // get associated widget
   KommanderWidget* currentWidget() const;
 
 private:
   // parsing function - top-down approach
-  
+
+  // parse const
+  ParseNode parseConstant(Parse::Mode mode = Parse::Execute);
   // parse value (literal or variable)
   ParseNode parseValue(Parse::Mode mode = Parse::Execute);
   // parse multiplication, division and mod (x*y, x/y, x%y)
@@ -87,7 +89,7 @@ private:
   // parse string concatenation (x+y)
   ParseNode parseConcatenation(Parse::Mode mode = Parse::Execute);
   */
-    
+
   // parse comparisons (x==y, x<y, x>y, x!=y, x<>y, x<=y, x>=y
   ParseNode parseComparison(Parse::Mode mode = Parse::Execute);
   // parse boolean not (!x, not x)
@@ -98,7 +100,7 @@ private:
   ParseNode parseOr(Parse::Mode mode = Parse::Execute);
   // parse generic condition
   ParseNode parseCondition(Parse::Mode mode = Parse::Execute);
-  
+
   // parse (x) expression
   ParseNode parseParenthesis(Parse::Mode mode = Parse::Execute);
   // parse generic expression
@@ -106,23 +108,25 @@ private:
   // parse parameters
   ParseNode parseFunction(Parse::Mode mode = Parse::Execute);
   // parse widget function
-  ParseNode parseWidget(Parse::Mode mode = Parse::Execute);
-  
+  ParseNode parseWidget(Parse::Mode mode = Parse::Execute, const QString &widgetName = QString::null);
+
   // parse assignment
-  void parseAssignment(Parse::Mode mode = Parse::Execute);
+  ParseNode parseAssignment(Parse::Mode mode = Parse::Execute);
   // parse conditional
   Parse::Flow parseIf(Parse::Mode mode = Parse::Execute);
   // parse assignment
   Parse::Flow parseCommand(Parse::Mode mode = Parse::Execute);
   // parse while loop
-  void parseWhile(Parse::Mode mode = Parse::Execute);
+  Parse::Flow parseWhile(Parse::Mode mode = Parse::Execute);
   // parse for loop
-  void parseFor(Parse::Mode mode = Parse::Execute);
+  Parse::Flow parseFor(Parse::Mode mode = Parse::Execute);
   // parse foreach loop
-  void parseForeach(Parse::Mode mode = Parse::Execute);
+  Parse::Flow parseForeach(Parse::Mode mode = Parse::Execute);
+  // parse switch block
+  void parseSwitch(Parse::Mode mode = Parse::Execute);
   // parse whole block
   Parse::Flow parseBlock(Parse::Mode mode = Parse::Execute);
-  
+
   // insert next node
   void insertNode(ParseNode p, int line);
   // next item to be parsed
@@ -131,18 +135,16 @@ private:
   bool tryKeyword(Parse::Keyword k, Parse::Mode mode = Parse::Execute);
   // check if next item is a variable, if so, return its name
   bool tryVariable(Parse::Mode mode = Parse::Execute);
-    
+
   // get the name of the next node treated as variable
-  QString nextVariable();
-  // check whether name is a valid variable is global
-  bool isVariable(const QString& name) const;
-  // check whether variable/array name is global (preceeded with _)
+  QString nextVariable(Parse::Mode mode = Parse::Execute);
+  // check whether variable/array name is global (preceded with _)
   bool isGlobal(const QString& name) const;
   // check if next item is a function
   bool isFunction() const;
   // check if next item is a widget
   bool isWidget() const;
-   
+
   // reset to default state
   void reset();
   // set error state if no error was set before; err is expected symbol that wasn't found
@@ -150,7 +152,7 @@ private:
   void setError(const QString& msg, int pos);
   // check whether parsing was successful
   bool isError() const;
-  
+
   // parsing data
   ParserData* m_data;
   // current parsing position

@@ -34,11 +34,11 @@ public:
   /* register a function */
   bool registerFunction(const QString& name, Function f);
   /* check if this is a name of standard function */
-  bool isFunction(const QString& name);
+  bool isFunction(const QString& name) const;
   /* Return function with given name. Warning: this function has undefined behavior when there is
     no such function. */
   const Function& function(const QString& name);
-private:  
+private:
   // register standard function
   void registerStandardFunctions();
   QMap<QString, Parse::Keyword> m_keywords;

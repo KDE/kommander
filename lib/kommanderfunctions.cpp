@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream>
 #include <stdlib.h> 
 #include <sys/types.h>
 #include <unistd.h>
@@ -25,6 +26,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kconfiggroup.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <kglobal.h>
 
@@ -32,6 +34,7 @@
 #include "specials.h"
 #include "specialinformation.h"
 #include "expression.h"
+#include "parser.h"
  
 QString KommanderWidget::evalFunction(const QString& function, const QStringList& args)
 { 
@@ -65,8 +68,14 @@ QString KommanderWidget::evalFunction(const QString& function, const QStringList
       setGlobal(args[0], args[1]); 
       return QString();
     case Kommander::debug:
-      qDebug("%s", args[0].toLatin1().data());
-      return QString();
+      kDebug() << args[0].toLatin1();
+      fflush(stderr);
+      return QString::null;
+    case Kommander::echo:
+      for (int i = 0; i < args.count(); i++)
+         std::cout << args[i].toUtf8().data();
+      fflush(stdout);
+      return QString::null;
     case Kommander::readSetting:
     {
       QString fname = fileName();
@@ -163,7 +172,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
     pos = f + QString("@end").length()+1;
     QString block = s.mid(start, f - start);
     QString variable = args[0];
-    
+
     Expression expr;
     int loopstart = expr.value(args[1]).toInt();
     int loopend = expr.value(args[2]).toInt();
@@ -174,7 +183,7 @@ QString KommanderWidget::evalForBlock(const QStringList& args, const QString& s,
       if (!loopstep)
         loopstep = 1;
     }
-    
+
     QString output;
     for (int i=loopstart; i<=loopend; i+=loopstep)
     {
@@ -219,12 +228,12 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
     QString block = s.mid(pos, f - pos);
     pos = f + QString("@end").length()+1;
     //FIXME: parseBlockBoundary
-    f = parseBlockBoundary(block, 0, "@case");
+    f = parseBlockBoundary(block, 0, QStringList("@case"));
     bool finished = f == -1;
     while (!finished)
     {
       f += 5;
-      int end = parseBlockBoundary(block, f, "@case");
+      int end = parseBlockBoundary(block, f, QStringList("@case"));
       if (end == -1) 
       {
         end = block.length();
@@ -243,50 +252,63 @@ QString KommanderWidget::evalSwitchBlock(const QStringList& args, const QString&
 }
 
 
-  
 
 QString KommanderWidget::evalArrayFunction(const QString& function, const QStringList& args) const
 {
+  Parser parser(internalParserData());
   int fname = SpecialInformation::function(Group::Array, function);
+  QString array = args[0].startsWith("_") ? args[0] : QString("_")+ args[0];
+
   if (fname == Array::setValue)
-    m_arrays[args[0]][args[1]] = args[2];
+    parser.setArray(array, args[1], args[2]);
   else if (fname == Array::fromString)
   {
     QStringList lines = args[1].split('\n');
     for (int i=0; i<lines.count(); i++)
     {
-        QString key = lines[i].section('\t', 0, 0).trimmed();
-        if (!key.isEmpty())
-          m_arrays[args[0]][key] = lines[i].section('\t', 1);
+      QString key = lines[i].section('\t', 0, 0).trimmed();
+      if (!key.isEmpty())
+        parser.setArray(array, key, lines[i].section('\t', 1));
     }
   }
-  else if (!m_arrays.contains(args[0]))
+  else if (!parser.isArray(array))
     return QString();
   else switch (fname) {
     case Array::value:
-      return m_arrays[args[0]].contains(args[1]) ? m_arrays[args[0]][args[1]] : QString();
+      return parser.arrayValue(array, args[1]).toString();
     case Array::keys:
-      return QStringList(m_arrays[args[0]].keys()).join("\n");
+    {
+      const QMap<QString, ParseNode> map = parser.array(array);
+      QStringList keys;
+      for (QMap<QString, ParseNode>::ConstIterator it = map.begin(); it != map.end(); ++it)
+        keys.append(it.key());
+      return keys.join("\n");
+    }
     case Array::values:
-      return QStringList(m_arrays[args[0]].values()).join("\n");
+    {
+      const QMap<QString, ParseNode> map = parser.array(array);
+      QStringList values;
+      for (QMap<QString, ParseNode>::ConstIterator it = map.begin(); it != map.end(); ++it)
+        values.append(it.value().toString());
+      return values.join("\n");
+    }
     case Array::clear:
-      m_arrays[args[0]].clear();
+      parser.unsetArray(array);
       return QString();
     case Array::remove:
-      m_arrays[args[0]].remove(args[1]);
+      parser.unsetArray(array, args[1]);
       return QString();
     case Array::count:
-      return QString::number(m_arrays[args[0]].count());
+      return QString::number(parser.array(array).count());
     case Array::toString:
     {
-      QStringList keys = m_arrays[args[0]].keys();
-      QStringList values = m_arrays[args[0]].values();
-      QString array;
-      for (int i=0; i<keys.count(); i++)
-          array += QString("%1\t%2\n").arg(keys[i]).arg(values[i]);
-      return array;
+      const QMap<QString, ParseNode> map = parser.array(array);
+      QString arraystring;
+      for (QMap<QString, ParseNode>::ConstIterator it = map.begin(); it != map.end(); ++it)
+        arraystring += QString("%1\t%2\n").arg(it.key()).arg(it.value().toString());
+      return arraystring;
     }
-    default: 
+    default:
       return QString();
   }
   return QString();
@@ -298,7 +320,7 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
   KommanderWidget* pWidget = parseWidget(identifier);
   if (!pWidget) 
   {
-    printError(i18n("Unknown widget: @%1.", identifier));
+    printError(i18n("Unknown widget: @%1.").arg(identifier));
     return QString();
   }
   if (s[pos] == '.')

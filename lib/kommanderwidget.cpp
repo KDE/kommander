@@ -144,9 +144,11 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
   }
   
   /* Old macro-only parser is implemented below  */
-  
+
+  bool parserType = KommanderWidget::useInternalParser;
+  KommanderWidget::useInternalParser = false; //shebang is used, switch to old parser
+
   QString evalText;
-  
   int pos = 0, baseTextLength = a_text.length();
   while (pos < baseTextLength)
   {
@@ -157,7 +159,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     }
     evalText += a_text.mid(pos, ident - pos);
     pos = ident+1;
-    
+
     /* escaped @ */
     if (pos < baseTextLength-1 && a_text[pos] == ESCCHAR)
     {
@@ -165,7 +167,7 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
       pos++;
       continue;
     }
-    
+
     QString identifier = parseIdentifier(a_text, pos);
     /* comment */
     if (identifier.isEmpty()) 
@@ -187,8 +189,16 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     QStringList args;
     
     /* Standard, non-prefixed special */
-    if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
-    {    
+    if (identifier == "if") // if required special handling as it takes expression
+    {
+      QString arg = parseBrackets(a_text, pos, ok);
+      if (!ok)
+        return QString();
+      args.append(evalAssociatedText(arg));
+      evalText += evalIfBlock(args, a_text, pos);
+    }
+    else if (SpecialInformation::function(Group::Kommander, identifier) != -1) 
+    {
       args = parseFunction("Kommander", identifier, a_text, pos, ok);
       if (!ok)
         return QString();
@@ -239,19 +249,23 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
     }
     else
     {
-      printError(i18n("Unknown special: \'%1\'.", identifier));
+      printError(i18n("Unknown special: \'%1\'.").arg(identifier));
       return QString();
     }
   }
-          
+
+  KommanderWidget::useInternalParser = parserType;
   return evalText;
 }
 
-// FIX ME DCOP to dbus
+//FIXME: DCOP to dbus
 QString KommanderWidget::DBUSQuery(const QStringList& a_query)
 {
-  return QString();
-  QString appId = a_query[0].toLatin1(), object = a_query[1].toLatin1();
+    return QString();
+#if 0
+  QString app =  a_query[0];
+  app.remove("\"");
+  QCString appId = app.latin1(), object = a_query[1].latin1();
   
   // parse function arguments
   QString function = a_query[2], pTypes;
@@ -260,6 +274,11 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
   bool ok = false;
   if (start != -1)
     pTypes = parseBrackets(function, start, ok);
+  else
+  {
+    ok = true;
+    function += "()";
+  }
   if (!ok)
   {
     printError(i18n("Unmatched parenthesis in D-Bus call \'%1\'.", a_query[2]));
@@ -271,7 +290,7 @@ QString KommanderWidget::DBUSQuery(const QStringList& a_query)
     printError(i18n("Incorrect arguments in D-Bus call \'%1\'.", a_query[2]));
     return QString();
   }
-  
+#endif                 
   /*Q3CString replyType;
   QByteArray byteData, byteReply;
   QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
@@ -539,7 +558,7 @@ QString KommanderWidget::parseQuotes(const QString& s) const
 
 bool KommanderWidget::isWidget(const QString& a_name) const
 {
-  return parseWidget(a_name);  
+  return parseWidget(a_name);
 }
 
 KommanderWidget* KommanderWidget::widgetByName(const QString& a_name) const
@@ -556,7 +575,7 @@ KommanderWidget* KommanderWidget::parseWidget(const QString& widgetName) const
   return dynamic_cast <KommanderWidget*>(childObj);
 }
 
-QStringList KommanderWidget::parseFunction(const QString group, const QString& function, 
+QStringList KommanderWidget::parseFunction(const QString& group, const QString& function, 
     const QString& s, int& from, bool& ok)
 {
   ok = true;
@@ -564,7 +583,7 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   QString arg = parseBrackets(s, from, ok);
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis after \'%1\'.", function));
+    printError(i18n("Unmatched parenthesis after \'%1\'.").arg(function));
     return QStringList();
   }
   const QStringList args = parseArgs(arg, ok);
@@ -573,23 +592,23 @@ QStringList KommanderWidget::parseFunction(const QString group, const QString& f
   bool extraArg = gname == Group::DBUS;
   
   if (!ok)
-    printError(i18n("Unmatched quotes in argument of \'%1\'.", function));
+    printError(i18n("Unmatched quotes in argument of \'%1\'.").arg(function));
   else if (gname == -1)
-    printError(i18n("Unknown function group: \'%1\'.", group));
+    printError(i18n("Unknown function group: \'%1\'.").arg(group));
   else if (fname == -1 && !extraArg)
-    printError(i18n("Unknown function: \'%1\' in group '%2'.", function, group));
+    printError(i18n("Unknown function: \'%1\' in group '%2'.").arg(function).arg(group));
   else if (fname == -1 && extraArg)
-    printError(i18n("Unknown widget function: \'%1\'.", function));
+    printError(i18n("Unknown widget function: \'%1\'.").arg(function));
   else if ((int)args.count() + extraArg < SpecialInformation::minArg(gname, fname))
     printError(i18n("Not enough arguments for \'%1\' (%2 instead of %3).<p>"
-       "Correct syntax is: %4",
-         function, args.count() + extraArg, SpecialInformation::minArg(gname, fname),
-         SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
+       "Correct syntax is: %4")
+        .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::minArg(gname, fname))
+        .arg(SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
   else if ((int)args.count() + extraArg > SpecialInformation::maxArg(gname, fname))
     printError(i18n("Too many arguments for \'%1\' (%2 instead of %3).<p>"
-       "Correct syntax is: %4",
-       function, args.count() + extraArg, SpecialInformation::maxArg(gname, fname),
-       SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
+       "Correct syntax is: %4")
+      .arg(function).arg(args.count() + extraArg).arg(SpecialInformation::maxArg(gname, fname))
+      .arg(SpecialInformation::prototype(gname, fname, SpecialFunction::ShowArgumentNames)));
   else 
     success = true;
   ok = success;
@@ -608,12 +627,6 @@ int KommanderWidget::parseBlockBoundary(const QString& s, int from, const QStrin
   return shortest;
 }
 
-int KommanderWidget::parseBlockBoundary(const QString& s, int from, const QString& arg) const
-{
-  int shortest = -1;
-  shortest = s.indexOf(arg, from);
-  return shortest;
-}
 
 
 QString KommanderWidget::substituteVariable(QString text, QString variable, QString value) const
@@ -657,17 +670,18 @@ QWidget* KommanderWidget::parentDialog() const
 
 QString KommanderWidget::global(const QString& variableName)
 {
-  if (m_globals.contains(variableName))
-    return m_globals[variableName];
-  else
-    return QString();
+  QString var = variableName.startsWith("_") ? variableName : QString("_")+ variableName;
+  Parser parser(internalParserData());
+  return parser.variable(var).toString();
 }
 
 void KommanderWidget::setGlobal(const QString& variableName, const QString& value)
 {
-  m_globals.insert(variableName, value); 
-}  
-// FIXME dcop to dbusReplacement necessary
+  QString var = variableName.startsWith("_") ? variableName : QString("_")+ variableName;
+  Parser parser(internalParserData());
+  parser.setVariable(var, value);
+}
+
 QString KommanderWidget::handleDBUS(const int function, const QStringList& args)
 {
   QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
@@ -701,7 +715,6 @@ QString KommanderWidget::handleDBUS(const int function, const QStringList& args)
   return QString();
 }
 
-
 bool KommanderWidget::isFunctionSupported(int f)
 {
   return f == DBUS::setEnabled || f == DBUS::setVisible || f == DBUS::children || f == DBUS::type;
@@ -712,7 +725,7 @@ bool KommanderWidget::isCommonFunction(int f)
   return f == DBUS::setEnabled || f == DBUS::setVisible || f == DBUS::children || f == DBUS::type;
 }
 
-ParserData* KommanderWidget::internalParserData()
+ParserData* KommanderWidget::internalParserData() const
 {
   return m_parserData;
 }
@@ -737,7 +750,5 @@ QString KommanderWidget::widgetName() const
 bool KommanderWidget::inEditor = false;
 bool KommanderWidget::showErrors = true;
 bool KommanderWidget::useInternalParser = false;
-QMap<QString, QString> KommanderWidget::m_globals;
-QMap<QString, QMap<QString, QString> > KommanderWidget::m_arrays;
 ParserData* KommanderWidget::m_parserData = new ParserData;
 

@@ -32,18 +32,18 @@ class Function
     /* default constructor - empty function */
     Function();
     /* construct a function from parameterlist */
-    Function(FunctionPointer fp, Parse::ValueType value, const TypeList& params, int min = 99999, 
+    Function(FunctionPointer fp, Parse::ValueType value, const TypeList& params, int min = 99999,
              int max = 0);
     /* construct a function from parameters */
-    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, int min = 99999, 
+    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, int min = 99999,
              int max = 0);
-    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
+    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2,
              int min = 99999, int max = 0);
-    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
+    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2,
              Parse::ValueType param3, int min = 99999, int max = 0);
-    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
+    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2,
              Parse::ValueType param3, Parse::ValueType param4, int min = 99999, int max = 0);
-    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2, 
+    Function(FunctionPointer fp, Parse::ValueType value, Parse::ValueType param1, Parse::ValueType param2,
              Parse::ValueType param3, Parse::ValueType param4, Parse::ValueType param5, 
              int min = 99999, int max = 0);
     /* if function returns value */

@@ -22,8 +22,8 @@
 #include "specialinformation.h"
 #include "myprocess.h"
 #include "kommanderwidget.h"
-#include "kommanderfactory.h"
 #include "invokeclass.h"
+#include "kommanderfactory.h"
 
 #include <iostream>
 #include <stdlib.h> 
@@ -188,7 +188,7 @@ static ParseNode f_echo(Parser*, const ParameterList& params)
 static ParseNode f_fileRead(Parser*, const ParameterList& params)
 {
   QFile file(params[0].toString());
-  if (!file.open(QIODevice::ReadOnly))
+  if (!file.exists() || !file.open(IO_ReadOnly))
     return ParseNode("");
   QTextStream text(&file);
   return text.readAll();
@@ -196,8 +196,11 @@ static ParseNode f_fileRead(Parser*, const ParameterList& params)
 
 static ParseNode f_fileWrite(Parser*, const ParameterList& params)
 {
-  QFile file(params[0].toString());
-  if (!file.open(QIODevice::WriteOnly))
+  QString fname = params[0].toString();
+  if (fname.isEmpty())
+    return 0;
+  QFile file(fname);
+  if (!file.open(IO_WriteOnly))
     return 0;
   QTextStream text(&file);
   for (int i=1; i<params.count(); i++)
@@ -208,8 +211,11 @@ static ParseNode f_fileWrite(Parser*, const ParameterList& params)
 
 static ParseNode f_fileAppend(Parser*, const ParameterList& params)
 {
-  QFile file(params[0].toString());
-  if (!file.open(QIODevice::WriteOnly | QIODevice::Append))
+  QString fname = params[0].toString();
+  if (fname.isEmpty())
+    return 0;
+  QFile file(fname);
+  if (!file.open(IO_WriteOnly | IO_Append))
     return 0;
   QTextStream text(&file);
   for (int i=1; i<params.count(); i++)
@@ -291,7 +297,7 @@ static ParseNode f_parentPid(Parser*p, const ParameterList& )
   return p->variable("_PARENTPID").toString().isEmpty() ? QString::number(getppid()) : p->variable("_PARENTPID");
 }
 
-static ParseNode f_dcop(Parser* parser, const ParameterList& params)
+static ParseNode f_internalDcop(Parser* parser, const ParameterList& params)
 {
   SpecialFunction function = SpecialInformation::functionObject("DBUS", params[0].toString());
   int functionId = SpecialInformation::function(Group::DBUS, params[0].toString());
@@ -318,8 +324,8 @@ static ParseNode f_dcop(Parser* parser, const ParameterList& params)
   return widget->handleDBUS(functionId, args);
 }
 
-//FIXME dcop to dbus
-static ParseNode f_externalDcop(Parser*, const ParameterList& params)
+
+static ParseNode f_dcop(Parser*, const ParameterList& params)
 {
 //  Q3CString appId = kapp->dcopClient()->appId();
   QString object = "KommanderIf";
@@ -498,7 +504,6 @@ static ParseNode f_dialog(Parser* P, const ParameterList& params)
   return text;
 }
 
-
 static ParseNode f_i18n(Parser*, const ParameterList& params)
 {
   return KGlobal::locale()->translateQt("kommander",params[0].toString().toUtf8(),""); 
@@ -519,9 +524,9 @@ static ParseNode f_arrayClear(Parser* P, const ParameterList& params)
 static ParseNode f_arrayCount(Parser* P, const ParameterList& params)
 {
   if (P->isArray(params[0].toString()))
-    return (int)(P->array(params[0].toString()).count());
+    return (uint)(P->array(params[0].toString()).count());
   else
-    return (int)0;
+    return (uint)0;
 }
 
 static ParseNode f_arrayKeys(Parser* P, const ParameterList& params)
@@ -530,15 +535,15 @@ static ParseNode f_arrayKeys(Parser* P, const ParameterList& params)
     return ParseNode();
   return QStringList(P->array(params[0].toString()).keys()).join("\n");
 }
-    
+
 static ParseNode f_arrayValues(Parser* P, const ParameterList& params)
 {
   if (!P->isArray(params[0].toString()))
     return ParseNode();
   QList<ParseNode> values = P->array(params[0].toString()).values(); 
   QString array;
-  for (QList<ParseNode>::Iterator it = values.begin(); it != values.end(); ++it ) 
-    array += (*it).toString();
+  for (QList<ParseNode>::ConstIterator it = values.begin(); it != values.end(); ++it ) 
+    array += (*it).toString() + '\n';
   return array;
 }
 
@@ -687,7 +692,6 @@ static ParseNode f_arrayIndexedInsertElements(Parser* P, const ParameterList& pa
   }
   return ParseNode();
 }
-
 
 /********** input functions *********************/
 static ParseNode f_inputColor(Parser*, const ParameterList& params)
@@ -938,19 +942,20 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));
   registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
+  registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("executeSlot", Function(&f_executeSlot, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("createWidget", Function(&f_createWidget, ValueString, ValueString, ValueString, 3, 100));
-  registerFunction("widgetExists", Function(&f_widgetExists, ValueInt, ValueString, 1));
+  registerFunction("widgetExists", Function(&f_widgetExists, ValueString, ValueString, 1));
   registerFunction("connect", Function(&f_connect, ValueString, ValueString, ValueString, ValueString, 4, 4));
   registerFunction("disconnect", Function(&f_disconnect, ValueString, ValueString, ValueString, ValueString, 4, 4));
-  registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 2, 100));
+  registerFunction("dcop", Function(&f_dcop, ValueString, ValueString, ValueString, 3, 100));
   registerFunction("dcopid", Function(&f_dcopid, ValueString, ValueNone, 0, 0));
   registerFunction("pid", Function(&f_pid, ValueString, ValueNone, 0, 0));
   registerFunction("parentPid", Function(&f_parentPid, ValueString, ValueNone, 0, 0));
   registerFunction("dialog", Function(&f_dialog, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("exec", Function(&f_exec, ValueString, ValueString, ValueString, 1, 2));
-  registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
   registerFunction("execBackground", Function(&f_execBackground, ValueString, ValueString, ValueString, 1, 2));
+  registerFunction("i18n", Function(&f_i18n, ValueString, ValueString));
   registerFunction("env", Function(&f_env, ValueString, ValueString));
   registerFunction("readSetting", Function(&f_read_setting, ValueString, ValueString, ValueString, 1));
   registerFunction("writeSetting", Function(&f_write_setting, ValueNone, ValueString, ValueString));
