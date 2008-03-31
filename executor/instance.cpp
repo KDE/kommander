@@ -217,12 +217,12 @@ bool Instance::isFileValid(const KUrl& fname) const
          " This may mean that it was run from a KMail attachment or from a webpage. "
          "<p>Any script contained in this dialog will have write access to all of your home directory; "
          "<b>running such dialogs may be dangerous: </b>"
-             "<p>are you sure you want to continue?</qt>"), QString(), KStandardGuiItem::cont(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
+             "<p>are you sure you want to continue?</qt>"), QString(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
        return false;
   }
   if (!QFileInfo(fname.path()).isExecutable())
   {
-    if (KMessageBox::warningContinueCancel(m_parent, i18n("<qt>The Kommander file <i>%1</i> does not have the <b>executable attribute</b> set and could possibly contain dangerous exploits.<p>If you trust the scripting (viewable in kmdr-editor) in this program, make it executable to get rid of this warning.<p>Are you sure you want to continue?</qt>", fname.pathOrUrl()), QString(),KStandardGuiItem::cont(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
+    if (KMessageBox::warningContinueCancel(m_parent, i18n("<qt>The Kommander file <i>%1</i> does not have the <b>executable attribute</b> set and could possibly contain dangerous exploits.<p>If you trust the scripting (viewable in kmdr-editor) in this program, make it executable to get rid of this warning.<p>Are you sure you want to continue?</qt>", fname.pathOrUrl()), QString(), KGuiItem(i18n("Run Nevertheless"))) == KMessageBox::Cancel)
        return false;
   }
   return true;
