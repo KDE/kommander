@@ -24,13 +24,13 @@
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <klocale.h>
-#include <kprocess.h>
 
 /* OTHER INCLUDES */
-#include <kommanderwidget.h>
+#include "kommanderwidget.h"
 #include "timer.h"
 #include "kommanderplugin.h"
 #include "specials.h"
+#include "myprocess.h"
 
 
 enum Functions {
@@ -136,18 +136,11 @@ void Timer::populate()
 
 void Timer::executeProcess(bool blocking)
 {
-  KProcess process(this);
-  process.setProgram(evalAssociatedText());
-  process.start();
+  MyProcess process(this);
+  process.setBlocking(blocking);
+  process.run(evalAssociatedText());
   if (blocking)
-  {  
-    process.waitForFinished();
     emit finished();
-  }
-  else
-  {
-    //do something
-  }
 }
 
 void Timer::timeout()

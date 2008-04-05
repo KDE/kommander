@@ -22,11 +22,13 @@
       <mainprogram>/data/development/build/kde-trunk/kdewebdev/kommander/executor/kommander</mainprogram>
       <directoryradio>custom</directoryradio>
       <customdirectory>/data/development/sources/work/kommander-kde4</customdirectory>
-      <programargs>/data/development/test/kommander/execbutton-oldparser.kmdr</programargs>
+      <programargs>/data/development/test/kommander/popupmenu.kmdr</programargs>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
-      <envvars/>
-      <globaldebugarguments>/data/development/test/kommander/execbutton-oldparser.kmdr</globaldebugarguments>
+      <envvars>
+        <envvar value="/opt/kde4" name="KDEDIRS" />
+      </envvars>
+      <globaldebugarguments>/data/development/test/kommander/eric/setexecbit.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-trunk/kdewebdev/kommander/</globalcwd>
       <useglobalprogram>false</useglobalprogram>
       <autoinstall>false</autoinstall>

@@ -17,6 +17,7 @@
 #include <klocale.h>
 #include <kprocess.h>
 #include <klocale.h>
+#include  <kshell.h>
 
 /* QT INCLUDES */
 #include <qapplication.h>
@@ -80,22 +81,32 @@ QString MyProcess::run(const QString& a_command, const QString& a_shell)
   m_input = at.toLocal8Bit();
 
   mProcess = new KProcess;
-  (*mProcess) << shellName.toLatin1();
+  mProcess->setProgram(shellName);
+  mProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
 
-  connect(mProcess, SIGNAL(readyReadStandardOutput(KProcess*, char*, int)),
+  connect(mProcess, SIGNAL(readyReadStandardOutput()),
      SLOT(slotReceivedStdout()));
   connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(slotProcessExited(int, QProcess::ExitStatus)));
   
   if (!m_blocking)
   {
     mProcess->start();
-    mProcess->write(m_input.toUtf8(), m_input.length());
+    mProcess->write(m_input.toLocal8Bit(), m_input.length());
     return QString();
   }
   else 
   {
     int returncode;
-    returncode = mProcess->execute(10000); //10 seconds timeout
+    mProcess->start();
+    mProcess->write(m_input.toLocal8Bit());
+    mProcess->closeWriteChannel();
+    if (!mProcess->waitForFinished(10000)) //10 seconds timeout
+    {
+      mProcess->kill();
+      mProcess->waitForFinished(-1);
+      returncode = -2;
+    } else
+      returncode = (mProcess->exitStatus() == QProcess::NormalExit) ? mProcess->exitCode() : -1;
     if (!m_output.isEmpty() && m_output[m_output.length()-1] == '\n')
       return m_output.left(m_output.length()-1);
     else
@@ -115,8 +126,7 @@ void MyProcess::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
   if (!m_blocking)
     emit processExited(this, exitCode, exitStatus);
-  delete mProcess;
-  mProcess = 0;
+  mProcess->deleteLater();
 }
 
 #include "myprocess.moc"

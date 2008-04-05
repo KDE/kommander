@@ -109,6 +109,7 @@ void CloseButton::startProcess()
     m_process = new KProcess();
     m_process->setShellCommand("/bin/sh");
     m_process->setProgram(at);
+    m_process->setOutputChannelMode(KProcess::SeparateChannels);
     //should emit output and block
     connect(m_process, SIGNAL(finished(int,  QProcess::ExitStatus)), SLOT(endProcess(int,  QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(appendOutput()));

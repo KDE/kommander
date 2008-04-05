@@ -91,6 +91,7 @@ void Konsole::execute()
     cancel();
   mSeenEOL = false;
   mProcess = new KProcess(this);
+  mProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
   connect(mProcess, SIGNAL(processExited(int, QProcess::ExitStatus)), SLOT(processExited(int, QProcess::ExitStatus)));
   connect(mProcess, SIGNAL(readyReadStandardOutput()), SLOT(processReceivedStdout()));
   setCursor(QCursor(Qt::WaitCursor));

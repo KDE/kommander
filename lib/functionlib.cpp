@@ -462,9 +462,9 @@ static ParseNode f_exec(Parser* P, const ParameterList& params)
   QString text;
   kDebug() << "Trying %s" << params[0].toString();
   if (params.count() > 1)
-    text = proc.run(params[0].toString().toLocal8Bit(), params[1].toString());
+    text = proc.run(params[0].toString(), params[1].toString());
   else
-    text = proc.run(params[0].toString().toLocal8Bit());
+    text = proc.run(params[0].toString());
   return text;
 }
 

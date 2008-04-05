@@ -14,7 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
-#include <kprocess.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -26,8 +25,9 @@
 #include <QShowEvent>
 
 /* OTHER INCLUDES */
-#include <specials.h>
+#include "specials.h"
 #include "dialog.h"
+#include "myprocess.h"
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : QDialog(a_parent), KommanderWindow(this)
@@ -107,10 +107,8 @@ void Dialog::initialize()
     QString evalText = KommanderWidget::evalAssociatedText(assoc[1]);
     if (!evalText.isEmpty())
     {
-      KProcess proc(this);
-      proc.setProgram(evalText);
-      proc.start();
-      proc.waitForFinished();
+      MyProcess proc(this);
+      proc.run(evalText);
     }
   }
 }
@@ -123,10 +121,8 @@ void Dialog::destroy()
     QString evalText = KommanderWidget::evalAssociatedText(assoc[2]);
     if (!evalText.isEmpty())
     {
-      KProcess proc(this);
-      proc.setProgram(evalText);
-      proc.start();
-      proc.waitForFinished();
+      MyProcess proc(this);
+      proc.run(evalText);
     }
   }
 }
