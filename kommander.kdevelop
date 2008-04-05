@@ -28,7 +28,7 @@
       <envvars>
         <envvar value="/opt/kde4" name="KDEDIRS" />
       </envvars>
-      <globaldebugarguments>/data/development/test/kommander/eric/bizcalc3.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/test/kommander/eric/help.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-trunk/kdewebdev/kommander/</globalcwd>
       <useglobalprogram>false</useglobalprogram>
       <autoinstall>false</autoinstall>

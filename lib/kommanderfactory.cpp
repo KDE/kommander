@@ -258,7 +258,10 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
       if (!qwf_stays_on_top)
         return new QWidget(parent, name);
       return new QWidget(parent, name, Qt::WStyle_StaysOnTop);
-    }    /*
+    }  else
+    if (className == "QSplitter")
+        return new QSplitter(parent, name);      
+    /*
       // create widgets we know
       if (className == "QPushButton")
         return new QPushButton(parent, name);
@@ -1018,6 +1021,7 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
                     {
                         if ( name == "this" )
                             name = toplevel->objectName();
+                        kDebug() << "CHILDREN:" <<toplevel->findChildren<QObject *> () << " " << name;
                         QList<QObject *> l = toplevel->findChildren<QObject *> ( name );
                         if ( !l.isEmpty() )
                         {
