@@ -191,7 +191,7 @@ bool Instance::isFileValid(const KUrl& fname) const
   if (!QFileInfo(fname.path()).exists())
   {
     KMessageBox::sorry(0, i18n("<qt>Kommander file<br><b>%1</b><br>does not "
-      "exist.</qt>").arg(fname.path()));
+      "exist.</qt>", fname.path()));
     return false;
   }
 
