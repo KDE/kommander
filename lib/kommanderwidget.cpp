@@ -364,8 +364,7 @@ QString KommanderWidget::execCommand(const QString& a_command, const QString& a_
 
 QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_params)
 {
-  //FIXME dcop to dbus conversion
-  /*QString pFileName =  localDBUSQuery("DBUSal(QString)", "_KDDIR") +  QString("/") + a_dialog;
+  QString pFileName = localDBUSQuery("global(QString)", QStringList("_KDDIR")) +  QString("/") + a_dialog;
   QFileInfo pDialogFile(pFileName);
   if (!pDialogFile.exists()) 
   {
@@ -374,12 +373,9 @@ QString KommanderWidget::runDialog(const QString& a_dialog, const QString& a_par
     if (!pDialogFile.exists())
       return QString();
   }
-  QString cmd = QString("kmdr-executor %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
+  QString cmd = QString("kommander %1 %2 _PARENTPID=%3 _PARENTDCOPID=kmdr-executor-%4")
     .arg(pFileName).arg(a_params).arg(getpid()).arg(getpid());
-  return execCommand(cmd);
-*/
-  return QString();
- 
+  return execCommand(cmd); 
 }
 
 
