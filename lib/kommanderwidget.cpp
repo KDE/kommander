@@ -36,9 +36,8 @@
 #include <qvariant.h>
 #include <QWizard>
 #include <QMainWindow>
-//Added by qt3to4:
-//#include <Q3MemArray>
-
+#include <QDBusMessage>
+#include <QDBusConnection>
 
 /* UNIX INCLUDES */
 #include <unistd.h>
@@ -261,126 +260,97 @@ QString KommanderWidget::evalAssociatedText(const QString& a_text)
 //FIXME: DCOP to dbus
 QString KommanderWidget::DBUSQuery(const QStringList& a_query)
 {
-    return QString();
-#if 0
-  QString app =  a_query[0];
-  app.remove("\"");
-  QCString appId = app.latin1(), object = a_query[1].latin1();
+  QString service = a_query[0];
+  service.remove("\"");
+  QString path = a_query[1];
+  QString interface = a_query[2];
+  QString function = a_query[3];
   
+  QString pTypes;
+  QString fname = function;
   // parse function arguments
-  QString function = a_query[2], pTypes;
-  function.remove(' ');
-  int start = function.indexOf('(');
+  int start = fname.indexOf('(');
   bool ok = false;
   if (start != -1)
+  {
+    fname = fname.left(start);
     pTypes = parseBrackets(function, start, ok);
-  else
+  } else
   {
     ok = true;
-    function += "()";
   }
+    
   if (!ok)
   {
-    printError(i18n("Unmatched parenthesis in D-Bus call \'%1\'.", a_query[2]));
+    printError(i18n("Unmatched parenthesis in D-Bus call \'%1\'.", function));
     return QString();
   }
+  
   const QStringList argTypes = parseArgs(pTypes, ok);
-  if (!ok || argTypes.count() != a_query.count() - 3)
+  
+  if (!ok || argTypes.size() != a_query.size() - 4)
   {
-    printError(i18n("Incorrect arguments in D-Bus call \'%1\'.", a_query[2]));
+    printError(i18n("Incorrect arguments in D-Bus call \'%1\'.", function));
     return QString();
   }
-#endif                 
-  /*Q3CString replyType;
-  QByteArray byteData, byteReply;
-  QDataStream byteDataStream(byteData, QIODevice::WriteOnly);
-  for (int i=0 ; i<argTypes.count(); i++) {
+  
+  QList<QVariant> messageArgs;
+  for (int i = 0 ; i < argTypes.count(); i++) 
+  {
     if (argTypes[i] == "int")
-      byteDataStream << a_query[i+3].toInt();
-    else if (argTypes[i] == "long")
-      byteDataStream << a_query[i+3].toLong();
-    else if (argTypes[i] == "float")
-      byteDataStream << a_query[i+3].toFloat();
+      messageArgs << QVariant(a_query[i + 4]).toInt();
+    else if (argTypes[i] == "qlonglong")
+      messageArgs << QVariant(a_query[i + 4]).toLongLong();
     else if (argTypes[i] == "double")
-      byteDataStream << a_query[i+3].toDouble();
+      messageArgs << QVariant(a_query[i + 4]).toDouble();
     else if (argTypes[i] == "bool")
-      byteDataStream << (bool)(a_query[i+3] != "false" && a_query[i+3] != "false" && a_query[i+3] != "0");
-    else if (argTypes[i] == "QStringList")
-      if (a_query[i+3].indexOf('\n') != -1)
-        byteDataStream << QStringList::split("\n", a_query[i+3], true);
-      else
-        byteDataStream << QStringList::split("\\n", a_query[i+3], true);
+      messageArgs << (bool)(a_query[i + 4] != "false" && a_query[i + 4] != "false" && a_query[i + 4] != "0");
     else 
-      byteDataStream << a_query[i+3];
+      messageArgs << a_query[i + 4];
   }
-
-  DBUSClient *cl = KApplication::dcopClient();
-  if (!cl || !cl->call(appId, object, function.toLatin1(), byteData, replyType, byteReply))
-  {
-    printError(i18n("Tried to perform D-Bus query, but failed."));
-    return QString(); 
-  }
-
-  QDataStream byteReplyStream(byteReply, QIODevice::ReadOnly);
-  if (replyType == "QString")
-  {
-    QString text;
-    byteReplyStream >> text;
-    return text;
-  }
-  else if(replyType == "int")
-  {
-    int i;
-    byteReplyStream >> i;
-    return QString::number(i);
-  }
-  else if(replyType == "bool")
-  {
-    bool b;
-    byteReplyStream >> b;
-    return QString::number(b);
-  }
-  else if (replyType == "QStringList")
-  {
-    QStringList text;
-    byteReplyStream >> text;
-    return text.join("\n");
-  }
-  else if(replyType != "void")
-  {
-    printError(i18n("D-Bus return type %1 is not yet implemented.", replyType.data()));
-  }
-*/
-  return QString();
+  
+  QDBusMessage message = QDBusMessage::createMethodCall(service, path, interface, fname);
+  message.setArguments(messageArgs);
+ 
+  QDBusMessage reply = QDBusConnection::sessionBus().call(message, QDBus::Block, 1000);
+  
+  QList<QVariant> result =  reply.arguments();
+  
+  kDebug() << "DBUS call result for " << function  << " : " << reply.type() << ": " << result << " error:" << reply.errorMessage();
+  
+  if (result.isEmpty())
+    return QString();
+  else 
+    return result.at(0).toString(); //FIXME - only the first arg from result is returned!
 }
 
-//FIXME DCOP to DBUS conversion
-QString KommanderWidget::localDBUSQuery(const QString function, const QStringList& args)
+
+QString KommanderWidget::localDBUSQuery(const QString &function, const QStringList& args)
 {
-  return QString();
-  QStringList pArgs;
-  //pArgs.append(kapp->dcopClient()->appId());
-  pArgs.append("KommanderIf");
-  pArgs.append(function);
-  for (int i=0; i<args.count(); i++)
-    pArgs.append(args[i]);
-  return DBUSQuery(pArgs);
+  QStringList dbusArgs = args;
+  dbusArgs.prepend(function);
+  dbusArgs.prepend("org.kdewebdev.kommander");
+  dbusArgs.prepend("/Kommander");
+  dbusArgs.prepend(QDBusConnection::sessionBus().baseService());
+  
+  return DBUSQuery(dbusArgs);
 }
-//FIXME DCOP to DBUS
-QString KommanderWidget::localDBUSQuery(const QString function, const QString& arg1, 
+
+QString KommanderWidget::localDBUSQuery(const QString &function, const QString& arg1, 
      const QString& arg2, const QString& arg3, const QString& arg4)
-{
-  QStringList pArgs;
-  //pArgs.append(kapp->dcopClient()->appId());
-  pArgs.append("KommanderIf");
-  pArgs.append(function);
-  pArgs.append(arg1);
-  pArgs.append(arg2);
+{  
+  QStringList dbusArgs;
+  dbusArgs.append(arg1);
+  dbusArgs.append(arg2);
   if (!arg3.isNull())
-    pArgs.append(arg3);
+    dbusArgs.append(arg3);
   if (!arg4.isNull())
-    pArgs.append(arg4);
-  return DBUSQuery(pArgs);
+    dbusArgs.append(arg4);
+  dbusArgs.prepend(function);
+  dbusArgs.prepend("org.kdewebdev.kommander");
+  dbusArgs.prepend("/Kommander");
+  dbusArgs.prepend(QDBusConnection::sessionBus().baseService());
+  return DBUSQuery(dbusArgs);
 }
 
 

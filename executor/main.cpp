@@ -29,6 +29,7 @@
 #include <qfile.h>
 #include <qobject.h>
 #include <qstring.h>
+#include <QDBusConnection>
 
 /* OTHER INCLUDES */
 #include <cstdio>
@@ -48,7 +49,7 @@ static const char *description =
 
 int main(int argc, char *argv[])
 {
-  KAboutData aboutData( "kmdr-executor", 0, ki18n("Kommander Executor"),
+  KAboutData aboutData( "kommander", 0, ki18n("Kommander Executor"),
     KOMMANDER_VERSION, ki18n(description), KAboutData::License_GPL,
     ki18n("(c) 2002, Marc Britton"), KLocalizedString(), 0, "consume@optushome.com.au");
   aboutData.addAuthor(ki18n("Marc Britton"), KLocalizedString(), "consume@optushome.com.au");

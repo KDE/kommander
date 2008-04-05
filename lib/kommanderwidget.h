@@ -120,8 +120,8 @@ protected:
   // Execute DBUS query and return its result or null on failure
   // Only QString and int are now handled
   QString DBUSQuery(const QStringList& args);
-  QString localDBUSQuery(const QString function, const QStringList& args = QStringList());
-  QString localDBUSQuery(const QString function, const QString& arg1, 
+  QString localDBUSQuery(const QString &function, const QStringList& args = QStringList());
+  QString localDBUSQuery(const QString &function, const QString& arg1, 
      const QString& arg2, const QString& arg3 = QString(),
      const QString& arg4 = QString());
   // Execute given command, return its result

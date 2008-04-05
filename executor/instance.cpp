@@ -53,12 +53,16 @@ Instance::Instance()
   : m_instance(0), m_textInstance(0), m_parent(0)
 {
   SpecialInformation::registerSpecials();
+  new KommanderAdaptor(this);
+  QDBusConnection::sessionBus().registerObject("/Kommander", this); 
 }
 
 Instance::Instance(QWidget *a_parent)
   :  m_instance(0), m_textInstance(0), m_parent(a_parent)
 {
   SpecialInformation::registerSpecials();
+  new KommanderAdaptor(this);
+  QDBusConnection::sessionBus().registerObject("/Kommander", this);  
 }
 
 void Instance::addCmdlineArguments(const QStringList& args)
