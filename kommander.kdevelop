@@ -22,13 +22,13 @@
       <mainprogram>/data/development/build/kde-trunk/kdewebdev/kommander/executor/kommander</mainprogram>
       <directoryradio>custom</directoryradio>
       <customdirectory>/data/development/sources/work/kommander-kde4</customdirectory>
-      <programargs>/data/development/test/kommander/eric/bizcalc3.kmdr</programargs>
+      <programargs>/data/development/test/kommander/eric/phpdemo.kmdr</programargs>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars>
         <envvar value="/opt/kde4" name="KDEDIRS" />
       </envvars>
-      <globaldebugarguments>/data/development/test/kommander/eric/bizcalc3.kmdr</globaldebugarguments>
+      <globaldebugarguments>/data/development/test/kommander/eric/phpdemo.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-trunk/kdewebdev/kommander/</globalcwd>
       <useglobalprogram>false</useglobalprogram>
       <autoinstall>false</autoinstall>

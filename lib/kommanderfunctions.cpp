@@ -334,6 +334,10 @@ QString KommanderWidget::evalWidgetFunction(const QString& identifier, const QSt
     args.prepend(identifier);
     QString prototype = SpecialInformation::prototype(Group::DBUS,
       SpecialInformation::function(Group::DBUS, function));
+    if (args[0].toLower() == "self")
+    {
+       args[0] = m_thisObject->objectName();
+    }
     return localDBUSQuery(prototype, args);
   }
   else if (pWidget == this)
