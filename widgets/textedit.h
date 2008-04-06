@@ -55,6 +55,10 @@ public slots:
   virtual void setTextChanged();
   virtual void setWidgetText(const QString &);
   virtual void populate();
+  
+  //Qt3 compatibility slots
+  void setItalic(bool b) {setFontItalic(b);}
+  void setBold(bool b) { b ? setFontWeight(QFont::Bold) : setFontWeight(QFont::Normal);}
 
 signals: 
   void widgetOpened();

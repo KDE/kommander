@@ -59,7 +59,6 @@
 #include <QLayout>
 #include <QMetaObject>
 #include <QMetaProperty>
-#include <QComboBox>
 #include <QPushButton>
 #include <QToolButton>
 #include <QRadioButton>
@@ -68,7 +67,9 @@
 #include <QSpinBox>
 #include <QLCDNumber>
 #include <QDial>
+#include <QComboBox>
 
+#include <Q3ComboBox>
 #include <Q3ListBox>
 #include <Q3ListView>
 #include <Q3GroupBox>
@@ -128,14 +129,12 @@ QWidget *KommanderFactory::create( QIODevice *dev, QObject *connector, QWidget *
 {
     QDomDocument doc;
     QString errMsg;
-    int errLine;
     QTextStream stream(dev);
     QString content = stream.read();
     if (content.startsWith("#!"))
-      content = content.mid(content.find('\n'));
+      content = content.mid(content.indexOf('\n'));
     if ( !doc.setContent( content ) ) {
-// 	qDebug( QString("Parse error: ") + errMsg + QString(" in line %d"), errLine );
-	return 0;
+    	return 0;
     }
 
     DomTool::fixDocument( doc );
@@ -274,110 +273,115 @@ void KommanderFactory::addPlugin( KommanderPlugin *plugin )
 QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name )
 {
     QString className = literalClassName;
+    QWidget *widget = 0L;
     //standard Qt widgets 
     if (className == "QWidget")
     {
       if (!qwf_stays_on_top)
-        return new QWidget(parent, name);
-      return new QWidget(parent, name, Qt::WStyle_StaysOnTop);
+        widget = new QWidget(parent);
+      return new QWidget(parent, Qt::WStyle_StaysOnTop);
     }  else
     if (className == "QPushButton")
-      return new QPushButton(parent, name);
+      widget = new QPushButton(parent);
     else if (className == "QToolButton")
-      return new QToolButton(parent, name);
+      widget = new QToolButton(parent);
     else if (className == "QCheckBox")
-      return new QCheckBox(parent, name);
+      widget = new QCheckBox(parent);
     else if (className == "QRadioButton")
-      return new QRadioButton(parent, name);
+      widget = new QRadioButton(parent);
     else if (className == "QGroupBox")
-      return new Q3GroupBox(parent, name);
+      widget = new Q3GroupBox(parent);
     else if (className == "QButtonGroup")
-      return new Q3ButtonGroup(parent, name); 
+      widget = new Q3ButtonGroup(parent); 
     else if (className == "QIconView")
-      {
-        return new Q3IconView(parent, name);
-      }
+    {
+      widget = new Q3IconView(parent);
+    }
     else if (className == "QTable")
     {
-      return new Q3Table(parent, name);
+      widget = new Q3Table(parent);
     }
     else if (className == "QListBox")
-      return new Q3ListBox(parent, name);
+      widget = new Q3ListBox(parent);
     else if (className == "QListView")
-      return new Q3ListView(parent, name);
+      widget = new Q3ListView(parent);
     else if (className == "QLineEdit")
-      return new QLineEdit(parent, name);
+      widget = new QLineEdit(parent);
     else if (className == "QSpinBox")
-      return new QSpinBox(parent, name);
+      widget = new QSpinBox(parent);
     else if (className == "QMultiLineEdit")
-      return new Q3MultiLineEdit(parent, name);
+      widget = new Q3MultiLineEdit(parent);
     else if (className == "QLabel")
-      return new QLabel(parent, name);
+      widget = new QLabel(parent);
     else if (className == "QLayoutWidget")
-      return new QWidget(parent, name);
+      widget = new QWidget(parent);
     else if (className == "QTabWidget")
-      return new QTabWidget(parent, name);
+      widget = new QTabWidget(parent);
     else if (className == "QComboBox")
-      return new QComboBox(false, parent, name);
+      widget = new Q3ComboBox(false, parent);
     else if (className == "QDialog")
     {
       if (!qwf_stays_on_top)
-        return new QDialog(parent, name);
-      return new QDialog(parent, name, false, Qt::WStyle_StaysOnTop);
+        widget = new QDialog(parent);
+      else
+        widget = new QDialog(parent, name, false, Qt::WStyle_StaysOnTop);
     }
     else if (className == "QWizard")
-      return new Q3Wizard(parent, name);
+      widget = new Q3Wizard(parent);
     else if (className == "QLCDNumber")
-      return new QLCDNumber(parent, name);
+      widget = new QLCDNumber(parent);
     else if (className == "QProgressBar")
-      return new Q3ProgressBar(parent, name);
+      widget = new Q3ProgressBar(parent);
     else if (className == "QTextView")
-      return new Q3TextView(parent, name);
+      widget = new Q3TextView(parent);
     else if (className == "QTextBrowser")
-      return new Q3TextBrowser(parent, name);
+      widget = new Q3TextBrowser(parent);
     else if (className == "QDial")
-      return new QDial(parent, name);
+      widget = new QDial(parent);
     else if (className == "QSlider")
-      return new QSlider(parent, name);
+      widget = new QSlider(parent);
     else if (className == "QFrame")
-      return new Q3Frame(parent, name);
+      widget = new Q3Frame(parent);
     else if (className == "QSplitter")
-      return new QSplitter(parent, name);
+      widget = new QSplitter(parent);
     else if (className == "Line")
     {
-      Q3Frame *f = new Q3Frame(parent, name);
+      Q3Frame *f = new Q3Frame(parent);
       f->setFrameStyle(Q3Frame::HLine | Q3Frame::Sunken);
-      return f;
+      widget = f;
     }
     else if (className == "QTextEdit")
-      return new Q3TextEdit(parent, name);
+      widget = new Q3TextEdit(parent);
     else if (className == "QDateEdit")
-      return new Q3DateEdit(parent, name);
+      widget = new Q3DateEdit(parent);
     else if (className == "QTimeEdit")
-      return new Q3TimeEdit(parent, name);
+      widget = new Q3TimeEdit(parent);
     else if (className == "QDateTimeEdit")
-      return new Q3DateTimeEdit(parent, name);
+      widget = new Q3DateTimeEdit(parent);
     else if (className == "QScrollBar")
-      return new QScrollBar(parent, name);
+      widget = new QScrollBar(parent);
     else if (className == "QPopupMenu")
     {
-      QMenu *menu = new QMenu(parent);
-      menu->setObjectName(name);
-      return menu;
+      widget = new QMenu(parent);
     }
     else if (className == "QWidgetStack")
-      return new Q3WidgetStack(parent, name);
+      widget = new Q3WidgetStack(parent);
     else if (className == "QMainWindow")
     {
       QMainWindow *mw = 0;
       if (!qwf_stays_on_top)
-        mw = new QMainWindow(parent, name);
+        mw = new QMainWindow(parent);
       else
-        mw = new QMainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
-      mw->setCentralWidget(new QWidget(mw, "qt_central_widget"));
+        mw = new QMainWindow(parent, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
+      mw->setCentralWidget(new QWidget(mw));
       mw->centralWidget()->show();
       (void) mw->statusBar();
       return mw;
+    }
+    if (widget)
+    {
+      widget->setObjectName(name);
+      return widget;
     }
  
     // try to create it using the loaded kommander widget plugins
@@ -1039,7 +1043,6 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
                     {
                         if ( name == "this" )
                             name = toplevel->objectName();
-                        kDebug() << "CHILDREN:" <<toplevel->findChildren<QObject *> () << " " << name;
                         QList<QObject *> l = toplevel->findChildren<QObject *> ( name );
                         if ( !l.isEmpty() )
                         {
@@ -1080,6 +1083,10 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
 
             conn.signal = QMetaObject::normalizedSignature ( conn.signal );
             conn.slot = QMetaObject::normalizedSignature ( conn.slot );
+            
+            //Qt3 compat code
+            conn.signal.replace("QListViewItem", "Q3ListViewItem");
+            conn.slot.replace("QListViewItem", "Q3ListViewItem");
 
             QObject *sender = 0, *receiver = 0;
             QList<QObject *> l = toplevel->findChildren<QObject *> ( conn.sender->objectName() );
@@ -1127,10 +1134,16 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
                     receiver = connector;
                 }
                 // avoid warnings
-                if ( sender->metaObject()->indexOfSignal ( conn.signal ) == -1 ||
-                        receiver->metaObject()->indexOfSlot ( conn.slot ) == -1 )
+                bool signalExists = sender->metaObject()->indexOfSignal ( conn.signal ) != -1;
+                bool slotExists = receiver->metaObject()->indexOfSlot ( conn.slot ) != -1;
+                if ( !signalExists || !slotExists)
                 {
                     n = n.nextSibling().toElement();
+                    kWarning() << "CONNECTION FAILED: Signal: " <<  sender->metaObject()->className() << "." << conn.signal << " Slot:" << receiver->metaObject()->className() << "." << conn.slot ;
+                    if (!signalExists)
+                      kWarning() << "No signal: " << conn.signal << " in object " << sender;
+                    else
+                      kWarning() << "No slot: " << conn.slot << " in object " << receiver;
                     continue;
                 }
                 QObject::connect ( sender, s.toAscii(), receiver, s2.toAscii() );
@@ -1140,7 +1153,8 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
                 EventFunction ef = eventMap[ conn.sender ];
                 ef.events.append ( conn.signal );
                 ef.functions.append ( QString ( conn.slot ).split ( ',' ) );
-                eventMap.replace ( conn.sender, ef );
+                eventMap.remove(conn.sender);
+                eventMap.insert(conn.sender, ef);
             }
         }
         else if ( n.tagName() == "slot" )
