@@ -685,8 +685,11 @@ KommanderFactory::LayoutType KommanderFactory::layoutType( QLayout *layout ) con
     return NoLayout;
 }
 
-void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDomElement &e )
+void KommanderFactory::setProperty( QObject* obj, const QString &_prop, const QDomElement &e )
 {
+    QString prop = _prop;
+    if (prop == "pixmap" && qobject_cast<QAbstractButton*>(obj))
+       prop = "icon";
     const QMetaProperty p = obj->metaObject()->property ( obj->metaObject()->indexOfProperty ( prop.toAscii() ) );
 
     QVariant defVariant;
@@ -706,7 +709,10 @@ void KommanderFactory::setProperty( QObject* obj, const QString &prop, const QDo
         QPixmap pix = loadPixmap ( e );
         if ( pix.isNull() )
             return;
-        v = QVariant ( pix );
+        if (prop == "icon")
+          v = QVariant( QIcon(pix) );
+        else
+          v = QVariant ( pix );
     }
     else if ( e.tagName() == "iconset" )
     {
