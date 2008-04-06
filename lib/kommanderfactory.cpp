@@ -33,8 +33,6 @@
 #include <QListIterator>
 #include <QHBoxLayout>
 #include <QList>
-#include <Q3ListBox>
-#include <Q3ListView>
 #include <QTableWidget>
 #include <QListWidgetItem>
 #include <QTableWidgetItem>
@@ -62,6 +60,29 @@
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QComboBox>
+#include <QPushButton>
+#include <QToolButton>
+#include <QRadioButton>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QLCDNumber>
+#include <QDial>
+
+#include <Q3ListBox>
+#include <Q3ListView>
+#include <Q3GroupBox>
+#include <Q3ButtonGroup>
+#include <Q3IconView>
+#include <Q3Table>
+#include <Q3MultiLineEdit>
+#include <Q3Wizard>
+#include <Q3ProgressBar>
+#include <Q3TextView>
+#include <Q3TextBrowser>
+#include <Q3TextEdit>
+#include <Q3DateEdit>
+#include <Q3WidgetStack>
 
 #include "domtool.h"
 
@@ -253,121 +274,112 @@ void KommanderFactory::addPlugin( KommanderPlugin *plugin )
 QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidget *parent, const char *name )
 {
     QString className = literalClassName;
+    //standard Qt widgets 
     if (className == "QWidget")
     {
       if (!qwf_stays_on_top)
         return new QWidget(parent, name);
       return new QWidget(parent, name, Qt::WStyle_StaysOnTop);
     }  else
-    if (className == "QSplitter")
-        return new QSplitter(parent, name);      
-    /*
-      // create widgets we know
-      if (className == "QPushButton")
-        return new QPushButton(parent, name);
-      else if (className == "QToolButton")
-        return new QToolButton(parent, name);
-      else if (className == "QCheckBox")
-        return new QCheckBox(parent, name);
-      else if (className == "QRadioButton")
-        return new QRadioButton(parent, name);
-      else if (className == "QGroupBox")
-        return new Q3GroupBox(parent, name);
-      else if (className == "QButtonGroup")
-        return new Q3ButtonGroup(parent, name);
-      else if (className == "QIconView")
+    if (className == "QPushButton")
+      return new QPushButton(parent, name);
+    else if (className == "QToolButton")
+      return new QToolButton(parent, name);
+    else if (className == "QCheckBox")
+      return new QCheckBox(parent, name);
+    else if (className == "QRadioButton")
+      return new QRadioButton(parent, name);
+    else if (className == "QGroupBox")
+      return new Q3GroupBox(parent, name);
+    else if (className == "QButtonGroup")
+      return new Q3ButtonGroup(parent, name); 
+    else if (className == "QIconView")
       {
-    #if !defined(QT_NO_ICONVIEW)
         return new Q3IconView(parent, name);
-    #endif
       }
-      else if (className == "QTable")
-      {
-    #if !defined(QT_NO_TABLE)
-        return new Q3Table(parent, name);
-    #endif
-      }
-      else if (className == "QListBox")
-        return new Q3ListBox(parent, name);
-      else if (className == "QListView")
-        return new Q3ListView(parent, name);
-      else if (className == "QLineEdit")
-        return new QLineEdit(parent, name);
-      else if (className == "QSpinBox")
-        return new QSpinBox(parent, name);
-      else if (className == "QMultiLineEdit")
-        return new Q3MultiLineEdit(parent, name);
-      else if (className == "QLabel")
-        return new QLabel(parent, name);
-      else if (className == "QLayoutWidget")
-        return new QWidget(parent, name);
-      else if (className == "QTabWidget")
-        return new QTabWidget(parent, name);
-      else if (className == "QComboBox")
-        return new QComboBox(false, parent, name);
-      else if (className == "QWidget")
-      {
-        if (!qwf_stays_on_top)
-          return new QWidget(parent, name);
-        return new QWidget(parent, name, Qt::WStyle_StaysOnTop);
-      }
-      else if (className == "QDialog")
-      {
-        if (!qwf_stays_on_top)
-          return new QDialog(parent, name);
-        return new QDialog(parent, name, false, Qt::WStyle_StaysOnTop);
-      }
-      else if (className == "QWizard")
-        return new Q3Wizard(parent, name);
-      else if (className == "QLCDNumber")
-        return new QLCDNumber(parent, name);
-      else if (className == "QProgressBar")
-        return new Q3ProgressBar(parent, name);
-      else if (className == "QTextView")
-        return new Q3TextView(parent, name);
-      else if (className == "QTextBrowser")
-        return new Q3TextBrowser(parent, name);
-      else if (className == "QDial")
-        return new QDial(parent, name);
-      else if (className == "QSlider")
-        return new QSlider(parent, name);
-      else if (className == "QFrame")
-        return new Q3Frame(parent, name);mes
-      else if (className == "QSplitter")rem
-        return new QSplitter(parent, name);
-      else if (className == "Line")
-      {
-        Q3Frame *f = new Q3Frame(parent, name);
-        f->setFrameStyle(Q3Frame::HLine | Q3Frame::Sunken);
-        return f;
-      }
-      else if (className == "QTextEdit")
-        return new Q3TextEdit(parent, name);
-      else if (className == "QDateEdit")
-        return new Q3DateEdit(parent, name);
-      else if (className == "QTimeEdit")
-        return new Q3TimeEdit(parent, name);
-      else if (className == "QDateTimeEdit")
-        return new Q3DateTimeEdit(parent, name);
-      else if (className == "QScrollBar")
-        return new QScrollBar(parent, name);
-      else if (className == "QPopupMenu")
-        return new Q3PopupMenu(parent, name);
-      else if (className == "QWidgetStack")
-        return new Q3WidgetStack(parent, name);
-      else if (className == "QMainWindow")
-      {
-        Q3MainWindow *mw = 0;
-        if (!qwf_stays_on_top)
-          mw = new Q3MainWindow(parent, name);
-        else
-          mw = new Q3MainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
-        mw->setCentralWidget(new QWidget(mw, "qt_central_widget"));
-        mw->centralWidget()->show();
-        (void) mw->statusBar();
-        return mw;
-      }
-    */
+    else if (className == "QTable")
+    {
+      return new Q3Table(parent, name);
+    }
+    else if (className == "QListBox")
+      return new Q3ListBox(parent, name);
+    else if (className == "QListView")
+      return new Q3ListView(parent, name);
+    else if (className == "QLineEdit")
+      return new QLineEdit(parent, name);
+    else if (className == "QSpinBox")
+      return new QSpinBox(parent, name);
+    else if (className == "QMultiLineEdit")
+      return new Q3MultiLineEdit(parent, name);
+    else if (className == "QLabel")
+      return new QLabel(parent, name);
+    else if (className == "QLayoutWidget")
+      return new QWidget(parent, name);
+    else if (className == "QTabWidget")
+      return new QTabWidget(parent, name);
+    else if (className == "QComboBox")
+      return new QComboBox(false, parent, name);
+    else if (className == "QDialog")
+    {
+      if (!qwf_stays_on_top)
+        return new QDialog(parent, name);
+      return new QDialog(parent, name, false, Qt::WStyle_StaysOnTop);
+    }
+    else if (className == "QWizard")
+      return new Q3Wizard(parent, name);
+    else if (className == "QLCDNumber")
+      return new QLCDNumber(parent, name);
+    else if (className == "QProgressBar")
+      return new Q3ProgressBar(parent, name);
+    else if (className == "QTextView")
+      return new Q3TextView(parent, name);
+    else if (className == "QTextBrowser")
+      return new Q3TextBrowser(parent, name);
+    else if (className == "QDial")
+      return new QDial(parent, name);
+    else if (className == "QSlider")
+      return new QSlider(parent, name);
+    else if (className == "QFrame")
+      return new Q3Frame(parent, name);
+    else if (className == "QSplitter")
+      return new QSplitter(parent, name);
+    else if (className == "Line")
+    {
+      Q3Frame *f = new Q3Frame(parent, name);
+      f->setFrameStyle(Q3Frame::HLine | Q3Frame::Sunken);
+      return f;
+    }
+    else if (className == "QTextEdit")
+      return new Q3TextEdit(parent, name);
+    else if (className == "QDateEdit")
+      return new Q3DateEdit(parent, name);
+    else if (className == "QTimeEdit")
+      return new Q3TimeEdit(parent, name);
+    else if (className == "QDateTimeEdit")
+      return new Q3DateTimeEdit(parent, name);
+    else if (className == "QScrollBar")
+      return new QScrollBar(parent, name);
+    else if (className == "QPopupMenu")
+    {
+      QMenu *menu = new QMenu(parent);
+      menu->setObjectName(name);
+      return menu;
+    }
+    else if (className == "QWidgetStack")
+      return new Q3WidgetStack(parent, name);
+    else if (className == "QMainWindow")
+    {
+      QMainWindow *mw = 0;
+      if (!qwf_stays_on_top)
+        mw = new QMainWindow(parent, name);
+      else
+        mw = new QMainWindow(parent, name, Qt::WType_TopLevel | Qt::WStyle_StaysOnTop);
+      mw->setCentralWidget(new QWidget(mw, "qt_central_widget"));
+      mw->centralWidget()->show();
+      (void) mw->statusBar();
+      return mw;
+    }
+ 
     // try to create it using the loaded kommander widget plugins
     //find the widget plugin which can create className
 
@@ -493,8 +505,8 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
                         ( ( QVBoxLayout* ) layout )->addWidget ( w );
                         break;
                     case Grid:
-                        static_cast< QGridLayout*>(layout)->addWidget ( w, row, col, row + rowspan,
-                                col + colspan );
+                        static_cast< QGridLayout*>(layout)->addWidget ( w, row, col, rowspan,
+                               colspan );
                         break;
                     default:
                         break;
@@ -529,7 +541,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
             obj = layout;
             n = n.firstChild().toElement();
             if ( parentLayout && qobject_cast<QGridLayout*>(parentLayout) )
-                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, row + rowspan, col + colspan );
+                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, rowspan, colspan );
             continue;
         }
         else if ( n.tagName() == "grid" )
@@ -542,7 +554,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
             obj = layout;
             n = n.firstChild().toElement();
             if ( parentLayout && qobject_cast<QGridLayout*>(parentLayout) )
-                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, row + rowspan, col + colspan );
+                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, rowspan, colspan );
             continue;
         }
         else if ( n.tagName() == "vbox" )
@@ -555,7 +567,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
             obj = layout;
             n = n.firstChild().toElement();
             if ( parentLayout && qobject_cast<QGridLayout*>(parentLayout) )
-                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, row + rowspan, col + colspan );
+                qobject_cast<QGridLayout*>(parentLayout)->addLayout ( layout, row, col, rowspan,  colspan );
             continue;
         }
         else if ( n.tagName() == "property" && obj )
@@ -875,7 +887,7 @@ void KommanderFactory::createSpacer( const QDomElement &e, QLayout *layout )
         if ( qobject_cast<QBoxLayout*>(layout) )
             qobject_cast<QBoxLayout*>(layout)->addItem ( item );
         else
-            qobject_cast<QGridLayout*>(layout)->addItem ( item, row, row + rowspan - 1, col, col + colspan - 1,
+            qobject_cast<QGridLayout*>(layout)->addItem ( item, row, col, rowspan,  colspan,
                                                    orient == Qt::Horizontal ? Qt::AlignVCenter : Qt::AlignHCenter );
     }
 }
