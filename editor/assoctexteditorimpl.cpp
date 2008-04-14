@@ -125,6 +125,16 @@ AssocTextEditor::AssocTextEditor(QWidget *a_widget, FormWindow* a_form,
   a = view->actionCollection()->action("edit_replace");
   if (a)
     a->plug(popup);
+  popup->insertSeparator();
+  a = view->actionCollection()->action("edit_cut");
+  if (a)
+    a->plug(popup);
+  a = view->actionCollection()->action("edit_copy");
+  if (a)
+    a->plug(popup);
+  a = view->actionCollection()->action("edit_paste");
+  if (a)
+    a->plug(popup);
   readOnlyAction = view->actionCollection()->action("tools_toggle_write_lock");
   popup->insertSeparator();
   highlightPopup = new KPopupMenu(popup);

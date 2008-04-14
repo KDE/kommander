@@ -124,7 +124,7 @@ void TextEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable || (f >= FirstFunction && f <= LastFunction);
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextEdit::handleDCOP(int function, const QStringList& args)
@@ -148,6 +148,15 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       break;
     case TE_isModified:
       return isModified() ? "1" : "0";
+      break;
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
+    case DCOP::hasFocus:
+      return QString::number(this->hasFocus());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

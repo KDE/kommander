@@ -96,7 +96,7 @@ bool ListBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
     f == DCOP::insertItems || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear ||
     f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || f == DCOP::addUniqueItem ||
-      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::count;
+      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::count || f == DCOP::geometry || f == DCOP::hasFocus;
 }
 
 void ListBox::contextMenuEvent( QContextMenuEvent * e )
@@ -197,6 +197,15 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
         strings += item(i)->text();
       return strings.join("\n");
     }
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
+    case DCOP::hasFocus:
+      return QString::number(this->hasFocus());
+      break;
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

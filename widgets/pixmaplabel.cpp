@@ -96,7 +96,7 @@ void PixmapLabel::showEvent(QShowEvent *e)
 
 bool PixmapLabel::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::geometry;
 }
 
 QString PixmapLabel::handleDCOP(int function, const QStringList& args)
@@ -110,6 +110,12 @@ QString PixmapLabel::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::text:
       return text();
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

@@ -101,7 +101,7 @@ void DatePicker::contextMenuEvent( QContextMenuEvent * e )
 
 bool DatePicker::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::geometry || f == DCOP::hasFocus ;
 }
 
 QString DatePicker::handleDCOP(int function, const QStringList& args)
@@ -112,6 +112,15 @@ QString DatePicker::handleDCOP(int function, const QStringList& args)
     case DCOP::setText:
       setDate(QDate::fromString(args[0], Qt::ISODate));
       break;    
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
+    case DCOP::hasFocus:
+      return QString::number(this->hasFocus());
+      break;
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

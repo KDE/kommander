@@ -375,6 +375,8 @@ void SpecialInformation::registerSpecials()
      i18n("Makes the widget editable or read only, depending on the editable argument."), 2);
   insert(DCOP::geometry, "geometry(QString widget)", 
      i18n("Return the widget's geometry as <i>x y w h</i>. This is useful for positioning a created widget."), 1);
+  insert(DCOP::hasFocus, "hasFocus(QString widget)", 
+     i18n("Returns true if the widget has focus."), 1);
 
   insertGroup(Group::Slots, i18n("Slots"), "");
 
@@ -519,12 +521,14 @@ void SpecialInformation::registerSpecials()
     i18n("Convert a string to a double precision floating point value. If not possible use the default value"), 1, 2);
 
   insertGroup(Group::File, "File", "file");
-  insert(File::read, "read(QString)", 
+  insert(File::read, "read(QString file)", 
     i18n("Returns content of given file."), 1);
   insert(File::write, "write(QString file, QString string)", 
     i18n("Writes given string to a file."), 2);
   insert(File::append, "append(QString file, QString string)", 
     i18n("Appends given string to the end of a file."), 2);
+  insert(File::exists, "exists(QString file)", 
+    i18n("Checks to see if file exists."), 1);
   
   insertGroup(Group::Input, "Input", "input");
   insert(Input::color, "color(QString defaultColor)", i18n("Shows color dialog. Returns color in #RRGGBB format. Defaults to the parameter, if specified."), 0, 1);

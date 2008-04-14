@@ -33,7 +33,7 @@ namespace DCOP
     item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
     setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
     setRowCaption, setSelection, setText, 
-    setVisible, text, type, setCellWidget, cellWidget, setEditable, geometry};
+    setVisible, text, type, setCellWidget, cellWidget, setEditable, geometry, hasFocus};
 }
 
 namespace Kommander
@@ -56,7 +56,7 @@ namespace String
 
 namespace File
 {
-  enum {read, write, append};
+  enum {read, write, append, exists};
 }
 
 namespace Input

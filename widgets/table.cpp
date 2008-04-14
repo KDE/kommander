@@ -34,6 +34,11 @@ enum Functions {
   FirstFunction = 365,
   TBL_sortColumnExtra,
   TBL_keepCellVisible,
+  TBL_selectCells,
+  TBL_selectRow,
+  TBL_selectColumn,
+  TBL_setColumnReadOnly,
+  TBL_setRowReadOnly,
   LastFunction
 };
 
@@ -48,6 +53,11 @@ Table::Table(QWidget *a_parent, const char *a_name)
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(TBL_sortColumnExtra, "sortColumnExtra(QString widget, int col, bool ascending, bool wholeRows)", i18n("Sets a column to sort ascending or descending. Optionally can sort with rows intact for database use."), 2, 4);
   KommanderPlugin::registerFunction(TBL_keepCellVisible, "keepCellVisible(QString widget, int row, int col)", i18n("Scrolls the table so the cell indicated is visible."), 3);
+  KommanderPlugin::registerFunction(TBL_selectCells, "selectCells(QString widget, int row, int col, int row, int col)", i18n("Select cells using the upper left and lower right cell addresses<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 5);
+  KommanderPlugin::registerFunction(TBL_selectRow, "selectRow(QString widget, int row)", i18n("Select the row with the zero based index."), 2);
+  KommanderPlugin::registerFunction(TBL_selectColumn, "selectColumn(QString widget, int col)", i18n("Select the column with the zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 2);
+  KommanderPlugin::registerFunction(TBL_setColumnReadOnly, "setColumnReadOnly(QString widget, int col, bool Readonly)", i18n("Set the column read only using zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 3);
+  KommanderPlugin::registerFunction(TBL_setRowReadOnly, "setRowReadOnly(QString widget, int row, bool Readonly)", i18n("Set the row read only using zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 3);
 
 }
 
@@ -106,7 +116,7 @@ bool Table::isFunctionSupported(int f)
   return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
       f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText || f == DCOP::setCellWidget || f == DCOP::cellWidget ||
       f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
-      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection || (f >= FirstFunction && f <= LastFunction);
+      f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::geometry || f == DCOP::hasFocus  || (f >= FirstFunction && f <= LastFunction);
 }
 
 void Table::setCellWidget(int row, int col, const QString & _widgetName)
@@ -267,6 +277,30 @@ QString Table::handleDCOP(int function, const QStringList& args)
       break;
     case TBL_keepCellVisible:
       QTable::ensureCellVisible(args[0].toInt()-1, args[1].toInt()-1);
+      break;
+    case   TBL_selectCells:
+      QTable::selectCells (args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt());
+      break;
+    case TBL_selectRow:
+      QTable::selectRow (args[0].toInt());
+      break;
+    case TBL_selectColumn:
+      QTable::selectColumn (args[0].toInt());
+      break;
+    case TBL_setColumnReadOnly:
+      QTable::setColumnReadOnly (args[0].toInt(), args[1].toUInt());
+      break;
+    case TBL_setRowReadOnly:
+      QTable::setRowReadOnly (args[0].toInt(), args[1].toUInt());
+      break;
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
+    case DCOP::hasFocus:
+      return QString::number(this->hasFocus());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

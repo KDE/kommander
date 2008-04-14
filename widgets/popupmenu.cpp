@@ -138,7 +138,7 @@ QString PopupMenu::insertSubmenu(const QString& title, const QString &menuWidget
 
 bool PopupMenu::isFunctionSupported(int f)
 {
-  return f == DCOP::clear || f == DCOP::execute || f == DCOP::item || (f >= INSERTMENUITEM && f <= LAST_FUNCTION) || f == DCOP::count;
+  return f == DCOP::clear || f == DCOP::execute || f == DCOP::item || (f >= INSERTMENUITEM && f <= LAST_FUNCTION) || f == DCOP::count || f == DCOP::geometry;
 }
 
 QString PopupMenu::handleDCOP(int function, const QStringList& args)
@@ -227,6 +227,12 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
     }
     case DCOP::count:
       return QString::number(m_menu->count());
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
