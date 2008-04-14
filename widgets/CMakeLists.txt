@@ -47,6 +47,7 @@ timer.cpp
 toolbox.cpp
 treewidget.cpp
 wizard.cpp
+kmdrdesignerwidgets.cpp
 )
 
 KDE4_ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})

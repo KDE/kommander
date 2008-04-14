@@ -124,7 +124,7 @@ bool ComboBox::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::selection || f == DBUS::setSelection ||
       f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || 
       f == DBUS::removeItem || f == DBUS::insertItem || f == DBUS::insertItems ||
-      f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count || f == DBUS::setEditable || (f >= FirstFunction && f <= LastFunction);
+      f == DBUS::addUniqueItem || f == DBUS::clear || f == DBUS::count || f == DBUS::setEditable || DBUS::geometry || DBUS::geometry || f == DBUS::hasFocus || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString ComboBox::handleDBUS(int function, const QStringList& args)
@@ -184,6 +184,12 @@ QString ComboBox::handleDBUS(int function, const QStringList& args)
       break;
     case popupList:
       QComboBox::popup();
+      break;
+    case DBUS::geometry:
+      return QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      break;
+    case DBUS::hasFocus:
+      return QString::number(this->hasFocus());
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

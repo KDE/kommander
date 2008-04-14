@@ -34,6 +34,11 @@ enum Functions {
   FirstFunction = 365,
   TBL_sortColumnExtra,
   TBL_keepCellVisible,
+  TBL_selectCells,
+  TBL_selectRow,
+  TBL_selectColumn,
+  TBL_setColumnReadOnly,
+  TBL_setRowReadOnly,
   LastFunction
 };
 
@@ -49,6 +54,11 @@ Table::Table(QWidget *a_parent, const char *a_name)
   KommanderPlugin::setDefaultGroup(Group::DBUS);
   KommanderPlugin::registerFunction(TBL_sortColumnExtra, "sortColumnExtra(QString widget, int col, bool ascending, bool wholeRows)", i18n("Sets a column to sort ascending or descending. Optionally can sort with rows intact for database use. wholeRows is ignored under KDE4."), 2, 4);
   KommanderPlugin::registerFunction(TBL_keepCellVisible, "keepCellVisible(QString widget, int row, int col)", i18n("Scrolls the table so the cell indicated is visible."), 3);
+  KommanderPlugin::registerFunction(TBL_selectCells, "selectCells(QString widget, int row, int col, int row, int col)", i18n("Select cells using the upper left and lower right cell addresses"), 5);
+  KommanderPlugin::registerFunction(TBL_selectRow, "selectRow(QString widget, int row)", i18n("Select the row with the zero based index."), 2);
+  KommanderPlugin::registerFunction(TBL_selectColumn, "selectColumn(QString widget, int col)", i18n("Select the column with the zero based index."), 2);
+  KommanderPlugin::registerFunction(TBL_setColumnReadOnly, "setColumnReadOnly(QString widget, int col, bool Readonly)", i18n("Set the column read only using zero based index."), 3);
+  KommanderPlugin::registerFunction(TBL_setRowReadOnly, "setRowReadOnly(QString widget, int row, bool Readonly)", i18n("Set the row read only using zero based index."), 3);
 
 }
 
@@ -109,7 +119,7 @@ bool Table::isFunctionSupported(int f)
   return f == DBUS::currentColumn || f == DBUS::currentRow || f == DBUS::insertColumn || 
       f == DBUS::insertRow || f == DBUS::cellText || f == DBUS::setCellText || f == DBUS::setCellWidget || f == DBUS::cellWidget ||
       f == DBUS::removeRow || f == DBUS::removeColumn || f == DBUS::setColumnCaption ||
-      f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText || f == DBUS::selection || (f >= FirstFunction && f <= LastFunction);
+      f == DBUS::setRowCaption || f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::geometry || f == DBUS::hasFocus  || (f >= FirstFunction && f <= LastFunction);
 }
 
 void Table::setCellWidget(int row, int col, const QString & _widgetName)
@@ -271,6 +281,29 @@ QString Table::handleDBUS(int function, const QStringList& args)
       break;
     case TBL_keepCellVisible:
       scrollToItem(item(args[0].toInt(), args[1].toInt()));
+      break;
+      /* needs evaluation and rewrite for KDE4
+    case   TBL_selectCells:
+      QTableWidget::selectCells (args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt());
+      break;
+    case TBL_selectRow:
+      QTableWidget::selectRow (args[0].toInt());
+      break;
+    case TBL_selectColumn:
+      QTableWidget::selectColumn (args[0].toInt());
+      break;
+    case TBL_setColumnReadOnly:
+      QTableWidget::setColumnReadOnly (args[0].toInt(), args[1].toUInt());
+      break;
+    case TBL_setRowReadOnly:
+      QTableWidget::setRowReadOnly (args[0].toInt(), args[1].toUInt());
+      break;
+      */
+    case DBUS::geometry:
+      return QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      break;
+    case DBUS::hasFocus:
+      return QString::number(this->hasFocus());
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

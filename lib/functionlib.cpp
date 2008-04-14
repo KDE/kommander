@@ -225,6 +225,14 @@ static ParseNode f_fileAppend(Parser*, const ParameterList& params)
   return 1;
 }
 
+static ParseNode f_fileExists(Parser*, const ParameterList& params)
+{
+  QFile file(params[0].toString());
+  if (!file.exists())
+    return 0;
+  else
+    return 1;
+}
 
 static ParseNode f_executeSlot(Parser* parser, const ParameterList& params)
 {
@@ -943,6 +951,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("file_read", Function(&f_fileRead, ValueString, ValueString, 1, 1));
   registerFunction("file_write", Function(&f_fileWrite, ValueInt, ValueString, ValueString, 2, 100));
   registerFunction("file_append", Function(&f_fileAppend, ValueInt, ValueString, ValueString, 2, 100));
+  registerFunction("file_exists", Function(&f_fileExists, ValueString, ValueString, 1, 1));
   registerFunction("internalDcop", Function(&f_internalDcop, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("executeSlot", Function(&f_executeSlot, ValueString, ValueString, ValueString, 2, 100));
   registerFunction("createWidget", Function(&f_createWidget, ValueString, ValueString, ValueString, 3, 100));

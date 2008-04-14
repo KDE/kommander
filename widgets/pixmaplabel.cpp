@@ -102,7 +102,7 @@ void PixmapLabel::showEvent(QShowEvent *e)
 
 bool PixmapLabel::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || DBUS::geometry;
 }
 
 QString PixmapLabel::handleDBUS(int function, const QStringList& args)
@@ -116,6 +116,12 @@ QString PixmapLabel::handleDBUS(int function, const QStringList& args)
       break;
     case DBUS::text:
       return text();
+    case DBUS::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

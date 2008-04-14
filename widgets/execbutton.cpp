@@ -193,7 +193,7 @@ void ExecButton::showEvent(QShowEvent* e)
 
 bool ExecButton::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || DBUS::execute;
+  return f == DBUS::text || f == DBUS::setText || DBUS::execute || DBUS::geometry;
 }
 
 QString ExecButton::handleDBUS(int function, const QStringList& args)

@@ -141,7 +141,7 @@ QString PopupMenu::insertSubmenu(const QString& title, const QString &menuWidget
 
 bool PopupMenu::isFunctionSupported(int f)
 {
-  return f == DBUS::clear || f == DBUS::execute || f == DBUS::item || (f >= INSERTMENUITEM && f <= LAST_FUNCTION) || f == DBUS::count;
+  return f == DBUS::clear || f == DBUS::execute || f == DBUS::item || (f >= INSERTMENUITEM && f <= LAST_FUNCTION) || f == DBUS::count || DBUS::geometry;
 }
 
 QString PopupMenu::handleDBUS(int function, const QStringList& args)
@@ -231,6 +231,12 @@ QString PopupMenu::handleDBUS(int function, const QStringList& args)
     }
     case DBUS::count:
       return QString::number(m_menu->actions().count());
+    case DBUS::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

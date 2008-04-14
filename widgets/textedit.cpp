@@ -126,7 +126,7 @@ void TextEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear || f == DBUS::setEditable || (f >= FirstFunction && f <= LastFunction);
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear || f == DBUS::setEditable || DBUS::geometry || f == DBUS::hasFocus || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextEdit::handleDBUS(int function, const QStringList& args)
@@ -150,6 +150,12 @@ QString TextEdit::handleDBUS(int function, const QStringList& args)
       break;
     case TE_isModified:
       return document()->isModified() ? "1" : "0";
+      break;
+    case DBUS::geometry:
+      return QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      break;
+    case DBUS::hasFocus:
+      return QString::number(this->hasFocus());
       break;
     default:
       return KommanderWidget::handleDBUS(function, args);

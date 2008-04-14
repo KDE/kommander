@@ -105,7 +105,7 @@ void DatePicker::contextMenuEvent( QContextMenuEvent * e )
 
 bool DatePicker::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText;
+  return f == DBUS::text || f == DBUS::setText || DBUS::geometry || DBUS::geometry || f == DBUS::hasFocus;
 }
 
 QString DatePicker::handleDBUS(int function, const QStringList& args)
@@ -116,6 +116,12 @@ QString DatePicker::handleDBUS(int function, const QStringList& args)
     case DBUS::setText:
       setDate(QDate::fromString(args[0], Qt::ISODate));
       break;    
+    case DBUS::geometry:
+      return QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      break;
+    case DBUS::hasFocus:
+      return QString::number(this->hasFocus());
+      break;
     default:
       return KommanderWidget::handleDBUS(function, args);
   }
