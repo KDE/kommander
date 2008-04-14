@@ -1086,7 +1086,12 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
             
             //Qt3 compat code
             conn.signal.replace("QListViewItem", "Q3ListViewItem");
-            conn.slot.replace("QListViewItem", "Q3ListViewItem");
+            conn.slot.replace("QListViewItem", "Q3ListViewItem"); 
+            if (dynamic_cast<QTableWidget*>(conn.sender) != 0)
+            {
+              conn.signal.replace("valueChanged", "cellChanged");
+            }
+              
 
             QObject *sender = 0, *receiver = 0;
             QList<QObject *> l = toplevel->findChildren<QObject *> ( conn.sender->objectName() );
