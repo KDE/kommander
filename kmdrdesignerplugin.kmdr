@@ -1,0 +1,454 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="Dialog">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <property name="associations" stdset="0">
+        <stringlist>
+            <string></string>
+            <string>plugin_cpp.setVisible(false)
+plugin_h.setVisible(false)</string>
+            <string></string>
+        </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout14</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer9</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>191</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="ExecButton">
+                    <property name="name">
+                        <cstring>ExecButton16</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Make Plugin</string>
+                    </property>
+                    <property name="associations" stdset="0">
+                        <stringlist>
+                            <string>origin = className.text
+class = origin+"KmdrDesignerPlugin"
+def = str_upper(class)+str_upper(pclass)+"_H"
+include = str_lower(origin)+".h"
+includeplugin = str_lower(class)+".h"
+cppplugin = str_lower(class)+".cpp"
+author = LEauthor.text
+email = LEemail.text
+width = LEwidth.text
+height = LEheight.text
+tooltip = LEtooltip.text
+whatsthis = LEwhatsthis.text
+
+header = str_replace(plugin_h.text, "&lt;[def]&gt;", def)
+header = str_replace(header, "&lt;[class]&gt;", class)
+header = str_replace(header, "&lt;[author]&gt;", author)
+header = str_replace(header, "&lt;[email]&gt;", email)
+
+cpp = str_replace(plugin_cpp.text, "&lt;[class]&gt;", class)
+cpp = str_replace(cpp, "&lt;[author]&gt;", author)
+cpp = str_replace(cpp, "&lt;[email]&gt;", email)
+cpp = str_replace(cpp, "&lt;[origin]&gt;", origin)
+cpp = str_replace(cpp, "&lt;[include]&gt;", include)
+cpp = str_replace(cpp, "&lt;[includeplugin]&gt;", includeplugin)
+cpp = str_replace(cpp, "&lt;[width]&gt;", width)
+cpp = str_replace(cpp, "&lt;[height]&gt;", height)
+cpp = str_replace(cpp, "&lt;[tooltip]&gt;", tooltip)
+cpp = str_replace(cpp, "&lt;[whatsthis]&gt;", whatsthis)
+
+file_write(FileSelector1.text+"/"+includeplugin, header)
+file_write(FileSelector1.text+"/"+cppplugin, cpp)
+TextEdit4.append("#include \""+includeplugin+"\"\n")</string>
+                        </stringlist>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer10</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>181</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout15</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="LineEdit" row="0" column="2" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>LEauthor</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Eric Laffoon</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>Label7</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Widget Class</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="2" column="2" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>className</cstring>
+                    </property>
+                </widget>
+                <widget class="FileSelector" row="6" column="1" rowspan="1" colspan="4">
+                    <property name="name">
+                        <cstring>FileSelector1</cstring>
+                    </property>
+                    <property name="selectionType">
+                        <enum>Directory</enum>
+                    </property>
+                </widget>
+                <widget class="Label" row="1" column="0">
+                    <property name="name">
+                        <cstring>Label11</cstring>
+                    </property>
+                    <property name="text">
+                        <string>email</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="5" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>Label13</cstring>
+                    </property>
+                    <property name="text">
+                        <string>What's This?</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="0" column="0">
+                    <property name="name">
+                        <cstring>Label10</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Author</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="3" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>LEwidth</cstring>
+                    </property>
+                    <property name="text">
+                        <string>100</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="4" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>Label12</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Tool Tip</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="3" column="4">
+                    <property name="name">
+                        <cstring>LEheight</cstring>
+                    </property>
+                    <property name="text">
+                        <string>26</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="5" column="3" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>LEwhatsthis</cstring>
+                    </property>
+                </widget>
+                <widget class="Label" row="3" column="0">
+                    <property name="name">
+                        <cstring>Label8</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Width</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="3" column="3">
+                    <property name="name">
+                        <cstring>Label9</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Height</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="1" column="2" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>LEemail</cstring>
+                    </property>
+                    <property name="text">
+                        <string>sequitur@kde.org</string>
+                    </property>
+                </widget>
+                <widget class="Label" row="6" column="0">
+                    <property name="name">
+                        <cstring>Label14</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Output Path</string>
+                    </property>
+                </widget>
+                <widget class="LineEdit" row="4" column="3" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>LEtooltip</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="TextEdit" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>TextEdit4</cstring>
+            </property>
+        </widget>
+        <widget class="TextEdit" row="3" column="1">
+            <property name="name">
+                <cstring>plugin_cpp</cstring>
+            </property>
+            <property name="text">
+                <string>/***************************************************************************
+ *   Copyright (C) 2008 by &lt;[author]&gt;   *
+ *   &lt;[email]&gt;   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+#include "&lt;[include]&gt;"
+#include "&lt;[includeplugin]&gt;"
+
+#include &lt;QtPlugin&gt;
+
+&lt;[class]&gt;::&lt;[class]&gt;(QObject *parent): QObject(parent)
+{
+  initialized = false;
+}
+
+void &lt;[class]&gt;::initialize(QDesignerFormEditorInterface * /* core */)
+{
+  if (initialized)
+      return;
+
+  initialized = true;
+}
+
+bool &lt;[class]&gt;::isInitialized() const
+{
+  return initialized;
+}
+
+QWidget *&lt;[class]&gt;::createWidget(QWidget *parent)
+{
+  return new &lt;[origin]&gt;(parent);
+}
+
+QString &lt;[class]&gt;::name() const
+{
+  return "&lt;[origin]&gt;";
+}
+
+QString &lt;[class]&gt;::group() const
+{
+  return "Display Widgets [Kommander]";
+}
+
+QIcon &lt;[class]&gt;::icon() const
+{
+  return QIcon();
+}
+
+QString &lt;[class]&gt;::toolTip() const
+{
+  return "";
+}
+
+QString &lt;[class]&gt;::whatsThis() const
+{
+  return "";
+}
+
+bool &lt;[class]&gt;::isContainer() const
+{
+  return false;
+}
+
+QString &lt;[class]&gt;::domXml() const
+{
+  return "&lt;widget class=\"&lt;[origin]&gt;\" name=\"&lt;[origin]&gt;\"&gt;\n"
+        " &lt;property name=\"geometry\"&gt;\n"
+        "  &lt;rect&gt;\n"
+        "   &lt;x&gt;0&lt;/x&gt;\n"
+        "   &lt;y&gt;0&lt;/y&gt;\n"
+        "   &lt;width&gt;&lt;[width]&gt;&lt;/width&gt;\n"
+        "   &lt;height&gt;&lt;[height]&gt;&lt;/height&gt;\n"
+        "  &lt;/rect&gt;\n"
+        " &lt;/property&gt;\n"
+        " &lt;property name=\"toolTip\" &gt;\n"
+        "  &lt;string&gt;&lt;[tooltip]&gt;&lt;/string&gt;\n"
+        " &lt;/property&gt;\n"
+        " &lt;property name=\"whatsThis\" &gt;\n"
+        "  &lt;string&gt;&lt;[whatsthis]&gt;&lt;/string&gt;\n"
+        " &lt;/property&gt;\n"
+        "&lt;/widget&gt;\n";
+}
+
+QString &lt;[class]&gt;::includeFile() const
+{
+  return "&lt;[include]&gt;";
+}
+</string>
+            </property>
+        </widget>
+        <widget class="TextEdit" row="3" column="0">
+            <property name="name">
+                <cstring>plugin_h</cstring>
+            </property>
+            <property name="text">
+                <string>/***************************************************************************
+ *   Copyright (C) 2008 by &lt;[author]&gt;   *
+ *   &lt;[email]&gt;   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+#ifndef &lt;[def]&gt;
+#define &lt;[def]&gt;
+
+#include &lt;QDesignerCustomWidgetInterface&gt;
+
+class &lt;[class]&gt; : public QObject, public QDesignerCustomWidgetInterface
+{
+  Q_OBJECT
+  Q_INTERFACES(QDesignerCustomWidgetInterface)
+
+public:
+  &lt;[class]&gt;(QObject *parent = 0);
+
+  bool isContainer() const;
+  bool isInitialized() const;
+  QIcon icon() const;
+  QString domXml() const;
+  QString group() const;
+  QString includeFile() const;
+  QString name() const;
+  QString toolTip() const;
+  QString whatsThis() const;
+  QWidget *createWidget(QWidget *parent);
+  void initialize(QDesignerFormEditorInterface *core);
+
+private:
+  bool initialized;
+};
+
+#endif</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<tabstops>
+    <tabstop>LEauthor</tabstop>
+    <tabstop>LEemail</tabstop>
+    <tabstop>className</tabstop>
+    <tabstop>LEwidth</tabstop>
+    <tabstop>LEheight</tabstop>
+    <tabstop>LEtooltip</tabstop>
+    <tabstop>LEwhatsthis</tabstop>
+    <tabstop>ExecButton16</tabstop>
+    <tabstop>TextEdit4</tabstop>
+    <tabstop>plugin_cpp</tabstop>
+    <tabstop>plugin_h</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -7,6 +7,7 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_BINARY_DIR} 
 	${KDE4_INCLUDE_DIR} 
 	${QT_INCLUDE_DIR}
+        ${QT_DESIGNER_LIBRARY}
 )
 
 
@@ -50,6 +51,44 @@ wizard.cpp
 )
 
 KDE4_ADD_LIBRARY(kommanderwidgets SHARED ${kommanderwidgets_LIB_SRCS})
+
+########### next target ###############
+
+SET(kmdrdesignerwidgets_LIB_SRCS
+aboutdialogkmdrdesignerplugin.cpp
+buttongroupkmdrdesignerplugin.cpp
+checkboxkmdrdesignerplugin.cpp
+closebuttonkmdrdesignerplugin.cpp
+comboboxkmdrdesignerplugin.cpp
+datepickerkmdrdesignerplugin.cpp
+execbuttonkmdrdesignerplugin.cpp
+fileselectorkmdrdesignerplugin.cpp
+fontdialogkmdrdesignerplugin.cpp
+groupboxkmdrdesignerplugin.cpp
+kmdrdesignerwidgets.cpp
+konsolekmdrdesignerplugin.cpp
+labelkmdrdesignerplugin.cpp
+lineeditkmdrdesignerplugin.cpp
+listboxkmdrdesignerplugin.cpp
+pixmaplabelkmdrdesignerplugin.cpp
+popupmenukmdrdesignerplugin.cpp
+progressbarkmdrdesignerplugin.cpp
+radiobuttonkmdrdesignerplugin.cpp
+scriptobjectkmdrdesignerplugin.cpp
+sliderkmdrdesignerplugin.cpp
+spinboxintkmdrdesignerplugin.cpp
+statusbarkmdrdesignerplugin.cpp
+tablekmdrdesignerplugin.cpp
+tabwidgetkmdrdesignerplugin.cpp
+textbrowserkmdrdesignerplugin.cpp
+texteditkmdrdesignerplugin.cpp
+timerkmdrdesignerplugin.cpp
+toolboxkmdrdesignerplugin.cpp
+treewidgetkmdrdesignerplugin.cpp
+wizardkmdrdesignerplugin.cpp
+)
+
+#KDE4_ADD_LIBRARY(kmdrdesignerwidgets SHARED ${kmdrdesignerwidgets_LIB_SRCS})
 
 TARGET_LINK_LIBRARIES(
  kommanderwidgets  
