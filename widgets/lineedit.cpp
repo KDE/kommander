@@ -109,7 +109,8 @@ void LineEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool LineEdit::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear ||  DBUS::setEditable || DBUS::geometry || f == DBUS::hasFocus;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
+      f == DBUS::clear || f == DBUS::setEditable || f == DBUS::geometry || f == DBUS::hasFocus;
 }
 
 QString LineEdit::handleDBUS(int function, const QStringList& args)

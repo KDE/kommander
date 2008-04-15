@@ -153,7 +153,7 @@ void ScriptObject::execute(bool i)
 
 bool ScriptObject::isFunctionSupported(int f)
 {
-  return f == DBUS::setText || f == DBUS::clear || f == DBUS::execute || DBUS::item || DBUS::count;
+  return f == DBUS::setText || f == DBUS::clear || f == DBUS::execute || f == DBUS::item || f == DBUS::count;
 }
 
 QString ScriptObject::handleDBUS(int function, const QStringList& args)

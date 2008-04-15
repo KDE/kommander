@@ -273,7 +273,7 @@ void RichTextEditor::contextMenuEvent( QContextMenuEvent * e )
 
 bool RichTextEditor::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::selection || DBUS::setEditable;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::selection || f == DBUS::setEditable;
 }
 
 QString RichTextEditor::handleDBUS(int function, const QStringList& args)
