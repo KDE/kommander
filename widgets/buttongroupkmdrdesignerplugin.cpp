@@ -42,7 +42,7 @@ bool ButtonGroupKmdrDesignerPlugin::isInitialized() const
 
 QWidget *ButtonGroupKmdrDesignerPlugin::createWidget(QWidget *parent)
 {
-  return new ButtonGroup(parent);
+  return new ButtonGroup(parent, ""); //TODO: name is not passed, might not be critical though
 }
 
 QString ButtonGroupKmdrDesignerPlugin::name() const
