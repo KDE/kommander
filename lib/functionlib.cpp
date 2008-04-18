@@ -159,7 +159,7 @@ static ParseNode f_stringToDouble(Parser*, const ParameterList& params)
 static ParseNode f_stringRound(Parser*, const ParameterList& params)
 {
   QString s;
-  s.sprintf("%."+params[1].toString()+"f", params[0].toDouble());
+  s.sprintf(QString("%."+params[1].toString()+"f").toLatin1(), params[0].toDouble());
   return s;
 }
 
