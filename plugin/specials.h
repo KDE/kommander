@@ -28,7 +28,7 @@ namespace Group
 
 namespace DCOP
 {
-  enum {addUniqueItem, associatedText, cancel, cellText, clear, checked, children, count, currentColumn,
+  enum {addUniqueItem, associatedText, cancel, cellText, clear, checked, children, columnCount, count, currentColumn,
     currentItem, currentRow, execute, findItem, global, insertColumn, insertItem, insertItems, insertRow, 
     item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
     setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 

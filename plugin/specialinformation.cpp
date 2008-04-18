@@ -296,6 +296,8 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::clear, "clear(QString widget)",
          i18n("Removes all content from the widget."), 1);
   insertAlias(DCOP::clear, "clearList");
+  insert(DCOP::columnCount, "columnCount(QString widget)", 
+        i18n("Get the column count"), 1);
   insert(DCOP::count, "count(QString widget)",
          i18n("Returns number of items in a widget such as combobox or listbox."), 1);
   insert(DCOP::currentColumn, "currentColumn(QString widget)", 

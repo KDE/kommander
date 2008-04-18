@@ -38,7 +38,7 @@
 #define TW_FUNCTION 275
 #define addColumnTree TW_FUNCTION+1
 #define setAltBackground TW_FUNCTION+2
-#define colCount TW_FUNCTION+3
+//#define colCount TW_FUNCTION+3
 #define colCaption TW_FUNCTION+4
 #define setColWidth TW_FUNCTION+5
 #define setSortCol TW_FUNCTION+6
@@ -61,10 +61,10 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(SelectedIndexes, "selectedIndexes(QString widget)",  "", 1);
   KommanderPlugin::registerFunction(addColumnTree, "addColumn(QString widget, const QString & label, int width = -1 )", i18n("Add column at end with column header"), 2, 3);
-  KommanderPlugin::registerFunction(setSortCol, "setSortCol(QString widget, int column, bool ascending=true)", i18n("Set sorting for a column"), 2, 3);
+  KommanderPlugin::registerFunction(setSortCol, "setSortColumn(QString widget, int column, bool ascending=true)", i18n("Set sorting for a column"), 2, 3);
   //KommanderPlugin::registerFunction(setAltBackground, "setAltBackground(QString widget, const QColor & c)",  i18n("Alternate colors in list view"), 2);
-  KommanderPlugin::registerFunction(colCount, "colCount(QString widget)", i18n("Get the column count"), 1);
-  KommanderPlugin::registerFunction(colCaption, "colCaption(QString widget, int column)", i18n("Get the column caption for column index"), 2);
+//  KommanderPlugin::registerFunction(colCount, "colCount(QString widget)", i18n("Get the column count"), 1);
+  KommanderPlugin::registerFunction(colCaption, "columnCaption(QString widget, int column)", i18n("Get the column caption for column index"), 2);
   KommanderPlugin::registerFunction(setColWidth, "setColWidth(QString widget, int column, int width)", i18n("Set the pixel width for column index - use 0 to hide"), 3);
 }
 
@@ -275,7 +275,7 @@ bool TreeWidget::isFunctionSupported(int f)
   return f == DCOP::insertItem || f == DCOP::text || f == DCOP::setText || f == DCOP::insertItems ||
     f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::removeItem || 
     f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::findItem || f == DCOP::item || 
-      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap || f == DCOP::setColumnCaption || f == DCOP::removeColumn || f == DCOP::geometry || f == DCOP::hasFocus  || (f > FirstFunction && f < LastFunction) || (f >= TW_FUNCTION && f <= TW_LAST_FUNCTION);
+      f == DCOP::itemPath || f == DCOP::itemDepth || f == DCOP::setPixmap || f == DCOP::setColumnCaption || f == DCOP::removeColumn || f == DCOP::columnCount || f == DCOP::geometry || f == DCOP::hasFocus  || (f > FirstFunction && f < LastFunction) || (f >= TW_FUNCTION && f <= TW_LAST_FUNCTION);
 }
 
 QString TreeWidget::handleDCOP(int function, const QStringList& args)
@@ -385,7 +385,8 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     }
     case DCOP::setColumnCaption:
-      setColumnText(args[0].toInt(), args[1]);
+      if (columns() >= args[0].toInt())
+        setColumnText(args[0].toInt(), args[1]);
       break;
     case addColumnTree:
       return QString::number(KListView::addColumn(args[0], args[1].toInt()));
@@ -393,7 +394,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
     case setSortCol:
       KListView::setSorting(args[0].toInt(), args[1].toInt());
       break;
-    case colCount:
+    case DCOP::columnCount:
       return QString::number(QListView::columns() );
       break;
     case colCaption:

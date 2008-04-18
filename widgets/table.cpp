@@ -39,6 +39,7 @@ enum Functions {
   TBL_selectColumn,
   TBL_setColumnReadOnly,
   TBL_setRowReadOnly,
+  TBL_rowCount,
   LastFunction
 };
 
@@ -58,6 +59,7 @@ Table::Table(QWidget *a_parent, const char *a_name)
   KommanderPlugin::registerFunction(TBL_selectColumn, "selectColumn(QString widget, int col)", i18n("Select the column with the zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 2);
   KommanderPlugin::registerFunction(TBL_setColumnReadOnly, "setColumnReadOnly(QString widget, int col, bool Readonly)", i18n("Set the column read only using zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 3);
   KommanderPlugin::registerFunction(TBL_setRowReadOnly, "setRowReadOnly(QString widget, int row, bool Readonly)", i18n("Set the row read only using zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 3);
+  KommanderPlugin::registerFunction(TBL_rowCount, "rowCount(QString widget)", i18n("Returns the number of rows of the table"), 3);
 
 }
 
@@ -114,7 +116,7 @@ QString Table::selectedArea()
 bool Table::isFunctionSupported(int f)
 {
   return f == DCOP::currentColumn || f == DCOP::currentRow || f == DCOP::insertColumn || 
-      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText || f == DCOP::setCellWidget || f == DCOP::cellWidget ||
+      f == DCOP::insertRow || f == DCOP::cellText || f == DCOP::setCellText || f == DCOP::setCellWidget || f == DCOP::cellWidget || f == DCOP::columnCount ||
       f == DCOP::removeRow || f == DCOP::removeColumn || f == DCOP::setColumnCaption ||
       f == DCOP::setRowCaption || f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::geometry || f == DCOP::hasFocus  || (f >= FirstFunction && f <= LastFunction);
 }
@@ -204,6 +206,9 @@ QString Table::handleDCOP(int function, const QStringList& args)
       return QString::number(currentColumn());
     case DCOP::currentRow:
       return QString::number(currentRow());
+    case DCOP::columnCount:
+      return QString::number(numCols());
+      break;
     case DCOP::removeColumn:
     {
       if (!args[1].toInt())
@@ -216,7 +221,10 @@ QString Table::handleDCOP(int function, const QStringList& args)
           removeColumn(column);
       }
       break;
-    }  
+    }
+    case TBL_rowCount:
+      return QString::number(numRows());
+      break;
     case DCOP::removeRow:
     {
       int row = args[0].toInt();
@@ -226,10 +234,12 @@ QString Table::handleDCOP(int function, const QStringList& args)
       break;
     }
     case DCOP::setColumnCaption:
-      horizontalHeader()->setLabel(args[0].toInt(), args[1]);
+      if (numCols() >= args[0].toInt())
+        horizontalHeader()->setLabel(args[0].toInt(), args[1]);
       break;
     case DCOP::setRowCaption:
-      verticalHeader()->setLabel(args[0].toInt(), args[1]);
+      if (numRows() >= args[0].toInt())
+        verticalHeader()->setLabel(args[0].toInt(), args[1]);
       break;
     case DCOP::text:
     {
