@@ -177,7 +177,7 @@ void Dialog::contextMenuEvent( QContextMenuEvent * e )
 
 bool Dialog::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::geometry;
 }
 
 QString Dialog::handleDCOP(int function, const QStringList& args)
@@ -187,6 +187,9 @@ QString Dialog::handleDCOP(int function, const QStringList& args)
       return caption();
     case DCOP::setText:
       setWidgetText(args[0]);
+      break;
+    case DCOP::geometry:
+      return QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

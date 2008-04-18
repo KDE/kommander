@@ -514,6 +514,8 @@ void SpecialInformation::registerSpecials()
     i18n("Returns given section of a string."), 1);
   insert(String::args, "args(QString string, QString arg1, QString arg2, QString arg3)", 
     i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
+  insert(String::round, "round(QString Number, int Digits)", 
+    i18n("Round a floating point number by x digits."), 2);
 
   insertInternal(String::toInt, "toint(QString string, QString default)",
     i18n("Convert a string to an integer. If not possible use the default value"), 1, 2);

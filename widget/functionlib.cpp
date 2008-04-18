@@ -161,6 +161,12 @@ static ParseNode f_return(Parser* p, const ParameterList& params)
   return params[0];
 }
 
+static ParseNode f_stringRound(Parser*, const ParameterList& params)
+{
+  QString s;
+  s.sprintf("%."+params[1].toString()+"f", params[0].toDouble());
+  return s;
+}
 
 /******************* Debug function ********************************/
 static ParseNode f_debug(Parser*, const ParameterList& params)
@@ -921,6 +927,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("str_isempty", Function(&f_stringIsEmpty, ValueInt, ValueString));
   registerFunction("str_toint", Function(&f_stringToInt, ValueString, ValueInt, 1));
   registerFunction("str_todouble", Function(&f_stringToDouble, ValueString, ValueDouble, 1));
+  registerFunction("str_round", Function(&f_stringRound, ValueInt, ValueDouble, ValueInt, 2));
   registerFunction("return", Function(&f_return, ValueNone, ValueString, 1, 1));
   registerFunction("debug", Function(&f_debug, ValueNone, ValueString, 1, 100));
   registerFunction("echo", Function(&f_echo, ValueNone, ValueString, 1, 100));
