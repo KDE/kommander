@@ -55,6 +55,7 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
   public slots:
     virtual void populate();
     virtual void setWidgetText(const QString &);
+    //void adjustColumn(int col);
   signals:
     void contextMenuRequested(int xpos, int ypos);
   protected:

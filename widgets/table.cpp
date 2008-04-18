@@ -17,6 +17,7 @@
 /* KDE INCLUDES */
 #include <klocale.h>
 #include <kglobal.h>
+#include <kmessagebox.h>
 
 /* QT INCLUDES */
 #include <qmetaobject.h>
@@ -59,7 +60,7 @@ Table::Table(QWidget *a_parent, const char *a_name)
   KommanderPlugin::registerFunction(TBL_selectColumn, "selectColumn(QString widget, int col)", i18n("Select the column with the zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 2);
   KommanderPlugin::registerFunction(TBL_setColumnReadOnly, "setColumnReadOnly(QString widget, int col, bool Readonly)", i18n("Set the column read only using zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 3);
   KommanderPlugin::registerFunction(TBL_setRowReadOnly, "setRowReadOnly(QString widget, int row, bool Readonly)", i18n("Set the row read only using zero based index.<br /><b>Not guaranteed to have KDE4 compatiblility</b>"), 3);
-  KommanderPlugin::registerFunction(TBL_rowCount, "rowCount(QString widget)", i18n("Returns the number of rows of the table"), 3);
+  KommanderPlugin::registerFunction(TBL_rowCount, "rowCount(QString widget)", i18n("Returns the number of rows of the table"), 1);
 
 }
 
@@ -179,8 +180,15 @@ void Table::contextMenuEvent( QContextMenuEvent * e )
   QPoint p = e->globalPos();
   emit contextMenuRequested(p.x(), p.y());
 }
-
-
+/*
+void Table::adjustColumn(int col)
+{
+  if (numRows() >= col)
+    QTable::adjustColumn(col);
+  else
+    KMessageBox::error(this, "Attempted to size nonexistant column");
+}
+*/
 QString Table::handleDCOP(int function, const QStringList& args)
 {
   switch (function) 
@@ -188,10 +196,12 @@ QString Table::handleDCOP(int function, const QStringList& args)
     case DCOP::cellText:
       return text(args[0].toInt(), args[1].toInt());
     case DCOP::setCellText:
-      setCellText(args[0].toInt(), args[1].toInt(), args[2]);
+      if (numRows() >= args[0].toInt() && numCols() >+ args[1].toInt())
+        setCellText(args[0].toInt(), args[1].toInt(), args[2]);
       break;
     case DCOP::setCellWidget:
-      setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);
+      if (numRows() >= args[0].toInt() && numCols() >+ args[1].toInt())
+        setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);
       break;
     case DCOP::cellWidget:
       return cellWidget(args[0].toInt(), args[1].toInt());
@@ -210,6 +220,7 @@ QString Table::handleDCOP(int function, const QStringList& args)
       return QString::number(numCols());
       break;
     case DCOP::removeColumn:
+    if (numCols() >= args[0].toInt())
     {
       if (!args[1].toInt())
         removeColumn(args[0].toInt());
