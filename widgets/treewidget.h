@@ -80,6 +80,7 @@ private:
   int addColumnTree(const QString & label, int width = -1 );
   void setSortCol(int column, bool ascending=true);
   void setAltBackground(const QColor & c);
+  void setColAlign(int column, const QString& align);
 };
 
 #endif

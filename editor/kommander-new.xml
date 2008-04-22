@@ -26,13 +26,16 @@
       <item>clear</item>
       <item>checked</item>
       <item>children</item>
+      <item>columnCount</item>
       <item>count</item>
       <item>currentColumn</item>
       <item>currentItem</item>
       <item>currentRow</item>
       <item>execute</item> 
       <item>findItem</item>
+      <item>geometry</item>
       <item>global</item>
+      <item>hasFocus</item>
       <item>insertColumn</item>
       <item>insertItem</item>
       <item>insertItems</item>
@@ -43,6 +46,7 @@
       <item>removeColumn</item>
       <item>removeItem</item>
       <item>removeRow</item>
+      <item>rowCount</item>
       <item>selection</item>
       <item>setAssociatedText</item>
       <item>setChecked</item>
@@ -133,12 +137,14 @@
       <item>str_args</item>
       <item>str_toint</item>
       <item>str_todouble</item>
+      <item>str_round</item>
     </list>
     
     <list name="kmdrfile">
       <item>file_read</item>
       <item>file_write</item>
       <item>file_append</item>
+      <item>file_exists</item>
     </list>
     
     <list name="kmdrinput">

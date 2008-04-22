@@ -38,6 +38,7 @@
 #define TW_FUNCTION 275
 #define addColumnTree TW_FUNCTION+1
 #define setAltBackground TW_FUNCTION+2
+#define setColAlignment TW_FUNCTION+3
 //#define colCount TW_FUNCTION+3
 #define colCaption TW_FUNCTION+4
 #define setColWidth TW_FUNCTION+5
@@ -66,6 +67,7 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
 //  KommanderPlugin::registerFunction(colCount, "colCount(QString widget)", i18n("Get the column count"), 1);
   KommanderPlugin::registerFunction(colCaption, "columnCaption(QString widget, int column)", i18n("Get the column caption for column index"), 2);
   KommanderPlugin::registerFunction(setColWidth, "setColWidth(QString widget, int column, int width)", i18n("Set the pixel width for column index - use 0 to hide"), 3);
+  KommanderPlugin::registerFunction(setColAlignment, "setColumnAlignment(QString widget, int column, QString Alignment)", i18n("Set to <i>left</i>, <i>right</i> or <i>center</i>, case insensitive "), 3);
 }
 
 TreeWidget::~TreeWidget()
@@ -269,6 +271,15 @@ void TreeWidget::contextMenuEvent( QContextMenuEvent * e )
   emit contextMenuRequested(p.x(), p.y());
 }
 
+void TreeWidget::setColAlign(int column, const QString& align)
+{
+  if (align.lower() == "left")
+    setColumnAlignment (column, Qt::AlignLeft);
+  else if (align.lower() == "right")
+    setColumnAlignment (column, Qt::AlignRight);
+  else if (align.lower() == "center")
+    setColumnAlignment (column, Qt::AlignCenter);
+}
 
 bool TreeWidget::isFunctionSupported(int f)
 {
@@ -356,15 +367,31 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::currentItem:
       return QString::number(itemToIndex(currentItem()));
+      break;
     case DCOP::setCurrentItem:
       setCurrentItem(indexToItem(args[0].toInt()));
       break;
     case DCOP::findItem:
-      return QString::number(itemToIndex(findItem(args[0], 0)));
+      if (!args[1])
+        return QString::number(itemToIndex(findItem(args[0], 0)));
+      else
+      {
+        if (args[2].toUInt() && args[3].toUInt())
+          return QString::number(itemToIndex(findItem(args[0], args[1].toInt())));
+        else if (args[2].toUInt())
+          return QString::number(itemToIndex(findItem(args[0], args[1].toInt(), Qt::CaseSensitive | Qt::Contains)));
+        else if (args[3].toUInt())
+          return QString::number(itemToIndex(findItem(args[0], args[1].toInt(), Qt::ExactMatch)));
+        else
+          return QString::number(itemToIndex(findItem(args[0], args[1].toInt(), Qt::Contains)));
+      }
+      break;
     case DCOP::item:
       return itemText(indexToItem(args[0].toInt()));
+      break;
     case DCOP::itemPath:
       return itemPath(indexToItem(args[0].toInt()));
+      break;
     case DCOP::itemDepth:
     {
       QListViewItem* item = indexToItem(args[0].toInt());
@@ -402,6 +429,9 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     case setColWidth:
       QListView::setColumnWidth(args[0].toInt(), args[1].toInt());
+      break;
+    case setColAlignment:
+      setColAlign(args[0].toInt(), args[1]);
       break;
     case setAltBackground:
       KListView::setAlternateBackground(QColor(args[0]));

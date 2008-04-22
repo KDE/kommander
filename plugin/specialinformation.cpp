@@ -296,7 +296,7 @@ void SpecialInformation::registerSpecials()
   insert(DCOP::clear, "clear(QString widget)",
          i18n("Removes all content from the widget."), 1);
   insertAlias(DCOP::clear, "clearList");
-  insert(DCOP::columnCount, "columnCount(QString widget)", 
+  insertInternal(DCOP::columnCount, "columnCount(QString widget)", 
         i18n("Get the column count"), 1);
   insert(DCOP::count, "count(QString widget)",
          i18n("Returns number of items in a widget such as combobox or listbox."), 1);
@@ -308,8 +308,8 @@ void SpecialInformation::registerSpecials()
          i18n("Returns index of current row."), 1);
   insert(DCOP::execute, "execute(QString widget)", 
          i18n("Executes the script associated with the widget. With the new parser the execute method can take one or more arguments."), 1, 9);
-  insert(DCOP::findItem, "findItem(QString widget, QString item)",
-         i18n("Returns the index of an item with the given text."), 2);
+  insert(DCOP::findItem, "findItem(QString widget, QString item, int column, bool CaseSensitive, bool ExactMatch)",
+         i18n("Returns the index of an item with the given text. Defaults to case sensitive. Matching can be an exact match or match if it contains the string. Only the first argument is requred. If no column is given it will search the first by default."), 2, 5);
   insert(DCOP::insertColumn, "insertColumn(QString widget, int column, int count)",
          i18n("Inserts new column (or <i>count</i> columns) at <i>column</i> position."), 2);
   insert(DCOP::insertItem, "insertItem(QString widget, QString item, int index)",
@@ -375,9 +375,9 @@ void SpecialInformation::registerSpecials()
      i18n("Returns type(class) of widget."), 1);
   insert(DCOP::setEditable, "setEditable(QString widget, bool editable)", 
      i18n("Makes the widget editable or read only, depending on the editable argument."), 2);
-  insert(DCOP::geometry, "geometry(QString widget)", 
+  insertInternal(DCOP::geometry, "geometry(QString widget)", 
      i18n("Return the widget's geometry as <i>x y w h</i>. This is useful for positioning a created widget."), 1);
-  insert(DCOP::hasFocus, "hasFocus(QString widget)", 
+  insertInternal(DCOP::hasFocus, "hasFocus(QString widget)", 
      i18n("Returns true if the widget has focus."), 1);
 
   insertGroup(Group::Slots, i18n("Slots"), "");

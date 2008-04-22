@@ -32,7 +32,9 @@
       <item>currentRow</item>
       <item>execute</item> 
       <item>findItem</item>
+      <item>geometry</item>
       <item>global</item>
+      <item>hasFocus</item>
       <item>insertColumn</item>
       <item>insertItem</item>
       <item>insertItems</item>
@@ -117,12 +119,14 @@
       <item>isNumber</item>
       <item>section</item>
       <item>args</item>
+      <item>round</item>
     </list>
     
     <list name="kmdrfile">
       <item>read</item>
       <item>write</item>
       <item>append</item>
+      <item>exists</item>
     </list>
     
     <list name="kmdrinput">
