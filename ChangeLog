@@ -1,3 +1,9 @@
+2008-04-23 - Eric Laffoon <sequitur@kde.org>
+    o add a little color to tab widgets with icons
+2008-04-21 - Eric Laffoon <sequitur@kde.org>
+    o added the ability to set alignment in columns in Tree/list widget
+    o enhanced find to now use column and set additional parameters in TreeWidget
+    o renamed some new functions only released in special release recently as cleanup
 2008-04-17 - Eric Laffoon <sequitur@kde.org>
     o added round function in strings to round number to x digits
 2008-04-14 - Eric Laffoon <sequitur@kde.org>

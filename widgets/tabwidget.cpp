@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <klocale.h>
+#include <kiconloader.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -24,8 +26,15 @@
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
+#include "kommanderplugin.h"
 #include <specials.h>
 #include "tabwidget.h"
+
+enum Functions {
+  FirstFunction = 355,
+  TAB_setTabIcon,
+  LastFunction
+};
 
 TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
 	: QTabWidget(a_parent, a_name, a_flags), KommanderWidget(this)
@@ -34,6 +43,9 @@ TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
   states << "default";
   setStates(states);
   setDisplayStates(states);
+
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(TAB_setTabIcon, "setTabIcon(QString widget, int Tab, QString Icon)", i18n("Sets an icon on the specified tab. Index is zero based."), 3);
 }
 
 TabWidget::~TabWidget()
@@ -89,7 +101,7 @@ void TabWidget::contextMenuEvent( QContextMenuEvent * e )
 
 bool TabWidget::isFunctionSupported(int f)
 {
-  return f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::insertTab  ;
+  return f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::insertTab || (f >= FirstFunction && f <= LastFunction) ;
 }
 
 QString TabWidget::handleDCOP(int function, const QStringList& args)
@@ -103,6 +115,12 @@ QString TabWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::insertTab:
       insertTab(0L, args[0], args[1].toUInt());
       break;
+    case TAB_setTabIcon:
+    {
+      QWidget *w = page(args[0].toInt());
+      setTabIconSet(w, KGlobal::iconLoader()->loadIcon(args[1], KIcon::NoGroup, KIcon::SizeMedium));
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
