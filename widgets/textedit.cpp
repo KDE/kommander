@@ -126,7 +126,8 @@ void TextEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear || f == DBUS::setEditable || DBUS::geometry || f == DBUS::hasFocus || (f >= FirstFunction && f <= LastFunction);
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
+      f == DBUS::clear || f == DBUS::setEditable || f == DBUS::geometry || f == DBUS::hasFocus || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextEdit::handleDBUS(int function, const QStringList& args)

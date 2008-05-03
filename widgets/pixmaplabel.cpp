@@ -102,7 +102,7 @@ void PixmapLabel::showEvent(QShowEvent *e)
 
 bool PixmapLabel::isFunctionSupported(int f)
 {
-  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || DBUS::geometry;
+  return f == DBUS::text || f == DBUS::setText || f == DBUS::clear || f == DBUS::geometry;
 }
 
 QString PixmapLabel::handleDBUS(int function, const QStringList& args)

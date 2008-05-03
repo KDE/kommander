@@ -141,7 +141,8 @@ QString PopupMenu::insertSubmenu(const QString& title, const QString &menuWidget
 
 bool PopupMenu::isFunctionSupported(int f)
 {
-  return f == DBUS::clear || f == DBUS::execute || f == DBUS::item || (f >= INSERTMENUITEM && f <= LAST_FUNCTION) || f == DBUS::count || DBUS::geometry;
+  return f == DBUS::clear || f == DBUS::execute || f == DBUS::item || (f >= INSERTMENUITEM && f <=
+          LAST_FUNCTION) || f == DBUS::count || f == DBUS::geometry;
 }
 
 QString PopupMenu::handleDBUS(int function, const QStringList& args)

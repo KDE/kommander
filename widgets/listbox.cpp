@@ -101,7 +101,7 @@ bool ListBox::isFunctionSupported(int f)
   return f == DBUS::text || f == DBUS::setText || f == DBUS::selection || f == DBUS::setSelection ||
       f == DBUS::insertItems || f == DBUS::insertItem || f == DBUS::removeItem || f == DBUS::clear ||
       f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::item || f == DBUS::addUniqueItem ||
-      f == DBUS::findItem || f == DBUS::setPixmap || f == DBUS::count || DBUS::geometry || f == DBUS::hasFocus;
+      f == DBUS::findItem || f == DBUS::setPixmap || f == DBUS::count || f == DBUS::geometry || f == DBUS::hasFocus;
 }
 
 void ListBox::contextMenuEvent( QContextMenuEvent * e )

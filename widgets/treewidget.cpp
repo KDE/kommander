@@ -278,7 +278,8 @@ bool TreeWidget::isFunctionSupported(int f)
   return f == DBUS::insertItem || f == DBUS::text || f == DBUS::setText || f == DBUS::insertItems ||
     f == DBUS::selection || f == DBUS::setSelection || f == DBUS::clear || f == DBUS::removeItem || 
     f == DBUS::currentItem || f == DBUS::setCurrentItem || f == DBUS::findItem || f == DBUS::item || 
-      f == DBUS::itemPath || f == DBUS::itemDepth || f == DBUS::setPixmap || f == DBUS::setColumnCaption || f == DBUS::removeColumn || DBUS::geometry || f == DBUS::hasFocus || (f > FirstFunction && f < LastFunction) || (f >= TW_FUNCTION && f <= TW_LAST_FUNCTION);
+      f == DBUS::itemPath || f == DBUS::itemDepth || f == DBUS::setPixmap || f ==
+      DBUS::setColumnCaption || f == DBUS::removeColumn || f == DBUS::geometry || f == DBUS::hasFocus || (f > FirstFunction && f < LastFunction) || (f >= TW_FUNCTION && f <= TW_LAST_FUNCTION);
 }
 
 QString TreeWidget::handleDBUS(int function, const QStringList& args)
