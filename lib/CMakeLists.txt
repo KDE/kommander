@@ -31,7 +31,7 @@ KDE4_ADD_LIBRARY(kommandercore SHARED ${kommandercore_LIB_SRCS})
 TARGET_LINK_LIBRARIES(kommandercore  ${KDE4_KIO_LIBS} ${KDE4_KDE3SUPPORT_LIBS} )
 
 SET_TARGET_PROPERTIES(kommandercore PROPERTIES VERSION 4.2.0 SOVERSION 4 )
-INSTALL(TARGETS kommandercore DESTINATION ${LIB_INSTALL_DIR} )
+INSTALL(TARGETS kommandercore ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 
 ########### install files ###############
