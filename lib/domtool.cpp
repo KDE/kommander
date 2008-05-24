@@ -206,7 +206,10 @@ QVariant DomTool::elementToVariant( const QDomElement& e, const QVariant& defVal
 	}
 	v = QVariant( sp );
     } else if ( e.tagName() == "cursor" ) {
+// FIXME: doesn't work on OSX, can't cast int to Qt::CursorShape
+#ifndef Q_WS_MAC
 	v = QVariant( QCursor( e.firstChild().toText().data().toInt() ) );
+#endif
     } else if ( e.tagName() == "stringlist" ) {
 	QStringList lst;
 	QDomElement n;
