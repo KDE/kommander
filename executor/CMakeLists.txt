@@ -28,7 +28,7 @@ TARGET_LINK_LIBRARIES(
   ${KDE4_KDEUI_LIBS}
 )
 
-INSTALL( TARGETS kommander DESTINATION ${BIN_INSTALL_DIR})
+INSTALL( TARGETS kommander ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
 ########### install files ###############
