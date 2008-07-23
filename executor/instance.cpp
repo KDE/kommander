@@ -16,6 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <unistd.h>
+
  /* KDE INCLUDES */
 #include <kapplication.h>
 #include <kglobal.h>
