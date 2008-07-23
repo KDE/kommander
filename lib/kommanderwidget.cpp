@@ -649,7 +649,7 @@ void KommanderWidget::setGlobal(const QString& variableName, const QString& valu
   parser.setVariable(var, value);
 }
 
-QString KommanderWidget::handleDBUS(const int function, const QStringList& args)
+QString KommanderWidget::handleDBUS(int function, const QStringList& args)
 {
   QWidget* current = dynamic_cast<QWidget*>(m_thisObject);
   if (!current) 
