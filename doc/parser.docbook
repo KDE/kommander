@@ -20,6 +20,7 @@
 <address><email>eric@kdewebdev.org</email></address>
 </affiliation>
 </author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 <copyright>
 <year>2005-2008</year>
@@ -28,7 +29,6 @@
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 </chapterinfo>
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 <title>New Parser Documentation</title>
 <para>
