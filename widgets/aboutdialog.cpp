@@ -58,7 +58,7 @@ AboutDialog::AboutDialog(QWidget *parent, const char *name)
   m_aboutData = 0L; 
   KommanderPlugin::setDefaultGroup(Group::DBUS);
   KommanderPlugin::registerFunction(Initialize, "initialize(QString widget, QString appName, QString icon, QString version, QString copyright)",
-         i18n("Sets information about the application. This is the first method that must me called, any addition to the dialog done before initialization will be ignored."), 5);
+         i18n("Sets information about the application. This is the first method that must be called, any addition to the dialog done before initialization will be ignored."), 5);
   KommanderPlugin::registerFunction(AddAuthor, "addAuthor(QString widget, QString author, QString task, QString email, QString webAddress)",
          i18n("Add an author. Only the author name is required."), 2, 5);
    KommanderPlugin::registerFunction(AddTranslator, "addTranslator(QString widget, QString author, QString email)",
