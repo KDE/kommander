@@ -483,7 +483,7 @@ void SpecialInformation::registerSpecials()
   insert(String::length, "length(QString string)", 
     i18n("Returns number of chars in the string."), 1);
   insert(String::contains, "contains(QString string, QString substring)", 
-    i18n("Checks if the the string contains the given substring."), 2);
+    i18n("Checks if the string contains the given substring."), 2);
   insert(String::find, "find(QString string, QString sought, int index)", 
     i18n("Returns the position of a substring in the string, or -1 if it is not found."), 2);
   insert(String::findRev, "findRev(QString string, QString sought, int index)", 

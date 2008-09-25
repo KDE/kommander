@@ -196,7 +196,7 @@
                           <string>Snap to the grid</string>
                         </property>
                         <property name="whatsThis" stdset="0" >
-                          <string>&lt;b>Customize the grid-settings for all forms.&lt;/b>&lt;p>When &lt;b>Snap to Grid&lt;/b> is checked, the widgets snap to the grid using the the X/Y resolution.&lt;/p></string>
+                          <string>&lt;b>Customize the grid-settings for all forms.&lt;/b>&lt;p>When &lt;b>Snap to Grid&lt;/b> is checked, the widgets snap to the grid using the X/Y resolution.&lt;/p></string>
                         </property>
                       </widget>
                     </item>
