@@ -410,7 +410,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::forEachBlock, "forEach(QString variable, QString items)",
      i18n("Executes loop: values from <i>items</i> list (passed as EOL-separated string) are assigned to the variable. <br><b>Old</b><br> <i>@forEach(i,A\\nB\\nC\\n)<br>  @# @i=A<br>@end</i><br><b>New</b><br><i>foreach i in MyArray do<br>  //i = key, MyArray[i] = val<br>end "), 2);
   insert(Kommander::forBlock, "for(QString variable, int start, int end, int step)",
-     i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger then <i>end</i>. <br><b>Old</b><br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i><br><b>New</b><br><i>for i=0 to 20 step 5 do<br>  debug(i)<br>end</i>."), 3);
+     i18n("Executes loop: variable is set to <i>start</i> and is increased by <i>step</i> each time loop is executed. Execution stops when variable becomes larger than <i>end</i>. <br><b>Old</b><br><i>@for(i,1,10,1)<br>  @# @i=1<br>@endif</i><br><b>New</b><br><i>for i=0 to 20 step 5 do<br>  debug(i)<br>end</i>."), 3);
   insertMacro(Kommander::global, "global(QString variable)",
      i18n("Returns the value of a global variable."), 1);
   insert(Kommander::i18n, "i18n(QString variable)",
