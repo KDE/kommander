@@ -1293,7 +1293,7 @@ QWidget* WidgetFactory::containerOfWidget( QWidget *w )
 /*!  Returns the actual designer widget of the container \a w. This is
   normally \a w itself, but might be a parent or grand parent of \a w
   (e.g. when working with a tabwidget and \a w is the container which
-  contains and layouts childs, but the actual widget known to the
+  contains and layouts children, but the actual widget known to the
   designer is the tabwidget which is the parent of \a w. So this
   function returns the tabwidget then.)
 */

@@ -97,7 +97,7 @@ private:
   // Convert widget to string displayed in combos
   // If formatted, return formatted string, else just widget's name
   QString widgetToString(QWidget* widget, bool formatted = true);
-  // Conver combo string to widget
+  // Convert combo string to widget
   QWidget* widgetFromString(const QString& name);
 };
 

@@ -900,7 +900,7 @@ void Resource::saveChildrenOf( QObject* obj, Q3TextStream &ts, int indent )
 	return; // no children to save
 
     QString closeTag;
-    // if the widget has a layout we pretend that all widget's childs are childs of the layout - makes the structure nicer
+    // if the widget has a layout we pretend that all widget's children are children of the layout - makes the structure nicer
     QLayout *layout = 0;
     QDesignerGridLayout* grid = 0;
     if ( !obj->inherits( "QSplitter" ) &&

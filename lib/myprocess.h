@@ -32,7 +32,7 @@ class KOMMANDERCORE_EXPORT MyProcess : public QObject
   Q_OBJECT
 public:
   MyProcess(const KommanderWidget *);
-  // Run given command, using a_shell as a shell (this can be overriden by shebang in the first line)
+  // Run given command, using a_shell as a shell (this can be overridden by shebang in the first line)
   // Process is run in blocking mode.
   QString run(const QString& a_command, const QString& a_shell = "/bin/sh");
   // Kill running process

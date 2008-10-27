@@ -420,12 +420,12 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::dialog, "dialog(QString file, QString args)",
      i18n("Executes another Kommander dialog. Current dialog directory is used if no path is given. Arguments may be given as named arguments which will become global variables in the new dialog. For instance: <i>var=val</i>"), 1);
   insert(Kommander::readSetting, "readSetting(QString key, QString default)",
-     i18n("Reads setting from configration file for this dialog."), 2);
+     i18n("Reads setting from configuration file for this dialog."), 2);
   insert(Kommander::setGlobal, "setGlobal(QString variable, QString value)",
      i18n("Sets the value of a global variable. Global variables exist for the life of the Kommander window."), 2);
   insert(Kommander::writeSetting, "writeSetting(QString key, QString value)",
      i18n("Stores setting in configuration file for this dialog."), 2);
-  insertMacro(Kommander::switchBlock, "switch(QString expresion)",
+  insertMacro(Kommander::switchBlock, "switch(QString expression)",
      i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i>.<p>@switch()<br>@case()<br>@end"), 1);
   insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)",
      i18n("Executes an external DBUS call."), 3, 9);

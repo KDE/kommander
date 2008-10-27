@@ -87,7 +87,7 @@ void Layout::setup()
     // layout widgets which have the same parent, we first do some
     // sorting which means create a list for each parent containing
     // its child here. After that we keep working on the list of
-    // childs which has the most entries.
+    // children which has the most entries.
     // Widgets which are already laid out are thrown away here too
     for ( w = widgets.first(); w; w = widgets.next() ) {
 	if ( w->parentWidget() && WidgetFactory::layoutType( w->parentWidget() ) != WidgetFactory::NoLayout )

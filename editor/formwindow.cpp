@@ -534,7 +534,7 @@ void FormWindow::handleMousePress(QMouseEvent *e, QWidget *w)
             else
             { // ...widget selected
               // only if widget has a layout (it is a layout meta widget or a laid out container!),
-              // unselect its childs
+              // unselect its children
               if (WidgetFactory::layoutType(w) != WidgetFactory::NoLayout)
               {
                 QObjectListl = w->queryList("QWidget");

@@ -560,7 +560,7 @@ static HierarchyItem::Type getChildType( int type )
     switch ( (HierarchyItem::Type)type ) {
     case HierarchyItem::Widget:
     case HierarchyItem::SlotParent:
-  qWarning( "getChildType: Inserting childs dynamically to Widget or SlotParent is not allwowed!" );
+  qWarning( "getChildType: Inserting children dynamically to Widget or SlotParent is not allwowed!" );
   return (HierarchyItem::Type)type;
     case HierarchyItem::Public:
     case HierarchyItem::Protected:

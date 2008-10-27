@@ -62,7 +62,7 @@ QVariant DomTool::readProperty( const QDomElement& e, const QString& name, const
 }
 
 /*!
-  Returns wheter object \a e defines property \a name or not.
+  Returns whether object \a e defines property \a name or not.
 
   \sa readProperty()
  */
@@ -310,7 +310,7 @@ QVariant DomTool::readAttribute( const QDomElement& e, const QString& name, cons
 }
 
 /*!
-  Returns wheter object \a e defines attribute \a name or not.
+  Returns whether object \a e defines attribute \a name or not.
 
   \sa readAttribute()
  */
