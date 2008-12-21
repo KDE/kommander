@@ -33,5 +33,5 @@ INSTALL( TARGETS kommander ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
-INSTALL_FILES( /share/applnk/.hidden FILES  kommander.desktop )
+INSTALL( FILES kommander.desktop DESTINATION ${SHARE_INSTALL_PREFIX}/applnk/.hidden )
 
