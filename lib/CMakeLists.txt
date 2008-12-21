@@ -1,6 +1,6 @@
 ### Kommander Widget ###
 
-find_package(ZLIB)
+find_package(ZLIB REQUIRED)
 
 INCLUDE_DIRECTORIES( 
 ${ZLIB_INCLUDE_DIR}
