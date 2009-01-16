@@ -389,7 +389,7 @@ void SpecialInformation::registerSpecials()
   insert(Kommander::pid, "pid", 
      i18n("Returns the pid (process ID) of the current process."), 0);
   insert(Kommander::dcopid, "dcopid", 
-     i18n("Returns DBUS identifier of current process. This is shorthand for <i>kmdr-executor-@pid</i>."), 
+     i18n("Returns D-Bus identifier of current process. This is shorthand for <i>kmdr-executor-@pid</i>."), 
      0);
   insert(Kommander::parentPid, "parentPid", 
      i18n("Returns the pid of the parent Kommander window."), 0);
@@ -428,7 +428,7 @@ void SpecialInformation::registerSpecials()
   insertMacro(Kommander::switchBlock, "switch(QString expression)",
      i18n("Begin of <b>switch</b> block. Following <b>case</b> values are compared to <i>expression</i>.<p>@switch()<br>@case()<br>@end"), 1);
   insert(Kommander::dcop, "dcop(QString id, QString interface, QString function, QString args)",
-     i18n("Executes an external DBUS call."), 3, 9);
+     i18n("Executes an external D-Bus call."), 3, 9);
   insertMacro(Kommander::comment, "#",
      i18n("Adds a comment to EOL that Kommander will not parse"), 0);
   insertInternal(Kommander::createWidget, "createWidget(QString widgetName, QString widgetType, QString parent)",
