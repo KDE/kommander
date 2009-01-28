@@ -94,7 +94,7 @@ void TreeWidget::addItemFromString(const QString& s)
   if (m_lastPath.size() < elements.count())
     m_lastPath.resize(elements.count());
   int i = 0;
-  for (QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) 
+  for (QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) 
   {
     if (m_lastPath[i] && m_lastPath[i]->text(0) == elements[i])
     {
@@ -339,7 +339,7 @@ QString TreeWidget::handleDBUS(int function, const QStringList& args)
       {
         clearSelection();
         QStringList items(args[0].split('\n'));
-        for (QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
+        for (QStringList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
         {
           Q3ListViewItem* item = findItem(*it, 0);
           if (item)

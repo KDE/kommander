@@ -82,7 +82,7 @@ void Instance::addCmdlineArguments(const QStringList& args)
        stdArgs.append(*it);
   }
   int i = 0;
-  for (QStringList::ConstIterator it = stdArgs.begin(); it != stdArgs.end(); ++it)
+  for (QStringList::ConstIterator it = stdArgs.constBegin(); it != stdArgs.constEnd(); ++it)
     m_textInstance->setGlobal(QString("_ARG%1").arg(++i), *it);
   m_textInstance->setGlobal("_ARGS", stdArgs.join(" "));
   m_textInstance->setGlobal("_ARGCOUNT", QString::number(stdArgs.count()));
@@ -213,7 +213,7 @@ bool Instance::isFileValid(const KUrl& fname) const
   tmpDirs.append("/var/tmp/");
 
   bool inTemp = false;
-  for (QStringList::ConstIterator I = tmpDirs.begin(); I != tmpDirs.end(); ++I)
+  for (QStringList::ConstIterator I = tmpDirs.constBegin(); I != tmpDirs.constEnd(); ++I)
     if (fname.directory(KUrl::AppendTrailingSlash).startsWith(*I))
       inTemp = true;
 
