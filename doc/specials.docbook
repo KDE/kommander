@@ -73,13 +73,13 @@ returns the output of executing the specified command.  @exec(ls -l).
 <term><function>@execBegin ... @execEnd</function ></term>
 <listitem>
 <para>
-same as <function>@exec</function>, but supports shebang and multiline scripts.  This serves for various scripting languages either by decalring them or using a shebang.
+same as <function>@exec</function>, but supports shebang and multiline scripts.  This serves for various scripting languages either by declaring them or using a shebang.
 </para>
 <itemizedlist>
 <listitem><para><function>@execBegin(php)</function></para></listitem>
 <listitem><para><function>@execBegin</function>#!/usr/bin/php</para></listitem>
 </itemizedlist>
-<para>The first one uses the name of the <acronym>PHP</acronym> executable.  &kommander; searches PATH for <application>php</application> and if it is not found looks to see if it is registered with &kommander; in a location outside of your path.  If not it tells the user it cannot be found.  The second examples uses the classic <quote>shebang</quote> which can have some benefits and also problems.  If you have a beta copy of <acronym>PHP5</acronym>, for instance, in <filename>/usr/local/bin</filename> which would not be found because it would find on in <filename>/usr/bin</filename> this is useful.  If, however, you distribute the dialog to someone who has <acronym>PHP</acronym> in <filename>/usr/local/bin</filename> only it will not be found with the shebang used.  So using shebangs is cautioned and using the executable is recommenede if you are sharing files.</para>
+<para>The first one uses the name of the <acronym>PHP</acronym> executable.  &kommander; searches PATH for <application>php</application> and if it is not found looks to see if it is registered with &kommander; in a location outside of your path.  If not it tells the user it cannot be found.  The second examples uses the classic <quote>shebang</quote> which can have some benefits and also problems.  If you have a beta copy of <acronym>PHP5</acronym>, for instance, in <filename>/usr/local/bin</filename> which would not be found because it would find on in <filename>/usr/bin</filename> this is useful.  If, however, you distribute the dialog to someone who has <acronym>PHP</acronym> in <filename>/usr/local/bin</filename> only it will not be found with the shebang used.  So using shebangs is cautioned and using the executable is recommended if you are sharing files.</para>
 </listitem>
 </varlistentry>
 
@@ -281,8 +281,8 @@ write value to <filename>kommanderrc</filename>
 <varlistentry>
 <term><function>@String.find(<parameter>string</parameter>)</function></term>
 <listitem>
-<para>Return position of a substring in the string, or -1 if it isn't found."</para>
-<note><para>This will have an optional integer start postion for find next uses in Alpha 6.</para></note>
+<para>Return position of a substring in the string, or -1 if it isn't found.</para>
+<note><para>This will have an optional integer start position for find next uses in Alpha 6.</para></note>
 </listitem>
 </varlistentry>
 

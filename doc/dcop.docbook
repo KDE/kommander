@@ -54,7 +54,7 @@ As you can see the new syntax is very easy, as well as consistent visually with 
 <term>global(QString variableName)</term>
 <listitem>
 <para>
-Returns the value of the specified global variable.  When a script is run from within a &kommander; window any (non-global) varaibles set in that script will cease to exist after the script completes and therfore will not be available to other script processes or in a new instance of the calling process.  The global <quote>scope</quote> means the variable will exist for any process of the window until that window is closed.  You may change these variables at any time with a new call to <function>@setGlobal</function>.
+Returns the value of the specified global variable.  When a script is run from within a &kommander; window any (non-global) variables set in that script will cease to exist after the script completes and therfore will not be available to other script processes or in a new instance of the calling process.  The global <quote>scope</quote> means the variable will exist for any process of the window until that window is closed.  You may change these variables at any time with a new call to <function>@setGlobal</function>.
 </para>
 </listitem>
 </varlistentry>
@@ -77,7 +77,7 @@ Creates a variable that is global to the window process and assigns the value to
 <term>changeWidgetText(QString text)</term>
 <listitem>
 <para>
-This should be renamed setWidgetText and this name will probably be deprecated.  This removes the text displayed int he widget and replaces it with the text supplied.
+This should be renamed setWidgetText and this name will probably be deprecated.  This removes the text displayed in the widget and replaces it with the text supplied.
 </para>
 </listitem>
 </varlistentry>
