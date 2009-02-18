@@ -14,14 +14,25 @@
  *                                                                         *
  ***************************************************************************/
 
+/* KDE INCLUDES */
+#include <klocale.h>
+
 /* QT INCLUDES */
 #include <qstringlist.h>
 #include <qevent.h>
+#include <qstring.h>
 
 /* OTHER INCLUDES */
+#include "kommanderplugin.h"
 #include <specials.h>
 #include "textbrowser.h"
-
+/*
+enum Functions {
+  FirstFunction = 420,
+  TBR_scrollToAnchor,
+  LastFunction
+};
+*/
 TextBrowser::TextBrowser(QWidget * a_parent, const char *a_name)
   : KTextBrowser(a_parent, a_name), KommanderWidget((QObject *) this)
 {
@@ -29,6 +40,8 @@ TextBrowser::TextBrowser(QWidget * a_parent, const char *a_name)
   states << "default";
   setStates(states);
   setDisplayStates(states);
+//  KommanderPlugin::setDefaultGroup(Group::DCOP);
+//  KommanderPlugin::registerFunction(TBR_scrollToAnchor, "scrollToAnchor(QString widget, QString name)",i18n("Scroll to an anchor in the form of <a href name=\"#anchor\">anchor</a>"), 2, 2);
 }
 
 QString TextBrowser::currentState() const
@@ -93,6 +106,7 @@ void TextBrowser::contextMenuEvent( QContextMenuEvent * e )
 bool TextBrowser::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::clear;
+// || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextBrowser::handleDCOP(int function, const QStringList& args)
@@ -105,6 +119,8 @@ QString TextBrowser::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::selection:
       return selectedText();
+//    case TBR_scrollToAnchor:
+//      KTextBrowser::scrollToAnchor(args[0]);
     case DCOP::clear:
       clear();
       break;
