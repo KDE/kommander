@@ -1,7 +1,7 @@
 //
 // C++ Implementation: popupmenu
 //
-// Description: 
+// Description:
 //
 //
 // Author: Andras Mantia <amantia@kdewebdev.org>, (C) 2008
@@ -33,7 +33,7 @@
 #define ITEMVISIBLE 107
 #define ITEMCHECKED 108
 #define INSERTSUBMENU 109
-#define LAST_FUNCTION INSERTSUBMENU 
+#define LAST_FUNCTION INSERTSUBMENU
 
 PopupMenu::PopupMenu(QWidget *parent, const char *name)
  : QLabel(parent), KommanderWidget(this)
@@ -65,7 +65,7 @@ PopupMenu::PopupMenu(QWidget *parent, const char *name)
   KommanderPlugin::registerFunction(SETITEMCHECKED, "setItemChecked(QString widget, int id, bool enable)",  i18n("Apply checked status for the item specified by id."), 3);
   KommanderPlugin::registerFunction(ITEMVISIBLE, "itemVisible(QString widget, int id)",  i18n("Check if the item specified by id is visible."), 2);
   KommanderPlugin::registerFunction(ITEMCHECKED, "itemChecked(QString widget, int id)",  i18n("Verify if the item specified by id is checked."), 2);
-  KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString text, QString menuWidget, int index, QString icon)",  i18n("Insert submenu widget into the popup menu. Use -1 for index to insert to the end. The icon is optional."), 4, 5); 
+  KommanderPlugin::registerFunction(INSERTSUBMENU, "insertSubmenu(QString widget, QString text, QString menuWidget, int index, QString icon)",  i18n("Insert submenu widget into the popup menu. Use -1 for index to insert to the end. The icon is optional."), 4, 5);
 }
 
 
@@ -114,10 +114,15 @@ void PopupMenu::popup(int x, int y)
   m_menu->exec(QPoint(x, y));
 }
 
+void PopupMenu::popup(const QPoint &p)
+{
+  m_menu->exec(p);
+}
+
 void PopupMenu::slotMenuItemActivated(int id)
 {
   QString widget = m_associations[id];
-  KommanderWidget::evalAssociatedText(QString("#!kommander\n%1.execute(%2)").arg(widget).arg(id)); 
+  KommanderWidget::evalAssociatedText(QString("#!kommander\n%1.execute(%2)").arg(widget).arg(id));
 }
 
 void PopupMenu::populate()
@@ -186,8 +191,8 @@ QString PopupMenu::handleDBUS(int function, const QStringList& args)
     case INSERTSEPARATOR:
     {
       uint index = args[0].toInt();
-      m_menu->insertSeparator(index);    
-      break; 
+      m_menu->insertSeparator(index);
+      break;
     }
     case SETITEMENABLED:
     {

@@ -274,7 +274,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
 {
     QString className = literalClassName;
     QWidget *widget = 0L;
-    //standard Qt widgets 
+    //standard Qt widgets
     if (className == "QWidget")
     {
       if (!qwf_stays_on_top)
@@ -292,7 +292,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
     else if (className == "QGroupBox")
       widget = new Q3GroupBox(parent);
     else if (className == "QButtonGroup")
-      widget = new Q3ButtonGroup(parent); 
+      widget = new Q3ButtonGroup(parent);
     else if (className == "QIconView")
     {
       widget = new Q3IconView(parent);
@@ -383,7 +383,7 @@ QWidget *KommanderFactory::createWidget( const QString &literalClassName, QWidge
       widget->setObjectName(name);
       return widget;
     }
- 
+
     // try to create it using the loaded kommander widget plugins
     //find the widget plugin which can create className
 
@@ -412,6 +412,7 @@ int KommanderFactory::loadPlugins(bool force)
     QStringList plugins;
     plugins << "libkommanderwidgets";
     plugins += cfg.readEntry ( "plugins" );
+    kDebug() << "Plugins: " << plugins;
     QStringList::Iterator it;
     KLibLoader *f = KLibLoader::self(); //FIXME: Use KPluginLoader
     for ( it = plugins.begin(); it != plugins.end(); ++it )
@@ -591,7 +592,7 @@ QWidget *KommanderFactory::createWidgetInternal( const QDomElement &e, QWidget *
             {
               if ( attrib == "label" )
                 qobject_cast<QToolBox*>(parent)->addItem( w, translate(v.toString()) );
-            } else if ( qobject_cast<QWizard*>(parent) ) 
+            } else if ( qobject_cast<QWizard*>(parent) )
             {
 //FIXME: port addPage
 //               if ( attrib == "title" )
@@ -1030,6 +1031,8 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
             QString lang = n.attribute ( "language", "C++" );
             QDomElement n2 = n.firstChild().toElement();
             Connection conn;
+            conn.sender = 0L;
+            conn.receiver = 0L;
             while ( !n2.isNull() )
             {
                 if ( n2.tagName() == "sender" )
@@ -1083,83 +1086,86 @@ void KommanderFactory::loadConnections ( const QDomElement &e, QObject *connecto
 
             conn.signal = QMetaObject::normalizedSignature ( conn.signal );
             conn.slot = QMetaObject::normalizedSignature ( conn.slot );
-            
+
             //Qt3 compat code
             conn.signal.replace("QListViewItem", "Q3ListViewItem");
-            conn.slot.replace("QListViewItem", "Q3ListViewItem"); 
-            if (dynamic_cast<QTableWidget*>(conn.sender) != 0)
+            conn.slot.replace("QListViewItem", "Q3ListViewItem");
+            if (qobject_cast<QTableWidget*>(conn.sender) != 0)
             {
               conn.signal.replace("valueChanged", "cellChanged");
             }
-              
 
-            QObject *sender = 0, *receiver = 0;
-            QList<QObject *> l = toplevel->findChildren<QObject *> ( conn.sender->objectName() );
-            if ( qstrcmp ( conn.sender->objectName().toAscii(), toplevel->objectName().toAscii() ) == 0 )
-            {
-                sender = toplevel;
-            }
-            else
-            {
-                if ( l.isEmpty() || !l.first() )
-                {
-                    n = n.nextSibling().toElement();
-                    continue;
-                }
-                sender = l.first();
-            }
-            if ( !sender )
-                sender = findAction ( conn.sender->objectName() );
 
-            if ( qstrcmp ( conn.receiver->objectName().toAscii(), toplevel->objectName().toAscii() ) == 0 )
+            if (conn.sender && conn.receiver)
             {
-                receiver = toplevel;
-            }
-            else
-            {
-                l = toplevel->findChildren<QObject *> ( conn.receiver->objectName() );
-                if ( l.isEmpty() || !l.first() )
-                {
-                    n = n.nextSibling().toElement();
-                    continue;
-                }
-                receiver = l.first();
-            }
+              QObject *sender = 0, *receiver = 0;
+              QList<QObject *> l = toplevel->findChildren<QObject *> ( conn.sender->objectName() );
+              if ( qstrcmp ( conn.sender->objectName().toAscii(), toplevel->objectName().toAscii() ) == 0 )
+              {
+                  sender = toplevel;
+              }
+              else
+              {
+                  if ( l.isEmpty() || !l.first() )
+                  {
+                      n = n.nextSibling().toElement();
+                      continue;
+                  }
+                  sender = l.first();
+              }
+              if ( !sender )
+                  sender = findAction ( conn.sender->objectName() );
 
-            if ( lang == "C++" )
-            {
-                QString s = "2""%1";
-                s = s.arg ( QString ( conn.signal ) );
-                QString s2 = "1""%1";
-                s2 = s2.arg ( QString ( conn.slot ) );
+              if ( qstrcmp ( conn.receiver->objectName().toAscii(), toplevel->objectName().toAscii() ) == 0 )
+              {
+                  receiver = toplevel;
+              }
+              else
+              {
+                  l = toplevel->findChildren<QObject *> ( conn.receiver->objectName() );
+                  if ( l.isEmpty() || !l.first() )
+                  {
+                      n = n.nextSibling().toElement();
+                      continue;
+                  }
+                  receiver = l.first();
+              }
 
-                // if this is a connection to a custom slot and we have a connector, try this as receiver
-                if ( receiver->metaObject()->indexOfSlot ( conn.slot ) == -1 && receiver == toplevel && connector )
-                {
-                    receiver = connector;
-                }
-                // avoid warnings
-                bool signalExists = sender->metaObject()->indexOfSignal ( conn.signal ) != -1;
-                bool slotExists = receiver->metaObject()->indexOfSlot ( conn.slot ) != -1;
-                if ( !signalExists || !slotExists)
-                {
-                    n = n.nextSibling().toElement();
-                    kWarning() << "CONNECTION FAILED: Signal: " <<  sender->metaObject()->className() << "." << conn.signal << " Slot:" << receiver->metaObject()->className() << "." << conn.slot ;
-                    if (!signalExists)
-                      kWarning() << "No signal: " << conn.signal << " in object " << sender;
-                    else
-                      kWarning() << "No slot: " << conn.slot << " in object " << receiver;
-                    continue;
-                }
-                QObject::connect ( sender, s.toAscii(), receiver, s2.toAscii() );
-            }
-            else
-            {
-                EventFunction ef = eventMap[ conn.sender ];
-                ef.events.append ( conn.signal );
-                ef.functions.append ( QString ( conn.slot ).split ( ',' ) );
-                eventMap.remove(conn.sender);
-                eventMap.insert(conn.sender, ef);
+              if ( lang == "C++" )
+              {
+                  QString s = "2""%1";
+                  s = s.arg ( QString ( conn.signal ) );
+                  QString s2 = "1""%1";
+                  s2 = s2.arg ( QString ( conn.slot ) );
+
+                  // if this is a connection to a custom slot and we have a connector, try this as receiver
+                  if ( receiver->metaObject()->indexOfSlot ( conn.slot ) == -1 && receiver == toplevel && connector )
+                  {
+                      receiver = connector;
+                  }
+                  // avoid warnings
+                  bool signalExists = sender->metaObject()->indexOfSignal ( conn.signal ) != -1;
+                  bool slotExists = receiver->metaObject()->indexOfSlot ( conn.slot ) != -1;
+                  if ( !signalExists || !slotExists)
+                  {
+                      n = n.nextSibling().toElement();
+                      kWarning() << "CONNECTION FAILED: Signal: " <<  sender->metaObject()->className() << "." << conn.signal << " Slot:" << receiver->metaObject()->className() << "." << conn.slot ;
+                      if (!signalExists)
+                        kWarning() << "No signal: " << conn.signal << " in object " << sender;
+                      else
+                        kWarning() << "No slot: " << conn.slot << " in object " << receiver;
+                      continue;
+                  }
+                  QObject::connect ( sender, s.toAscii(), receiver, s2.toAscii() );
+              }
+              else
+              {
+                  EventFunction ef = eventMap[ conn.sender ];
+                  ef.events.append ( conn.signal );
+                  ef.functions.append ( QString ( conn.slot ).split ( ',' ) );
+                  eventMap.remove(conn.sender);
+                  eventMap.insert(conn.sender, ef);
+              }
             }
         }
         else if ( n.tagName() == "slot" )
@@ -1297,7 +1303,7 @@ void KommanderFactory::createColumn( const QDomElement &e, QWidget *widget )
             table->setHorizontalHeaderItem(i, header);
           }
         }
-                                          
+
         if (hasPixmap)
         {
           header->setIcon(pix);
@@ -1355,17 +1361,17 @@ void KommanderFactory::createItem( const QDomElement &e, QWidget *widget, Q3List
             } else {
               new Q3ListBoxText(lb, txt);
             }
-        } 
+        }
         else if (qobject_cast<QComboBox*>(widget))
-        { 
+        {
           QComboBox *cb = qobject_cast<QComboBox*>(widget);
           if (hasPixmap) {
             cb->addItem(pix, txt);
           } else {
             cb->addItem(txt);
           }
-          
-        }  
+
+        }
         /*#ifndef QT_NO_ICONVIEW
             } else if ( widget->inherits( "QIconView" ) ) {
             QDomElement n = e.firstChild().toElement();
