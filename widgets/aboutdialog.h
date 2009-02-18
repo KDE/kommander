@@ -43,6 +43,7 @@ public:
 
 public slots:
   virtual void populate();
+  virtual void execute();
 
 private:
   void initialize(const QString& appName, const QString &icon, const QString& version, const QString& copyright);  

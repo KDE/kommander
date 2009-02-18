@@ -224,6 +224,15 @@ void AboutDialog::populate()
   setAssociatedText(KommanderWidget::evalAssociatedText( populationText()));
 }
 
+void AboutDialog::execute()
+{
+  if (m_aboutData)
+  {        
+    KAboutApplication dialog(m_aboutData, this);
+    dialog.exec();
+  }
+}
+
 QString AboutDialog::handleDCOP(int function, const QStringList& args)
 {
   switch (function) {
