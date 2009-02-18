@@ -27,6 +27,7 @@
       <autocompile>true</autocompile>
       <envvars>
         <envvar value="/opt/kde4" name="KDEDIRS" />
+        <envvar value="/home/andris/.kde4" name="KDEHOME" />
       </envvars>
       <globaldebugarguments>/data/development/test/kommander/eric/phpdemo.kmdr</globaldebugarguments>
       <globalcwd>/data/development/build/kde-trunk/kdewebdev/kommander/</globalcwd>

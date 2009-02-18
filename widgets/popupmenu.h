@@ -1,7 +1,7 @@
 //
 // C++ Interface: popupmenu
 //
-// Description: 
+// Description:
 //
 //
 // Author: Andras Mantia <amantia@kdewebdev.org>, (C) 2008
@@ -47,6 +47,7 @@ public slots:
   virtual void setWidgetText(const QString &);
   virtual void populate();
   void popup(int x, int y);
+  void popup(const QPoint &p);
 
 private slots:
   void slotMenuItemActivated(int id);

@@ -1,7 +1,7 @@
 //
 // C++ Implementation: aboutdialog
 //
-// Description: 
+// Description:
 //
 //
 // Author: Andras Mantia <amantia@kdewebdev.org>, (C) 2008
@@ -55,7 +55,7 @@ AboutDialog::AboutDialog(QWidget *parent, const char *name)
   else
     setHidden(true);
 
-  m_aboutData = 0L; 
+  m_aboutData = 0L;
   KommanderPlugin::setDefaultGroup(Group::DBUS);
   KommanderPlugin::registerFunction(Initialize, "initialize(QString widget, QString appName, QString icon, QString version, QString copyright)",
          i18n("Sets information about the application. This is the first method that must be called, any addition to the dialog done before initialization will be ignored."), 5);
@@ -109,7 +109,7 @@ bool AboutDialog::isFunctionSupported(int f)
 
 void AboutDialog::initialize(const QString& appName, const QString &icon, const QString& version, const QString& copyright)
 {
-  delete m_aboutData;  
+  delete m_aboutData;
   m_authors.clear();
   m_emails.clear();
   m_tasks.clear();
@@ -124,7 +124,7 @@ void AboutDialog::initialize(const QString& appName, const QString &icon, const 
   m_aboutData = new KAboutData(m_appName.toLatin1(), m_appName.toLatin1(), ki18n(m_appName.toUtf8()), m_version.toLatin1());
   m_aboutData->setCopyrightStatement(ki18n(m_copyright.toUtf8()));
   if (!m_icon.isEmpty())
-    m_aboutData->setProgramLogo(KIconLoader::global()->loadIcon(m_icon, KIconLoader::NoGroup, KIconLoader::SizeMedium).convertToImage());  
+    m_aboutData->setProgramLogo(KIconLoader::global()->loadIcon(m_icon, KIconLoader::NoGroup, KIconLoader::SizeMedium).convertToImage());
 }
 
 void AboutDialog::addAuthor(const QString& author, const QString &task, const QString& email, const QString &webAddress)
@@ -183,7 +183,7 @@ void AboutDialog::setLicense(const QString &key)
   } else
   if (key == "LGPL_V2")
   {
-    file = KStandardDirs::locate("data", "LICENSES/LGPL_V2");    
+    file = KStandardDirs::locate("data", "LICENSES/LGPL_V2");
   } else
   if (key == "BSD")
   {
@@ -206,8 +206,8 @@ void AboutDialog::setLicense(const QString &key)
         file = key;
     }
     m_aboutData->setLicenseTextFile(file);
-  } 
-  
+  }
+
 }
 
 void AboutDialog::setPopulationText(const QString& a_text)
@@ -240,7 +240,14 @@ QString AboutDialog::handleDBUS(int function, const QStringList& args)
     }
     case AddAuthor:
     {
-      addAuthor(args[0], args[1], args[2], args[3]);
+      QString author = args[0];
+      QString task;
+      QString email;
+      QString webAddress;
+      if (args.size() > 1) task = args[1];
+      if (args.size() > 2) task = args[2];
+      if (args.size() > 3) task = args[3];
+      addAuthor(author, task, email, webAddress);
       break;
     }
     case AddTranslator:
@@ -272,7 +279,7 @@ QString AboutDialog::handleDBUS(int function, const QStringList& args)
     case DBUS::execute:
     {
       if (m_aboutData)
-      {        
+      {
         K3AboutApplication dialog(m_aboutData, this);
         dialog.exec();
       }
