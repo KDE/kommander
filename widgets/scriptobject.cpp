@@ -126,6 +126,14 @@ void ScriptObject::execute(const QString& s)
   executeProcess(true);
 }
 
+void ScriptObject::execute(const QString& s1, const QString& s2)
+{
+  m_params.clear();
+  m_params.append(s1);
+  m_params.append(s2);
+  executeProcess(true);
+}
+
 void ScriptObject::execute(int i)
 {
   m_params.clear();
