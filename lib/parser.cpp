@@ -500,6 +500,21 @@ ParseNode Parser::parseAssignment(Mode mode)
     if (mode == Execute)
       setVariable(var, p);
   }
+  else if (tryKeyword(PlusEqual, CheckOnly))
+  {
+    ParseNode p = parseExpression(mode);
+    if (mode == Execute)
+    {
+      ParseNode p2 = variable(var);
+      if (p2.type() == ValueString)
+        p = QString(p2.toString() + p.toString());
+      else if (p2.type() == ValueDouble)
+        p = p2.toDouble() + p.toDouble();
+      else
+        p = p2.toInt() + p.toInt();
+      setVariable(var, p);
+    }
+  }
   else if (tryKeyword(Dot, CheckOnly))
   {
     QString value = variable(var).toString();

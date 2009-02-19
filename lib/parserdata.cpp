@@ -98,6 +98,7 @@ ParserData::ParserData()
   m_keywords["*"] = Multiply;
   m_keywords["/"] = Divide;
   m_keywords["%"] = Mod;
+  m_keywords["+="] = PlusEqual;
   m_keywords["mod"] = Mod;
 
   m_groups[Less] = GroupComparison;
