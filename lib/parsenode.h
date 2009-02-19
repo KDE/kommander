@@ -2,7 +2,7 @@
                     parsenode.cpp - Single parsed item
                              -------------------
     copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,13 +18,13 @@
 #define _HAVE_PARSENODE_H_
 
 #include <qstring.h>
- 
+
 namespace Parse
 {
-  enum Keyword {For, To, Step, End, While, Do, Foreach, In, If, Then, Else, Elseif, Endif, Switch, Case, 
-    Break, Continue, Exit, Dot, Semicolon, Comma, Assign, Less, LessEqual, Greater, GreaterEqual, Equal, NotEqual, 
-    Not, And, Or, False, True, LeftParenthesis, RightParenthesis, LeftBracket, RightBracket,
-    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid};
+  enum Keyword {For, To, Step, End, While, Do, Foreach, In, If, Then, Else, Elseif, Endif, Switch, Case,
+    Break, Continue, Exit, Dot, Semicolon, Comma, Assign, Less, LessEqual, Greater, GreaterEqual, Equal, NotEqual,
+    Not, And, Or, False, True, LeftParenthesis, RightParenthesis, LeftBracket, RightBracket,LeftCurlyBrace, RightCurlyBrace,
+    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid };
 
   enum KeywordGroup {GroupComparison, GroupAdd, GroupMultiply, GroupMisc};
   enum ValueType {ValueString, ValueInt, ValueDouble, ValueValue = ValueDouble, ValueKeyword,
@@ -47,7 +47,7 @@ public:
   ParseNode(uint i);
   /* Create node from double */
   ParseNode(double d);
-  /* Create node from boolean */ 
+  /* Create node from boolean */
   ParseNode(bool b);
   /* Create node from keyword */
   ParseNode(Parse::Keyword k);
@@ -83,7 +83,7 @@ public:
   /* Calculate common type for two nodes */
   Parse::ValueType commonType(const ParseNode& p) const;
   /* Find common type and compare values */
-  int compare(const ParseNode& p) const;    
+  int compare(const ParseNode& p) const;
   /* Various comparing functions */
   bool operator==(int i) const;
   bool operator==(bool b) const;
@@ -108,7 +108,7 @@ public:
   void setContext(int c);
   /* get current context */
   int context() const;
-  
+
 private:
   Parse::ValueType m_type;
   union {

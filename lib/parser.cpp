@@ -2,7 +2,7 @@
                     parser.cpp - Internal parser
                              -------------------
     copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -31,8 +31,8 @@ Parser::Parser(ParserData* pData) : m_data(pData), m_start(0), m_error(QString::
   m_errorPosition(0), m_widget(0)
 {
 }
-  
-Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0), 
+
+Parser::Parser(ParserData* pData, const QString& expr) : m_data(pData), m_start(0),
   m_error(QString::null), m_errorPosition(0), m_widget(0)	//krazy:exclude=nullstrassign for old broken gcc
 {
   setString(expr);
@@ -67,9 +67,9 @@ bool Parser::setString(const QString& s)
     {
       bool escaped = false;
       for (i = start + 1; i < s.length() && (s[i] != '\"' || s[i-1] == '\\'); i++)
-        if (!escaped) 
+        if (!escaped)
           escaped = s[i] == '\\';
-      
+
       if (escaped)
         insertNode(unescape(s.mid(start + 1, i - start - 1)), lines);
       else
@@ -180,7 +180,7 @@ int Parser::errorLine() const
 {
   if (isError())
     return m_parts[m_errorPosition].context();
-  else 
+  else
     return -1;
 }
 
@@ -226,9 +226,9 @@ ParseNode Parser::parseValue(Mode mode)
       } else
       {
         //this means it looks like a widget, but it is unknown. As we only check
-        //the syntax, we should ignore the error an parse as a widget. 
+        //the syntax, we should ignore the error an parse as a widget.
         m_start = m_start - 2;
-        return parseWidget(mode); 
+        return parseWidget(mode);
       }
     }
     else if (tryKeyword(LeftParenthesis, CheckOnly))
@@ -270,7 +270,7 @@ ParseNode Parser::parseMultiply(Mode mode)
       {
         if (p2.toDouble() == 0.0)
           setError(i18n("Divide by zero"));
-        else 
+        else
         if (type == ValueInt)
           p = p.toInt() / p2.toInt();
         else
@@ -326,7 +326,7 @@ ParseNode Parser::parseSignedNumber(Mode mode)
     else
       return ParseNode(-p.toInt());
   }
-  else 
+  else
     return parseValue(mode);
 }
 
@@ -359,7 +359,7 @@ ParseNode Parser::parseParenthesis(Mode mode)
     tryKeyword(RightParenthesis);
     return p;
   }
-  else 
+  else
     return parseSignedNumber(mode);
 }
 
@@ -368,7 +368,7 @@ ParseNode Parser::parseNot(Mode mode)
 {
   if (tryKeyword(Not, CheckOnly))
     return !parseComparison(mode).toBool();
-  else 
+  else
     return parseComparison(mode);
 }
 
@@ -415,7 +415,7 @@ ParseNode Parser::parseFunction(Mode mode)
   Function f = m_data->function(name);
   m_start++;
   ParameterList params;
-  
+
   if (tryKeyword(LeftParenthesis, CheckOnly) && !tryKeyword(RightParenthesis, CheckOnly))
   {
     do {
@@ -448,7 +448,7 @@ ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
   if (widgetName.isNull())
    widget = nextVariable(mode);
   else
-   widget = widgetName; 
+   widget = widgetName;
   Function f = m_data->function("internalDcop");
 
   if (!tryKeyword(Dot))
@@ -511,15 +511,15 @@ ParseNode Parser::parseAssignment(Mode mode)
     if (mode == CheckOnly)
     {
       //this means it looks like a widget, but it is unknown. As we only check
-      //the syntax, we should ignore the error an parse as a widget. 
+      //the syntax, we should ignore the error an parse as a widget.
       m_start = m_start - 2;
-      return parseWidget(mode); 
+      return parseWidget(mode);
     } else
       setError(i18n("'%1' is not a widget", var));
   }
   else if (tryKeyword(LeftParenthesis, CheckOnly))
     setError(i18n("'%1' is not a function", var));
-  else 
+  else
     setError(i18n("Unexpected symbol after variable '%1'", var));
 
   return ParseNode();
@@ -530,11 +530,14 @@ Flow Parser::parseIf(Mode mode)
   ParseNode p = next();
   Flow flow = FlowStandard;
   bool matched = false;
+  bool thenFound = false;
   do {
     m_start++;
     Mode m = matched ? CheckOnly : mode;
     p = parseCondition(m);
-    tryKeyword(Then);
+    thenFound = tryKeyword(Then, CheckOnly);
+    if (!thenFound)
+      tryKeyword(LeftCurlyBrace);
     bool condition = !matched && p.toBool();
     if (condition)
     {
@@ -542,18 +545,25 @@ Flow Parser::parseIf(Mode mode)
       if (flow == FlowExit)
         return flow;
     }
-    else 
+    else
       parseBlock(CheckOnly);
     matched = matched || p.toBool();
+    if (!thenFound)
+      tryKeyword(RightCurlyBrace);
   } while (next().isKeyword(Elseif));
+  bool braceFound = false;
   if (tryKeyword(Else, CheckOnly))
   {
+    braceFound = tryKeyword(LeftCurlyBrace, CheckOnly);
     if (!matched)
       flow = parseBlock(mode);
     else
       parseBlock(CheckOnly);
   }
-  tryKeyword(Endif);
+  if (braceFound)
+    tryKeyword(RightCurlyBrace);
+  if (thenFound)
+    tryKeyword(Endif);
   return flow;
 }
 
@@ -563,11 +573,13 @@ Parse::Flow Parser::parseWhile(Mode mode)
   int start = m_start;
   bool running = true;
   Parse::Flow flow = FlowStandard;
+  bool doFound = false;
   while (running)
   {
     m_start = start;
     ParseNode p = parseCondition(mode);
-    if (!tryKeyword(Do))
+    doFound = tryKeyword(Do, CheckOnly);
+    if (!doFound && !tryKeyword(LeftCurlyBrace))
       break;
     running = p.toBool();
     flow = parseBlock(running ? mode : CheckOnly);
@@ -576,10 +588,13 @@ Parse::Flow Parser::parseWhile(Mode mode)
   }
   if (flow != FlowExit)
   {
-    tryKeyword(End);
+    if (doFound)
+      tryKeyword(End);
+    else
+      tryKeyword(RightCurlyBrace);
     return FlowStandard;
   }
-  else 
+  else
     return FlowExit;
 }
 
@@ -594,7 +609,10 @@ Parse::Flow Parser::parseFor(Mode mode)
   int step = 1;
   if (tryKeyword(Step, CheckOnly))
     step = parseExpression(mode).toInt();
-  tryKeyword(Do);
+
+  bool doFound = tryKeyword(Do, CheckOnly);
+  if (!doFound)
+    tryKeyword(LeftCurlyBrace);
   int block = m_start;
   Parse::Flow flow = FlowStandard;
   if (end >= start)
@@ -611,10 +629,13 @@ Parse::Flow Parser::parseFor(Mode mode)
     parseBlock(Parse::CheckOnly);
   if (flow != FlowExit)
   {
-    tryKeyword(End);
+    if (doFound)
+      tryKeyword(End);
+    else
+      tryKeyword(RightCurlyBrace);
     return FlowStandard;
   }
-  else 
+  else
     return FlowExit;
 }
 
@@ -624,7 +645,9 @@ Parse::Flow Parser::parseForeach(Mode mode)
   QString var = nextVariable();
   tryKeyword(In);
   QString arr = nextVariable();
-  tryKeyword(Do);
+  bool doFound = tryKeyword(Do, CheckOnly);
+  if (!doFound)
+    tryKeyword(LeftCurlyBrace);
   int start = m_start;
   Parse::Flow flow = FlowStandard;
   if (isArray(arr) && array(arr).count())
@@ -639,14 +662,17 @@ Parse::Flow Parser::parseForeach(Mode mode)
         break;
     }
   }
-  else 
+  else
     parseBlock(CheckOnly);
   if (flow != FlowExit)
   {
-    tryKeyword(End);
+    if (doFound)
+      tryKeyword(End);
+    else
+      tryKeyword(RightCurlyBrace);
     return FlowStandard;
   }
-  else 
+  else
     return FlowExit;
 }
 
@@ -686,10 +712,10 @@ Flow Parser::parseCommand(Mode mode)
   else if (tryKeyword(Continue, CheckOnly))
     return FlowContinue;
   else if (tryKeyword(Break, CheckOnly))
-    return FlowBreak;  
+    return FlowBreak;
   else if (isFunction())
   {
-    QString name = next().variableName();    
+    QString name = next().variableName();
     parseFunction(mode);
     if (name == "return" && mode == Execute)
       return FlowExit;
@@ -702,7 +728,7 @@ Flow Parser::parseCommand(Mode mode)
   {
      if (mode == Execute)
        return FlowExit;
-  } 
+  }
   return FlowStandard;
 }
 
@@ -741,7 +767,7 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
     if (k == Dot)
       setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget", m_data->keywordToString(k)));
     else
-     setError(i18n("Expected '%1'", m_data->keywordToString(k)));
+      setError(i18n("Expected '%1' got '%2'.").arg(m_data->keywordToString(k)).arg(next().toString()));
   }
   return false;
 }
@@ -815,9 +841,9 @@ void Parser::setVariable(const QString& name, ParseNode value)
 ParseNode Parser::variable(const QString& name) const
 {
   if (isGlobal(name))
-    return m_globalVariables.contains(name) ? m_globalVariables[name] : ParseNode();  
+    return m_globalVariables.contains(name) ? m_globalVariables[name] : ParseNode();
   else
-    return m_variables.contains(name) ? m_variables[name] : ParseNode();  
+    return m_variables.contains(name) ? m_variables[name] : ParseNode();
 }
 
 bool Parser::isGlobal(const QString& name) const
@@ -838,7 +864,7 @@ void Parser::unsetVariable(const QString& key)
     m_variables.remove(key);
 }
 
-const QMap<QString, ParseNode>& Parser::array(const QString& name) 
+const QMap<QString, ParseNode>& Parser::array(const QString& name)
 {
   if (isGlobal(name))
     return m_globalArrays[name];
@@ -858,7 +884,7 @@ void Parser::setArray(const QString& name, const QString& key, ParseNode value)
   else
     m_arrays[name][key] = value;
 }
-  
+
 void Parser::unsetArray(const QString& name, const QString& key)
 {
   if (isGlobal(name))

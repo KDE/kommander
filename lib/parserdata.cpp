@@ -2,7 +2,7 @@
                     parserdata.cpp - Parser data: keywords, functions etc.
                              -------------------
     copyright          : (C) 2004      Michal Rudolf <mrudolf@kdewebdwev.org>
-    
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -30,21 +30,21 @@ Keyword ParserData::stringToKeyword(const QString& s) const
   QString k = s.toLower();
   if (m_keywords.contains(k))
     return m_keywords[k];
-  else 
+  else
     return Variable;
 }
 
 QString ParserData::keywordToString(Parse::Keyword k) const
 {
-  for (QMap<QString, Keyword>::const_iterator it = m_keywords.constBegin(); it != m_keywords.constEnd(); ++it) 
+  for (QMap<QString, Keyword>::const_iterator it = m_keywords.constBegin(); it != m_keywords.constEnd(); ++it)
     if (it.value() == k)
       return it.key();
   return QString();
 }
 
-bool ParserData::registerFunction(const QString& name, Function f) 
+bool ParserData::registerFunction(const QString& name, Function f)
 {
-  m_functions[name.toLower()] = f;  
+  m_functions[name.toLower()] = f;
   return true;
 }
 
@@ -59,6 +59,8 @@ ParserData::ParserData()
   m_keywords["else"] =  Else;
   m_keywords["elseif"] =  Elseif;
   m_keywords["endif"] =  Endif;
+  m_keywords["{"] = LeftCurlyBrace;
+  m_keywords["}"] =  RightCurlyBrace;
   m_keywords["switch"] =  Switch;
   m_keywords["case"] =  Case;
   m_keywords["while"] =  While;
@@ -97,30 +99,30 @@ ParserData::ParserData()
   m_keywords["/"] = Divide;
   m_keywords["%"] = Mod;
   m_keywords["mod"] = Mod;
-  
+
   m_groups[Less] = GroupComparison;
   m_groups[LessEqual] = GroupComparison;
   m_groups[Equal] = GroupComparison;
   m_groups[NotEqual] = GroupComparison;
   m_groups[Greater] = GroupComparison;
   m_groups[GreaterEqual] = GroupComparison;
-  
+
   m_groups[Plus] = GroupAdd;
   m_groups[Minus] = GroupAdd;
   m_groups[Multiply] = GroupMultiply;
   m_groups[Divide] = GroupMultiply;
   m_groups[Mod] = GroupMultiply;
-  
+
   registerStandardFunctions();
 }
 
 bool ParserData::isFunction(const QString& name) const
 {
-  return m_functions.contains(name.toLower());  
+  return m_functions.contains(name.toLower());
 }
 
-const Function& ParserData::function(const QString& name) 
+const Function& ParserData::function(const QString& name)
 {
-  return m_functions[name.toLower()]; 
+  return m_functions[name.toLower()];
 }
 
