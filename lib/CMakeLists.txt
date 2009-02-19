@@ -41,5 +41,5 @@ INSTALL(TARGETS kommandercore ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-INSTALL(FILES kommanderwidget.h kommandercore_export.h kommanderplugin.h specials.h DESTINATION ${INCLUDE_INSTALL_DIR})
+INSTALL(FILES kommanderwidget.h kommandercore_export.h kommanderplugin.h specials.h DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
 
