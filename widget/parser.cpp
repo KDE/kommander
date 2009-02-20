@@ -499,6 +499,21 @@ ParseNode Parser::parseAssignment(Mode mode)
     if (mode == Execute)
       setVariable(var, p);
   }
+  else if (tryKeyword(PlusEqual, CheckOnly))
+  {
+    ParseNode p = parseExpression(mode);
+    if (mode == Execute)
+    {
+      ParseNode p2 = variable(var);
+      if (p2.type() == ValueString)
+        p = QString(p2.toString() + p.toString());
+      else if (p2.type() == ValueDouble)
+        p = p2.toDouble() + p.toDouble();
+      else
+        p = p2.toInt() + p.toInt();
+      setVariable(var, p);
+    }
+  }
   else if (tryKeyword(Dot, CheckOnly))
   {
     QString value = variable(var).toString();
@@ -529,11 +544,14 @@ Flow Parser::parseIf(Mode mode)
   ParseNode p = next();
   Flow flow = FlowStandard;
   bool matched = false;
+  bool thenFound = false;
   do {
     m_start++;
     Mode m = matched ? CheckOnly : mode;
     p = parseCondition(m);
-    tryKeyword(Then);
+    thenFound = tryKeyword(Then, CheckOnly);
+    if (!thenFound)
+      tryKeyword(LeftCurlyBrace);
     bool condition = !matched && p.toBool();
     if (condition)
     {
@@ -544,14 +562,21 @@ Flow Parser::parseIf(Mode mode)
     else 
       parseBlock(CheckOnly);
     matched = matched || p.toBool();
+    if (!thenFound)
+      tryKeyword(RightCurlyBrace);
   } while (next().isKeyword(Elseif));
+  bool braceFound = false;
   if (tryKeyword(Else, CheckOnly))
   {
+    braceFound = tryKeyword(LeftCurlyBrace, CheckOnly);
     if (!matched)
       flow = parseBlock(mode);
     else
       parseBlock(CheckOnly);
   }
+  if (braceFound)
+    tryKeyword(RightCurlyBrace);
+  if (thenFound)
   tryKeyword(Endif);
   return flow;
 }
@@ -562,11 +587,13 @@ Parse::Flow Parser::parseWhile(Mode mode)
   int start = m_start;
   bool running = true;
   Parse::Flow flow = FlowStandard;
+  bool doFound = false;
   while (running)
   {
     m_start = start;
     ParseNode p = parseCondition(mode);
-    if (!tryKeyword(Do))
+    doFound = tryKeyword(Do, CheckOnly);
+    if (!doFound && !tryKeyword(LeftCurlyBrace))
       break;
     running = p.toBool();
     flow = parseBlock(running ? mode : CheckOnly);
@@ -575,7 +602,10 @@ Parse::Flow Parser::parseWhile(Mode mode)
   }
   if (flow != FlowExit)
   {
-    tryKeyword(End);
+    if (doFound)
+      tryKeyword(End);
+    else
+      tryKeyword(RightCurlyBrace);
     return FlowStandard;
   }
   else 
@@ -593,7 +623,10 @@ Parse::Flow Parser::parseFor(Mode mode)
   int step = 1;
   if (tryKeyword(Step, CheckOnly))
     step = parseExpression(mode).toInt();
-  tryKeyword(Do);
+
+  bool doFound = tryKeyword(Do, CheckOnly);
+  if (!doFound)
+    tryKeyword(LeftCurlyBrace);
   int block = m_start;
   Parse::Flow flow = FlowStandard;
   if (end >= start)
@@ -610,7 +643,10 @@ Parse::Flow Parser::parseFor(Mode mode)
     parseBlock(Parse::CheckOnly);
   if (flow != FlowExit)
   {
-    tryKeyword(End);
+    if (doFound)
+      tryKeyword(End);
+    else
+      tryKeyword(RightCurlyBrace);
     return FlowStandard;
   }
   else 
@@ -623,7 +659,9 @@ Parse::Flow Parser::parseForeach(Mode mode)
   QString var = nextVariable();
   tryKeyword(In);
   QString arr = nextVariable();
-  tryKeyword(Do);
+  bool doFound = tryKeyword(Do, CheckOnly);
+  if (!doFound)
+    tryKeyword(LeftCurlyBrace);
   int start = m_start;
   Parse::Flow flow = FlowStandard;
   if (isArray(arr) && array(arr).count())
@@ -642,7 +680,10 @@ Parse::Flow Parser::parseForeach(Mode mode)
     parseBlock(CheckOnly);
   if (flow != FlowExit)
   {
-    tryKeyword(End);
+    if (doFound)
+      tryKeyword(End);
+    else
+      tryKeyword(RightCurlyBrace);
     return FlowStandard;
   }
   else 
@@ -740,7 +781,7 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
     if (k == Dot)
       setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget").arg(m_data->keywordToString(k)));
     else
-     setError(i18n("Expected '%1'").arg(m_data->keywordToString(k)));
+     setError(i18n("Expected '%1' got '%2'.").arg(m_data->keywordToString(k)).arg(next().toString()));
   }
   return false;
 }

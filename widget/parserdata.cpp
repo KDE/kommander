@@ -59,6 +59,8 @@ ParserData::ParserData()
   m_keywords["else"] =  Else;
   m_keywords["elseif"] =  Elseif;
   m_keywords["endif"] =  Endif;
+  m_keywords["{"] = LeftCurlyBrace;
+  m_keywords["}"] = RightCurlyBrace;
   m_keywords["switch"] =  Switch;
   m_keywords["case"] =  Case;
   m_keywords["while"] =  While;
@@ -96,6 +98,7 @@ ParserData::ParserData()
   m_keywords["*"] = Multiply;
   m_keywords["/"] = Divide;
   m_keywords["%"] = Mod;
+  m_keywords["+="] = PlusEqual;
   m_keywords["mod"] = Mod;
   
   m_groups[Less] = GroupComparison;
