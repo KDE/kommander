@@ -191,6 +191,7 @@ public slots:
     void configureEditor();
 
     void runForm();
+    void runForm4();
     
 private slots:
     void activeWindowChanged( QWidget *w );

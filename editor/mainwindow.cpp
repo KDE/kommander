@@ -463,6 +463,70 @@ void MainWindow::runForm()
 }
 
 
+void MainWindow::runForm4()
+{
+  if (previewing)
+  {
+    KMessageBox::information(this, i18n("There is a dialog already running."), i18n("Run"));
+    return;
+  }
+  FormWindow* form = activeForm();
+  if (!form || !form->formFile())
+    return;
+
+  QObjectList *editors = queryList("AssocTextEditor");
+  QObjectListIt it(*editors);
+  QObject *editor;
+
+  while ((editor = it.current()) != 0L) 
+  {
+    ++it;
+    static_cast<AssocTextEditor*>(editor)->save();
+  }
+  delete editors;  
+
+  if (form->formFile()->hasTempFileName())
+  {
+    if (!form->formFile()->saveAs())
+      return;
+  }
+
+  m_fileName = form->formFile()->fileName();
+  m_backupName = m_fileName + ".running";
+  m_modified = form->formFile()->isModified();
+    
+  bool readOnlyFile = !QFileInfo(m_fileName).isWritable();
+  struct stat statbuf;
+  ::stat(m_fileName.local8Bit(), &statbuf);
+  if (!readOnlyFile && !KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_backupName), statbuf.st_mode, true))
+  {
+    KMessageBox::error(this, i18n("<qt>Cannot create temporary file <i>%1</i>.</qt>").arg(m_backupName));
+    return;
+  }
+  form->formFile()->setFileName(m_fileName);  
+  if (!readOnlyFile || m_modified)
+    form->formFile()->setModified(true);
+  if (form->formFile()->save(false))
+  {
+    if (!readOnlyFile && !KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_fileName), KURL::fromPathOrURL(m_fileName + ".backup"), statbuf.st_mode, true))
+    {
+      KMessageBox::error(this, i18n("<qt>Cannot create backup file <i>%1</i>.</qt>").arg(m_fileName + ".backup"));
+    }
+    ::chmod(m_fileName.local8Bit(), S_IRWXU);
+    KProcess* process = new KProcess;
+    process->setUseShell(true);
+    (*process) << "kommander" << QString("\"%1\"").arg(form->formFile()->fileName());
+    connect(process, SIGNAL(receivedStdout(KProcess*, char*, int)), messageLog,
+            SLOT(receivedStdout(KProcess*, char*, int)));
+    connect(process, SIGNAL(receivedStderr(KProcess*, char*, int)), messageLog,
+            SLOT(receivedStderr(KProcess*, char*, int)));
+    connect(process, SIGNAL(processExited(KProcess*)), SLOT(closeRunningForm(KProcess*)));  
+    messageLog->clear(MessageLog::All);
+    previewing = process->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+  }
+}
+
+
 void MainWindow::closeRunningForm(KProcess* process)
 {
   previewing = false;

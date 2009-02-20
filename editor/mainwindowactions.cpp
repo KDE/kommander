@@ -476,6 +476,14 @@ void MainWindow::setupRunActions()
   connect(this, SIGNAL(hasActiveForm(bool)), a, SLOT(setEnabled(bool)));
   a->plug(fileTb);
   a->plug(menu);
+  // add KDE4 executor
+
+  KAction* b = new KAction(i18n("Run Dialog K4"), "launch", CTRL + SHIFT  + Qt::Key_R,
+                           this, SLOT(runForm4()), actionCollection(), "run4");
+  b->setToolTip(i18n("Executes dialog in KDE4"));
+  b->setWhatsThis(whatsThisFrom("Run|Run dialog"));
+  connect(this, SIGNAL(hasActiveForm(bool)), b, SLOT(setEnabled(bool)));
+  b->plug(menu);
 }
 
 void MainWindow::setupWindowActions()
