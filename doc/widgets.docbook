@@ -267,7 +267,7 @@ RichTextEditor
 </term>
 <listitem>
 <para>
-This widgets provides a text editor that allows for simple text formatting.
+This widget provides a text editor that allows for simple text formatting.
 </para>
 <para>
 RichTextEditor has one state, default.
@@ -359,7 +359,7 @@ TextLabel
 A simple widget that contains a piece of text.  This widget lets you set a pixmap too.  OK, the editor says that they are both QLabels.  Why do we have 2 widgets that look to be the same thing, but different names? - Scheduled to be fixed in A7.
 </para>
 <para>
-As of Alpha 6 this widget is partially enabled and can be set using exteranl DCOP calls.
+As of Alpha 6 this widget is partially enabled and can be set using external DCOP calls.
 </para>
 </listitem>
 </varlistentry>

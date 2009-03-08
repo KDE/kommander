@@ -29,7 +29,7 @@ provided by the following features:
 <itemizedlist>
 
 
-  <listitem><para>Specials are prefaced with an <quote>@</quote> like @widgetText. The offer
+<listitem><para>Specials are prefaced with an <quote>@</quote> like @widgetText. They offer
 special features like the value of a widget, functions, aliases, global
 variables and such.</para></listitem>
 
@@ -57,7 +57,7 @@ My first hello world program in &kommander;
 
 <para>
 Hopefully you begin to see a small glimmering of the potential. &kommander;
-enables a much faster design model for simple applications because if allows
+enables a much faster design model for simple applications because it allows
 you to stop thinking so much about language and revert to the more basic and
 natural conceptual model. In computers language is a means to define concepts
 and as such it is a layer between concept and implementation that can impede

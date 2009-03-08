@@ -79,7 +79,7 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para>
-&kommander; is a set of tools that allow you to create dynamic &GUI; dialogs that generate, based on their state, a piece of text.  The piece of text can be a command line to a program, any piece of code, business documents that contain a lot of repititious or templated text and so on.  The resulting generated text can then be executed as a command line program (hence the name <quote>&kommander;</quote>), written to a file, passed to a script for extended processing, and literally anything else you can think of.  The best part of it all?  You aren't required to write a single line of code!
+&kommander; is a set of tools that allow you to create dynamic &GUI; dialogs that generate, based on their state, a piece of text.  The piece of text can be a command line to a program, any piece of code, business documents that contain a lot of repetitious or templated text and so on.  The resulting generated text can then be executed as a command line program (hence the name <quote>&kommander;</quote>), written to a file, passed to a script for extended processing, and literally anything else you can think of.  The best part of it all?  You aren't required to write a single line of code!
 </para>
 </abstract>
 

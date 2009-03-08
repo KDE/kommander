@@ -36,7 +36,7 @@
 
 <sect1 id="tutorlal-slots">
 <title>Slots</title>
-<para>Shows how to us connections/slot to handle events.  Both population and standard slots are used.</para>
+<para>Shows how to use connections/slot to handle events.  Both population and standard slots are used.</para>
 </sect1>
 
 <sect1 id="tutorial-settings">
@@ -51,7 +51,7 @@
 
 <sect1 id="tutorial-cmdline">
 <title>Command Line</title>
-<para>Shows ho you can pass parameters to &kommander; dialog via command line.  Also, shows how to change list content and button text.</para>
+<para>Shows how you can pass parameters to &kommander; dialog via command line.  Also, shows how to change list content and button text.</para>
 </sect1>
 
 <sect1 id="tutorial-initialize">
