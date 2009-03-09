@@ -50,7 +50,7 @@ ComboBox::ComboBox(QWidget *a_parent, const char *a_name)
   connect(this, SIGNAL(activated(int)), this, SLOT(emitWidgetTextChanged(int)));
 
   KommanderPlugin::setDefaultGroup(Group::DBUS);
-  KommanderPlugin::registerFunction(popupList, "popupList(QString widget)",  i18n("Make the ComboBox expose it's list without mousing around."), 1);
+  KommanderPlugin::registerFunction(popupList, "popupList(QString widget)",  i18n("Make the ComboBox expose its list without needing to use the mouse."), 1);
 
 }
 

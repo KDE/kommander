@@ -46,7 +46,7 @@ KommanderWidget((QObject *) this)
   connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
 
   KommanderPlugin::setDefaultGroup(Group::DBUS);
-  KommanderPlugin::registerFunction(TE_isModified, "isModified(QString widget)",  i18n("see if widget has been modified."), 1);
+  KommanderPlugin::registerFunction(TE_isModified, "isModified(QString widget)",  i18n("See if the widget has been modified."), 1);
 }
 
 QString TextEdit::currentState() const

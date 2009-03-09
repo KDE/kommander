@@ -53,11 +53,11 @@ FontDialog::FontDialog(QWidget *parent, const char *name)
   KommanderPlugin::registerFunction(Family, "family(QString widget)",
          i18n("Returns the font family."), 1);
   KommanderPlugin::registerFunction(PointSize, "pointSize(QString widget)",
-         i18n("Returns the font size in point."), 1);
+         i18n("Returns the font size in points."), 1);
   KommanderPlugin::registerFunction(Bold, "bold(QString widget)",
-         i18n("Returns true, if the font is bold."), 1);
+         i18n("Returns true if the font is bold."), 1);
   KommanderPlugin::registerFunction(Italic, "italic(QString widget)",
-         i18n("Returns true, if the font is italic."), 1);
+         i18n("Returns true if the font is italic."), 1);
 }
 
 FontDialog::~FontDialog()

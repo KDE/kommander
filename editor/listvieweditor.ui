@@ -37,7 +37,7 @@
       <bool>true</bool>
     </property>
     <property name="whatsThis" stdset="0" >
-      <string>&lt;b>Edit Listview&lt;/b>&lt;p>Use the controls on the &lt;b>Items&lt;/b>-tab to add, edit or delete items in the listview. Change the column configuration of the listview using the controls on the &lt;b>Columns&lt;/b>-tab.&lt;/p>Click the &lt;b>New Item&lt;/b>-button to create a new item, then enter text and add a pixmap.&lt;/p>&lt;p>Select an item from the list and click the &lt;b>Delete Item&lt;/b>-button to remove the item from the list.&lt;/p></string>
+      <string>&lt;b>Edit Listview&lt;/b>&lt;p>Use the controls on the &lt;b>Items&lt;/b>-tab to add, edit or delete items in the listview. Change the column configuration of the listview using the controls on the &lt;b>Columns&lt;/b>-tab.&lt;/p>Click the &lt;b>New Item&lt;/b> button to create a new item, then enter text and add a pixmap.&lt;/p>&lt;p>Select an item from the list and click the &lt;b>Delete Item&lt;/b> button to remove the item from the list.&lt;/p></string>
     </property>
     <layout class="QVBoxLayout" >
       <property name="margin" >
@@ -228,7 +228,7 @@
                     <string>Add an item</string>
                   </property>
                   <property name="whatsThis" stdset="0" >
-                    <string>&lt;b>Adds a new item to the list.&lt;/b>&lt;p>The item will be inserted at the top of the list and can be moved using the up- and down-buttons.&lt;/p></string>
+                    <string>&lt;b>Adds a new item to the list.&lt;/b>&lt;p>The item will be inserted at the top of the list and can be moved using the up and down buttons.&lt;/p></string>
                   </property>
                 </widget>
               </item>
@@ -511,7 +511,7 @@
                     <string>Add a Column</string>
                   </property>
                   <property name="whatsThis" stdset="0" >
-                    <string>&lt;b>Create a new column.&lt;/b>&lt;p>New columns are appended at the end of (right of) the list and may be moved using the up- and down-buttons.&lt;/p></string>
+                    <string>&lt;b>Create a new column.&lt;/b>&lt;p>New columns are appended at the end of (right of) the list and may be moved using the up and down buttons.&lt;/p></string>
                   </property>
                 </widget>
               </item>

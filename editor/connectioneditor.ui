@@ -37,7 +37,7 @@
       <bool>true</bool>
     </property>
     <property name="whatsThis" stdset="0" >
-      <string>&lt;b>Edit Connections&lt;/b>&lt;p>Add and remove connections in the current form .&lt;/p>&lt;p>Select a signal and a corresponding slot then press the &lt;b>Connect&lt;/b>-button to create a connection.&lt;/p>&lt;p>Select a connection from the list then press the &lt;b>Disconnect&lt;/b>-button to delete the connection.&lt;/p></string>
+      <string>&lt;b>Edit Connections&lt;/b>&lt;p>Add and remove connections in the current form .&lt;/p>&lt;p>Select a signal and a corresponding slot then press the &lt;b>Connect&lt;/b> button to create a connection.&lt;/p>&lt;p>Select a connection from the list then press the &lt;b>Disconnect&lt;/b> button to delete the connection.&lt;/p></string>
     </property>
     <layout class="QGridLayout" >
       <property name="margin" >

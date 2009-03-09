@@ -38,7 +38,7 @@
         <bool>true</bool>
     </property>
     <property name="whatsThis" stdset="0">
-        <string>&lt;b&gt;Edit Iconview&lt;/b&gt;&lt;p&gt;Add, edit or delete items in the icon view.&lt;/p&gt;&lt;p&gt;Click the &lt;b&gt;New Item&lt;/b&gt;-button to create a new item, then enter text and choose a pixmap.&lt;/p&gt;&lt;p&gt;Select an item from the view and click the &lt;b&gt;Delete Item&lt;/b&gt;-button to remove the item from the iconview.&lt;/p&gt;</string>
+        <string>&lt;b&gt;Edit Iconview&lt;/b&gt;&lt;p&gt;Add, edit or delete items in the icon view.&lt;/p&gt;&lt;p&gt;Click the &lt;b&gt;New Item&lt;/b&gt; button to create a new item, then enter text and choose a pixmap.&lt;/p&gt;&lt;p&gt;Select an item from the view and click the &lt;b&gt;Delete Item&lt;/b&gt; button to remove the item from the iconview.&lt;/p&gt;</string>
     </property>
     <vbox>
         <property name="name">
