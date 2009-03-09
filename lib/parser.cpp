@@ -114,7 +114,7 @@ bool Parser::setString(const QString& s)
     else                          // Bad character
     {
       insertNode(s.mid(start, 1), lines);
-      setError(i18n("Invalid character: '%1'", s[start]), m_parts.count()-1);
+      setError(i18n("Invalid character: '%1'.", s[start]), m_parts.count()-1);
       return false;
     }
   }
@@ -190,7 +190,7 @@ ParseNode Parser::parseConstant(Parse::Mode)
   m_start++;
   if (!p.isValue())
   {
-    setError(i18n("Constant value expected"));
+    setError(i18n("Constant value expected."));
     return ParseNode();
     }
   return p;
@@ -221,7 +221,7 @@ ParseNode Parser::parseValue(Mode mode)
         return parseWidget(mode, value);
       }else if (mode == Execute)
       {
-        setError(i18n("'%1' (%2) is not a widget", p.variableName(), variable(p.variableName()).toString()));
+        setError(i18n("'%1' (%2) is not a widget.", p.variableName(), variable(p.variableName()).toString()));
         return ParseNode();
       } else
       {
@@ -233,7 +233,7 @@ ParseNode Parser::parseValue(Mode mode)
     }
     else if (tryKeyword(LeftParenthesis, CheckOnly))
     {
-       setError(i18n("'%1' is not a function", p.variableName()));
+       setError(i18n("'%1' is not a function.", p.variableName()));
        return ParseNode();
     }
     else
@@ -244,7 +244,7 @@ ParseNode Parser::parseValue(Mode mode)
   else if (tryKeyword(True, CheckOnly))
     return ParseNode(1);
   else if (p.isKeyword())
-    setError(i18n("Expected value"));
+    setError(i18n("Expected a value."));
   else // single value
     m_start++;
   return p;
@@ -269,7 +269,7 @@ ParseNode Parser::parseMultiply(Mode mode)
       else if (k == Divide)
       {
         if (p2.toDouble() == 0.0)
-          setError(i18n("Divide by zero"));
+          setError(i18n("Division by zero."));
         else
         if (type == ValueInt)
           p = p.toInt() / p2.toInt();
@@ -279,7 +279,7 @@ ParseNode Parser::parseMultiply(Mode mode)
       else  /* k == Mod */
       {
         if (p2.toInt() == 0)
-          setError(i18n("Divide by zero"));
+          setError(i18n("Division by zero."));
         else
           p = p.toInt() -  p.toInt() / p2.toInt() * p2.toInt();
       }
@@ -424,15 +424,15 @@ ParseNode Parser::parseFunction(Mode mode)
     tryKeyword(RightParenthesis);
   }
   if (f.minArgs() > params.count())
-    setError(i18n("in function '%1': %2", name, i18n("too few parameters")), pos);
+    setError(i18n("In function '%1': too few parameters." , name), pos);
   else if (f.maxArgs() < params.count())
-    setError(i18n("in function '%1': %2", name, i18n("too many parameters")), pos);
+    setError(i18n("In function '%1': too many parameters.", name), pos);
   else if (mode == Execute)
   {
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in function '%1': %2", name, p.errorMessage()), pos);
+      setError(i18nc("Parser error - %2 is an error message", "In function '%1': %2", name, p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -472,7 +472,7 @@ ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
     ParseNode p = f.execute(this, params);
     if (!p.isValid())
     {
-      setError(i18n("in widget function '%1.%2': %3", widget, var, p.errorMessage()), pos);
+      setError(i18nc("Parser error - %1 is a widget, %2 is a var, %3 is an error message.", "In widget function '%1.%2': %3", widget, var, p.errorMessage()), pos);
       return ParseNode();
     }
     else
@@ -530,12 +530,12 @@ ParseNode Parser::parseAssignment(Mode mode)
       m_start = m_start - 2;
       return parseWidget(mode);
     } else
-      setError(i18n("'%1' is not a widget", var));
+      setError(i18n("'%1' is not a widget.", var));
   }
   else if (tryKeyword(LeftParenthesis, CheckOnly))
-    setError(i18n("'%1' is not a function", var));
+    setError(i18n("'%1' is not a function.", var));
   else
-    setError(i18n("Unexpected symbol after variable '%1'", var));
+    setError(i18n("Unexpected symbol after variable '%1'.", var));
 
   return ParseNode();
 }
@@ -780,7 +780,7 @@ bool Parser::tryKeyword(Keyword k, Mode mode)
   if (mode == Execute)
   {
     if (k == Dot)
-      setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget", m_data->keywordToString(k)));
+      setError(i18n("Expected '%1'<br><br>Possible cause of the error is having a variable with the same name as a widget.", m_data->keywordToString(k)));
     else
       setError(i18n("Expected '%1' got '%2'.").arg(m_data->keywordToString(k)).arg(next().toString()));
   }

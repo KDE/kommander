@@ -1851,7 +1851,7 @@ void FormWindow::checkAccels()
     {
       ok = false;
       if (KMessageBox::questionYesNo(mainWindow(),
-              i18n("Accelerator '%1' is used %2 times.", it.key().toUpper(), (*it).count()),
+              i18np("Accelerator '%1' is used %1 time.", "Accelerator '%1' is used %2 times.", it.key().toUpper(), (*it).count()),
               i18n("Check Accelerators"), i18n("&Select"), KStandardGuiItem::cancel()) == KMessageBox::Yes)
       {
         clearSelection(false);
