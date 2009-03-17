@@ -77,8 +77,10 @@ public slots:
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
-  
+  void contextMenuRequested(int xpos, int ypos);
+
 protected:
+  void contextMenuEvent( QContextMenuEvent * e );
   // Whether output from process should be put in real stdout
   bool m_writeStdout;
   // Whether pressing execubtton should block GUI until process ends
