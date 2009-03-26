@@ -37,7 +37,7 @@
       <bool>true</bool>
     </property>
     <property name="whatsThis" >
-      <string>&lt;b>Edit Multiline Edit&lt;/b>&lt;p>Enter the text and click the &lt;b>OK&lt;/b> Button to apply the changes.&lt;/p></string>
+      <string>&lt;b>Edit Multiline Edit&lt;/b>&lt;p>Enter the text and click the &lt;b>OK&lt;/b> button to apply the changes.&lt;/p></string>
     </property>
     <layout class="QVBoxLayout" >
       <property name="margin" >

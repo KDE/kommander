@@ -37,7 +37,7 @@
       <bool>true</bool>
     </property>
     <property name="whatsThis" stdset="0" >
-      <string>&lt;b>Edit Listview&lt;/b>&lt;p>Use the controls on the &lt;b>Items&lt;/b>-tab to add, edit or delete items in the listview. Change the column configuration of the listview using the controls on the &lt;b>Columns&lt;/b>-tab.&lt;/p>Click the &lt;b>New Item&lt;/b> button to create a new item, then enter text and add a pixmap.&lt;/p>&lt;p>Select an item from the list and click the &lt;b>Delete Item&lt;/b> button to remove the item from the list.&lt;/p></string>
+      <string>&lt;b>Edit Listview&lt;/b>&lt;p>Use the controls on the &lt;b>Items&lt;/b> tab to add, edit or delete items in the listview. Change the column configuration of the listview using the controls on the &lt;b>Columns&lt;/b> tab.&lt;/p>Click the &lt;b>New Item&lt;/b> button to create a new item, then enter text and add a pixmap.&lt;/p>&lt;p>Select an item from the list and click the &lt;b>Delete Item&lt;/b> button to remove the item from the list.&lt;/p></string>
     </property>
     <layout class="QVBoxLayout" >
       <property name="margin" >
