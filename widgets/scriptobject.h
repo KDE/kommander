@@ -53,6 +53,7 @@ public slots:
   virtual void populate();
   virtual void execute();
   virtual void execute(const QString&);
+  virtual void execute(const QString&, const QString&);
   virtual void execute(int);
   virtual void execute(int, int);
   virtual void execute(bool);
