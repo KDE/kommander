@@ -30,6 +30,7 @@
 enum Functions {
   FirstFunction = 450, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
   TE_isModified,
+  TE_selectText,
   LastFunction
 };
 
@@ -45,6 +46,7 @@ KommanderWidget((QObject *) this)
 
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(TE_isModified, "isModified(QString widget)",  i18n("see if widget has been modified."), 1);
+  KommanderPlugin::registerFunction(TE_selectText, "selectText(QString widget, int paraFrom, int indexFrom, int paraTo, int indexTo)",  i18n("Select a block of text using the paragraph number and character index of the line. You can use the cursorPositionChanged(int, int) signal to get this data in real time into a script."), 5);
 }
 
 QString TextEdit::currentState() const
@@ -148,6 +150,9 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       break;
     case TE_isModified:
       return isModified() ? "1" : "0";
+      break;
+    case TE_selectText:
+      QTextEdit::setSelection(args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt());
       break;
     case DCOP::geometry:
     {
