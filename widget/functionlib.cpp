@@ -120,6 +120,22 @@ static ParseNode f_stringIsEmpty(Parser*, const ParameterList& params)
   return params[0].toString().isEmpty();
 }
 
+static ParseNode f_stringSort(Parser*, const ParameterList& params)
+{
+  if (params.count() == 2 ) 
+  {
+    QStringList tmplst = QStringList::split(params[1].toString(), params[0].toString());
+    tmplst.sort();
+    return tmplst.join(params[1].toString());
+  } 
+  else 
+  {
+    QStringList tmplst = QStringList::split("\n", params[0].toString());
+    tmplst.sort();
+    return tmplst.join("\n");
+  }
+}
+
 static ParseNode f_stringSection(Parser*, const ParameterList& params)
 {
   return params[0].toString().section(params[1].toString(), params[2].toInt(), 
@@ -928,6 +944,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("str_toint", Function(&f_stringToInt, ValueString, ValueInt, 1));
   registerFunction("str_todouble", Function(&f_stringToDouble, ValueString, ValueDouble, 1));
   registerFunction("str_round", Function(&f_stringRound, ValueInt, ValueDouble, ValueInt, 2));
+  registerFunction("str_sort", Function(&f_stringSort, ValueString, ValueString, ValueString, 1, 2));
   registerFunction("return", Function(&f_return, ValueNone, ValueString, 1, 1));
   registerFunction("debug", Function(&f_debug, ValueNone, ValueString, 1, 100));
   registerFunction("echo", Function(&f_echo, ValueNone, ValueString, 1, 100));

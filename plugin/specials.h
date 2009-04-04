@@ -51,7 +51,7 @@ namespace Array
 namespace String
 {
   enum {length, contains, find, findRev, left, right, mid, remove, replace, upper, lower,
-  compare, isEmpty, isNumber, section, args, toInt, toDouble, round};
+  compare, isEmpty, isNumber, section, args, toInt, toDouble, round, sort};
 }
 
 namespace File

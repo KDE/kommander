@@ -518,6 +518,8 @@ void SpecialInformation::registerSpecials()
     i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
   insert(String::round, "round(QString Number, int Digits)", 
     i18n("Round a floating point number by x digits."), 2);
+  insert(String::sort, "sort(QString String, QString Separator)", 
+    i18n("Sort a string list. Only first paramter is required. Default separator is a newline."), 1), 2;
 
   insertInternal(String::toInt, "toint(QString string, QString default)",
     i18n("Convert a string to an integer. If not possible use the default value"), 1, 2);
@@ -543,7 +545,7 @@ void SpecialInformation::registerSpecials()
   insert(Input::value, "value(QString caption, QString label, int value, int min, int max, int step)", 
          i18n("Shows value selection dialog. Returns entered value."), 5);
   insert(Input::valueDouble, "double(QString caption, QString label, double value, double min, double max, double step)", 
-         i18n("Shows float value selection dialog. Returns entered value."), 5);
+         i18n("Shows float value selection dialog. Returns entered value."), 6);
   insert(Input::openfile, "openfile(QString startdir, QString filter, QString caption)", 
          i18n("Shows existing file selection dialog. Returns selected file."), 0);
   insert(Input::savefile, "savefile(QString startdir, QString filter, QString caption)", 
