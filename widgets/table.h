@@ -52,12 +52,14 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
     virtual QString handleDCOP(int function, const QStringList& args);
     virtual bool isFunctionSupported(int function);
     virtual void clearCellWidget(int row, int col);
+    virtual void columnClicked(int col);
   public slots:
     virtual void populate();
     virtual void setWidgetText(const QString &);
     //void adjustColumn(int col);
   signals:
     void contextMenuRequested(int xpos, int ypos);
+    void columnHeaderClicked(int col);
   protected:
     void contextMenuEvent( QContextMenuEvent * e );
   private:

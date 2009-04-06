@@ -180,15 +180,16 @@ void Table::contextMenuEvent( QContextMenuEvent * e )
   QPoint p = e->globalPos();
   emit contextMenuRequested(p.x(), p.y());
 }
-/*
-void Table::adjustColumn(int col)
+
+void Table::columnClicked(int col)
 {
-  if (numRows() >= col)
-    QTable::adjustColumn(col);
-  else
-    KMessageBox::error(this, "Attempted to size nonexistant column");
+  emit columnHeaderClicked(col);
+  static bool ascending = TRUE;
+  if (!sorting()) return;
+  ascending=!ascending;
+  sortColumn( col, ascending, TRUE);
 }
-*/
+
 QString Table::handleDCOP(int function, const QStringList& args)
 {
   switch (function) 
