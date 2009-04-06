@@ -276,7 +276,7 @@ void AssocTextEditor::insertFile()
   QFile insertFile(fileName);
   if(!insertFile.open(QIODevice::ReadOnly))
   {
-    KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt", fileName ) );
+    KMessageBox::error( this, i18n("<qt>Cannot open file<br><b>%1</b></qt>", fileName ) );
     return;
   }
   Q3TextStream insertStream(&insertFile);
