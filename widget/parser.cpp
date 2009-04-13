@@ -696,6 +696,8 @@ void Parser::parseSwitch(Mode mode)
   QString var = nextVariable();
   ParseNode caseValue = variable(var);
   bool executed = false;
+  bool braceFound = false;
+  braceFound = tryKeyword(LeftCurlyBrace, CheckOnly);
   tryKeyword(Semicolon, CheckOnly);
   while (tryKeyword(Case, CheckOnly))
   {
@@ -707,7 +709,10 @@ void Parser::parseSwitch(Mode mode)
   }
   if (tryKeyword(Else, CheckOnly))
     parseBlock(executed ? CheckOnly : mode);
-  tryKeyword(End);
+  if (!braceFound)
+    tryKeyword(End);
+  else
+    tryKeyword(RightCurlyBrace);
 }
 
 Flow Parser::parseCommand(Mode mode)
