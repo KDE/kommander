@@ -89,7 +89,7 @@ void SpinBoxInt::showEvent( QShowEvent *e )
 
 bool SpinBoxInt::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::setMaximum;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::setMaximum || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
@@ -103,6 +103,16 @@ QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
     case DCOP::setMaximum:
       setMaxValue(args[0].toUInt());
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

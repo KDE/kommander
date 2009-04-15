@@ -121,7 +121,7 @@ bool ComboBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::selection || f == DCOP::setSelection ||
       f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || 
       f == DCOP::removeItem || f == DCOP::insertItem || f == DCOP::insertItems ||
-      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus  || (f >= FirstFunction && f <= LastFunction);
+      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString ComboBox::handleDCOP(int function, const QStringList& args)
@@ -179,6 +179,16 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
     case DCOP::setEditable:
       setEditable(args[0] != "false" && args[0] != "0");
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     case popupList:
       QComboBox::popup();
       break;

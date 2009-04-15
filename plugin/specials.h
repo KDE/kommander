@@ -32,7 +32,7 @@ namespace DCOP
     currentItem, currentRow, execute, findItem, global, insertColumn, insertItem, insertItems, insertRow, 
     item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
     setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
-    setRowCaption, setSelection, setText, 
+    setRowCaption, setSelection, setText, getBackgroundColor, setBackgroundColor,
     setVisible, text, type, setCellWidget, cellWidget, setEditable, geometry, hasFocus};
 }
 

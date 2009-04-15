@@ -91,7 +91,7 @@ void StatusBar::contextMenuEvent( QContextMenuEvent * e )
 
 bool StatusBar::isFunctionSupported(int f)
 {
-  return f == DCOP::setText || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear;
+  return f == DCOP::setText || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 QString StatusBar::handleDCOP(int function, const QStringList& args)
@@ -112,6 +112,16 @@ QString StatusBar::handleDCOP(int function, const QStringList& args)
     case DCOP::clear:
       clear();
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

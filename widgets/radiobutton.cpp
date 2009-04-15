@@ -101,7 +101,7 @@ void RadioButton::contextMenuEvent( QContextMenuEvent * e )
 
 bool RadioButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::setChecked || f == DCOP::checked;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::setChecked || f == DCOP::checked || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 QString RadioButton::handleDCOP(int function, const QStringList& args)
@@ -117,6 +117,16 @@ QString RadioButton::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::checked:
       return QString::number(isOn());
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

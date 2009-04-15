@@ -143,7 +143,7 @@ void TextEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || (f >= FirstFunction && f <= LastFunction);
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextEdit::handleDCOP(int function, const QStringList& args)
@@ -165,6 +165,16 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
     case DCOP::setEditable:
       setReadOnly(args[0] == "false" || args[0] == "0");
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     case TE_isModified:
       return isModified() ? "1" : "0";
       break;

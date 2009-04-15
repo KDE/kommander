@@ -88,7 +88,7 @@ void Label::showEvent(QShowEvent *e)
 
 bool Label::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 QString Label::handleDCOP(int function, const QStringList& args)
@@ -102,6 +102,16 @@ QString Label::handleDCOP(int function, const QStringList& args)
     case DCOP::clear:
       setWidgetText("");
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

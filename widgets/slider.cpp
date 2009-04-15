@@ -84,7 +84,7 @@ void Slider::showEvent(QShowEvent * e)
 
 bool Slider::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::setMaximum;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::setMaximum || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 QString Slider::handleDCOP(int function, const QStringList& args)
@@ -101,6 +101,16 @@ QString Slider::handleDCOP(int function, const QStringList& args)
     case DCOP::setMaximum:
       setMaxValue(args[0].toInt());
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

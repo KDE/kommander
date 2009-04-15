@@ -97,7 +97,7 @@ void ButtonGroup::contextMenuEvent( QContextMenuEvent * e )
 
 bool ButtonGroup::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked;
+  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
     
 
@@ -118,6 +118,16 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
       setCheckable(true);
       setChecked(args[0] != "false");
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

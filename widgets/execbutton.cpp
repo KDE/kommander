@@ -163,7 +163,7 @@ void ExecButton::contextMenuEvent( QContextMenuEvent * e )
 
 bool ExecButton::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::execute || f == DCOP::geometry;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::execute || f == DCOP::geometry || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 QString ExecButton::handleDCOP(int function, const QStringList& args)
@@ -181,6 +181,16 @@ QString ExecButton::handleDCOP(int function, const QStringList& args)
     {
       QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
       return geo;
+      break;
+    }
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
       break;
     }
     default:

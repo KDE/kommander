@@ -379,6 +379,10 @@ void SpecialInformation::registerSpecials()
      i18n("Return the widget's geometry as <i>x y w h</i>. This is useful for positioning a created widget."), 1);
   insertInternal(DCOP::hasFocus, "hasFocus(QString widget)", 
      i18n("Returns true if the widget has focus."), 1);
+  insertInternal(DCOP::getBackgroundColor, "getBackgroundColor(QString widget)", 
+      i18n("Gets the widget's background color."), 1);
+  insertInternal(DCOP::setBackgroundColor, "setBackgroundColor(QString widget, QString Color)", 
+      i18n("Sets the widget's background color. Colors can be by name, like blue, or in hex like #0000ff for blue. Use the color dialog or a color picker if unsure."), 2);
 
   insertGroup(Group::Slots, i18n("Slots"), "");
 

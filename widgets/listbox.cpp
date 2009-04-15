@@ -96,7 +96,7 @@ bool ListBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
     f == DCOP::insertItems || f == DCOP::insertItem || f == DCOP::removeItem || f == DCOP::clear ||
     f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || f == DCOP::addUniqueItem ||
-      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::count || f == DCOP::geometry || f == DCOP::hasFocus;
+      f == DCOP::findItem || f == DCOP::setPixmap || f == DCOP::count || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 void ListBox::contextMenuEvent( QContextMenuEvent * e )
@@ -206,6 +206,16 @@ QString ListBox::handleDCOP(int function, const QStringList& args)
     case DCOP::hasFocus:
       return QString::number(this->hasFocus());
       break;
+    case DCOP::getBackgroundColor:
+      return this->paletteBackgroundColor().name();
+      break;
+    case DCOP::setBackgroundColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      this->setPaletteBackgroundColor(color);
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
