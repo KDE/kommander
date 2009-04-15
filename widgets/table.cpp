@@ -309,36 +309,49 @@ QString Table::handleDCOP(int function, const QStringList& args)
       break;
     }
     case TBL_sortColumnExtra:
-      QTable::sortColumn(args[0].toInt(), args[1].toInt(), args[2].toInt());
+      if (numCols() >= args[0].toInt())
+        QTable::sortColumn(args[0].toInt(), args[1].toInt(), args[2].toInt());
       break;
     case TBL_keepCellVisible:
-      QTable::ensureCellVisible(args[0].toInt()-1, args[1].toInt()-1);
+      if (numRows() >= args[0].toInt() && numCols() >+ args[1].toInt())
+        QTable::ensureCellVisible(args[0].toInt()-1, args[1].toInt()-1);
       break;
     case   TBL_selectCells:
-      QTable::selectCells (args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt());
+      if (numRows() >= args[0].toInt() && numCols() >+ args[1].toInt() && numRows() >= args[2].toInt() && numCols() >+ args[3].toInt())
+        QTable::selectCells (args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt());
       break;
     case TBL_selectRow:
-      QTable::selectRow (args[0].toInt());
+      if (numRows() >= args[0].toInt())
+        QTable::selectRow (args[0].toInt());
       break;
     case TBL_selectColumn:
-      QTable::selectColumn (args[0].toInt());
+      if (numCols() >= args[0].toInt())
+        QTable::selectColumn (args[0].toInt());
       break;
     case TBL_setColumnReadOnly:
-      QTable::setColumnReadOnly (args[0].toInt(), args[1].toUInt());
+      if (numCols() >= args[0].toInt())
+        QTable::setColumnReadOnly (args[0].toInt(), args[1].toUInt());
       break;
     case TBL_setRowReadOnly:
-      QTable::setRowReadOnly (args[0].toInt(), args[1].toUInt());
+      if (numRows() >= args[0].toInt())
+        QTable::setRowReadOnly (args[0].toInt(), args[1].toUInt());
       break;
     case TBL_colHeader:
     {
       QHeader* hdr = QTable::horizontalHeader();
-      return hdr->label(args[0].toInt());
+      if (numCols() >= args[0].toInt())
+        return hdr->label(args[0].toInt());
+      else
+        return "No column at index "+args[0];
       break;
     }
     case TBL_rowHeader:
     {
       QHeader* hdr = QTable::verticalHeader();
-      return hdr->label(args[0].toInt());
+      if (numRows() >= args[0].toInt())
+        return hdr->label(args[0].toInt());
+      else
+        return "No row at index "+args[0];
       break;
     }
     case DCOP::geometry:
