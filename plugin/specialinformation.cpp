@@ -522,8 +522,14 @@ void SpecialInformation::registerSpecials()
     i18n("Returns the given string with %1, %2, %3 replaced with <i>arg1</i>, <i>arg2</i>, <i>arg3</i> accordingly."), 2);
   insert(String::round, "round(QString Number, int Digits)", 
     i18n("Round a floating point number by x digits."), 2);
-  insert(String::sort, "sort(QString String, QString Separator)", 
-    i18n("Sort a string list. Only first paramter is required. Default separator is a newline."), 1), 2;
+  insertInternal(String::sort, "sort(QString String, QString Separator)", 
+    i18n("Sort a string list. Only first paramter is required. Default separator is a newline."), 1, 2);
+  insertInternal(String::trim, "trim(QString String)", 
+    i18n("Strips white space from beginning and end of string."), 1);
+  insertInternal(String::padLeft, "padLeft(QString String, int Length, QString Pad)", 
+    i18n("Pads the string to the total length indicated. if no pad character is given spaces will be used. Try this with 0 on integer sequences and read them with str_toint."), 1, 2);
+  insertInternal(String::padRight, "padRight(QString String, int Length, QString Pad)", 
+    i18n("Pads the string to the total length indicated. if no pad character is given spaces will be used."), 1, 2);
 
   insertInternal(String::toInt, "toint(QString string, QString default)",
     i18n("Convert a string to an integer. If not possible use the default value"), 1, 2);

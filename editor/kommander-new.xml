@@ -138,6 +138,10 @@
       <item>str_toint</item>
       <item>str_todouble</item>
       <item>str_round</item>
+      <item>str_sort</item>
+      <item>str_trim</item>
+      <item>str_padLeft</item>
+      <item>str_padRight</item>
     </list>
     
     <list name="kmdrfile">
@@ -186,6 +190,7 @@
       <item> break </item>
       <item> continue </item>
       <item> exit </item>
+      <item> switch </item>
     </list>
     
     <list name="booleans">
@@ -239,6 +244,7 @@
         <RegExpr attribute="Keyword" context="#stay" String="\belseif&noword;" beginRegion="if" endRegion="if"/>
         <RegExpr attribute="Keyword" context="#stay" String="\belse&noword;"  beginRegion="if" endRegion="if"/>
         <RegExpr attribute="Keyword" context="#stay" String="\bendif&noword;" endRegion="if"/>
+        <RegExpr attribute="Keyword" context="#stay" String="\}&eos;" endRegion="group"/>
       	<!-- handle case as a special case -->
         <RegExpr attribute="Keyword" context="Case" String="\bcase&noword;" beginRegion="case" />
         <!-- handle command line options -->
@@ -273,6 +279,8 @@
         <DetectChar attribute="Normal Text" context="#pop" char=")" lookAhead="true"/>
         <DetectChar attribute="Normal Text" context="#pop" char="[" lookAhead="true"/>
         <DetectChar attribute="Normal Text" context="#pop" char="]" lookAhead="true"/>
+        <DetectChar attribute="Normal Text" context="#pop" char="{" lookAhead="true"/>
+        <DetectChar attribute="Normal Text" context="#pop" char="}" lookAhead="true"/>
         <DetectChar attribute="KmdrMethod" context="DetectKmdrMethod" char="." lookAhead="true"/>
         <RegExpr attribute="Normal Text" context="#pop" String="[\s\=\;\+\-\*\/\%]+" />
      

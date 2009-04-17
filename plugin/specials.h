@@ -40,7 +40,7 @@ namespace Kommander
 {
   enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
   echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
-  switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists, exit, Break, Continue, Return, execBackground};
+  switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists, exit, Break, Continue, Return, execBackground}; //, focusWidget};
 }
 
 namespace Array
@@ -51,7 +51,7 @@ namespace Array
 namespace String
 {
   enum {length, contains, find, findRev, left, right, mid, remove, replace, upper, lower,
-  compare, isEmpty, isNumber, section, args, toInt, toDouble, round, sort};
+  compare, isEmpty, isNumber, section, args, toInt, toDouble, round, sort, trim, padLeft, padRight};
 }
 
 namespace File

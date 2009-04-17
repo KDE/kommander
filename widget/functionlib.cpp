@@ -135,6 +135,28 @@ static ParseNode f_stringSort(Parser*, const ParameterList& params)
     return tmplst.join("\n");
   }
 }
+static ParseNode f_stringTrim(Parser*, const ParameterList& params)
+{
+  return params[0].toString().stripWhiteSpace();
+}
+
+static ParseNode f_stringPadLeft(Parser*, const ParameterList& params)
+{
+  if (params.count() == 2 ) 
+    return params[0].toString().rightJustify(params[1].toInt(), ' ', false);
+  QString s = params[2].toString();
+  QChar ch = s.at(0);
+  return params[0].toString().rightJustify(params[1].toInt(), ch, false);
+}
+
+static ParseNode f_stringPadRight(Parser*, const ParameterList& params)
+{
+  if (params.count() == 2 ) 
+    return params[0].toString().leftJustify(params[1].toInt(), ' ', false);
+  QString s = params[2].toString();
+  QChar ch = s.at(0);
+  return params[0].toString().leftJustify(params[1].toInt(), ch, false);
+}
 
 static ParseNode f_stringSection(Parser*, const ParameterList& params)
 {
@@ -945,6 +967,9 @@ void ParserData::registerStandardFunctions()
   registerFunction("str_todouble", Function(&f_stringToDouble, ValueString, ValueDouble, 1));
   registerFunction("str_round", Function(&f_stringRound, ValueInt, ValueDouble, ValueInt, 2));
   registerFunction("str_sort", Function(&f_stringSort, ValueString, ValueString, ValueString, 1, 2));
+  registerFunction("str_trim", Function(&f_stringTrim, ValueString, ValueString, 1));
+  registerFunction("str_padLeft", Function(&f_stringPadLeft, ValueString, ValueInt, ValueString, ValueString, 1, 2));
+  registerFunction("str_padRight", Function(&f_stringPadRight, ValueString, ValueInt, ValueString, ValueString, 1, 2));
   registerFunction("return", Function(&f_return, ValueNone, ValueString, 1, 1));
   registerFunction("debug", Function(&f_debug, ValueNone, ValueString, 1, 100));
   registerFunction("echo", Function(&f_echo, ValueNone, ValueString, 1, 100));
