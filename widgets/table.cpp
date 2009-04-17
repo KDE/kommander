@@ -201,10 +201,12 @@ QString Table::handleDCOP(int function, const QStringList& args)
     case DCOP::cellText:
       return text(args[0].toInt(), args[1].toInt());
     case DCOP::setCellText:
-      setCellText(args[0].toInt(), args[1].toInt(), args[2]);
+      if (numRows() >= args[0].toInt() && numCols() >+ args[1].toInt())
+        setCellText(args[0].toInt(), args[1].toInt(), args[2]);
       break;
     case DCOP::setCellWidget:
-      setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);
+      if (numRows() >= args[0].toInt() && numCols() >+ args[1].toInt())
+        setCellWidget(args[0].toInt(), args[1].toInt(), args[2]);
       break;
     case DCOP::cellWidget:
       return cellWidget(args[0].toInt(), args[1].toInt());
