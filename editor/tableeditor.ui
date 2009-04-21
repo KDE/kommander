@@ -1,7 +1,4 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
   <class>TableEditorBase</class>
   <widget class="QDialog" name="TableEditorBase" >
     <property name="geometry" >

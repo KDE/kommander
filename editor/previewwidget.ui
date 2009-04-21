@@ -1,7 +1,4 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
   <class>PreviewWidgetBase</class>
   <widget class="QWidget" name="PreviewWidgetBase" >
     <property name="geometry" >
@@ -222,5 +219,4 @@
       </item>
     </layout>
   </widget>
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
 </ui>

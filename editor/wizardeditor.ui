@@ -1,7 +1,4 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
   <class>WizardEditorBase</class>
   <widget class="QDialog" name="WizardEditorBase" >
     <property name="geometry" >
@@ -195,7 +192,6 @@
       </item>
     </layout>
   </widget>
-  <layoutdefault spacing="6" margin="11" />
   <images>
     <image name="image0" >
       <data format="XPM.GZ" length="1040" >789c5dcf4d73a2401006e0bbbf82726ed61609ca0c4c6ded0125dfd1985baab6f600338c280a46fc08a6f6bf2f3ddd26abc0619eb7677a9aab9ef3361d3bbdab4ebd4db673e5a83cd9383dbd5bad9adf7f7e7d76ba9e70dacfe78ed7fdd1e9ba8e72265599c17adaae99773df033cb9818225f2cc38132027887f4af8d01ee817dc935720d1c7827d648c1910f969273cd8123e4a93a21d2d95ba0ef098d631864409b6f2c13c195063e210389d55720ef0b8dd56764e021c7c8905acd2c93b66aa71a224389fffb0e14fd4062f51119d290115252ab2391c6585ab653a5f6de033294f8fbf74849175544eacc80c120e478b644267451434c90a9659a78d8aa2066585d00c33425ae80d25702b92352756ea91475ce90ba8f4c80299cb5177d58ea8c5a6d819a67b4595b66865a29602632628e3406b9011a73a26b1f96a40c575f19536dc7d959c6543e5f1466f95fd646aba22cabf5fb57c636f9a24ddaa75e52c6b6f90ea3aada2f313b7ccc1b1b1da3e128a67df09aaa1addb82963dfb3b8b7cdf18e9dcfe70e8b687f91b1fba25acf2eb2a289460f17d9a28c4c7c9e1d8ae8f1e9227b1e4feafa859d9f8de378fa8afbfefeecfc030f08f1a3</data>
