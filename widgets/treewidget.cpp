@@ -143,6 +143,8 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
 
 int TreeWidget::itemToIndex(QListViewItem* item)
 {
+  if (!item->isSelected())
+    return -1;
   QListViewItemIterator it(this);
   int index = 0;
   while (it.current()) {
