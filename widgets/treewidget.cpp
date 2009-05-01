@@ -156,6 +156,19 @@ int TreeWidget::itemToIndex(QListViewItem* item)
   return -1;
 }
 
+int TreeWidget::itemToIndexSafe(QListViewItem* item)
+{
+  QListViewItemIterator it(this);
+  int index = 0;
+  while (it.current()) {
+    if (it.current() == item)
+      return index;
+    ++it;
+    ++index;
+  }
+  return -1;
+}
+
 QListViewItem* TreeWidget::indexToItem(int item)
 {
   QListViewItemIterator it(this);
@@ -379,13 +392,13 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       else
       {
         if (args[2].toUInt() && args[3].toUInt())
-          return QString::number(itemToIndex(findItem(args[0], args[1].toInt())));
+          return QString::number(itemToIndexSafe(findItem(args[0], args[1].toInt())));
         else if (args[2].toUInt())
-          return QString::number(itemToIndex(findItem(args[0], args[1].toInt(), Qt::CaseSensitive | Qt::Contains)));
+          return QString::number(itemToIndexSafe(findItem(args[0], args[1].toInt(), Qt::CaseSensitive | Qt::Contains)));
         else if (args[3].toUInt())
-          return QString::number(itemToIndex(findItem(args[0], args[1].toInt(), Qt::ExactMatch)));
+          return QString::number(itemToIndexSafe(findItem(args[0], args[1].toInt(), Qt::ExactMatch)));
         else
-          return QString::number(itemToIndex(findItem(args[0], args[1].toInt(), Qt::Contains)));
+          return QString::number(itemToIndexSafe(findItem(args[0], args[1].toInt(), Qt::Contains)));
       }
       break;
     case DCOP::item:
