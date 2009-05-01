@@ -330,7 +330,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       {
         if (it.current()->isSelected())
         {        
-          selection.append(QString("%1\n").arg(itemToIndex(it.current())));
+          selection.append(QString("%1\n").arg(itemToIndexSafe(it.current())));
         }
         ++it;
       }
@@ -388,7 +388,7 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::findItem:
       if (!args[1])
-        return QString::number(itemToIndex(findItem(args[0], 0)));
+        return QString::number(itemToIndexSafe(findItem(args[0], 0)));
       else
       {
         if (args[2].toUInt() && args[3].toUInt())
