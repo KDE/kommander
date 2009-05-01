@@ -629,9 +629,19 @@ Parse::Flow Parser::parseFor(Mode mode)
     tryKeyword(LeftCurlyBrace);
   int block = m_start;
   Parse::Flow flow = FlowStandard;
-  if (end >= start)
+  if (end >= start && step > 0)
   {
     for (int i = start; i <= end; i+=step)
+    {
+      m_start = block;
+      setVariable(var, ParseNode(i));
+      flow = parseBlock(mode);
+      if (flow == FlowBreak || flow == FlowExit)
+        break;
+    }
+  } else if (end <= start && step < 0)
+  {
+    for (int i = start; i >= end; i+=step)
     {
       m_start = block;
       setVariable(var, ParseNode(i));
