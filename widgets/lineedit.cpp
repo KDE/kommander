@@ -46,6 +46,12 @@ void LineEdit::focusInEvent( QFocusEvent * e)
   emit gotFocus();
 }
 
+void LineEdit::focusOutEvent( QFocusEvent * e)
+{
+  QLineEdit::focusOutEvent(e);
+  emit gotFocus();
+}
+
 QString LineEdit::currentState() const
 {
   return QString("default");

@@ -87,6 +87,18 @@ void SpinBoxInt::showEvent( QShowEvent *e )
   emit widgetOpened();
 }
 
+void SpinBoxInt::focusOutEvent( QFocusEvent * e)
+{
+  QSpinBox::focusOutEvent(e);
+  emit lostFocus();
+}
+
+void SpinBoxInt::focusInEvent( QFocusEvent * e)
+{
+  QSpinBox::focusInEvent(e);
+  emit gotFocus();
+}
+
 bool SpinBoxInt::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText || f == DCOP::setMaximum || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;

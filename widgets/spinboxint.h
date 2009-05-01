@@ -56,8 +56,12 @@ public slots:
 signals:
   void widgetOpened();
   void widgetTextChanged(const QString&);
+  void lostFocus();
+  void gotFocus();
 protected:
   void showEvent(QShowEvent *e);
+  void focusOutEvent( QFocusEvent* e);
+  void focusInEvent( QFocusEvent* e);
 private:
 };
 

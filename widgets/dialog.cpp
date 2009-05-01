@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <klocale.h>
 
 /* QT INCLUDES */
 #include <qstring.h>
@@ -22,11 +23,22 @@
 #include <qevent.h>
 #include <qdialog.h>
 #include <qpoint.h>
+#include <qcursor.h>
+#include <qapplication.h>
 
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "dialog.h"
 #include <myprocess.h>
+#include "kommanderplugin.h"
+
+enum Functions {
+  FirstFunction = 185,
+  D_focusWidget,
+  D_waitCursor,
+  D_restoreCursor,
+  LastFunction
+};
 
 Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   : QDialog(a_parent, a_name, a_modal, a_flags), KommanderWindow(this)
@@ -40,6 +52,10 @@ Dialog::Dialog(QWidget *a_parent, const char *a_name, bool a_modal, int a_flags)
   m_useShebang = false;
   m_shebang = "#!/usr/bin/kmdr-executor";
   m_firstShow = true;
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(D_focusWidget, "focusWidget(QString widget)",  i18n("The name of the widget having focus"), 1);
+  KommanderPlugin::registerFunction(D_waitCursor, "waitCursor(QString widget)",  i18n("Set a wait cursor. CAUTION: if set more than once an equal number of calls to restore must be made to clear it."), 1);
+  KommanderPlugin::registerFunction(D_restoreCursor, "restoreCursor(QString widget)",  i18n("Restore normal curser. NOTE: must be called as many times as wait was."), 1);
 }
 
 Dialog::~Dialog()
@@ -177,7 +193,7 @@ void Dialog::contextMenuEvent( QContextMenuEvent * e )
 
 bool Dialog::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::geometry;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::geometry || (f > FirstFunction && f < LastFunction);
 }
 
 QString Dialog::handleDCOP(int function, const QStringList& args)
@@ -190,6 +206,15 @@ QString Dialog::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::geometry:
       return QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      break;
+    case D_focusWidget:
+      return focusWidget()->name();
+      break;
+    case D_waitCursor:
+      QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+      break;
+    case D_restoreCursor:
+      QApplication::restoreOverrideCursor();
       break;
     default:
       return KommanderWidget::handleDCOP(function, args);

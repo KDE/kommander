@@ -60,10 +60,12 @@ signals:
   void widgetTextChanged(const QString &);
   void contextMenuRequested(int xpos, int ypos);
   void gotFocus();
+  void lostFocus();
 protected:
   virtual void showEvent( QShowEvent *e );
   void contextMenuEvent( QContextMenuEvent * e );
   void focusInEvent( QFocusEvent* e);
+  void focusOutEvent( QFocusEvent* e);
 private:
 };
 
