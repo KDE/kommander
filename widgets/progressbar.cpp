@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 /* KDE INCLUDES */
+#include <klocale.h>
 
 /* QT INCLUDES */
 #include <qobject.h>
@@ -25,6 +26,14 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "progressbar.h"
+#include "kommanderplugin.h"
+
+enum Functions {
+  FirstFunction = 585,
+  PB_setHighlightColor,
+  PB_setHightlightTextColor,
+  LastFunction
+};
 
 ProgressBar::ProgressBar(QWidget *a_parent, const char *a_name)
   : KProgress(a_parent, a_name), KommanderWidget(this)
@@ -33,6 +42,9 @@ ProgressBar::ProgressBar(QWidget *a_parent, const char *a_name)
   states << "default";
   setStates(states);
   setDisplayStates(states);
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(PB_setHighlightColor, "setBarColor(QString widget, QString Color)",  i18n("Sets the ProgresBar color"), 2);
+  KommanderPlugin::registerFunction(PB_setHightlightTextColor, "setBarTextColor(QString widget, QString Color)",  i18n("Sets the ProgresBar text color"), 2);
 }
 
 ProgressBar::~ProgressBar()
@@ -82,7 +94,7 @@ void ProgressBar::showEvent(QShowEvent *e)
 
 bool ProgressBar::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::setMaximum;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::setMaximum || f == DCOP::geometry || (f > FirstFunction && f < LastFunction);
 }
 
 QString ProgressBar::handleDCOP(int function, const QStringList& args)
@@ -99,6 +111,30 @@ QString ProgressBar::handleDCOP(int function, const QStringList& args)
     case DCOP::setMaximum:
       setTotalSteps(args[0].toUInt());
       break;
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
+    case PB_setHighlightColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      QPalette p = this->palette();
+      p.setColor(QPalette::Active, QColorGroup::Highlight, color);
+      this->setPalette( p, TRUE );
+      break;
+    }
+    case PB_setHightlightTextColor:
+    {
+      QColor color;
+      color.setNamedColor(args[0]);
+      QPalette p = this->palette();
+      p.setColor(QPalette::Active, QColorGroup::HighlightedText, color);
+      this->setPalette( p, TRUE );
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }
