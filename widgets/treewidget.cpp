@@ -143,8 +143,8 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
 
 int TreeWidget::itemToIndex(QListViewItem* item)
 {
-  if (!item->isSelected())
-    return -1;
+//  if (!item->isSelected())
+//    return -1;
   QListViewItemIterator it(this);
   int index = 0;
   while (it.current()) {
@@ -377,11 +377,16 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       m_lastPath.clear();
       break;
     case DCOP::removeItem:
-      delete indexToItem(args[0].toInt());
-      m_lastPath.clear();
+    {
+      if (args[0].toInt() >= 0 )
+      {
+        delete indexToItem(args[0].toInt());
+        m_lastPath.clear();
+      }
       break;
+    }
     case DCOP::currentItem:
-      return QString::number(itemToIndex(currentItem()));
+      return QString::number(itemToIndexSafe(currentItem()));
       break;
     case DCOP::setCurrentItem:
       setCurrentItem(indexToItem(args[0].toInt()));
