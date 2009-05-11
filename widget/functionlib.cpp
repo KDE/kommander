@@ -1009,7 +1009,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
   registerFunction("input_password", Function(&f_inputPassword, ValueString, ValueString, ValueString, 1));
   registerFunction("input_value", Function(&f_inputValue, ValueInt, ValueString, ValueString, ValueInt, ValueInt, 
-                   ValueInt, ValueInt, 5));
+                   ValueInt, ValueInt, 6));
   registerFunction("input_double", Function(&f_inputValueDouble, ValueDouble, ValueString, ValueString, ValueDouble, ValueDouble, 
                    ValueDouble, ValueDouble, 6));
   registerFunction("input_openfile", Function(&f_inputOpenFile, ValueString, ValueString, ValueString, ValueString, 0));
