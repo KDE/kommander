@@ -97,7 +97,7 @@ void ButtonGroup::contextMenuEvent( QContextMenuEvent * e )
 
 bool ButtonGroup::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
+  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked || f == DCOP::geometry || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
     
 
@@ -118,6 +118,12 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
       setCheckable(true);
       setChecked(args[0] != "false");
       break;
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     case DCOP::getBackgroundColor:
       return this->paletteBackgroundColor().name();
       break;

@@ -121,7 +121,7 @@ void ToolBox::contextMenuEvent( QContextMenuEvent * e )
 
 bool ToolBox::isFunctionSupported(int f)
 {
-  return f == DCOP::count || (f >= FIRST_FUNCTION && f <=  LAST_FUNCTION) ;
+  return f == DCOP::count || f == DCOP::geometry || (f >= FIRST_FUNCTION && f <=  LAST_FUNCTION) ;
 }
 
 QString ToolBox::handleDCOP(int function, const QStringList& args)
@@ -176,6 +176,12 @@ QString ToolBox::handleDCOP(int function, const QStringList& args)
     }
     case DCOP::count:
       return QString::number(count());
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

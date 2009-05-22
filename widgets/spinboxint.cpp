@@ -101,7 +101,7 @@ void SpinBoxInt::focusInEvent( QFocusEvent * e)
 
 bool SpinBoxInt::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::setMaximum || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::setMaximum  || f == DCOP::geometry|| f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
@@ -115,6 +115,12 @@ QString SpinBoxInt::handleDCOP(int function, const QStringList& args)
     case DCOP::setMaximum:
       setMaxValue(args[0].toUInt());
       break;
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     case DCOP::getBackgroundColor:
       return this->paletteBackgroundColor().name();
       break;

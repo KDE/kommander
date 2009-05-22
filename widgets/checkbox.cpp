@@ -102,7 +102,7 @@ void CheckBox::showEvent(QShowEvent* e)
 
 bool CheckBox::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::checked || f == DCOP::setChecked || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::checked || f == DCOP::setChecked || f == DCOP::geometry || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
 }
 
 void CheckBox::contextMenuEvent( QContextMenuEvent * e )
@@ -125,6 +125,12 @@ QString CheckBox::handleDCOP(int function, const QStringList& args)
     case DCOP::setChecked:
       setChecked(args[0] != "false" && args[0] != "0");
       break;
+    case DCOP::geometry:
+    {
+      QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
+      return geo;
+      break;
+    }
     case DCOP::getBackgroundColor:
       return this->paletteBackgroundColor().name();
       break;

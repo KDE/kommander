@@ -26,6 +26,8 @@
 #include <qstringlist.h>
 #include <qwidget.h>
 #include <qpopupmenu.h>
+#include <qapplication.h>
+#include <qwidgetlist.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -57,7 +59,7 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(EB_isOn, "isOn(QString widget)",  i18n("For use only when button is togle type."), 1);
-  //KommanderPlugin::registerFunction(EB_setPopup, "setPopup(QString widget, QString Menu)",  i18n("Associate a Kommander PopupMenu with this ExecButton."), 2);
+  KommanderPlugin::registerFunction(EB_setPopup, "setPopup(QString widget, QString Menu)",  i18n("Associate a Kommander PopupMenu with this ExecButton."), 2);
 }
 
 ExecButton::~ExecButton()
@@ -195,8 +197,17 @@ QString ExecButton::handleDCOP(int function, const QStringList& args)
       break;
     case EB_setPopup:
     {
-      QPopupMenu *popup = dynamic_cast<QPopupMenu*>(widgetByName(args[0]));
-      this->setPopup(popup);
+      QWidgetList  *list = QApplication::allWidgets();
+      QWidgetListIt it( *list );
+      QWidget * w;
+      while ( (w=it.current()) != 0 ) {  // for each widget...
+        ++it;
+        if (w->name() == args[0] && w->className() == "PopupMenu")
+        {
+          QPopupMenu *popup = dynamic_cast<QPopupMenu*>(w->child("unnamed", "KPopupMenu"));
+          this->setPopup(popup);
+        }
+      }
       break;
     }
     case DCOP::geometry:
