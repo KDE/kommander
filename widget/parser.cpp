@@ -198,6 +198,8 @@ ParseNode Parser::parseConstant(Parse::Mode)
 ParseNode Parser::parseValue(Mode mode)
 {
   ParseNode p = next();
+  //QString p2 = QString(p.toString());
+  //qDebug("parseValue p2 = "+p2);
   if (isFunction())
     return parseFunction(mode);
   else if (isWidget())
@@ -242,6 +244,10 @@ ParseNode Parser::parseValue(Mode mode)
     return ParseNode(0);
   else if (tryKeyword(True, CheckOnly))
     return ParseNode(1);
+/*  else if (isArray(p2))
+  {
+    return p2;
+  }*/
   else if (p.isKeyword())
     setError(i18n("Expected value"));
   else // single value
@@ -484,6 +490,7 @@ ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
 ParseNode Parser::parseAssignment(Mode mode)
 {
   QString var = nextVariable();
+  //qDebug("var = "+var);
   if (tryKeyword(LeftBracket, CheckOnly))
   {
     QString index = parseValue(mode).toString();
@@ -497,7 +504,14 @@ ParseNode Parser::parseAssignment(Mode mode)
   {
     ParseNode p = parseExpression(mode);
     if (mode == Execute)
-      setVariable(var, p);
+    {
+      QString p2 = QString(p.toString()); //arrays are not found?
+      //qDebug("p2 = "+p2);
+      if (isArray(p2))
+        const QMap<QString, ParseNode> var = array(p2);
+      else
+        setVariable(var, p);
+    }
   }
   else if (tryKeyword(PlusEqual, CheckOnly))
   {
@@ -511,6 +525,39 @@ ParseNode Parser::parseAssignment(Mode mode)
         p = p2.toDouble() + p.toDouble();
       else
         p = p2.toInt() + p.toInt();
+      setVariable(var, p);
+    }
+  }
+  else if (tryKeyword(MinusEqual, CheckOnly))
+  {
+    ParseNode p = parseExpression(mode);
+    if (mode == Execute)
+    {
+      ParseNode p2 = variable(var);
+      if (p2.type() == ValueDouble)
+        p = p2.toDouble() - p.toDouble();
+      else
+        p = p2.toInt() - p.toInt();
+      setVariable(var, p);
+    }
+  }
+  else if (tryKeyword(Increment, CheckOnly))
+  {
+    //ParseNode p = parseExpression(mode);
+    if (mode == Execute)
+    {
+      ParseNode p = variable(var);
+      p = p.toInt() + 1;
+      setVariable(var, p);
+    }
+  }
+  else if (tryKeyword(Decrement, CheckOnly))
+  {
+    //ParseNode p = parseExpression(mode);
+    if (mode == Execute)
+    {
+      ParseNode p = variable(var);
+      p = p.toInt() - 1;
       setVariable(var, p);
     }
   }
