@@ -26,13 +26,14 @@
 #include "kommanderplugin.h"
 #include <specials.h>
 #include "textbrowser.h"
-/*
+
 enum Functions {
   FirstFunction = 420,
-  TBR_scrollToAnchor,
+  TBR_setNotifyClick,
+  TBR_isNotifyClick,
   LastFunction
 };
-*/
+
 TextBrowser::TextBrowser(QWidget * a_parent, const char *a_name)
   : KTextBrowser(a_parent, a_name), KommanderWidget((QObject *) this)
 {
@@ -40,8 +41,9 @@ TextBrowser::TextBrowser(QWidget * a_parent, const char *a_name)
   states << "default";
   setStates(states);
   setDisplayStates(states);
-//  KommanderPlugin::setDefaultGroup(Group::DCOP);
-//  KommanderPlugin::registerFunction(TBR_scrollToAnchor, "scrollToAnchor(QString widget, QString name)",i18n("Scroll to an anchor in the form of <a href name=\"#anchor\">anchor</a>"), 2, 2);
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(TBR_setNotifyClick, "setNotifyClick(QString widget, bool Set)",i18n("Set notify click to intercept clicks and handle links"), 2, 2);
+  KommanderPlugin::registerFunction(TBR_isNotifyClick, "isNotifyClick(QString widget)",i18n("Set notify click to intercept clicks and handle links"), 1);
 }
 
 QString TextBrowser::currentState() const
@@ -105,8 +107,7 @@ void TextBrowser::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextBrowser::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::clear;
-// || (f >= FirstFunction && f <= LastFunction);
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::clear || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextBrowser::handleDCOP(int function, const QStringList& args)
@@ -119,8 +120,12 @@ QString TextBrowser::handleDCOP(int function, const QStringList& args)
       break;
     case DCOP::selection:
       return selectedText();
-//    case TBR_scrollToAnchor:
-//      KTextBrowser::scrollToAnchor(args[0]);
+    case TBR_setNotifyClick:
+      KTextBrowser::setNotifyClick(args[0]);
+      break;
+    case TBR_isNotifyClick:
+      return QString::number(KTextBrowser::isNotifyClick());
+      break;
     case DCOP::clear:
       clear();
       break;
