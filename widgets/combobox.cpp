@@ -30,7 +30,7 @@
 #include "combobox.h"
 
 enum Functions {
-  FirstFunction = 357, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
+  FirstFunction = 353, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
   popupList,
   LastFunction
 };

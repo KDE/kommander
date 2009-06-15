@@ -32,7 +32,7 @@
 #include "tabwidget.h"
 
 enum Functions {
-  FirstFunction = 355,
+  FirstFunction = 357,
   TAB_setTabIcon,
   TAB_tabLabel,
   TAB_isTabEnabled,
