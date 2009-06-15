@@ -33,6 +33,9 @@
 enum Functions {
   FirstFunction = 355,
   TAB_setTabIcon,
+  TAB_tabLabel,
+  TAB_isTabEnabled,
+  TAB_setTabEnabled,
   LastFunction
 };
 
@@ -46,6 +49,9 @@ TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
 
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(TAB_setTabIcon, "setTabIcon(QString widget, int Tab, QString Icon)", i18n("Sets an icon on the specified tab. Index is zero based."), 3);
+  KommanderPlugin::registerFunction(TAB_tabLabel, "tabLabel(QString widget, int Tab)", i18n("Returns the tab label at the given index. Index is zero based."), 2);
+  KommanderPlugin::registerFunction(TAB_isTabEnabled, "isTabEnabled(QString widget, int Tab)", i18n("Returns true if tab at specified index is enabled, otherwise returns false."), 2);
+  KommanderPlugin::registerFunction(TAB_setTabEnabled, "setTabEnabled(QString widget, int Tab, bool Enabled)", i18n("Sets the tab at the given index to enabled or disabled."), 3);
 }
 
 TabWidget::~TabWidget()
@@ -115,11 +121,29 @@ QString TabWidget::handleDCOP(int function, const QStringList& args)
     case DCOP::insertTab:
       insertTab(0L, args[0], args[1].toUInt());
       break;
+    case TAB_tabLabel:
+    {
+      QString s = this->label(args[0].toInt());
+      return s.remove("&");
+      break;
+    }
     case TAB_setTabIcon:
     {
       QWidget *w = page(args[0].toInt());
       setTabIconSet(w, KGlobal::iconLoader()->loadIcon(args[1], KIcon::NoGroup, KIcon::SizeMedium));
       break;
+    }
+    case TAB_isTabEnabled:
+    {
+      QWidget *w = page(args[0].toInt());
+      return QString::number(this->isTabEnabled(w));
+      break;
+    }
+    case TAB_setTabEnabled:
+    {
+      QWidget *w = page(args[0].toInt());
+      this->setTabEnabled(w, args[1].toInt());
+     break;
     }
     default:
       return KommanderWidget::handleDCOP(function, args);
