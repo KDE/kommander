@@ -23,6 +23,7 @@
 #include <qstringlist.h>
 #include <qevent.h>
 #include <qtabwidget.h>
+#include <qtabbar.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -36,6 +37,7 @@ enum Functions {
   TAB_tabLabel,
   TAB_isTabEnabled,
   TAB_setTabEnabled,
+  TAB_showTabBar,
   LastFunction
 };
 
@@ -52,6 +54,7 @@ TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
   KommanderPlugin::registerFunction(TAB_tabLabel, "tabLabel(QString widget, int Tab)", i18n("Returns the tab label at the given index. Index is zero based."), 2);
   KommanderPlugin::registerFunction(TAB_isTabEnabled, "isTabEnabled(QString widget, int Tab)", i18n("Returns true if tab at specified index is enabled, otherwise returns false."), 2);
   KommanderPlugin::registerFunction(TAB_setTabEnabled, "setTabEnabled(QString widget, int Tab, bool Enabled)", i18n("Sets the tab at the given index to enabled or disabled."), 3);
+  KommanderPlugin::registerFunction(TAB_showTabBar, "showTabBar(QString widget, bool Show)", i18n("Show or hide the tabs on the tab widget."), 2);
 }
 
 TabWidget::~TabWidget()
@@ -144,6 +147,15 @@ QString TabWidget::handleDCOP(int function, const QStringList& args)
       QWidget *w = page(args[0].toInt());
       this->setTabEnabled(w, args[1].toInt());
      break;
+    }
+    case TAB_showTabBar:
+    {
+      QTabBar *t = this->tabBar();
+      if (args[0].toInt() == 1)
+        t->show();
+      else
+        t->hide();
+      break;
     }
     default:
       return KommanderWidget::handleDCOP(function, args);
