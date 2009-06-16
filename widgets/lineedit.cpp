@@ -49,7 +49,7 @@ void LineEdit::focusInEvent( QFocusEvent * e)
 void LineEdit::focusOutEvent( QFocusEvent * e)
 {
   QLineEdit::focusOutEvent(e);
-  emit gotFocus();
+  emit lostFocus();
 }
 
 QString LineEdit::currentState() const

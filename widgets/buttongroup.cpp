@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 /* KDE INCLUDES */
+#include <klocale.h>
 
 /* QT INCLUDES */
 #include <qobject.h>
@@ -24,10 +25,18 @@
 #include <qevent.h>
 
 /* OTHER INCLUDES */
+#include <kommanderwidget.h>
+#include "kommanderplugin.h"
 #include <specials.h>
 #include "buttongroup.h"
 
 #include "radiobutton.h" // include a button header for the compiler with dynamic cast below
+
+enum Functions {
+  FirstFunction = 720,
+  BG_selectedId,
+  LastFunction
+};
 
 ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
 	: QButtonGroup(a_parent, a_name), KommanderWidget(this)
@@ -37,6 +46,9 @@ ButtonGroup::ButtonGroup(QWidget *a_parent, const char *a_name)
   states << "unchecked";
   setStates(states);
   setDisplayStates(states);
+  
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(BG_selectedId, "selectedId(QString widget)", i18n("Returns the ID of the selected button."), 1);
 
 }
 
@@ -97,7 +109,7 @@ void ButtonGroup::contextMenuEvent( QContextMenuEvent * e )
 
 bool ButtonGroup::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked || f == DCOP::geometry || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor;
+  return f == DCOP::text || f == DCOP::checked || f == DCOP::setChecked || f == DCOP::geometry || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || (f >= FirstFunction && f <= LastFunction);
 }
     
 
@@ -117,6 +129,9 @@ QString ButtonGroup::handleDCOP(int function, const QStringList& args)
     case DCOP::setChecked:
       setCheckable(true);
       setChecked(args[0] != "false");
+      break;
+    case BG_selectedId:
+      return QString::number(this->selectedId() );
       break;
     case DCOP::geometry:
     {
