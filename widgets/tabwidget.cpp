@@ -38,6 +38,7 @@ enum Functions {
   TAB_isTabEnabled,
   TAB_setTabEnabled,
   TAB_showTabBar,
+  TAB_setCurrentPage,
   LastFunction
 };
 
@@ -55,6 +56,7 @@ TabWidget::TabWidget(QWidget *a_parent, const char *a_name, int a_flags)
   KommanderPlugin::registerFunction(TAB_isTabEnabled, "isTabEnabled(QString widget, int Tab)", i18n("Returns true if tab at specified index is enabled, otherwise returns false."), 2);
   KommanderPlugin::registerFunction(TAB_setTabEnabled, "setTabEnabled(QString widget, int Tab, bool Enabled)", i18n("Sets the tab at the given index to enabled or disabled."), 3);
   KommanderPlugin::registerFunction(TAB_showTabBar, "showTabBar(QString widget, bool Show)", i18n("Show or hide the tabs on the tab widget."), 2);
+  KommanderPlugin::registerFunction(TAB_setCurrentPage, "setCurrentPage(QString widget, QString Page)", i18n("Set the current page by name."), 2);
 }
 
 TabWidget::~TabWidget()
@@ -147,6 +149,24 @@ QString TabWidget::handleDCOP(int function, const QStringList& args)
       QWidget *w = page(args[0].toInt());
       this->setTabEnabled(w, args[1].toInt());
      break;
+    }
+    case TAB_setCurrentPage:
+    {
+      int cnt = this->count();
+      int i = 0;
+      bool found = false;
+      while (i < cnt) {
+        QString s = this->label(i);
+        if (s.remove("&") == args[0])
+        {
+          setCurrentPage(i);
+          found = true;
+          break;
+        }
+        i++;
+      }
+      return QString::number(found);
+      break;
     }
     case TAB_showTabBar:
     {
