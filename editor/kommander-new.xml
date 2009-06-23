@@ -175,6 +175,7 @@
     <list name="keywords">
       <item> else </item>
       <item> for </item>
+      <item> to </item>
       <item> function </item>
       <item> in </item>
       <item> select </item>
@@ -191,6 +192,10 @@
       <item> continue </item>
       <item> exit </item>
       <item> switch </item>
+      <item> and </item>
+      <item> or </item>
+      <item> not </item>
+      <item> step </item>
     </list>
     
     <list name="booleans">
@@ -207,6 +212,7 @@
       <!-- FindAll tries to interpret everything -->
       <context attribute="Normal Text" lineEndContext="#stay" name="FindAll">
       	<IncludeRules context="FindComments" />
+        <IncludeRules context="FindBlockComments" />
       	<IncludeRules context="FindCommands" />
 	    <IncludeRules context="FindStrings" />
 	    <IncludeRules context="FindSubstitutions" />      
@@ -217,6 +223,13 @@
       <context attribute="Normal Text" lineEndContext="#pop" name="FindComments">
         <Detect2Chars attribute="Comment" context="Comment" char="/" char1="/" firstNonSpace="true"/>
 	    <RegExpr attribute="Normal Text" context="Comment" String="[\s;](?=/)" />
+      </context>
+      <!-- FindBlockComments consumes comments to end of block -->
+      <context attribute="Normal Text" lineEndContext="#stay" name="FindBlockComments">
+        <Detect2Chars attribute="Comment" context="twolinecomment" char="/" char1="&#42;" beginRegion="Comment" />
+      </context>
+      <context name="twolinecomment" attribute="Comment" lineEndContext="#stay">
+        <Detect2Chars attribute="Comment" context="#pop" char="*" char1="/" endRegion="Comment" />
       </context>
       
       <context attribute="Comment" lineEndContext="#pop" name="Comment">
@@ -304,18 +317,18 @@
       <context attribute="Normal Text" lineEndContext="#stay" name="FindStrings">
 	<DetectChar attribute="String SingleQ" context="StringSQ" char="'" />
 	<DetectChar attribute="String DoubleQ" context="StringDQ" char="&quot;" />
-	<Detect2Chars attribute="String SingleQ" context="StringEsc" char="$" char1="'" />
-	<Detect2Chars attribute="String Transl." context="StringDQ" char="$" char1="&quot;" />
+  <!-- <Detect2Chars attribute="String SingleQ" context="StringEsc" char="$" char1="'" /> -->
+  <!-- <Detect2Chars attribute="String Transl." context="StringDQ" char="$" char1="&quot;" /> -->
       </context>
             
       <!-- FindSubstitutions goes after anything starting with $ and ` and their escapes -->
       <context attribute="Normal Text" lineEndContext="#stay" name="FindSubstitutions">
-	<RegExpr attribute="Variable" context="#stay" String="\$[*@#?$!_0-9-]" />
+        <!-- <RegExpr attribute="Variable" context="#stay" String="\$[*@#?$!_0-9-]" />
 	<RegExpr attribute="Variable" context="Subscript" String="\$&varname;\[" />
 	<RegExpr attribute="Variable" context="#stay" String="\$&varname;" />
 	<RegExpr attribute="Variable" context="#stay" String="\$\{[*@#?$!_0-9-]\}" />
 	<RegExpr attribute="Variable" context="#stay" String="\$\{#&varname;\}" />
-	<RegExpr attribute="Variable" context="#stay" String="\$\{!&varname;\*?\}" />
+  <RegExpr attribute="Variable" context="#stay" String="\$\{!&varname;\*?\}" />-->
 	<RegExpr attribute="Variable" context="VarBrace" String="\$\{&varname;" />
 	<RegExpr attribute="Variable" context="VarBrace" String="\$\{[*@#?$!_0-9-](?=[:#%/])" />
 	<StringDetect attribute="Variable" context="ExprDblParenSubst" String="$((" beginRegion="expression" />
@@ -543,6 +556,7 @@
   <general>
     <comments>
       <comment name="singleLine" start="//"/>
+      <comment name="multiLine" start="/*" end="*/" />
     </comments>
     <keywords casesensitive="1" weakDeliminator="^%#[]$._{}:-" additionalDeliminator="`."/>
   </general>
