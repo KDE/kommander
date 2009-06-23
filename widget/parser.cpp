@@ -99,6 +99,15 @@ bool Parser::setString(const QString& s)
     {
       while (start < s.length() && s[start] != '\n')
         start++;
+    }                               // enable /* */ block comments
+    else if (s[start] == '/' && start < s.length() +1 && s[start+1] == '*')
+    {
+      start += 2;
+      while (s[start] != '*' && start < s.length() +1 && s[start+1] != '/')
+      {
+        start++;
+      }
+      start += 2;
     }                              // special keyword: <>
     else if (m_data->stringToKeyword(s.mid(start, 2)) <= LastRealKeyword)
     {
@@ -194,7 +203,7 @@ ParseNode Parser::parseConstant(Parse::Mode)
     }
   return p;
 }
-
+//attempting to allow assign or copy of array, so far with no joy
 ParseNode Parser::parseValue(Mode mode)
 {
   ParseNode p = next();
