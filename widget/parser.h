@@ -133,6 +133,8 @@ private:
   void insertNode(ParseNode p, int line);
   // next item to be parsed
   ParseNode next() const;
+  // next is Else or Else && If?
+  bool nextElseIf();
   // check if next item is keyword k, if so - go further, if no, set error
   bool tryKeyword(Parse::Keyword k, Parse::Mode mode = Parse::Execute);
   // check if next item is a variable, if so, return its name

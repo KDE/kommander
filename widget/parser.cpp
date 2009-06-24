@@ -620,7 +620,7 @@ Flow Parser::parseIf(Mode mode)
     matched = matched || p.toBool();
     if (!thenFound)
       tryKeyword(RightCurlyBrace);
-  } while (next().isKeyword(Elseif));
+  } while (nextElseIf() == true);
   bool braceFound = false;
   if (tryKeyword(Else, CheckOnly))
   {
@@ -635,6 +635,20 @@ Flow Parser::parseIf(Mode mode)
   if (thenFound)
   tryKeyword(Endif);
   return flow;
+}
+
+bool Parser::nextElseIf()
+{
+  ParseNode p1 = next();
+  if (p1.isKeyword(Elseif))
+    return true;
+  else 
+  {
+    ParseNode p2 = next();
+    if (p1.isKeyword(Else) && p2.isKeyword(If) )
+      return true;
+  }
+  return false;
 }
 
 Parse::Flow Parser::parseWhile(Mode mode)
