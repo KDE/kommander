@@ -255,6 +255,7 @@ ParseNode Parser::parseValue(Mode mode)
     return ParseNode(1);
 /*  else if (isArray(p2))
   {
+    qDebug("returning array fpr p2");
     return p2;
   }*/
   else if (p.isKeyword())
@@ -504,10 +505,63 @@ ParseNode Parser::parseAssignment(Mode mode)
   {
     QString index = parseValue(mode).toString();
     tryKeyword(RightBracket);
-    tryKeyword(Assign);
-    ParseNode p = parseExpression(mode);
-    if (mode == Execute)
-      setArray(var, index, p);
+    ParseNode p1 = next();
+    // seems awkward and pedantic but array values are now handled like variables
+    // for special assign with oparator
+    ParseNode p2 = arrayValue(var, index);
+    if (p1.isKeyword(PlusEqual))
+    {
+      tryKeyword(PlusEqual);
+      ParseNode p = parseExpression(mode);
+      if (mode == Execute)
+      {
+        if (p2.type() == ValueString)
+          p = QString(p2.toString() + p.toString());
+        else if (p2.type() == ValueDouble)
+          p = p2.toDouble() + p.toDouble();
+        else
+        p = p2.toInt() + p.toInt();
+        setArray(var, index, p);
+      }
+    }
+    else if (p1.isKeyword(MinusEqual))
+    {
+      tryKeyword(MinusEqual);
+      ParseNode p = parseExpression(mode);
+      if (mode == Execute)
+      {
+        if (p2.type() == ValueDouble)
+          p = p2.toDouble() - p.toDouble();
+        else
+          p = p2.toInt() - p.toInt();
+        setArray(var, index, p);
+      }
+    }
+    else if (p1.isKeyword(Increment))
+    {
+      tryKeyword(Increment);
+      if (mode == Execute)
+      {
+        p2 = p2.toInt() + 1;
+        setArray(var, index, p2);
+      }
+    }
+    else if (p1.isKeyword(Decrement))
+    {
+      tryKeyword(Decrement);
+      if (mode == Execute)
+      {
+        p2 = p2.toInt() - 1;
+        setArray(var, index, p2);
+      }
+    }
+    else
+    {
+      tryKeyword(Assign);
+      ParseNode p = parseExpression(mode);
+      if (mode == Execute)
+        setArray(var, index, p);
+    }
   }
   else if (tryKeyword(Assign, CheckOnly))
   {
