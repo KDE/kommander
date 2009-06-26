@@ -68,6 +68,16 @@ public:
   void unsetArray(const QString& name, const QString& key = QString::null);
   // array value 
   ParseNode arrayValue(const QString& name, const QString& key) const;
+  // access 2D array 
+  const QMap<QString, QMap<QString, ParseNode> >& matrix(const QString& name) const;
+  // check if this is name of a 2D array
+  bool isMatrix(const QString& name) const;
+  // set array key
+  void setMatrix(const QString& name, const QString& keyr, const QString& keyc, ParseNode value);
+  // unset array key or whole array
+  void unsetMatrix(const QString& name, const QString& keyr = QString::null, const QString& keyc = QString::null);
+  // array value 
+  ParseNode matrixValue(const QString& name, const QString& keyr, const QString& keyc) const;
   // get associated widget
   KommanderWidget* currentWidget() const;
 
@@ -171,12 +181,16 @@ private:
   QMap<QString, ParseNode> m_variables;
   // arrays
   QMap<QString, QMap<QString, ParseNode> > m_arrays;
+  // 2D arrays
+  QMap<QString, QMap<QString, QMap<QString, ParseNode> > > m_matrices;
   // Kommander 
   KommanderWidget* m_widget;
   // global variables
   static QMap<QString, ParseNode> m_globalVariables;
   // global arrays
   static QMap<QString, QMap<QString, ParseNode> > m_globalArrays;
+  // global 2D arrays
+  static QMap<QString, QMap<QString, QMap<QString, ParseNode> > > m_globalMatrices;
 };
 
 #endif

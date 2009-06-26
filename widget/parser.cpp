@@ -218,6 +218,14 @@ ParseNode Parser::parseValue(Mode mode)
     if (tryKeyword(LeftBracket, CheckOnly))
     {
       QString index = parseValue(mode).toString();
+      if (tryKeyword(DoubleBracket, CheckOnly)) 
+      {//2D array "matrix"
+        //qDebug("Found double bracket: parseValue");
+        QString index2 = parseValue(mode).toString();
+        tryKeyword(RightBracket);
+        QString arr = p.variableName();
+        return matrixValue(arr, index, index2);
+      }
       tryKeyword(RightBracket);
       QString arr = p.variableName();
       return arrayValue(arr, index);
@@ -500,67 +508,131 @@ ParseNode Parser::parseWidget(Mode mode, const QString &widgetName)
 ParseNode Parser::parseAssignment(Mode mode)
 {
   QString var = nextVariable();
-  //qDebug("var = "+var);
+  //qDebug("var = "+var+" Pos:"+QString::number(m_start));
   if (tryKeyword(LeftBracket, CheckOnly))
   {
     QString index = parseValue(mode).toString();
-    tryKeyword(RightBracket);
-    ParseNode p1 = next();
-    // seems awkward and pedantic but array values are now handled like variables
-    // for special assign with oparator
-    ParseNode p2 = arrayValue(var, index);
-    if (p1.isKeyword(PlusEqual))
-    {
-      tryKeyword(PlusEqual);
-      ParseNode p = parseExpression(mode);
-      if (mode == Execute)
+    if (tryKeyword(DoubleBracket, CheckOnly)) 
+    {//2D array "matrix"
+      ParseNode p1 = next(); //move along...
+      QString index2 = parseValue(mode).toString();
+      tryKeyword(RightBracket);
+      p1 = next();
+      ParseNode p2 = matrixValue(var, index, index2);
+      if (p1.isKeyword(PlusEqual))
       {
-        if (p2.type() == ValueString)
-          p = QString(p2.toString() + p.toString());
-        else if (p2.type() == ValueDouble)
-          p = p2.toDouble() + p.toDouble();
-        else
-        p = p2.toInt() + p.toInt();
-        setArray(var, index, p);
+        tryKeyword(PlusEqual);
+        ParseNode p = parseExpression(mode);
+        if (mode == Execute)
+        {
+          if (p2.type() == ValueString)
+            p = QString(p2.toString() + p.toString());
+          else if (p2.type() == ValueDouble)
+            p = p2.toDouble() + p.toDouble();
+          else
+          p = p2.toInt() + p.toInt();
+          setMatrix(var, index, index2, p);
+        }
       }
-    }
-    else if (p1.isKeyword(MinusEqual))
-    {
-      tryKeyword(MinusEqual);
-      ParseNode p = parseExpression(mode);
-      if (mode == Execute)
+      else if (p1.isKeyword(MinusEqual))
       {
-        if (p2.type() == ValueDouble)
-          p = p2.toDouble() - p.toDouble();
-        else
-          p = p2.toInt() - p.toInt();
-        setArray(var, index, p);
+        tryKeyword(MinusEqual);
+        ParseNode p = parseExpression(mode);
+        if (mode == Execute)
+        {
+          if (p2.type() == ValueDouble)
+            p = p2.toDouble() - p.toDouble();
+          else
+            p = p2.toInt() - p.toInt();
+          setMatrix(var, index, index2, p);
+        }
       }
-    }
-    else if (p1.isKeyword(Increment))
-    {
-      tryKeyword(Increment);
-      if (mode == Execute)
+      else if (p1.isKeyword(Increment))
       {
-        p2 = p2.toInt() + 1;
-        setArray(var, index, p2);
+        tryKeyword(Increment);
+        if (mode == Execute)
+        {
+          p2 = p2.toInt() + 1;
+          setMatrix(var, index, index2, p2);
+        }
       }
-    }
-    else if (p1.isKeyword(Decrement))
-    {
-      tryKeyword(Decrement);
-      if (mode == Execute)
+      else if (p1.isKeyword(Decrement))
       {
-        p2 = p2.toInt() - 1;
-        setArray(var, index, p2);
+        tryKeyword(Decrement);
+        if (mode == Execute)
+        {
+          p2 = p2.toInt() - 1;
+          setMatrix(var, index, index2, p2);
+        }
+      }
+      else
+      {
+        tryKeyword(Assign);
+        ParseNode p = parseExpression(mode);
+        if (mode == Execute)
+          setMatrix(var, index, index2, p);
       }
     }
     else
     {
-      tryKeyword(Assign);
-      ParseNode p = parseExpression(mode);
-      if (mode == Execute)
-        setArray(var, index, p);
+      tryKeyword(RightBracket);
+      ParseNode p1 = next();
+      // seems awkward and pedantic but array values are now handled like variables
+      // for special assign with oparator
+      ParseNode p2 = arrayValue(var, index);
+      if (p1.isKeyword(PlusEqual))
+      {
+        tryKeyword(PlusEqual);
+        ParseNode p = parseExpression(mode);
+        if (mode == Execute)
+        {
+          if (p2.type() == ValueString)
+            p = QString(p2.toString() + p.toString());
+          else if (p2.type() == ValueDouble)
+            p = p2.toDouble() + p.toDouble();
+          else
+          p = p2.toInt() + p.toInt();
+          setArray(var, index, p);
+        }
+      }
+      else if (p1.isKeyword(MinusEqual))
+      {
+        tryKeyword(MinusEqual);
+        ParseNode p = parseExpression(mode);
+        if (mode == Execute)
+        {
+          if (p2.type() == ValueDouble)
+            p = p2.toDouble() - p.toDouble();
+          else
+            p = p2.toInt() - p.toInt();
+          setArray(var, index, p);
+        }
+      }
+      else if (p1.isKeyword(Increment))
+      {
+        tryKeyword(Increment);
+        if (mode == Execute)
+        {
+          p2 = p2.toInt() + 1;
+          setArray(var, index, p2);
+        }
+      }
+      else if (p1.isKeyword(Decrement))
+      {
+        tryKeyword(Decrement);
+        if (mode == Execute)
+        {
+          p2 = p2.toInt() - 1;
+          setArray(var, index, p2);
+        }
+      }
+      else
+      {
+        tryKeyword(Assign);
+        ParseNode p = parseExpression(mode);
+        if (mode == Execute)
+          setArray(var, index, p);
+      }
     }
   }
   else if (tryKeyword(Assign, CheckOnly))
@@ -1066,6 +1138,62 @@ ParseNode Parser::arrayValue(const QString& name, const QString& key) const
     return m_arrays[name].contains(key) ? m_arrays[name][key] : ParseNode();
 }
 
+// 2D arrays "Matrix"
+const QMap<QString, QMap<QString, ParseNode> >& Parser::matrix(const QString& name) const
+{
+  if (isGlobal(name))
+    return m_globalMatrices[name];
+  else
+    return m_matrices[name];
+}
+
+bool Parser::isMatrix(const QString& name) const
+{
+  return m_matrices.contains(name) || m_globalMatrices.contains(name);
+}
+
+void Parser::setMatrix(const QString& name, const QString& keyr, const QString& keyc, ParseNode value)
+{
+  if (isGlobal(name))
+    m_globalMatrices[name][keyr][keyc] = value;
+  else
+    m_matrices[name][keyr][keyc] = value;
+}
+
+void Parser::unsetMatrix(const QString& name, const QString& keyr, const QString& keyc)
+{
+  if (isGlobal(name))
+  {
+    if (keyr.isNull() && keyc.isNull())
+      m_globalMatrices.remove(name);
+    else if (isMatrix(name))
+    {
+      m_globalMatrices[name][keyr].remove(keyc);
+      m_globalMatrices[name].remove(keyr);
+    }
+  }
+  else
+  {
+    if (keyr.isNull() && keyc.isNull())
+      m_matrices.remove(name);
+    else if (isMatrix(name))
+    {
+      m_matrices[name][keyr].remove(keyc);
+      m_matrices[name].remove(keyr);
+    }
+  }
+}
+
+ParseNode Parser::matrixValue(const QString& name, const QString& keyr, const QString& keyc) const
+{
+  if (!isMatrix(name))
+    return ParseNode();
+  if (isGlobal(name))
+    return m_globalMatrices[name].contains(keyr) && m_globalMatrices[name][keyr].contains(keyc) ? m_globalMatrices[name][keyr][keyc] : ParseNode();
+  else
+    return m_matrices[name].contains(keyr) && m_matrices[name][keyr].contains(keyc) ? m_matrices[name][keyr][keyc] : ParseNode();
+}
+
 
 
 KommanderWidget* Parser::currentWidget() const
@@ -1075,5 +1203,5 @@ KommanderWidget* Parser::currentWidget() const
 
 QMap<QString, ParseNode> Parser::m_globalVariables;
 QMap<QString, QMap<QString, ParseNode> > Parser::m_globalArrays;
-
+QMap<QString, QMap<QString, QMap<QString, ParseNode> > > Parser::m_globalMatrices;
 

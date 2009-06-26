@@ -23,8 +23,8 @@ namespace Parse
 {
   enum Keyword {For, To, Step, End, While, Do, Foreach, In, If, Then, Else, Elseif, Endif, Switch, Case, 
     Break, Continue, Exit, Dot, Semicolon, Comma, Assign, Less, LessEqual, Greater, GreaterEqual, Equal, NotEqual, 
-    Not, And, Or, False, True, LeftParenthesis, RightParenthesis, LeftBracket, RightBracket, LeftCurlyBrace, RightCurlyBrace, PlusEqual, MinusEqual, Increment, Decrement,
-    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid};
+    Not, And, Or, False, True, LeftParenthesis, RightParenthesis, LeftBracket, DoubleBracket, RightBracket, LeftCurlyBrace, RightCurlyBrace, PlusEqual, MinusEqual, Increment, Decrement,
+    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid, Array, Matrix};
 
   enum KeywordGroup {GroupComparison, GroupAdd, GroupMultiply, GroupMisc};
   enum ValueType {ValueString, ValueInt, ValueDouble, ValueValue = ValueDouble, ValueKeyword,
@@ -74,8 +74,12 @@ public:
   bool isKeyword(Parse::Keyword k) const;
   /* Check if current value is a variable */
   bool isVariable() const;
+  /* Check if current value is an Array */
+  bool isArray() const;
   /* Return the name of variable */
   QString variableName() const;
+  /* Return the name of array */
+  QString arrayName() const;
   /* Return error message if applicable */
   QString errorMessage() const;
   /* Calculate common type for two nodes */
@@ -100,6 +104,8 @@ public:
   void setValue(const QString& s);
   /* set value as variable */
   void setVariable(const QString& name);
+  /* set value as array */
+  void setArray(const QString& name);
   /* check if it is correct value */
   bool isValue() const;
   /* for setting some context information, f. e. for bug reporting */

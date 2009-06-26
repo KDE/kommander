@@ -92,6 +92,7 @@ ParserData::ParserData()
   m_keywords["("] =  LeftParenthesis;
   m_keywords[")"] =  RightParenthesis;
   m_keywords["["] =  LeftBracket;
+  m_keywords["]["] =  DoubleBracket;
   m_keywords["]"] =  RightBracket;
   m_keywords["+"] = Plus;
   m_keywords["-"] = Minus;
