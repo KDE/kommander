@@ -94,6 +94,13 @@ void PixmapLabel::showEvent(QShowEvent *e)
   emit widgetOpened();
 }
 
+void PixmapLabel::contextMenuEvent( QContextMenuEvent * e )
+{
+  e->accept();
+  QPoint p = e->globalPos();
+  emit contextMenuRequested(p.x(), p.y());
+}
+
 bool PixmapLabel::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText || f == DCOP::clear || f == DCOP::geometry;
