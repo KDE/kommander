@@ -43,6 +43,7 @@ enum Functions {
   FirstFunction = 260, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
   EB_isOn,
   EB_setPopup,
+  EB_setButtonText,
   LastFunction
 };
 
@@ -60,6 +61,7 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   KommanderPlugin::setDefaultGroup(Group::DCOP);
   KommanderPlugin::registerFunction(EB_isOn, "isOn(QString widget)",  i18n("For use only when button is togle type."), 1);
   KommanderPlugin::registerFunction(EB_setPopup, "setPopup(QString widget, QString Menu)",  i18n("Associate a Kommander PopupMenu with this ExecButton."), 2);
+  KommanderPlugin::registerFunction(EB_setButtonText, "setButtonText(QString widget, QString Text)",  i18n("Set the text on the ExecButton."), 2);
 }
 
 ExecButton::~ExecButton()
@@ -194,6 +196,9 @@ QString ExecButton::handleDCOP(int function, const QStringList& args)
       break;
     case EB_isOn:
       return QString::number(this->isOn() );
+      break;
+    case EB_setButtonText:
+      ExecButton::setText(args[0]);
       break;
     case EB_setPopup:
     {
