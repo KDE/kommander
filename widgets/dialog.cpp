@@ -170,7 +170,7 @@ void Dialog::showEvent(QShowEvent *e)
 
 void Dialog::keyPressEvent( QKeyEvent *e )
 {
-  if ( e->state() == 0 && e->key() == Qt::Key_Escape)
+  if ( e->modifiers() == Qt::NoModifier && e->key() == Qt::Key_Escape)
 	return;
   else
    QDialog::keyPressEvent(e);

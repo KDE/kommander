@@ -104,7 +104,7 @@ QString TabWidget::handleDBUS(int function, const QStringList& args)
       setCurrentIndex(args[0].toInt());
       break;
     case DBUS::insertTab:
-      insertTab(0L, args[0], args[1].toUInt());
+      insertTab(args[1].toUInt(), 0L, args[0]);
     default:
       return KommanderWidget::handleDBUS(function, args);
   }

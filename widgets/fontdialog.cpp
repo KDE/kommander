@@ -32,8 +32,9 @@ enum Functions {
 };
 
 FontDialog::FontDialog(QWidget *parent, const char *name)
- : QLabel(parent, name), KommanderWidget(this)
+ : QLabel(parent), KommanderWidget(this)
 {
+  setObjectName(name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -119,8 +120,8 @@ QString FontDialog::handleDBUS(int function, const QStringList& args)
         m_font.setPointSize(12);
       else
         m_font.setPointSize(args[1].toInt());
-      m_font.setBold(args[2] == "1" || args[2].upper() == "TRUE");
-      m_font.setItalic(args[3] == "1" || args[3].upper() == "TRUE");
+      m_font.setBold(args[2] == "1" || args[2].toUpper() == "TRUE");
+      m_font.setItalic(args[3] == "1" || args[3].toUpper() == "TRUE");
       break;
     }
     case Family:

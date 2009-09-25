@@ -172,6 +172,8 @@ ExecButton::Blocking ExecButton::blockGUI() const
 
 void ExecButton::processExited(MyProcess *process, int c, QProcess::ExitStatus exitStatus)
 {
+  Q_UNUSED(c)
+  Q_UNUSED(exitStatus)
   if (blockGUI() != None)
     setEnabled(true);
   if (process != 0)

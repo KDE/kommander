@@ -441,6 +441,7 @@ QString Instance::type(const QString& widget)
 
 QStringList Instance::children(const QString& parent, bool recursive)
 {
+  Q_UNUSED(recursive)
   QStringList matching;
   QObject* child = stringToWidget(parent);  
   QList<QWidget *> widgets;

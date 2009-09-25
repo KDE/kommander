@@ -155,6 +155,8 @@ void CloseButton::appendError()
 
 void CloseButton::endProcess(int exitCode, QProcess::ExitStatus exitStatus)
 {
+  Q_UNUSED(exitCode)
+  Q_UNUSED(exitStatus)
   emit widgetTextChanged(m_output);
   m_output = "";
   delete m_process;

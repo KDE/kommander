@@ -159,8 +159,10 @@ void Table::setCellText(int row, int col, const QString& text)
   if (widget)  
   {
     KommanderWidget *w = widgetByName(widget->objectName());
-    if (w)
-      widget->reparent(parentDialog(), QPoint(0,0));
+    if (w) {
+      widget->setParent(parentDialog());
+      widget->move(0, 0);
+    }
   }  
   setItem(row, col, new QTableWidgetItem(text));
 //FIXME??  endEdit(row, col, false, false);

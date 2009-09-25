@@ -96,7 +96,7 @@ void ScriptObject::populate()
 
 QString ScriptObject::executeProcess(bool blocking)
 {
-  int index = ( states().findIndex( currentState()) );
+  int index = ( states().indexOf( currentState()) );
   if (index == -1)
   {
     printError(i18n("Invalid state for associated text."));
@@ -179,7 +179,7 @@ QString ScriptObject::handleDBUS(int function, const QStringList& args)
       break;
     case DBUS::item:
     {
-      uint index = args[0].toInt();
+      int index = args[0].toInt();
       return index < m_params.count() ? m_params[index] : QString::null;
     }
     case DBUS::count:

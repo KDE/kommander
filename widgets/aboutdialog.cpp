@@ -39,8 +39,9 @@ enum Functions {
 };
 
 AboutDialog::AboutDialog(QWidget *parent, const char *name)
- : QLabel(parent, name), KommanderWidget(this)
+ : QLabel(parent), KommanderWidget(this)
 {
+  setObjectName(name);
   QStringList states;
   states << "default";
   setStates(states);
@@ -175,7 +176,7 @@ void AboutDialog::setLicense(const QString &key)
 {
   if (!m_aboutData)
     return;
-  QString license = key.upper();
+  QString license = key.toUpper();
   QString file;
   if (key == "GPL_V2")
   {

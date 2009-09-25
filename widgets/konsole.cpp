@@ -125,6 +125,8 @@ void Konsole::processReceivedStdout()
 
 void Konsole::processExited(int c, QProcess::ExitStatus exitStatus)
 {
+  Q_UNUSED(c)
+  Q_UNUSED(exitStatus)
   unsetCursor();
   processReceivedStdout();
   delete mProcess;
