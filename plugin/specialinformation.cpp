@@ -383,6 +383,8 @@ void SpecialInformation::registerSpecials()
       i18n("Gets the widget's background color."), 1);
   insertInternal(DCOP::setBackgroundColor, "setBackgroundColor(QString widget, QString Color)", 
       i18n("Sets the widget's background color. Colors can be by name, like blue, or in hex like #0000ff for blue. Use the color dialog or a color picker if unsure."), 2);
+  insertInternal(DCOP::isModified, "isModified(QString widget)",
+      i18n("See if widget has been modified."), 1);
 
   insertGroup(Group::Slots, i18n("Slots"), "");
 
@@ -485,6 +487,13 @@ void SpecialInformation::registerSpecials()
   insertInternal(Array::indexedInsertElements, "indexedInsertElements(QString array, int key, QString string, QString separator)", 
     i18n( "Insert the elements from string starting at key and reindex the array. Use the separator to separate the elements from the string. The separator's default value is '\\t'."), 3, 4);
 
+  insertGroup(Group::Matrix, "Matrix", "matrix");
+  insertInternal(Matrix::fromString, "fromString(QString matrix, QString String)", 
+    i18n("Create a 2D array with zero based integer keys. Rows seperated with returns or \n and columns with tabs or \t. You can then read and alter values with \"name[0][1]\"."), 2);
+  insertInternal(Matrix::toString, "toString(QString matrix)",
+    i18n("Convert 2D array to string."), 1);
+  insertInternal(Matrix::rows, "rows(QString matrix)",
+    i18n("Return the number of rows in the matrix"), 1);
 
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 

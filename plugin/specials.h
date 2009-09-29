@@ -23,7 +23,7 @@ existing plugins. */
 
 namespace Group
 {
-  enum {DCOP, Kommander, String, Array, File, Input, Message, Slots};
+  enum {DCOP, Kommander, String, Array, File, Input, Message, Slots, Matrix};
 }
 
 namespace DCOP
@@ -33,7 +33,7 @@ namespace DCOP
     item, itemDepth, itemPath, removeColumn, removeItem, removeRow, selection, setAssociatedText, setChecked, 
     setCellText, setCurrentItem, insertTab, setColumnCaption, setEnabled, setGlobal, setMaximum, setPixmap, 
     setRowCaption, setSelection, setText, getBackgroundColor, setBackgroundColor,
-    setVisible, text, type, setCellWidget, cellWidget, setEditable, geometry, hasFocus};
+    setVisible, text, type, setCellWidget, cellWidget, setEditable, geometry, hasFocus, isModified};
 }
 
 namespace Kommander
@@ -46,6 +46,11 @@ namespace Kommander
 namespace Array
 {
   enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElements, indexedInsertElements};
+}
+
+namespace Matrix
+{
+  enum {fromString, toString, rows};
 }
 
 namespace String
