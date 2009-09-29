@@ -21,6 +21,14 @@
 /* OTHER INCLUDES */
 #include <specials.h>
 #include "lineedit.h"
+#include <klocale.h>
+#include <kommanderplugin.h>
+
+enum functions {
+  FirstFunction = 440,
+  LE_clearModified,
+  LastFunction
+};
 
 LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
 	: KLineEdit(a_parent, a_name), KommanderWidget((QObject *)this)
@@ -32,6 +40,9 @@ LineEdit::LineEdit(QWidget *a_parent, const char *a_name)
 
   connect(this, SIGNAL(textChanged(const QString &)), this,
       SIGNAL(widgetTextChanged(const QString &)));
+      
+  KommanderPlugin::setDefaultGroup(Group::DCOP);
+  KommanderPlugin::registerFunction(LE_clearModified, "clearModified(QString widget)",  i18n("Clear widget modified status."), 1);
 }
 
 void LineEdit::showEvent(QShowEvent *e)
@@ -113,7 +124,7 @@ void LineEdit::contextMenuEvent( QContextMenuEvent * e )
 bool LineEdit::isFunctionSupported(int f)
 {
   return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection ||
-    f == DCOP::clear || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor ;
+    f == DCOP::clear || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || f == DCOP::isModified || (f >= FirstFunction && f <= LastFunction) ;
 }
 
 QString LineEdit::handleDCOP(int function, const QStringList& args)
@@ -154,6 +165,12 @@ QString LineEdit::handleDCOP(int function, const QStringList& args)
       this->setPaletteBackgroundColor(color);
       break;
     }
+    case DCOP::isModified:
+      return isModified() ? "1" : "0";
+      break;
+    case LE_clearModified:
+      this->clearModified();
+      break;
     default:
       return KommanderWidget::handleDCOP(function, args);
   }

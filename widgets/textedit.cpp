@@ -29,7 +29,7 @@
 
 enum Functions {
   FirstFunction = 450, //CHANGE THIS NUMBER TO AN UNIQUE ONE!!!
-  TE_isModified,
+  TE_setModified,
   TE_selectText,
   TE_paragraphs,
   TE_length,
@@ -53,7 +53,7 @@ KommanderWidget((QObject *) this)
   connect(this, SIGNAL(textChanged()), this, SLOT(setTextChanged()));
 
   KommanderPlugin::setDefaultGroup(Group::DCOP);
-  KommanderPlugin::registerFunction(TE_isModified, "isModified(QString widget)",  i18n("see if widget has been modified."), 1);
+  KommanderPlugin::registerFunction(TE_setModified, "setModified(QString widget, bool Modified)",  i18n("Set widget modified status."), 1);
   KommanderPlugin::registerFunction(TE_selectText, "selectText(QString widget, int paraFrom, int indexFrom, int paraTo, int indexTo)",  i18n("Select a block of text using the paragraph number and character index of the line. You can use the cursorPositionChanged(int, int) signal to get this data in real time into a script."), 5);
   KommanderPlugin::registerFunction(TE_findText, "findText(QString widget, QString Text, bool Case-Sensitive, bool Forward)",  i18n("Search for text from the cursor or a specified position. You can specifiy case sensitive search and forward or backward."), 5);
 //  KommanderPlugin::registerFunction(TE_findText, "findText(QString widget, QString Text, bool Case-Sensitive, bool Forward, int Paragraph, int Index)",  i18n("Search for text from the cursor or a specified position. You can specifiy case sensitive search and forward or backward."), 5, 7);
@@ -143,7 +143,7 @@ void TextEdit::contextMenuEvent( QContextMenuEvent * e )
 
 bool TextEdit::isFunctionSupported(int f)
 {
-  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || (f >= FirstFunction && f <= LastFunction);
+  return f == DCOP::text || f == DCOP::setText || f == DCOP::selection || f == DCOP::setSelection || f == DCOP::clear || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || f == DCOP::isModified || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString TextEdit::handleDCOP(int function, const QStringList& args)
@@ -175,8 +175,11 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
       this->setPaletteBackgroundColor(color);
       break;
     }
-    case TE_isModified:
+    case DCOP::isModified:
       return isModified() ? "1" : "0";
+      break;
+    case TE_setModified:
+      this->setModified(args[0].toInt());
       break;
     case TE_selectText:
       QTextEdit::setSelection(args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt());
