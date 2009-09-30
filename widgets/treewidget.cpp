@@ -48,6 +48,9 @@
 enum Functions {
   FirstFunction = 189,
   SelectedIndexes,
+  TW_childCount,
+  TW_setOpen,
+  TW_isOpen,
   LastFunction
 };
 
@@ -68,6 +71,9 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   KommanderPlugin::registerFunction(colCaption, "columnCaption(QString widget, int column)", i18n("Get the column caption for column index"), 2);
   KommanderPlugin::registerFunction(setColWidth, "setColWidth(QString widget, int column, int width)", i18n("Set the pixel width for column index - use 0 to hide"), 3);
   KommanderPlugin::registerFunction(setColAlignment, "setColumnAlignment(QString widget, int column, QString Alignment)", i18n("Set to <i>left</i>, <i>right</i> or <i>center</i>, case insensitive "), 3);
+  KommanderPlugin::registerFunction(TW_childCount, "childCount(QString widget)", i18n("Get the count of top level items."), 1);
+  KommanderPlugin::registerFunction(TW_setOpen, "setOpen(QString widget, int Index, bool Open)", i18n("Expand or collapse a node."), 3);
+  KommanderPlugin::registerFunction(TW_isOpen, "isOpen(QString widget, int Index)", i18n("See if node is open or closed."), 2);
 }
 
 TreeWidget::~TreeWidget()
@@ -322,6 +328,12 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
         addItemFromString(*it);
       break;
     }
+    case TW_setOpen:
+      setOpen(indexToItem(args[0].toInt()), args[1].toInt());
+      break;
+    case TW_isOpen:
+      return QString::number(isOpen(indexToItem(args[0].toInt())));
+      break;
     case SelectedIndexes:
     {
       QString selection = "";
@@ -479,6 +491,9 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       }
       break;
     }  
+    case TW_childCount:
+      return QString::number(childCount());
+      break;
     case DCOP::geometry:
     {
       QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
