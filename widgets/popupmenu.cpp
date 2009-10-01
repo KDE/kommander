@@ -224,9 +224,11 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
     {
       uint index = args[0].toInt();
       return index < m_params.count() ? m_params[index] : QString::null;
+      break;
     }
     case DCOP::count:
       return QString::number(m_menu->count());
+      break;
     case DCOP::geometry:
     {
       QString geo = QString::number(this->x())+" "+QString::number(this->y())+" "+QString::number(this->width())+" "+QString::number(this->height());
