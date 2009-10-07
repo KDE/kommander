@@ -494,6 +494,8 @@ void SpecialInformation::registerSpecials()
     i18n("Convert 2D array to string."), 1);
   insertInternal(Matrix::rows, "rows(QString matrix)",
     i18n("Return the number of rows in the matrix"), 1);
+  insertInternal(Matrix::clear, "clear(QString matrix)",
+    i18n("Clear the entire matrix"), 1);
 
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 
