@@ -435,6 +435,7 @@ ParseNode Parser::parseFunction(Mode mode)
 {
   int pos = m_start;
   QString name = next().variableName();
+  //qDebug("Parsing function: "+name);
   Function f = m_data->function(name);
   m_start++;
   ParameterList params;
@@ -924,6 +925,8 @@ void Parser::parseSwitch(Mode mode)
 Flow Parser::parseCommand(Mode mode)
 {
   ParseNode p = next();
+  QString p2 = p.toString();
+  //qDebug("Parsing command: "+p2);
   if (next().isKeyword(If))
     return parseIf(mode);
   else if (next().isKeyword(While))

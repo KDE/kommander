@@ -735,6 +735,92 @@ static ParseNode f_arrayIndexedInsertElements(Parser* P, const ParameterList& pa
   return ParseNode();
 }
 
+/*********** matrix (2D array) functions ********/
+static ParseNode f_matrixClear(Parser* P, const ParameterList& params)
+{
+  P->unsetMatrix(params[0].toString());
+  return ParseNode();
+}
+/*
+static ParseNode f_matrixToString(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isMatrix(name))
+    return ParseNode();
+  QString matrix;
+  QStringList rkeys = P->matrix(name).keys();
+  QValueList<ParseNode> rvalues = P->matrix(name).values();
+  QStringList::Iterator itr = rkeys.begin(); 
+  QValueList<ParseNode>::Iterator itvalr = rvalues.begin();
+  int r = 0;
+  while (*itr)
+  {
+    QStringList ckeys = P->matrix(name).(*itr).keys();
+    QValueList<ParseNode> rvalues = P->matrix(name).(*itr).values();
+    QStringList::Iterator itc = ckeys.begin(); 
+    QValueList<ParseNode>::Iterator itvalc = cvalues.begin();
+    if (r > 0)
+      matrix += QString("%1").arg(*itr).toString();
+    int c = 0;
+    while (*itc)
+    {
+      if (c > 0)
+        matrix += QString("\t");
+      matrix += QString("%1").arg(*itc).toString();
+      ++itc;
+      ++itvalc;
+      ++c;
+    }
+    ++itr;
+    ++itvalr;
+    ++r;
+  }
+  return matrix;
+}
+*/
+static ParseNode f_matrixFromString(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  qDebug("Matrix from string called"); 
+//P->setMatrix(name, QString::number(1), QString::number(1), params[1].toString());
+  QStringList rows = QStringList::split("\n", params[1].toString());
+  int r = 0;
+  for (QStringList::Iterator itr = rows.begin(); itr != rows.end(); ++itr ) 
+  {
+    int c = 0;
+    QStringList cols = QStringList::split("\t", (*itr));
+    for (QStringList::Iterator itc = cols.begin(); itc != cols.end(); ++itc )
+    {
+      QString val = (*itc).stripWhiteSpace();
+      if (!val.isEmpty())
+        P->setMatrix(name, QString::number(r), QString::number(c), val);
+      c++;
+    }
+    r++;
+  }
+  return ParseNode();
+}
+
+static ParseNode f_matrixRows(Parser* P, const ParameterList& params)
+{
+  if (P->isMatrix(params[0].toString()))
+    return (uint)(P->matrix(params[0].toString()).count());
+  else
+    return (uint)0;
+  
+}
+
+static ParseNode f_matrixCols(Parser* P, const ParameterList& params)
+{
+  if (P->isMatrix(params[0].toString()))
+  {
+    return (uint)(P->matrix(params[0].toString()).count());
+  }
+  else
+    return (uint)0;
+  
+}
+
 /********** input functions *********************/
 static ParseNode f_inputColor(Parser*, const ParameterList& params)
 {
@@ -1005,6 +1091,10 @@ void ParserData::registerStandardFunctions()
   registerFunction("array_indexedRemoveElements", Function(&f_arrayIndexedRemoveElements, ValueNone, ValueString, ValueInt, ValueInt, 2 , 3));
   registerFunction("array_indexedInsertElements", Function(&f_arrayIndexedInsertElements, ValueNone, ValueString, ValueInt, ValueString, ValueString, 3, 4));
   registerFunction("array_remove", Function(&f_arrayRemove, ValueNone, ValueString, ValueString));
+  registerFunction("matrix_fromString", Function(&f_matrixFromString, ValueNone, ValueString, ValueString));
+//  registerFunction("matrix_toString", Function(&f_matrixToString, ValueNone, ValueString, ValueString));
+  registerFunction("matrix_clear", Function(&f_matrixClear, ValueNone, ValueString));
+  registerFunction("matrix_rows", Function(&f_matrixRows, ValueInt, ValueString));
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
   registerFunction("input_password", Function(&f_inputPassword, ValueString, ValueString, ValueString, 1));

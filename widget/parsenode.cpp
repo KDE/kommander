@@ -120,9 +120,19 @@ bool ParseNode::isVariable() const
   return type() == ValueKeyword && keyword() == Variable;
 }
 
+bool ParseNode::isArray() const
+{
+  return type() == ValueKeyword && keyword() == Array;
+}
+
 QString ParseNode::variableName() const
 {
   return isVariable() ? m_string : QString();
+}
+
+QString ParseNode::arrayName() const
+{
+  return isArray() ? m_string : QString();
 }
 
 QString ParseNode::errorMessage() const
@@ -225,6 +235,13 @@ void ParseNode::setVariable(const QString& name)
 {
   m_type = ValueKeyword;
   m_keyword = Variable;
+  m_string = name;
+}
+
+void ParseNode::setArray(const QString& name)
+{
+  m_type = ValueKeyword;
+  m_keyword = Array;
   m_string = name;
 }
 
