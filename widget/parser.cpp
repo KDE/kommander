@@ -642,7 +642,7 @@ ParseNode Parser::parseAssignment(Mode mode)
     if (mode == Execute)
     {
       QString p2 = QString(p.toString()); //arrays are not found?
-      qDebug("p2 = "+p2);
+      //qDebug("p2 = "+p2);
       if (isArray(var))
       {
         //qDebug("parsing array");
