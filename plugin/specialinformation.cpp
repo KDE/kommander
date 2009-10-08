@@ -494,8 +494,16 @@ void SpecialInformation::registerSpecials()
     i18n("Convert 2D array to string."), 1);
   insertInternal(Matrix::rows, "rows(QString matrix)",
     i18n("Return the number of rows in the matrix"), 1);
+  insertInternal(Matrix::columns, "columns(QString matrix)",
+    i18n("Return the number of columns in the matrix"), 1);
   insertInternal(Matrix::clear, "clear(QString matrix)",
     i18n("Clear the entire matrix"), 1);
+  insertInternal(Matrix::rowToArray, "rowToArray(QString matrix, QString Row, QString Array)",
+    i18n("Convert row to array. Useful if you want to do a foreach for columns inside a foreach for rows"), 3);
+  insertInternal(Matrix::columnToArray, "columnToArray(QString matrix, int Column, QString Array)",
+    i18n("Copy a column of a Matrix to an array"), 3);
+  insertInternal(Matrix::columnToIndexedArray, "columnToIndexedArray(QString matrix, int Column, QString Array)",
+    i18n("Copy a column of a Matrix to an indexed array"), 3);
 
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 

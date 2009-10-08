@@ -642,11 +642,17 @@ ParseNode Parser::parseAssignment(Mode mode)
     if (mode == Execute)
     {
       QString p2 = QString(p.toString()); //arrays are not found?
-      //qDebug("p2 = "+p2);
-      if (isArray(p2))
+      qDebug("p2 = "+p2);
+      if (isArray(var))
+      {
+        //qDebug("parsing array");
         const QMap<QString, ParseNode> var = array(p2);
+      }
       else
+      {
         setVariable(var, p);
+        //qDebug("parsing var");
+      }
     }
   }
   else if (tryKeyword(PlusEqual, CheckOnly))
@@ -875,6 +881,18 @@ Parse::Flow Parser::parseForeach(Mode mode)
   {
     const QMap<QString, ParseNode> A = array(arr);
     for (QMapConstIterator<QString, ParseNode> It = A.begin(); It != A.end(); ++It)
+    {
+      m_start = start;
+      setVariable(var, It.key());
+      flow = parseBlock(mode);
+      if (flow == FlowBreak || flow == FlowExit)
+        break;
+    }
+  }
+  else if  (isMatrix(arr) && matrix(arr).count() )
+  {
+    const QMap<QString, QMap<QString, ParseNode> > A = matrix(arr);
+    for (QMapConstIterator<QString, QMap<QString, ParseNode> > It = A.begin(); It != A.end(); ++It)
     {
       m_start = start;
       setVariable(var, It.key());

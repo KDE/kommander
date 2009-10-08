@@ -118,6 +118,21 @@
       <item>array_indexedToString</item>
     </list>
     
+    <list name="kmdrmatrix">
+      <item>matrix_fromString</item>
+      <item>matrix_toString</item>
+      <item>matrix_clear</item>
+      <item>matrix_rows</item>
+      <item>matrix_columnToArray</item>
+      <item>matrix_columnToIndexedArray</item>
+      <item>matrix_rowToArray</item>
+      <item>matrix_columns</item>
+      <item>matrix_keys</item>
+      <item>matrix_removeRows</item>
+      <item>matrix_removeColumns</item>
+      <item>matrix_indexAll</item>
+    </list>
+    
     <list name="kmdrstring">
       <item>str_length</item>
       <item>str_contains</item>
@@ -275,6 +290,7 @@
         <RegExpr attribute="KmdrMethod" context="DetectKmdrMethod" String="kmdrfunctions\(" />        
         <keyword attribute="DCOPMethod" context="#stay" String="kmdrfunctions" />  
         <keyword attribute="KmdrArray" context="#stay" String="kmdrarray" />      
+        <keyword attribute="KmdrMatrix" context="#stay" String="kmdrmatrix" />      
         <keyword attribute="KmdrString" context="#stay" String="kmdrstring" />        
         <keyword attribute="KmdrFile" context="#stay" String="kmdrfile" />        
         <keyword attribute="KmdrInput" context="#stay" String="kmdrinput" />        
@@ -548,6 +564,7 @@
       <itemData name="DCOPMethod" defStyleNum="dsKeyword" italic="1" color="#21E52B" />
       <itemData name="KmdrString" defStyleNum="dsKeyword" italic="1" color="#D0D000" />
       <itemData name="KmdrArray" defStyleNum="dsKeyword" italic="1" color="#C0C0FF" />
+      <itemData name="KmdrMatrix" defStyleNum="dsKeyword" italic="1" color="#5050AA" />
       <itemData name="KmdrFile" defStyleNum="dsKeyword" italic="1" color="#FF0000" />
       <itemData name="KmdrInput" defStyleNum="dsKeyword" italic="1" color="#FF8000" />
       <itemData name="KmdrMessage" defStyleNum="dsKeyword" italic="1" color="#800000" />
