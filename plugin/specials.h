@@ -50,7 +50,7 @@ namespace Array
 
 namespace Matrix
 {
-  enum {fromString, toString, clear, rows, columns, rowToArray, columnToArray, columnToIndexedArray};
+  enum {fromString, toString, clear, rows, columns, rowToArray, columnToArray, columnToIndexedArray, rowKeys, columnKeys, addRow, removeRow};
 }
 
 namespace String
