@@ -1181,25 +1181,23 @@ void Parser::setMatrix(const QString& name, const QString& keyr, const QString& 
     m_matrices[name][keyr][keyc] = value;
 }
 
-void Parser::unsetMatrix(const QString& name, const QString& keyr, const QString& keyc)
+void Parser::unsetMatrix(const QString& name, const QString& keyr)
 {
   if (isGlobal(name))
   {
-    if (keyr.isNull() && keyc.isNull())
+    if (keyr.isNull())
       m_globalMatrices.remove(name);
     else if (isMatrix(name))
     {
-      m_globalMatrices[name][keyr].remove(keyc);
       m_globalMatrices[name].remove(keyr);
     }
   }
   else
   {
-    if (keyr.isNull() && keyc.isNull())
+    if (keyr.isNull())
       m_matrices.remove(name);
     else if (isMatrix(name))
     {
-      m_matrices[name][keyr].remove(keyc);
       m_matrices[name].remove(keyr);
     }
   }
