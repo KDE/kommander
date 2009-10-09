@@ -508,7 +508,7 @@ void SpecialInformation::registerSpecials()
     i18n("Return the row keys from the matrix. Default separator is \\t"), 1, 2);
   insertInternal(Matrix::columnKeys, "columnKeys(QString Matrix, QString Seperator)",
     i18n("Return the column keyss from the matrix. Default separator is \\t"), 1, 2);
-  insertInternal(Matrix::addRow, "addRow(Qstring Matrix, QString RowKey, QString data)",
+  insertInternal(Matrix::addRow, "addRow(QString Matrix, QString RowKey, QString data)",
     i18n("Add a row to the matrix. Specifiy the row key and format the data as column key [tab] column value on each line using key\\tval\\nkey\\tval format"), 3);
   insertInternal(Matrix::removeRow, "removeRow(QString Matrix, QString RowKey)",
     i18n("Remove a row from the matrix by key name."), 2);
