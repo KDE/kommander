@@ -103,7 +103,7 @@ bool Parser::setString(const QString& s)
     else if (s[start] == '/' && start < s.length() +1 && s[start+1] == '*')
     {
       start += 2;
-      while (s[start] != '*' && start < s.length() +1 && s[start+1] != '/')
+      while (start < s.length() +1 && !(s[start] == '*' && s[start+1] == '/'))
       {
         start++;
       }
@@ -220,7 +220,6 @@ ParseNode Parser::parseValue(Mode mode)
       QString index = parseValue(mode).toString();
       if (tryKeyword(DoubleBracket, CheckOnly)) 
       {//2D array "matrix"
-        //qDebug("Found double bracket: parseValue");
         QString index2 = parseValue(mode).toString();
         tryKeyword(RightBracket);
         QString arr = p.variableName();
@@ -641,18 +640,7 @@ ParseNode Parser::parseAssignment(Mode mode)
     ParseNode p = parseExpression(mode);
     if (mode == Execute)
     {
-      QString p2 = QString(p.toString()); //arrays are not found?
-      //qDebug("p2 = "+p2);
-      if (isArray(var))
-      {
-        //qDebug("parsing array");
-        const QMap<QString, ParseNode> var = array(p2);
-      }
-      else
-      {
-        setVariable(var, p);
-        //qDebug("parsing var");
-      }
+      setVariable(var, p);
     }
   }
   else if (tryKeyword(PlusEqual, CheckOnly))
@@ -1181,7 +1169,7 @@ void Parser::setMatrix(const QString& name, const QString& keyr, const QString& 
     m_matrices[name][keyr][keyc] = value;
 }
 
-void Parser::unsetMatrix(const QString& name, const QString& keyr)
+void Parser::unsetMatrix(const QString& name, const QString& keyr, const QString& keyc)
 {
   if (isGlobal(name))
   {
@@ -1189,7 +1177,10 @@ void Parser::unsetMatrix(const QString& name, const QString& keyr)
       m_globalMatrices.remove(name);
     else if (isMatrix(name))
     {
-      m_globalMatrices[name].remove(keyr);
+      if (keyc.isNull())
+        m_globalMatrices[name].remove(keyr);
+      else
+        m_globalMatrices[name][keyr].remove(keyc);
     }
   }
   else
@@ -1198,7 +1189,10 @@ void Parser::unsetMatrix(const QString& name, const QString& keyr)
       m_matrices.remove(name);
     else if (isMatrix(name))
     {
-      m_matrices[name].remove(keyr);
+      if (keyc.isNull())
+        m_matrices[name].remove(keyr);
+      else
+        m_matrices[name][keyr].remove(keyc);
     }
   }
 }

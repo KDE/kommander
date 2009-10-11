@@ -75,7 +75,7 @@ public:
   // set array key
   void setMatrix(const QString& name, const QString& keyr, const QString& keyc, ParseNode value);
   // unset array key or whole array
-  void unsetMatrix(const QString& name, const QString& keyr = QString::null);
+  void unsetMatrix(const QString& name, const QString& keyr = QString::null, const QString& keyc = QString::null);
   // array value 
   ParseNode matrixValue(const QString& name, const QString& keyr, const QString& keyc) const;
   // get associated widget
