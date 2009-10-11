@@ -45,12 +45,12 @@ namespace Kommander
 
 namespace Array
 {
-  enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElements, indexedInsertElements};
+  enum {values, keys, clear, count, value, remove, setValue, fromString, toString, indexedFromString, indexedToString, indexedRemoveElements, indexedInsertElements, flipCopy};
 }
 
 namespace Matrix
 {
-  enum {fromString, toString, clear, rows, columns, rowToArray, columnToArray, columnToIndexedArray, rowKeys, columnKeys, addRow, removeRow};
+  enum {fromString, toString, clear, rows, columns, rowToArray, columnToArray, columnToIndexedArray, rowKeys, columnKeys, addRow, removeRow, removeColumn};
 }
 
 namespace String

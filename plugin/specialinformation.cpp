@@ -486,10 +486,12 @@ void SpecialInformation::registerSpecials()
     i18n( "Remove keyNum elements starting with keyStart from an indexed array and reindex the array. If keyNum is not specified, remove only the keyStart element."), 2, 3);
   insertInternal(Array::indexedInsertElements, "indexedInsertElements(QString array, int key, QString string, QString separator)", 
     i18n( "Insert the elements from string starting at key and reindex the array. Use the separator to separate the elements from the string. The separator's default value is '\\t'."), 3, 4);
+  insertInternal(Array::flipCopy, "flipCopy(QString Array, QString Copy)",
+    i18n("Create a flipped copy of the array where the keys and values switch places. NOTE: If the values are not unique they will be overwritten as keys! Set the name of the array to copy to and go. Useful with combos and lists were you have an index, a key and a value for data purposes."), 2, 2);
 
   insertGroup(Group::Matrix, "Matrix", "matrix");
-  insertInternal(Matrix::fromString, "fromString(QString matrix, QString String)", 
-    i18n("Create a 2D array with zero based integer keys. Rows seperated with returns or \\n and columns with tabs or \\t. You can then read and alter values with \"name[0][1]\"."), 2);
+  insertInternal(Matrix::fromString, "fromString(QString matrix, QString String, bool With-Keys)", 
+    i18n("Create a 2D array with zero based integer keys. Rows seperated with returns or \\n and columns with tabs or \\t. You can then read and alter values with \"name[0][1]\".<br>Set use Keys to true and it will use the first column data as row keys."), 2, 3);
   insertInternal(Matrix::toString, "toString(QString matrix, bool RowHeadings)",
     i18n("Convert 2D array to string, optionaly with first of each row having the headings."), 2);
   insertInternal(Matrix::rows, "rows(QString matrix)",
@@ -498,20 +500,22 @@ void SpecialInformation::registerSpecials()
     i18n("Return the number of columns in the matrix"), 1);
   insertInternal(Matrix::clear, "clear(QString matrix)",
     i18n("Clear the entire matrix"), 1);
-  insertInternal(Matrix::rowToArray, "rowToArray(QString matrix, QString Row, QString Array, bool Clear-First)",
-    i18n("Convert row to array. Useful if you want to do a foreach for columns inside a foreach for rows"), 4);
-  insertInternal(Matrix::columnToArray, "columnToArray(QString matrix, int Column, QString Array)",
+  insertInternal(Matrix::rowToArray, "rowToArray(QString matrix, QString Row, QString Array, bool Clear-First, bool Indexed)",
+    i18n("Convert row to array. Useful break out rows of data to work with. If you want to avoid spurious data Clear-First will wipe the array before filling it. If you choose indexed it will use a zero based index. Otherwise it will use the column keys."), 3, 5);
+  insertInternal(Matrix::columnToArray, "columnToArray(QString matrix, QString Column, QString Array)",
     i18n("Copy a column of a Matrix to an array and optionally clear array first to avoid spurious data in loops"), 3);
-  insertInternal(Matrix::columnToIndexedArray, "columnToIndexedArray(QString matrix, int Column, QString Array)",
+  insertInternal(Matrix::columnToIndexedArray, "columnToIndexedArray(QString matrix, QString Column, QString Array)",
     i18n("Copy a column of a Matrix to an indexed array"), 3);
   insertInternal(Matrix::rowKeys, "rowKeys(QString Matrix, QString Seperator)",
-    i18n("Return the row keys from the matrix. Default separator is \\t"), 1, 2);
+    i18n("Return the row keys from the matrix. Separator defaults to [tab] \"\\t\" if left empty"), 1, 2);
   insertInternal(Matrix::columnKeys, "columnKeys(QString Matrix, QString Seperator)",
-    i18n("Return the column keyss from the matrix. Default separator is \\t"), 1, 2);
+    i18n("Return the column keys from the matrix. Separator defaults to [tab] \"\\t\" if left empty"), 1, 2);
   insertInternal(Matrix::addRow, "addRow(QString Matrix, QString RowKey, QString data)",
     i18n("Add a row to the matrix. Specifiy the row key and format the data as column key [tab] column value on each line using key\\tval\\nkey\\tval format"), 3);
   insertInternal(Matrix::removeRow, "removeRow(QString Matrix, QString RowKey)",
     i18n("Remove a row from the matrix by key name."), 2);
+  insertInternal(Matrix::removeColumn, "removeColumn(QString Matrix, QString ColKey)",
+    i18n("Remove a column from the matrix by key name."), 2);
 
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 
