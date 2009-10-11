@@ -513,9 +513,9 @@ void SpecialInformation::registerSpecials()
   insertInternal(Matrix::addRow, "addRow(QString Matrix, QString RowKey, QString data)",
     i18n("Add a row to the matrix. Specifiy the row key and format the data as column key [tab] column value on each line using key\\tval\\nkey\\tval format"), 3);
   insertInternal(Matrix::removeRow, "removeRow(QString Matrix, QString RowKey)",
-    i18n("Remove a row from the matrix by key name."), 2);
+    i18n("Remove a row from the matrix by key name. Returns true if key is found."), 2);
   insertInternal(Matrix::removeColumn, "removeColumn(QString Matrix, QString ColKey)",
-    i18n("Remove a column from the matrix by key name."), 2);
+    i18n("Remove a column from the matrix by key name. Returns true if key is found."), 2);
 
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 
