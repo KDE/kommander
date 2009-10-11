@@ -116,6 +116,7 @@
       <item>array_indexedRemoveElements</item>
       <item>array_indexedInsertElements</item>
       <item>array_indexedToString</item>
+      <item>array_flipCopy</item>
     </list>
     
     <list name="kmdrmatrix">
@@ -127,10 +128,13 @@
       <item>matrix_columnToIndexedArray</item>
       <item>matrix_rowToArray</item>
       <item>matrix_columns</item>
-      <item>matrix_keys</item>
-      <item>matrix_removeRows</item>
-      <item>matrix_removeColumns</item>
-      <item>matrix_indexAll</item>
+      <item>matrix_rowKeys</item>
+      <item>matrix_columnKeys</item>
+      <item>matrix_removeRow</item>
+      <item>matrix_removeColumn</item>
+      <item>matrix_addRow</item>
+      <!--<item>matrix_addColumn</item>
+      <item>matrix_indexedCopy</item>-->
     </list>
     
     <list name="kmdrstring">
