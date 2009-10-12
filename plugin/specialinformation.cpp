@@ -490,10 +490,10 @@ void SpecialInformation::registerSpecials()
     i18n("Create a flipped copy of the array where the keys and values switch places. NOTE: If the values are not unique they will be overwritten as keys! Set the name of the array to copy to and go. Useful with combos and lists were you have an index, a key and a value for data purposes."), 2, 2);
 
   insertGroup(Group::Matrix, "Matrix", "matrix");
-  insertInternal(Matrix::fromString, "fromString(QString matrix, QString String, bool With-Keys)", 
-    i18n("Create a 2D array with zero based integer keys. Rows seperated with returns or \\n and columns with tabs or \\t. You can then read and alter values with \"name[0][1]\".<br>Set use Keys to true and it will use the first column data as row keys."), 2, 3);
-  insertInternal(Matrix::toString, "toString(QString matrix, bool RowHeadings)",
-    i18n("Convert 2D array to string, optionaly with first of each row having the headings."), 2);
+  insertInternal(Matrix::fromString, "fromString(QString matrix, QString String, bool With-Row-Keys, bool With-Col-Keys)", 
+    i18n("Create a 2D array with zero based integer keys. Rows seperated with returns or \\n and columns with tabs or \\t. You can then read and alter values with \"name[0][1]\".<br><b>NOTE: Watch keys!</b> The row and column keys when set to true will read respectively the first row and first column as headings. If for instance you set one where there is no column or row heading to read it will read data, and if the data is not unique you will have missing columns or rows as well as addressing not working."), 2, 4);
+  insertInternal(Matrix::toString, "toString(QString matrix, bool RowHeadings, bool ColHeadings)",
+    i18n("Convert 2D array to string, optionaly with row and column headings. If written without values set it will default to no headings."), 1, 3);
   insertInternal(Matrix::rows, "rows(QString matrix)",
     i18n("Return the number of rows in the matrix"), 1);
   insertInternal(Matrix::columns, "columns(QString matrix)",
