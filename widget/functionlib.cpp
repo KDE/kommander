@@ -1019,7 +1019,7 @@ static ParseNode f_matrixAddRow(Parser* P, const ParameterList& params)
 {
   QString name = params[0].toString();
   QString rowkey = params[1].toString();
-  if (P->isMatrix(name))
+//  if (P->isMatrix(name))
   {
     QStringList rows = QStringList::split("\n", params[2].toString());
     for (QStringList::Iterator itr = rows.begin(); itr != rows.end(); ++itr ) 
