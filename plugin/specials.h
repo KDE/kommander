@@ -40,7 +40,7 @@ namespace Kommander
 {
   enum {widgetText, selectedWidgetText, null, pid, dcopid, parentPid, debug,
   echo, env, exec, expr, global, i18n, dialog, readSetting, setGlobal, writeSetting, dcop,
-  switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists, exit, Break, Continue, Return, execBackground}; //, focusWidget};
+  switchBlock, execBegin, forBlock, forEachBlock, ifBlock, comment, createWidget, connect, disconnect, widgetExists, exit, Break, Continue, Return, execBackground, switchInternal}; //, focusWidget};
 }
 
 namespace Array
@@ -50,13 +50,13 @@ namespace Array
 
 namespace Matrix
 {
-  enum {fromString, toString, clear, rows, columns, rowToArray, columnToArray, columnToIndexedArray, rowKeys, columnKeys, addRow, removeRow, removeColumn};
+  enum {fromString, toString, clear, rows, columns, rowToArray, columnToArray, columnToIndexedArray, rowKeys, columnKeys, addRow, removeRow, removeColumn, findRow};
 }
 
 namespace String
 {
   enum {length, contains, find, findRev, left, right, mid, remove, replace, upper, lower,
-  compare, isEmpty, isNumber, section, args, toInt, toDouble, round, sort, trim, padLeft, padRight};
+  compare, isEmpty, isNumber, section, args, toInt, toDouble, round, sort, trim, padLeft, padRight, count};
 }
 
 namespace File

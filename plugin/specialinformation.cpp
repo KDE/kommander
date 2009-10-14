@@ -448,7 +448,9 @@ void SpecialInformation::registerSpecials()
      i18n("Connects the signal of sender with the slot of the receiver"), 4);
   insertInternal(Kommander::disconnect, "disconnect(QString sender, QString signal, QString receiver, QString slot)",
      i18n("Disconnects the signal of sender from the slot of the receiver"), 4);
-
+/*  insertInternal(Kommander::switchInternal, "switch(QString Variable)",
+     i18n("Can use can use <br>switch var<br>case 1<br> //code<br>else<br> //code<br>end<p>also can use the form of <br>switch var {<br>case 1; //code<br>else; code<br>}<p> semicolons are optional in place of returns. Currently switch does not parse value from arrays.") );
+*/
   insertInternal(Kommander::exit, "exit", 
      i18n("Exits script execution and returns"), 0);
   insertInternal(Kommander::Break, "break", 
@@ -516,6 +518,8 @@ void SpecialInformation::registerSpecials()
     i18n("Remove a row from the matrix by key name. Returns true if key is found."), 2);
   insertInternal(Matrix::removeColumn, "removeColumn(QString Matrix, QString ColKey)",
     i18n("Remove a column from the matrix by key name. Returns true if key is found."), 2);
+  insertInternal(Matrix::findRow, "findRow(QString Matrix, QString Col-Key, QString Col-Value)",
+    i18n("Find the row key that matches a column value. Use this for unique key searches. It will only return the first instance."), 3 );
 
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 
@@ -525,7 +529,9 @@ void SpecialInformation::registerSpecials()
   insert(String::find, "find(QString string, QString sought, int index)", 
     i18n("Returns the position of a substring in the string, or -1 if it is not found."), 2);
   insert(String::findRev, "findRev(QString string, QString sought, int index)", 
-         i18n("Returns the position of a substring in the string, or -1 if it is not found. String is searched backwards"), 2);
+    i18n("Returns the position of a substring in the string, or -1 if it is not found. String is searched backwards"), 2);
+  insertInternal(String::count, "count(QString String, QString substring)",
+    i18n("Returns the count of a given substring in the given string."), 2);
   insert(String::left, "left(QString string, int n)", 
     i18n("Returns the first <i>n</i> chars of the string."), 2);
   insert(String::right, "right(QString string, int n)", 
