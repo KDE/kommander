@@ -133,6 +133,7 @@
       <item>matrix_removeRow</item>
       <item>matrix_removeColumn</item>
       <item>matrix_addRow</item>
+      <item>matrix_findRow</item>
       <!--<item>matrix_addColumn</item>
       <item>matrix_indexedCopy</item>-->
     </list>
@@ -161,6 +162,7 @@
       <item>str_trim</item>
       <item>str_padLeft</item>
       <item>str_padRight</item>
+      <item>str_count</item>
     </list>
     
     <list name="kmdrfile">
