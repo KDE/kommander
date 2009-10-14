@@ -80,6 +80,18 @@ static ParseNode f_stringFindRev(Parser*, const ParameterList& params)
     params.count() == 3 ? params[2].toInt() : params[0].toString().length());
 }
 
+static ParseNode f_stringCount(Parser*, const ParameterList& params)
+{
+  int c = 0;
+  int s = 0;
+  while (params[0].toString().find(params[1].toString(), s) > -1)
+  {
+    s = params[0].toString().find(params[1].toString(), s) + 1;
+    c++;
+  }
+  return c;
+}
+
 static ParseNode f_stringLeft(Parser*, const ParameterList& params)
 {
   return params[0].toString().left(params[1].toInt());
@@ -746,6 +758,7 @@ static ParseNode f_arrayFlipCopy(Parser* P, const ParameterList& params)
   {
     P->setArray(arr, (*It).toString(), It.key() );
   }
+  return ParseNode();
 }
 
 /*********** matrix (2D array) functions ********/
@@ -810,7 +823,7 @@ static ParseNode f_matrixFromString(Parser* P, const ParameterList& params)
   QStringList rows = QStringList::split("\n", params[1].toString());
   int r = 0;
   int frow = 0;
-  int fcol;
+  int fcol = 0;
   QString rkey;
   QMap<int, QString> colhead;
   if (params.count() > 1)
@@ -889,6 +902,23 @@ static ParseNode f_matrixRowKeys(Parser* P, const ParameterList& params)
     r++;
   }
   return matrix;
+}
+
+static ParseNode f_matrixFindRow(Parser* P, const ParameterList& params)
+{
+  QString name = params[0].toString();
+  if (!P->isMatrix(name))
+    return ParseNode();
+  QString col = params[1].toString();
+  QString val = params[2].toString();
+  QString tmp;
+  const QMap<QString, QMap<QString, ParseNode> > A = P->matrix(name);
+  for (QMapConstIterator<QString, QMap<QString, ParseNode> > It = A.begin(); It != A.end(); ++It)
+  {
+    if (val == P->matrixValue(name, It.key(), col).toString())
+      return It.key();
+  }
+  return ParseNode();
 }
 
 static ParseNode f_matrixCols(Parser* P, const ParameterList& params)
@@ -1053,11 +1083,11 @@ static ParseNode f_matrixRemoveRow(Parser* P, const ParameterList& params)
   }
   return QString::number(found);
 }
-
+/*
 static ParseNode f_matrixAddColumn(Parser* P, const ParameterList& params)
 {
 }
-
+*/
 static ParseNode f_matrixRemoveColumn(Parser* P, const ParameterList& params)
 {
   QString name = params[0].toString();
@@ -1074,11 +1104,11 @@ static ParseNode f_matrixRemoveColumn(Parser* P, const ParameterList& params)
   }
   return QString::number(found);
 }
-
+/*
 static ParseNode f_matrixIndexedCopy(Parser* P, const ParameterList& params)
 {
 }
-
+*/
 /********** input functions *********************/
 static ParseNode f_inputColor(Parser*, const ParameterList& params)
 {
@@ -1297,6 +1327,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("str_find", Function(&f_stringFind, ValueInt, ValueString, ValueString, ValueInt, 2));
   registerFunction("str_findrev", Function(&f_stringFindRev, ValueInt, ValueString, ValueString, ValueInt, 2));
   registerFunction("str_left", Function(&f_stringLeft, ValueString, ValueString, ValueInt));
+  registerFunction("str_count", Function(&f_stringCount, ValueInt, ValueString, ValueString));
   registerFunction("str_right", Function(&f_stringRight, ValueString, ValueString, ValueInt));
   registerFunction("str_mid", Function(&f_stringMid, ValueString, ValueString, ValueInt, ValueInt, 2));
   registerFunction("str_remove", Function(&f_stringRemove, ValueString, ValueString, ValueString));
@@ -1363,6 +1394,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("matrix_addRow", Function(&f_matrixAddRow, ValueNone, ValueString, ValueString, ValueString, 3, 3));
   registerFunction("matrix_removeRow", Function(&f_matrixRemoveRow, ValueInt, ValueString, ValueString, 2, 2));
   registerFunction("matrix_removeColumn", Function(&f_matrixRemoveColumn, ValueInt, ValueString, ValueString, 2, 2));
+  registerFunction("matrix_findRow", Function(&f_matrixFindRow, ValueString, ValueString, ValueString, ValueString, 3, 3));
   
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
