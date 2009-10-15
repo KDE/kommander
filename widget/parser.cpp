@@ -873,7 +873,7 @@ Parse::Flow Parser::parseForeach(Mode mode)
     tryKeyword(LeftCurlyBrace);
   int start = m_start;
   Parse::Flow flow = FlowStandard;
-  if (isArray(arr) && array(arr).count())
+  if (isArray(arr) && array(arr).count() && !matrixfound)
   {
     const QMap<QString, ParseNode> A = array(arr);
     for (QMapConstIterator<QString, ParseNode> It = A.begin(); It != A.end(); ++It)
