@@ -104,6 +104,7 @@ ParserData::ParserData()
   m_keywords["++"] = Increment;
   m_keywords["--"] = Decrement;
   m_keywords["mod"] = Mod;
+  m_keywords["with"] = ArrKeyVal;
   
   m_groups[Less] = GroupComparison;
   m_groups[LessEqual] = GroupComparison;

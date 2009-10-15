@@ -217,6 +217,7 @@
       <item> or </item>
       <item> not </item>
       <item> step </item>
+      <item> with </item>
     </list>
     
     <list name="booleans">

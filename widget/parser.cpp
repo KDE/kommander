@@ -858,6 +858,14 @@ Parse::Flow Parser::parseForeach(Mode mode)
 {
   m_start++;
   QString var = nextVariable();
+  QString var2 = "";
+  bool matrixfound = tryKeyword(ArrKeyVal, CheckOnly);
+  if (matrixfound == true)
+  {
+    m_start--;
+    tryKeyword(ArrKeyVal);
+    var2 = nextVariable();
+  }
   tryKeyword(In);
   QString arr = nextVariable();
   bool doFound = tryKeyword(Do, CheckOnly);
@@ -884,9 +892,24 @@ Parse::Flow Parser::parseForeach(Mode mode)
     {
       m_start = start;
       setVariable(var, It.key());
-      flow = parseBlock(mode);
-      if (flow == FlowBreak || flow == FlowExit)
-        break;
+      if (matrixfound == true)
+      {
+        const QMap<QString, ParseNode> B = It.data();
+        for (QMapConstIterator<QString, ParseNode> It2 = B.begin(); It2 != B.end(); ++It2 )
+        {
+          m_start = start;
+          setVariable(var2, It2.key());
+          flow = parseBlock(mode);
+          if (flow == FlowBreak || flow == FlowExit)
+            break;
+        }
+      }
+      else
+      {
+        flow = parseBlock(mode);
+        if (flow == FlowBreak || flow == FlowExit)
+          break;
+      }
     }
   }
   else 

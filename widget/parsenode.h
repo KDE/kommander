@@ -24,7 +24,7 @@ namespace Parse
   enum Keyword {For, To, Step, End, While, Do, Foreach, In, If, Then, Else, Elseif, Endif, Switch, Case, 
     Break, Continue, Exit, Dot, Semicolon, Comma, Assign, Less, LessEqual, Greater, GreaterEqual, Equal, NotEqual, 
     Not, And, Or, False, True, LeftParenthesis, RightParenthesis, LeftBracket, DoubleBracket, RightBracket, LeftCurlyBrace, RightCurlyBrace, PlusEqual, MinusEqual, Increment, Decrement,
-    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid, Array, Matrix};
+    Plus, Minus, Multiply, Divide, Mod, LastRealKeyword = Mod, Variable, Invalid, Array, Matrix, ArrKeyVal};
 
   enum KeywordGroup {GroupComparison, GroupAdd, GroupMultiply, GroupMisc};
   enum ValueType {ValueString, ValueInt, ValueDouble, ValueValue = ValueDouble, ValueKeyword,

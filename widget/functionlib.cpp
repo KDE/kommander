@@ -1049,21 +1049,18 @@ static ParseNode f_matrixAddRow(Parser* P, const ParameterList& params)
 {
   QString name = params[0].toString();
   QString rowkey = params[1].toString();
-//  if (P->isMatrix(name))
+  QStringList rows = QStringList::split("\n", params[2].toString());
+  for (QStringList::Iterator itr = rows.begin(); itr != rows.end(); ++itr ) 
   {
-    QStringList rows = QStringList::split("\n", params[2].toString());
-    for (QStringList::Iterator itr = rows.begin(); itr != rows.end(); ++itr ) 
-    {
-      QStringList cols = QStringList::split("\t", (*itr));
-      if (cols.count() != 2 )
-        continue;
-      QStringList::Iterator itc = cols.begin();
-      QString rkey = (*itc).stripWhiteSpace();
-      ++itc;
-      QString rval = (*itc).stripWhiteSpace();
-      if (!rkey.isEmpty() && !rval.isEmpty())
-        P->setMatrix(name, rowkey, rkey, rval);
-    }
+    QStringList cols = QStringList::split("\t", (*itr));
+    if (cols.count() != 2 )
+      continue;
+    QStringList::Iterator itc = cols.begin();
+    QString rkey = (*itc).stripWhiteSpace();
+    ++itc;
+    QString rval = (*itc).stripWhiteSpace();
+    if (!rkey.isEmpty() && !rval.isEmpty())
+      P->setMatrix(name, rowkey, rkey, rval);
   }
   return ParseNode();
 }
