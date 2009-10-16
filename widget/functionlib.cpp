@@ -785,10 +785,36 @@ static ParseNode f_matrixToString(Parser* P, const ParameterList& params)
   if (params.count() >= 2)
     fcol = params[2].toInt(); //col headings
   QString tmp;
+  typedef QMap<int, QString> col_map;
+  col_map col_head;
+  for (QMapConstIterator<QString, QMap<QString, ParseNode> > It1 = A.begin(); It1 != A.end(); ++It1 )
+  {
+    const QMap<QString, ParseNode> B = It1.data();
+    for (QMapConstIterator<QString, ParseNode> It2 = B.begin(); It2 != B.end(); ++It2 )
+    {
+      bool colfound = false;
+      for (QMapConstIterator<int, QString> It3 = col_head.begin(); It3 != col_head.end(); ++It3 )
+      {
+        if (It2.key() == (*It3))
+        {
+          colfound = true;
+          break;
+        }
+      }
+      if (!colfound)
+      {
+        col_head[c] = It2.key();
+        if (c > 0)
+          colhead.append("\t");
+        colhead.append(It2.key());
+        c++;
+      }
+    }
+  }
+  if (fcol && frow)
+    colhead.prepend("\t");
   for (QMapConstIterator<QString, QMap<QString, ParseNode> > It1 = A.begin(); It1 != A.end(); ++It1)
   {
-    if (fcol && frow && r == 0)
-      colhead.append("\t");
     if (r > 0 )
       matrix.append("\n");
     if (frow) //add row keys
@@ -796,18 +822,13 @@ static ParseNode f_matrixToString(Parser* P, const ParameterList& params)
       tmp = It1.key();
       matrix.append(tmp+"\t");
     }
-    const QMap<QString, ParseNode> B = It1.data();
     c = 0;
-    for (QMapConstIterator<QString, ParseNode> It2 = B.begin(); It2 != B.end(); ++It2 )
+    const QMap<int, QString> B = col_head;
+    for (QMapConstIterator<int, QString> It2 = B.begin(); It2 != B.end(); ++It2 )
     {
-      if (c > 0 && fcol && r == 0)
-        colhead.append("\t");
-      if (fcol && r == 0)
-        colhead.append(It2.key());
       if (c > 0)
         matrix.append("\t");
-      tmp = (*It2).toString();
-      matrix.append(tmp);
+      matrix.append(P->matrixValue(name, It1.key(), (*It2) ).toString());
       c++;
     }
     r++;
@@ -833,9 +854,8 @@ static ParseNode f_matrixFromString(Parser* P, const ParameterList& params)
   for (QStringList::Iterator itr = rows.begin(); itr != rows.end(); ++itr ) 
   {
     int c = 0;
-    int cidx = 0;
     QString ckey;
-    QStringList cols = QStringList::split("\t", (*itr));
+    QStringList cols = QStringList::split("\t", (*itr), true);
     for (QStringList::Iterator itc = cols.begin(); itc != cols.end(); ++itc )
     {
       QString val = (*itc).stripWhiteSpace();
@@ -844,28 +864,26 @@ static ParseNode f_matrixFromString(Parser* P, const ParameterList& params)
         if (c == 0 && !val.isEmpty())
         {
           rkey = val;
-          cidx--;
         }
       }
       else
         rkey = QString::number(r);
-      if (fcol && r == 0 && cidx >= 0)
+      if (fcol && r == 0 && c >= 0)
       {
         if (!val.isEmpty())
-          colhead[cidx] = val;
+          colhead[c] = val;
         else
-          colhead[cidx] = QString::number(cidx);
+          colhead[c] = QString::number(c);
       }
       if (!val.isEmpty() && !(c == 0 && frow) && !(r == 0 && fcol))
       {
         if (fcol)
-          ckey = colhead[cidx];
+          ckey = colhead[c];
         else
-          ckey = QString::number(cidx);
+          ckey = QString::number(c);
         P->setMatrix(name, rkey, ckey, val);
       }
       c++;
-      cidx++;
     }
     r++;
   }
@@ -926,13 +944,30 @@ static ParseNode f_matrixCols(Parser* P, const ParameterList& params)
   QString name = params[0].toString();
   if (P->isMatrix(name))
   {
+    typedef QMap<int, QString> col_map;
+    col_map col_head;
     uint cols = 0;
     const QMap<QString, QMap<QString, ParseNode> > A = P->matrix(name);
     for (QMapConstIterator<QString, QMap<QString, ParseNode> > It = A.begin(); It != A.end(); ++It)
     {
       const QMap<QString, ParseNode> B = It.data();
-      if (B.count() > cols)
-        cols = B.count();
+      for (QMapConstIterator<QString, ParseNode> It2 = B.begin(); It2 != B.end(); ++It2 )
+      {
+        bool colfound = false;
+        for (QMapConstIterator<int, QString> It3 = col_head.begin(); It3 != col_head.end(); ++It3 )
+        {
+          if (It2.key() == (*It3))
+          {
+            colfound = true;
+            break;
+          }
+        }
+        if (!colfound)
+        {
+          col_head[cols] = It2.key();
+          cols++;
+        }
+      }
     }
     return (uint)cols;
   }
@@ -953,15 +988,32 @@ static ParseNode f_matrixColumnKeys(Parser* P, const ParameterList& params)
   const QMap<QString, QMap<QString, ParseNode> > A = P->matrix(name);
   QStringList colnames;
   int c =0;
-  QMapConstIterator<QString, QMap<QString, ParseNode> > It1 = A.begin();
-  const QMap<QString, ParseNode> B = It1.data();
-  c = 0;
-  for (QMapConstIterator<QString, ParseNode> It2 = B.begin(); It2 != B.end(); ++It2 )
+  
+  typedef QMap<int, QString> col_map;
+  col_map col_head;
+  for (QMapConstIterator<QString, QMap<QString, ParseNode> > It1 = A.begin(); It1 != A.end(); ++It1 )
   {
-    if (c > 0)
-      matrix.append(separator);
-    matrix.append(It2.key());
-    c++;
+    const QMap<QString, ParseNode> B = It1.data();
+    for (QMapConstIterator<QString, ParseNode> It2 = B.begin(); It2 != B.end(); ++It2 )
+    {
+      bool colfound = false;
+      for (QMapConstIterator<int, QString> It3 = col_head.begin(); It3 != col_head.end(); ++It3 )
+      {
+        if (It2.key() == (*It3))
+        {
+          colfound = true;
+          break;
+        }
+      }
+      if (!colfound)
+      {
+        col_head[c] = It2.key();
+        if (c > 0)
+          matrix.append(separator);
+        matrix.append(It2.key());
+        c++;
+      }
+    }
   }
   return matrix;
 }
