@@ -603,7 +603,7 @@ static ParseNode f_arrayValues(Parser* P, const ParameterList& params)
 
 static ParseNode f_arrayRemove(Parser* P, const ParameterList& params)
 {
-  if (!P->isArray(params[0].toString()))
+  if (P->isArray(params[0].toString()))
     P->unsetArray(params[0].toString(), params[1].toString());
   return ParseNode();
 }
