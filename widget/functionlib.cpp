@@ -1254,7 +1254,7 @@ static ParseNode f_message_info(Parser*, const ParameterList& params)
   if (params.count() > 1)
     caption = params[1].toString();
   KMessageBox::information(0, text, caption);
-  return ParseNode();
+  return 1;
 }
 
 static ParseNode f_message_error(Parser*, const ParameterList& params)
@@ -1265,7 +1265,7 @@ static ParseNode f_message_error(Parser*, const ParameterList& params)
   if (params.count() > 1)
     caption = params[1].toString();
   KMessageBox::error(0, text, caption);
-  return ParseNode();
+  return 1;
 }
 
 static ParseNode f_message_warning(Parser*, const ParameterList& params)
@@ -1456,8 +1456,8 @@ void ParserData::registerStandardFunctions()
   registerFunction("input_openfiles", Function(&f_inputOpenFiles, ValueString, ValueString, ValueString, ValueString, 0));
   registerFunction("input_savefile", Function(&f_inputSaveFile, ValueString, ValueString, ValueString, ValueString, 0));
   registerFunction("input_directory", Function(&f_inputDirectory, ValueString, ValueString, ValueString, 0));
-  registerFunction("message_info", Function(&f_message_info, ValueNone, ValueString, ValueString, 1));
-  registerFunction("message_error", Function(&f_message_error, ValueNone, ValueString, ValueString, 1));
+  registerFunction("message_info", Function(&f_message_info, ValueInt, ValueString, ValueString, 1));
+  registerFunction("message_error", Function(&f_message_error, ValueInt, ValueString, ValueString, 1));
   registerFunction("message_warning", Function(&f_message_warning, ValueInt, ValueString, ValueString, 
                    ValueString, ValueString, ValueString, 1));
   registerFunction("message_question", Function(&f_message_question, ValueInt, ValueString, ValueString, 

@@ -604,9 +604,9 @@ void SpecialInformation::registerSpecials()
   
   insertGroup(Group::Message, "Message", "message");
   insert(Message::info, "info(QString text, QString caption)", 
-         i18n("Shows an information dialog."), 1);
+         i18n("Shows an information dialog. Returns true when clicked so you can check for user response."), 1);
   insert(Message::error, "error(QString text, QString caption)", 
-         i18n("Shows an error dialog."), 1);
+         i18n("Shows an error dialog. Returns true when clicked so you can check for user response."), 1);
   insert(Message::warning, "warning(QString text, QString caption, QString button1, QString button2, QString button3)",
          i18n("Shows a warning dialog with up to three buttons. Returns number of selected button."), 1);
   insert(Message::question, "question(QString text, QString caption, QString button1, QString button2, QString button3)",
