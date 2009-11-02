@@ -518,8 +518,8 @@ void SpecialInformation::registerSpecials()
     i18n("Remove a row from the matrix by key name. Returns true if key is found."), 2);
   insertInternal(Matrix::removeColumn, "removeColumn(QString Matrix, QString ColKey)",
     i18n("Remove a column from the matrix by key name. Returns true if key is found."), 2);
-  insertInternal(Matrix::findRow, "findRow(QString Matrix, QString Col-Key, QString Col-Value)",
-    i18n("Find the row key that matches a column value. Use this for unique key searches. It will only return the first instance."), 3 );
+  insertInternal(Matrix::findRow, "findRow(QString Matrix, QString Col-Key, QString Col-Value, int Iteration)",
+    i18n("Find the row key that matches a column value. Use this for unique key searches. Iteration may be omitted and the default is to return the first instance. In a loop it will return sequential finds until there are no more, in which case it returns null."), 3, 4);
 
   insertGroup(Group::String, "String", "str");
   insert(String::length, "length(QString string)", 

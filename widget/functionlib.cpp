@@ -930,11 +930,21 @@ static ParseNode f_matrixFindRow(Parser* P, const ParameterList& params)
   QString col = params[1].toString();
   QString val = params[2].toString();
   QString tmp;
+  int i = 0;
+  int find;
+  if (params.count() == 4)
+    find = params[3].toInt();
+  else
+    find = 0;
   const QMap<QString, QMap<QString, ParseNode> > A = P->matrix(name);
   for (QMapConstIterator<QString, QMap<QString, ParseNode> > It = A.begin(); It != A.end(); ++It)
   {
     if (val == P->matrixValue(name, It.key(), col).toString())
-      return It.key();
+    {
+      if (find == i)
+        return It.key();
+      i++;
+    }
   }
   return ParseNode();
 }
@@ -1032,19 +1042,19 @@ static ParseNode f_matrixRowToArray(Parser* P, const ParameterList& params)
     if (params.count() > 3)
       ridx = params[4].toInt();
     QString arr = params[2].toString();
+    if (rclear)
+      P->unsetArray(arr);
     for (QMapConstIterator<QString, QMap<QString, ParseNode> > It1 = A.begin(); It1 != A.end(); ++It1)
     {
       if (It1.key() == params[1].toString() ) 
       {
         const QMap<QString, ParseNode> B = It1.data();
-        if (rclear)
-          P->unsetArray(arr);
         for (QMapConstIterator<QString, ParseNode> It2 = B.begin(); It2 != B.end(); ++It2 )
         {
           if (ridx)
             P->setArray(arr, QString::number(i), (*It2));
           else
-            P->setArray(arr, It1.key(), (*It2));
+            P->setArray(arr, It2.key(), (*It2));
           i++;
         }
       }
@@ -1443,7 +1453,7 @@ void ParserData::registerStandardFunctions()
   registerFunction("matrix_addRow", Function(&f_matrixAddRow, ValueNone, ValueString, ValueString, ValueString, 3, 3));
   registerFunction("matrix_removeRow", Function(&f_matrixRemoveRow, ValueInt, ValueString, ValueString, 2, 2));
   registerFunction("matrix_removeColumn", Function(&f_matrixRemoveColumn, ValueInt, ValueString, ValueString, 2, 2));
-  registerFunction("matrix_findRow", Function(&f_matrixFindRow, ValueString, ValueString, ValueString, ValueString, 3, 3));
+  registerFunction("matrix_findRow", Function(&f_matrixFindRow, ValueString, ValueString, ValueString, ValueString, 3, 4));
   
   registerFunction("input_color", Function(&f_inputColor, ValueString, ValueString, 0));
   registerFunction("input_text", Function(&f_inputText, ValueString, ValueString, ValueString, ValueString, 2));
