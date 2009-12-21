@@ -866,6 +866,8 @@ static ParseNode f_matrixFromString(Parser* P, const ParameterList& params)
           rkey = val;
         }
       }
+      else if (fcol)
+        rkey = QString::number(r-1);
       else
         rkey = QString::number(r);
       if (fcol && r == 0 && c >= 0)
