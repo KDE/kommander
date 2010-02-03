@@ -125,7 +125,7 @@ void AboutDialog::initialize(const QString& appName, const QString &icon, const 
   m_aboutData = new KAboutData(m_appName.toLatin1(), m_appName.toLatin1(), ki18n(m_appName.toUtf8()), m_version.toLatin1());
   m_aboutData->setCopyrightStatement(ki18n(m_copyright.toUtf8()));
   if (!m_icon.isEmpty())
-    m_aboutData->setProgramLogo(KIconLoader::global()->loadIcon(m_icon, KIconLoader::NoGroup, KIconLoader::SizeMedium).convertToImage());
+    m_aboutData->setProgramIconName(m_icon);
 }
 
 void AboutDialog::addAuthor(const QString& author, const QString &task, const QString& email, const QString &webAddress)
