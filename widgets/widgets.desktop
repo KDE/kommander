@@ -2,6 +2,7 @@
 Name=Widgets
 Name[br]=Widgetoù
 Name[ca]=Estris
+Name[ca@valencia]=Estris
 Name[cs]=Widgety
 Name[cy]=Celfigion
 Name[da]=Kontroller
@@ -34,7 +35,7 @@ Name[oc]=Largor
 Name[pa]=ਵਿਦਗਿਟ
 Name[pl]=Elementy interfejsu
 Name[pt]=Elementos
-Name[pt_BR]=Janelas
+Name[pt_BR]=Widgets
 Name[ro]=Controale
 Name[ru]=Виджеты (элементы интерфейса)
 Name[sk]=Widgets
