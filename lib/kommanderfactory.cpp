@@ -411,13 +411,13 @@ int KommanderFactory::loadPlugins(bool force)
     KConfigGroup cfg ( &config, "plugins" );
     QStringList plugins;
     plugins << "libkommanderwidgets";
-    plugins += cfg.readEntry ( "plugins" );
+    plugins += cfg.readEntry ( "plugins", QStringList() );
     kDebug() << "Plugins: " << plugins;
     QStringList::Iterator it;
     KLibLoader *f = KLibLoader::self(); //FIXME: Use KPluginLoader
     for ( it = plugins.begin(); it != plugins.end(); ++it )
     {
-        kDebug() << "Trying to load plugin: " << *it;
+        kDebug() << "Trying to load plugin: " << (*it ).stripWhiteSpace();
         KLibrary *l = f->library ( ( *it ).stripWhiteSpace() );
         if ( l )
         {

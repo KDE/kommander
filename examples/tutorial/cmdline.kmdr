@@ -18,7 +18,14 @@
     <property name="associations" stdset="0">
         <stringlist>
             <string></string>
+            <string>#!kommander
+debug(_URL)
+</string>
+            <string></string>
         </stringlist>
+    </property>
+    <property name="useInternalParser">
+        <bool>false</bool>
     </property>
     <grid>
         <property name="name">
@@ -38,6 +45,11 @@
             </item>
             <property name="name">
                 <cstring>ListBox1</cstring>
+            </property>
+            <property name="associations" stdset="0">
+                <stringlist>
+                    <string></string>
+                </stringlist>
             </property>
         </widget>
         <spacer row="1" column="0">
@@ -62,7 +74,7 @@
                 <cstring>ExecButton1</cstring>
             </property>
             <property name="text">
-                <string>Read command line</string>
+                <string>Read &amp;command line</string>
             </property>
             <property name="associations" stdset="0">
                 <stringlist>
