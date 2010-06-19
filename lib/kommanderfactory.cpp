@@ -417,7 +417,8 @@ int KommanderFactory::loadPlugins(bool force)
     KLibLoader *f = KLibLoader::self(); //FIXME: Use KPluginLoader
     for ( it = plugins.begin(); it != plugins.end(); ++it )
     {
-        KLibrary *l = f->library ( ( *it ) );
+        kDebug() << "Trying to load plugin: " << *it;
+        KLibrary *l = f->library ( ( *it ).stripWhiteSpace() );
         if ( l )
         {
             void *addr = l->resolveSymbol ( "kommander_plugin" );
