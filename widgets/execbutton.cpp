@@ -28,6 +28,7 @@
 #include <qpopupmenu.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
+#include <qpixmap.h>
 
 /* OTHER INCLUDES */
 #include <kommanderwidget.h>
@@ -44,6 +45,7 @@ enum Functions {
   EB_isOn,
   EB_setPopup,
   EB_setButtonText,
+  EB_setPixmap,
   LastFunction
 };
 
@@ -62,6 +64,7 @@ ExecButton::ExecButton(QWidget* a_parent, const char* a_name)
   KommanderPlugin::registerFunction(EB_isOn, "isOn(QString widget)",  i18n("For use only when button is togle type."), 1);
   KommanderPlugin::registerFunction(EB_setPopup, "setPopup(QString widget, QString Menu)",  i18n("Associate a Kommander PopupMenu with this ExecButton."), 2);
   KommanderPlugin::registerFunction(EB_setButtonText, "setButtonText(QString widget, QString Text)",  i18n("Set the text on the ExecButton."), 2);
+  KommanderPlugin::registerFunction(EB_setPixmap, "setButtonPixmap(QString widget, QString Text)",  i18n("Set a pixmap image on the ExecButton."), 2);
 }
 
 ExecButton::~ExecButton()
@@ -213,6 +216,13 @@ QString ExecButton::handleDCOP(int function, const QStringList& args)
           this->setPopup(popup);
         }
       }
+      break;
+    }
+    case EB_setPixmap:
+    {
+      QPixmap pixmap;
+      if (pixmap.load(args[0]))
+        setPixmap(pixmap);
       break;
     }
     case DCOP::geometry:
