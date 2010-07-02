@@ -222,8 +222,8 @@ QString PopupMenu::handleDCOP(int function, const QStringList& args)
     }
     case DCOP::item:
     {
-      uint index = args[0].toInt();
-      return index < m_params.count() ? m_params[index] : QString::null;
+      uint id = args[0].toInt();
+      return m_menu->text(id);
       break;
     }
     case DCOP::count:
