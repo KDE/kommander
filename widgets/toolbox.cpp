@@ -24,8 +24,10 @@
 #define CURRENTINDEX 125
 #define WIDGETAT 126
 #define INDEXOF 127
+#define ITEMLABEL 128
+#define SETITEMLABEL 129
 #define FIRST_FUNCTION ADDWIDGET
-#define LAST_FUNCTION INDEXOF 
+#define LAST_FUNCTION SETITEMLABEL 
 
 ToolBox::ToolBox(QWidget *parent, const char *name)
  : QToolBox(parent, name), KommanderWidget(this)
@@ -49,6 +51,10 @@ ToolBox::ToolBox(QWidget *parent, const char *name)
          i18n("Returns the widget having the supplied index."), 2);
   KommanderPlugin::registerFunction(INDEXOF, "indexOf(QString widget, QString widgetName)",
          i18n("Returns the index of the widget, -1 if the widget is not part of the toolbox."), 2);
+  KommanderPlugin::registerFunction(ITEMLABEL, "itemLabel(QString widget, int index)",
+         i18n("Returns the tab label at specified index"), 2);
+  KommanderPlugin::registerFunction(SETITEMLABEL, "setItemLabel(QString widget, int index, QString Label)",
+         i18n("Sets the tab label at specified index"), 3);
 
 }
 
@@ -173,6 +179,16 @@ QString ToolBox::handleDCOP(int function, const QStringList& args)
     {
       KommanderWidget *w = widgetByName(args[0]);
       return QString::number(indexOf(dynamic_cast<QWidget*>(w)));
+      break;
+    }
+    case ITEMLABEL:
+    {
+      return QString(itemLabel(args[0].toInt()));
+      break;
+    }
+    case SETITEMLABEL:
+    {
+      setItemLabel(args[0].toInt(), args[1]);
     }
     case DCOP::count:
       return QString::number(count());
