@@ -69,6 +69,9 @@ protected:
   void contextMenuEvent( QContextMenuEvent * e );
   int itemToIndex(QListViewItem* item);
   int itemToIndexSafe(QListViewItem* item);
+  int parentIndex(QListViewItem* item);
+  int firstChildIndex(QListViewItem* item);
+  int nextSiblingIndex(QListViewItem* item);
   QString itemText(QListViewItem* item) const;
   QString itemsText();
   QListViewItem* indexToItem(int index);

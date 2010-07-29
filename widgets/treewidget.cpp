@@ -51,6 +51,9 @@ enum Functions {
   TW_childCount,
   TW_setOpen,
   TW_isOpen,
+  TW_Parent,
+  TW_FirstChild,
+  TW_NextSibling,
   LastFunction
 };
 
@@ -74,6 +77,9 @@ TreeWidget::TreeWidget(QWidget *a_parent, const char *a_name)
   KommanderPlugin::registerFunction(TW_childCount, "childCount(QString widget)", i18n("Get the count of top level items."), 1);
   KommanderPlugin::registerFunction(TW_setOpen, "setOpen(QString widget, int Index, bool Open)", i18n("Expand or collapse a node."), 3);
   KommanderPlugin::registerFunction(TW_isOpen, "isOpen(QString widget, int Index)", i18n("See if node is open or closed."), 2);
+  KommanderPlugin::registerFunction(TW_Parent, "parentIndex(QString widget, int Index)", i18n("Get the parent index for the item at the index specified."), 2);
+  KommanderPlugin::registerFunction(TW_FirstChild, "firstChildIndex(QString widget, int Index)", i18n("Get index if furst child item for the specified index."), 2);
+  KommanderPlugin::registerFunction(TW_NextSibling, "nextSiblingIndex(QString widget, int Index)", i18n("Get the t index for the next sibling item at the index specified. This may not be in the same order as they appear in the tree."), 2);
 }
 
 TreeWidget::~TreeWidget()
@@ -146,6 +152,21 @@ QListViewItem* TreeWidget::itemFromString(QListViewItem* parent, const QString& 
     item->setText(i++, *it);
   return item;
 }
+
+int TreeWidget::parentIndex(QListViewItem* item)
+{
+  //QListViewItem parentItem = item->parent();
+  return itemToIndex(item->parent());
+}
+int TreeWidget::firstChildIndex(QListViewItem* item)
+{
+  return itemToIndex(item->firstChild());
+}
+int TreeWidget::nextSiblingIndex(QListViewItem* item)
+{
+  return itemToIndex(item->nextSibling());
+}
+
 
 int TreeWidget::itemToIndex(QListViewItem* item)
 {
@@ -443,6 +464,15 @@ QString TreeWidget::handleDCOP(int function, const QStringList& args)
       }
       break;
     }
+    case TW_Parent:
+      return QString::number(parentIndex(indexToItem(args[0].toInt())));
+      break;
+    case TW_FirstChild:
+      return QString::number(firstChildIndex(indexToItem(args[0].toInt())));
+      break;
+    case TW_NextSibling:
+      return QString::number(nextSiblingIndex(indexToItem(args[0].toInt())));
+      break;
     case DCOP::setColumnCaption:
       if (columns() >= args[0].toInt())
         setColumnText(args[0].toInt(), args[1]);

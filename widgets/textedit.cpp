@@ -34,6 +34,7 @@ enum Functions {
   TE_paragraphs,
   TE_length,
 //  TE_getCursorPosition,
+  TE_setCursorPosition,
   TE_paragraphLength,
   TE_linesOfParagraph,
   TE_findText,
@@ -59,7 +60,8 @@ KommanderWidget((QObject *) this)
 //  KommanderPlugin::registerFunction(TE_findText, "findText(QString widget, QString Text, bool Case-Sensitive, bool Forward, int Paragraph, int Index)",  i18n("Search for text from the cursor or a specified position. You can specifiy case sensitive search and forward or backward."), 5, 7);
   KommanderPlugin::registerFunction(TE_paragraphs, "paragraphs(QString widget)",  i18n("Get the number of paragraphs in the widget."), 1);
   KommanderPlugin::registerFunction(TE_length, "length(QString widget)",  i18n("Get the total length of all text."), 1);
-//  KommanderPlugin::registerFunction(TE_getCursorPosition, "getCursorPosition(QString widget)",  i18n("Get the cursor postion in the form of paragraph and postion integers."), 1);
+ // KommanderPlugin::registerFunction(TE_getCursorPosition, "getCursorPosition(QString widget)",  i18n("Get the cursor postion in the form of paragraph and postion integers."), 1);
+  KommanderPlugin::registerFunction(TE_setCursorPosition, "setCursorPosition(QString widget, int Paragraph, int Index)",  i18n("Set the cursor postion in the form of paragraph and postion integers."), 2);
   KommanderPlugin::registerFunction(TE_paragraphLength, "paragraphLength(QString widget, int Paragraph)",  i18n("Get the length of the paragraph."), 2);
   KommanderPlugin::registerFunction(TE_linesOfParagraph, "linesOfParagraph(QString widget, int Paragraph)",  i18n("Get the number of lines in the paragraph."), 2);
   KommanderPlugin::registerFunction(TE_VAsuperScript, "setSuperScript(QString widget)",  i18n("Use to set superscript."), 1);
@@ -190,6 +192,9 @@ QString TextEdit::handleDCOP(int function, const QStringList& args)
     /*case TE_getCursorPosition:
       return QString::number(QTextEdit::getCursorPosition() );
       break;*/
+    case TE_setCursorPosition:
+      setCursorPosition (args[0].toInt(), args[1].toInt() );
+      break;
     case TE_paragraphLength:
       return QString::number(QTextEdit::paragraphLength(args[0].toInt() ) );
       break;
