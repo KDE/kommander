@@ -60,6 +60,7 @@ class KOMMANDER_EXPORT Table : public QTable, public KommanderWidget
   signals:
     void contextMenuRequested(int xpos, int ypos);
     void columnHeaderClicked(int col);
+    void columnSorted(int col);
   protected:
     void contextMenuEvent( QContextMenuEvent * e );
   private:

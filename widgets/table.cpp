@@ -192,6 +192,7 @@ void Table::columnClicked(int col)
   if (!sorting()) return;
   ascending=!ascending;
   sortColumn( col, ascending, TRUE);
+  emit columnSorted(col);
 }
 
 QString Table::handleDCOP(int function, const QStringList& args)
