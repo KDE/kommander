@@ -121,7 +121,7 @@ bool ComboBox::isFunctionSupported(int f)
   return f == DCOP::text || f == DCOP::selection || f == DCOP::setSelection ||
       f == DCOP::currentItem || f == DCOP::setCurrentItem || f == DCOP::item || 
       f == DCOP::removeItem || f == DCOP::insertItem || f == DCOP::insertItems ||
-      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count || f == DCOP::setEditable || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || (f >= FirstFunction && f <= LastFunction);
+      f == DCOP::addUniqueItem || f == DCOP::clear || f == DCOP::count || f == DCOP::setEditable || f == DCOP::setPixmap || f == DCOP::geometry || f == DCOP::hasFocus || f == DCOP::getBackgroundColor || f == DCOP::setBackgroundColor || (f >= FirstFunction && f <= LastFunction);
 }
 
 QString ComboBox::handleDCOP(int function, const QStringList& args)
@@ -179,6 +179,21 @@ QString ComboBox::handleDCOP(int function, const QStringList& args)
     case DCOP::setEditable:
       setEditable(args[0] != "false" && args[0] != "0");
       break;
+    case DCOP::setPixmap:
+    {
+      QPixmap pixmap = KGlobal::iconLoader()->loadIcon(args[0], KIcon::Small);
+      if (pixmap.isNull())
+        pixmap.load(args[0]);
+      int index = args[1].toInt();
+      if (index == -1)
+      {
+        for (uint i=0; i<count(); i++)
+          changeItem(pixmap, text(i), i);
+      }
+      else if (index < (int)count())
+        changeItem(pixmap, text(index), index);
+      break;
+    }
     case DCOP::getBackgroundColor:
       return this->paletteBackgroundColor().name();
       break;
