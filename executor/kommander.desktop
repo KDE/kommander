@@ -107,4 +107,4 @@ Name[x-test]=xxKommander Executorxx
 Name[zh_CN]=Kommander 执行器
 Name[zh_HK]=Kommander 執行器
 Name[zh_TW]=Kommander 執行器
-MimeType=application/x-kommander
+MimeType=application/x-kommander;
