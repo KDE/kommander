@@ -27,7 +27,7 @@
   <!ENTITY % English "INCLUDE">
 ]>
 
-<book lang="&language;">
+<book id="kommander" lang="&language;">
 
 <bookinfo>
 <title>The &kommander; Handbook</title>
