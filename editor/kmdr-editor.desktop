@@ -1,6 +1,7 @@
 [Desktop Entry]
 GenericName=Dynamic Dialog Editor
 GenericName[bg]=Редактор за диалогови прозорци
+GenericName[bs]=Uređivač dinamičkih dijaloških prozora
 GenericName[ca]=Editor de diàlegs dinàmics
 GenericName[ca@valencia]=Editor de diàlegs dinàmics
 GenericName[cs]=Editor dynamických dialogů
@@ -53,6 +54,7 @@ GenericName[zh_TW]=動態對話盒編輯器
 Name=Kommander Editor
 Name[bg]=Редактор за Kommander
 Name[br]=Aozer Kommander
+Name[bs]=Kommander uređivač
 Name[ca]=Editor Kommander
 Name[ca@valencia]=Editor Kommander
 Name[cs]=Editor Kommanderu
@@ -108,6 +110,7 @@ Icon=kmdr-editor
 Type=Application
 Comment=Dynamic Dialog Editor
 Comment[bg]=Редактор за диалогови прозорци
+Comment[bs]=Uređivač dinamičkih dijaloških prozora
 Comment[ca]=Editor de diàlegs dinàmics
 Comment[ca@valencia]=Editor de diàlegs dinàmics
 Comment[cs]=Editor dynamických dialogů
