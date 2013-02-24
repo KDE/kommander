@@ -76,7 +76,7 @@ import any &kde; widget and this can be done without having to rebuild
 language. Computer languages can be wonderful things but they tend to have
 their own dogmas and zealots often seeking to provide an advance to &GUI;
 design in an integrated development environment. Ironically the acceptance
-of such &IDE;s is limited by the number of people willing to adopt a new new
+of such &IDE;s is limited by the number of people willing to adopt a new 
 language to gain access to a desired feature. It is really not reasonable to
 expect people to need to change over to a dozen languages to access various
 feature sets. By being language neutral and allowing a &kommander; dialog to be
