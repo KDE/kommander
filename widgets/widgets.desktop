@@ -56,6 +56,6 @@ Name[x-test]=xxWidgetsxx
 Name[zh_CN]=部件
 Name[zh_HK]=Widgets
 Name[zh_TW]=Widgets
-Exec=widgets %i  -caption "%c"
+Exec=widgets %i  -caption %c
 Type=Application
 Terminal=false
