@@ -14,3 +14,4 @@ include_directories (${QDBUS_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DI
 add_subdirectory(lib)
 add_subdirectory(widgets)
 add_subdirectory(executor)
+macro_optional_add_subdirectory(doc)
